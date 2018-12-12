@@ -1,0 +1,136 @@
+{
+    "id": 1136,
+    "expansion": 4,
+    "type": 2,
+    "name": "Siege of Orgrimmar",
+    "available_difficulties": [
+        { "id": 3, "name": "10 Player" },
+        { "id": 4, "name": "25 Player" },
+        { "id": 5, "name": "10 Player (Heroic)" },
+        { "id": 6, "name": "25 Player (Heroic)" },
+        { "id": 7, "name": "Looking For Raid" },
+        { "id": 14, "name": "Flexible" }
+    ],
+    "encounters": [
+        {
+            "encounter_id": 1602,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Immerseus",
+            "encounter_order": -3000,
+            "encounter_index": 7
+        },
+        {
+            "encounter_id": 1598,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Fallen Protectors",
+            "encounter_order": -2000,
+            "encounter_index": 3
+        },
+        {
+            "encounter_id": 1624,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Norushen",
+            "encounter_order": -1875,
+            "encounter_index": 14
+        },
+        {
+            "encounter_id": 1604,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Sha of Pride",
+            "encounter_order": -1750,
+            "encounter_index": 9
+        },
+        {
+            "encounter_id": 1622,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Galakras",
+            "encounter_order": -1625,
+            "encounter_index": 12
+        },
+        {
+            "encounter_id": 1600,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Iron Juggernaut",
+            "encounter_order": -1500,
+            "encounter_index": 5
+        },
+        {
+            "encounter_id": 1606,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Kor'kron Dark Shaman",
+            "encounter_order": -1375,
+            "encounter_index": 11
+        },
+        {
+            "encounter_id": 1603,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "General Nazgrim",
+            "encounter_order": -1250,
+            "encounter_index": 8
+        },
+        {
+            "encounter_id": 1595,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Malkorok",
+            "encounter_order": 1000,
+            "encounter_index": 2
+        },
+        {
+            "encounter_id": 1594,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Spoils of Pandaria",
+            "encounter_order": 1500,
+            "encounter_index": 1
+        },
+        {
+            "encounter_id": 1599,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Thok the Bloodthirsty",
+            "encounter_order": 2000,
+            "encounter_index": 4
+        },
+        {
+            "encounter_id": 1601,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Siegecrafter Blackfuse",
+            "encounter_order": 3000,
+            "encounter_index": 6
+        },
+        {
+            "encounter_id": 1593,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Paragons of the Klaxxi",
+            "encounter_order": 3500,
+            "encounter_index": 0
+        },
+        {
+            "encounter_id": 1623,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Garrosh Hellscream",
+            "encounter_order": 3750,
+            "encounter_index": 13
+        },
+        {
+            "encounter_id": 1605,
+            "encounter_map": 1136,
+            "encounter_difficulty": 0,
+            "encounter_name": "Omar's Test Encounter (Cosmetic only) DNT",
+            "encounter_order": 4000,
+            "encounter_index": 10
+        }
+    ]
+}
