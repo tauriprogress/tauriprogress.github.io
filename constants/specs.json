@@ -1,145 +1,178 @@
 {
     "270": {
         "label": "Mistweaver Monk",
-        "isHealer": true
+        "isHealer": true,
+        "image": "16px-Spell_monk_mistweaver_spec"
     },
     "269": {
         "label": "Windwalker Monk",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_monk_windwalker_spec"
     },
     "268": {
         "label": "Brewmaster Monk",
-        "isTank": true
+        "isTank": true,
+        "image": "16px-Spell_monk_brewmaster_spec"
     },
 
     "64": {
         "label": "Frost Mage",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_frost_frostbolt02"
     },
     "63": {
         "label": "Fire Mage",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_fire_firebolt02"
     },
     "62": {
         "label": "Arcane Mage",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_holy_magicalsentry"
     },
 
     "254": {
         "label": "Marksmanship Hunter",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_hunter_focusedaim"
     },
     "253": {
         "label": "Beast Mastery Hunter",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_hunter_bestialdiscipline"
     },
     "255": {
         "label": "Survival Hunter",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_hunter_camouflage"
     },
 
     "105": {
         "label": "Restoration Druid",
-        "isHealer": true
+        "isHealer": true,
+        "image": "16px-Spell_nature_healingtouch"
     },
     "103": {
         "label": "Feral Druid",
         "isDps": true,
-        "isTank": true
+        "isTank": true,
+        "image": "16px-Ability_druid_catform"
     },
     "102": {
         "label": "Balance Druid",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_nature_starfall"
     },
 
     "250": {
         "label": "Blood Death Knight",
-        "isTank": true
+        "isTank": true,
+        "image": "16px-Spell_deathknight_bloodpresence"
     },
     "251": {
         "label": "Frost Death Knight",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_deathknight_frostpresence"
     },
     "252": {
         "label": "Unholy Death Knight",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_deathknight_unholypresence"
     },
 
     "65": {
         "label": "Holy Paladin",
-        "isHealer": true
+        "isHealer": true,
+        "image": "16px-Spell_holy_holybolt"
     },
     "66": {
         "label": "Protection Paladin",
-        "isTank": true
+        "isTank": true,
+        "image": "16px-Ability_paladin_shieldofthetemplar"
     },
     "70": {
         "label": "Retribution Paladin",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_holy_auraoflightl"
     },
 
     "256": {
         "label": "Discipline Priest",
-        "isHealer": true
+        "isHealer": true,
+        "image": "16px-Spell_holy_powerwordshield"
     },
     "257": {
         "label": "Holy Priest",
-        "isHealer": true
+        "isHealer": true,
+        "image": "16px-Spell_holy_guardianspirit"
     },
     "258": {
         "label": "Shadow Priest",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_shadow_shadowwordpain"
     },
 
     "259": {
         "label": "Assassination Rogue",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_rogue_deadlybrew"
     },
     "260": {
         "label": "Combat Rogue",
-        "isDps": true
+        "isDps": true,
+        "image": "ability_backstab"
     },
     "261": {
         "label": "Subtlety Rogue",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_stealth"
     },
 
     "262": {
         "label": "Elemental Shaman",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_nature_lightning"
     },
     "263": {
         "label": "Enhancement Shaman",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_shaman_improvedstormstrike"
     },
     "264": {
         "label": "Restoration Shaman",
-        "isHealer": true
+        "isHealer": true,
+        "image": "16px-Spell_nature_magicimmunity"
     },
 
     "265": {
         "label": "Affliction Warlock",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_shadow_deathcoil"
     },
     "266": {
         "label": "Demonology Warlock",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_shadow_metamorphosis"
     },
     "267": {
         "label": "Destruction Warlock",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Spell_shadow_rainoffire"
     },
 
     "71": {
         "label": "Arms Warrior",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_warrior_savageblow"
     },
     "72": {
         "label": "Fury Warrior",
-        "isDps": true
+        "isDps": true,
+        "image": "16px-Ability_warrior_innerrage"
     },
     "73": {
         "label": "Protection Warrior",
-        "isTank": true
+        "isTank": true,
+        "image": "16px-Ability_warrior_defensivestance"
     }
 }
