@@ -35,6 +35,46 @@ class Database {
         });
     }
 
+    async getGuildList() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                resolve(
+                    await this.db
+                        .collection("guilds")
+                        .find()
+                        .project({
+                            guildName: 1,
+                            gFaction: 1,
+                            realm: 1,
+                            lastUpdated: 1,
+                            ["progression.currentBossesDefeated"]: 1,
+                            ["progression.completed"]: 1
+                        })
+                        .toArray()
+                );
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async getGuild({ realm, guildName }) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let guild = await this.db.collection("guilds").findOne({
+                    guildName: new RegExp("^" + guildName + "$", "i"),
+                    realm: realm
+                });
+
+                if (!guild) throw new Error("Guild not found");
+
+                resolve(guild);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
     async saveGuild(guild) {
         return new Promise(async (resolve, reject) => {
             try {
