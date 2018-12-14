@@ -52,6 +52,12 @@
         "isHealer": true,
         "image": "16px-Spell_nature_healingtouch"
     },
+    "104": {
+        "label": "Feral Druid",
+        "isDps": true,
+        "isTank": true,
+        "image": "16px-Ability_druid_catform"
+    },
     "103": {
         "label": "Feral Druid",
         "isDps": true,
