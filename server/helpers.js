@@ -1,17 +1,10 @@
 const tauriApi = require("./tauriApi");
-const realms = require("../constants/realms");
-const fs = require("fs");
 const specs = require("../constants/specs");
-const { id: totId } = require("../constants/Throne of Thunder.json");
-const { id: sooId } = require("../constants/Siege of Orgrimmar.json");
-
-function isTotKill(map_id, difficulty) {
-    return map_id === totId && (difficulty === 5 || difficulty === 6);
-}
-
-function isSooKill(map_id, difficulty) {
-    return map_id === sooId && (difficulty === 5 || difficulty === 6);
-}
+const {
+    raidName,
+    lastBoss,
+    raids
+} = require("../constants/currentContent.json");
 
 async function fetchLatestHeroicGuilds(realm, lastUpdated = 0) {
     return new Promise(async (resolve, reject) => {
@@ -24,11 +17,13 @@ async function fetchLatestHeroicGuilds(realm, lastUpdated = 0) {
                 if (lastUpdated > kill.killtime) {
                     break;
                 }
-                if (
-                    isTotKill(kill.map_id, kill.difficulty) ||
-                    isSooKill(kill.map_id, kill.difficulty)
-                ) {
-                    if (kill.guildid) {
+
+                for (let raid of raids) {
+                    if (
+                        raid["id"] === kill.map_id &&
+                        raid["difficulties"][kill.difficulty] &&
+                        kill.guildid
+                    ) {
                         guilds[kill.guilddata.name] = realm;
                     }
                 }
@@ -48,6 +43,8 @@ async function fetchOrUpdateGuildData({
 }) {
     return new Promise(async (resolve, reject) => {
         try {
+            let updateStarted = new Date().getTime() / 1000;
+
             let guildData = await tauriApi.getGuild(realm, guildName);
             if (!guildData.success) throw new Error(guildData.errorstring);
             let raidData = await tauriApi.getRaidGuild(realm, guildName);
@@ -55,10 +52,13 @@ async function fetchOrUpdateGuildData({
 
             if (!progression) {
                 progression = {
-                    "Throne of Thunder": {},
-                    "Siege of Orgrimmar": {},
-                    lastKills: []
+                    lastKills: [],
+                    bossesDefeated: 0
                 };
+
+                for (let raid of raids) {
+                    progression[raid.raidName] = {};
+                }
             }
 
             for (let kill of raidData.response.logs) {
@@ -69,45 +69,31 @@ async function fetchOrUpdateGuildData({
                         difficulty: kill.encounter_data.encounter_difficulty,
                         date: kill.killtime
                     });
-                    if (isTotKill(kill.map_id, kill.difficulty)) {
+
+                    for (let raid of raids) {
                         if (
-                            progression["Throne of Thunder"][
-                                kill.encounter_data.encounter_name
-                            ]
+                            raid["id"] === kill.map_id &&
+                            raid["difficulties"][kill.difficulty]
                         ) {
-                            progression["Throne of Thunder"][
-                                kill.encounter_data.encounter_name
-                            ] = await updateBossKill(
-                                realm,
-                                kill,
-                                progression["Throne of Thunder"][
+                            if (
+                                progression[raid.raidName][
                                     kill.encounter_data.encounter_name
                                 ]
-                            );
-                        } else {
-                            progression["Throne of Thunder"][
-                                kill.encounter_data.encounter_name
-                            ] = await createBossKill(realm, kill);
-                        }
-                    } else if (isSooKill(kill.map_id, kill.difficulty)) {
-                        if (
-                            progression["Siege of Orgrimmar"][
-                                kill.encounter_data.encounter_name
-                            ]
-                        ) {
-                            progression["Siege of Orgrimmar"][
-                                kill.encounter_data.encounter_name
-                            ] = await updateBossKill(
-                                realm,
-                                kill,
-                                progression["Siege of Orgrimmar"][
+                            ) {
+                                progression[raid.raidName][
                                     kill.encounter_data.encounter_name
-                                ]
-                            );
-                        } else {
-                            progression["Siege of Orgrimmar"][
-                                kill.encounter_data.encounter_name
-                            ] = await createBossKill(realm, kill);
+                                ] = await updateBossKill(
+                                    realm,
+                                    kill,
+                                    progression[raid.raidName][
+                                        kill.encounter_data.encounter_name
+                                    ]
+                                );
+                            } else {
+                                progression[raid.raidName][
+                                    kill.encounter_data.encounter_name
+                                ] = await createBossKill(realm, kill);
+                            }
                         }
                     }
                 } else {
@@ -115,10 +101,21 @@ async function fetchOrUpdateGuildData({
                 }
             }
 
+            let currentBossesDefeated = 0;
+
+            for (let boss in progression[raidName]) {
+                currentBossesDefeated++;
+            }
+
+            progression.currentBossesDefeated = currentBossesDefeated;
+            progression.completed = progression[raidName][lastBoss]
+                ? progression[raidName][lastBoss].firstKill
+                : false;
+
             let newGuildData = {
                 ...guildData.response,
                 progression,
-                lastUpdated: new Date().getTime() / 1000
+                lastUpdated: updateStarted
             };
 
             resolve(newGuildData);
@@ -136,8 +133,7 @@ async function createBossKill(realm, kill) {
                 kills: 1,
                 fastestKill: kill.fight_time,
                 dps: {},
-                hps: {},
-                lastUpdated: new Date().getTime() / 1000
+                hps: {}
             };
 
             let logs;
@@ -159,6 +155,7 @@ async function createBossKill(realm, kill) {
                         difficulty: kill.difficulty,
                         ilvl: member.ilvl,
                         date: kill.killtime,
+                        damage: member.dmg_done,
                         dps: member.dmg_done / (kill.fight_time / 1000)
                     };
                 }
@@ -170,6 +167,8 @@ async function createBossKill(realm, kill) {
                         difficulty: kill.difficulty,
                         ilvl: member.ilvl,
                         date: kill.killtime,
+                        healing: member.heal_done,
+                        absorb: member.absorb_done,
                         hps:
                             (member.heal_done + member.absorb_done) /
                             (kill.fight_time / 1000)
@@ -223,6 +222,7 @@ async function updateBossKill(realm, kill, prevBossKill) {
                             difficulty: kill.difficulty,
                             ilvl: member.ilvl,
                             date: kill.killtime,
+                            damage: member.dmg_done,
                             dps: member.dmg_done / (kill.fight_time / 1000)
                         };
                     }
@@ -241,6 +241,8 @@ async function updateBossKill(realm, kill, prevBossKill) {
                             difficulty: kill.difficulty,
                             ilvl: member.ilvl,
                             date: kill.killtime,
+                            healing: member.heal_done,
+                            absorb: member.absorb_done,
                             hps:
                                 (member.heal_done + member.absorb_done) /
                                 (kill.fight_time / 1000)
@@ -249,11 +251,14 @@ async function updateBossKill(realm, kill, prevBossKill) {
                 }
             }
 
-            newKill.lastUpdated = new Date().getTime() / 1000;
-
             resolve(newKill);
         } catch (err) {
             reject(err);
         }
     });
 }
+
+module.exports = {
+    fetchLatestHeroicGuilds,
+    fetchOrUpdateGuildData
+};
