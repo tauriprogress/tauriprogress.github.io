@@ -21,10 +21,44 @@ class Database {
     }
 
     async getGuilds() {
-        return this.db
-            .collection("guilds")
-            .find()
-            .toArray();
+        return new Promise(async (resolve, reject) => {
+            try {
+                resolve(
+                    this.db
+                        .collection("guilds")
+                        .find()
+                        .toArray()
+                );
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async saveGuild(guild) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let oldGuild = await this.db.collection("guilds").findOne({
+                    guildName: new RegExp("^" + guild.guildName + "$", "i"),
+                    realm: guild.realm
+                });
+
+                if (!oldGuild) {
+                    await this.db.collection("guilds").insertOne(guild);
+                } else {
+                    await this.db.collection("guilds").updateOne(
+                        {
+                            guildName: new RegExp("^" + guildName + "$", "i"),
+                            realm: guild.realm
+                        },
+                        { $set: guild }
+                    );
+                }
+                resolve("Done");
+            } catch (err) {
+                reject(err);
+            }
+        });
     }
 }
 
