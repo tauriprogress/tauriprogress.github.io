@@ -1,5 +1,8 @@
 const tauriApi = require("./tauriApi");
+const fs = require("fs");
+const realms = require("../constants/realms");
 const specs = require("../constants/specs");
+const specToClass = require("../constants/specToClass");
 const {
     raidName,
     lastBoss,
@@ -152,6 +155,7 @@ async function createBossKill(realm, kill) {
                     bossKill.dps[member.name] = {
                         race: member.race,
                         spec: specs[member.spec],
+                        class: specToClass[member.spec],
                         difficulty: kill.difficulty,
                         ilvl: member.ilvl,
                         date: kill.killtime,
@@ -164,6 +168,7 @@ async function createBossKill(realm, kill) {
                     bossKill.hps[member.name] = {
                         race: member.race,
                         spec: specs[member.spec],
+                        class: specToClass[member.spec],
                         difficulty: kill.difficulty,
                         ilvl: member.ilvl,
                         date: kill.killtime,
@@ -219,6 +224,7 @@ async function updateBossKill(realm, kill, prevBossKill) {
                         newKill.dps[member.name] = {
                             race: member.race,
                             spec: specs[member.spec],
+                            class: specToClass[member.spec],
                             difficulty: kill.difficulty,
                             ilvl: member.ilvl,
                             date: kill.killtime,
@@ -238,6 +244,7 @@ async function updateBossKill(realm, kill, prevBossKill) {
                         newKill.hps[member.name] = {
                             race: member.race,
                             spec: specs[member.spec],
+                            class: specToClass[member.spec],
                             difficulty: kill.difficulty,
                             ilvl: member.ilvl,
                             date: kill.killtime,
@@ -258,7 +265,72 @@ async function updateBossKill(realm, kill, prevBossKill) {
     });
 }
 
+async function fetchOrUpdateRaidBoss(raidBoss) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let fastestKills = [];
+            let now = new Date().getTime() / 1000;
+            if (!raidBoss.firstKills) raidBoss.firstKills = [];
+            if (!raidBoss.dps) raidBoss.dps = {};
+            if (!raidBoss.hps) raidBoss.hps = {};
+            if (!raidBoss.kills) raidBoss.kills = 0;
+            if (!raidBoss.firstKill) raidBoss.firstKill = now;
+
+            for (let key in realms) {
+                let data;
+                do {
+                    data = await tauriApi.getRaidRank(
+                        realms[key],
+                        raidBoss.bossId,
+                        raidBoss.difficulty
+                    );
+                } while (
+                    !data.success &&
+                    data.errorstring === "request timed out"
+                );
+                if (!data.success) throw new Error(data.errorstring);
+
+                let logs = data.response.logs;
+                fastestKills = fastestKills.concat(logs);
+
+                for (let kill of logs) {
+                    if (raidBoss.firstKill > kill.killtime) {
+                        raidBoss.firstKills.push({
+                            guildName: kill.guildid
+                                ? kill.guilddata.name
+                                : "Random",
+                            date: kill.killtime
+                        });
+                    }
+
+                    if (raidBoss.lastUpdated < kill.killtime) {
+                        raidBoss = await updateBossKill(
+                            realms[key],
+                            kill,
+                            raidBoss
+                        );
+                    }
+                }
+            }
+
+            resolve({
+                ...raidBoss,
+                lastUpdated: now,
+                firstKills: raidBoss.firstKills
+                    .sort((a, b) => a.date - b.date)
+                    .slice(0, 3),
+                fastestKills: fastestKills
+                    .sort((a, b) => a.fight_time - b.fight_time)
+                    .slice(0, 50)
+            });
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
 module.exports = {
     fetchLatestHeroicGuilds,
-    fetchOrUpdateGuildData
+    fetchOrUpdateGuildData,
+    fetchOrUpdateRaidBoss
 };
