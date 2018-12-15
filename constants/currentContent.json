@@ -2,6 +2,10 @@
     "raidName": "Throne of Thunder",
     "lastBoss": "Ra-den",
     "totalBosses": 13,
+    "difficulties": {
+        "5": { "id": 5, "name": "10 Player (Heroic)" },
+        "6": { "id": 6, "name": "25 Player (Heroic)" }
+    },
     "raids": [
         {
             "raidName": "Throne of Thunder",
