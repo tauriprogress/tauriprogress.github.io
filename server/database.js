@@ -5,7 +5,12 @@ const MongoClient = require("mongodb").MongoClient;
 
 const realms = require("../constants/realms.json");
 const { raids } = require("../constants/currentContent.json");
-const { fetchLatestHeroicGuilds, fetchOrUpdateRaidBoss } = require("./helpers");
+const {
+    getRaidBossLogs,
+    processRaidBossLogs,
+    mergeBossKillIntoGuildData,
+    createGuildData
+} = require("./helpers");
 
 class Database {
     constructor() {
@@ -47,51 +52,68 @@ class Database {
 
                 console.log("db: Creating maintence collection");
                 let maintence = await this.db.collection("maintence");
-                if (await maintence.findOne()) await maintence.remove();
+                if (await maintence.findOne()) await maintence.deleteMany({});
                 maintence.insertOne({
                     lastUpdated: new Date().getTime() / 1000,
                     initalized: true
                 });
 
-                console.log("db: Creating guilds collection");
-                let guildsCollection = await this.db.collection("guilds");
-                if (await guildsCollection.findOne())
-                    await guildsCollection.remove();
-                for (let key in realms) {
-                    let guilds = await fetchLatestHeroicGuilds(realms[key]);
-                    for (let guildName in guilds) {
-                        let guild = await fetchOrUpdateGuildData({
-                            realm: guilds[guildName],
-                            guildName
-                        });
-
-                        await guildsCollection.insertOne(guild);
-                    }
-                }
-
                 console.log("db: Creating raids");
                 let raidCollection;
+                let guilds = {};
                 for (let raid of raids) {
                     console.log(`db: Creating ${raid.raidName} collection`);
                     raidCollection = await this.db.collection(raid.raidName);
                     if (await raidCollection.findOne())
-                        await raidCollection.remove();
+                        await raidCollection.deleteMany({});
 
                     let raidData = require(`../constants/${raid.raidName}`);
 
                     for (let boss of raidData.encounters) {
-                        for (let diff in raidData.difficulties) {
-                            let bossData = await fetchOrUpdateRaidBoss({
-                                bossName: boss.encounter_name,
-                                bossId: boss.encounter_id,
-                                difficulty: diff,
-                                lastUpdated: 0
-                            });
+                        for (let diff in raid.difficulties) {
+                            console.log(
+                                "db: Processing " + boss.encounter_name
+                            );
+                            let logs = await getRaidBossLogs(
+                                boss.encounter_id,
+                                diff,
+                                0
+                            );
+                            let processedLogs = processRaidBossLogs(logs);
+                            await raidCollection.insertOne(
+                                processedLogs.raidBoss
+                            );
 
-                            await raidCollection.insertOne(bossData);
+                            for (let key in processedLogs.guildBossKills) {
+                                if (!guilds[key]) {
+                                    let guild = await createGuildData(
+                                        processedLogs.guildBossKills[key].realm,
+                                        processedLogs.guildBossKills[key]
+                                            .guildName
+                                    );
+                                    guilds[key] = mergeBossKillIntoGuildData(
+                                        guild,
+                                        processedLogs.guildBossKills[key]
+                                    );
+                                } else {
+                                    guilds[key] = mergeBossKillIntoGuildData(
+                                        guilds[key],
+                                        processedLogs.guildBossKills[key]
+                                    );
+                                }
+                            }
                         }
                     }
                 }
+                console.log("db: pushing guilds in");
+                let guildsCollection = await this.db.collection("guilds");
+                if (await guildsCollection.findOne())
+                    await guildsCollection.deleteMany({});
+
+                for (let key in guilds) {
+                    await guildsCollection.insertOne(guilds[key]);
+                }
+
                 console.log("db: initalization done.");
                 resolve("Done");
             } catch (err) {
