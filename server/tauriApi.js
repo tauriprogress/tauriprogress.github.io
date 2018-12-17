@@ -180,7 +180,7 @@ class TauriApi {
     }
 
     getRaidGuildRank(realm, encounter, difficulty) {
-        // similar to getRaidRank
+        // similar to getRaidRank, but only returns guild kills, not including random kills
         return this.request({
             method: "POST",
             body: encodeURIComponent(
