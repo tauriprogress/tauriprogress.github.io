@@ -4,7 +4,11 @@ const mongoUrl = `mongodb://${dbUser}:${dbPassword}@ds125368.mlab.com:25368/taur
 const MongoClient = require("mongodb").MongoClient;
 
 const realms = require("../constants/realms.json");
-const { raids } = require("../constants/currentContent.json");
+const {
+    raidName,
+    lastBoss,
+    raids
+} = require("../constants/currentContent.json");
 const {
     getRaidBossLogs,
     processRaidBossLogs,
@@ -72,7 +76,10 @@ class Database {
                     for (let boss of raidData.encounters) {
                         for (let diff in raid.difficulties) {
                             console.log(
-                                "db: Processing " + boss.encounter_name
+                                "db: Processing " +
+                                    boss.encounter_name +
+                                    " diff: " +
+                                    diff
                             );
                             let logs = await getRaidBossLogs(
                                 boss.encounter_id,
@@ -162,7 +169,12 @@ class Database {
                             realm: 1,
                             lastUpdated: 1,
                             ["progression.currentBossesDefeated"]: 1,
-                            ["progression.completed"]: 1
+                            ["progression.completed"]: 1,
+                            ["progression." +
+                            raidName +
+                            "." +
+                            lastBoss +
+                            ".firstKill"]: 1
                         })
                         .toArray()
                 );
@@ -172,7 +184,7 @@ class Database {
         });
     }
 
-    async getGuild({ realm, guildName }) {
+    async getGuild(realm, guildName) {
         return new Promise(async (resolve, reject) => {
             try {
                 let guild = await this.db.collection("guilds").findOne({
@@ -209,6 +221,22 @@ class Database {
                     );
                 }
                 resolve("Done");
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async getRaidBoss(raidName, bossName, difficulty) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let raidCollection = this.db.collection(raidName);
+                let raidBoss = await raidCollection.findOne({
+                    bossName: new RegExp("^" + bossName + "$", "i"),
+                    difficulty: new RegExp("^" + difficulty + "$", "i")
+                });
+                if (!raidBoss) throw new Error("Boss not found");
+                resolve(raidBoss);
             } catch (err) {
                 reject(err);
             }

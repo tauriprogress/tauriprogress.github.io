@@ -131,6 +131,7 @@ function memberHps(member, kill, difficulty) {
 
 function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
     let raidBoss = {
+        bossName: "",
         firstKills: [],
         fastestKills: [],
         dps: {},
@@ -140,6 +141,7 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
         difficulty
     };
     let guilds = {};
+    if (logs[0]) raidBoss.bossName = logs[0].encounter_data.encounter_name;
 
     for (let log of logs) {
         // get thru all the kill logs
@@ -347,6 +349,7 @@ function mergeBossKillIntoGuildData(guildData, bossKill) {
 }
 
 module.exports = {
+    getRaidBossLogs,
     processRaidBossLogs,
     createGuildData,
     mergeBossKillIntoGuildData
