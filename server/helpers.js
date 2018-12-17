@@ -1,288 +1,27 @@
 const tauriApi = require("./tauriApi");
-const fs = require("fs");
 const realms = require("../constants/realms");
 const specs = require("../constants/specs");
 const specToClass = require("../constants/specToClass");
 const {
     raidName,
-    lastBoss,
+    totalBosses,
     raids
 } = require("../constants/currentContent.json");
 
-async function fetchLatestHeroicGuilds(realm, lastUpdated = 0) {
+async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
     return new Promise(async (resolve, reject) => {
         try {
-            let data = await tauriApi.getRaidLast(realm);
-            if (!data.success) throw new Error(data.errorstring);
-
-            let guilds = {};
-            for (let kill of data.response.logs) {
-                if (lastUpdated > kill.killtime) {
-                    break;
-                }
-
-                for (let raid of raids) {
-                    if (
-                        raid["id"] === kill.map_id &&
-                        raid["difficulties"][kill.difficulty] &&
-                        kill.guildid
-                    ) {
-                        guilds[kill.guilddata.name] = realm;
-                    }
-                }
-            }
-            resolve(guilds);
-        } catch (err) {
-            reject(err);
-        }
-    });
-}
-
-async function fetchOrUpdateGuildData({
-    realm,
-    guildName,
-    lastUpdated = 0,
-    progression
-}) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let updateStarted = new Date().getTime() / 1000;
-
-            let guildData = await tauriApi.getGuild(realm, guildName);
-            if (!guildData.success) throw new Error(guildData.errorstring);
-            let raidData = await tauriApi.getRaidGuild(realm, guildName);
-            if (!raidData.success) throw new Error(raidData.errorstring);
-
-            if (!progression) {
-                progression = {
-                    lastKills: [],
-                    bossesDefeated: 0
-                };
-
-                for (let raid of raids) {
-                    progression[raid.raidName] = {};
-                }
-            }
-
-            for (let kill of raidData.response.logs) {
-                if (lastUpdated < kill.killtime) {
-                    progression.lastKills.push({
-                        log_id: kill.log_id,
-                        bossName: kill.encounter_data.encounter_name,
-                        difficulty: kill.encounter_data.encounter_difficulty,
-                        date: kill.killtime
-                    });
-
-                    for (let raid of raids) {
-                        if (
-                            raid["id"] === kill.map_id &&
-                            raid["difficulties"][kill.difficulty]
-                        ) {
-                            if (
-                                progression[raid.raidName][
-                                    kill.encounter_data.encounter_name
-                                ]
-                            ) {
-                                progression[raid.raidName][
-                                    kill.encounter_data.encounter_name
-                                ] = await updateBossKill(
-                                    realm,
-                                    kill,
-                                    progression[raid.raidName][
-                                        kill.encounter_data.encounter_name
-                                    ]
-                                );
-                            } else {
-                                progression[raid.raidName][
-                                    kill.encounter_data.encounter_name
-                                ] = await createBossKill(realm, kill);
-                            }
-                        }
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            let currentBossesDefeated = 0;
-
-            for (let boss in progression[raidName]) {
-                currentBossesDefeated++;
-            }
-
-            progression.currentBossesDefeated = currentBossesDefeated;
-            progression.completed = progression[raidName][lastBoss]
-                ? progression[raidName][lastBoss].firstKill
-                : false;
-
-            let newGuildData = {
-                ...guildData.response,
-                progression,
-                lastUpdated: updateStarted
-            };
-
-            resolve(newGuildData);
-        } catch (err) {
-            reject(err);
-        }
-    });
-}
-
-async function createBossKill(realm, kill) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let bossKill = {
-                firstKill: kill.killtime,
-                kills: 1,
-                fastestKill: kill.fight_time,
-                dps: {},
-                hps: {}
-            };
-
-            let logs;
-
-            do {
-                logs = await tauriApi
-                    .getRaidLog(realm, kill.log_id)
-                    .catch(err => err);
-            } while (!logs.success && logs.errorstring === "request timed out");
-            if (!logs.success) throw new Error(logs.errorstring);
-
-            let members = logs.response.members;
-
-            for (let member of members) {
-                if (member.dmg_done !== 0) {
-                    bossKill.dps[member.name] = {
-                        race: member.race,
-                        spec: specs[member.spec],
-                        class: specToClass[member.spec],
-                        difficulty: kill.difficulty,
-                        ilvl: member.ilvl,
-                        date: kill.killtime,
-                        damage: member.dmg_done,
-                        dps: member.dmg_done / (kill.fight_time / 1000)
-                    };
-                }
-
-                if (member.heal_done + member.absorb_done !== 0) {
-                    bossKill.hps[member.name] = {
-                        race: member.race,
-                        spec: specs[member.spec],
-                        class: specToClass[member.spec],
-                        difficulty: kill.difficulty,
-                        ilvl: member.ilvl,
-                        date: kill.killtime,
-                        healing: member.heal_done,
-                        absorb: member.absorb_done,
-                        hps:
-                            (member.heal_done + member.absorb_done) /
-                            (kill.fight_time / 1000)
-                    };
-                }
-            }
-
-            resolve(bossKill);
-        } catch (err) {
-            reject(err);
-        }
-    });
-}
-
-async function updateBossKill(realm, kill, prevBossKill) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let newKill = {
-                ...{ dps: {}, hps: {} },
-                ...prevBossKill,
-                firstKill:
-                    kill.killtime > prevBossKill.firstKill
-                        ? prevBossKill.firstKill
-                        : kill.killtime,
-                kills: prevBossKill.kills + 1,
-                fastestKill:
-                    kill.fight_time > prevBossKill.fastestKill
-                        ? prevBossKill.fastestKill
-                        : kill.fight_time
-            };
-
-            do {
-                logs = await tauriApi
-                    .getRaidLog(realm, kill.log_id)
-                    .catch(err => err);
-            } while (!logs.success && logs.errorstring === "request timed out");
-            if (!logs.success) throw new Error(logs.errorstring);
-
-            let members = logs.response.members;
-
-            for (let member of members) {
-                if (member.dmg_done !== 0) {
-                    if (
-                        !prevBossKill.dps[member.name] ||
-                        prevBossKill.dps[member.name].dps <
-                            member.dmg_done / (kill.fight_time / 1000)
-                    ) {
-                        newKill.dps[member.name] = {
-                            race: member.race,
-                            spec: specs[member.spec],
-                            class: specToClass[member.spec],
-                            difficulty: kill.difficulty,
-                            ilvl: member.ilvl,
-                            date: kill.killtime,
-                            damage: member.dmg_done,
-                            dps: member.dmg_done / (kill.fight_time / 1000)
-                        };
-                    }
-                }
-
-                if (member.heal_done + member.absorb_done !== 0) {
-                    if (
-                        !prevBossKill.hps[member.name] ||
-                        prevBossKill.hps[member.name].hps <
-                            (member.heal_done + member.absorb_done) /
-                                (kill.fight_time / 1000)
-                    ) {
-                        newKill.hps[member.name] = {
-                            race: member.race,
-                            spec: specs[member.spec],
-                            class: specToClass[member.spec],
-                            difficulty: kill.difficulty,
-                            ilvl: member.ilvl,
-                            date: kill.killtime,
-                            healing: member.heal_done,
-                            absorb: member.absorb_done,
-                            hps:
-                                (member.heal_done + member.absorb_done) /
-                                (kill.fight_time / 1000)
-                        };
-                    }
-                }
-            }
-
-            resolve(newKill);
-        } catch (err) {
-            reject(err);
-        }
-    });
-}
-
-async function fetchOrUpdateRaidBoss(raidBoss) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let fastestKills = [];
             let now = new Date().getTime() / 1000;
-            if (!raidBoss.firstKills) raidBoss.firstKills = [];
-            if (!raidBoss.dps) raidBoss.dps = {};
-            if (!raidBoss.hps) raidBoss.hps = {};
-            if (!raidBoss.kills) raidBoss.kills = 0;
-            if (!raidBoss.firstKill) raidBoss.firstKill = now;
+            let bossKills = [];
+            let logs = [];
+            let data;
 
             for (let key in realms) {
-                let data;
                 do {
                     data = await tauriApi.getRaidRank(
                         realms[key],
-                        raidBoss.bossId,
-                        raidBoss.difficulty
+                        bossId,
+                        difficulty
                     );
                 } while (
                     !data.success &&
@@ -290,38 +29,37 @@ async function fetchOrUpdateRaidBoss(raidBoss) {
                 );
                 if (!data.success) throw new Error(data.errorstring);
 
-                let logs = data.response.logs;
-                fastestKills = fastestKills.concat(logs);
+                bossKills = bossKills.concat(
+                    data.response.logs.map(kill => ({
+                        ...kill,
+                        realm: realms[key]
+                    }))
+                );
+            }
 
-                for (let kill of logs) {
-                    if (raidBoss.firstKill > kill.killtime) {
-                        raidBoss.firstKills.push({
-                            guildName: kill.guildid
-                                ? kill.guilddata.name
-                                : "Random",
-                            date: kill.killtime
-                        });
-                    }
-
-                    if (raidBoss.lastUpdated < kill.killtime) {
-                        raidBoss = await updateBossKill(
-                            realms[key],
-                            kill,
-                            raidBoss
+            for (let kill of bossKills) {
+                if (lastUpdated < kill.killtime) {
+                    let bossData;
+                    do {
+                        bossData = await tauriApi.getRaidLog(
+                            kill.realm,
+                            kill.log_id
                         );
-                    }
+                    } while (
+                        !bossData.success &&
+                        bossData.errorstring === "request timed out"
+                    );
+                    if (!bossData.success)
+                        throw new Error(bossData.errorstring);
+
+                    logs.push({ ...bossData.response, realm: kill.realm });
                 }
             }
 
             resolve({
-                ...raidBoss,
                 lastUpdated: now,
-                firstKills: raidBoss.firstKills
-                    .sort((a, b) => a.date - b.date)
-                    .slice(0, 3),
-                fastestKills: fastestKills
-                    .sort((a, b) => a.fight_time - b.fight_time)
-                    .slice(0, 50)
+                logs,
+                difficulty
             });
         } catch (err) {
             reject(err);
@@ -329,8 +67,287 @@ async function fetchOrUpdateRaidBoss(raidBoss) {
     });
 }
 
+function createGuildBossKill(kill) {
+    return {
+        raidName: kill.mapentry.name,
+        bossName: kill.encounter_data.encounter_name,
+        realm: kill.realm,
+        guildName: kill.guilddata.name,
+        firstKill: kill.killtime,
+        kills: 1,
+        fastestKill: kill.fight_time,
+        dps: {},
+        hps: {}
+    };
+}
+
+function updateGuildBossKill(guild, kill) {
+    return {
+        ...guild,
+        kills: guild.kills + 1,
+        firstKill:
+            kill.killtime > guild.firstKill ? guild.firstKill : kill.killtime,
+        fastestKill:
+            kill.fight_time > guild.fastestKill
+                ? guild.fastestKill
+                : kill.fight_time
+    };
+}
+
+function getDps({ dmg_done }, { fight_time }) {
+    return dmg_done / (fight_time / 1000);
+}
+
+function memberDps(member, kill, difficulty) {
+    return {
+        race: member.race,
+        spec: specs[member.spec],
+        class: specToClass[member.spec],
+        difficulty: difficulty,
+        ilvl: member.ilvl,
+        date: kill.killtime,
+        damage: member.dmg_done,
+        dps: getDps(member, kill)
+    };
+}
+
+function getHps({ heal_done, absorb_done }, { fight_time }) {
+    return (heal_done + absorb_done) / (fight_time / 1000);
+}
+
+function memberHps(member, kill, difficulty) {
+    return {
+        race: member.race,
+        spec: specs[member.spec],
+        class: specToClass[member.spec],
+        difficulty: difficulty,
+        ilvl: member.ilvl,
+        date: kill.killtime,
+        healing: member.heal_done,
+        absorb: member.absorb_done,
+        hps: getHps(member, kill)
+    };
+}
+
+function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
+    let raidBoss = {
+        firstKills: [],
+        fastestKills: [],
+        dps: {},
+        hps: {},
+        killCount: 0,
+        lastUpdated,
+        difficulty
+    };
+    let guilds = {};
+
+    for (let log of logs) {
+        // get thru all the kill logs
+        raidBoss.killCount += 1;
+        if (log.guildid) {
+            // if the kill is done by a guild
+
+            let guildId = log.guilddata.name + log.realm;
+            if (!guilds[guildId]) {
+                // if there is no guild data yet create it
+                guilds[guildId] = createGuildBossKill(log);
+            } else {
+                guilds[guildId] = updateGuildBossKill(guilds[guildId], log);
+            }
+
+            for (let member of log.members) {
+                // go thru members of the kill and update dps/hps values
+                if (member.dmg_done !== 0) {
+                    if (
+                        !raidBoss.dps[member.name] ||
+                        raidBoss.dps[member.name].dps < getDps(member, log)
+                    ) {
+                        raidBoss.dps[member.name] = memberDps(
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+
+                    if (
+                        !guilds[guildId].dps[member.name] ||
+                        guilds[guildId].dps[member.name].dps <
+                            getDps(member, log)
+                    ) {
+                        guilds[guildId].dps[member.name] = memberDps(
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+                }
+
+                if (member.heal_done + member.absorb_done !== 0) {
+                    if (
+                        !raidBoss.hps[member.name] ||
+                        raidBoss.hps[member.name].hps < getHps(member, log)
+                    ) {
+                        raidBoss.hps[member.name] = memberHps(
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+
+                    if (
+                        !guilds[guildId].hps[member.name] ||
+                        guilds[guildId].hps[member.name].hps <
+                            getHps(member, log)
+                    ) {
+                        guilds[guildId].hps[member.name] = memberHps(
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+                }
+            }
+        } else {
+            // else not guild kill, go thru members, only updating dps/hps of raid boss kill
+            for (let member of log.members) {
+                if (member.dmg_done !== 0) {
+                    if (
+                        !raidBoss.dps[member.name] ||
+                        raidBoss.dps[member.name].dps < getDps(member, log)
+                    ) {
+                        raidBoss.dps[member.name] = memberDps(
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+                }
+
+                if (member.heal_done + member.absorb_done !== 0) {
+                    if (
+                        !raidBoss.hps[member.name] ||
+                        raidBoss.hps[member.name].hps < getHps(member, log)
+                    ) {
+                        raidBoss.hps[member.name] = memberHps(
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    raidBoss.firstKills = raidBoss.firstKills
+        .concat(logs.sort((a, b) => a.killtime - b.killtime))
+        .slice(0, 3);
+
+    raidBoss.fastestKills = raidBoss.fastestKills
+        .concat(logs.sort((a, b) => a.fight_time - b.fight_time))
+        .slice(0, 50);
+
+    return {
+        raidBoss,
+        guildBossKills: guilds
+    };
+}
+
+async function createGuildData(realm, guildName) {
+    let guild;
+
+    do {
+        guild = await tauriApi.getGuild(realm, guildName);
+    } while (!guild.success && guild.errorstring === "request timed out");
+    if (!guild.success) throw new Error(guild.errorstring);
+    guild = guild.response;
+
+    let kills;
+
+    do {
+        kills = await tauriApi.getRaidGuild(realm, guildName);
+    } while (!kills.success && kills.errorstring === "request timed out");
+    if (!kills.success) throw new Error(kills.errorstring);
+    kills = kills.response.logs.slice(0, 50);
+
+    let newGuild = {
+        ...guild,
+        progression: {
+            latestKills: kills,
+            currentBossesDefeated: 0,
+            completed: false
+        }
+    };
+
+    for (let raid of raids) {
+        newGuild.progression[raid.raidName] = {};
+    }
+
+    return newGuild;
+}
+
+function mergeBossKillIntoGuildData(guildData, bossKill) {
+    let bossOfGuild =
+        guildData.progression[bossKill.raidName][bossKill.bossName];
+
+    let newGuildData = JSON.parse(JSON.stringify(guildData));
+
+    if (!bossOfGuild) {
+        newGuildData.progression[bossKill.raidName][
+            bossKill.bossName
+        ] = bossKill;
+    } else {
+        let oldDpses =
+            guildData.progression[bossKill.raidName][bossKill.bossName].dps;
+        let oldHpses =
+            guildData.progression[bossKill.raidName][bossKill.bossName].hps;
+
+        for (let key in bossKill.dps) {
+            let member = bossKill.dps[key];
+
+            if (!oldDpses[key] || oldDpses[key].dps < member.dps) {
+                newGuildData.progression[bossKill.raidName][
+                    bossKill.bossName
+                ].dps[key] = member;
+            }
+        }
+
+        for (let key in bossKill.hps) {
+            let member = bossKill.hps[key];
+            if (!oldHpses[key] || oldHpses[key].hps < member.hps) {
+                newGuildData.progression[bossKill.raidName][
+                    bossKill.bossName
+                ].hps[key] = member;
+            }
+        }
+
+        newGuildData.progression[bossKill.raidName][bossKill.bossName] = {
+            kills: bossOfGuild.kills + bossKill.kills,
+            firstKill:
+                bossOfGuild.firstKill < bossKill.firstKill
+                    ? bossOfGuild.firstKill
+                    : bossKill.firstKill,
+            fastestKill:
+                bossOfGuild.fastestKill < bossKill.fastestKill
+                    ? bossOfGuild.fastestKill
+                    : bossKill.fastestKill
+        };
+    }
+
+    let currentBossesDefeated = 0;
+    for (let key in newGuildData.progression[raidName]) {
+        currentBossesDefeated++;
+    }
+    newGuildData.progression.currentBossesDefeated = currentBossesDefeated;
+    if (currentBossesDefeated === totalBosses) {
+        newGuildData.progression.completed = true;
+    }
+
+    return newGuildData;
+}
+
 module.exports = {
-    fetchLatestHeroicGuilds,
-    fetchOrUpdateGuildData,
-    fetchOrUpdateRaidBoss
+    processRaidBossLogs,
+    createGuildData,
+    mergeBossKillIntoGuildData
 };
