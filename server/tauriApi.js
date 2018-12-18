@@ -14,7 +14,8 @@ class TauriApi {
             let timeOut = setTimeout(() => {
                 reject({
                     sucess: false,
-                    errorstring: "request timed out"
+                    errorstring: "request timed out",
+                    options
                 });
             }, 3000);
 
