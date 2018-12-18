@@ -247,6 +247,53 @@ class Database {
             }
         });
     }
+
+    async getPlayerDps({
+        realm,
+        playerName,
+        raidName,
+        bossName = null,
+        difficulty = null
+    }) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const raid = require(`../constants/${raidName}`);
+                if (bossName) raid.encounters = [{ encounter_name: bossName }];
+                if (difficulty) raid.difficulties = [difficulty];
+
+                let dps = {
+                    [raidName]: {}
+                };
+                let raidCollection = await this.db.collection(raidName);
+
+                for (let boss of raid.encounters) {
+                    for (let diff of raid.difficulties) {
+                        if (!dps[raidName][boss.encounter_name])
+                            dps[raidName][boss.encounter_name] = {};
+
+                        dps[raidName][boss.encounter_name][
+                            diff
+                        ] = (await raidCollection
+                            .find({
+                                bossName: new RegExp(
+                                    "^" + boss.encounter_name + "$",
+                                    "i"
+                                ),
+                                difficulty: new RegExp("^" + diff + "$", "i")
+                            })
+                            .project({
+                                [`dps.${realm} ${playerName}`]: 1
+                            })
+                            .toArray())[0];
+                    }
+                }
+
+                resolve(dps);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
 }
 
 module.exports = new Database();
