@@ -13,12 +13,14 @@ const {
     getRaidBossLogs,
     processRaidBossLogs,
     mergeBossKillIntoGuildData,
-    createGuildData
+    createGuildData,
+    updateRaidBoss
 } = require("./helpers");
 
 class Database {
     constructor() {
         this.db = {};
+        this.isUpdating = false;
     }
 
     async connect() {
@@ -52,6 +54,7 @@ class Database {
     async initalizeDatabase() {
         return new Promise(async (resolve, reject) => {
             try {
+                this.isUpdating = true;
                 console.log("Initalizing database");
                 const updateStarted = new Date().getTime() / 1000;
 
@@ -86,9 +89,7 @@ class Database {
                             let processedLogs = processRaidBossLogs(logs);
 
                             if (processedLogs.raidBoss.killCount !== 0) {
-                                await raidCollection.insertOne(
-                                    processedLogs.raidBoss
-                                );
+                                await this.saveRaidBoss(processedLogs.raidBoss);
                             }
 
                             for (let key in processedLogs.guildBossKills) {
@@ -119,7 +120,7 @@ class Database {
                     await guildsCollection.deleteMany({});
 
                 for (let key in guilds) {
-                    await guildsCollection.insertOne(guilds[key]);
+                    await this.saveGuild(guilds[key]);
                 }
 
                 console.log("db: initalization done.");
@@ -127,8 +128,10 @@ class Database {
                     lastUpdated: updateStarted,
                     initalized: true
                 });
+                this.isUpdating = false;
                 resolve("Done");
             } catch (err) {
+                this.isUpdating = false;
                 reject(err);
             }
         });
@@ -145,6 +148,8 @@ class Database {
             }
         });
     }
+
+    async updateDatabase() {}
 
     async getGuilds() {
         return new Promise(async (resolve, reject) => {
@@ -200,32 +205,6 @@ class Database {
                 if (!guild) throw new Error("Guild not found");
 
                 resolve(guild);
-            } catch (err) {
-                reject(err);
-            }
-        });
-    }
-
-    async saveGuild(guild) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let oldGuild = await this.db.collection("guilds").findOne({
-                    guildName: new RegExp("^" + guild.guildName + "$", "i"),
-                    realm: guild.realm
-                });
-
-                if (!oldGuild) {
-                    await this.db.collection("guilds").insertOne(guild);
-                } else {
-                    await this.db.collection("guilds").updateOne(
-                        {
-                            guildName: new RegExp("^" + guildName + "$", "i"),
-                            realm: guild.realm
-                        },
-                        { $set: guild }
-                    );
-                }
-                resolve("Done");
             } catch (err) {
                 reject(err);
             }
@@ -289,6 +268,67 @@ class Database {
                 }
 
                 resolve(dps);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async saveGuild(guild) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let oldGuild = await this.db.collection("guilds").findOne({
+                    guildName: new RegExp("^" + guild.guildName + "$", "i"),
+                    realm: guild.realm
+                });
+
+                if (!oldGuild) {
+                    await this.db.collection("guilds").insertOne(guild);
+                } else {
+                    await this.db.collection("guilds").updateOne(
+                        {
+                            guildName: new RegExp("^" + guildName + "$", "i"),
+                            realm: guild.realm
+                        },
+                        { $set: guild }
+                    );
+                }
+                resolve("Done");
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async saveRaidBoss({ raidName, raidBoss }) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (!raidName)
+                    throw new Error(
+                        "Need to specify which raid the boss belongs to."
+                    );
+                let raidCollection = this.db.collection(raidName);
+                let oldRaidBoss = await raidCollection.findOne({
+                    bossName: new RegExp("^" + bossName + "$", "i"),
+                    difficulty: new RegExp("^" + difficulty + "$", "i")
+                });
+
+                if (!oldRaidBoss) {
+                    raidCollection.insertOne(raidBoss);
+                } else {
+                    await raidCollection.updateOne(
+                        {
+                            bossName: new RegExp(
+                                "^" + raidBoss.bossName + "$",
+                                "i"
+                            ),
+                            difficulty: raidBoss.difficulty
+                        },
+                        { $set: updateRaidBoss(oldRaidBoss, raidBoss) }
+                    );
+                }
+
+                resolve("done");
             } catch (err) {
                 reject(err);
             }
