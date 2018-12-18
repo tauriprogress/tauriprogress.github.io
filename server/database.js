@@ -53,14 +53,11 @@ class Database {
         return new Promise(async (resolve, reject) => {
             try {
                 console.log("Initalizing database");
+                const updateStarted = new Date().getTime() / 1000;
 
                 console.log("db: Creating maintence collection");
                 let maintence = await this.db.collection("maintence");
                 if (await maintence.findOne()) await maintence.deleteMany({});
-                maintence.insertOne({
-                    lastUpdated: new Date().getTime() / 1000,
-                    initalized: true
-                });
 
                 console.log("db: Creating raids");
                 let raidCollection;
@@ -87,9 +84,12 @@ class Database {
                                 0
                             );
                             let processedLogs = processRaidBossLogs(logs);
-                            await raidCollection.insertOne(
-                                processedLogs.raidBoss
-                            );
+
+                            if (processedLogs.raidBoss.killCount !== 0) {
+                                await raidCollection.insertOne(
+                                    processedLogs.raidBoss
+                                );
+                            }
 
                             for (let key in processedLogs.guildBossKills) {
                                 if (!guilds[key]) {
@@ -98,6 +98,7 @@ class Database {
                                         processedLogs.guildBossKills[key]
                                             .guildName
                                     );
+
                                     guilds[key] = mergeBossKillIntoGuildData(
                                         guild,
                                         processedLogs.guildBossKills[key]
@@ -122,6 +123,10 @@ class Database {
                 }
 
                 console.log("db: initalization done.");
+                maintence.insertOne({
+                    lastUpdated: updateStarted,
+                    initalized: true
+                });
                 resolve("Done");
             } catch (err) {
                 reject(err);
