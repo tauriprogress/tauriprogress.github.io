@@ -10,6 +10,7 @@
         { "id": 6, "name": "25 Player (Heroic)" },
         { "id": 7, "name": "Looking For Raid" }
     ],
+    "difficulties": [5, 6],
     "encounters": [
         {
             "encounter_id": 1577,
