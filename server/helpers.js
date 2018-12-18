@@ -74,7 +74,7 @@ function createGuildBossKill(kill) {
         realm: kill.realm,
         guildName: kill.guilddata.name,
         firstKill: kill.killtime,
-        kills: 1,
+        killCount: 1,
         fastestKill: kill.fight_time,
         dps: {},
         hps: {}
@@ -84,7 +84,7 @@ function createGuildBossKill(kill) {
 function updateGuildBossKill(guild, kill) {
     return {
         ...guild,
-        kills: guild.kills + 1,
+        killCount: guild.killCount + 1,
         firstKill:
             kill.killtime > guild.firstKill ? guild.firstKill : kill.killtime,
         fastestKill:
@@ -330,7 +330,7 @@ function mergeBossKillIntoGuildData(guildData, bossKill) {
         }
 
         newGuildData.progression[bossKill.raidName][bossKill.bossName] = {
-            kills: bossOfGuild.kills + bossKill.kills,
+            killCount: bossOfGuild.killCount + bossKill.killCount,
             firstKill:
                 bossOfGuild.firstKill < bossKill.firstKill
                     ? bossOfGuild.firstKill
@@ -354,9 +354,58 @@ function mergeBossKillIntoGuildData(guildData, bossKill) {
     return newGuildData;
 }
 
+function updateRaidBoss(oldRaidBoss, newRaidBoss) {
+    if (
+        oldRaidBoss.bossName !== newRaidBoss.bossName ||
+        oldRaidBoss.difficulty !== newRaidBoss.difficulty
+    ) {
+        throw new Error(
+            `Updating boss data where bossName and difficulty is not the same is not allowed.`
+        );
+    }
+
+    let updatedRaidBoss = {
+        ...JSON.parse(JSON.stringify(oldRaidBoss)),
+        firstKills: updatedRaidBoss.firstKills
+            .concat(newRaidBoss.firstKill)
+            .sort((a, b) => a.killtime - b.killtime)
+            .slice(0, 3),
+        fastestKills: updatedRaidBoss.fastestKills
+            .concat(newRaidBoss.fastestKills)
+            .sort((a, b) => a.fight_time - b.fight_time)
+            .slice(0, 50),
+        killCount: oldRaidBoss.killCount + newRaidBoss.killCount,
+        lastUpdated: newRaidBoss.lastUpdated
+    };
+
+    for (let key in newRaidBoss.dps) {
+        let member = newRaidBoss.dps[key];
+
+        if (
+            !updatedRaidBoss.dps[key] ||
+            updatedRaidBoss.dps[key].dps < member.dps
+        ) {
+            updatedRaidBoss.dps[key] = member;
+        }
+    }
+
+    for (let key in newRaidBoss.hps) {
+        let member = newRaidBoss.hps[key];
+        if (
+            !updatedRaidBoss.hps[key] ||
+            updatedRaidBoss.hps[key].hps < member.hps
+        ) {
+            updatedRaidBoss.hps[key] = member;
+        }
+    }
+
+    return updatedRaidBoss;
+}
+
 module.exports = {
     getRaidBossLogs,
     processRaidBossLogs,
     createGuildData,
-    mergeBossKillIntoGuildData
+    mergeBossKillIntoGuildData,
+    updateRaidBoss
 };
