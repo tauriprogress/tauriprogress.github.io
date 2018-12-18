@@ -89,7 +89,10 @@ class Database {
                             let processedLogs = processRaidBossLogs(logs);
 
                             if (processedLogs.raidBoss.killCount !== 0) {
-                                await this.saveRaidBoss(processedLogs.raidBoss);
+                                await this.saveRaidBoss({
+                                    raidName: raid.raidName,
+                                    raidBoss: processedLogs.raidBoss
+                                });
                             }
 
                             for (let key in processedLogs.guildBossKills) {
@@ -309,8 +312,8 @@ class Database {
                     );
                 let raidCollection = this.db.collection(raidName);
                 let oldRaidBoss = await raidCollection.findOne({
-                    bossName: new RegExp("^" + bossName + "$", "i"),
-                    difficulty: new RegExp("^" + difficulty + "$", "i")
+                    bossName: new RegExp("^" + raidBoss.bossName + "$", "i"),
+                    difficulty: new RegExp("^" + raidBoss.difficulty + "$", "i")
                 });
 
                 if (!oldRaidBoss) {
