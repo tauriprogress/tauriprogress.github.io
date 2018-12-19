@@ -152,7 +152,88 @@ class Database {
         });
     }
 
-    async updateDatabase() {}
+    async updateDatabase() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.isUpdating = true;
+                let updateStarted = new Date().getTime() / 1000;
+                let maintence = await this.db.collection("maintence");
+                let lastUpdated = (await maintence.findOne()).lastUpdated;
+
+                for (let raid of raids) {
+                    let raidData = require(`../constants/${raid.raidName}`);
+
+                    for (let boss of raidData.encounters) {
+                        for (let diff in raid.difficulties) {
+                            console.log(
+                                "db: Updating " +
+                                    boss.encounter_name +
+                                    " diff: " +
+                                    diff
+                            );
+                            let logs = await getRaidBossLogs(
+                                boss.encounter_id,
+                                diff,
+                                lastUpdated
+                            );
+                            let processedLogs = processRaidBossLogs(logs);
+
+                            if (processedLogs.raidBoss.killCount !== 0) {
+                                await this.saveRaidBoss({
+                                    raidName: raid.raidName,
+                                    raidBoss: processedLogs.raidBoss
+                                });
+                            }
+
+                            for (let key in processedLogs.guildBossKills) {
+                                let guild;
+                                console.log(`Saving ${key}`);
+                                try {
+                                    guild = await this.getGuild(
+                                        processedLogs.guildBossKills[key].realm,
+                                        processedLogs.guildBossKills[key]
+                                            .guildName
+                                    );
+                                } catch (err) {
+                                    if (err.message === "Guild not found") {
+                                        guild = await createGuildData(
+                                            processedLogs.guildBossKills[key]
+                                                .realm,
+                                            processedLogs.guildBossKills[key]
+                                                .guildName
+                                        );
+                                    }
+                                }
+                                if (guild)
+                                    await this.saveGuild(
+                                        mergeBossKillIntoGuildData(
+                                            guild,
+                                            processedLogs.guildBossKills[key]
+                                        )
+                                    );
+                            }
+                        }
+                    }
+                }
+
+                await maintence.updateOne(
+                    {},
+                    {
+                        $set: {
+                            lastUpdated: updateStarted
+                        }
+                    }
+                );
+
+                this.isUpdating = false;
+
+                resolve("Done");
+            } catch (err) {
+                this.isUpdating = false;
+                reject(err);
+            }
+        });
+    }
 
     async getGuilds() {
         return new Promise(async (resolve, reject) => {
@@ -331,7 +412,7 @@ class Database {
                     );
                 }
 
-                resolve("done");
+                resolve("Done");
             } catch (err) {
                 reject(err);
             }
