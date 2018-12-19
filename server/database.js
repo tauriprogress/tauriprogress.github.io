@@ -311,7 +311,7 @@ class Database {
         });
     }
 
-    async getPlayerDps({
+    async getPlayerPerformance({
         realm,
         playerName,
         raidName,
@@ -324,17 +324,17 @@ class Database {
                 if (bossName) raid.encounters = [{ encounter_name: bossName }];
                 if (difficulty) raid.difficulties = [difficulty];
 
-                let dps = {
+                let performance = {
                     [raidName]: {}
                 };
                 let raidCollection = await this.db.collection(raidName);
 
                 for (let boss of raid.encounters) {
                     for (let diff of raid.difficulties) {
-                        if (!dps[raidName][boss.encounter_name])
-                            dps[raidName][boss.encounter_name] = {};
+                        if (!performance[raidName][boss.encounter_name])
+                            performance[raidName][boss.encounter_name] = {};
 
-                        dps[raidName][boss.encounter_name][
+                        performance[raidName][boss.encounter_name][
                             diff
                         ] = (await raidCollection
                             .find({
@@ -345,13 +345,14 @@ class Database {
                                 difficulty: new RegExp("^" + diff + "$", "i")
                             })
                             .project({
-                                [`dps.${realm} ${playerName}`]: 1
+                                [`dps.${realm} ${playerName}`]: 1,
+                                [`hps.${realm} ${playerName}`]: 1
                             })
                             .toArray())[0];
                     }
                 }
 
-                resolve(dps);
+                resolve(performance);
             } catch (err) {
                 reject(err);
             }
