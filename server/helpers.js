@@ -179,6 +179,7 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
                         guilds[guildId].dps[memberId].dps < getDps(member, log)
                     ) {
                         guilds[guildId].dps[memberId] = memberDps(
+                            log.realm,
                             member,
                             log,
                             difficulty
