@@ -3,7 +3,6 @@ const dbPassword = process.env.MONGODB_PASSWORD;
 const mongoUrl = `mongodb://${dbUser}:${dbPassword}@ds125368.mlab.com:25368/tauriguilds`;
 const MongoClient = require("mongodb").MongoClient;
 
-const realms = require("../constants/realms.json");
 const {
     raidName,
     lastBoss,
@@ -289,6 +288,35 @@ class Database {
                 if (!guild) throw new Error("Guild not found");
 
                 resolve(guild);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async getRaid(raidName) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let raidData = {};
+                let difficulties = {};
+                let bosses = await this.db
+                    .collection(raidName)
+                    .find()
+                    .toArray();
+
+                for (let boss of bosses) {
+                    difficulties[boss.difficulty] = true;
+                }
+
+                for (let diff in difficulties) {
+                    raidData[diff] = {};
+                }
+
+                for (let boss of bosses) {
+                    raidData[boss.difficulty][boss.bossName] = boss;
+                }
+
+                resolve(raidData);
             } catch (err) {
                 reject(err);
             }
