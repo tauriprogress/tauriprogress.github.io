@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Navigation from "../Navigation";
 
-import RaidBossList from "../RaidBossList";
+import RaidBossListContainer from "../RaidBossListContainer";
 import DisplayGuilds from "../DisplayGuilds";
 import DisplayRaid from "../DisplayRaid";
 import DisplayGuild from "../DisplayGuild";
@@ -23,7 +23,7 @@ function Router() {
                             path="/"
                             render={() => (
                                 <React.Fragment>
-                                    <RaidBossList />
+                                    <RaidBossListContainer />
                                     <DisplayGuilds />
                                 </React.Fragment>
                             )}
