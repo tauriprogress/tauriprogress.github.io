@@ -3,6 +3,7 @@
     "expansion": 4,
     "type": 2,
     "name": "Throne of Thunder",
+    "picture": "UI-EJ-LOREBG-ThunderKingRaid.png",
     "available_difficulties": [
         { "id": 3, "name": "10 Player" },
         { "id": 4, "name": "25 Player" },

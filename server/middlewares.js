@@ -1,5 +1,5 @@
-const realms = require("../constants/realms");
-const { raids } = require("../constants/currentContent");
+const realms = require("../src/constants/realms");
+const { raids } = require("../src/constants/currentContent");
 
 function verifyGetGuild(req, res, next) {
     try {
@@ -110,7 +110,7 @@ function validRaidName(raidName) {
 }
 
 function validBossName(raidName, bossName) {
-    let { encounters } = require(`../constants/${raidName}`);
+    let { encounters } = require(`../src/constants/${raidName}`);
     for (let encounter of encounters) {
         if (encounter.encounter_name === bossName) {
             return true;

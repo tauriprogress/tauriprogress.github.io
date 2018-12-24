@@ -7,7 +7,7 @@ const {
     raidName,
     lastBoss,
     raids
-} = require("../constants/currentContent.json");
+} = require("../src/constants/currentContent.json");
 const {
     getRaidBossLogs,
     processRaidBossLogs,
@@ -70,7 +70,7 @@ class Database {
                     if (await raidCollection.findOne())
                         await raidCollection.deleteMany({});
 
-                    let raidData = require(`../constants/${raid.raidName}`);
+                    let raidData = require(`../src/constants/${raid.raidName}`);
 
                     for (let boss of raidData.encounters) {
                         for (let diff in raid.difficulties) {
@@ -160,7 +160,7 @@ class Database {
                 let lastUpdated = (await maintence.findOne()).lastUpdated;
 
                 for (let raid of raids) {
-                    let raidData = require(`../constants/${raid.raidName}`);
+                    let raidData = require(`../src/constants/${raid.raidName}`);
 
                     for (let boss of raidData.encounters) {
                         for (let diff in raid.difficulties) {
@@ -348,7 +348,7 @@ class Database {
     }) {
         return new Promise(async (resolve, reject) => {
             try {
-                const raid = require(`../constants/${raidName}`);
+                const raid = require(`../src/constants/${raidName}`);
                 if (bossName) raid.encounters = [{ encounter_name: bossName }];
                 if (difficulty) raid.difficulties = [difficulty];
 

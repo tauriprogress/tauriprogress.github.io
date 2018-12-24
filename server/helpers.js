@@ -1,12 +1,12 @@
 const tauriApi = require("./tauriApi");
-const realms = require("../constants/realms");
-const specs = require("../constants/specs");
-const specToClass = require("../constants/specToClass");
+const realms = require("../src/constants/realms");
+const specs = require("../src/constants/specs");
+const specToClass = require("../src/constants/specToClass");
 const {
     raidName,
     totalBosses,
     raids
-} = require("../constants/currentContent.json");
+} = require("../src/constants/currentContent.json");
 
 async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
     return new Promise(async (resolve, reject) => {
