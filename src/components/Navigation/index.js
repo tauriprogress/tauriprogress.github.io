@@ -10,9 +10,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 
 import { raidName } from "../../constants/currentContent";
 
-import { toggleNav } from "../../redux/actions";
+import { navToggle } from "../../redux/actions";
 
-function Navigation({ nav, toggleNav }) {
+function Navigation({ nav, navToggle }) {
     const { showNav } = nav;
 
     return (
@@ -22,7 +22,7 @@ function Navigation({ nav, toggleNav }) {
                     color="inherit"
                     aria-label="Menu"
                     className="burger"
-                    onClick={() => toggleNav()}
+                    onClick={() => navToggle()}
                 >
                     <MenuIcon />
                 </IconButton>
@@ -31,7 +31,7 @@ function Navigation({ nav, toggleNav }) {
                         <li>
                             <Link
                                 to="/"
-                                onClick={() => linkClick(showNav, toggleNav)}
+                                onClick={() => linkClick(showNav, navToggle)}
                             >
                                 Home
                             </Link>
@@ -39,7 +39,7 @@ function Navigation({ nav, toggleNav }) {
                         <li>
                             <Link
                                 to={`/raid/${raidName}`}
-                                onClick={() => linkClick(showNav, toggleNav)}
+                                onClick={() => linkClick(showNav, navToggle)}
                             >
                                 {raidName}
                             </Link>
@@ -47,7 +47,7 @@ function Navigation({ nav, toggleNav }) {
                         <li>
                             <Link
                                 to="/guild"
-                                onClick={() => linkClick(showNav, toggleNav)}
+                                onClick={() => linkClick(showNav, navToggle)}
                             >
                                 Guild
                             </Link>
@@ -55,7 +55,7 @@ function Navigation({ nav, toggleNav }) {
                         <li>
                             <Link
                                 to="/player"
-                                onClick={() => linkClick(showNav, toggleNav)}
+                                onClick={() => linkClick(showNav, navToggle)}
                             >
                                 Player
                             </Link>
@@ -63,16 +63,16 @@ function Navigation({ nav, toggleNav }) {
                     </ul>
                 </nav>
                 {showNav && (
-                    <div className="cover" onClick={() => toggleNav()} />
+                    <div className="cover" onClick={() => navToggle()} />
                 )}
             </Toolbar>
         </AppBar>
     );
 }
 
-function linkClick(showNav, toggleNav) {
+function linkClick(showNav, navToggle) {
     if (showNav) {
-        toggleNav(false);
+        navToggle(false);
     }
 }
 
@@ -83,7 +83,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ toggleNav }, dispatch);
+    return bindActionCreators({ navToggle }, dispatch);
 }
 
 export default connect(

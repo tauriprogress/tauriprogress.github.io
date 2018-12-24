@@ -3,10 +3,13 @@ $accent-two: #f25c00
 $accent-two-light: #f25c00
 $light: #f6ede2
 $dark-blue: #00050a
-$mobile-break: 450px
+$red: #b2102f
+$mobile-break: 600px
 
 @import  './components/RaidBossList/index.sass'
 @import  './components/Navigation/index.sass'
+@import './components/DisplayGuilds/index.sass'
+
 *
     margin: 0
     padding: 0
@@ -15,7 +18,7 @@ $mobile-break: 450px
 
 main
     display: flex
-    flex-wrap: wrap
+    
 
 aside
     width: 260px
@@ -24,9 +27,17 @@ ul
     list-style: none
 a
     text-decoration: none
+    color: inherit
     &:hover 
         color: $accent-two
         *
             color: $accent-two
 .hide
     display: none
+.red
+    color: $red
+
+@media(max-width: $mobile-break)
+    main
+        justify-content: center
+        flex-wrap: wrap

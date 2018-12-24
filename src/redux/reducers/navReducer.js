@@ -4,7 +4,7 @@ const defaultState = {
 
 function navReducer(state = defaultState, action) {
     switch (action.type) {
-        case "TOGGLE_NAV":
+        case "NAV_TOGGLE":
             return {
                 ...state,
                 showNav: action.payload
