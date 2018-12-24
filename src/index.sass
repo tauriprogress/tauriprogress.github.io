@@ -1,0 +1,32 @@
+$accent-one: #1e1f26
+$accent-two: #f25c00
+$accent-two-light: #f25c00
+$light: #f6ede2
+$dark-blue: #00050a
+$mobile-break: 450px
+
+@import  './components/RaidBossList/index.sass'
+@import  './components/Navigation/index.sass'
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    font-family: "Roboto", "Helvetica", "Arial", "sans-serif"
+
+main
+    display: flex
+    flex-wrap: wrap
+
+aside
+    width: 260px
+    margin: 20px
+ul
+    list-style: none
+a
+    text-decoration: none
+    &:hover 
+        color: $accent-two
+        *
+            color: $accent-two
+.hide
+    display: none
