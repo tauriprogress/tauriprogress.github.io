@@ -49,7 +49,7 @@ class DisplayGuilds extends React.PureComponent {
                     />
                 )}
                 {error ? (
-                    <span className="red">{error}</span>
+                    <span className="displayGuildsError red">{error}</span>
                 ) : (
                     <Table>
                         <TableHead>
