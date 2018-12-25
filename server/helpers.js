@@ -100,6 +100,7 @@ function getDps({ dmg_done }, { fight_time }) {
 
 function memberDps(realm, member, kill, difficulty) {
     return {
+        name: member.name,
         race: member.race,
         spec: specs[member.spec],
         class: specToClass[member.spec],
@@ -118,6 +119,7 @@ function getHps({ heal_done, absorb_done }, { fight_time }) {
 
 function memberHps(realm, member, kill, difficulty) {
     return {
+        name: member.name,
         race: member.race,
         spec: specs[member.spec],
         class: specToClass[member.spec],
@@ -138,6 +140,12 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
         fastestKills: [],
         dps: {},
         hps: {},
+        bestDps: {
+            dps: 0
+        },
+        bestHps: {
+            hps: 0
+        },
         killCount: 0,
         lastUpdated,
         difficulty
@@ -162,6 +170,15 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
             for (let member of log.members) {
                 let memberId = `${log.realm} ${member.name}`;
                 if (member.dmg_done !== 0) {
+                    if (raidBoss.bestDps.dps < getDps(member, log)) {
+                        raidBoss.bestDps = memberDps(
+                            log.realm,
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+
                     if (
                         !raidBoss.dps[memberId] ||
                         raidBoss.dps[memberId].dps < getDps(member, log)
@@ -188,6 +205,15 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
                 }
 
                 if (member.heal_done + member.absorb_done !== 0) {
+                    if (raidBoss.bestHps.hps < getHps(member, log)) {
+                        raidBoss.bestHps = memberHps(
+                            log.realm,
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+
                     if (
                         !raidBoss.hps[memberId] ||
                         raidBoss.hps[memberId].hps < getHps(member, log)
@@ -218,6 +244,15 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
             for (let member of log.members) {
                 let memberId = `${log.realm} ${member.name}`;
                 if (member.dmg_done !== 0) {
+                    if (raidBoss.bestDps.dps < getDps(member, log)) {
+                        raidBoss.bestDps = memberDps(
+                            log.realm,
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+
                     if (
                         !raidBoss.dps[memberId] ||
                         raidBoss.dps[memberId].dps < getDps(member, log)
@@ -232,6 +267,15 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
                 }
 
                 if (member.heal_done + member.absorb_done !== 0) {
+                    if (raidBoss.bestHps.hps < getHps(member, log)) {
+                        raidBoss.bestHps = memberHps(
+                            log.realm,
+                            member,
+                            log,
+                            difficulty
+                        );
+                    }
+
                     if (
                         !raidBoss.hps[memberId] ||
                         raidBoss.hps[memberId].hps < getHps(member, log)
@@ -296,6 +340,8 @@ async function createGuildData(realm, guildName) {
 }
 
 function mergeBossKillIntoGuildData(guildData, bossKill) {
+    delete bossKill.bestDps;
+    delete bossKill.bestHps;
     let bossOfGuild =
         guildData.progression[bossKill.raidName][bossKill.bossName];
 
@@ -382,6 +428,10 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
     for (let key in newRaidBoss.dps) {
         let member = newRaidBoss.dps[key];
 
+        if (updatedRaidBoss.bestDps.dps < member.dps) {
+            updatedRaidBoss.bestDps = member;
+        }
+
         if (
             !updatedRaidBoss.dps[key] ||
             updatedRaidBoss.dps[key].dps < member.dps
@@ -392,6 +442,11 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
 
     for (let key in newRaidBoss.hps) {
         let member = newRaidBoss.hps[key];
+
+        if (updatedRaidBoss.bestHps.hps < member.hps) {
+            updatedRaidBoss.bestHps = member;
+        }
+
         if (
             !updatedRaidBoss.hps[key] ||
             updatedRaidBoss.hps[key].hps < member.hps
