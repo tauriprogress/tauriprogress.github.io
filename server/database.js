@@ -298,22 +298,24 @@ class Database {
         return new Promise(async (resolve, reject) => {
             try {
                 let raidData = {};
-                let difficulties = {};
                 let bosses = await this.db
                     .collection(raidName)
                     .find()
+                    .project({
+                        ["dps"]: 0,
+                        ["hps"]: 0
+                    })
                     .toArray();
 
                 for (let boss of bosses) {
-                    difficulties[boss.difficulty] = true;
-                }
+                    boss.firstKills = boss.firstKills[0];
+                    boss.fastestKills = boss.fastestKills[0];
 
-                for (let diff in difficulties) {
-                    raidData[diff] = {};
-                }
+                    if (!raidData[boss.bossName]) {
+                        raidData[boss.bossName] = {};
+                    }
 
-                for (let boss of bosses) {
-                    raidData[boss.difficulty][boss.bossName] = boss;
+                    raidData[boss.bossName][boss.difficulty] = boss;
                 }
 
                 resolve(raidData);
