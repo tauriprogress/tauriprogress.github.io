@@ -8,6 +8,7 @@ import DisplayGuilds from "../DisplayGuilds";
 import DisplayRaid from "../DisplayRaid";
 import DisplayGuild from "../DisplayGuild";
 import DisplayPlayer from "../DisplayPlayer";
+import DisplayRaidBoss from "../DisplayRaidBoss";
 
 import NotFound from "../NotFound";
 
@@ -28,7 +29,16 @@ function Router() {
                                 </React.Fragment>
                             )}
                         />
-                        <Route path="/raid" component={DisplayRaid} />
+                        <Route
+                            exact
+                            path="/raid/:raidName"
+                            component={DisplayRaid}
+                        />
+                        <Route
+                            exact
+                            path="/raid/:raidName/:bossName"
+                            component={DisplayRaidBoss}
+                        />
                         <Route path="/guild" component={DisplayGuild} />
                         <Route path="/player" component={DisplayPlayer} />
                         <Route component={NotFound} />

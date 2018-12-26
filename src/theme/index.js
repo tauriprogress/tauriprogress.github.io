@@ -13,10 +13,6 @@ const overrides = {
     MuiTab: {
         root: {
             minWidth: "auto !important"
-        },
-        selected: {
-            color: "white",
-            fontWeight: "auto"
         }
     },
     MuiTabs: {

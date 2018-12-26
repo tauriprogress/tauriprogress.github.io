@@ -25,3 +25,24 @@ export function guildsSetLoading(payload) {
         payload
     };
 }
+
+export function raidFill(payload) {
+    return {
+        type: "RAID_FILL",
+        payload
+    };
+}
+
+export function raidSetError(payload) {
+    return {
+        type: "RAID_SET_ERROR",
+        payload
+    };
+}
+
+export function raidSetLoading(payload) {
+    return {
+        type: "RAID_SET_LOADING",
+        payload
+    };
+}
