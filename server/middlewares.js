@@ -87,11 +87,6 @@ function verifyGetboss(req, res, next) {
         if (!validBossName(req.body.raidName, req.body.bossName))
             throw new Error("Invalid boss name.");
 
-        if (
-            !req.body.difficulty ||
-            !validDifficulty(req.body.raidName, req.body.difficulty)
-        )
-            throw new Error("Invalid difficulty option.");
         next();
     } catch (err) {
         res.send({ success: false, errorstring: err.message });

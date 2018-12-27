@@ -325,16 +325,24 @@ class Database {
         });
     }
 
-    async getRaidBoss(raidName, bossName, difficulty) {
+    async getRaidBoss(raidName, bossName) {
         return new Promise(async (resolve, reject) => {
             try {
                 let raidCollection = this.db.collection(raidName);
-                let raidBoss = await raidCollection.findOne({
-                    bossName: new RegExp("^" + bossName + "$", "i"),
-                    difficulty: new RegExp("^" + difficulty + "$", "i")
-                });
+                let raidBoss = await raidCollection
+                    .find({
+                        bossName: new RegExp("^" + bossName + "$", "i")
+                    })
+                    .toArray();
                 if (!raidBoss) throw new Error("Boss not found");
-                resolve(raidBoss);
+
+                let raidBosses = {};
+
+                for (let boss of raidBoss) {
+                    raidBosses[boss.difficulty] = boss;
+                }
+
+                resolve(raidBosses);
             } catch (err) {
                 reject(err);
             }

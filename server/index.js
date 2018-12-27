@@ -106,8 +106,7 @@ const tauriApi = require("./tauriApi");
                 success: true,
                 response: await db.getRaidBoss(
                     req.body.raidName,
-                    req.body.bossName,
-                    req.body.difficulty
+                    req.body.bossName
                 )
             });
         } catch (err) {
