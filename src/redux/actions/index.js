@@ -46,3 +46,24 @@ export function raidSetLoading(payload) {
         payload
     };
 }
+
+export function raidBossFill(payload) {
+    return {
+        type: "RAID_BOSS_FILL",
+        payload
+    };
+}
+
+export function raidBossSetError(payload) {
+    return {
+        type: "RAID_BOSS_SET_ERROR",
+        payload
+    };
+}
+
+export function raidBossInitRequest(payload) {
+    return {
+        type: "RAID_BOSS_INIT_REQUEST",
+        payload
+    };
+}

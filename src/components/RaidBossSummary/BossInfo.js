@@ -58,7 +58,7 @@ function BossInfo({ boss }) {
                             <Avatar
                                 component="span"
                                 src={getSpecImg(bestDps.spec.image)}
-                                className="BossInfoAvatar"
+                                className="classSpecAvatar"
                             />
                         </Tooltip>
                         <span
@@ -99,7 +99,7 @@ function BossInfo({ boss }) {
                             <Avatar
                                 component="span"
                                 src={getSpecImg(bestHps.spec.image)}
-                                className="BossInfoAvatar"
+                                className="classSpecAvatar"
                             />
                         </Tooltip>
                         <span

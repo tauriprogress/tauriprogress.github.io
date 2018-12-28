@@ -35,23 +35,15 @@ class RaidBossSummary extends React.PureComponent {
         const { bossData, raidName } = this.props;
         return (
             <Card className="raidBossSummary">
-                <AppBar position="static" className="raidBossSummaryAppBar">
+                <AppBar position="static">
                     <Tabs
                         value={this.state.value}
                         onChange={this.handleChange}
                         className="raidBossSummaryTabs"
                         indicatorColor="secondary"
                     >
-                        <Tab
-                            label="10 HC"
-                            value={5}
-                            className="raidBossSummaryTab"
-                        />
-                        <Tab
-                            label="25 HC"
-                            value={6}
-                            className="raidBossSummaryTab"
-                        />
+                        <Tab label="10 HC" value={5} className="tab" />
+                        <Tab label="25 HC" value={6} className="tab" />
                     </Tabs>
                 </AppBar>
                 <Typography variant="h6">{bossData.bossName}</Typography>

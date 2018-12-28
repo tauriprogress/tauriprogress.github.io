@@ -12,7 +12,11 @@ const palette = {
 const overrides = {
     MuiTab: {
         root: {
-            minWidth: "auto !important"
+            minWidth: "auto !important",
+            color: "grey !important"
+        },
+        selected: {
+            color: "white !important"
         }
     },
     MuiTabs: {
