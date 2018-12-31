@@ -21,7 +21,6 @@ import { sortByProgression } from "./helpers";
 
 class DisplayGuilds extends React.PureComponent {
     componentDidMount() {
-        // make api call
         this.props.guildsSetLoading(true);
         fetch("http://localhost:3001/getguildlist")
             .then(res => res.json())

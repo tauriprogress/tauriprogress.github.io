@@ -17,12 +17,12 @@ const defaultState = {
 
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
+        case "GUILDS_SET_ERROR":
+            return { ...state, error: action.payload, loading: false };
         case "GUILDS_SET_LOADING":
             return { ...state, loading: action.payload };
         case "GUILDS_FILL":
             return { ...state, data: action.payload, loading: false };
-        case "GUILDS_SET_ERROR":
-            return { ...state, error: action.payload, loading: false };
         default:
             return state;
     }

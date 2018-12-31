@@ -46,14 +46,6 @@ function Navigation({ nav, navToggle }) {
                         </li>
                         <li>
                             <Link
-                                to="/guild"
-                                onClick={() => linkClick(showNav, navToggle)}
-                            >
-                                Guild
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
                                 to="/player"
                                 onClick={() => linkClick(showNav, navToggle)}
                             >

@@ -67,3 +67,31 @@ export function raidBossInitRequest(payload) {
         payload
     };
 }
+
+export function guildSetError(payload) {
+    return {
+        type: "GUILD_SET_ERROR",
+        payload
+    };
+}
+
+export function guildSetLoading(payload) {
+    return {
+        type: "GUILD_SET_LOADING",
+        payload
+    };
+}
+
+export function guildFill(payload) {
+    return {
+        type: "GUILD_FILL",
+        payload
+    };
+}
+
+export function guildSetNav(payload) {
+    return {
+        type: "GUILD_SET_NAV",
+        payload
+    };
+}

@@ -1,0 +1,26 @@
+.displayGuild
+    display: flex
+    width: 100%
+    flex-wrap: wrap
+    &Title
+        width: 100%
+        margin: 20px
+        text-align: center
+    &LoaderContainer
+        margin-top: 20px
+        width: 100%
+        text-align: center
+    &SideNav
+        width: 150px
+        *
+            color: grey !important
+        .listItem:hover
+            *
+                color: $accent-two !important
+        .active
+            *
+                color: $accent-one !important
+    &Content
+        padding: 36px 20px
+    &BossSummary
+        margin: 20px 0px

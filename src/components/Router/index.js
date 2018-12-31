@@ -39,7 +39,11 @@ function Router() {
                             path="/raid/:raidName/:bossName"
                             component={DisplayRaidBoss}
                         />
-                        <Route path="/guild" component={DisplayGuild} />
+                        <Route
+                            exact
+                            path="/guild/:guildName"
+                            component={DisplayGuild}
+                        />
                         <Route path="/player" component={DisplayPlayer} />
                         <Route component={NotFound} />
                     </Switch>
