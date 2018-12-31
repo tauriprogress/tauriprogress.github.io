@@ -9,6 +9,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 
 import specToClass from "../../constants/specToClass";
@@ -39,14 +40,16 @@ class CharacterLadder extends React.PureComponent {
         const { data, type } = this.props;
         const { pagination } = this.state;
         return (
-            <div>
+            <div className="overflowScroll">
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Rank</TableCell>
 
                             <TableCell>Name</TableCell>
-                            <TableCell>{type}</TableCell>
+                            <TableCell>
+                                <span className="textCapitalize">{type}</span>
+                            </TableCell>
 
                             <TableCell>ILVL</TableCell>
 
@@ -126,21 +129,25 @@ class CharacterLadder extends React.PureComponent {
                                 </TableRow>
                             ))}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[]}
+                                component="div"
+                                count={data.length}
+                                rowsPerPage={pagination.rowsPerPage}
+                                page={pagination.currentPage}
+                                backIconButtonProps={{
+                                    "aria-label": "Previous Page"
+                                }}
+                                nextIconButtonProps={{
+                                    "aria-label": "Next Page"
+                                }}
+                                onChangePage={this.changePage}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
-                <TablePagination
-                    rowsPerPageOptions={[]}
-                    component="div"
-                    count={data.length}
-                    rowsPerPage={pagination.rowsPerPage}
-                    page={pagination.currentPage}
-                    backIconButtonProps={{
-                        "aria-label": "Previous Page"
-                    }}
-                    nextIconButtonProps={{
-                        "aria-label": "Next Page"
-                    }}
-                    onChangePage={this.changePage}
-                />
             </div>
         );
     }

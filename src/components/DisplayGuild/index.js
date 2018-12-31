@@ -88,39 +88,45 @@ class DisplayGuild extends React.PureComponent {
                                 {data.gFaction === 0 ? "Alliance" : "Horde"}
                             </Typography>
                         </div>
-                        <aside className="displayGuildSideNav">
-                            <List component="nav">
-                                <ListItem
-                                    onClick={() => guildSetNav(0)}
-                                    className="listItem"
-                                    button
-                                >
-                                    <ListItemText
-                                        primary="Progression"
-                                        className={active === 0 ? "active" : ""}
+                        <div className="displayGuildContentContainer">
+                            <aside className="displayGuildSideNav">
+                                <List component="nav">
+                                    <ListItem
+                                        onClick={() => guildSetNav(0)}
+                                        className="listItem"
+                                        button
+                                    >
+                                        <ListItemText
+                                            primary="Progression"
+                                            className={
+                                                active === 0 ? "active" : ""
+                                            }
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        onClick={() => guildSetNav(1)}
+                                        className="listItem"
+                                        button
+                                    >
+                                        <ListItemText
+                                            primary="Roster"
+                                            className={
+                                                active === 1 ? "active" : ""
+                                            }
+                                        />
+                                    </ListItem>
+                                </List>
+                            </aside>
+                            <div className="displayGuildContent">
+                                {active === 0 && (
+                                    <GuildProgression
+                                        bosses={data.progression[raidName]}
                                     />
-                                </ListItem>
-                                <ListItem
-                                    onClick={() => guildSetNav(1)}
-                                    className="listItem"
-                                    button
-                                >
-                                    <ListItemText
-                                        primary="Roster"
-                                        className={active === 1 ? "active" : ""}
-                                    />
-                                </ListItem>
-                            </List>
-                        </aside>
-                        <div className="displayGuildContent">
-                            {active === 0 && (
-                                <GuildProgression
-                                    bosses={data.progression[raidName]}
-                                />
-                            )}
-                            {active === 1 && (
-                                <GuildRoster data={data.guildList} />
-                            )}
+                                )}
+                                {active === 1 && (
+                                    <GuildRoster data={data.guildList} />
+                                )}
+                            </div>
                         </div>
                     </React.Fragment>
                 )}

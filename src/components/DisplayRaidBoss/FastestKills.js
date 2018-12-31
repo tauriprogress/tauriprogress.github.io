@@ -12,65 +12,67 @@ import { convertFightTime } from "../RaidBossSummary/helpers";
 
 function FastestKills({ data }) {
     return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell>Rank</TableCell>
+        <div className="overflowScroll">
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Rank</TableCell>
 
-                    <TableCell>Guild</TableCell>
-                    <TableCell>Kill time</TableCell>
+                        <TableCell>Guild</TableCell>
+                        <TableCell>Kill time</TableCell>
 
-                    <TableCell>Realm</TableCell>
+                        <TableCell>Realm</TableCell>
 
-                    <TableCell>Date</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {data.map((kill, index) => (
-                    <TableRow key={kill.log_id}>
-                        <TableCell component="th" scope="row">
-                            {index + 1}
-                        </TableCell>
-
-                        <TableCell component="th" scope="row">
-                            {kill.guilddata.name ? (
-                                <Link
-                                    to={`/guild/${kill.guilddata.name}?realm=${
-                                        kill.realm
-                                    }`}
-                                >
-                                    <span
-                                        className={
-                                            kill.guilddata.faction
-                                                ? "red"
-                                                : "blue"
-                                        }
-                                    >
-                                        {kill.guilddata.name}
-                                    </span>
-                                </Link>
-                            ) : (
-                                "Random"
-                            )}
-                        </TableCell>
-
-                        <TableCell component="th" scope="row">
-                            {convertFightTime(kill.fight_time)}
-                        </TableCell>
-
-                        <TableCell component="th" scope="row">
-                            {kill.realm}
-                        </TableCell>
-
-                        <TableCell component="th" scope="row">
-                            {new Date(
-                                kill.killtime * 1000
-                            ).toLocaleDateString()}
-                        </TableCell>
+                        <TableCell>Date</TableCell>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                    {data.map((kill, index) => (
+                        <TableRow key={kill.log_id}>
+                            <TableCell component="th" scope="row">
+                                {index + 1}
+                            </TableCell>
+
+                            <TableCell component="th" scope="row">
+                                {kill.guilddata.name ? (
+                                    <Link
+                                        to={`/guild/${
+                                            kill.guilddata.name
+                                        }?realm=${kill.realm}`}
+                                    >
+                                        <span
+                                            className={
+                                                kill.guilddata.faction
+                                                    ? "red"
+                                                    : "blue"
+                                            }
+                                        >
+                                            {kill.guilddata.name}
+                                        </span>
+                                    </Link>
+                                ) : (
+                                    "Random"
+                                )}
+                            </TableCell>
+
+                            <TableCell component="th" scope="row">
+                                {convertFightTime(kill.fight_time)}
+                            </TableCell>
+
+                            <TableCell component="th" scope="row">
+                                {kill.realm}
+                            </TableCell>
+
+                            <TableCell component="th" scope="row">
+                                {new Date(
+                                    kill.killtime * 1000
+                                ).toLocaleDateString()}
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     );
 }
 

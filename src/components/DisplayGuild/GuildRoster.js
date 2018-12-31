@@ -36,67 +36,71 @@ class GuildRoster extends React.PureComponent {
         const { data } = this.props;
         const { pagination } = this.state;
         return (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>LvL</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Class</TableCell>
-                        <TableCell>Rank</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {data
-                        .slice(
-                            pagination.rowsPerPage * pagination.currentPage,
-                            pagination.rowsPerPage *
-                                (pagination.currentPage + 1)
-                        )
-                        .map(member => (
-                            <TableRow key={member.name}>
-                                <TableCell>{member.level}</TableCell>
-                                <TableCell component="th" scope="row">
-                                    <span
-                                        style={{
-                                            color:
-                                                characterClassColors[
-                                                    member.class
-                                                ]
-                                        }}
-                                        className={
-                                            member.class === 5 ? "outline" : ""
-                                        }
-                                    >
-                                        <Link
-                                            to={`/player/${member.name}?realm=${
-                                                member.realm
-                                            }`}
+            <div className="overflowScroll">
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>LvL</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Class</TableCell>
+                            <TableCell>Rank</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data
+                            .slice(
+                                pagination.rowsPerPage * pagination.currentPage,
+                                pagination.rowsPerPage *
+                                    (pagination.currentPage + 1)
+                            )
+                            .map(member => (
+                                <TableRow key={member.name}>
+                                    <TableCell>{member.level}</TableCell>
+                                    <TableCell component="th" scope="row">
+                                        <span
+                                            style={{
+                                                color:
+                                                    characterClassColors[
+                                                        member.class
+                                                    ]
+                                            }}
+                                            className={
+                                                member.class === 5
+                                                    ? "outline"
+                                                    : ""
+                                            }
                                         >
-                                            {member.name}
-                                        </Link>
-                                    </span>
-                                </TableCell>
-                                <TableCell>
-                                    {characterClasses[member.class]}
-                                </TableCell>
+                                            <Link
+                                                to={`/player/${
+                                                    member.name
+                                                }?realm=${member.realm}`}
+                                            >
+                                                {member.name}
+                                            </Link>
+                                        </span>
+                                    </TableCell>
+                                    <TableCell>
+                                        {characterClasses[member.class]}
+                                    </TableCell>
 
-                                <TableCell>{member.rank_name}</TableCell>
-                            </TableRow>
-                        ))}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            rowsPerPageOptions={[]}
-                            colSpan={3}
-                            count={data.length}
-                            rowsPerPage={pagination.rowsPerPage}
-                            page={pagination.currentPage}
-                            onChangePage={this.changePage}
-                        />
-                    </TableRow>
-                </TableFooter>
-            </Table>
+                                    <TableCell>{member.rank_name}</TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[]}
+                                colSpan={3}
+                                count={data.length}
+                                rowsPerPage={pagination.rowsPerPage}
+                                page={pagination.currentPage}
+                                onChangePage={this.changePage}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </div>
         );
     }
 }

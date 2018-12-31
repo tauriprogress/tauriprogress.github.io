@@ -115,6 +115,7 @@ class DisplayRaidBoss extends React.PureComponent {
                                 <Tab label="10 HC" value={5} className="tab" />
                                 <Tab label="25 HC" value={6} className="tab" />
                             </Tabs>
+
                             {getChild(this.state.value, data)}
                         </div>
                     </div>

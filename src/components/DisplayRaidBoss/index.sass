@@ -8,8 +8,10 @@
         margin: 20px
     &ContentContainer
         display: flex
-        flex-wrap: wrap
     &Content
         margin: 20px
         flex-grow: 1
         min-width: 260px
+@media(max-width: $mobile-break)
+    .displayRaidBossContentContainer
+        flex-wrap: wrap
