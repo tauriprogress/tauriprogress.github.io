@@ -25,7 +25,7 @@ async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
                     );
                 } while (
                     !data.success &&
-                    data.errorstring === "request timed out"
+                    data.errorstring == "request timed out"
                 );
                 if (!data.success) throw new Error(data.errorstring);
 
@@ -47,7 +47,7 @@ async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
                         );
                     } while (
                         !bossData.success &&
-                        bossData.errorstring === "request timed out"
+                        bossData.errorstring == "request timed out"
                     );
                     if (!bossData.success)
                         throw new Error(bossData.errorstring);
@@ -311,7 +311,7 @@ async function createGuildData(realm, guildName) {
 
     do {
         guild = await tauriApi.getGuild(realm, guildName);
-    } while (!guild.success && guild.errorstring === "request timed out");
+    } while (!guild.success && guild.errorstring == "request timed out");
     if (!guild.success) throw new Error(guild.errorstring);
     guild = guild.response;
 
@@ -319,7 +319,7 @@ async function createGuildData(realm, guildName) {
 
     do {
         kills = await tauriApi.getRaidGuild(realm, guildName);
-    } while (!kills.success && kills.errorstring === "request timed out");
+    } while (!kills.success && kills.errorstring == "request timed out");
     if (!kills.success) throw new Error(kills.errorstring);
     kills = kills.response.logs.slice(0, 50);
 
@@ -334,34 +334,41 @@ async function createGuildData(realm, guildName) {
 
     for (let raid of raids) {
         newGuild.progression[raid.raidName] = {};
+        for (let diff in raid.difficulties) {
+            newGuild.progression[raid.raidName][diff] = {};
+        }
     }
 
     return newGuild;
 }
 
-function mergeBossKillIntoGuildData(guildData, bossKill) {
+function mergeBossKillIntoGuildData(guildData, bossKill, difficulty) {
     delete bossKill.bestDps;
     delete bossKill.bestHps;
     let bossOfGuild =
-        guildData.progression[bossKill.raidName][bossKill.bossName];
+        guildData.progression[bossKill.raidName][difficulty][bossKill.bossName];
 
     let newGuildData = JSON.parse(JSON.stringify(guildData));
 
     if (!bossOfGuild) {
-        newGuildData.progression[bossKill.raidName][
+        newGuildData.progression[bossKill.raidName][difficulty][
             bossKill.bossName
         ] = bossKill;
     } else {
         let oldDpses =
-            guildData.progression[bossKill.raidName][bossKill.bossName].dps;
+            guildData.progression[bossKill.raidName][difficulty][
+                bossKill.bossName
+            ].dps;
         let oldHpses =
-            guildData.progression[bossKill.raidName][bossKill.bossName].hps;
+            guildData.progression[bossKill.raidName][difficulty][
+                bossKill.bossName
+            ].hps;
 
         for (let key in bossKill.dps) {
             let member = bossKill.dps[key];
 
             if (!oldDpses[key] || oldDpses[key].dps < member.dps) {
-                newGuildData.progression[bossKill.raidName][
+                newGuildData.progression[bossKill.raidName][difficulty][
                     bossKill.bossName
                 ].dps[key] = member;
             }
@@ -370,13 +377,18 @@ function mergeBossKillIntoGuildData(guildData, bossKill) {
         for (let key in bossKill.hps) {
             let member = bossKill.hps[key];
             if (!oldHpses[key] || oldHpses[key].hps < member.hps) {
-                newGuildData.progression[bossKill.raidName][
+                newGuildData.progression[bossKill.raidName][difficulty][
                     bossKill.bossName
                 ].hps[key] = member;
             }
         }
 
-        newGuildData.progression[bossKill.raidName][bossKill.bossName] = {
+        newGuildData.progression[bossKill.raidName][difficulty][
+            bossKill.bossName
+        ] = {
+            ...newGuildData.progression[bossKill.raidName][difficulty][
+                bossKill.bossName
+            ],
             killCount: bossOfGuild.killCount + bossKill.killCount,
             firstKill:
                 bossOfGuild.firstKill < bossKill.firstKill
@@ -389,11 +401,22 @@ function mergeBossKillIntoGuildData(guildData, bossKill) {
         };
     }
 
+    let bossesDefeated = {};
     let currentBossesDefeated = 0;
-    for (let key in newGuildData.progression[raidName]) {
-        currentBossesDefeated++;
+    for (let diff in newGuildData.progression[raidName]) {
+        if (!bossesDefeated[diff]) bossesDefeated[diff] = 0;
+
+        for (let boss in newGuildData.progression[raidName][diff]) {
+            bossesDefeated[diff]++;
+        }
+
+        if (bossesDefeated[diff] > currentBossesDefeated)
+            currentBossesDefeated = bossesDefeated[diff];
     }
+
     newGuildData.progression.currentBossesDefeated = currentBossesDefeated;
+    newGuildData.progression.bossesDefeated = bossesDefeated;
+
     if (currentBossesDefeated === totalBosses) {
         newGuildData.progression.completed = true;
     }

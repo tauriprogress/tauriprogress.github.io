@@ -104,12 +104,14 @@ class Database {
 
                                     guilds[key] = mergeBossKillIntoGuildData(
                                         guild,
-                                        processedLogs.guildBossKills[key]
+                                        processedLogs.guildBossKills[key],
+                                        diff
                                     );
                                 } else {
                                     guilds[key] = mergeBossKillIntoGuildData(
                                         guilds[key],
-                                        processedLogs.guildBossKills[key]
+                                        processedLogs.guildBossKills[key],
+                                        diff
                                     );
                                 }
                             }
@@ -207,7 +209,8 @@ class Database {
                                     await this.saveGuild(
                                         mergeBossKillIntoGuildData(
                                             guild,
-                                            processedLogs.guildBossKills[key]
+                                            processedLogs.guildBossKills[key],
+                                            diff
                                         )
                                     );
                             }
