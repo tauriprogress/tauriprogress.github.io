@@ -44,7 +44,11 @@ function Router() {
                             path="/guild/:guildName"
                             component={DisplayGuild}
                         />
-                        <Route path="/player" component={DisplayPlayer} />
+                        <Route
+                            exact
+                            path="/player/:playerName"
+                            component={DisplayPlayer}
+                        />
                         <Route component={NotFound} />
                     </Switch>
                 </main>

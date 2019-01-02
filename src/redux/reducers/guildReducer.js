@@ -1,3 +1,5 @@
+import { raidName } from "../../constants/currentContent";
+
 const defaultState = {
     data: null,
     error: null,
@@ -12,46 +14,56 @@ function guildReducer(state = defaultState, action) {
         case "GUILD_SET_NAV":
             return { ...state, nav: { ...state.nav, active: action.payload } };
         case "GUILD_SET_ERROR":
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
             return { ...state, error: action.payload, loading: false };
         case "GUILD_SET_LOADING":
             return { ...state, loading: action.payload };
         case "GUILD_FILL":
             let progression = action.payload.progression;
 
-            let dps = [];
-
-            for (let raidKey in progression) {
-                for (let bossKey in progression[raidKey]) {
-                    for (let charKey in progression[raidKey][bossKey].dps) {
-                        progression[raidKey][bossKey].dps[
+            for (let diffKey in progression[raidName]) {
+                let dps = [];
+                for (let bossKey in progression[raidName][diffKey]) {
+                    for (let charKey in progression[raidName][diffKey][bossKey]
+                        .dps) {
+                        progression[raidName][diffKey][bossKey].dps[
                             charKey
                         ].dps = Math.round(
-                            progression[raidKey][bossKey].dps[charKey].dps
+                            progression[raidName][diffKey][bossKey].dps[charKey]
+                                .dps
                         );
 
-                        dps.push(progression[raidKey][bossKey].dps[charKey]);
+                        dps.push(
+                            progression[raidName][diffKey][bossKey].dps[charKey]
+                        );
                     }
-                    progression[raidKey][bossKey].dps = dps.sort(
+                    progression[raidName][diffKey][bossKey].dps = dps.sort(
                         (a, b) => b.dps - a.dps
                     );
                     dps = [];
                 }
             }
 
-            let hps = [];
+            for (let diffKey in progression[raidName]) {
+                let hps = [];
 
-            for (let raidKey in progression) {
-                for (let bossKey in progression[raidKey]) {
-                    for (let charKey in progression[raidKey][bossKey].hps) {
-                        progression[raidKey][bossKey].hps[
+                for (let bossKey in progression[raidName][diffKey]) {
+                    for (let charKey in progression[raidName][diffKey][bossKey]
+                        .hps) {
+                        progression[raidName][diffKey][bossKey].hps[
                             charKey
                         ].hps = Math.round(
-                            progression[raidKey][bossKey].hps[charKey].hps
+                            progression[raidName][diffKey][bossKey].hps[charKey]
+                                .hps
                         );
 
-                        hps.push(progression[raidKey][bossKey].hps[charKey]);
+                        hps.push(
+                            progression[raidName][diffKey][bossKey].hps[charKey]
+                        );
                     }
-                    progression[raidKey][bossKey].hps = hps.sort(
+                    progression[raidName][diffKey][bossKey].hps = hps.sort(
                         (a, b) => b.hps - a.hps
                     );
                     hps = [];

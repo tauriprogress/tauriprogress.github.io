@@ -44,14 +44,6 @@ function Navigation({ nav, navToggle }) {
                                 {raidName}
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                to="/player"
-                                onClick={() => linkClick(showNav, navToggle)}
-                            >
-                                Player
-                            </Link>
-                        </li>
                     </ul>
                 </nav>
                 {showNav && (

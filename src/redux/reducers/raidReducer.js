@@ -17,6 +17,9 @@ function raidReducer(state = defaultState, action) {
 
             return { ...state, data: data, loading: false };
         case "RAID_SET_ERROR":
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
             return { ...state, error: action.payload, loading: false };
         default:
             return state;

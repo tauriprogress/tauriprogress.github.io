@@ -46,6 +46,9 @@ function raidBossReducer(state = defaultState, action) {
 
             return { ...state, data: action.payload, loading: false };
         case "RAID_BOSS_SET_ERROR":
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
             return { ...state, error: action.payload, loading: false };
         default:
             return state;
