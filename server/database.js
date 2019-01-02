@@ -372,11 +372,11 @@ class Database {
 
                 for (let boss of raid.encounters) {
                     for (let diff of raid.difficulties) {
-                        if (!performance[raidName][boss.encounter_name])
-                            performance[raidName][boss.encounter_name] = {};
+                        if (!performance[raidName][diff])
+                            performance[raidName][diff] = {};
 
-                        performance[raidName][boss.encounter_name][
-                            diff
+                        performance[raidName][diff][
+                            boss.encounter_name
                         ] = (await raidCollection
                             .find({
                                 bossName: new RegExp(
