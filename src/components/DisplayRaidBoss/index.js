@@ -27,7 +27,6 @@ class DisplayRaidBoss extends React.PureComponent {
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeIndex = this.handleChangeIndex.bind(this);
     }
 
     componentDidUpdate() {
@@ -38,6 +37,13 @@ class DisplayRaidBoss extends React.PureComponent {
             raidName !== this.props.raidBoss.raidName ||
             bossName !== this.props.raidBoss.bossName
         ) {
+            let diff = new URLSearchParams(this.props.location.search).get(
+                "diff"
+            );
+            if (diff) {
+                this.setState({ ...this.state, value: diff === "25" ? 6 : 5 });
+            }
+
             getBossData(raidName, bossName, {
                 raidBossInitRequest: this.props.raidBossInitRequest,
                 raidBossFill: this.props.raidBossFill,
@@ -50,6 +56,11 @@ class DisplayRaidBoss extends React.PureComponent {
         const raidName = this.props.match.params.raidName;
         const bossName = this.props.match.params.bossName;
 
+        let diff = new URLSearchParams(this.props.location.search).get("diff");
+        if (diff) {
+            this.setState({ ...this.state, value: diff === "25" ? 6 : 5 });
+        }
+
         getBossData(raidName, bossName, {
             raidBossInitRequest: this.props.raidBossInitRequest,
             raidBossFill: this.props.raidBossFill,
@@ -60,10 +71,6 @@ class DisplayRaidBoss extends React.PureComponent {
     handleChange(e, value) {
         this.setState({ ...this.state, value: value });
     }
-
-    handleChangeIndex = index => {
-        this.setState({ value: index });
-    };
 
     render() {
         const { loading, data, error } = this.props.raidBoss;

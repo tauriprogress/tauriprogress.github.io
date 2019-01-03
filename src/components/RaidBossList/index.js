@@ -54,7 +54,7 @@ class RaidBossList extends React.PureComponent {
                             if (encounter.encounter_difficulty) {
                                 diff = diff === 5 ? "10" : "25";
                                 name = `${name} ${diff}`;
-                                linkTo = `${linkTo}/${diff}`;
+                                linkTo = `${linkTo}?diff=${diff}`;
                             }
 
                             return (
