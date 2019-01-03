@@ -116,3 +116,17 @@ export function playerFill(payload) {
         payload
     };
 }
+
+export function charLadderFilterSet(payload) {
+    return {
+        type: "CHAR_LADDER_FILTER_SET",
+        payload
+    };
+}
+
+export function charLadderFilterReset(payload) {
+    return {
+        type: "CHAR_LADDER_FILTER_RESET",
+        payload
+    };
+}

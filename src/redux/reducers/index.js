@@ -6,6 +6,7 @@ import raidReducer from "./raidReducer";
 import raidBossReducer from "./raidBossReducer";
 import guildReducer from "./guildReducer";
 import playerReducer from "./playerReducer";
+import charLadderFilterReducer from "./charLadderFilterReducer";
 
 export default combineReducers({
     raids: raids,
@@ -14,5 +15,6 @@ export default combineReducers({
     guild: guildReducer,
     raid: raidReducer,
     raidBoss: raidBossReducer,
-    player: playerReducer
+    player: playerReducer,
+    charLadderFilter: charLadderFilterReducer
 });

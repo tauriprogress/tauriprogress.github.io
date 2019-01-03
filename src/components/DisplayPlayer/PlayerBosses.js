@@ -44,7 +44,6 @@ class PlayerBosses extends React.PureComponent {
                 });
             }
         }
-        console.log(dataPoints);
         return (
             <React.Fragment>
                 <Tabs
