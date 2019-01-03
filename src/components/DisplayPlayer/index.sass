@@ -1,0 +1,39 @@
+.displayPlayer
+    width: 100%
+    &Avatar
+        transform: translateY(0) !important
+    &Title
+        margin: 20px
+        text-align: center
+    &LoaderContainer
+        margin-top: 20px
+        text-align: center
+    &ContentContainer
+        display: flex
+    &Stats
+        min-width: 260px
+        width: 260px
+        margin: 20px
+        &List 
+            li:nth-child(1)
+                background-color: $accent-one 
+                padding-left: 6px
+                *
+                    font-size: 16px
+                    color: $light
+            li
+                .MuiListItemText-primary-142
+                    display: flex
+                    justify-content: space-between
+                padding: 5px 12px
+                *
+                    font-size: 14px
+    &Tabs
+        width: 180px
+    &Progression
+        min-width: 260px
+        max-width: 100%
+        margin-top: 20px
+@media(max-width: $mobile-break)
+    .displayPlayerContentContainer
+        flex-wrap: wrap

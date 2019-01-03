@@ -18,6 +18,9 @@ const defaultState = {
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
         case "GUILDS_SET_ERROR":
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
             return { ...state, error: action.payload, loading: false };
         case "GUILDS_SET_LOADING":
             return { ...state, loading: action.payload };

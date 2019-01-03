@@ -95,3 +95,24 @@ export function guildSetNav(payload) {
         payload
     };
 }
+
+export function playerSetError(payload) {
+    return {
+        type: "PLAYER_SET_ERROR",
+        payload
+    };
+}
+
+export function playerSetLoading(payload) {
+    return {
+        type: "PLAYER_SET_LOADING",
+        payload
+    };
+}
+
+export function playerFill(payload) {
+    return {
+        type: "PLAYER_FILL",
+        payload
+    };
+}
