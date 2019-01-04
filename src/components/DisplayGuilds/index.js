@@ -22,7 +22,7 @@ import { sortByProgression } from "./helpers";
 class DisplayGuilds extends React.PureComponent {
     componentDidMount() {
         this.props.guildsSetLoading(true);
-        fetch("https:/ossified-hyacinth.glitch.me/getguildlist")
+        fetch("https://ossified-hyacinth.glitch.me/getguildlist")
             .then(res => res.json())
             .then(res => {
                 if (!res.success) {

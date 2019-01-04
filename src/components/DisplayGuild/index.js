@@ -29,7 +29,7 @@ class DisplayGuild extends React.PureComponent {
         );
 
         this.props.guildSetLoading(true);
-        fetch("https:/ossified-hyacinth.glitch.me/getguild", {
+        fetch("https://ossified-hyacinth.glitch.me/getguild", {
             method: "post",
             headers: {
                 "Content-Type": "application/json"

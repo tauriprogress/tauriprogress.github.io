@@ -36,7 +36,7 @@ class AdditionalInfo extends React.PureComponent {
 
     componentDidMount() {
         this.props.additionalInfoSetLoading(true);
-        fetch("https:/ossified-hyacinth.glitch.me/lastupdated")
+        fetch("https://ossified-hyacinth.glitch.me/lastupdated")
             .then(res => res.json())
             .then(res => {
                 if (!res.success) {
@@ -58,7 +58,7 @@ class AdditionalInfo extends React.PureComponent {
 
     updateDatabase() {
         this.props.additionalInfoSetLoading(true);
-        fetch("https:/ossified-hyacinth.glitch.me/update")
+        fetch("https://ossified-hyacinth.glitch.me/update")
             .then(res => res.json())
             .then(res => {
                 if (!res.success) {
