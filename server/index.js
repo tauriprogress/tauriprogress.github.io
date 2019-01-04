@@ -148,5 +148,5 @@ const { whenWas } = require("./helpers");
         }
     });
 
-    app.listen(3001, () => console.log(`Server running on port ${port}`));
+    app.listen(port, () => console.log(`Server running on port ${port}`));
 })();

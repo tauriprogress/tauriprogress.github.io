@@ -8,6 +8,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+import AdditionalInfo from "../AdditionalInfo";
+
 import { raidName } from "../../constants/currentContent";
 
 import { navToggle } from "../../redux/actions";
@@ -17,7 +19,7 @@ function Navigation({ nav, navToggle }) {
 
     return (
         <AppBar position="static">
-            <Toolbar>
+            <Toolbar className="navToolBar">
                 <IconButton
                     color="inherit"
                     aria-label="Menu"
@@ -46,6 +48,7 @@ function Navigation({ nav, navToggle }) {
                         </li>
                     </ul>
                 </nav>
+                <AdditionalInfo />
                 {showNav && (
                     <div className="cover" onClick={() => navToggle()} />
                 )}

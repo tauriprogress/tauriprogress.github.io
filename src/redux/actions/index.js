@@ -130,3 +130,24 @@ export function charLadderFilterReset(payload) {
         payload
     };
 }
+
+export function additionalInfoSetError(payload) {
+    return {
+        type: "ADDITIONAL_INFO_SET_ERROR",
+        payload
+    };
+}
+
+export function additionalInfoSetLoading(payload) {
+    return {
+        type: "ADDITIONAL_INFO_SET_LOADING",
+        payload
+    };
+}
+
+export function additionalInfoFill(payload) {
+    return {
+        type: "ADDITIONAL_INFO_FILL",
+        payload
+    };
+}
