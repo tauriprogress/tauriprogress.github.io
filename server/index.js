@@ -11,6 +11,7 @@ const {
     verifyGetboss
 } = require("./middlewares");
 const tauriApi = require("./tauriApi");
+const { whenWas } = require("./helpers");
 
 (async function() {
     try {
@@ -108,6 +109,36 @@ const tauriApi = require("./tauriApi");
                     req.body.raidName,
                     req.body.bossName
                 )
+            });
+        } catch (err) {
+            res.send({
+                success: false,
+                errorstring: err.message
+            });
+        }
+    });
+
+    app.get("/lastupdated", async (req, res) => {
+        try {
+            res.send({
+                success: true,
+                response: await db.lastUpdated()
+            });
+        } catch (err) {
+            res.send({
+                success: false,
+                errorstring: err.message
+            });
+        }
+    });
+
+    app.get("/update", async (req, res) => {
+        try {
+            if (whenWas(await db.lastUpdated()) < 3)
+                throw new Error("Database can only be updated every 3 hours.");
+            res.send({
+                success: true,
+                response: await db.updateDatabase()
             });
         } catch (err) {
             res.send({

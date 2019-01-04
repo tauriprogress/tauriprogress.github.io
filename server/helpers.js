@@ -436,11 +436,11 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
 
     let updatedRaidBoss = {
         ...JSON.parse(JSON.stringify(oldRaidBoss)),
-        firstKills: updatedRaidBoss.firstKills
+        firstKills: oldRaidBoss.firstKills
             .concat(newRaidBoss.firstKill)
             .sort((a, b) => a.killtime - b.killtime)
             .slice(0, 3),
-        fastestKills: updatedRaidBoss.fastestKills
+        fastestKills: oldRaidBoss.fastestKills
             .concat(newRaidBoss.fastestKills)
             .sort((a, b) => a.fight_time - b.fight_time)
             .slice(0, 50),
@@ -481,10 +481,15 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
     return updatedRaidBoss;
 }
 
+function whenWas(date) {
+    return Math.round((new Date().getTime() / 1000 - Number(date)) / 3600);
+}
+
 module.exports = {
     getRaidBossLogs,
     processRaidBossLogs,
     createGuildData,
     mergeBossKillIntoGuildData,
-    updateRaidBoss
+    updateRaidBoss,
+    whenWas
 };

@@ -156,6 +156,8 @@ class Database {
     async updateDatabase() {
         return new Promise(async (resolve, reject) => {
             try {
+                if (this.isUpdating)
+                    throw new Error("Database already updating");
                 this.isUpdating = true;
                 let updateStarted = new Date().getTime() / 1000;
                 let maintence = await this.db.collection("maintence");
@@ -229,9 +231,8 @@ class Database {
 
                 this.isUpdating = false;
 
-                resolve("Done");
+                resolve(updateStarted);
             } catch (err) {
-                this.isUpdating = false;
                 reject(err);
             }
         });
@@ -413,10 +414,13 @@ class Database {
                 } else {
                     await this.db.collection("guilds").updateOne(
                         {
-                            guildName: new RegExp("^" + guildName + "$", "i"),
+                            guildName: new RegExp(
+                                "^" + guild.guildName + "$",
+                                "i"
+                            ),
                             realm: guild.realm
                         },
-                        { $set: guild }
+                        { $set: { ...guild, _id: oldGuild["_id"] } }
                     );
                 }
                 resolve("Done");
@@ -450,11 +454,28 @@ class Database {
                             ),
                             difficulty: raidBoss.difficulty
                         },
-                        { $set: updateRaidBoss(oldRaidBoss, raidBoss) }
+                        {
+                            $set: {
+                                ...updateRaidBoss(oldRaidBoss, raidBoss),
+                                _id: oldRaidBoss["_id"]
+                            }
+                        }
                     );
                 }
 
                 resolve("Done");
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async lastUpdated() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let maintence = await this.db.collection("maintence");
+                let lastUpdated = (await maintence.findOne()).lastUpdated;
+                resolve(lastUpdated);
             } catch (err) {
                 reject(err);
             }
