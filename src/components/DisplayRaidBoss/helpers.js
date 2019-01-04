@@ -4,7 +4,7 @@ export function getBossData(raidName, bossName, actions) {
         raidName,
         bossName
     });
-    fetch("http://localhost:3001/getboss", {
+    fetch("https:/ossified-hyacinth.glitch.me/getboss", {
         method: "post",
         headers: {
             "Content-Type": "application/json"

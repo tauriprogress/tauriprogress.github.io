@@ -25,7 +25,7 @@ class DisplayPlayer extends React.PureComponent {
         );
 
         this.props.playerSetLoading(true);
-        fetch("http://localhost:3001/getplayer", {
+        fetch("https:/ossified-hyacinth.glitch.me/getplayer", {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
