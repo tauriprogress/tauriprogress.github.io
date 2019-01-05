@@ -8,11 +8,13 @@ import Tab from "@material-ui/core/Tab";
 import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
 
+import { raidName } from "../../constants/currentContent";
+
 class GuildProgression extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            bossName: Object.keys(this.props.bosses[5])[0],
+            bossName: Object.keys(this.props.progression[raidName][5])[0],
             tab: 5
         };
         this.bossNameChange = this.bossNameChange.bind(this);
@@ -28,7 +30,8 @@ class GuildProgression extends React.PureComponent {
     }
 
     render() {
-        const { bosses } = this.props;
+        const { progression } = this.props;
+        const bosses = progression[raidName];
         let bossNames = [];
         for (let bossName in bosses[this.state.tab]) {
             bossNames.push(bossName);

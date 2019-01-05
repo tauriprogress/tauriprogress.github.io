@@ -19,7 +19,6 @@ import {
 import GuildProgression from "./GuildProgression";
 import GuildRoster from "./GuildRoster";
 
-import { raidName } from "../../constants/currentContent";
 import { serverUrl } from "../../constants/urls";
 
 class DisplayGuild extends React.PureComponent {
@@ -59,6 +58,7 @@ class DisplayGuild extends React.PureComponent {
             nav: { active }
         } = this.props.guild;
         const { guildSetNav } = this.props;
+
         return (
             <section className="displayGuild">
                 {loading && (
@@ -120,7 +120,7 @@ class DisplayGuild extends React.PureComponent {
                             <div className="displayGuildContent">
                                 {active === 0 && (
                                     <GuildProgression
-                                        bosses={data.progression[raidName]}
+                                        progression={data.progression}
                                     />
                                 )}
                                 {active === 1 && (
