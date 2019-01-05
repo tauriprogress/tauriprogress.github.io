@@ -49,13 +49,6 @@ class RaidBossList extends React.PureComponent {
                             let linkTo = `/raid/${raid.name}/${
                                 encounter.encounter_name
                             }`;
-                            let diff = encounter.encounter_difficulty;
-
-                            if (encounter.encounter_difficulty) {
-                                diff = diff === 5 ? "10" : "25";
-                                name = `${name} ${diff}`;
-                                linkTo = `${linkTo}?diff=${diff}`;
-                            }
 
                             return (
                                 <ListItem component="li" button key={name}>

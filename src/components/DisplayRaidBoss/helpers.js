@@ -6,7 +6,7 @@ export function getBossData(raidName, bossName, actions) {
         raidName,
         bossName
     });
-    fetch(`${serverUrl}/getboss˛`, {
+    fetch(`${serverUrl}/getboss`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
