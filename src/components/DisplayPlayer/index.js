@@ -16,6 +16,7 @@ import {
 } from "../../redux/actions";
 
 import { raidName } from "../../constants/currentContent";
+import { serverUrl } from "../../constants/urls";
 
 class DisplayPlayer extends React.PureComponent {
     componentDidMount() {
@@ -25,7 +26,7 @@ class DisplayPlayer extends React.PureComponent {
         );
 
         this.props.playerSetLoading(true);
-        fetch("https://ossified-hyacinth.glitch.me/getplayer", {
+        fetch(`${serverUrl}/getplayer`, {
             method: "post",
             headers: {
                 "Content-Type": "application/json"

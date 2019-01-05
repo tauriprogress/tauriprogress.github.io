@@ -22,6 +22,8 @@ import {
 import { whenWas } from "./helpers";
 import { Typography } from "@material-ui/core";
 
+import { serverUrl } from "../../constants/urls";
+
 class AdditionalInfo extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -36,7 +38,7 @@ class AdditionalInfo extends React.PureComponent {
 
     componentDidMount() {
         this.props.additionalInfoSetLoading(true);
-        fetch("https://ossified-hyacinth.glitch.me/lastupdated")
+        fetch(`${serverUrl}/lastupdated`)
             .then(res => res.json())
             .then(res => {
                 if (!res.success) {
@@ -58,7 +60,7 @@ class AdditionalInfo extends React.PureComponent {
 
     updateDatabase() {
         this.props.additionalInfoSetLoading(true);
-        fetch("https://ossified-hyacinth.glitch.me/update")
+        fetch(`${serverUrl}/update`)
             .then(res => res.json())
             .then(res => {
                 if (!res.success) {

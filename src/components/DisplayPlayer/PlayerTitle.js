@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import characterClassColors from "../../constants/characterClassColors";
-import tauriArmory from "../../constants/tauriArmory";
+import { armoryUrl } from "../../constants/urls";
 import characterClasses from "../../constants/characterClasses";
 
 import { talentTreeToImage } from "./helpers";
@@ -18,7 +18,7 @@ function PlayerTitle({ data }) {
         <div className="displayPlayerTitle">
             <Typography variant="h4">
                 <a
-                    href={`${tauriArmory}?${data.character_url_string.replace(
+                    href={`${armoryUrl}?${data.character_url_string.replace(
                         "amp;",
                         ""
                     )}`}

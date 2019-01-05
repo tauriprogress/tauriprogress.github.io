@@ -1,10 +1,12 @@
+import { serverUrl } from "../../constants/urls";
+
 export function getBossData(raidName, bossName, actions) {
     actions.raidBossInitRequest({
         loading: true,
         raidName,
         bossName
     });
-    fetch("https://ossified-hyacinth.glitch.me/getboss", {
+    fetch(`${serverUrl}/getboss˛`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"

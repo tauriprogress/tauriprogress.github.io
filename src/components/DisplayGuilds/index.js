@@ -19,10 +19,12 @@ import {
 
 import { sortByProgression } from "./helpers";
 
+import { serverUrl } from "../../constants/urls";
+
 class DisplayGuilds extends React.PureComponent {
     componentDidMount() {
         this.props.guildsSetLoading(true);
-        fetch("https://ossified-hyacinth.glitch.me/getguildlist")
+        fetch(`${serverUrl}/getguildlist`)
             .then(res => res.json())
             .then(res => {
                 if (!res.success) {

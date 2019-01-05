@@ -20,6 +20,7 @@ import GuildProgression from "./GuildProgression";
 import GuildRoster from "./GuildRoster";
 
 import { raidName } from "../../constants/currentContent";
+import { serverUrl } from "../../constants/urls";
 
 class DisplayGuild extends React.PureComponent {
     componentDidMount() {
@@ -29,7 +30,7 @@ class DisplayGuild extends React.PureComponent {
         );
 
         this.props.guildSetLoading(true);
-        fetch("https://ossified-hyacinth.glitch.me/getguild", {
+        fetch(`${serverUrl}/getguild`, {
             method: "post",
             headers: {
                 "Content-Type": "application/json"

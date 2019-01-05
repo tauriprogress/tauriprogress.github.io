@@ -8,11 +8,13 @@ import RaidBossSummary from "../RaidBossSummary";
 
 import { raidFill, raidSetError, raidSetLoading } from "../../redux/actions";
 
+import { serverUrl } from "../../constants/urls";
+
 class DisplayRaid extends React.PureComponent {
     componentDidMount() {
         const raidName = this.props.match.params.raidName;
         this.props.raidSetLoading(true);
-        fetch("https://ossified-hyacinth.glitch.me/getraid", {
+        fetch(`${serverUrl}/getraid`, {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
