@@ -240,11 +240,6 @@ class CharacterLadder extends React.PureComponent {
                                                         ]
                                                     ]
                                             }}
-                                            className={
-                                                specToClass[char.spec.id] === 5
-                                                    ? "outline"
-                                                    : ""
-                                            }
                                         >
                                             <Link
                                                 to={`/player/${

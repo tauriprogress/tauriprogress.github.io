@@ -68,11 +68,7 @@ function BossInfo({ boss }) {
                                         specToClass[bestDps.spec.id]
                                     ]
                             }}
-                            className={
-                                specToClass[bestDps.spec.id] === 5
-                                    ? "BossInfoCharName outline"
-                                    : "BossInfoCharName"
-                            }
+                            className={"BossInfoCharName"}
                         >
                             <Link
                                 to={`/player/${bestDps.name}?realm=${
@@ -109,11 +105,7 @@ function BossInfo({ boss }) {
                                         specToClass[bestHps.spec.id]
                                     ]
                             }}
-                            className={
-                                specToClass[bestHps.spec.id] === 5
-                                    ? "BossInfoCharName outline"
-                                    : "BossInfoCharName"
-                            }
+                            className={"BossInfoCharName"}
                         >
                             <Link
                                 to={`/player/${bestHps.name}?realm=${

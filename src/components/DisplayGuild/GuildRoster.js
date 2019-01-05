@@ -64,11 +64,6 @@ class GuildRoster extends React.PureComponent {
                                                         member.class
                                                     ]
                                             }}
-                                            className={
-                                                member.class === 5
-                                                    ? "outline"
-                                                    : ""
-                                            }
                                         >
                                             <Link
                                                 to={`/player/${

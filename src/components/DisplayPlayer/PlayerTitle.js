@@ -29,7 +29,6 @@ function PlayerTitle({ data }) {
                         style={{
                             color: characterClassColors[data.class]
                         }}
-                        className={data.class === 5 ? "outline" : ""}
                     >
                         {data.name}
                     </span>
