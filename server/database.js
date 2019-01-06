@@ -367,7 +367,7 @@ class Database {
                 if (bossName) raid.encounters = [{ encounter_name: bossName }];
                 if (difficulty) raid.difficulties = [difficulty];
 
-                let performance;
+                let performance = {};
                 let raidCollection = await this.db.collection(raidName);
                 for (let specId of specs) {
                     performance[specId] = {
@@ -376,10 +376,10 @@ class Database {
 
                     for (let boss of raid.encounters) {
                         for (let diff of raid.difficulties) {
-                            if (!performance[raidName][diff])
-                                performance[raidName][diff] = {};
+                            if (!performance[specId][raidName][diff])
+                                performance[specId][raidName][diff] = {};
 
-                            performance[raidName][diff][
+                            performance[specId][raidName][diff][
                                 boss.encounter_name
                             ] = (await raidCollection
                                 .find({

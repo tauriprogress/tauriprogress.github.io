@@ -1,6 +1,5 @@
 const realms = require("../src/constants/realms");
 const { raids } = require("../src/constants/currentContent");
-const specs = require("../src/constants/specs");
 
 function verifyGetGuild(req, res, next) {
     try {
@@ -27,9 +26,6 @@ function verifyGetPlayer(req, res, next) {
 
         if (!req.body.raidName) throw new Error("Invalid raid name.");
         req.body.raidName = req.body.raidName.trim().replace(/\s+/g, " ");
-
-        if (!validSpecs(req.body.specs))
-            throw new Error("Invalid character specs..");
 
         if (!validRaidName(req.body.raidName))
             throw new Error("Invalid raid name.");
@@ -137,20 +133,6 @@ function validDifficulty(raidName, difficulty) {
         }
     }
     if (!raidDiffs[difficulty]) return false;
-
-    return true;
-}
-
-function validSpecs(charSpecs) {
-    if (!Array.isArray(charSpecs)) {
-        return false;
-    }
-
-    for (let specId of charSpecs) {
-        if (!specs[specId]) {
-            return false;
-        }
-    }
 
     return true;
 }

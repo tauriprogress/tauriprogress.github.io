@@ -12,6 +12,7 @@ const {
 } = require("./middlewares");
 const tauriApi = require("./tauriApi");
 const { whenWas } = require("./helpers");
+const classToSpec = require("../src/constants/classToSpec");
 
 (async function() {
     try {
@@ -71,7 +72,7 @@ const { whenWas } = require("./helpers");
             let performance = await db.getPlayerPerformance({
                 realm: req.body.realm,
                 playerName: req.body.playerName,
-                specs: req.body.specs,
+                specs: classToSpec[player.response.class],
                 raidName: req.body.raidName,
                 bossName: req.body.bossName,
                 difficulty: req.body.difficulty
