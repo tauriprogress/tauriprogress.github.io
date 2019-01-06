@@ -362,49 +362,89 @@ class Database {
         difficulty = null
     }) {
         return new Promise(async (resolve, reject) => {
-            try {
-                const raid = require(`../src/constants/${raidName}`);
-                if (bossName) raid.encounters = [{ encounter_name: bossName }];
-                if (difficulty) raid.difficulties = [difficulty];
+            const raid = require(`../src/constants/${raidName}`);
+            if (bossName) raid.encounters = [{ encounter_name: bossName }];
+            if (difficulty) raid.difficulties = [difficulty];
 
-                let performance = {};
-                let raidCollection = await this.db.collection(raidName);
-                for (let specId of specs) {
-                    performance[specId] = {
-                        [raidName]: {}
-                    };
+            let data = {};
+            let raidCollection = await this.db.collection(raidName);
+            for (let specId of specs) {
+                data[specId] = {
+                    [raidName]: {}
+                };
 
-                    for (let boss of raid.encounters) {
-                        for (let diff of raid.difficulties) {
-                            if (!performance[specId][raidName][diff])
-                                performance[specId][raidName][diff] = {};
+                for (let boss of raid.encounters) {
+                    for (let diff of raid.difficulties) {
+                        if (!data[specId][raidName][diff])
+                            data[specId][raidName][diff] = {};
 
-                            performance[specId][raidName][diff][
-                                boss.encounter_name
-                            ] = (await raidCollection
-                                .find({
-                                    bossName: new RegExp(
-                                        "^" + boss.encounter_name + "$",
-                                        "i"
-                                    ),
-                                    difficulty: new RegExp(
-                                        "^" + diff + "$",
-                                        "i"
-                                    )
-                                })
-                                .project({
-                                    [`dps.${realm} ${playerName} ${specId}`]: 1,
-                                    [`hps.${realm} ${playerName} ${specId}`]: 1
-                                })
-                                .toArray())[0];
+                        let dbResponse = (await raidCollection
+                            .find({
+                                bossName: new RegExp(
+                                    "^" + boss.encounter_name + "$",
+                                    "i"
+                                ),
+                                difficulty: new RegExp("^" + diff + "$", "i")
+                            })
+                            .project({
+                                [`dps.${realm} ${playerName} ${specId}`]: 1,
+                                [`hps.${realm} ${playerName} ${specId}`]: 1
+                            })
+                            .toArray())[0];
+
+                        let dpsKey = Object.keys(dbResponse.dps)[0];
+                        if (dpsKey) {
+                            dbResponse.dps = dbResponse.dps[dpsKey];
+                        }
+
+                        let hpsKey = Object.keys(dbResponse.hps)[0];
+                        if (hpsKey) {
+                            dbResponse.hps = dbResponse.hps[hpsKey];
+                        }
+
+                        data[specId][raidName][diff][
+                            boss.encounter_name
+                        ] = dbResponse;
+                    }
+                }
+            }
+
+            let performance = {
+                [raidName]: {}
+            };
+
+            for (let diff of raid.difficulties) {
+                performance[raidName][diff] = {};
+            }
+
+            for (let specId in data) {
+                for (let diff of raid.difficulties) {
+                    for (let bossName in data[specId][raidName][diff]) {
+                        if (!performance[raidName][diff][bossName])
+                            performance[raidName][diff][bossName] = {
+                                dps: { dps: false },
+                                hps: { hps: false }
+                            };
+                        if (
+                            performance[raidName][diff][bossName].dps.dps <
+                            data[specId][raidName][diff][bossName].dps.dps
+                        ) {
+                            performance[raidName][diff][bossName].dps =
+                                data[specId][raidName][diff][bossName].dps;
+                        }
+
+                        if (
+                            performance[raidName][diff][bossName].hps.hps <
+                            data[specId][raidName][diff][bossName].hps.hps
+                        ) {
+                            performance[raidName][diff][bossName].hps =
+                                data[specId][raidName][diff][bossName].hps;
                         }
                     }
                 }
-
-                resolve(performance);
-            } catch (err) {
-                reject(err);
             }
+
+            resolve(performance);
         });
     }
 

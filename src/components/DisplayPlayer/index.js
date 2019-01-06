@@ -68,7 +68,8 @@ class DisplayPlayer extends React.PureComponent {
                         <div className="displayPlayerContentContainer">
                             <PlayerStats data={data} />
                             <PlayerProgression
-                                data={data.progression[raidName]}
+                                data={data.progression}
+                                raidBosses={this.props.raidBosses}
                             />
                         </div>
                     </React.Fragment>
@@ -80,7 +81,8 @@ class DisplayPlayer extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        player: state.player
+        player: state.player,
+        raidBosses: state.raids[0].encounters
     };
 }
 

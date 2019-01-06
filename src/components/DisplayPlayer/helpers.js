@@ -20,8 +20,8 @@ export function getBossesDefeated(progression) {
         if (!bossesDefeated[diff]) bossesDefeated[diff] = 0;
         for (let bossName in progression[raidName][diff]) {
             if (
-                Object.keys(progression[raidName][diff][bossName].dps)[0] ||
-                Object.keys(progression[raidName][diff][bossName].hps)[0]
+                progression[raidName][diff][bossName].dps.dps ||
+                progression[raidName][diff][bossName].hps.hps
             ) {
                 bossesDefeated[diff]++;
             }
