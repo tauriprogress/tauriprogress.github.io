@@ -3,7 +3,7 @@ const app = require("express")();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const db = require("./database");
-const port = 3001;
+const port = process.env.PORT || 3001;
 const {
     verifyGetGuild,
     verifyGetPlayer,
