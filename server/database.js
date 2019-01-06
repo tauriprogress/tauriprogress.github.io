@@ -356,6 +356,7 @@ class Database {
     async getPlayerPerformance({
         realm,
         playerName,
+        specs,
         raidName,
         bossName = null,
         difficulty = null
@@ -366,31 +367,37 @@ class Database {
                 if (bossName) raid.encounters = [{ encounter_name: bossName }];
                 if (difficulty) raid.difficulties = [difficulty];
 
-                let performance = {
-                    [raidName]: {}
-                };
+                let performance;
                 let raidCollection = await this.db.collection(raidName);
+                for (let specId of specs) {
+                    performance[specId] = {
+                        [raidName]: {}
+                    };
 
-                for (let boss of raid.encounters) {
-                    for (let diff of raid.difficulties) {
-                        if (!performance[raidName][diff])
-                            performance[raidName][diff] = {};
+                    for (let boss of raid.encounters) {
+                        for (let diff of raid.difficulties) {
+                            if (!performance[raidName][diff])
+                                performance[raidName][diff] = {};
 
-                        performance[raidName][diff][
-                            boss.encounter_name
-                        ] = (await raidCollection
-                            .find({
-                                bossName: new RegExp(
-                                    "^" + boss.encounter_name + "$",
-                                    "i"
-                                ),
-                                difficulty: new RegExp("^" + diff + "$", "i")
-                            })
-                            .project({
-                                [`dps.${realm} ${playerName}`]: 1,
-                                [`hps.${realm} ${playerName}`]: 1
-                            })
-                            .toArray())[0];
+                            performance[raidName][diff][
+                                boss.encounter_name
+                            ] = (await raidCollection
+                                .find({
+                                    bossName: new RegExp(
+                                        "^" + boss.encounter_name + "$",
+                                        "i"
+                                    ),
+                                    difficulty: new RegExp(
+                                        "^" + diff + "$",
+                                        "i"
+                                    )
+                                })
+                                .project({
+                                    [`dps.${realm} ${playerName} ${specId}`]: 1,
+                                    [`hps.${realm} ${playerName} ${specId}`]: 1
+                                })
+                                .toArray())[0];
+                        }
                     }
                 }
 

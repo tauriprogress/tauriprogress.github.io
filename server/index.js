@@ -71,6 +71,7 @@ const { whenWas } = require("./helpers");
             let performance = await db.getPlayerPerformance({
                 realm: req.body.realm,
                 playerName: req.body.playerName,
+                specs: req.body.specs,
                 raidName: req.body.raidName,
                 bossName: req.body.bossName,
                 difficulty: req.body.difficulty
