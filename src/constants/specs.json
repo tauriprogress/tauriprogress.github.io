@@ -1,6 +1,7 @@
 {
     "270": {
         "label": "Mistweaver Monk",
+        "isDps": true,
         "isHealer": true,
         "image": "16px-Spell_monk_mistweaver_spec",
         "id": 270
@@ -8,12 +9,15 @@
     "269": {
         "label": "Windwalker Monk",
         "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_monk_windwalker_spec",
         "id": 269
     },
     "268": {
         "label": "Brewmaster Monk",
         "isTank": true,
+        "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_monk_brewmaster_spec",
         "id": 268
     },
@@ -58,6 +62,7 @@
 
     "105": {
         "label": "Restoration Druid",
+        "isDps": true,
         "isHealer": true,
         "image": "16px-Spell_nature_healingtouch",
         "id": 105
@@ -66,6 +71,7 @@
         "label": "Feral Druid",
         "isDps": true,
         "isTank": true,
+        "isHealer": true,
         "image": "16px-Ability_druid_catform",
         "id": 104
     },
@@ -73,12 +79,14 @@
         "label": "Feral Druid",
         "isDps": true,
         "isTank": true,
+        "isHealer": true,
         "image": "16px-Ability_druid_catform",
         "id": 103
     },
     "102": {
         "label": "Balance Druid",
         "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_nature_starfall",
         "id": 102
     },
@@ -86,6 +94,8 @@
     "250": {
         "label": "Blood Death Knight",
         "isTank": true,
+        "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_deathknight_bloodpresence",
         "id": 250
     },
@@ -111,6 +121,8 @@
     "66": {
         "label": "Protection Paladin",
         "isTank": true,
+        "isDps": true,
+        "isHealer": true,
         "image": "16px-Ability_paladin_shieldofthetemplar",
         "id": 66
     },
@@ -123,6 +135,7 @@
 
     "256": {
         "label": "Discipline Priest",
+        "isDps": true,
         "isHealer": true,
         "image": "16px-Spell_holy_powerwordshield",
         "id": 256
@@ -136,6 +149,7 @@
     "258": {
         "label": "Shadow Priest",
         "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_shadow_shadowwordpain",
         "id": 258
     },
@@ -162,12 +176,14 @@
     "262": {
         "label": "Elemental Shaman",
         "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_nature_lightning",
         "id": 262
     },
     "263": {
         "label": "Enhancement Shaman",
         "isDps": true,
+        "isHealer": true,
         "image": "16px-Spell_shaman_improvedstormstrike",
         "id": 263
     },
@@ -212,6 +228,8 @@
     "73": {
         "label": "Protection Warrior",
         "isTank": true,
+        "isDps": true,
+        "isHealer": true,
         "image": "16px-Ability_warrior_defensivestance",
         "id": 73
     }

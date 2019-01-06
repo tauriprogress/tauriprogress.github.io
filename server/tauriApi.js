@@ -12,12 +12,8 @@ class TauriApi {
     request(options) {
         return new Promise(async (resolve, reject) => {
             let timeOut = setTimeout(() => {
-                reject({
-                    sucess: false,
-                    errorstring: "request timed out",
-                    options
-                });
-            }, 3000);
+                reject("request timed out");
+            }, 13000);
 
             resolve(
                 await fetch(
