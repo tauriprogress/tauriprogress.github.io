@@ -143,9 +143,9 @@ function memberHps(realm, member, kill, difficulty) {
 function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
     let raidBoss = {
         bossName: "",
+        latestKills: [],
         firstKills: [],
         fastestKills: [],
-        latestKills: [],
         dps: {},
         hps: {},
         bestDps: {
@@ -181,7 +181,7 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
 
         for (let member of log.members) {
             let memberId = `${log.realm} ${member.name} ${member.spec}`;
-            if (specs[member.spec].isDps && !isDurumu(bossId, log.killtime)) {
+            if (specs[member.spec].isDps) {
                 if (raidBoss.bestDps.dps < getDps(member, log)) {
                     raidBoss.bestDps = memberDps(
                         log.realm,
@@ -255,6 +255,8 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
         }
     }
 
+    raidBoss.latestKills = raidBoss.latestKills.concat(logs).slice(0, 50);
+
     raidBoss.firstKills = raidBoss.firstKills
         .concat(logs.sort((a, b) => a.killtime - b.killtime))
         .slice(0, 3);
@@ -262,8 +264,6 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
     raidBoss.fastestKills = raidBoss.fastestKills
         .concat(logs.sort((a, b) => a.fight_time - b.fight_time))
         .slice(0, 50);
-
-    raidBoss.latestKills = raidBoss.latestKills.concat(logs).slice(0, 50);
 
     return {
         raidBoss,
@@ -413,6 +413,9 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
 
     let updatedRaidBoss = {
         ...JSON.parse(JSON.stringify(oldRaidBoss)),
+        latestKills: newRaidBoss.latestKills
+            .concat(oldRaidBoss.latestKills)
+            .slice(0, 50),
         firstKills: oldRaidBoss.firstKills
             .concat(newRaidBoss.firstKill)
             .sort((a, b) => a.killtime - b.killtime)
@@ -420,9 +423,6 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
         fastestKills: oldRaidBoss.fastestKills
             .concat(newRaidBoss.fastestKills)
             .sort((a, b) => a.fight_time - b.fight_time)
-            .slice(0, 50),
-        latestKills: newRaidBoss.latestKills
-            .concat(oldRaidBoss.latestKills)
             .slice(0, 50),
         killCount: oldRaidBoss.killCount + newRaidBoss.killCount,
         lastUpdated: newRaidBoss.lastUpdated
