@@ -4,13 +4,14 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import FastestKills from "./FastestKills";
+import LatestKills from "./LatestKills";
 import CharacterLadder from "../CharacterLadder";
 
 class RaidBoss extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            value: 1
+            value: 0
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -27,7 +28,6 @@ class RaidBoss extends React.PureComponent {
 
     render() {
         const { data } = this.props;
-
         return (
             <React.Fragment>
                 <Tabs
@@ -35,7 +35,8 @@ class RaidBoss extends React.PureComponent {
                     onChange={this.handleChange}
                     indicatorColor="secondary"
                 >
-                    <Tab label="Fastest kills" className="tab" />
+                    <Tab label="Fastest" className="tab" />
+                    <Tab label="Latest" className="tab" />
                     <Tab label="Dps" className="tab" />
                     <Tab label="Hps" className="tab" />
                 </Tabs>
@@ -51,8 +52,10 @@ function getChild(value, data) {
         case 0:
             return <FastestKills data={data.fastestKills} />;
         case 1:
-            return <CharacterLadder data={data.dps} type={"dps"} />;
+            return <LatestKills data={data.latestKills} />;
         case 2:
+            return <CharacterLadder data={data.dps} type={"dps"} />;
+        case 3:
             return <CharacterLadder data={data.hps} type={"hps"} />;
         default:
             return 0;

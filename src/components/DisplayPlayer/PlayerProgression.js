@@ -67,11 +67,7 @@ class PlayerProgression extends React.PureComponent {
                                         <TableCell>
                                             {dps.dps ? (
                                                 <React.Fragment>
-                                                    <span className="textBold">
-                                                        {new Intl.NumberFormat().format(
-                                                            Math.round(dps.dps)
-                                                        )}
-                                                    </span>{" "}
+                                                    {dps.ilvl}{" "}
                                                     <Tooltip
                                                         title={dps.spec.label}
                                                     >
@@ -82,8 +78,12 @@ class PlayerProgression extends React.PureComponent {
                                                             )}
                                                             className="classSpecAvatar"
                                                         />
-                                                    </Tooltip>
-                                                    {dps.ilvl}
+                                                    </Tooltip>{" "}
+                                                    <span className="textBold">
+                                                        {new Intl.NumberFormat().format(
+                                                            Math.round(dps.dps)
+                                                        )}
+                                                    </span>
                                                 </React.Fragment>
                                             ) : (
                                                 <React.Fragment>
@@ -94,11 +94,7 @@ class PlayerProgression extends React.PureComponent {
                                         <TableCell>
                                             {hps.hps ? (
                                                 <React.Fragment>
-                                                    <span className="textBold">
-                                                        {new Intl.NumberFormat().format(
-                                                            Math.round(hps.hps)
-                                                        )}
-                                                    </span>{" "}
+                                                    {hps.ilvl}{" "}
                                                     <Tooltip
                                                         title={hps.spec.label}
                                                     >
@@ -109,8 +105,12 @@ class PlayerProgression extends React.PureComponent {
                                                             )}
                                                             className="classSpecAvatar"
                                                         />
-                                                    </Tooltip>
-                                                    {hps.ilvl}
+                                                    </Tooltip>{" "}
+                                                    <span className="textBold">
+                                                        {new Intl.NumberFormat().format(
+                                                            Math.round(hps.hps)
+                                                        )}
+                                                    </span>
                                                 </React.Fragment>
                                             ) : (
                                                 <React.Fragment>
