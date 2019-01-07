@@ -18,6 +18,7 @@ import {
 
 import GuildProgression from "./GuildProgression";
 import GuildRoster from "./GuildRoster";
+import GuildLatestKills from "./GuildLatestKills";
 
 import { serverUrl } from "../../constants/urls";
 
@@ -109,9 +110,21 @@ class DisplayGuild extends React.PureComponent {
                                         button
                                     >
                                         <ListItemText
-                                            primary="Roster"
+                                            primary="Latest kills"
                                             className={
                                                 active === 1 ? "active" : ""
+                                            }
+                                        />
+                                    </ListItem>
+                                    <ListItem
+                                        onClick={() => guildSetNav(2)}
+                                        className="listItem"
+                                        button
+                                    >
+                                        <ListItemText
+                                            primary="Roster"
+                                            className={
+                                                active === 2 ? "active" : ""
                                             }
                                         />
                                     </ListItem>
@@ -124,6 +137,11 @@ class DisplayGuild extends React.PureComponent {
                                     />
                                 )}
                                 {active === 1 && (
+                                    <GuildLatestKills
+                                        data={data.progression.latestKills}
+                                    />
+                                )}
+                                {active === 2 && (
                                     <GuildRoster data={data.guildList} />
                                 )}
                             </div>
