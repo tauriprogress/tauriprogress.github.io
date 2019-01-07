@@ -1,5 +1,8 @@
+import { CardActions } from "@material-ui/core";
+import { access } from "fs";
+
 const defaultState = {
-    data: [],
+    data: null,
     error: null,
     loading: false
 };
@@ -9,13 +12,7 @@ function raidReducer(state = defaultState, action) {
         case "RAID_SET_LOADING":
             return { ...state, loading: action.payload };
         case "RAID_FILL":
-            let data = [];
-
-            for (let bossName in action.payload) {
-                data.push({ ...action.payload[bossName], bossName });
-            }
-
-            return { ...state, data: data, loading: false };
+            return { ...state, data: action.payload, loading: false };
         case "RAID_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";

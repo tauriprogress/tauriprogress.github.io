@@ -33,7 +33,7 @@ import {
     charLadderFilterReset
 } from "../../redux/actions";
 
-import { getSpecImg } from "../RaidBossSummary/helpers";
+import { getSpecImg } from "../DisplayRaid/helpers";
 import { applyFilter } from "./helpers";
 
 class CharacterLadder extends React.PureComponent {

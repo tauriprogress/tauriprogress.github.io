@@ -4,7 +4,8 @@ import { bindActionCreators } from "redux";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import RaidBossSummary from "../RaidBossSummary";
+import RaidBosses from "./RaidBosses";
+import RaidBossList from "../RaidBossList";
 
 import { raidFill, raidSetError, raidSetLoading } from "../../redux/actions";
 
@@ -46,13 +47,18 @@ class DisplayRaid extends React.PureComponent {
                     </div>
                 )}
                 {error && <span className="red">{error}</span>}
-                {data.map(boss => (
-                    <RaidBossSummary
-                        bossData={boss}
-                        raidName={this.props.match.params.raidName}
-                        key={boss.bossName}
-                    />
-                ))}
+                {!loading && !error && data && (
+                    <div className="displayRaidContentContainer">
+                        <aside>
+                            <RaidBossList raid={this.props.raidData} />
+                        </aside>
+                        <RaidBosses
+                            data={data}
+                            raidName={this.props.match.params.raidName}
+                            raidBosses={this.props.raidData.encounters}
+                        />
+                    </div>
+                )}
             </section>
         );
     }
@@ -60,7 +66,8 @@ class DisplayRaid extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        raid: state.raid
+        raid: state.raid,
+        raidData: state.raids[0]
     };
 }
 

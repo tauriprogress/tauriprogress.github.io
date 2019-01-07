@@ -8,7 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-import { convertFightTime } from "../RaidBossSummary/helpers";
+import { convertFightTime } from "../DisplayRaid/helpers";
 
 function FastestKills({ data }) {
     return (

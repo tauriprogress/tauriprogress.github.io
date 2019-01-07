@@ -11,7 +11,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import { raidName } from "../../constants/currentContent";
-import { getSpecImg } from "../RaidBossSummary/helpers";
+import { getSpecImg } from "../DisplayRaid/helpers";
 
 class PlayerProgression extends React.PureComponent {
     constructor(props) {
@@ -27,7 +27,7 @@ class PlayerProgression extends React.PureComponent {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, raidBosses } = this.props;
         return (
             <div className="displayPlayerProgression">
                 <Tabs
@@ -50,7 +50,7 @@ class PlayerProgression extends React.PureComponent {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.raidBosses.map(boss => {
+                            {raidBosses.map(boss => {
                                 const currentBoss =
                                     data[raidName][this.state.value][
                                         boss.encounter_name

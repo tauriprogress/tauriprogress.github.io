@@ -1,9 +1,16 @@
 .displayRaid
-    padding-top: 20px
-    text-align: center
     width: 100%
-    display: flex
-    flex-wrap: wrap
-    justify-content: space-around
+    &ContentContainer
+        display: flex
     &LoaderContainer
+        margin-top: 20px
         min-width: 100%
+        text-align: center
+    &Bosses
+        min-width: 260px
+        margin: 20px
+        width: 100%
+
+@media(max-width: $mobile-break)
+    .displayRaidContentContainer
+        flex-wrap: wrap !important

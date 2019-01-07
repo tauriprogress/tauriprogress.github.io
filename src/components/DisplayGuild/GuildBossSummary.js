@@ -2,7 +2,7 @@ import React from "react";
 
 import Typography from "@material-ui/core/Typography";
 
-import { convertFightTime } from "../RaidBossSummary/helpers";
+import { convertFightTime } from "../DisplayRaid/helpers";
 
 function GuildBossSummary({ data }) {
     return (
