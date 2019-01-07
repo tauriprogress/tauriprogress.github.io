@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Link } from "react-router-dom";
+
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Table from "@material-ui/core/Table";
@@ -62,12 +64,22 @@ class PlayerProgression extends React.PureComponent {
                                 return (
                                     <TableRow key={boss.encounter_name}>
                                         <TableCell component="th" scope="row">
-                                            {boss.encounter_name}
+                                            <span className="textBold">
+                                                <Link
+                                                    to={`/raid/${raidName}/${
+                                                        boss.encounter_name
+                                                    }`}
+                                                >
+                                                    {boss.encounter_name}
+                                                </Link>
+                                            </span>
                                         </TableCell>
                                         <TableCell>
                                             {dps.dps ? (
                                                 <React.Fragment>
-                                                    {dps.ilvl}{" "}
+                                                    <span className="textBold">
+                                                        {dps.ilvl}{" "}
+                                                    </span>
                                                     <Tooltip
                                                         title={dps.spec.label}
                                                     >
@@ -94,7 +106,9 @@ class PlayerProgression extends React.PureComponent {
                                         <TableCell>
                                             {hps.hps ? (
                                                 <React.Fragment>
-                                                    {hps.ilvl}{" "}
+                                                    <span className="textBold">
+                                                        {hps.ilvl}{" "}
+                                                    </span>
                                                     <Tooltip
                                                         title={hps.spec.label}
                                                     >

@@ -1,6 +1,3 @@
-import { CardActions } from "@material-ui/core";
-import { access } from "fs";
-
 const defaultState = {
     data: null,
     error: null,

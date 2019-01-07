@@ -12,10 +12,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
 import characterClassColors from "../../constants/characterClassColors";
 import specToClass from "../../constants/specToClass";
 
