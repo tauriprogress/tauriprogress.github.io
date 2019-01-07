@@ -147,7 +147,7 @@ class AdditionalInfo extends React.PureComponent {
                                     Durumu:
                                 </Typography>
                                 <Typography>
-                                    A lot of data is inaccurate.
+                                    DPS of Durumu is incorrect.
                                 </Typography>
                                 <Typography variant="subtitle2">
                                     Resto druid:
@@ -169,7 +169,11 @@ class AdditionalInfo extends React.PureComponent {
                                 </Typography>
                             </Collapse>
                         </div>
+                        <Divider />
 
+                        <Typography>
+                            Data is collected since 2018 nov. 8.
+                        </Typography>
                         <Divider />
 
                         <Typography>
