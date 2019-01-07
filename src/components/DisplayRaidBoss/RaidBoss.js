@@ -2,6 +2,9 @@ import React from "react";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Avatar from "@material-ui/core/Avatar";
+import Chip from "@material-ui/core/Chip";
+import Warning from "@material-ui/icons/Warning";
 
 import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
@@ -54,7 +57,23 @@ function getChild(value, data) {
         case 1:
             return <LatestKills data={data.latestKills} />;
         case 2:
-            return <CharacterLadder data={data.dps} type={"dps"} />;
+            return (
+                <React.Fragment>
+                    {data.bossName === "Durumu the Forgotten" && (
+                        <Chip
+                            label="Dps of Durumu are incorrect."
+                            avatar={
+                                <Avatar>
+                                    <Warning color="error" />
+                                </Avatar>
+                            }
+                            className="durumuWarning"
+                            color="primary"
+                        />
+                    )}
+                    <CharacterLadder data={data.dps} type={"dps"} />
+                </React.Fragment>
+            );
         case 3:
             return <CharacterLadder data={data.hps} type={"hps"} />;
         default:
