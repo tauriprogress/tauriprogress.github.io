@@ -315,11 +315,10 @@ class Database {
                     boss.firstKills = boss.firstKills[0];
                     boss.fastestKills = boss.fastestKills[0];
 
-                    if (!raidData[boss.bossName]) {
-                        raidData[boss.bossName] = {};
-                    }
+                    if (!raidData[boss.difficulty])
+                        raidData[boss.difficulty] = {};
 
-                    raidData[boss.bossName][boss.difficulty] = boss;
+                    raidData[boss.difficulty][boss.bossName] = boss;
                 }
 
                 resolve(raidData);

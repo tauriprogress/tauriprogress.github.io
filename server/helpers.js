@@ -255,7 +255,9 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
         }
     }
 
-    raidBoss.latestKills = raidBoss.latestKills.concat(logs).slice(0, 50);
+    raidBoss.latestKills = raidBoss.latestKills
+        .concat(logs.sort((a, b) => b.killtime - a.killtime))
+        .slice(0, 50);
 
     raidBoss.firstKills = raidBoss.firstKills
         .concat(logs.sort((a, b) => a.killtime - b.killtime))
