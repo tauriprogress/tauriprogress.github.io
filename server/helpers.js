@@ -29,7 +29,7 @@ async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
                         data = err.message;
                     }
                 } while (!data.success && data === "request timed out");
-                if (!data.success) throw new Error(data);
+                if (!data.success) throw new Error(data.errorstring);
 
                 bossLogs = bossLogs.concat(
                     data.response.logs.map(log => ({
@@ -55,7 +55,8 @@ async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
                         !bossData.success &&
                         bossData === "request timed out"
                     );
-                    if (!bossData.success) throw new Error(bossData);
+                    if (!bossData.success)
+                        throw new Error(bossData.errorstring);
 
                     logs.push({ ...bossData.response, realm: log.realm });
                 }
@@ -283,7 +284,7 @@ async function createGuildData(realm, guildName) {
             guild = err.message;
         }
     } while (!guild.success && guild === "request timed out");
-    if (!guild.success) throw new Error(guild);
+    if (!guild.success) throw new Error(guild.errorstring);
 
     guild = guild.response;
 
@@ -296,7 +297,7 @@ async function createGuildData(realm, guildName) {
             kills = err.message;
         }
     } while (!kills.success && kills === "request timed out");
-    if (!kills.success) throw new Error(kills);
+    if (!kills.success) throw new Error(kills.errorstring);
 
     kills = kills.response.logs.slice(0, 50);
 

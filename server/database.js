@@ -220,6 +220,8 @@ class Database {
                     }
                 }
 
+                await this.updateGuilds();
+
                 await maintence.updateOne(
                     {},
                     {
@@ -522,6 +524,38 @@ class Database {
                 let maintence = await this.db.collection("maintence");
                 let lastUpdated = (await maintence.findOne()).lastUpdated;
                 resolve(lastUpdated);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    async updateGuilds() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let guilds = await this.db
+                    .collection("guilds")
+                    .find({})
+                    .toArray();
+
+                for (let guild of guilds) {
+                    let newGuild = await createGuildData(
+                        guild.realm,
+                        guild.guildName
+                    );
+
+                    newGuild = {
+                        ...newGuild,
+                        progression: {
+                            ...guild.progression,
+                            latestKills: newGuild.progression.latestKills
+                        }
+                    };
+
+                    await this.saveGuild(newGuild);
+                }
+
+                resolve("Done");
             } catch (err) {
                 reject(err);
             }
