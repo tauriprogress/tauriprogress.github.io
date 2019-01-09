@@ -15,7 +15,7 @@ class SearchPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            player: null,
+            player: "",
             realm: realms[Object.keys(realms)[0]]
         };
         this.handleChange = this.changePlayerName.bind(this);
