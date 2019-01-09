@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import Select from "react-select";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import NoSsr from "@material-ui/core/NoSsr";
@@ -10,13 +11,6 @@ import Chip from "@material-ui/core/Chip";
 import MenuItem from "@material-ui/core/MenuItem";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
-
-import { connect } from "react-redux";
-
-import { withRouter } from "react-router-dom";
-
-import Select from "react-select";
-import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
     root: {
@@ -101,6 +95,7 @@ function Control(props) {
         />
     );
 }
+
 function Option(props) {
     return (
         <MenuItem
@@ -128,6 +123,7 @@ function Placeholder(props) {
         </Typography>
     );
 }
+
 function SingleValue(props) {
     return (
         <Typography
@@ -138,11 +134,26 @@ function SingleValue(props) {
         </Typography>
     );
 }
+
 function ValueContainer(props) {
     return (
         <div className={props.selectProps.classes.valueContainer}>
             {props.children}
         </div>
+    );
+}
+
+function MultiValue(props) {
+    return (
+        <Chip
+            tabIndex={-1}
+            label={props.children}
+            className={classNames(props.selectProps.classes.chip, {
+                [props.selectProps.classes.chipFocused]: props.isFocused
+            })}
+            onDelete={props.removeProps.onClick}
+            deleteIcon={<CancelIcon {...props.removeProps} />}
+        />
     );
 }
 
@@ -161,37 +172,29 @@ function Menu(props) {
 const components = {
     Control,
     Menu,
+    MultiValue,
     NoOptionsMessage,
     Option,
     Placeholder,
     SingleValue,
     ValueContainer
 };
-class SearchGuild extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ""
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.submit = this.submit.bind(this);
-    }
 
-    handleChange(value) {
-        this.setState({ ...this.state, value: value });
-    }
+class IntegrationReactSelect extends React.Component {
+    state = {
+        single: null,
+        multi: null
+    };
 
-    submit() {
-        if (this.state.value)
-            this.props.history.push(
-                `/guild/${this.state.value.value.guildName}?realm=${
-                    this.state.value.value.realm
-                }`
-            );
-    }
+    handleChange = name => value => {
+        this.setState({
+            [name]: value
+        });
+    };
 
     render() {
-        const { guilds, classes, theme } = this.props;
+        const { classes, theme } = this.props;
+
         const selectStyles = {
             input: base => ({
                 ...base,
@@ -201,44 +204,27 @@ class SearchGuild extends React.Component {
                 }
             })
         };
+
         return (
-            <div className="searchBarGuild">
+            <div className={classes.root}>
                 <Select
-                    options={guilds}
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    className="searchBarGuildSelect"
                     classes={classes}
                     styles={selectStyles}
+                    options={suggestions}
                     components={components}
-                    placeholder="Search guild"
+                    value={this.state.single}
+                    onChange={this.handleChange("single")}
+                    placeholder="Search a country (start with a)"
                     isClearable
                 />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className="searchBarGuildSubmit"
-                    onClick={this.submit}
-                >
-                    go
-                </Button>
             </div>
         );
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        guilds: state.guilds.data.map(guild => ({
-            label: guild.guildName,
-            value: {
-                guildName: guild.guildName,
-                realm: guild.realm
-            }
-        }))
-    };
-}
+IntegrationReactSelect.propTypes = {
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired
+};
 
-export default withStyles(styles, { withTheme: true })(
-    withRouter(connect(mapStateToProps)(SearchGuild))
-);
+export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);

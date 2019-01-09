@@ -52,8 +52,10 @@ class SearchPlayer extends React.Component {
                         value={this.state.player}
                         onChange={e => this.changePlayerName(e.target.value)}
                         margin="normal"
+                        className="searchBarPlayerName"
                     />
                 </FormControl>
+                <br />
                 <FormControl className="searchBarPlayerFormControl">
                     <InputLabel htmlFor="realm">Realm</InputLabel>
                     <Select
