@@ -45,7 +45,9 @@ function GuildLatestKills({ data, realm }) {
                             <TableCell component="th" scope="row">
                                 <span className="textBold">
                                     <Link
-                                        to={`/log/${log.log_id}?realm=${realm}`}
+                                        to={`/log/${log.log_id}?realm=${
+                                            log.realm
+                                        }`}
                                     >
                                         <Info
                                             className="logLink"
