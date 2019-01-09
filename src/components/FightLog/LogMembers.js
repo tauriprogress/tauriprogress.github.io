@@ -14,7 +14,6 @@ import characterClassColors from "../../constants/characterClassColors";
 import specToClass from "../../constants/specToClass";
 import specs from "../../constants/specs";
 
-import { convertFightTime } from "../DisplayRaid/helpers";
 import { getSpecImg } from "../DisplayRaid/helpers";
 
 function LogTitle({ data }) {
@@ -40,7 +39,7 @@ function LogTitle({ data }) {
                 </TableHead>
                 <TableBody>
                     {data.members.map(member => (
-                        <TableRow>
+                        <TableRow key={member.name}>
                             <TableCell component="th" scope="row">
                                 <span className="textBold">{member.ilvl} </span>{" "}
                                 <Tooltip title={specs[member.spec].label}>

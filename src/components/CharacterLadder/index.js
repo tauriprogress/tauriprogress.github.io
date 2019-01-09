@@ -22,6 +22,7 @@ import FormControl from "@material-ui/core/FormControl";
 
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Info from "@material-ui/icons/Info";
 
 import specs from "../../constants/specs";
 import specToClass from "../../constants/specToClass";
@@ -103,7 +104,6 @@ class CharacterLadder extends React.PureComponent {
                 });
             }
         }
-
         return (
             <div className="overflowScroll">
                 <div className="characterLadderFilters">
@@ -202,6 +202,7 @@ class CharacterLadder extends React.PureComponent {
                             <TableCell>ILVL</TableCell>
 
                             <TableCell>Date</TableCell>
+                            <TableCell>Logs</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -264,10 +265,25 @@ class CharacterLadder extends React.PureComponent {
                                     <TableCell component="th" scope="row">
                                         {char.ilvl}
                                     </TableCell>
+
                                     <TableCell component="th" scope="row">
                                         {new Date(
                                             char.date * 1000
                                         ).toLocaleDateString()}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        <span className="textBold">
+                                            <Link
+                                                to={`/log/${char.logId}?realm=${
+                                                    char.realm
+                                                }`}
+                                            >
+                                                <Info
+                                                    className="logLink"
+                                                    fontSize="small"
+                                                />
+                                            </Link>
+                                        </span>
                                     </TableCell>
                                 </TableRow>
                             ))}

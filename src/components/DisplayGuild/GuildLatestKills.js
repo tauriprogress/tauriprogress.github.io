@@ -7,12 +7,13 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Info from "@material-ui/icons/Info";
 
 import difficultyLabels from "../../constants/difficultyLabels";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
-function GuildLatestKills({ data }) {
+function GuildLatestKills({ data, realm }) {
     return (
         <div className="overflowScroll">
             <Table>
@@ -24,6 +25,7 @@ function GuildLatestKills({ data }) {
                         <TableCell>Time</TableCell>
 
                         <TableCell>Date</TableCell>
+                        <TableCell>Logs</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -50,6 +52,18 @@ function GuildLatestKills({ data }) {
                                 {new Date(
                                     log.killtime * 1000
                                 ).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                                <span className="textBold">
+                                    <Link
+                                        to={`/log/${log.log_id}?realm=${realm}`}
+                                    >
+                                        <Info
+                                            className="logLink"
+                                            fontSize="small"
+                                        />
+                                    </Link>
+                                </span>
                             </TableCell>
                         </TableRow>
                     ))}

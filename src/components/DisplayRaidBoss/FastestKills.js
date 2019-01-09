@@ -7,6 +7,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Info from "@material-ui/icons/Info";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
@@ -24,6 +25,7 @@ function FastestKills({ data }) {
                         <TableCell>Realm</TableCell>
 
                         <TableCell>Date</TableCell>
+                        <TableCell>Logs</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -67,6 +69,21 @@ function FastestKills({ data }) {
                                 {new Date(
                                     kill.killtime * 1000
                                 ).toLocaleDateString()}
+                            </TableCell>
+
+                            <TableCell component="th" scope="row">
+                                <span className="textBold ">
+                                    <Link
+                                        to={`/log/${kill.log_id}?realm=${
+                                            kill.realm
+                                        }`}
+                                    >
+                                        <Info
+                                            className="logLink"
+                                            fontSize="small"
+                                        />
+                                    </Link>
+                                </span>
                             </TableCell>
                         </TableRow>
                     ))}

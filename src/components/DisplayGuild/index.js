@@ -139,6 +139,7 @@ class DisplayGuild extends React.PureComponent {
                                 {active === 1 && (
                                     <GuildLatestKills
                                         data={data.progression.latestKills}
+                                        realm={data.realm}
                                     />
                                 )}
                                 {active === 2 && (
