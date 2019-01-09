@@ -93,6 +93,21 @@ function verifyGetboss(req, res, next) {
     }
 }
 
+function verifyGetLog(req, res, next) {
+    try {
+        if (!req.body.logId) throw new Error("Invalid log id name.");
+        req.body.logId = req.body.logId.trim().replace(/\s+/g, " ");
+
+        if (!req.body.realm) req.body.realm = realms["tauri"];
+        req.body.realm = req.body.realm.trim();
+        if (!validRealm(req.body.realm)) throw new Error("Invalid realm name.");
+
+        next();
+    } catch (err) {
+        res.send({ success: false, errorstring: err.message });
+    }
+}
+
 function validRaidName(raidName) {
     let validRaidName = false;
     for (let raid of raids) {
@@ -141,5 +156,6 @@ module.exports = {
     verifyGetGuild,
     verifyGetPlayer,
     verifyGetRaid,
-    verifyGetboss
+    verifyGetboss,
+    verifyGetLog
 };

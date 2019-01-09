@@ -151,3 +151,24 @@ export function additionalInfoFill(payload) {
         payload
     };
 }
+
+export function fightLogSetError(payload) {
+    return {
+        type: "FIGHT_LOG_SET_ERROR",
+        payload
+    };
+}
+
+export function fightLogSetLoading(payload) {
+    return {
+        type: "FIGHT_LOG_SET_LOADING",
+        payload
+    };
+}
+
+export function fightLogFill(payload) {
+    return {
+        type: "FIGHT_LOG_FILL",
+        payload
+    };
+}

@@ -8,7 +8,8 @@ const {
     verifyGetGuild,
     verifyGetPlayer,
     verifyGetRaid,
-    verifyGetboss
+    verifyGetboss,
+    verifyGetLog
 } = require("./middlewares");
 const tauriApi = require("./tauriApi");
 const { whenWas } = require("./helpers");
@@ -71,7 +72,7 @@ const classToSpec = require("../src/constants/classToSpec");
             if (!player.success) throw new Error(player.errorstring);
             let performance = await db.getPlayerPerformance({
                 realm: req.body.realm,
-                playerName: req.body.playerName,
+                playerName: player.response.name,
                 specs: classToSpec[player.response.class],
                 raidName: req.body.raidName,
                 bossName: req.body.bossName,
@@ -141,6 +142,24 @@ const classToSpec = require("../src/constants/classToSpec");
             res.send({
                 success: true,
                 response: await db.updateDatabase()
+            });
+        } catch (err) {
+            res.send({
+                success: false,
+                errorstring: err.message
+            });
+        }
+    });
+
+    app.post("/getlog", verifyGetLog, async (req, res) => {
+        try {
+            let log = (await tauriApi.getRaidLog(
+                req.body.realm,
+                req.body.logId
+            )).response;
+            res.send({
+                success: true,
+                response: { ...log, realm: req.body.realm }
             });
         } catch (err) {
             res.send({
