@@ -11,6 +11,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import SearchBar from "../SearchBar";
+
 import {
     guildsFill,
     guildsSetError,
@@ -52,52 +54,66 @@ class DisplayGuilds extends React.PureComponent {
                 {error ? (
                     <span className="displayGuildsError red">{error}</span>
                 ) : (
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                {tableColumns.map(column => (
-                                    <TableCell key={column.key}>
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {sortByProgression(data).map(guild => {
-                                return (
-                                    <TableRow key={guild.guildName}>
-                                        <TableCell
-                                            component="th"
-                                            scope="row"
-                                            className="displayGuildsGuildName"
-                                        >
-                                            <Link
-                                                to={`/guild/${
-                                                    guild.guildName
-                                                }?realm=${guild.realm}`}
-                                            >
-                                                {guild.guildName}
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {guild.realm}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {guild.gFaction === 1
-                                                ? "Horde"
-                                                : "Alliance"}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {
-                                                guild.progression
-                                                    .currentBossesDefeated
-                                            }
-                                        </TableCell>
+                    <React.Fragment>
+                        <SearchBar />
+                        <div className="overflowScroll">
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        {tableColumns.map(column => (
+                                            <TableCell key={column.key}>
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
+                                </TableHead>
+                                <TableBody>
+                                    {sortByProgression(data).map(guild => {
+                                        return (
+                                            <TableRow key={guild.guildName}>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                    className="displayGuildsGuildName"
+                                                >
+                                                    <Link
+                                                        to={`/guild/${
+                                                            guild.guildName
+                                                        }?realm=${guild.realm}`}
+                                                    >
+                                                        {guild.guildName}
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    {guild.realm}
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    {guild.gFaction === 1
+                                                        ? "Horde"
+                                                        : "Alliance"}
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    {
+                                                        guild.progression
+                                                            .currentBossesDefeated
+                                                    }
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </React.Fragment>
                 )}
             </section>
         );
