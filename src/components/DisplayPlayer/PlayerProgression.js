@@ -11,6 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
+import Info from "@material-ui/icons/Info";
 
 import { raidName } from "../../constants/currentContent";
 import { getSpecImg } from "../DisplayRaid/helpers";
@@ -95,6 +96,20 @@ class PlayerProgression extends React.PureComponent {
                                                         {new Intl.NumberFormat().format(
                                                             Math.round(dps.dps)
                                                         )}
+                                                    </span>{" "}
+                                                    <span className="textBold">
+                                                        <Link
+                                                            to={`/log/${
+                                                                dps.logId
+                                                            }?realm=${
+                                                                dps.realm
+                                                            }`}
+                                                        >
+                                                            <Info
+                                                                className="logLink"
+                                                                fontSize="small"
+                                                            />
+                                                        </Link>
                                                     </span>
                                                 </React.Fragment>
                                             ) : (
@@ -124,6 +139,20 @@ class PlayerProgression extends React.PureComponent {
                                                         {new Intl.NumberFormat().format(
                                                             Math.round(hps.hps)
                                                         )}
+                                                    </span>{" "}
+                                                    <span className="textBold">
+                                                        <Link
+                                                            to={`/log/${
+                                                                hps.logId
+                                                            }?realm=${
+                                                                hps.realm
+                                                            }`}
+                                                        >
+                                                            <Info
+                                                                className="logLink"
+                                                                fontSize="small"
+                                                            />
+                                                        </Link>
                                                     </span>
                                                 </React.Fragment>
                                             ) : (
