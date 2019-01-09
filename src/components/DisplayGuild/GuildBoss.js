@@ -4,6 +4,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import CharacterLadder from "../CharacterLadder";
+import GuildFastestKills from "./GuildFastestKills";
 
 class GuildBoss extends React.PureComponent {
     constructor(props) {
@@ -30,13 +31,17 @@ class GuildBoss extends React.PureComponent {
                             onChange={this.handleChange}
                             indicatorColor="secondary"
                         >
+                            <Tab label="Fastest Kills" className="tab" />
                             <Tab label="Dps" className="tab" />
                             <Tab label="Hps" className="tab" />
                         </Tabs>
                         {this.state.value === 0 && (
-                            <CharacterLadder data={data.dps} type={"dps"} />
+                            <GuildFastestKills data={data.fastestKills} />
                         )}
                         {this.state.value === 1 && (
+                            <CharacterLadder data={data.dps} type={"dps"} />
+                        )}
+                        {this.state.value === 2 && (
                             <CharacterLadder data={data.hps} type={"hps"} />
                         )}
                     </React.Fragment>

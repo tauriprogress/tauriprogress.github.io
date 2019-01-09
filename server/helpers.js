@@ -82,6 +82,7 @@ function createGuildBossKill(kill) {
         firstKill: kill.killtime,
         killCount: 1,
         fastestKill: kill.fight_time,
+        fastestKills: [kill],
         dps: {},
         hps: {}
     };
@@ -96,7 +97,11 @@ function updateGuildBossKill(guild, kill) {
         fastestKill:
             kill.fight_time > guild.fastestKill
                 ? guild.fastestKill
-                : kill.fight_time
+                : kill.fight_time,
+        fastestKills: guild.fastestKills
+            .concat(kill)
+            .sort((a, b) => a.fight_time - b.fight_time)
+            .slice(0, 10)
     };
 }
 
@@ -335,6 +340,15 @@ function mergeBossKillIntoGuildData(guildData, bossKill, difficulty) {
             bossKill.bossName
         ] = bossKill;
     } else {
+        guildData.progression[bossKill.raidName][difficulty][
+            bossKill.bossName
+        ].fastestKills = guildData.progression[bossKill.raidName][difficulty][
+            bossKill.bossName
+        ].fastestKills
+            .concat(bossKill.fastestKills)
+            .sort((a, b) => a.fight_time - b.fight_time)
+            .slice(0, 10);
+
         let oldDpses =
             guildData.progression[bossKill.raidName][difficulty][
                 bossKill.bossName
