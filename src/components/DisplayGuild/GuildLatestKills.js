@@ -7,7 +7,8 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Info from "@material-ui/icons/Info";
+
+import LogLink from "../LogLink";
 
 import difficultyLabels from "../../constants/difficultyLabels";
 
@@ -54,16 +55,7 @@ function GuildLatestKills({ data, realm }) {
                                 ).toLocaleDateString()}
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                <span className="textBold">
-                                    <Link
-                                        to={`/log/${log.log_id}?realm=${realm}`}
-                                    >
-                                        <Info
-                                            className="logLink"
-                                            fontSize="small"
-                                        />
-                                    </Link>
-                                </span>
+                                <LogLink logId={log.log_id} realm={realm} />
                             </TableCell>
                         </TableRow>
                     ))}

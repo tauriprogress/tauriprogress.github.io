@@ -11,7 +11,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
-import Info from "@material-ui/icons/Info";
+
+import LogLink from "../LogLink";
 
 import characterClassColors from "../../constants/characterClassColors";
 import specToClass from "../../constants/specToClass";
@@ -115,22 +116,16 @@ class RaidBosses extends React.PureComponent {
                                                     }
                                                 </Link>
                                             </span>{" "}
-                                            <span className="textBold ">
-                                                <Link
-                                                    to={`/log/${
-                                                        currentBoss.fastestKills
-                                                            .log_id
-                                                    }?realm=${
-                                                        currentBoss.fastestKills
-                                                            .realm
-                                                    }`}
-                                                >
-                                                    <Info
-                                                        className="logLink"
-                                                        fontSize="small"
-                                                    />
-                                                </Link>
-                                            </span>
+                                            <LogLink
+                                                logId={
+                                                    currentBoss.fastestKills
+                                                        .log_id
+                                                }
+                                                realm={
+                                                    currentBoss.fastestKills
+                                                        .realm
+                                                }
+                                            />
                                         </TableCell>
 
                                         <TableCell component="th" scope="row">

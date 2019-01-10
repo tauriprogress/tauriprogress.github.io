@@ -22,7 +22,8 @@ import FormControl from "@material-ui/core/FormControl";
 
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Info from "@material-ui/icons/Info";
+
+import LogLink from "../LogLink";
 
 import specs from "../../constants/specs";
 import specToClass from "../../constants/specToClass";
@@ -272,18 +273,10 @@ class CharacterLadder extends React.PureComponent {
                                         ).toLocaleDateString()}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                        <span className="textBold">
-                                            <Link
-                                                to={`/log/${char.logId}?realm=${
-                                                    char.realm
-                                                }`}
-                                            >
-                                                <Info
-                                                    className="logLink"
-                                                    fontSize="small"
-                                                />
-                                            </Link>
-                                        </span>
+                                        <LogLink
+                                            logId={char.logId}
+                                            realm={char.realm}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))}

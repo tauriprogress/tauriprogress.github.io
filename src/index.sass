@@ -1,7 +1,9 @@
 $accent-one: #1e1f26
+$accent-one-light: #7a7d96
 $accent-two: #f25c00
 $accent-two-light: #f25c00
 $light: #f6ede2
+
 $dark-blue: #00050a
 $dark-theme-back: #25272f
 $red: #b2102f
@@ -22,6 +24,8 @@ $mobile-break: 600px
 @import './components/AdditionalInfo/index.sass'
 @import './components/FightLog/index.sass'
 @import './components/NotFound/index.sass'
+@import './components/LogLink/index.sass'
+
     
 *
     margin: 0
@@ -60,9 +64,6 @@ a
 .tab
     &:hover
         color: $accent-two !important
-.logLink
-    transform: translateY(5px)
-    color: grey
 .classSpecAvatar
     width: 16px !important
     height: 16px !important

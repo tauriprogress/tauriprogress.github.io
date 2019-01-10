@@ -13,6 +13,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Info from "@material-ui/icons/Info";
 
+import LogLink from "../LogLink";
+
 import { raidName } from "../../constants/currentContent";
 import { getSpecImg } from "../DisplayRaid/helpers";
 
@@ -97,20 +99,10 @@ class PlayerProgression extends React.PureComponent {
                                                             Math.round(dps.dps)
                                                         )}
                                                     </span>{" "}
-                                                    <span className="textBold">
-                                                        <Link
-                                                            to={`/log/${
-                                                                dps.logId
-                                                            }?realm=${
-                                                                dps.realm
-                                                            }`}
-                                                        >
-                                                            <Info
-                                                                className="logLink"
-                                                                fontSize="small"
-                                                            />
-                                                        </Link>
-                                                    </span>
+                                                    <LogLink
+                                                        logId={dps.logId}
+                                                        realm={dps.realm}
+                                                    />
                                                 </React.Fragment>
                                             ) : (
                                                 <React.Fragment>
