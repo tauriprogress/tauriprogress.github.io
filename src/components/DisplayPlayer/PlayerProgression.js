@@ -16,6 +16,7 @@ import Info from "@material-ui/icons/Info";
 import LogLink from "../LogLink";
 
 import { raidName } from "../../constants/currentContent";
+import valuesCorrectSince from "../../constants/valuesCorrectSince";
 import { getSpecImg } from "../DisplayRaid/helpers";
 
 class PlayerProgression extends React.PureComponent {
@@ -79,31 +80,42 @@ class PlayerProgression extends React.PureComponent {
                                         </TableCell>
                                         <TableCell>
                                             {dps.dps ? (
-                                                <React.Fragment>
-                                                    <span className="textBold">
-                                                        {dps.ilvl}{" "}
-                                                    </span>
-                                                    <Tooltip
-                                                        title={dps.spec.label}
-                                                    >
-                                                        <Avatar
-                                                            component="span"
-                                                            src={getSpecImg(
-                                                                dps.spec.image
+                                                typeof dps.dps === "number" ? (
+                                                    <React.Fragment>
+                                                        <span className="textBold">
+                                                            {dps.ilvl}{" "}
+                                                        </span>
+                                                        <Tooltip
+                                                            title={
+                                                                dps.spec.label
+                                                            }
+                                                        >
+                                                            <Avatar
+                                                                component="span"
+                                                                src={getSpecImg(
+                                                                    dps.spec
+                                                                        .image
+                                                                )}
+                                                                className="classSpecAvatar"
+                                                            />
+                                                        </Tooltip>{" "}
+                                                        <span className="textBold">
+                                                            {new Intl.NumberFormat().format(
+                                                                Math.round(
+                                                                    dps.dps
+                                                                )
                                                             )}
-                                                            className="classSpecAvatar"
+                                                        </span>{" "}
+                                                        <LogLink
+                                                            logId={dps.logId}
+                                                            realm={dps.realm}
                                                         />
-                                                    </Tooltip>{" "}
+                                                    </React.Fragment>
+                                                ) : (
                                                     <span className="textBold">
-                                                        {new Intl.NumberFormat().format(
-                                                            Math.round(dps.dps)
-                                                        )}
-                                                    </span>{" "}
-                                                    <LogLink
-                                                        logId={dps.logId}
-                                                        realm={dps.realm}
-                                                    />
-                                                </React.Fragment>
+                                                        Invalid
+                                                    </span>
+                                                )
                                             ) : (
                                                 <React.Fragment>
                                                     -
