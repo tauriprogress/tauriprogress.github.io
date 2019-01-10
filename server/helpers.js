@@ -7,7 +7,8 @@ const {
     totalBosses,
     raids
 } = require("../src/constants/currentContent.json");
-const filterBoss = require("../src/constants/filterBoss.json");
+const valuesCorrectSince = require("../src/constants/valuesCorrectSince.json");
+const durumuId = require("../src/constants/durumuId.json");
 
 async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
     return new Promise(async (resolve, reject) => {
@@ -109,7 +110,7 @@ function getDps({ dmg_done }, { fight_time }) {
     return dmg_done / (fight_time / 1000);
 }
 
-function memberDps(realm, member, kill, difficulty) {
+function memberDps(realm, member, kill, dps, difficulty) {
     return {
         name: member.name,
         race: member.race,
@@ -120,7 +121,7 @@ function memberDps(realm, member, kill, difficulty) {
         ilvl: member.ilvl,
         date: kill.killtime,
         damage: member.dmg_done,
-        dps: getDps(member, kill),
+        dps: dps,
         logId: kill.log_id
     };
 }
@@ -129,7 +130,7 @@ function getHps({ heal_done, absorb_done }, { fight_time }) {
     return (heal_done + absorb_done) / (fight_time / 1000);
 }
 
-function memberHps(realm, member, kill, difficulty) {
+function memberHps(realm, member, kill, hps, difficulty) {
     return {
         name: member.name,
         race: member.race,
@@ -141,7 +142,7 @@ function memberHps(realm, member, kill, difficulty) {
         date: kill.killtime,
         healing: member.heal_done,
         absorb: member.absorb_done,
-        hps: getHps(member, kill),
+        hps: hps,
         logId: kill.log_id
     };
 }
@@ -188,74 +189,75 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
         for (let member of log.members) {
             let memberId = `${log.realm} ${member.name} ${member.spec}`;
             if (specs[member.spec].isDps) {
-                if (raidBoss.bestDps.dps < getDps(member, log)) {
-                    raidBoss.bestDps = memberDps(
-                        log.realm,
-                        member,
-                        log,
-                        difficulty
-                    );
+                const playerDps = invalidDurumu(bossId, log.killtime)
+                    ? true
+                    : getDps(member, log);
+
+                const processedMember = memberDps(
+                    log.realm,
+                    member,
+                    log,
+                    playerDps,
+                    difficulty
+                );
+
+                if (raidBoss.bestDps.dps < playerDps) {
+                    raidBoss.bestDps = processedMember;
                 }
 
                 if (
                     log.guildid &&
                     (!guilds[guildId].dps[memberId] ||
-                        guilds[guildId].dps[memberId].dps < getDps(member, log))
+                        guilds[guildId].dps[memberId].dps < playerDps)
                 ) {
-                    guilds[guildId].dps[memberId] = memberDps(
-                        log.realm,
-                        member,
-                        log,
-                        difficulty
-                    );
+                    guilds[guildId].dps[memberId] = processedMember;
                 }
 
                 if (
                     !raidBoss.dps[memberId] ||
-                    raidBoss.dps[memberId].dps < getDps(member, log)
+                    raidBoss.dps[memberId].dps < playerDps
                 ) {
-                    raidBoss.dps[memberId] = memberDps(
-                        log.realm,
-                        member,
-                        log,
-                        difficulty
-                    );
+                    raidBoss.dps[memberId] = processedMember;
                 }
             }
 
             if (specs[member.spec].isHealer) {
-                if (raidBoss.bestHps.hps < getHps(member, log)) {
-                    raidBoss.bestHps = memberHps(
-                        log.realm,
-                        member,
-                        log,
-                        difficulty
-                    );
+                const playerHps = getHps(
+                    {
+                        ...member,
+                        absorb_done:
+                            valuesCorrectSince < log.killtime
+                                ? member.absorb_done
+                                : 0
+                    },
+                    log
+                );
+
+                const processedMember = memberHps(
+                    log.realm,
+                    member,
+                    log,
+                    playerHps,
+                    difficulty
+                );
+
+                if (raidBoss.bestHps.hps < playerHps) {
+                    raidBoss.bestHps = processedMember;
                 }
 
                 if (
                     log.guildid &&
                     (!guilds[guildId].hps[memberId] ||
-                        guilds[guildId].hps[memberId].hps < getHps(member, log))
+                        guilds[guildId].hps[memberId].hps < playerHps)
                 ) {
-                    guilds[guildId].hps[memberId] = memberHps(
-                        log.realm,
-                        member,
-                        log,
-                        difficulty
-                    );
+                    guilds[guildId].hps[memberId] = processedMember;
                 }
 
                 if (
                     !raidBoss.hps[memberId] ||
-                    raidBoss.hps[memberId].hps < getHps(member, log)
+                    raidBoss.hps[memberId].hps < playerHps
                 ) {
-                    raidBoss.hps[memberId] = memberHps(
-                        log.realm,
-                        member,
-                        log,
-                        difficulty
-                    );
+                    raidBoss.hps[memberId] = processedMember;
                 }
             }
         }
@@ -482,8 +484,8 @@ function whenWas(date) {
     return Math.round((new Date().getTime() / 1000 - Number(date)) / 3600);
 }
 
-function isDurumu(bossId, killtime) {
-    if (filterBoss[bossId] && filterBoss[bossId].since > killtime) {
+function invalidDurumu(bossId, killtime) {
+    if (durumuId === bossId && valuesCorrectSince > killtime) {
         return true;
     }
     return false;
