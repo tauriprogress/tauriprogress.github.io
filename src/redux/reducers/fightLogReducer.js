@@ -22,7 +22,8 @@ function fightLogReducer(state = defaultState, action) {
                 hps: Math.round(
                     (member.heal_done + member.absorb_done) /
                         (data.fight_time / 1000)
-                )
+                ),
+                total_healing: member.heal_done + member.absorb_done
             }));
 
             return { ...state, data: data, loading: false };

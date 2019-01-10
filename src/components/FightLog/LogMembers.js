@@ -35,12 +35,17 @@ const tableColumns = [
         label: "Hps",
         id: "hps"
     },
+
     {
         label: "Damage",
         id: "dmg_done"
     },
     {
         label: "Healing",
+        id: "total_healing"
+    },
+    {
+        label: "Heal",
         id: "heal_done"
     },
     {
@@ -153,6 +158,14 @@ function LogMembers({ data, sort, fightLogMembersSort }) {
                                 <span className="textBold">
                                     {new Intl.NumberFormat().format(
                                         member.dmg_done
+                                    )}
+                                </span>
+                            </TableCell>
+
+                            <TableCell component="th" scope="row" align="right">
+                                <span className="textBold">
+                                    {new Intl.NumberFormat().format(
+                                        member.total_healing
                                     )}
                                 </span>
                             </TableCell>
