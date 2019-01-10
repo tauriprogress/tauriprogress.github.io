@@ -22,6 +22,8 @@ function raidBossReducer(state = defaultState, action) {
             for (let diff in data) {
                 dps[diff] = [];
                 for (let charKey in data[diff].dps) {
+                    if (typeof data[diff].dps[charKey].dps !== "number")
+                        continue;
                     data[diff].dps[charKey].dps = Math.round(
                         data[diff].dps[charKey].dps
                     );
