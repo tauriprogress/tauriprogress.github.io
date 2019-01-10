@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import { Link } from "react-router-dom";
 
@@ -9,36 +11,103 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 import characterClassColors from "../../constants/characterClassColors";
 import specToClass from "../../constants/specToClass";
 import specs from "../../constants/specs";
 
 import { getSpecImg } from "../DisplayRaid/helpers";
+import { sortMembers } from "./helpers";
 
-function LogTitle({ data }) {
+import { fightLogMembersSort } from "../../redux/actions";
+
+const tableColumns = [
+    {
+        label: "Name",
+        id: "name"
+    },
+    {
+        label: "Dps",
+        id: "dps"
+    },
+    {
+        label: "Hps",
+        id: "hps"
+    },
+    {
+        label: "Damage",
+        id: "dmg_done"
+    },
+    {
+        label: "Healing",
+        id: "heal_done"
+    },
+    {
+        label: "Absorb",
+        id: "absorb_done"
+    },
+    {
+        label: "Damage taken",
+        id: "dmg_taken"
+    },
+    {
+        label: "Interrupts",
+        id: "interrupts"
+    },
+    {
+        label: "Dispells",
+        id: "dispells"
+    }
+];
+
+function LogTableHead({ sort, fightLogMembersSort }) {
+    return (
+        <TableHead>
+            <TableRow>
+                {tableColumns.map(column => (
+                    <TableCell
+                        sortDirection={
+                            sort.by === column.id ? sort.direction : false
+                        }
+                        key={column.id}
+                    >
+                        <Tooltip title="Sort" enterDelay={300}>
+                            <TableSortLabel
+                                active={sort.by === column.id}
+                                direction={sort.direction}
+                                onClick={() =>
+                                    fightLogMembersSort({
+                                        by: column.id,
+                                        direction:
+                                            sort.by === column.id
+                                                ? sort.direction === "asc"
+                                                    ? "desc"
+                                                    : "asc"
+                                                : "desc"
+                                    })
+                                }
+                            >
+                                {column.label}
+                            </TableSortLabel>
+                        </Tooltip>
+                    </TableCell>
+                ))}
+            </TableRow>
+        </TableHead>
+    );
+}
+
+function LogMembers({ data, sort, fightLogMembersSort }) {
     return (
         <div className="fightLogTitle overflowScroll">
             <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Player</TableCell>
-
-                        <TableCell align="right">Dps</TableCell>
-
-                        <TableCell align="right">Damage done</TableCell>
-                        <TableCell align="right">Hps</TableCell>
-                        <TableCell align="right">Healing done</TableCell>
-
-                        <TableCell align="right">Absorb done</TableCell>
-                        <TableCell align="right">Damage taken</TableCell>
-
-                        <TableCell align="right">Interrupts</TableCell>
-                        <TableCell align="right">Dispells</TableCell>
-                    </TableRow>
-                </TableHead>
+                <LogTableHead
+                    sort={sort}
+                    fightLogMembersSort={fightLogMembersSort}
+                />
                 <TableBody>
-                    {data.members.map(member => (
+                    {sortMembers(data.members, sort).map(member => (
                         <TableRow key={member.name}>
                             <TableCell component="th" scope="row">
                                 <span className="textBold">{member.ilvl} </span>{" "}
@@ -71,12 +140,12 @@ function LogTitle({ data }) {
 
                             <TableCell component="th" scope="row" align="right">
                                 <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        Math.round(
-                                            member.dmg_done /
-                                                (data.fight_time / 1000)
-                                        )
-                                    )}
+                                    {new Intl.NumberFormat().format(member.dps)}
+                                </span>
+                            </TableCell>
+                            <TableCell component="th" scope="row" align="right">
+                                <span className="textBold">
+                                    {new Intl.NumberFormat().format(member.hps)}
                                 </span>
                             </TableCell>
 
@@ -88,17 +157,6 @@ function LogTitle({ data }) {
                                 </span>
                             </TableCell>
 
-                            <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        Math.round(
-                                            (member.heal_done +
-                                                member.absorb_done) /
-                                                (data.fight_time / 1000)
-                                        )
-                                    )}
-                                </span>
-                            </TableCell>
                             <TableCell component="th" scope="row" align="right">
                                 <span className="textBold">
                                     {new Intl.NumberFormat().format(
@@ -134,4 +192,17 @@ function LogTitle({ data }) {
     );
 }
 
-export default LogTitle;
+function mapStateToProps(state) {
+    return {
+        sort: state.fightLog.sort
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fightLogMembersSort }, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LogMembers);

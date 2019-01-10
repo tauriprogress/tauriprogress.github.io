@@ -172,3 +172,10 @@ export function fightLogFill(payload) {
         payload
     };
 }
+
+export function fightLogMembersSort(payload) {
+    return {
+        type: "FIGHT_LOG_MEMBERS_SORT",
+        payload
+    };
+}
