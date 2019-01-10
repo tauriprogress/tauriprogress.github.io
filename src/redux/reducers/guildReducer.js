@@ -28,12 +28,13 @@ function guildReducer(state = defaultState, action) {
                 for (let bossKey in progression[raidName][diffKey]) {
                     for (let charKey in progression[raidName][diffKey][bossKey]
                         .dps) {
+                        let currentDps =
+                            progression[raidName][diffKey][bossKey].dps[charKey]
+                                .dps;
+                        if (typeof currentDps !== "number") continue;
                         progression[raidName][diffKey][bossKey].dps[
                             charKey
-                        ].dps = Math.round(
-                            progression[raidName][diffKey][bossKey].dps[charKey]
-                                .dps
-                        );
+                        ].dps = Math.round(currentDps);
 
                         dps.push(
                             progression[raidName][diffKey][bossKey].dps[charKey]
