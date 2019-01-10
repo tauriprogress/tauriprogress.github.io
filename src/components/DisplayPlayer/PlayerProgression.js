@@ -16,7 +16,6 @@ import Info from "@material-ui/icons/Info";
 import LogLink from "../LogLink";
 
 import { raidName } from "../../constants/currentContent";
-import valuesCorrectSince from "../../constants/valuesCorrectSince";
 import { getSpecImg } from "../DisplayRaid/helpers";
 
 class PlayerProgression extends React.PureComponent {
