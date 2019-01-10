@@ -10,6 +10,8 @@ import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
 import CharacterLadder from "../CharacterLadder";
 
+import valuesCorrectSince from "../../constants/valuesCorrectSince";
+
 class RaidBoss extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -61,13 +63,15 @@ function getChild(value, data) {
                 <React.Fragment>
                     {data.bossName === "Durumu the Forgotten" && (
                         <Chip
-                            label="Dps of Durumu are incorrect."
+                            label={`Data collected since ${new Date(
+                                valuesCorrectSince * 1000
+                            ).toLocaleDateString()} due to a bug.`}
                             avatar={
                                 <Avatar>
-                                    <Warning color="error" />
+                                    <Warning color="secondary" />
                                 </Avatar>
                             }
-                            className="durumuWarning"
+                            className="warning"
                             color="primary"
                         />
                     )}

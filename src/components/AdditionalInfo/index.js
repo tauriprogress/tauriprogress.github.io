@@ -23,6 +23,7 @@ import { whenWas } from "./helpers";
 import { Typography } from "@material-ui/core";
 
 import { serverUrl } from "../../constants/urls";
+import valuesCorrectSince from "../../constants/valuesCorrectSince";
 
 class AdditionalInfo extends React.PureComponent {
     constructor(props) {
@@ -143,29 +144,15 @@ class AdditionalInfo extends React.PureComponent {
                                 timeout="auto"
                                 unmountOnExit
                             >
-                                <Typography variant="subtitle2">
-                                    Durumu:
-                                </Typography>
                                 <Typography>
-                                    DPS of Durumu is incorrect.
-                                </Typography>
-                                <Typography variant="subtitle2">
-                                    Resto druid:
-                                </Typography>
-                                <Typography>
-                                    Healing data is inaccurate on some bosses.
-                                </Typography>
-                                <Typography variant="subtitle2">
-                                    Absorb:
-                                </Typography>
-                                <Typography>
-                                    In a lot of cases absorb data is inaccurate,
-                                    eg: warlock, priest.
-                                </Typography>
-                                <Typography variant="caption">
-                                    Unfortunatelly I can't fix these issues,
-                                    since the data that I'm getting from tauri
-                                    is already broken.
+                                    Healing absorb data and DPS of Durumu is
+                                    only collected since{" "}
+                                    <span className="textBold">
+                                        {new Date(
+                                            valuesCorrectSince * 1000
+                                        ).toLocaleDateString()}{" "}
+                                    </span>
+                                    due to a bug.
                                 </Typography>
                             </Collapse>
                         </div>
