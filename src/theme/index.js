@@ -23,6 +23,16 @@ const overrides = {
         root: {
             backgroundColor: palette.primary.main
         }
+    },
+    MuiTableBody: {
+        root: {
+            "& tr:nth-child(odd)": {
+                backgroundColor: "white"
+            },
+            "& tr:hover": {
+                backgroundColor: "#e2e3e8"
+            }
+        }
     }
 };
 export default createMuiTheme({

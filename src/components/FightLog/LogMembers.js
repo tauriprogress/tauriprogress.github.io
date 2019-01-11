@@ -24,7 +24,7 @@ import { fightLogMembersSort } from "../../redux/actions";
 
 const tableColumns = [
     {
-        label: "Name",
+        label: "Player",
         id: "name"
     },
     {
@@ -68,7 +68,7 @@ const tableColumns = [
 
 function LogTableHead({ sort, fightLogMembersSort }) {
     return (
-        <TableHead>
+        <TableHead className="tableHead">
             <TableRow>
                 {tableColumns.map(column => (
                     <TableCell
@@ -144,58 +144,81 @@ function LogMembers({ data, sort, fightLogMembersSort }) {
                             </TableCell>
 
                             <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(member.dps)}
-                                </span>
-                            </TableCell>
-                            <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(member.hps)}
-                                </span>
-                            </TableCell>
-
-                            <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        member.dmg_done
-                                    )}
-                                </span>
+                                <Tooltip title="Dps">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.dps
+                                        )}
+                                    </span>
+                                </Tooltip>
                             </TableCell>
 
                             <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        member.total_healing
-                                    )}
-                                </span>
+                                <Tooltip title="Hps">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.hps
+                                        )}
+                                    </span>
+                                </Tooltip>
                             </TableCell>
 
                             <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        member.heal_done
-                                    )}
-                                </span>
+                                <Tooltip title="Damage">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.dmg_done
+                                        )}
+                                    </span>
+                                </Tooltip>
+                            </TableCell>
+
+                            <TableCell component="th" scope="row" align="right">
+                                <Tooltip title="Healing">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.total_healing
+                                        )}
+                                    </span>
+                                </Tooltip>
+                            </TableCell>
+
+                            <TableCell component="th" scope="row" align="right">
+                                <Tooltip title="Heal">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.heal_done
+                                        )}
+                                    </span>
+                                </Tooltip>
                             </TableCell>
                             <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        member.absorb_done
-                                    )}
-                                </span>
+                                <Tooltip title="Absorb">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.absorb_done
+                                        )}
+                                    </span>
+                                </Tooltip>
                             </TableCell>
                             <TableCell component="th" scope="row" align="right">
-                                <span className="textBold">
-                                    {new Intl.NumberFormat().format(
-                                        member.dmg_taken
-                                    )}
-                                </span>
+                                <Tooltip title="Damage taken">
+                                    <span className="textBold">
+                                        {new Intl.NumberFormat().format(
+                                            member.dmg_taken
+                                        )}
+                                    </span>
+                                </Tooltip>
                             </TableCell>
                             <TableCell component="th" scope="row" align="right">
-                                {member.interrupts}
+                                <Tooltip title="Interrupts">
+                                    <span>{member.interrupts}</span>
+                                </Tooltip>
                             </TableCell>
                             <TableCell component="th" scope="row" align="right">
-                                {member.dispells}
+                                <Tooltip title="Dispells">
+                                    <span>{member.dispells}</span>
+                                </Tooltip>
                             </TableCell>
                         </TableRow>
                     ))}

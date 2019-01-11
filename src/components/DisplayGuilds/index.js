@@ -58,7 +58,7 @@ class DisplayGuilds extends React.PureComponent {
                         <SearchBar />
                         <div className="overflowScroll">
                             <Table>
-                                <TableHead>
+                                <TableHead className="tableHead">
                                     <TableRow>
                                         {tableColumns.map(column => (
                                             <TableCell key={column.key}>

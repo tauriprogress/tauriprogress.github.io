@@ -52,7 +52,7 @@ class RaidBosses extends React.PureComponent {
                 </Tabs>
                 <div className="overflowScroll">
                     <Table>
-                        <TableHead>
+                        <TableHead className="tableHead">
                             <TableRow>
                                 <TableCell>Boss name</TableCell>
                                 <TableCell>Kills</TableCell>

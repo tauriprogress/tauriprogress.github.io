@@ -191,7 +191,7 @@ class CharacterLadder extends React.PureComponent {
                     </Collapse>
                 </div>
                 <Table>
-                    <TableHead>
+                    <TableHead className="tableHead">
                         <TableRow>
                             <TableCell>Rank</TableCell>
 

@@ -16,7 +16,7 @@ function LatestKills({ data }) {
     return (
         <div className="overflowScroll">
             <Table>
-                <TableHead>
+                <TableHead className="tableHead">
                     <TableRow>
                         <TableCell>Rank</TableCell>
 

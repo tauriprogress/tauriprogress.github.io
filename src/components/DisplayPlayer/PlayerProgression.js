@@ -46,7 +46,7 @@ class PlayerProgression extends React.PureComponent {
                 </Tabs>
                 <div className="overflowScroll">
                     <Table>
-                        <TableHead>
+                        <TableHead className="tableHead">
                             <TableRow>
                                 <TableCell>BossName</TableCell>
                                 <TableCell>Dps</TableCell>
