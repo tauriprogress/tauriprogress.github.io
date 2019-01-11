@@ -19,6 +19,7 @@ import {
 import GuildProgression from "./GuildProgression";
 import GuildRoster from "./GuildRoster";
 import GuildLatestKills from "./GuildLatestKills";
+import ErrorMessage from "../ErrorMessage";
 
 import { serverUrl } from "../../constants/urls";
 
@@ -71,7 +72,7 @@ class DisplayGuild extends React.PureComponent {
                     </div>
                 )}
 
-                {error && <span className="red">{error}</span>}
+                {error && <ErrorMessage message={error} />}
 
                 {!loading && !error && data && (
                     <React.Fragment>

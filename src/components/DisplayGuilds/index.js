@@ -12,6 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import SearchBar from "../SearchBar";
+import ErrorMessage from "../ErrorMessage";
 
 import {
     guildsFill,
@@ -52,7 +53,7 @@ class DisplayGuilds extends React.PureComponent {
                     />
                 )}
                 {error ? (
-                    <span className="displayGuildsError red">{error}</span>
+                    <ErrorMessage message={error} />
                 ) : (
                     <React.Fragment>
                         <SearchBar />

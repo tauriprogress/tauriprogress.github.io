@@ -6,6 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import LogTitle from "./LogTitle";
 import LogMembers from "./LogMembers";
+import ErrorMessage from "../ErrorMessage";
 
 import {
     fightLogSetError,
@@ -58,7 +59,7 @@ class FightLog extends React.PureComponent {
                     </div>
                 )}
 
-                {error && <span className="red">{error}</span>}
+                {error && <ErrorMessage message={error} />}
 
                 {!loading && !error && data && (
                     <div className="fightLogContentContainer">

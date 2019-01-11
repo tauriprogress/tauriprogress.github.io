@@ -13,6 +13,8 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Info from "@material-ui/icons/Info";
 import Refresh from "@material-ui/icons/Refresh";
 
+import ErrorMessage from "../ErrorMessage";
+
 import {
     additionalInfoSetError,
     additionalInfoSetLoading,
@@ -99,11 +101,7 @@ class AdditionalInfo extends React.PureComponent {
                                 />
                             </div>
                         )}
-                        {!loading && error && (
-                            <Typography>
-                                <span className="red">{error}</span>
-                            </Typography>
-                        )}
+                        {!loading && error && <ErrorMessage message={error} />}
                         {!loading && !error && lastUpdated && (
                             <div className="additionalInfoUpdate">
                                 <Typography>

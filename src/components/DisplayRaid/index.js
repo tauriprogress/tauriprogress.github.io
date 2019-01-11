@@ -6,6 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import RaidBosses from "./RaidBosses";
 import RaidBossList from "../RaidBossList";
+import ErrorMessage from "../ErrorMessage";
 
 import { raidFill, raidSetError, raidSetLoading } from "../../redux/actions";
 
@@ -46,7 +47,7 @@ class DisplayRaid extends React.PureComponent {
                         />
                     </div>
                 )}
-                {error && <span className="red">{error}</span>}
+                {error && <ErrorMessage message={error} />}
                 {!loading && !error && data && (
                     <div className="displayRaidContentContainer">
                         <aside>

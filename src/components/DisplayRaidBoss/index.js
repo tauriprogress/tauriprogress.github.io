@@ -10,6 +10,7 @@ import Tab from "@material-ui/core/Tab";
 
 import RaidBossList from "../RaidBossList";
 import RaidBoss from "./RaidBoss";
+import ErrorMessage from "../ErrorMessage";
 
 import {
     raidBossSetError,
@@ -95,7 +96,7 @@ class DisplayRaidBoss extends React.PureComponent {
                         <CircularProgress color="secondary" />
                     </div>
                 )}
-                {error && <span className="red">{error}</span>}
+                {error && <ErrorMessage message={error} />}
 
                 {!loading && !error && data && (
                     <div className="displayRaidBossTitle">

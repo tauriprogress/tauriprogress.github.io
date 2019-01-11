@@ -8,6 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import PlayerTitle from "./PlayerTitle";
 import PlayerStats from "./PlayerStats";
 import PlayerProgression from "./PlayerProgression";
+import ErrorMessage from "../ErrorMessage";
 
 import {
     playerSetError,
@@ -61,7 +62,7 @@ class DisplayPlayer extends React.PureComponent {
                     </div>
                 )}
 
-                {error && <span className="red">{error}</span>}
+                {error && <ErrorMessage message={error} />}
                 {!loading && !error && data && (
                     <React.Fragment>
                         <PlayerTitle data={data} />

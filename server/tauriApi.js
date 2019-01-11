@@ -11,19 +11,23 @@ class TauriApi {
 
     request(options) {
         return new Promise(async (resolve, reject) => {
-            let timeOut = setTimeout(() => {
-                reject("request timed out");
-            }, 13000);
+            try {
+                let timeOut = setTimeout(() => {
+                    reject("request timed out");
+                }, 13000);
 
-            resolve(
-                await fetch(
-                    url.parse(this.baseurl + "?apikey=" + this.apikey),
-                    options
-                ).then(res => {
-                    clearTimeout(timeOut);
-                    return res.json();
-                })
-            );
+                resolve(
+                    await fetch(
+                        url.parse(this.baseurl + "?apikey=" + this.apikey),
+                        options
+                    ).then(res => {
+                        clearTimeout(timeOut);
+                        return res.json();
+                    })
+                );
+            } catch (err) {
+                reject(err);
+            }
         });
     }
 
