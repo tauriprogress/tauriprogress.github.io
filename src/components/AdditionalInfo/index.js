@@ -9,6 +9,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import Info from "@material-ui/icons/Info";
 import Refresh from "@material-ui/icons/Refresh";
@@ -157,7 +158,37 @@ class AdditionalInfo extends React.PureComponent {
                         <Divider />
 
                         <Typography>
-                            Data is collected since 2018 nov. 8.
+                            You can give suggestions or report bugs on the{" "}
+                            <span className="textBold">
+                                <a
+                                    href="https://community.tauriwow.com/index.php?/topic/2076/"
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    forums
+                                </a>
+                            </span>{" "}
+                            or{" "}
+                            <Tooltip title={"Just click new issue"}>
+                                <span className="textBold">
+                                    <a
+                                        href="https://github.com/tauriprogress/tauriprogress.github.io/issues"
+                                        target="_blank"
+                                        rel="noreferrer noopener"
+                                    >
+                                        github
+                                    </a>
+                                </span>
+                            </Tooltip>
+                            .
+                        </Typography>
+                        <Divider />
+
+                        <Typography>
+                            Data is collected since{" "}
+                            <span className="textBold">
+                                {new Date(1541640000000).toLocaleDateString()}.
+                            </span>
                         </Typography>
                         <Divider />
 
