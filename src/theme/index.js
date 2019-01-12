@@ -33,6 +33,14 @@ const overrides = {
                 backgroundColor: "#e2e3e8"
             }
         }
+    },
+    MuiChip: {
+        root: {
+            margin: "5px"
+        },
+        label: {
+            whiteSpace: "normal"
+        }
     }
 };
 export default createMuiTheme({
