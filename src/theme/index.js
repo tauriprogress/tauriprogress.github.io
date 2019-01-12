@@ -36,7 +36,8 @@ const overrides = {
     },
     MuiChip: {
         root: {
-            margin: "5px"
+            margin: "5px",
+            height: "auto"
         },
         label: {
             whiteSpace: "normal"

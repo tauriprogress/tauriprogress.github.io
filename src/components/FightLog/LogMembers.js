@@ -105,7 +105,7 @@ function LogTableHead({ sort, fightLogMembersSort }) {
 
 function LogMembers({ data, sort, fightLogMembersSort }) {
     return (
-        <div className="fightLogTitle overflowScroll">
+        <div className="fightLogMembers overflowScroll">
             <Table>
                 <LogTableHead
                     sort={sort}
