@@ -10,35 +10,16 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-import SearchBar from "../SearchBar";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import {
-    guildsFill,
-    guildsSetError,
-    guildsSetLoading
-} from "../../redux/actions";
+import { guildsFetch } from "../../redux/actions";
 
 import { sortByProgression } from "./helpers";
 
-import { serverUrl } from "../../constants/urls";
-
 class DisplayGuilds extends React.PureComponent {
     componentDidMount() {
-        if (!this.props.loading) {
-            this.props.guildsSetLoading(true);
-            fetch(`${serverUrl}/getguildlist`)
-                .then(res => res.json())
-                .then(res => {
-                    if (!res.success) {
-                        throw new Error(res.errorstring);
-                    } else {
-                        this.props.guildsFill(res.response);
-                    }
-                })
-                .catch(err => this.props.guildsSetError(err.message));
-        }
+        this.props.guildsFetch();
     }
 
     render() {
@@ -49,11 +30,9 @@ class DisplayGuilds extends React.PureComponent {
         return (
             <section className="displayGuilds">
                 {loading && <Loading />}
-                {error ? (
-                    <ErrorMessage message={error} />
-                ) : (
+                {error && <ErrorMessage message={error} />}
+                {!loading && !error && data && (
                     <React.Fragment>
-                        <SearchBar />
                         <div className="overflowScroll">
                             <Table>
                                 <TableHead className="tableHead">
@@ -125,10 +104,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { guildsFill, guildsSetError, guildsSetLoading },
-        dispatch
-    );
+    return bindActionCreators({ guildsFetch }, dispatch);
 }
 
 export default connect(

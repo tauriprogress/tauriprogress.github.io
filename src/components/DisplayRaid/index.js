@@ -7,32 +7,12 @@ import RaidBossList from "../RaidBossList";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { raidFill, raidSetError, raidSetLoading } from "../../redux/actions";
-
-import { serverUrl } from "../../constants/urls";
+import { raidFetch } from "../../redux/actions";
 
 class DisplayRaid extends React.PureComponent {
     componentDidMount() {
         const raidName = this.props.match.params.raidName;
-        this.props.raidSetLoading(true);
-        fetch(`${serverUrl}/getraid`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                raidName: raidName
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.raidFill(res.response);
-                }
-            })
-            .catch(err => this.props.raidSetError(err.message));
+        this.props.raidFetch(raidName);
     }
     render() {
         const { loading, data, error } = this.props.raid;
@@ -65,10 +45,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { raidFill, raidSetError, raidSetLoading },
-        dispatch
-    );
+    return bindActionCreators({ raidFetch }, dispatch);
 }
 
 export default connect(

@@ -1,17 +1,20 @@
 import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
 import { withStyles } from "@material-ui/core/styles";
+
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
 import { emphasize } from "@material-ui/core/styles/colorManipulator";
 
-import { connect } from "react-redux";
-
-import { withRouter } from "react-router-dom";
-
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
+
+import { guildFetch } from "../../redux/actions";
 
 const styles = theme => ({
     root: {
@@ -177,12 +180,18 @@ class SearchGuild extends React.Component {
     }
 
     submit() {
-        if (this.state.value)
+        if (this.state.value) {
             this.props.history.push(
                 `/guild/${this.state.value.value.guildName}?realm=${
                     this.state.value.value.realm
                 }`
             );
+            this.props.closeDrawer();
+            this.props.guildFetch({
+                guildName: this.state.value.value.guildName,
+                realm: this.state.value.value.realm
+            });
+        }
     }
 
     render() {
@@ -215,7 +224,7 @@ class SearchGuild extends React.Component {
                     className="searchBarGuildSubmit"
                     onClick={this.submit}
                 >
-                    go
+                    Search guild
                 </Button>
             </div>
         );
@@ -234,6 +243,15 @@ function mapStateToProps(state) {
     };
 }
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ guildFetch }, dispatch);
+}
+
 export default withStyles(styles, { withTheme: true })(
-    withRouter(connect(mapStateToProps)(SearchGuild))
+    withRouter(
+        connect(
+            mapStateToProps,
+            mapDispatchToProps
+        )(SearchGuild)
+    )
 );

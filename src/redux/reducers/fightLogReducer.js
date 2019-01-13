@@ -1,7 +1,7 @@
 const defaultState = {
     data: null,
     error: null,
-    loading: true,
+    loading: false,
     sort: {
         by: "dps",
         direction: "desc"
@@ -13,7 +13,7 @@ function fightLogReducer(state = defaultState, action) {
         case "FIGHT_LOG_SET_ERROR":
             return { ...state, error: action.payload, loading: false };
         case "FIGHT_LOG_SET_LOADING":
-            return { ...state, loading: action.payload };
+            return { ...state, loading: action.payload, error: null };
         case "FIGHT_LOG_FILL":
             let data = action.payload;
             data.members = data.members.map(member => ({
@@ -26,7 +26,7 @@ function fightLogReducer(state = defaultState, action) {
                 total_healing: member.heal_done + member.absorb_done
             }));
 
-            return { ...state, data: data, loading: false };
+            return { ...state, data: data, loading: false, error: null };
         case "FIGHT_LOG_MEMBERS_SORT":
             return { ...state, sort: action.payload };
         default:

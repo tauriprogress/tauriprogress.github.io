@@ -7,13 +7,7 @@ import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import {
-    fightLogSetError,
-    fightLogSetLoading,
-    fightLogFill
-} from "../../redux/actions";
-
-import { serverUrl } from "../../constants/urls";
+import { fightLogFetch } from "../../redux/actions";
 
 class FightLog extends React.PureComponent {
     componentDidMount() {
@@ -22,26 +16,7 @@ class FightLog extends React.PureComponent {
             "realm"
         );
 
-        this.props.fightLogSetLoading(true);
-        fetch(`${serverUrl}/getlog`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                logId: logId,
-                realm: realm
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.fightLogFill(res.response);
-                }
-            })
-            .catch(err => this.props.fightLogSetError(err.message));
+        this.props.fightLogFetch({ logId, realm });
     }
 
     render() {
@@ -71,10 +46,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { fightLogSetError, fightLogSetLoading, fightLogFill },
-        dispatch
-    );
+    return bindActionCreators({ fightLogFetch }, dispatch);
 }
 
 export default connect(

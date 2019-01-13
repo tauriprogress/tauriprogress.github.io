@@ -1,17 +1,17 @@
 const defaultState = {
     data: null,
     error: null,
-    loading: true,
+    loading: false,
     raidName: null,
     bossName: null
 };
 
 function raidBossReducer(state = defaultState, action) {
     switch (action.type) {
-        case "RAID_BOSS_INIT_REQUEST":
+        case "RAID_BOSS_LOADING":
             return {
                 ...state,
-                loading: action.payload.loading,
+                loading: true,
                 raidName: action.payload.raidName,
                 bossName: action.payload.bossName,
                 error: null
@@ -46,7 +46,12 @@ function raidBossReducer(state = defaultState, action) {
                 data[diff].hps.sort((a, b) => b.hps - a.hps);
             }
 
-            return { ...state, data: action.payload, loading: false };
+            return {
+                ...state,
+                data: action.payload,
+                loading: false,
+                error: null
+            };
         case "RAID_BOSS_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";

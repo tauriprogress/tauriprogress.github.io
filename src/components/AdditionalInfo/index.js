@@ -16,16 +16,12 @@ import Refresh from "@material-ui/icons/Refresh";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import {
-    additionalInfoSetError,
-    additionalInfoSetLoading,
-    additionalInfoFill
-} from "../../redux/actions";
+import { lastUpdatedFetch } from "../../redux/actions";
+import { updateDbFetch } from "../../redux/actions";
 
 import { whenWas } from "./helpers";
 import { Typography } from "@material-ui/core";
 
-import { serverUrl } from "../../constants/urls";
 import valuesCorrectSince from "../../constants/valuesCorrectSince";
 
 class AdditionalInfo extends React.PureComponent {
@@ -35,23 +31,13 @@ class AdditionalInfo extends React.PureComponent {
             drawerOpen: false,
             issuesOpen: false
         };
+
         this.toggleDrawer = this.toggleDrawer.bind(this);
-        this.updateDatabase = this.updateDatabase.bind(this);
         this.toggleIssues = this.toggleIssues.bind(this);
     }
 
     componentDidMount() {
-        this.props.additionalInfoSetLoading(true);
-        fetch(`${serverUrl}/lastupdated`)
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.additionalInfoFill(res.response);
-                }
-            })
-            .catch(err => this.props.additionalInfoSetError(err.message));
+        this.props.lastUpdatedFetch();
     }
 
     toggleDrawer(value) {
@@ -60,20 +46,6 @@ class AdditionalInfo extends React.PureComponent {
 
     toggleIssues() {
         this.setState({ ...this.state, issuesOpen: !this.state.issuesOpen });
-    }
-
-    updateDatabase() {
-        this.props.additionalInfoSetLoading(true);
-        fetch(`${serverUrl}/update`)
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.additionalInfoFill(res.response);
-                }
-            })
-            .catch(err => this.props.additionalInfoSetError(err.message));
     }
 
     render() {
@@ -109,7 +81,7 @@ class AdditionalInfo extends React.PureComponent {
                                     <Fab
                                         color="primary"
                                         size="small"
-                                        onClick={this.updateDatabase}
+                                        onClick={this.props.updateDbFetch}
                                     >
                                         <Refresh />
                                     </Fab>
@@ -213,9 +185,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            additionalInfoSetError,
-            additionalInfoSetLoading,
-            additionalInfoFill
+            lastUpdatedFetch,
+            updateDbFetch
         },
         dispatch
     );

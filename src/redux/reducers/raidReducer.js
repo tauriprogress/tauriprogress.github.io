@@ -6,10 +6,15 @@ const defaultState = {
 
 function raidReducer(state = defaultState, action) {
     switch (action.type) {
-        case "RAID_SET_LOADING":
-            return { ...state, loading: action.payload };
+        case "RAID_LOADING":
+            return { ...state, loading: true, error: null };
         case "RAID_FILL":
-            return { ...state, data: action.payload, loading: false };
+            return {
+                ...state,
+                data: action.payload,
+                loading: false,
+                error: null
+            };
         case "RAID_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";

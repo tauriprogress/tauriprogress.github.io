@@ -8,6 +8,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+import SearchBar from "../SearchBar";
 import AdditionalInfo from "../AdditionalInfo";
 
 import { raidName } from "../../constants/currentContent";
@@ -34,6 +35,7 @@ function Navigation({ nav, navToggle }) {
                             <Link
                                 to="/"
                                 onClick={() => linkClick(showNav, navToggle)}
+                                className="navOption"
                             >
                                 Home
                             </Link>
@@ -42,9 +44,13 @@ function Navigation({ nav, navToggle }) {
                             <Link
                                 to={`/raid/${raidName}`}
                                 onClick={() => linkClick(showNav, navToggle)}
+                                className="navOption"
                             >
                                 {raidName}
                             </Link>
+                        </li>
+                        <li>
+                            <SearchBar />
                         </li>
                     </ul>
                 </nav>

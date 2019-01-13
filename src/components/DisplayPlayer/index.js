@@ -9,14 +9,7 @@ import PlayerProgression from "./PlayerProgression";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import {
-    playerSetError,
-    playerSetLoading,
-    playerFill
-} from "../../redux/actions";
-
-import { raidName } from "../../constants/currentContent";
-import { serverUrl } from "../../constants/urls";
+import { playerFetch } from "../../redux/actions";
 
 class DisplayPlayer extends React.PureComponent {
     componentDidMount() {
@@ -24,29 +17,9 @@ class DisplayPlayer extends React.PureComponent {
         const realm = new URLSearchParams(this.props.location.search).get(
             "realm"
         );
-
-        this.props.playerSetLoading(true);
-        fetch(`${serverUrl}/getplayer`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                playerName: playerName,
-                raidName: raidName,
-                realm: realm
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.playerFill(res.response);
-                }
-            })
-            .catch(err => this.props.playerSetError(err.message));
+        this.props.playerFetch({ playerName, realm });
     }
+
     render() {
         const { data, loading, error } = this.props.player;
 
@@ -82,9 +55,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            playerSetError,
-            playerSetLoading,
-            playerFill
+            playerFetch
         },
         dispatch
     );

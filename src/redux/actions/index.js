@@ -5,6 +5,20 @@ export function navToggle(payload) {
     };
 }
 
+export function guildsFetch(payload) {
+    return {
+        type: "GUILDS_FETCH",
+        payload
+    };
+}
+
+export function guildsLoad(payload) {
+    return {
+        type: "GUILDS_LOAD",
+        payload
+    };
+}
+
 export function guildsFill(payload) {
     return {
         type: "GUILDS_FILL",
@@ -19,9 +33,9 @@ export function guildsSetError(payload) {
     };
 }
 
-export function guildsSetLoading(payload) {
+export function raidFetch(payload) {
     return {
-        type: "GUILDS_SET_LOADING",
+        type: "RAID_FETCH",
         payload
     };
 }
@@ -40,9 +54,9 @@ export function raidSetError(payload) {
     };
 }
 
-export function raidSetLoading(payload) {
+export function raidLoading(payload) {
     return {
-        type: "RAID_SET_LOADING",
+        type: "RAID_LOADING",
         payload
     };
 }
@@ -61,9 +75,22 @@ export function raidBossSetError(payload) {
     };
 }
 
-export function raidBossInitRequest(payload) {
+export function raidBossFetch(payload) {
     return {
-        type: "RAID_BOSS_INIT_REQUEST",
+        type: "RAID_BOSS_FETCH",
+        payload
+    };
+}
+
+export function raidBossLoading(payload) {
+    return {
+        type: "RAID_BOSS_LOADING",
+        payload
+    };
+}
+export function guildFetch(payload) {
+    return {
+        type: "GUILD_FETCH",
         payload
     };
 }
@@ -96,6 +123,13 @@ export function guildSetNav(payload) {
     };
 }
 
+export function playerFetch(payload) {
+    return {
+        type: "PLAYER_FETCH",
+        payload
+    };
+}
+
 export function playerSetError(payload) {
     return {
         type: "PLAYER_SET_ERROR",
@@ -103,9 +137,9 @@ export function playerSetError(payload) {
     };
 }
 
-export function playerSetLoading(payload) {
+export function playerLoading(payload) {
     return {
-        type: "PLAYER_SET_LOADING",
+        type: "PLAYER_LOADING",
         payload
     };
 }
@@ -131,16 +165,23 @@ export function charLadderFilterReset(payload) {
     };
 }
 
-export function additionalInfoSetError(payload) {
+export function updateDbFetch(payload) {
     return {
-        type: "ADDITIONAL_INFO_SET_ERROR",
+        type: "UPDATE_DB_FETCH",
         payload
     };
 }
 
-export function additionalInfoSetLoading(payload) {
+export function lastUpdatedFetch(payload) {
     return {
-        type: "ADDITIONAL_INFO_SET_LOADING",
+        type: "LAST_UPDATED_FETCH",
+        payload
+    };
+}
+
+export function additionalInfoLoading(payload) {
+    return {
+        type: "ADDITIONAL_INFO_LOADING",
         payload
     };
 }
@@ -152,6 +193,20 @@ export function additionalInfoFill(payload) {
     };
 }
 
+export function additionalInfoSetError(payload) {
+    return {
+        type: "ADDITIONAL_INFO_SET_ERROR",
+        payload
+    };
+}
+
+export function fightLogFetch(payload) {
+    return {
+        type: "FIGHT_LOG_FETCH",
+        payload
+    };
+}
+
 export function fightLogSetError(payload) {
     return {
         type: "FIGHT_LOG_SET_ERROR",
@@ -159,9 +214,9 @@ export function fightLogSetError(payload) {
     };
 }
 
-export function fightLogSetLoading(payload) {
+export function fightLogLoading(payload) {
     return {
-        type: "FIGHT_LOG_SET_LOADING",
+        type: "FIGHT_LOG_LOADING",
         payload
     };
 }

@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import { withRouter } from "react-router-dom";
 
@@ -8,6 +10,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import { playerFetch } from "../../redux/actions";
 
 import realms from "../../constants/realms";
 
@@ -32,10 +36,16 @@ class SearchPlayer extends React.Component {
     }
 
     submit() {
-        if (this.state.player)
+        if (this.state.player) {
             this.props.history.push(
                 `/player/${this.state.player}?realm=${this.state.realm}`
             );
+            this.props.closeDrawer();
+            this.props.playerFetch({
+                playerName: this.state.player,
+                realm: this.state.realm
+            });
+        }
     }
 
     render() {
@@ -80,11 +90,20 @@ class SearchPlayer extends React.Component {
                     className="searchBarPlayerSubmit"
                     onClick={this.submit}
                 >
-                    go
+                    search player
                 </Button>
             </div>
         );
     }
 }
 
-export default withRouter(SearchPlayer);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ playerFetch }, dispatch);
+}
+
+export default withRouter(
+    connect(
+        null,
+        mapDispatchToProps
+    )(SearchPlayer)
+);

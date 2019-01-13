@@ -1,9 +1,9 @@
 import { abbreviation } from "../../constants/currentContent";
 
 const defaultState = {
-    data: [],
+    data: null,
     error: null,
-    loading: true,
+    loading: false,
     tableColumns: [
         { key: "guildName", label: "Name" },
         { key: "realm", label: "Realm" },
@@ -22,10 +22,15 @@ function guildsReducer(state = defaultState, action) {
                 action.payload = "Unkown error.";
             }
             return { ...state, error: action.payload, loading: false };
-        case "GUILDS_SET_LOADING":
-            return { ...state, loading: action.payload };
+        case "GUILDS_LOAD":
+            return { ...state, loading: true, error: null };
         case "GUILDS_FILL":
-            return { ...state, data: action.payload, loading: false };
+            return {
+                ...state,
+                data: action.payload,
+                loading: false,
+                error: null
+            };
         default:
             return state;
     }

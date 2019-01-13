@@ -1,7 +1,9 @@
 const defaultState = {
-    data: {},
+    data: null,
     error: null,
-    loading: true
+    loading: false,
+    playerName: null,
+    realm: null
 };
 
 function playerReducer(state = defaultState, action) {
@@ -11,10 +13,23 @@ function playerReducer(state = defaultState, action) {
                 action.payload = "Unkown error.";
             }
             return { ...state, error: action.payload, loading: false };
-        case "PLAYER_SET_LOADING":
-            return { ...state, loading: action.payload };
+        case "PLAYER_LOADING":
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                playerName: action.payload.playerName,
+                realm: action.payload.realm
+            };
         case "PLAYER_FILL":
-            return { ...state, data: action.payload, loading: false };
+            return {
+                ...state,
+                data: action.payload,
+                loading: false,
+                error: null,
+                playerName: action.payload.name,
+                realm: action.payload.realm
+            };
         default:
             return state;
     }

@@ -14,14 +14,7 @@ import GuildLatestKills from "./GuildLatestKills";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import {
-    guildSetError,
-    guildSetLoading,
-    guildFill,
-    guildSetNav
-} from "../../redux/actions";
-
-import { serverUrl } from "../../constants/urls";
+import { guildFetch, guildSetNav } from "../../redux/actions";
 
 class DisplayGuild extends React.PureComponent {
     componentDidMount() {
@@ -30,26 +23,10 @@ class DisplayGuild extends React.PureComponent {
             "realm"
         );
 
-        this.props.guildSetLoading(true);
-        fetch(`${serverUrl}/getguild`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                guildName: guildName,
-                realm: realm
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.guildFill(res.response);
-                }
-            })
-            .catch(err => this.props.guildSetError(err.message));
+        this.props.guildFetch({
+            guildName,
+            realm
+        });
     }
 
     render() {
@@ -155,10 +132,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { guildSetError, guildSetLoading, guildFill, guildSetNav },
-        dispatch
-    );
+    return bindActionCreators({ guildFetch, guildSetNav }, dispatch);
 }
 
 export default connect(

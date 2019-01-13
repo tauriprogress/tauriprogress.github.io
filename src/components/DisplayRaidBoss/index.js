@@ -12,13 +12,7 @@ import RaidBoss from "./RaidBoss";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import {
-    raidBossSetError,
-    raidBossInitRequest,
-    raidBossFill
-} from "../../redux/actions";
-
-import { getBossData } from "./helpers";
+import { raidBossFetch } from "../../redux/actions";
 
 class DisplayRaidBoss extends React.PureComponent {
     constructor(props) {
@@ -30,43 +24,18 @@ class DisplayRaidBoss extends React.PureComponent {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidUpdate() {
-        const raidName = this.props.match.params.raidName;
-        const bossName = this.props.match.params.bossName;
-
-        if (
-            raidName !== this.props.raidBoss.raidName ||
-            bossName !== this.props.raidBoss.bossName
-        ) {
-            let diff = new URLSearchParams(this.props.location.search).get(
-                "diff"
-            );
-            if (diff) {
-                this.setState({ ...this.state, value: diff === "25" ? 6 : 5 });
-            }
-
-            getBossData(raidName, bossName, {
-                raidBossInitRequest: this.props.raidBossInitRequest,
-                raidBossFill: this.props.raidBossFill,
-                raidBossSetError: this.props.raidBossSetError
-            });
-        }
-    }
-
     componentDidMount() {
         const raidName = this.props.match.params.raidName;
         const bossName = this.props.match.params.bossName;
-
-        let diff = new URLSearchParams(this.props.location.search).get("diff");
-        if (diff) {
-            this.setState({ ...this.state, value: diff === "25" ? 6 : 5 });
+        if (
+            this.props.raidBoss.raidName !== raidName ||
+            this.props.raidBoss.bossName !== bossName
+        ) {
+            this.props.raidBossFetch({
+                raidName,
+                bossName
+            });
         }
-
-        getBossData(raidName, bossName, {
-            raidBossInitRequest: this.props.raidBossInitRequest,
-            raidBossFill: this.props.raidBossFill,
-            raidBossSetError: this.props.raidBossSetError
-        });
     }
 
     handleChange(e, value) {
@@ -148,10 +117,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { raidBossSetError, raidBossInitRequest, raidBossFill },
-        dispatch
-    );
+    return bindActionCreators({ raidBossFetch }, dispatch);
 }
 
 export default connect(

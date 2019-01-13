@@ -9,8 +9,7 @@ header
     nav
         background-color: $accent-one
         transition: 300ms
-        a:hover
-            color: $accent-two-light
+           
         &.hide
             display: block
 
@@ -18,10 +17,14 @@ header
             display: flex
             li
                 padding: 10px
-    a
-        text-decoration: none
-        color: $light
-        font-size: 14px
+            .navOption
+                text-decoration: none
+                color: $light
+                font-size: 14px
+                cursor: pointer
+                &:hover
+                     color: $accent-two-light
+
     .cover
         display: none
     

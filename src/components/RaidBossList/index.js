@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -6,6 +9,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+
+import { raidBossFetch } from "../../redux/actions";
 
 class RaidBossList extends React.PureComponent {
     constructor(props) {
@@ -52,7 +57,16 @@ class RaidBossList extends React.PureComponent {
 
                             return (
                                 <ListItem component="li" button key={name}>
-                                    <Link to={linkTo}>
+                                    <Link
+                                        to={linkTo}
+                                        onClick={() =>
+                                            this.props.raidBossFetch({
+                                                raidName: raid.name,
+                                                bossName:
+                                                    encounter.encounter_name
+                                            })
+                                        }
+                                    >
                                         <ListItemText primary={name} />
                                     </Link>
                                 </ListItem>
@@ -65,4 +79,11 @@ class RaidBossList extends React.PureComponent {
     }
 }
 
-export default RaidBossList;
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ raidBossFetch }, dispatch);
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(RaidBossList);
