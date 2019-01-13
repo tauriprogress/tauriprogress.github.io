@@ -3,12 +3,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 import PlayerTitle from "./PlayerTitle";
 import PlayerStats from "./PlayerStats";
 import PlayerProgression from "./PlayerProgression";
 import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import {
     playerSetError,
@@ -53,14 +52,7 @@ class DisplayPlayer extends React.PureComponent {
 
         return (
             <section className="displayPlayer">
-                {loading && (
-                    <div className="displayPlayerLoaderContainer">
-                        <CircularProgress
-                            className="displayPlayerLoader"
-                            color="secondary"
-                        />
-                    </div>
-                )}
+                {loading && <Loading />}
 
                 {error && <ErrorMessage message={error} />}
                 {!loading && !error && data && (

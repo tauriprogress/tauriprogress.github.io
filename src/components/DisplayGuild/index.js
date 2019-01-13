@@ -3,11 +3,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
+
+import GuildProgression from "./GuildProgression";
+import GuildRoster from "./GuildRoster";
+import GuildLatestKills from "./GuildLatestKills";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import {
     guildSetError,
@@ -15,11 +20,6 @@ import {
     guildFill,
     guildSetNav
 } from "../../redux/actions";
-
-import GuildProgression from "./GuildProgression";
-import GuildRoster from "./GuildRoster";
-import GuildLatestKills from "./GuildLatestKills";
-import ErrorMessage from "../ErrorMessage";
 
 import { serverUrl } from "../../constants/urls";
 
@@ -63,14 +63,7 @@ class DisplayGuild extends React.PureComponent {
 
         return (
             <section className="displayGuild">
-                {loading && (
-                    <div className="displayGuildLoaderContainer">
-                        <CircularProgress
-                            className="displayGuildLoader"
-                            color="secondary"
-                        />
-                    </div>
-                )}
+                {loading && <Loading />}
 
                 {error && <ErrorMessage message={error} />}
 

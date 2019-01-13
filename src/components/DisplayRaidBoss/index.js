@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import RaidBossList from "../RaidBossList";
 import RaidBoss from "./RaidBoss";
 import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import {
     raidBossSetError,
@@ -91,11 +91,7 @@ class DisplayRaidBoss extends React.PureComponent {
 
         return (
             <section className="displayRaidBoss">
-                {loading && (
-                    <div className="displayRaidBossLoaderContainer">
-                        <CircularProgress color="secondary" />
-                    </div>
-                )}
+                {loading && <Loading />}
                 {error && <ErrorMessage message={error} />}
 
                 {!loading && !error && data && (

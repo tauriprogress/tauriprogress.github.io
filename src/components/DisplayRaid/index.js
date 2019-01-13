@@ -2,11 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 import RaidBosses from "./RaidBosses";
 import RaidBossList from "../RaidBossList";
 import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import { raidFill, raidSetError, raidSetLoading } from "../../redux/actions";
 
@@ -39,14 +38,7 @@ class DisplayRaid extends React.PureComponent {
         const { loading, data, error } = this.props.raid;
         return (
             <section className="displayRaid">
-                {loading && (
-                    <div className="displayRaidLoaderContainer">
-                        <CircularProgress
-                            className="displayRaidLoader"
-                            color="secondary"
-                        />
-                    </div>
-                )}
+                {loading && <Loading />}
                 {error && <ErrorMessage message={error} />}
                 {!loading && !error && data && (
                     <div className="displayRaidContentContainer">

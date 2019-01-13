@@ -9,10 +9,10 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import SearchBar from "../SearchBar";
 import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import {
     guildsFill,
@@ -26,17 +26,19 @@ import { serverUrl } from "../../constants/urls";
 
 class DisplayGuilds extends React.PureComponent {
     componentDidMount() {
-        this.props.guildsSetLoading(true);
-        fetch(`${serverUrl}/getguildlist`)
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    throw new Error(res.errorstring);
-                } else {
-                    this.props.guildsFill(res.response);
-                }
-            })
-            .catch(err => this.props.guildsSetError(err.message));
+        if (!this.props.loading) {
+            this.props.guildsSetLoading(true);
+            fetch(`${serverUrl}/getguildlist`)
+                .then(res => res.json())
+                .then(res => {
+                    if (!res.success) {
+                        throw new Error(res.errorstring);
+                    } else {
+                        this.props.guildsFill(res.response);
+                    }
+                })
+                .catch(err => this.props.guildsSetError(err.message));
+        }
     }
 
     render() {
@@ -46,12 +48,7 @@ class DisplayGuilds extends React.PureComponent {
 
         return (
             <section className="displayGuilds">
-                {loading && (
-                    <CircularProgress
-                        className="displayGuildsLoader"
-                        color="secondary"
-                    />
-                )}
+                {loading && <Loading />}
                 {error ? (
                     <ErrorMessage message={error} />
                 ) : (

@@ -2,11 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 import LogTitle from "./LogTitle";
 import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import {
     fightLogSetError,
@@ -50,14 +49,7 @@ class FightLog extends React.PureComponent {
 
         return (
             <section className="fightLog">
-                {loading && (
-                    <div className="fightLogLoaderContainer">
-                        <CircularProgress
-                            className="displayPlayerLoader"
-                            color="secondary"
-                        />
-                    </div>
-                )}
+                {loading && <Loading />}
 
                 {error && <ErrorMessage message={error} />}
 

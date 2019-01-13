@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import Divider from "@material-ui/core/Divider";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -15,6 +14,7 @@ import Info from "@material-ui/icons/Info";
 import Refresh from "@material-ui/icons/Refresh";
 
 import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 import {
     additionalInfoSetError,
@@ -94,14 +94,7 @@ class AdditionalInfo extends React.PureComponent {
                     anchor="right"
                 >
                     <div className="additionalInfoContent">
-                        {loading && (
-                            <div className="additionalInfoLoaderContainer">
-                                <CircularProgress
-                                    className="additionalInfoLoader"
-                                    color="secondary"
-                                />
-                            </div>
-                        )}
+                        {loading && <Loading />}
                         {!loading && error && <ErrorMessage message={error} />}
                         {!loading && !error && lastUpdated && (
                             <div className="additionalInfoUpdate">
