@@ -480,6 +480,32 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
     return updatedRaidBoss;
 }
 
+function applyPlayerPerformanceRanks(raidBoss) {
+    let dpsArr = [];
+    let hpsArr = [];
+
+    for (let dpsKey in raidBoss.dps) {
+        dpsArr.push({ ...raidBoss.dps[dpsKey], key: dpsKey });
+    }
+
+    for (let hpsKey in raidBoss.hps) {
+        hpsArr.push({ ...raidBoss.hps[hpsKey], key: hpsKey });
+    }
+
+    dpsArr = dpsArr.sort((a, b) => b.dps - a.dps);
+    hpsArr = hpsArr.sort((a, b) => b.hps - a.hps);
+
+    for (let i = 0; i < dpsArr.length; i++) {
+        raidBoss.dps[dpsArr[i].key] = { ...dpsArr[i], rank: i + 1 };
+    }
+
+    for (let i = 0; i < hpsArr.length; i++) {
+        raidBoss.hps[hpsArr[i].key] = { ...hpsArr[i], rank: i + 1 };
+    }
+
+    return raidBoss;
+}
+
 function whenWas(date) {
     return Math.round((new Date().getTime() / 1000 - Number(date)) / 3600);
 }
@@ -497,5 +523,6 @@ module.exports = {
     createGuildData,
     mergeBossKillIntoGuildData,
     updateRaidBoss,
-    whenWas
+    whenWas,
+    applyPlayerPerformanceRanks
 };

@@ -1,8 +1,7 @@
 const dbUser = process.env.MONGODB_USER;
 const dbPassword = process.env.MONGODB_PASSWORD;
-const mongoUrl = `mongodb://${dbUser}:${dbPassword}@ds145412.mlab.com:45412/tauriprogress`;
+const mongoUrl = `mongodb://${dbUser}:${dbPassword}@ds125368.mlab.com:25368/tauriguilds`;
 const MongoClient = require("mongodb").MongoClient;
-
 const {
     raidName,
     lastBoss,
@@ -13,7 +12,8 @@ const {
     processRaidBossLogs,
     mergeBossKillIntoGuildData,
     createGuildData,
-    updateRaidBoss
+    updateRaidBoss,
+    applyPlayerPerformanceRanks
 } = require("./helpers");
 
 class Database {
@@ -29,7 +29,7 @@ class Database {
                 mongoUrl,
                 { useNewUrlParser: true }
             );
-            this.db = client.db("tauriprogress");
+            this.db = client.db("tauriguilds");
         } catch (err) {
             throw err;
         }
@@ -492,7 +492,9 @@ class Database {
                 });
 
                 if (!oldRaidBoss) {
-                    raidCollection.insertOne(raidBoss);
+                    raidCollection.insertOne(
+                        applyPlayerPerformanceRanks(raidBoss)
+                    );
                 } else {
                     await raidCollection.updateOne(
                         {
@@ -504,7 +506,9 @@ class Database {
                         },
                         {
                             $set: {
-                                ...updateRaidBoss(oldRaidBoss, raidBoss),
+                                ...applyPlayerPerformanceRanks(
+                                    updateRaidBoss(oldRaidBoss, raidBoss)
+                                ),
                                 _id: oldRaidBoss["_id"]
                             }
                         }
