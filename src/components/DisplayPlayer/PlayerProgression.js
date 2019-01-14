@@ -8,10 +8,10 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
+
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
-import Info from "@material-ui/icons/Info";
 
 import LogLink from "../LogLink";
 
@@ -48,9 +48,37 @@ class PlayerProgression extends React.PureComponent {
                     <Table>
                         <TableHead className="tableHead">
                             <TableRow>
-                                <TableCell>BossName</TableCell>
-                                <TableCell>Dps</TableCell>
-                                <TableCell>Hps</TableCell>
+                                <TableCell>Boss</TableCell>
+                                <TableCell
+                                    colSpan="3"
+                                    className="nestCellParent"
+                                >
+                                    <span className="textBold">Damage</span>
+                                    <Table className="nestedTable">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Rank</TableCell>
+                                                <TableCell>Dps</TableCell>
+                                                <TableCell>Ilvl</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                    </Table>
+                                </TableCell>
+                                <TableCell
+                                    colSpan="3"
+                                    className="nestCellParent"
+                                >
+                                    <span className="textBold">Healing</span>
+                                    <Table className="nestedTable">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Rank</TableCell>
+                                                <TableCell>Hps</TableCell>
+                                                <TableCell>Ilvl</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                    </Table>
+                                </TableCell>
                                 <TableCell>Defeated</TableCell>
                             </TableRow>
                         </TableHead>
@@ -66,7 +94,7 @@ class PlayerProgression extends React.PureComponent {
                                 if (dps.dps || hps.hps) defeated = true;
                                 return (
                                     <TableRow key={boss.encounter_name}>
-                                        <TableCell component="th" scope="row">
+                                        <TableCell scope="row">
                                             <span className="textBold">
                                                 <Link
                                                     to={`/raid/${raidName}/${
@@ -77,91 +105,163 @@ class PlayerProgression extends React.PureComponent {
                                                 </Link>
                                             </span>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell colSpan="3">
                                             {dps.dps ? (
                                                 typeof dps.dps === "number" ? (
-                                                    <React.Fragment>
-                                                        <span className="textBold">
-                                                            {dps.ilvl}{" "}
-                                                        </span>
-                                                        <Tooltip
-                                                            title={
-                                                                dps.spec.label
-                                                            }
-                                                        >
-                                                            <Avatar
-                                                                component="span"
-                                                                src={getSpecImg(
-                                                                    dps.spec
-                                                                        .image
-                                                                )}
-                                                                className="classSpecAvatar"
-                                                            />
-                                                        </Tooltip>{" "}
-                                                        <span className="textBold">
-                                                            {new Intl.NumberFormat().format(
-                                                                Math.round(
-                                                                    dps.dps
-                                                                )
-                                                            )}
-                                                        </span>{" "}
-                                                        <LogLink
-                                                            logId={dps.logId}
-                                                            realm={dps.realm}
-                                                        />
-                                                    </React.Fragment>
+                                                    <Table className="nestedTable">
+                                                        <TableBody>
+                                                            <TableRow>
+                                                                <TableCell>
+                                                                    <span className="textBold">
+                                                                        {
+                                                                            dps.rank
+                                                                        }
+                                                                    </span>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <span className="textBold">
+                                                                        {new Intl.NumberFormat().format(
+                                                                            Math.round(
+                                                                                dps.dps
+                                                                            )
+                                                                        )}
+                                                                    </span>{" "}
+                                                                    <LogLink
+                                                                        logId={
+                                                                            dps.logId
+                                                                        }
+                                                                        realm={
+                                                                            dps.realm
+                                                                        }
+                                                                    />
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <span className="textBold">
+                                                                        {
+                                                                            dps.ilvl
+                                                                        }
+                                                                    </span>
+                                                                    <Tooltip
+                                                                        title={
+                                                                            dps
+                                                                                .spec
+                                                                                .label
+                                                                        }
+                                                                    >
+                                                                        <Avatar
+                                                                            component="span"
+                                                                            src={getSpecImg(
+                                                                                dps
+                                                                                    .spec
+                                                                                    .image
+                                                                            )}
+                                                                            className="classSpecAvatar"
+                                                                        />
+                                                                    </Tooltip>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        </TableBody>
+                                                    </Table>
                                                 ) : (
-                                                    <span className="textBold">
-                                                        Invalid
-                                                    </span>
+                                                    <Table className="nestedTable">
+                                                        <TableBody>
+                                                            <TableRow>
+                                                                <TableCell />
+                                                                <TableCell>
+                                                                    <span className="textBold">
+                                                                        Invalid
+                                                                    </span>
+                                                                </TableCell>
+                                                                <TableCell />
+                                                            </TableRow>
+                                                        </TableBody>
+                                                    </Table>
                                                 )
                                             ) : (
-                                                <React.Fragment>
-                                                    -
-                                                </React.Fragment>
+                                                <Table className="nestedTable">
+                                                    <TableBody>
+                                                        <TableRow>
+                                                            <TableCell>
+                                                                -
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                -
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                -
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </Table>
                                             )}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell colSpan="3">
                                             {hps.hps ? (
-                                                <React.Fragment>
-                                                    <span className="textBold">
-                                                        {hps.ilvl}{" "}
-                                                    </span>
-                                                    <Tooltip
-                                                        title={hps.spec.label}
-                                                    >
-                                                        <Avatar
-                                                            component="span"
-                                                            src={getSpecImg(
-                                                                hps.spec.image
-                                                            )}
-                                                            className="classSpecAvatar"
-                                                        />
-                                                    </Tooltip>{" "}
-                                                    <span className="textBold">
-                                                        {new Intl.NumberFormat().format(
-                                                            Math.round(hps.hps)
-                                                        )}
-                                                    </span>{" "}
-                                                    <span className="textBold">
-                                                        <Link
-                                                            to={`/log/${
-                                                                hps.logId
-                                                            }?realm=${
-                                                                hps.realm
-                                                            }`}
-                                                        >
-                                                            <Info
-                                                                className="logLink"
-                                                                fontSize="small"
-                                                            />
-                                                        </Link>
-                                                    </span>
-                                                </React.Fragment>
+                                                <Table className="nestedTable">
+                                                    <TableBody>
+                                                        <TableRow>
+                                                            <TableCell>
+                                                                <span className="textBold">
+                                                                    {hps.rank}
+                                                                </span>
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <span className="textBold">
+                                                                    {new Intl.NumberFormat().format(
+                                                                        Math.round(
+                                                                            hps.hps
+                                                                        )
+                                                                    )}
+                                                                </span>{" "}
+                                                                <LogLink
+                                                                    logId={
+                                                                        hps.logId
+                                                                    }
+                                                                    realm={
+                                                                        hps.realm
+                                                                    }
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <span className="textBold">
+                                                                    {hps.ilvl}{" "}
+                                                                </span>
+                                                                <Tooltip
+                                                                    title={
+                                                                        hps.spec
+                                                                            .label
+                                                                    }
+                                                                >
+                                                                    <Avatar
+                                                                        component="span"
+                                                                        src={getSpecImg(
+                                                                            hps
+                                                                                .spec
+                                                                                .image
+                                                                        )}
+                                                                        className="classSpecAvatar"
+                                                                    />
+                                                                </Tooltip>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </Table>
                                             ) : (
-                                                <React.Fragment>
-                                                    -
-                                                </React.Fragment>
+                                                <Table className="nestedTable">
+                                                    <TableBody>
+                                                        <TableRow>
+                                                            <TableCell>
+                                                                -
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                -
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                -
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </Table>
                                             )}
                                         </TableCell>
 

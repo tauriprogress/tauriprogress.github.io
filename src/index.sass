@@ -29,9 +29,7 @@ $mobile-break: 600px
 @import './components/ErrorMessage/index.sass'
 @import './components/MetaDataList/index.sass'
 @import './components/Loading/index.sass'
-
-
-    
+   
 *
     margin: 0
     padding: 0
@@ -76,13 +74,21 @@ a
     display: inline-block !important
     line-height: 16px
     margin: 0px 2px 
-    transform: translateY(2px)
+    transform: translateY(-1px)
+    vertical-align: middle
 .overflowScroll
     overflow-x: scroll
 .warning
     color: $accent-two !important
     margin-top: 10px
     font-size: 11px
+.nestCellParent
+    text-align: center !important
+.nestedTable
+    tr
+        background: none !important
+    *
+        border: none !important
 
 
 @media(max-width: $mobile-break)
