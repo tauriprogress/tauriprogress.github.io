@@ -32,12 +32,14 @@ class AdditionalInfo extends React.PureComponent {
             issuesOpen: false
         };
 
+        this.open = this.open.bind(this);
         this.toggleDrawer = this.toggleDrawer.bind(this);
         this.toggleIssues = this.toggleIssues.bind(this);
     }
 
-    componentDidMount() {
+    open() {
         this.props.lastUpdatedFetch();
+        this.toggleDrawer(true);
     }
 
     toggleDrawer(value) {
@@ -53,11 +55,7 @@ class AdditionalInfo extends React.PureComponent {
 
         return (
             <div className="additionalInfo">
-                <Fab
-                    color="primary"
-                    size="small"
-                    onClick={() => this.toggleDrawer(true)}
-                >
+                <Fab color="primary" size="small" onClick={this.open}>
                     <Info fontSize="large" />
                 </Fab>
                 <Drawer
@@ -68,15 +66,18 @@ class AdditionalInfo extends React.PureComponent {
                     <div className="additionalInfoContent">
                         {loading && <Loading />}
                         {!loading && error && <ErrorMessage message={error} />}
-                        {!loading && !error && lastUpdated && (
+                        {!loading && (
                             <div className="additionalInfoUpdate">
-                                <Typography>
-                                    Last updated:{" "}
-                                    <span className="textBold">
-                                        {whenWas(lastUpdated)}
-                                    </span>{" "}
-                                    Hours ago.
-                                </Typography>
+                                {lastUpdated && (
+                                    <Typography>
+                                        Last updated:{" "}
+                                        <span className="textBold">
+                                            {whenWas(lastUpdated)}
+                                        </span>{" "}
+                                        Hours ago.
+                                    </Typography>
+                                )}
+
                                 <Typography className="additionalInfoUpdateRefresh">
                                     <Fab
                                         color="primary"

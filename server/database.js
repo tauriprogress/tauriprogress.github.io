@@ -20,6 +20,7 @@ class Database {
     constructor() {
         this.db = {};
         this.isUpdating = false;
+        this.updateStatus = "";
     }
 
     async connect() {
@@ -157,8 +158,10 @@ class Database {
         return new Promise(async (resolve, reject) => {
             try {
                 if (this.isUpdating)
-                    throw new Error("Database already updating");
+                    throw new Error("Database is already updating");
                 this.isUpdating = true;
+                this.updateStatus = "Database is already updating";
+
                 let updateStarted = new Date().getTime() / 1000;
                 let maintence = await this.db.collection("maintence");
                 let lastUpdated = (await maintence.findOne()).lastUpdated;
@@ -174,6 +177,10 @@ class Database {
                                     " diff: " +
                                     diff
                             );
+                            this.updateStatus = `Updating ${
+                                boss.encounter_name
+                            }`;
+
                             let logs = await getRaidBossLogs(
                                 boss.encounter_id,
                                 diff,
@@ -232,6 +239,7 @@ class Database {
                 );
 
                 this.isUpdating = false;
+                this.updateStatus = "";
 
                 resolve(updateStarted);
             } catch (err) {
@@ -537,6 +545,8 @@ class Database {
     async updateGuilds() {
         return new Promise(async (resolve, reject) => {
             try {
+                this.updateStatus = "Updating guilds";
+
                 let guilds = await this.db
                     .collection("guilds")
                     .find({})
