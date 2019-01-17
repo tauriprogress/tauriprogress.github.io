@@ -1,34 +1,34 @@
 .displayGuild
     width: 100%
-    
+    aside
+        margin: 0px
+        margin-right: 20px
     &ContentContainer
-        display: flex
-    &Content
-        margin: 36px 20px
-        flex-grow: 1
-        min-width: 260px
+        margin: 20px
     &Title
         width: 100%
         padding: 20px
         text-align: center
-    &SideNav
-        width: 150px
-        *
-            color: grey !important
-        .listItem:hover
-            *
-                color: $accent-two !important
-        .active
-            *
-                color: $accent-one !important
-    
     &BossSummary
-        margin: 20px 0px
-    &SelectBoss
-        width: 180px
+        width: 260px
+    &Progression
+        display: flex
+    &ProgressionBosses
+        width: 260px
+        .bossName
+            cursor: pointer
+            &:hover
+                color: $accent-two
+        .bossValue
+            font-size: 13px
+            font-weight: normal
+        .active
+            color: $accent-two
     &DifficultyTab
         width: 180px
 
 @media(max-width: $mobile-break)
     .displayGuildContentContainer
+        margin: 10px
+    .displayGuildProgression
         flex-wrap: wrap

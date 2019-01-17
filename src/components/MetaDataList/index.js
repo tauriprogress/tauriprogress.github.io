@@ -4,9 +4,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-function MetaDataList({ values, title }) {
+function MetaDataList({ className, values, title }) {
     return (
-        <List className="metaDataList" component="ul">
+        <List className={className + " metaDataList"} component="ul">
             <ListItem>
                 <ListItemText primary={title} />
             </ListItem>
@@ -16,7 +16,9 @@ function MetaDataList({ values, title }) {
                         primary={
                             <div className="metaDataListItemContainer">
                                 {value.label}
-                                <span className="textBold">{value.value}</span>
+                                <span className={"textBold"}>
+                                    {value.value}
+                                </span>
                             </div>
                         }
                     />

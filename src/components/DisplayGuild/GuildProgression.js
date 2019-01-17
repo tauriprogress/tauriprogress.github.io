@@ -1,14 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
 
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+import MetaDataList from "../MetaDataList";
 import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
 
+import { getBossesDefeated } from "./helpers";
+
 import { raidName } from "../../constants/currentContent";
+import difficultyLabels from "../../constants/difficultyLabels";
 
 class GuildProgression extends React.PureComponent {
     constructor(props) {
@@ -21,8 +24,8 @@ class GuildProgression extends React.PureComponent {
         this.tabChange = this.tabChange.bind(this);
     }
 
-    bossNameChange(e) {
-        this.setState({ ...this.state, bossName: e.target.value });
+    bossNameChange(value) {
+        this.setState({ ...this.state, bossName: value });
     }
 
     tabChange(e, value) {
@@ -30,52 +33,70 @@ class GuildProgression extends React.PureComponent {
     }
 
     render() {
-        const { progression } = this.props;
+        const { progression, raidBosses } = this.props;
         const bosses = progression[raidName];
-        let bossNames = [];
-        for (let bossName in bosses[this.state.tab]) {
-            bossNames.push(bossName);
+        let bossesDefeated = getBossesDefeated(raidBosses, progression);
+        let metaData = [];
+        for (let boss of raidBosses) {
+            metaData.push({
+                label: (
+                    <span
+                        className={
+                            boss.encounter_name === this.state.bossName
+                                ? "textBold bossName active"
+                                : "textBold bossName"
+                        }
+                        onClick={() => this.bossNameChange(boss.encounter_name)}
+                    >
+                        {boss.encounter_name}
+                    </span>
+                ),
+                value: bossesDefeated[boss.encounter_name] ? (
+                    <span className="green bossValue">Defeated</span>
+                ) : (
+                    <span className="red bossValue">Alive</span>
+                )
+            });
         }
-        if (bossNames.length === 0)
-            bossNames.push(
-                "The guild has not defeated any boss in this difficulty."
-            );
         let boss = bosses[this.state.tab][this.state.bossName];
 
         return (
-            <React.Fragment>
-                <Tabs
-                    value={this.state.tab}
-                    onChange={this.tabChange}
-                    indicatorColor="secondary"
-                    className="displayGuildDifficultyTab"
-                >
-                    <Tab label="10 HC" className="tab" value={5} />
-                    <Tab label="25 HC" className="tab" value={6} />
-                </Tabs>
-                <Select
-                    value={this.state.bossName}
-                    onChange={this.bossNameChange}
-                    inputProps={{
-                        name: "bossName"
-                    }}
-                    className="displayGuildSelectBoss"
-                >
-                    {bossNames.map(bossName => (
-                        <MenuItem value={bossName} key={bossName}>
-                            {bossName}
-                        </MenuItem>
-                    ))}
-                </Select>
-                <React.Fragment>
-                    <GuildBossSummary data={boss} />
+            <div className="displayGuildProgression">
+                <aside>
+                    <MetaDataList
+                        className="displayGuildProgressionBosses"
+                        title="Progression"
+                        values={metaData}
+                        notBold={true}
+                    />
+                </aside>
+                <div className="overflowScroll">
+                    <GuildBossSummary
+                        bossName={`${this.state.bossName} ${
+                            difficultyLabels[this.state.tab]
+                        }`}
+                        data={boss}
+                    />
+                    <Tabs
+                        value={this.state.tab}
+                        onChange={this.tabChange}
+                        indicatorColor="secondary"
+                        className="displayGuildDifficultyTab"
+                    >
+                        <Tab label="10 HC" className="tab" value={5} />
+                        <Tab label="25 HC" className="tab" value={6} />
+                    </Tabs>
                     <GuildBoss data={boss} />
-                </React.Fragment>
-            </React.Fragment>
+                </div>
+            </div>
         );
     }
 }
-/*
 
-*/
-export default GuildProgression;
+function mapStateToProps(state) {
+    return {
+        raidBosses: state.raids[0].encounters
+    };
+}
+
+export default connect(mapStateToProps)(GuildProgression);

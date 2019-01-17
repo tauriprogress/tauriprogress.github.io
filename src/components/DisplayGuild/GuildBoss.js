@@ -25,7 +25,6 @@ class GuildBoss extends React.PureComponent {
             <React.Fragment>
                 {data && (
                     <React.Fragment>
-                        {" "}
                         <Tabs
                             value={this.state.value}
                             onChange={this.handleChange}

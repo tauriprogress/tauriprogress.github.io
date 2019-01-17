@@ -3,10 +3,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 import GuildProgression from "./GuildProgression";
 import GuildRoster from "./GuildRoster";
@@ -61,46 +60,15 @@ class DisplayGuild extends React.PureComponent {
                             </Typography>
                         </div>
                         <div className="displayGuildContentContainer">
-                            <aside className="displayGuildSideNav">
-                                <List component="nav">
-                                    <ListItem
-                                        onClick={() => guildSetNav(0)}
-                                        className="listItem"
-                                        button
-                                    >
-                                        <ListItemText
-                                            primary="Progression"
-                                            className={
-                                                active === 0 ? "active" : ""
-                                            }
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        onClick={() => guildSetNav(1)}
-                                        className="listItem"
-                                        button
-                                    >
-                                        <ListItemText
-                                            primary="Latest kills"
-                                            className={
-                                                active === 1 ? "active" : ""
-                                            }
-                                        />
-                                    </ListItem>
-                                    <ListItem
-                                        onClick={() => guildSetNav(2)}
-                                        className="listItem"
-                                        button
-                                    >
-                                        <ListItemText
-                                            primary="Roster"
-                                            className={
-                                                active === 2 ? "active" : ""
-                                            }
-                                        />
-                                    </ListItem>
-                                </List>
-                            </aside>
+                            <Tabs
+                                value={active}
+                                onChange={(e, value) => guildSetNav(value)}
+                                indicatorColor="secondary"
+                            >
+                                <Tab label="Progression" className="tab" />
+                                <Tab label="Latest kills" className="tab" />
+                                <Tab label="Roster" className="tab" />
+                            </Tabs>
                             <div className="displayGuildContent">
                                 {active === 0 && (
                                     <GuildProgression
