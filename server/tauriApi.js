@@ -13,7 +13,7 @@ class TauriApi {
         return new Promise(async (resolve, reject) => {
             try {
                 let timeOut = setTimeout(() => {
-                    reject("request timed out");
+                    reject(new Error("request timed out"));
                 }, 13000);
 
                 resolve(

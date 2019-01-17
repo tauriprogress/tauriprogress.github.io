@@ -1,6 +1,6 @@
 const dbUser = process.env.MONGODB_USER;
 const dbPassword = process.env.MONGODB_PASSWORD;
-const mongoUrl = `mongodb://${dbUser}:${dbPassword}@ds125368.mlab.com:25368/tauriguilds`;
+const mongoUrl = `mongodb://${dbUser}:${dbPassword}@ds129315.mlab.com:29315/tauriprogress`;
 const MongoClient = require("mongodb").MongoClient;
 const {
     raidName,
@@ -30,7 +30,7 @@ class Database {
                 mongoUrl,
                 { useNewUrlParser: true }
             );
-            this.db = client.db("tauriguilds");
+            this.db = client.db("tauriprogress");
         } catch (err) {
             throw err;
         }
@@ -317,7 +317,8 @@ class Database {
                     .find()
                     .project({
                         ["dps"]: 0,
-                        ["hps"]: 0
+                        ["hps"]: 0,
+                        ["latestKills"]: 0
                     })
                     .toArray();
 
