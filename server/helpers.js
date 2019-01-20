@@ -10,10 +10,9 @@ const {
 const valuesCorrectSince = require("../src/constants/valuesCorrectSince.json");
 const durumuId = require("../src/constants/durumuId.json");
 
-async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
+async function getRaidBossLogs(bossId, difficulty, lastLogDate = 0) {
     return new Promise(async (resolve, reject) => {
         try {
-            let now = new Date().getTime() / 1000;
             let bossLogs = [];
             let logs = [];
             let data;
@@ -41,7 +40,7 @@ async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
             }
 
             for (let log of bossLogs) {
-                if (lastUpdated < log.killtime) {
+                if (lastLogDate < log.killtime) {
                     let bossData;
                     do {
                         try {
@@ -64,7 +63,6 @@ async function getRaidBossLogs(bossId, difficulty, lastUpdated = 0) {
             }
 
             resolve({
-                lastUpdated: now,
                 logs,
                 difficulty
             });
@@ -147,7 +145,7 @@ function memberHps(realm, member, kill, hps, difficulty) {
     };
 }
 
-function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
+function processRaidBossLogs({ logs, difficulty }) {
     let raidBoss = {
         bossName: "",
         latestKills: [],
@@ -162,7 +160,7 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
             hps: 0
         },
         killCount: 0,
-        lastUpdated,
+        lastLogDate: 0,
         difficulty
     };
     let guilds = {};
@@ -274,6 +272,8 @@ function processRaidBossLogs({ lastUpdated, logs, difficulty }) {
     raidBoss.fastestKills = raidBoss.fastestKills
         .concat(logs.sort((a, b) => a.fight_time - b.fight_time))
         .slice(0, 50);
+
+    raidBoss.lastLogDate = raidBoss.latestKills[0].killtime;
 
     return {
         raidBoss,
@@ -444,7 +444,7 @@ function updateRaidBoss(oldRaidBoss, newRaidBoss) {
             .sort((a, b) => a.fight_time - b.fight_time)
             .slice(0, 50),
         killCount: oldRaidBoss.killCount + newRaidBoss.killCount,
-        lastUpdated: newRaidBoss.lastUpdated
+        lastLogDate: newRaidBoss.lastLogDate
     };
 
     for (let key in newRaidBoss.dps) {

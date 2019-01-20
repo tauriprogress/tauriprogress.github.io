@@ -86,14 +86,15 @@ class Database {
                                 diff,
                                 0
                             );
+
+                            if (!logs.logs.length) continue;
+
                             let processedLogs = processRaidBossLogs(logs);
 
-                            if (processedLogs.raidBoss.killCount !== 0) {
-                                await this.saveRaidBoss({
-                                    raidName: raid.raidName,
-                                    raidBoss: processedLogs.raidBoss
-                                });
-                            }
+                            await this.saveRaidBoss({
+                                raidName: raid.raidName,
+                                raidBoss: processedLogs.raidBoss
+                            });
 
                             for (let key in processedLogs.guildBossKills) {
                                 if (!guilds[key]) {
@@ -128,12 +129,12 @@ class Database {
                     await this.saveGuild(guilds[key]);
                 }
 
-                console.log("db: initalization done.");
                 maintence.insertOne({
                     lastUpdated: updateStarted,
                     initalized: true
                 });
                 this.isUpdating = false;
+                console.log("db: initalization done.");
                 resolve("Done");
             } catch (err) {
                 this.isUpdating = false;
@@ -154,6 +155,26 @@ class Database {
         });
     }
 
+    async getLastLogDateOfBoss(raidName, bossName, diff) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let lastLogDate = 0;
+                let raidCollection = this.db.collection(raidName);
+
+                let raidBoss = await raidCollection.findOne({
+                    bossName: new RegExp("^" + bossName + "$", "i"),
+                    difficulty: new RegExp("^" + diff + "$", "i")
+                });
+
+                if (raidBoss) lastLogDate = raidBoss.lastLogDate;
+
+                resolve(lastLogDate);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
     async updateDatabase() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -164,7 +185,6 @@ class Database {
 
                 let updateStarted = new Date().getTime() / 1000;
                 let maintence = await this.db.collection("maintence");
-                let lastUpdated = (await maintence.findOne()).lastUpdated;
 
                 for (let raid of raids) {
                     let raidData = require(`../src/constants/${raid.raidName}`);
@@ -181,19 +201,26 @@ class Database {
                                 boss.encounter_name
                             }`;
 
+                            let lastLogDate = await this.getLastLogDateOfBoss(
+                                raid.raidName,
+                                boss.encounter_name,
+                                diff
+                            );
+
                             let logs = await getRaidBossLogs(
                                 boss.encounter_id,
                                 diff,
-                                lastUpdated
+                                lastLogDate
                             );
+
+                            if (!logs.logs.length) continue;
+
                             let processedLogs = processRaidBossLogs(logs);
 
-                            if (processedLogs.raidBoss.killCount !== 0) {
-                                await this.saveRaidBoss({
-                                    raidName: raid.raidName,
-                                    raidBoss: processedLogs.raidBoss
-                                });
-                            }
+                            await this.saveRaidBoss({
+                                raidName: raid.raidName,
+                                raidBoss: processedLogs.raidBoss
+                            });
 
                             for (let key in processedLogs.guildBossKills) {
                                 let guild;
@@ -274,7 +301,6 @@ class Database {
                             guildName: 1,
                             gFaction: 1,
                             realm: 1,
-                            lastUpdated: 1,
                             ["progression.currentBossesDefeated"]: 1,
                             ["progression.completed"]: 1,
                             ["progression." +
