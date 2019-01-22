@@ -342,7 +342,7 @@ function mergeBossKillIntoGuildData(guildData, bossKill, difficulty) {
             bossKill.bossName
         ] = bossKill;
     } else {
-        guildData.progression[bossKill.raidName][difficulty][
+        newGuildData.progression[bossKill.raidName][difficulty][
             bossKill.bossName
         ].fastestKills = guildData.progression[bossKill.raidName][difficulty][
             bossKill.bossName
