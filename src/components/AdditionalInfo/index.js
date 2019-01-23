@@ -8,7 +8,6 @@ import Divider from "@material-ui/core/Divider";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import Info from "@material-ui/icons/Info";
 import Refresh from "@material-ui/icons/Refresh";
@@ -110,8 +109,15 @@ class AdditionalInfo extends React.PureComponent {
                                 unmountOnExit
                             >
                                 <Typography>
-                                    Healing absorb data and DPS of Durumu is
-                                    only collected since{" "}
+                                    DPS of Durumu is only collected since{" "}
+                                    <span className="textBold">
+                                        {new Date(
+                                            valuesCorrectSince * 1000
+                                        ).toLocaleDateString()}{" "}
+                                    </span>
+                                    due to a bug.
+                                    <br /> Healing and absorb in some cases may
+                                    be incorrect before{" "}
                                     <span className="textBold">
                                         {new Date(
                                             valuesCorrectSince * 1000
@@ -124,31 +130,37 @@ class AdditionalInfo extends React.PureComponent {
                         <Divider />
 
                         <Typography>
-                            You can give suggestions or report bugs on the{" "}
+                            <span className="textBold">
+                                <a
+                                    href="https://tauriwow.com/"
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    Tauri WoW
+                                </a>
+                            </span>
+                            <br />
+
                             <span className="textBold">
                                 <a
                                     href="https://community.tauriwow.com/index.php?/topic/2076/"
                                     target="_blank"
                                     rel="noreferrer noopener"
                                 >
-                                    forums
+                                    Forums
                                 </a>
-                            </span>{" "}
-                            or{" "}
-                            <Tooltip title={"Just click new issue"}>
-                                <span className="textBold">
-                                    <a
-                                        href="https://github.com/tauriprogress/tauriprogress.github.io/issues"
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                    >
-                                        github
-                                    </a>
-                                </span>
-                            </Tooltip>
-                            .
+                            </span>
+                            <br />
+                            <span className="textBold">
+                                <a
+                                    href="https://github.com/tauriprogress/tauriprogress.github.io/"
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    Github
+                                </a>
+                            </span>
                         </Typography>
-                        <Divider />
 
                         <Typography>
                             Data is collected since{" "}
@@ -159,16 +171,7 @@ class AdditionalInfo extends React.PureComponent {
                         <Divider />
 
                         <Typography>
-                            Fanmade website to track progression on tauri.{" "}
-                            <span className="textBold">
-                                <a
-                                    href="https://github.com/tauriprogress/tauriprogress.github.io"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Github
-                                </a>
-                            </span>
+                            Fanmade website to track progression on tauri.
                         </Typography>
                     </div>
                 </Drawer>
