@@ -126,7 +126,7 @@ const classToSpec = require("../src/constants/classToSpec");
             if (db.isUpdating) throw new Error(db.updateStatus);
             res.send({
                 success: true,
-                response: await db.lastUpdated()
+                response: whenWas(await db.lastUpdated())
             });
         } catch (err) {
             res.send({
@@ -138,8 +138,12 @@ const classToSpec = require("../src/constants/classToSpec");
 
     app.get("/update", async (req, res) => {
         try {
-            if (whenWas(await db.lastUpdated()) < 3)
-                throw new Error("Database can only be updated every 3 hours.");
+            const lastUpdateTime = whenWas(await db.lastUpdated());
+            if (lastUpdateTime < 30)
+                throw new Error(
+                    `Database can be updated in ${30 - lastUpdateTime} minutes.`
+                );
+
             if (db.isUpdating) throw new Error(db.updateStatus);
 
             res.send({

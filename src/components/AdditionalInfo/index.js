@@ -18,7 +18,7 @@ import Loading from "../Loading";
 import { lastUpdatedFetch } from "../../redux/actions";
 import { updateDbFetch } from "../../redux/actions";
 
-import { whenWas } from "./helpers";
+import { convertMinutes } from "./helpers";
 import { Typography } from "@material-ui/core";
 
 import valuesCorrectSince from "../../constants/valuesCorrectSince";
@@ -71,9 +71,9 @@ class AdditionalInfo extends React.PureComponent {
                                     <Typography>
                                         Last updated:{" "}
                                         <span className="textBold">
-                                            {whenWas(lastUpdated)}
+                                            {convertMinutes(lastUpdated)}
                                         </span>{" "}
-                                        Hours ago.
+                                        ago.
                                     </Typography>
                                 )}
 

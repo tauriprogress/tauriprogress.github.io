@@ -13,7 +13,8 @@ const {
     mergeBossKillIntoGuildData,
     createGuildData,
     updateRaidBoss,
-    applyPlayerPerformanceRanks
+    applyPlayerPerformanceRanks,
+    whenWas
 } = require("./helpers");
 
 class Database {
@@ -254,7 +255,8 @@ class Database {
                     }
                 }
 
-                await this.updateGuilds();
+                if (whenWas(await this.lastUpdated()) > 180)
+                    await this.updateGuilds();
 
                 await maintence.updateOne(
                     {},
@@ -268,7 +270,7 @@ class Database {
                 this.isUpdating = false;
                 this.updateStatus = "";
 
-                resolve(updateStarted);
+                resolve(whenWas(updateStarted));
             } catch (err) {
                 reject(err);
             }

@@ -507,7 +507,7 @@ function applyPlayerPerformanceRanks(raidBoss) {
 }
 
 function whenWas(date) {
-    return Math.round((new Date().getTime() / 1000 - Number(date)) / 3600);
+    return Math.round((new Date().getTime() / 1000 - Number(date)) / 60);
 }
 
 function invalidDurumu(bossId, killtime) {

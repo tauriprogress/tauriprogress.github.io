@@ -1,3 +1,4 @@
-export function whenWas(date) {
-    return Math.round((new Date().getTime() / 1000 - Number(date)) / 3600);
+export function convertMinutes(minutes) {
+    if (minutes < 60) return `${minutes} minutes`;
+    return `${Math.round(minutes / 60)} hours`;
 }
