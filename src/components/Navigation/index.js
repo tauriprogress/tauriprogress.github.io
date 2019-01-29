@@ -1,23 +1,35 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Brightness from "@material-ui/icons/Brightness4";
+import Fab from "@material-ui/core/Fab";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
 import SearchBar from "../SearchBar";
 import AdditionalInfo from "../AdditionalInfo";
 
 import { raidName } from "../../constants/currentContent";
 
-import { navToggle } from "../../redux/actions";
+import { navToggle, themeToggle } from "../../redux/actions";
 
-function Navigation({ nav, navToggle }) {
+function styles(theme) {
+    return {
+        nav: {
+            backgroundColor: theme.palette.primary.main
+        }
+    };
+}
+
+function Navigation({ nav, navToggle, themeToggle, classes }) {
     const { showNav } = nav;
-
     return (
         <AppBar position="static">
             <Toolbar className="navToolBar">
@@ -29,32 +41,56 @@ function Navigation({ nav, navToggle }) {
                 >
                     <MenuIcon />
                 </IconButton>
-                <nav className={showNav ? "showNav" : "hide"}>
+                <nav
+                    className={
+                        showNav
+                            ? `${classes.nav} showNav`
+                            : `${classes.nav} hide`
+                    }
+                >
                     <ul>
                         <li>
-                            <Link
+                            <RouterLink
                                 to="/"
                                 onClick={() => linkClick(showNav, navToggle)}
                                 className="navOption"
                             >
-                                Home
-                            </Link>
+                                <Typography color="inherit">
+                                    <Link component="span" color="inherit">
+                                        Home
+                                    </Link>
+                                </Typography>
+                            </RouterLink>
                         </li>
                         <li>
-                            <Link
+                            <RouterLink
                                 to={`/raid/${raidName}`}
                                 onClick={() => linkClick(showNav, navToggle)}
                                 className="navOption"
                             >
-                                {raidName}
-                            </Link>
+                                <Typography color="inherit">
+                                    <Link component="span" color="inherit">
+                                        {raidName}
+                                    </Link>
+                                </Typography>
+                            </RouterLink>
                         </li>
                         <li>
-                            <SearchBar />
+                            <Typography color="inherit">
+                                <Link component="span" color="inherit">
+                                    <SearchBar />
+                                </Link>
+                            </Typography>
                         </li>
                     </ul>
                 </nav>
-                <AdditionalInfo />
+                <div className="navToolBarIcons">
+                    <Fab color="primary" size="small" onClick={themeToggle}>
+                        <Brightness fontSize="large" />
+                    </Fab>
+
+                    <AdditionalInfo />
+                </div>
                 {showNav && (
                     <div className="cover" onClick={() => navToggle()} />
                 )}
@@ -76,10 +112,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ navToggle }, dispatch);
+    return bindActionCreators({ navToggle, themeToggle }, dispatch);
 }
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Navigation);
+)(withStyles(styles)(Navigation));

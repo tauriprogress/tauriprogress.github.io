@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Table from "@material-ui/core/Table";
@@ -12,8 +13,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
-import characterClassColors from "../../constants/characterClassColors";
 import specToClass from "../../constants/specToClass";
 import specs from "../../constants/specs";
 
@@ -103,7 +105,10 @@ function LogTableHead({ sort, fightLogMembersSort }) {
     );
 }
 
-function LogMembers({ data, sort, fightLogMembersSort }) {
+function LogMembers({ data, sort, fightLogMembersSort, theme }) {
+    const {
+        palette: { classColors }
+    } = theme;
     return (
         <div className="fightLogMembers overflowScroll">
             <Table>
@@ -115,32 +120,37 @@ function LogMembers({ data, sort, fightLogMembersSort }) {
                     {sortMembers(data.members, sort).map(member => (
                         <TableRow key={member.name}>
                             <TableCell component="th" scope="row">
-                                <span className="textBold">{member.ilvl} </span>{" "}
-                                <Tooltip title={specs[member.spec].label}>
-                                    <Avatar
-                                        component="span"
-                                        src={getSpecImg(
-                                            specs[member.spec].image
-                                        )}
-                                        className="classSpecAvatar"
-                                    />
-                                </Tooltip>{" "}
-                                <span
-                                    style={{
-                                        color:
-                                            characterClassColors[
-                                                specToClass[member.spec]
-                                            ]
-                                    }}
-                                >
-                                    <Link
+                                <Typography>
+                                    <span className="textBold">
+                                        {member.ilvl}{" "}
+                                    </span>{" "}
+                                    <Tooltip title={specs[member.spec].label}>
+                                        <Avatar
+                                            component="span"
+                                            src={getSpecImg(
+                                                specs[member.spec].image
+                                            )}
+                                            className="classSpecAvatar"
+                                        />
+                                    </Tooltip>{" "}
+                                    <RouterLink
                                         to={`/player/${member.name}?realm=${
                                             data.realm
                                         }`}
                                     >
-                                        {member.name}
-                                    </Link>
-                                </span>
+                                        <Link
+                                            component="span"
+                                            style={{
+                                                color:
+                                                    classColors[
+                                                        specToClass[member.spec]
+                                                    ]
+                                            }}
+                                        >
+                                            {member.name}
+                                        </Link>
+                                    </RouterLink>
+                                </Typography>
                             </TableCell>
 
                             <TableCell component="th" scope="row" align="right">
@@ -241,4 +251,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LogMembers);
+)(withTheme()(LogMembers));

@@ -1,12 +1,21 @@
 import React from "react";
 
+import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 
 import MetaDataList from "../MetaDataList";
 
 import { getBossesDefeated } from "./helpers";
 
-function PlayerStats({ data }) {
+function styles(theme) {
+    return {
+        container: {
+            backgroundColor: theme.palette.backgroundAccent
+        }
+    };
+}
+
+function PlayerStats({ data, classes }) {
     const general = [
         { label: "TOT HC", value: getBossesDefeated(data.progression) },
         { label: "Achievements", value: data.pts },
@@ -38,7 +47,7 @@ function PlayerStats({ data }) {
     ];
 
     return (
-        <Card className="displayPlayerStats">
+        <Card className={`${classes.container} displayPlayerStats`}>
             <MetaDataList title="General" values={general} />
             <MetaDataList title="Primary Stats" values={primaryStats} />
             <MetaDataList title="Secondary Stats" values={secondaryStats} />
@@ -46,4 +55,4 @@ function PlayerStats({ data }) {
     );
 }
 
-export default PlayerStats;
+export default withStyles(styles)(PlayerStats);

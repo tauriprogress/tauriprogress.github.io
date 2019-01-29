@@ -2,8 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Table from "@material-ui/core/Table";
@@ -19,6 +21,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
+import { Typography } from "@material-ui/core";
 
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -27,7 +30,6 @@ import LogLink from "../LogLink";
 
 import specs from "../../constants/specs";
 import specToClass from "../../constants/specToClass";
-import characterClassColors from "../../constants/characterClassColors";
 import characterClasses from "../../constants/characterClasses";
 
 import {
@@ -83,7 +85,13 @@ class CharacterLadder extends React.PureComponent {
     }
 
     render() {
-        const { type, filter } = this.props;
+        const {
+            type,
+            filter,
+            theme: {
+                palette: { classColors }
+            }
+        } = this.props;
         let data = applyFilter(filter, this.props.data);
         const { pagination } = this.state;
 
@@ -223,34 +231,41 @@ class CharacterLadder extends React.PureComponent {
                                     </TableCell>
 
                                     <TableCell component="th" scope="row">
-                                        <Tooltip title={char.spec.label}>
-                                            <Avatar
-                                                component="span"
-                                                src={getSpecImg(
-                                                    char.spec.image
-                                                )}
-                                                className="classSpecAvatar"
-                                            />
-                                        </Tooltip>
+                                        <Typography color="inherit">
+                                            <Tooltip title={char.spec.label}>
+                                                <Avatar
+                                                    component="span"
+                                                    src={getSpecImg(
+                                                        char.spec.image
+                                                    )}
+                                                    className="classSpecAvatar"
+                                                />
+                                            </Tooltip>
 
-                                        <span
-                                            style={{
-                                                color:
-                                                    characterClassColors[
-                                                        specToClass[
-                                                            char.spec.id
+                                            <span
+                                                style={{
+                                                    color:
+                                                        classColors[
+                                                            specToClass[
+                                                                char.spec.id
+                                                            ]
                                                         ]
-                                                    ]
-                                            }}
-                                        >
-                                            <Link
-                                                to={`/player/${
-                                                    char.name
-                                                }?realm=${char.realm}`}
+                                                }}
                                             >
-                                                {char.name}
-                                            </Link>
-                                        </span>
+                                                <RouterLink
+                                                    to={`/player/${
+                                                        char.name
+                                                    }?realm=${char.realm}`}
+                                                >
+                                                    <Link
+                                                        component="span"
+                                                        color="inherit"
+                                                    >
+                                                        {char.name}
+                                                    </Link>
+                                                </RouterLink>
+                                            </span>
+                                        </Typography>
                                     </TableCell>
 
                                     <TableCell
@@ -317,4 +332,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CharacterLadder);
+)(withTheme()(CharacterLadder));

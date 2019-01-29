@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,9 +10,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
 import characterClasses from "../../constants/characterClasses";
-import characterClassColors from "../../constants/characterClassColors";
 
 class GuildRoster extends React.PureComponent {
     constructor(props) {
@@ -33,17 +35,22 @@ class GuildRoster extends React.PureComponent {
     }
 
     render() {
-        const { data } = this.props;
+        const {
+            data,
+            theme: {
+                palette: { classColors }
+            }
+        } = this.props;
         const { pagination } = this.state;
         return (
             <div className="overflowScroll">
                 <Table>
                     <TableHead className="tableHead">
                         <TableRow>
-                            <TableCell>LvL</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Class</TableCell>
                             <TableCell>Rank</TableCell>
+                            <TableCell>LvL</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -55,23 +62,26 @@ class GuildRoster extends React.PureComponent {
                             )
                             .map(member => (
                                 <TableRow key={member.name}>
-                                    <TableCell>{member.level}</TableCell>
                                     <TableCell component="th" scope="row">
                                         <span
                                             style={{
-                                                color:
-                                                    characterClassColors[
-                                                        member.class
-                                                    ]
+                                                color: classColors[member.class]
                                             }}
                                         >
-                                            <Link
+                                            <RouterLink
                                                 to={`/player/${
                                                     member.name
                                                 }?realm=${member.realm}`}
                                             >
-                                                {member.name}
-                                            </Link>
+                                                <Typography color="inherit">
+                                                    <Link
+                                                        component="span"
+                                                        color="inherit"
+                                                    >
+                                                        {member.name}
+                                                    </Link>
+                                                </Typography>
+                                            </RouterLink>
                                         </span>
                                     </TableCell>
                                     <TableCell>
@@ -79,6 +89,7 @@ class GuildRoster extends React.PureComponent {
                                     </TableCell>
 
                                     <TableCell>{member.rank_name}</TableCell>
+                                    <TableCell>{member.level}</TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -100,4 +111,4 @@ class GuildRoster extends React.PureComponent {
     }
 }
 
-export default GuildRoster;
+export default withTheme()(GuildRoster);

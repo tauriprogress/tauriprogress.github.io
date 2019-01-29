@@ -53,9 +53,7 @@ class DisplayGuild extends React.PureComponent {
                                 {data.guildMembersCount} members
                             </Typography>
                             <Typography variant="caption">
-                                {data.realm}
-                            </Typography>
-                            <Typography variant="caption">
+                                {data.realm},{" "}
                                 {data.gFaction === 0 ? "Alliance" : "Horde"}
                             </Typography>
                         </div>

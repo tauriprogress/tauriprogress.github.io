@@ -1,18 +1,26 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
-function LatestKills({ data }) {
+function LatestKills({ data, theme }) {
+    const {
+        palette: {
+            factionColors: { alliance, horde }
+        }
+    } = theme;
     return (
         <div className="overflowScroll">
             <Table>
@@ -37,25 +45,29 @@ function LatestKills({ data }) {
                             </TableCell>
 
                             <TableCell component="th" scope="row">
-                                {kill.guilddata.name ? (
-                                    <Link
-                                        to={`/guild/${
-                                            kill.guilddata.name
-                                        }?realm=${kill.realm}`}
-                                    >
-                                        <span
-                                            className={
-                                                kill.guilddata.faction
-                                                    ? "red"
-                                                    : "blue"
-                                            }
+                                <Typography>
+                                    {kill.guilddata.name ? (
+                                        <RouterLink
+                                            to={`/guild/${
+                                                kill.guilddata.name
+                                            }?realm=${kill.realm}`}
                                         >
-                                            {kill.guilddata.name}
-                                        </span>
-                                    </Link>
-                                ) : (
-                                    "Random"
-                                )}
+                                            <Link
+                                                component="span"
+                                                style={{
+                                                    color: kill.guilddata
+                                                        .faction
+                                                        ? horde
+                                                        : alliance
+                                                }}
+                                            >
+                                                {kill.guilddata.name}
+                                            </Link>
+                                        </RouterLink>
+                                    ) : (
+                                        "Random"
+                                    )}
+                                </Typography>
                             </TableCell>
 
                             <TableCell component="th" scope="row">
@@ -85,4 +97,4 @@ function LatestKills({ data }) {
     );
 }
 
-export default LatestKills;
+export default withTheme()(LatestKills);

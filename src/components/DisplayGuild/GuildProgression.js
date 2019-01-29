@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+import { withTheme } from "@material-ui/core/styles";
 import MetaDataList from "../MetaDataList";
 import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
@@ -33,7 +34,13 @@ class GuildProgression extends React.PureComponent {
     }
 
     render() {
-        const { progression, raidBosses } = this.props;
+        const {
+            progression,
+            raidBosses,
+            theme: {
+                palette: { progStateColors, secondary }
+            }
+        } = this.props;
         const bosses = progression[raidName];
         let bossesDefeated = getBossesDefeated(raidBosses, progression);
         let metaData = [];
@@ -41,20 +48,32 @@ class GuildProgression extends React.PureComponent {
             metaData.push({
                 label: (
                     <span
-                        className={
-                            boss.encounter_name === this.state.bossName
-                                ? "textBold bossName active"
-                                : "textBold bossName"
-                        }
+                        style={{
+                            color:
+                                boss.encounter_name === this.state.bossName
+                                    ? secondary.main
+                                    : "inherit"
+                        }}
+                        className={"textBold bossName"}
                         onClick={() => this.bossNameChange(boss.encounter_name)}
                     >
                         {boss.encounter_name}
                     </span>
                 ),
                 value: bossesDefeated[boss.encounter_name] ? (
-                    <span className="green bossValue">Defeated</span>
+                    <span
+                        style={{ color: progStateColors.defeated }}
+                        className="bossValue"
+                    >
+                        Defeated
+                    </span>
                 ) : (
-                    <span className="red bossValue">Alive</span>
+                    <span
+                        style={{ color: progStateColors.alive }}
+                        className="bossValue"
+                    >
+                        Alive
+                    </span>
                 )
             });
         }
@@ -70,7 +89,7 @@ class GuildProgression extends React.PureComponent {
                         notBold={true}
                     />
                 </aside>
-                <div className="overflowScroll">
+                <div className="displayGuildProgressionDataContainer">
                     <GuildBossSummary
                         bossName={`${this.state.bossName} ${
                             difficultyLabels[this.state.tab]
@@ -99,4 +118,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(GuildProgression);
+export default connect(mapStateToProps)(withTheme()(GuildProgression));

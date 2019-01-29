@@ -1,18 +1,22 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
-import characterClassColors from "../../constants/characterClassColors";
 import { armoryUrl } from "../../constants/urls";
 import characterClasses from "../../constants/characterClasses";
 
 import { talentTreeToImage } from "./helpers";
 
-function PlayerTitle({ data }) {
+function PlayerTitle({ data, theme }) {
+    const {
+        palette: { classColors, factionColors }
+    } = theme;
     const fullSpecName = `${data.treeName_0} ${characterClasses[data.class]}`;
     return (
         <div className="displayPlayerTitle">
@@ -27,7 +31,7 @@ function PlayerTitle({ data }) {
                 >
                     <span
                         style={{
-                            color: characterClassColors[data.class]
+                            color: classColors[data.class]
                         }}
                     >
                         {data.name}
@@ -48,15 +52,22 @@ function PlayerTitle({ data }) {
             </Typography>
             <Typography variant="button">
                 <span
-                    className={
-                        data.faction_string_class === "Alliance"
-                            ? "blue"
-                            : "red"
-                    }
+                    style={{
+                        color:
+                            data.faction_string_class === "Alliance"
+                                ? factionColors.alliance
+                                : factionColors.horde
+                    }}
                 >
-                    <Link to={`/guild/${data.guildName}?realm=${data.realm}`}>
-                        {data.guildName}
-                    </Link>
+                    <Typography color="inherit">
+                        <RouterLink
+                            to={`/guild/${data.guildName}?realm=${data.realm}`}
+                        >
+                            <Link component="span" color="inherit">
+                                {data.guildName}
+                            </Link>
+                        </RouterLink>
+                    </Typography>
                 </span>
             </Typography>
 
@@ -67,4 +78,4 @@ function PlayerTitle({ data }) {
     );
 }
 
-export default PlayerTitle;
+export default withTheme()(PlayerTitle);

@@ -1,17 +1,19 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
 
@@ -32,7 +34,13 @@ class PlayerProgression extends React.PureComponent {
     }
 
     render() {
-        const { data, raidBosses } = this.props;
+        const {
+            data,
+            raidBosses,
+            theme: {
+                palette: { progStateColors }
+            }
+        } = this.props;
         return (
             <div className="displayPlayerProgression">
                 <Tabs
@@ -96,13 +104,22 @@ class PlayerProgression extends React.PureComponent {
                                     <TableRow key={boss.encounter_name}>
                                         <TableCell scope="row">
                                             <span className="textBold">
-                                                <Link
+                                                <RouterLink
                                                     to={`/raid/${raidName}/${
                                                         boss.encounter_name
                                                     }`}
                                                 >
-                                                    {boss.encounter_name}
-                                                </Link>
+                                                    <Typography color="inherit">
+                                                        <Link
+                                                            component="span"
+                                                            color="inherit"
+                                                        >
+                                                            {
+                                                                boss.encounter_name
+                                                            }
+                                                        </Link>
+                                                    </Typography>
+                                                </RouterLink>
                                             </span>
                                         </TableCell>
                                         <TableCell colSpan="3">
@@ -111,31 +128,40 @@ class PlayerProgression extends React.PureComponent {
                                                     <Table className="nestedTable">
                                                         <TableBody>
                                                             <TableRow>
-                                                                <TableCell>
-                                                                    <span className="textBold">
+                                                                <TableCell
+                                                                    component="th"
+                                                                    scope="row"
+                                                                >
+                                                                    <Typography className="textBold displayPlayerProgressionRank">
+                                                                        <LogLink
+                                                                            logId={
+                                                                                dps.logId
+                                                                            }
+                                                                            realm={
+                                                                                dps.realm
+                                                                            }
+                                                                        />{" "}
                                                                         {
                                                                             dps.rank
                                                                         }
-                                                                    </span>
+                                                                    </Typography>
                                                                 </TableCell>
-                                                                <TableCell>
+                                                                <TableCell
+                                                                    component="th"
+                                                                    scope="row"
+                                                                >
                                                                     <span className="textBold">
                                                                         {new Intl.NumberFormat().format(
                                                                             Math.round(
                                                                                 dps.dps
                                                                             )
                                                                         )}
-                                                                    </span>{" "}
-                                                                    <LogLink
-                                                                        logId={
-                                                                            dps.logId
-                                                                        }
-                                                                        realm={
-                                                                            dps.realm
-                                                                        }
-                                                                    />
+                                                                    </span>
                                                                 </TableCell>
-                                                                <TableCell>
+                                                                <TableCell
+                                                                    component="th"
+                                                                    scope="row"
+                                                                >
                                                                     <span className="textBold">
                                                                         {
                                                                             dps.ilvl
@@ -200,29 +226,38 @@ class PlayerProgression extends React.PureComponent {
                                                 <Table className="nestedTable">
                                                     <TableBody>
                                                         <TableRow>
-                                                            <TableCell>
-                                                                <span className="textBold">
+                                                            <TableCell
+                                                                component="th"
+                                                                scope="row"
+                                                            >
+                                                                <Typography className="textBold displayPlayerProgressionRank">
+                                                                    <LogLink
+                                                                        logId={
+                                                                            hps.logId
+                                                                        }
+                                                                        realm={
+                                                                            hps.realm
+                                                                        }
+                                                                    />{" "}
                                                                     {hps.rank}
-                                                                </span>
+                                                                </Typography>
                                                             </TableCell>
-                                                            <TableCell>
+                                                            <TableCell
+                                                                component="th"
+                                                                scope="row"
+                                                            >
                                                                 <span className="textBold">
                                                                     {new Intl.NumberFormat().format(
                                                                         Math.round(
                                                                             hps.hps
                                                                         )
                                                                     )}
-                                                                </span>{" "}
-                                                                <LogLink
-                                                                    logId={
-                                                                        hps.logId
-                                                                    }
-                                                                    realm={
-                                                                        hps.realm
-                                                                    }
-                                                                />
+                                                                </span>
                                                             </TableCell>
-                                                            <TableCell>
+                                                            <TableCell
+                                                                component="th"
+                                                                scope="row"
+                                                            >
                                                                 <span className="textBold">
                                                                     {hps.ilvl}{" "}
                                                                 </span>
@@ -267,11 +302,21 @@ class PlayerProgression extends React.PureComponent {
 
                                         <TableCell component="th" scope="row">
                                             {defeated ? (
-                                                <span className="green">
+                                                <span
+                                                    style={{
+                                                        color:
+                                                            progStateColors.defeated
+                                                    }}
+                                                >
                                                     Defeated
                                                 </span>
                                             ) : (
-                                                <span className="red">
+                                                <span
+                                                    style={{
+                                                        color:
+                                                            progStateColors.alive
+                                                    }}
+                                                >
                                                     Alive
                                                 </span>
                                             )}
@@ -287,4 +332,4 @@ class PlayerProgression extends React.PureComponent {
     }
 }
 
-export default PlayerProgression;
+export default withTheme()(PlayerProgression);

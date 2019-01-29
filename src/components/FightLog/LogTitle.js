@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Warning from "@material-ui/icons/Warning";
+import Link from "@material-ui/core/Link";
 
 import MetaDataList from "../MetaDataList";
 
@@ -13,20 +15,28 @@ import valuesCorrectSince from "../../constants/valuesCorrectSince";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
-function LogTitle({ data }) {
+function LogTitle({ data, theme }) {
+    const {
+        palette: {
+            factionColors: { alliance, horde }
+        }
+    } = theme;
     const general = [
         {
             label: "Guild",
             value: data.guildid ? (
-                <Link to={`/guild/${data.guilddata.name}?realm=${data.realm}`}>
-                    <span
-                        className={
-                            data.guilddata.faction === 0 ? "blue" : "red"
-                        }
+                <RouterLink
+                    to={`/guild/${data.guilddata.name}?realm=${data.realm}`}
+                >
+                    <Link
+                        component="span"
+                        style={{
+                            color: data.guilddata.faction ? horde : alliance
+                        }}
                     >
                         {data.guilddata.name}
-                    </span>
-                </Link>
+                    </Link>
+                </RouterLink>
             ) : (
                 "Random"
             )
@@ -34,15 +44,15 @@ function LogTitle({ data }) {
         {
             label: "Boss",
             value: (
-                <Link
+                <RouterLink
                     to={`/raid/${data.mapentry.name}/${
                         data.encounter_data.encounter_name
                     }`}
                 >
-                    <span className="textBold">
+                    <Link className="textBold" color="inherit" component="span">
                         {data.encounter_data.encounter_name}
-                    </span>
-                </Link>
+                    </Link>
+                </RouterLink>
             )
         },
         {
@@ -137,4 +147,4 @@ function LogTitle({ data }) {
     );
 }
 
-export default LogTitle;
+export default withTheme()(LogTitle);

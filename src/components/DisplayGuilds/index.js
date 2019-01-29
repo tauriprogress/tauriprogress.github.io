@@ -2,13 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
+import { withTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Link from "@material-ui/core/Link";
+import { Typography } from "@material-ui/core";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
@@ -24,7 +27,10 @@ class DisplayGuilds extends React.PureComponent {
 
     render() {
         const {
-            guilds: { data, loading, error, tableColumns }
+            guilds: { data, loading, error, tableColumns },
+            theme: {
+                palette: { factionColors }
+            }
         } = this.props;
 
         return (
@@ -53,13 +59,28 @@ class DisplayGuilds extends React.PureComponent {
                                                     scope="row"
                                                     className="displayGuildsGuildName"
                                                 >
-                                                    <Link
-                                                        to={`/guild/${
-                                                            guild.guildName
-                                                        }?realm=${guild.realm}`}
-                                                    >
-                                                        {guild.guildName}
-                                                    </Link>
+                                                    <Typography color="inherit">
+                                                        <RouterLink
+                                                            to={`/guild/${
+                                                                guild.guildName
+                                                            }?realm=${
+                                                                guild.realm
+                                                            }`}
+                                                        >
+                                                            <Link
+                                                                component="span"
+                                                                style={{
+                                                                    color: guild.gFaction
+                                                                        ? factionColors.horde
+                                                                        : factionColors.alliance
+                                                                }}
+                                                            >
+                                                                {
+                                                                    guild.guildName
+                                                                }
+                                                            </Link>
+                                                        </RouterLink>
+                                                    </Typography>
                                                 </TableCell>
                                                 <TableCell
                                                     component="th"
@@ -71,7 +92,7 @@ class DisplayGuilds extends React.PureComponent {
                                                     component="th"
                                                     scope="row"
                                                 >
-                                                    {guild.gFaction === 1
+                                                    {guild.gFaction
                                                         ? "Horde"
                                                         : "Alliance"}
                                                 </TableCell>
@@ -110,4 +131,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(DisplayGuilds);
+)(withTheme()(DisplayGuilds));

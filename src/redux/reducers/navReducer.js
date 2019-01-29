@@ -7,11 +7,12 @@ function navReducer(state = defaultState, action) {
         case "NAV_TOGGLE":
             return {
                 ...state,
-                showNav: action.payload
-                    ? action.payload
-                    : state.showNav
-                    ? false
-                    : true
+                showNav:
+                    action.payload !== undefined
+                        ? action.payload
+                        : state.showNav
+                        ? false
+                        : true
             };
         default:
             return state;

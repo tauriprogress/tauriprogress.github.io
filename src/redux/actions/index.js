@@ -234,3 +234,10 @@ export function fightLogMembersSort(payload) {
         payload
     };
 }
+
+export function themeToggle(payload) {
+    return {
+        type: "THEME_TOGGLE",
+        payload
+    };
+}

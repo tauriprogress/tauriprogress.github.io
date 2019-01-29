@@ -2,15 +2,36 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import { Link as RouterLink } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Card from "@material-ui/core/Card";
 
 import { raidBossFetch } from "../../redux/actions";
+
+function styles(theme) {
+    return {
+        listItem: {
+            "&:hover *": {
+                color: `${theme.palette.secondary.main} !important`
+            }
+        },
+        listTitle: {
+            backgroundColor: `${theme.palette.primary.main} !important`,
+            "& *": {
+                color: theme.palette.primary.contrastText
+            }
+        },
+        container: {
+            backgroundColor: theme.palette.backgroundAccent
+        }
+    };
+}
 
 class RaidBossList extends React.PureComponent {
     constructor(props) {
@@ -28,26 +49,32 @@ class RaidBossList extends React.PureComponent {
     }
 
     render() {
-        const { raid } = this.props;
+        const { raid, classes } = this.props;
         return (
-            <div className="raidBossList">
+            <Card className={`${classes.container} raidBossList`}>
                 <ListItem
+                    className={`raidBossListTitle ${classes.listItem} ${
+                        classes.listTitle
+                    }`}
                     button
                     onClick={this.handleClick}
                     style={{
                         background: "url(" + raid.picture + ")"
                     }}
-                    className="raidBossListTitle"
                 >
                     <ListItemText inset primary={raid.name} />
                     {this.state.open ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        <ListItem component="li" button>
-                            <Link to={`/raid/${raid.name}`}>
+                        <ListItem
+                            className={classes.listItem}
+                            component="li"
+                            button
+                        >
+                            <RouterLink to={`/raid/${raid.name}`}>
                                 <ListItemText primary="Summary" />
-                            </Link>
+                            </RouterLink>
                         </ListItem>
                         {raid.encounters.map(encounter => {
                             let name = encounter.encounter_name;
@@ -56,8 +83,13 @@ class RaidBossList extends React.PureComponent {
                             }`;
 
                             return (
-                                <ListItem component="li" button key={name}>
-                                    <Link
+                                <ListItem
+                                    className={classes.listItem}
+                                    component="li"
+                                    button
+                                    key={name}
+                                >
+                                    <RouterLink
                                         to={linkTo}
                                         onClick={() =>
                                             this.props.raidBossFetch({
@@ -68,13 +100,13 @@ class RaidBossList extends React.PureComponent {
                                         }
                                     >
                                         <ListItemText primary={name} />
-                                    </Link>
+                                    </RouterLink>
                                 </ListItem>
                             );
                         })}
                     </List>
                 </Collapse>
-            </div>
+            </Card>
         );
     }
 }
@@ -86,4 +118,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     null,
     mapDispatchToProps
-)(RaidBossList);
+)(withStyles(styles)(RaidBossList));

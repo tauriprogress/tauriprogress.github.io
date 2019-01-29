@@ -5,18 +5,18 @@ import { bindActionCreators } from "redux";
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import Divider from "@material-ui/core/Divider";
+import Link from "@material-ui/core/Link";
 import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 import Info from "@material-ui/icons/Info";
 import Refresh from "@material-ui/icons/Refresh";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { lastUpdatedFetch } from "../../redux/actions";
-import { updateDbFetch } from "../../redux/actions";
+import { lastUpdatedFetch, updateDbFetch } from "../../redux/actions";
 
 import { convertMinutes } from "./helpers";
 import { Typography } from "@material-ui/core";
@@ -96,12 +96,14 @@ class AdditionalInfo extends React.PureComponent {
                                 onClick={this.toggleIssues}
                                 className="additionalInfoIssuesButton"
                             >
-                                Known issues{" "}
-                                {this.state.issuesOpen ? (
-                                    <ExpandLess />
-                                ) : (
-                                    <ExpandMore />
-                                )}
+                                <Link color="inherit" component="span">
+                                    Known issues{" "}
+                                    {this.state.issuesOpen ? (
+                                        <ExpandLess />
+                                    ) : (
+                                        <ExpandMore />
+                                    )}
+                                </Link>
                             </Typography>
                             <Collapse
                                 in={this.state.issuesOpen}
@@ -130,7 +132,11 @@ class AdditionalInfo extends React.PureComponent {
                         <Divider />
 
                         <Typography>
-                            <span className="textBold">
+                            <Link
+                                color="inherit"
+                                component="span"
+                                className="textBold"
+                            >
                                 <a
                                     href="https://tauriwow.com/"
                                     target="_blank"
@@ -138,29 +144,43 @@ class AdditionalInfo extends React.PureComponent {
                                 >
                                     Tauri WoW
                                 </a>
-                            </span>
+                            </Link>
+
                             <br />
 
                             <span className="textBold">
-                                <a
-                                    href="https://community.tauriwow.com/index.php?/topic/2076/"
-                                    target="_blank"
-                                    rel="noreferrer noopener"
+                                <Link
+                                    color="inherit"
+                                    component="span"
+                                    className="textBold"
                                 >
-                                    Forums
-                                </a>
+                                    <a
+                                        href="https://community.tauriwow.com/index.php?/topic/2076/"
+                                        target="_blank"
+                                        rel="noreferrer noopener"
+                                    >
+                                        Forums
+                                    </a>
+                                </Link>
                             </span>
                             <br />
                             <span className="textBold">
-                                <a
-                                    href="https://github.com/tauriprogress/tauriprogress.github.io/"
-                                    target="_blank"
-                                    rel="noreferrer noopener"
+                                <Link
+                                    color="inherit"
+                                    component="span"
+                                    className="textBold"
                                 >
-                                    Github
-                                </a>
+                                    <a
+                                        href="https://github.com/tauriprogress/tauriprogress.github.io/"
+                                        target="_blank"
+                                        rel="noreferrer noopener"
+                                    >
+                                        Github
+                                    </a>
+                                </Link>
                             </span>
                         </Typography>
+                        <Divider />
 
                         <Typography>
                             Data is collected since{" "}

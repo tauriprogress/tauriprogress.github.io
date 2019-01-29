@@ -3,17 +3,13 @@ import "./index.sass";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { MuiThemeProvider } from "@material-ui/core/styles";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import store from "./redux";
-import theme from "./theme";
 
 ReactDOM.render(
     <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
-            <App />
-        </MuiThemeProvider>
+        <App />
     </Provider>,
     document.getElementById("root")
 );
