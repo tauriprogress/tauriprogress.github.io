@@ -1,4 +1,4 @@
-import { abbreviation } from "../../constants/currentContent";
+import { abbreviation } from "tauriprogress-constants/currentContent";
 
 const defaultState = {
     data: null,

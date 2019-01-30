@@ -1,5 +1,5 @@
+import { specToClass } from "tauriprogress-constants";
 import React from "react";
-
 import { Link as RouterLink } from "react-router-dom";
 
 import { withTheme } from "@material-ui/core/styles";
@@ -16,8 +16,6 @@ import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
-
-import specToClass from "../../constants/specToClass";
 
 import { convertFightTime, getSpecImg } from "./helpers";
 

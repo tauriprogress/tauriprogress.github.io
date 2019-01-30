@@ -1,5 +1,5 @@
-import specs from "../../constants/specs";
-import { difficulties, raidName } from "../../constants/currentContent";
+import { difficulties, raidName } from "tauriprogress-constants/currentContent";
+import { specs } from "tauriprogress-constants";
 
 export function talentTreeToImage(fullSpecName) {
     const regexp = new RegExp(fullSpecName, "ig");

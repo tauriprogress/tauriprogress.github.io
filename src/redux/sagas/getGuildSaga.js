@@ -1,6 +1,6 @@
+import { serverUrl } from "tauriprogress-constants/urls";
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import { guildSetLoading, guildFill, guildSetError } from "../actions";
-import { serverUrl } from "../../constants/urls";
 
 async function getData(guildName, realm) {
     return await fetch(`${serverUrl}/getguild`, {

@@ -1,10 +1,10 @@
+import { serverUrl } from "tauriprogress-constants/urls";
 import { put, call, takeLatest } from "redux-saga/effects";
 import {
     additionalInfoLoading,
     additionalInfoFill,
     additionalInfoSetError
 } from "../actions";
-import { serverUrl } from "../../constants/urls";
 
 async function getData() {
     return await fetch(`${serverUrl}/lastupdated`).then(res => res.json());

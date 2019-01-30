@@ -1,5 +1,5 @@
+import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
-
 import { Link as RouterLink } from "react-router-dom";
 
 import Table from "@material-ui/core/Table";
@@ -11,8 +11,6 @@ import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
-
-import difficultyLabels from "../../constants/difficultyLabels";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 

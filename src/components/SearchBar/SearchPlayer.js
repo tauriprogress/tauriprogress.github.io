@@ -1,3 +1,4 @@
+import { realms } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,8 +13,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import { playerFetch } from "../../redux/actions";
-
-import realms from "../../constants/realms";
 
 class SearchPlayer extends React.Component {
     constructor(props) {

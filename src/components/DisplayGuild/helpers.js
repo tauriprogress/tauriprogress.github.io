@@ -1,4 +1,4 @@
-import { raidName } from "../../constants/currentContent";
+import { raidName } from "tauriprogress-constants/currentContent";
 
 export function getBossesDefeated(raidBosses, progression) {
     let defeatedBosses = {};

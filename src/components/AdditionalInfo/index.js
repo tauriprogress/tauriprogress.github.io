@@ -1,3 +1,4 @@
+import { valuesCorrectSince } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -20,8 +21,6 @@ import { lastUpdatedFetch, updateDbFetch } from "../../redux/actions";
 
 import { convertMinutes } from "./helpers";
 import { Typography } from "@material-ui/core";
-
-import valuesCorrectSince from "../../constants/valuesCorrectSince";
 
 class AdditionalInfo extends React.PureComponent {
     constructor(props) {

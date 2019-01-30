@@ -1,3 +1,4 @@
+import { specToClass, specs } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -15,9 +16,6 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
-
-import specToClass from "../../constants/specToClass";
-import specs from "../../constants/specs";
 
 import { getSpecImg } from "../DisplayRaid/helpers";
 import { sortMembers } from "./helpers";

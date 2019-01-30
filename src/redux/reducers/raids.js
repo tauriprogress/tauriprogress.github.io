@@ -1,4 +1,5 @@
-import { raids } from "../../constants/currentContent";
+import { raids } from "tauriprogress-constants/currentContent";
+
 let defaultState = getDefaultState();
 
 function getDefaultState() {
@@ -16,7 +17,7 @@ function getDefaultState() {
     }
 
     for (let raid of raids) {
-        let raidInfo = require(`../../constants/${raid.raidName}`);
+        let raidInfo = require(`tauriprogress-constants/${raid.raidName}`);
         newState.push({
             ...{
                 ...raidInfo,

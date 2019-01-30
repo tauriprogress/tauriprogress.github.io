@@ -1,3 +1,4 @@
+import { specs, specToClass, characterClasses } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -27,10 +28,6 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 
 import LogLink from "../LogLink";
-
-import specs from "../../constants/specs";
-import specToClass from "../../constants/specToClass";
-import characterClasses from "../../constants/characterClasses";
 
 import {
     charLadderFilterSet,

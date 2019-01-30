@@ -1,4 +1,4 @@
-import { raidName } from "../../constants/currentContent";
+import { raidName } from "tauriprogress-constants/currentContent";
 
 const defaultState = {
     data: null,

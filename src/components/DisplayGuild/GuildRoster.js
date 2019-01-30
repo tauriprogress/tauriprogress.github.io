@@ -1,3 +1,4 @@
+import { characterClasses } from "tauriprogress-constants";
 import React from "react";
 
 import { Link as RouterLink } from "react-router-dom";
@@ -12,8 +13,6 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
-
-import characterClasses from "../../constants/characterClasses";
 
 class GuildRoster extends React.PureComponent {
     constructor(props) {

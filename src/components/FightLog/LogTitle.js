@@ -1,5 +1,5 @@
+import { difficultyLabels, valuesCorrectSince } from "tauriprogress-constants";
 import React from "react";
-
 import { Link as RouterLink } from "react-router-dom";
 
 import { withTheme } from "@material-ui/core/styles";
@@ -9,9 +9,6 @@ import Warning from "@material-ui/icons/Warning";
 import Link from "@material-ui/core/Link";
 
 import MetaDataList from "../MetaDataList";
-
-import difficultyLabels from "../../constants/difficultyLabels";
-import valuesCorrectSince from "../../constants/valuesCorrectSince";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 

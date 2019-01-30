@@ -1,3 +1,4 @@
+import { valuesCorrectSince } from "tauriprogress-constants";
 import React from "react";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -9,8 +10,6 @@ import Warning from "@material-ui/icons/Warning";
 import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
 import CharacterLadder from "../CharacterLadder";
-
-import valuesCorrectSince from "../../constants/valuesCorrectSince";
 
 class RaidBoss extends React.PureComponent {
     constructor(props) {

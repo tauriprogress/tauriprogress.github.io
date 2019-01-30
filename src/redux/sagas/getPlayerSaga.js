@@ -1,7 +1,8 @@
+import { raidName } from "tauriprogress-constants/currentContent";
+import { serverUrl } from "tauriprogress-constants/urls";
+
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import { playerLoading, playerFill, playerSetError } from "../actions";
-import { serverUrl } from "../../constants/urls";
-import { raidName } from "../../constants/currentContent";
 
 async function getData(playerName, realm) {
     return await fetch(`${serverUrl}/getplayer`, {

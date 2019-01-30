@@ -1,3 +1,4 @@
+import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 
 import { Link as RouterLink } from "react-router-dom";
@@ -17,7 +18,6 @@ import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
 
-import { raidName } from "../../constants/currentContent";
 import { getSpecImg } from "../DisplayRaid/helpers";
 
 class PlayerProgression extends React.PureComponent {

@@ -1,3 +1,4 @@
+import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -15,8 +16,6 @@ import { Typography } from "@material-ui/core";
 
 import SearchBar from "../SearchBar";
 import AdditionalInfo from "../AdditionalInfo";
-
-import { raidName } from "../../constants/currentContent";
 
 import { navToggle, themeToggle } from "../../redux/actions";
 

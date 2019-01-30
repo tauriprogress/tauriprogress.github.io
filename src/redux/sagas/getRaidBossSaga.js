@@ -1,6 +1,6 @@
+import { serverUrl } from "tauriprogress-constants/urls";
 import { put, call, takeLatest } from "redux-saga/effects";
 import { raidBossLoading, raidBossFill, raidBossSetError } from "../actions";
-import { serverUrl } from "../../constants/urls";
 
 async function getData(raidName, bossName) {
     return await fetch(`${serverUrl}/getboss`, {

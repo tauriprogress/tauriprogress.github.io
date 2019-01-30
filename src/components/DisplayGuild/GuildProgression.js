@@ -1,3 +1,5 @@
+import { difficultyLabels } from "tauriprogress-constants";
+import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -10,9 +12,6 @@ import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
 
 import { getBossesDefeated } from "./helpers";
-
-import { raidName } from "../../constants/currentContent";
-import difficultyLabels from "../../constants/difficultyLabels";
 
 class GuildProgression extends React.PureComponent {
     constructor(props) {

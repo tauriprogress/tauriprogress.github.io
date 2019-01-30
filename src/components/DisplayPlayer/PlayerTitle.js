@@ -1,3 +1,6 @@
+import { characterClasses } from "tauriprogress-constants";
+import { armoryUrl } from "tauriprogress-constants/urls";
+
 import React from "react";
 
 import { Link as RouterLink } from "react-router-dom";
@@ -7,9 +10,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
-
-import { armoryUrl } from "../../constants/urls";
-import characterClasses from "../../constants/characterClasses";
 
 import { talentTreeToImage } from "./helpers";
 
