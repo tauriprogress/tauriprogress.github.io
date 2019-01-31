@@ -105,6 +105,16 @@ class RaidBosses extends React.PureComponent {
 
                                         <TableCell component="th" scope="row">
                                             <Typography color="inherit">
+                                                <LogLink
+                                                    logId={
+                                                        currentBoss.fastestKills
+                                                            .log_id
+                                                    }
+                                                    realm={
+                                                        currentBoss.fastestKills
+                                                            .realm
+                                                    }
+                                                />{" "}
                                                 <span className="textBold">
                                                     {convertFightTime(
                                                         currentBoss.fastestKills
@@ -137,17 +147,7 @@ class RaidBosses extends React.PureComponent {
                                                                 .guilddata.name
                                                         }
                                                     </Link>
-                                                </RouterLink>{" "}
-                                                <LogLink
-                                                    logId={
-                                                        currentBoss.fastestKills
-                                                            .log_id
-                                                    }
-                                                    realm={
-                                                        currentBoss.fastestKills
-                                                            .realm
-                                                    }
-                                                />
+                                                </RouterLink>
                                             </Typography>
                                         </TableCell>
 
