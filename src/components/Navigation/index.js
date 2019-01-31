@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { Link as RouterLink } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -84,9 +85,11 @@ function Navigation({ nav, navToggle, themeToggle, classes }) {
                     </ul>
                 </nav>
                 <div className="navToolBarIcons">
-                    <Fab color="primary" size="small" onClick={themeToggle}>
-                        <Brightness fontSize="large" />
-                    </Fab>
+                    <Tooltip title="Toggle theme">
+                        <Fab color="primary" size="small" onClick={themeToggle}>
+                            <Brightness fontSize="large" />
+                        </Fab>
+                    </Tooltip>
 
                     <AdditionalInfo />
                 </div>
