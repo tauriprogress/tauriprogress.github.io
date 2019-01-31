@@ -55,6 +55,16 @@ const overrides = {
                 color: `${secondary} !important`
             }
         }
+    },
+
+    MuiFab: {
+        root: {
+            "&:hover": {
+                "& svg": {
+                    fill: secondary
+                }
+            }
+        }
     }
 };
 
