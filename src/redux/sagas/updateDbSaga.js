@@ -1,4 +1,4 @@
-import { serverUrl } from "tauriprogress-constants/";
+import { serverUrl } from "tauriprogress-constants/urls";
 import { put, call, takeLatest } from "redux-saga/effects";
 import {
     additionalInfoLoading,
