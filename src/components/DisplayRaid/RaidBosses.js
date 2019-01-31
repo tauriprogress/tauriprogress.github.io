@@ -47,7 +47,7 @@ class RaidBosses extends React.PureComponent {
                 palette: { classColors, factionColors }
             }
         } = this.props;
-        console.log(factionColors);
+
         return (
             <div className="displayRaidBosses">
                 <Tabs
