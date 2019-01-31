@@ -137,7 +137,7 @@ const darkPalette = {
 };
 
 const defaultState = {
-    type: localStorage.getItem("themeType") || "dark",
+    type: localStorage.getItem("themeType") || "light",
     light: createMuiTheme({
         palette: lightPalette,
         overrides: {
