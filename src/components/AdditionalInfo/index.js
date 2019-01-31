@@ -170,7 +170,7 @@ class AdditionalInfo extends React.PureComponent {
                                     className="textBold"
                                 >
                                     <a
-                                        href="https://github.com/tauriprogress/tauriprogress.github.io/"
+                                        href="https://github.com/tauriprogress"
                                         target="_blank"
                                         rel="noreferrer noopener"
                                     >
