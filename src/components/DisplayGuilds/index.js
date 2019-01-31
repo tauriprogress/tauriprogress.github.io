@@ -1,3 +1,4 @@
+import { abbreviation } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -27,9 +28,9 @@ class DisplayGuilds extends React.PureComponent {
 
     render() {
         const {
-            guilds: { data, loading, error, tableColumns },
+            guilds: { data, loading, error },
             theme: {
-                palette: { factionColors }
+                palette: { factionColors, progStateColors }
             }
         } = this.props;
 
@@ -43,11 +44,12 @@ class DisplayGuilds extends React.PureComponent {
                             <Table>
                                 <TableHead className="tableHead">
                                     <TableRow>
-                                        {tableColumns.map(column => (
-                                            <TableCell key={column.key}>
-                                                {column.label}
-                                            </TableCell>
-                                        ))}
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Realm</TableCell>
+                                        <TableCell>Faction</TableCell>
+                                        <TableCell>
+                                            {abbreviation} Completion
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -100,10 +102,25 @@ class DisplayGuilds extends React.PureComponent {
                                                     component="th"
                                                     scope="row"
                                                 >
-                                                    {
+                                                    {guild.progression
+                                                        .completed ? (
+                                                        <span
+                                                            style={{
+                                                                color:
+                                                                    progStateColors.defeated
+                                                            }}
+                                                        >
+                                                            {new Date(
+                                                                guild
+                                                                    .progression
+                                                                    .completed *
+                                                                    1000
+                                                            ).toLocaleDateString()}
+                                                        </span>
+                                                    ) : (
                                                         guild.progression
                                                             .currentBossesDefeated
-                                                    }
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         );

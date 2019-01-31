@@ -87,7 +87,7 @@ class PlayerProgression extends React.PureComponent {
                                         </TableHead>
                                     </Table>
                                 </TableCell>
-                                <TableCell>Defeated</TableCell>
+                                <TableCell>Completion</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

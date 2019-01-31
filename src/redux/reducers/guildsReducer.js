@@ -1,18 +1,7 @@
-import { abbreviation } from "tauriprogress-constants/currentContent";
-
 const defaultState = {
     data: null,
     error: null,
-    loading: false,
-    tableColumns: [
-        { key: "guildName", label: "Name" },
-        { key: "realm", label: "Realm" },
-        { key: "gFaction", label: "Faction" },
-        {
-            key: "progression.currentBossesDefeated",
-            label: `${abbreviation} Progression`
-        }
-    ]
+    loading: false
 };
 
 function guildsReducer(state = defaultState, action) {
