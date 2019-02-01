@@ -198,8 +198,6 @@ class CharacterLadder extends React.PureComponent {
                 <Table>
                     <TableHead className="tableHead">
                         <TableRow>
-                            <TableCell>Rank</TableCell>
-
                             <TableCell>Name</TableCell>
                             <TableCell>
                                 <span className="textCapitalize">{type}</span>
@@ -221,14 +219,14 @@ class CharacterLadder extends React.PureComponent {
                             .map((char, index) => (
                                 <TableRow key={index}>
                                     <TableCell component="th" scope="row">
-                                        {index +
-                                            1 +
-                                            pagination.currentPage *
-                                                pagination.rowsPerPage}
-                                    </TableCell>
-
-                                    <TableCell component="th" scope="row">
                                         <Typography color="inherit">
+                                            <span className="textBold">
+                                                {index +
+                                                    1 +
+                                                    pagination.currentPage *
+                                                        pagination.rowsPerPage}
+                                                .{" "}
+                                            </span>
                                             <Tooltip title={char.spec.label}>
                                                 <Avatar
                                                     component="span"

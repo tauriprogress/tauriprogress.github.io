@@ -26,8 +26,6 @@ function FastestKills({ data, theme }) {
             <Table>
                 <TableHead className="tableHead">
                     <TableRow>
-                        <TableCell>Rank</TableCell>
-
                         <TableCell>Guild</TableCell>
                         <TableCell>Kill time</TableCell>
 
@@ -41,11 +39,10 @@ function FastestKills({ data, theme }) {
                     {data.map((kill, index) => (
                         <TableRow key={kill.log_id}>
                             <TableCell component="th" scope="row">
-                                {index + 1}
-                            </TableCell>
-
-                            <TableCell component="th" scope="row">
                                 <Typography>
+                                    <span className="textBold">
+                                        {index + 1}.{" "}
+                                    </span>
                                     {kill.guilddata.name ? (
                                         <RouterLink
                                             to={`/guild/${

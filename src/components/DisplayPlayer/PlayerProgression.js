@@ -144,6 +144,7 @@ class PlayerProgression extends React.PureComponent {
                                                                         {
                                                                             dps.rank
                                                                         }
+                                                                        .
                                                                     </Typography>
                                                                 </TableCell>
                                                                 <TableCell
@@ -239,7 +240,7 @@ class PlayerProgression extends React.PureComponent {
                                                                             hps.realm
                                                                         }
                                                                     />{" "}
-                                                                    {hps.rank}
+                                                                    {hps.rank}.
                                                                 </Typography>
                                                             </TableCell>
                                                             <TableCell

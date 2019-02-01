@@ -5,6 +5,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
 
@@ -28,7 +29,9 @@ function GuildLatestKills({ data, realm }) {
                     {data.map((log, index) => (
                         <TableRow key={log.log_id}>
                             <TableCell component="th" scope="row">
-                                <span className="textBold">{index + 1}</span>
+                                <Typography className="textBold">
+                                    {index + 1}.
+                                </Typography>
                             </TableCell>
 
                             <TableCell component="th" scope="row">
