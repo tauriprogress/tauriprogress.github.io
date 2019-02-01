@@ -49,7 +49,7 @@ class RaidBosses extends React.PureComponent {
         } = this.props;
 
         return (
-            <div className="displayRaidBosses">
+            <React.Fragment>
                 <Tabs
                     value={this.state.value}
                     onChange={this.handleChange}
@@ -292,7 +292,7 @@ class RaidBosses extends React.PureComponent {
                         </TableBody>
                     </Table>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

@@ -18,20 +18,22 @@ class DisplayRaid extends React.PureComponent {
         const { loading, data, error } = this.props.raid;
         return (
             <section className="displayRaid">
-                {loading && <Loading />}
-                {error && <ErrorMessage message={error} />}
-                {!loading && !error && data && (
-                    <div className="displayRaidContentContainer">
-                        <aside>
-                            <RaidBossList raid={this.props.raidData} />
-                        </aside>
-                        <RaidBosses
-                            data={data}
-                            raidName={this.props.match.params.raidName}
-                            raidBosses={this.props.raidData.encounters}
-                        />
+                <div className="displayRaidContentContainer">
+                    <aside>
+                        <RaidBossList raid={this.props.raidData} />
+                    </aside>
+                    <div className="displayRaidContent">
+                        {loading && <Loading />}
+                        {error && <ErrorMessage message={error} />}
+                        {!loading && !error && data && (
+                            <RaidBosses
+                                data={data}
+                                raidName={this.props.match.params.raidName}
+                                raidBosses={this.props.raidData.encounters}
+                            />
+                        )}
                     </div>
-                )}
+                </div>
             </section>
         );
     }

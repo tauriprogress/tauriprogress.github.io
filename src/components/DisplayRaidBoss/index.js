@@ -48,51 +48,55 @@ class DisplayRaidBoss extends React.PureComponent {
         const bossName = this.props.match.params.bossName;
 
         let raid = null;
-        if (!loading && error !== "Invalid boss name") {
-            const { raids } = this.props;
-            const filteredRaid = raids.filter(
-                raid => raid.raidName === raidName
-            );
-            if (filteredRaid.length) {
-                raid = filteredRaid[0];
-            }
+        const { raids } = this.props;
+        const filteredRaid = raids.filter(raid => raid.raidName === raidName);
+        if (filteredRaid.length) {
+            raid = filteredRaid[0];
         }
 
         return (
             <section className="displayRaidBoss">
-                {loading && <Loading />}
-                {error && <ErrorMessage message={error} />}
+                <div className="displayRaidBossContentContainer">
+                    {raid && (
+                        <aside>
+                            <RaidBossList raid={raid} />
+                        </aside>
+                    )}
+                    <div className="displayRaidBossContent">
+                        {loading && <Loading />}
+                        {error && <ErrorMessage message={error} />}
+                        {!loading && !error && data && (
+                            <React.Fragment>
+                                <div className="displayRaidBossTitle">
+                                    <Typography variant="h4">
+                                        {bossName}
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {data[this.state.value].killCount} Kills
+                                    </Typography>
+                                </div>
+                                <Tabs
+                                    value={this.state.value}
+                                    onChange={this.handleChange}
+                                    indicatorColor="secondary"
+                                >
+                                    <Tab
+                                        label="10 HC"
+                                        value={5}
+                                        className="tab"
+                                    />
+                                    <Tab
+                                        label="25 HC"
+                                        value={6}
+                                        className="tab"
+                                    />
+                                </Tabs>
 
-                {!loading && !error && data && (
-                    <div className="displayRaidBossTitle">
-                        <Typography variant="h4">{bossName}</Typography>
-                        <Typography variant="h6">
-                            {data[this.state.value].killCount} Kills
-                        </Typography>
-                    </div>
-                )}
-
-                {!loading && !error && data && (
-                    <div className="displayRaidBossContentContainer">
-                        {raid && (
-                            <aside>
-                                <RaidBossList raid={raid} />
-                            </aside>
+                                {getChild(this.state.value, data)}
+                            </React.Fragment>
                         )}
-                        <div className="displayRaidBossContent">
-                            <Tabs
-                                value={this.state.value}
-                                onChange={this.handleChange}
-                                indicatorColor="secondary"
-                            >
-                                <Tab label="10 HC" value={5} className="tab" />
-                                <Tab label="25 HC" value={6} className="tab" />
-                            </Tabs>
-
-                            {getChild(this.state.value, data)}
-                        </div>
                     </div>
-                )}
+                </div>
             </section>
         );
     }
