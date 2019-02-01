@@ -17,6 +17,9 @@ function* fetchUpdateDb() {
         const response = yield call(getData);
 
         if (!response.success) {
+            if (response.lastUpdated)
+                yield put(additionalInfoFill(response.lastUpdated));
+
             throw new Error(response.errorstring);
         } else {
             yield put(additionalInfoFill(response.response));
