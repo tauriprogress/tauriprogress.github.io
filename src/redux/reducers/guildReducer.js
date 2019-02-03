@@ -79,18 +79,12 @@ function guildReducer(state = defaultState, action) {
                 }
             }
 
-            let guildList = [];
-
-            for (let memberKey in action.payload.guildList) {
-                guildList.push(action.payload.guildList[memberKey]);
-            }
-
             return {
                 ...state,
                 data: {
                     ...action.payload,
                     progression: progression,
-                    guildList: guildList.sort((a, b) => a.rank - b.rank)
+                    guildList: data.guildList.sort((a, b) => a.rank - b.rank)
                 },
                 guildName: action.payload.guildName,
                 realm: action.payload.realm,
