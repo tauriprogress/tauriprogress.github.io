@@ -14,22 +14,23 @@ class DisplayRaid extends React.PureComponent {
         const raidName = this.props.match.params.raidName;
         this.props.raidFetch(raidName);
     }
+
     render() {
-        const { loading, data, error } = this.props.raid;
+        const { loading, data, error, raidName, raidData } = this.props.raid;
         return (
             <section className="displayRaid">
                 <div className="displayRaidContentContainer">
                     <aside>
-                        <RaidBossList raid={this.props.raidData} />
+                        {raidData && !error && <RaidBossList raid={raidData} />}
                     </aside>
                     <div className="displayRaidContent">
                         {loading && <Loading />}
                         {error && <ErrorMessage message={error} />}
-                        {!loading && !error && data && (
+                        {!loading && !error && data && raidData && (
                             <RaidBosses
                                 data={data}
-                                raidName={this.props.match.params.raidName}
-                                raidBosses={this.props.raidData.encounters}
+                                raidName={raidName}
+                                raidBosses={raidData.encounters}
                             />
                         )}
                     </div>
@@ -41,8 +42,7 @@ class DisplayRaid extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        raid: state.raid,
-        raidData: state.raids[0]
+        raid: state.raidInfo.raid
     };
 }
 

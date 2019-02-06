@@ -43,13 +43,16 @@ class DisplayRaidBoss extends React.PureComponent {
     }
 
     render() {
-        const { loading, data, error } = this.props.raidBoss;
-        const raidName = this.props.match.params.raidname;
-        const bossName = this.props.match.params.bossName;
-
+        const {
+            loading,
+            data,
+            error,
+            raidName,
+            bossName
+        } = this.props.raidBoss;
         let raid = null;
         const { raids } = this.props;
-        const filteredRaid = raids.filter(raid => raid.raidName === raidName);
+        const filteredRaid = raids.filter(raid => raid.name === raidName);
         if (filteredRaid.length) {
             raid = filteredRaid[0];
         }

@@ -6,7 +6,7 @@ const defaultState = {
     bossName: null
 };
 
-function raidBossReducer(state = defaultState, action) {
+function raidBossReducer(state = defaultState, action, raids) {
     switch (action.type) {
         case "RAID_BOSS_LOADING":
             return {

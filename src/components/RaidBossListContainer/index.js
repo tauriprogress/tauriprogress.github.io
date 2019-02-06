@@ -15,7 +15,7 @@ function RaidBossListContainer({ raids }) {
 
 function mapStateToProps(state) {
     return {
-        raids: state.raids
+        raids: state.raidInfo.raids
     };
 }
 

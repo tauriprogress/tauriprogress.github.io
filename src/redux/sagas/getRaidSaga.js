@@ -16,7 +16,7 @@ async function getData(raidName) {
 
 function* fetchRaid({ payload: raidName }) {
     try {
-        yield put(raidLoading());
+        yield put(raidLoading(raidName));
 
         const response = yield call(getData, raidName);
 
