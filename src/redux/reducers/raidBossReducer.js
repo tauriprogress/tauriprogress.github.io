@@ -3,18 +3,25 @@ const defaultState = {
     error: null,
     loading: false,
     raidName: null,
-    bossName: null
+    bossName: null,
+    raidData: null
 };
 
 function raidBossReducer(state = defaultState, action, raids) {
     switch (action.type) {
         case "RAID_BOSS_LOADING":
+            let raidData = raids.reduce((acc, curr) => {
+                if (curr.name === action.payload.raidName) acc = curr;
+                return acc;
+            }, null);
+
             return {
                 ...state,
                 loading: true,
                 raidName: action.payload.raidName,
                 bossName: action.payload.bossName,
-                error: null
+                error: null,
+                raidData
             };
         case "RAID_BOSS_FILL":
             let data = action.payload;

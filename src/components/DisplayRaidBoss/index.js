@@ -47,24 +47,16 @@ class DisplayRaidBoss extends React.PureComponent {
             loading,
             data,
             error,
-            raidName,
-            bossName
+            bossName,
+            raidData
         } = this.props.raidBoss;
-        let raid = null;
-        const { raids } = this.props;
-        const filteredRaid = raids.filter(raid => raid.name === raidName);
-        if (filteredRaid.length) {
-            raid = filteredRaid[0];
-        }
 
         return (
             <section className="displayRaidBoss">
                 <div className="displayRaidBossContentContainer">
-                    {raid && (
-                        <aside>
-                            <RaidBossList raid={raid} />
-                        </aside>
-                    )}
+                    <aside>
+                        {raidData && <RaidBossList raid={raidData} />}
+                    </aside>
                     <div className="displayRaidBossContent">
                         {loading && <Loading />}
                         {error && <ErrorMessage message={error} />}
@@ -118,8 +110,7 @@ function getChild(value, data) {
 
 function mapStateToProps(state) {
     return {
-        raidBoss: state.raidBoss,
-        raids: state.raids
+        raidBoss: state.raidInfo.raidBoss
     };
 }
 
