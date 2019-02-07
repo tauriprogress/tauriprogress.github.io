@@ -48,7 +48,7 @@ class DisplayPlayer extends React.PureComponent {
 function mapStateToProps(state) {
     return {
         player: state.player,
-        raidBosses: state.raids[0].encounters
+        raidBosses: state.raidInfo.raids[0].encounters
     };
 }
 
