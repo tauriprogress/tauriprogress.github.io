@@ -1,11 +1,7 @@
-import { valuesCorrectSince } from "tauriprogress-constants";
 import React from "react";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Avatar from "@material-ui/core/Avatar";
-import Chip from "@material-ui/core/Chip";
-import Warning from "@material-ui/icons/Warning";
 
 import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
@@ -60,20 +56,6 @@ function getChild(value, data) {
         case 2:
             return (
                 <React.Fragment>
-                    {data.bossName === "Durumu the Forgotten" && (
-                        <Chip
-                            label={`Data collected since ${new Date(
-                                valuesCorrectSince * 1000
-                            ).toLocaleDateString()} due to a bug.`}
-                            avatar={
-                                <Avatar>
-                                    <Warning color="secondary" />
-                                </Avatar>
-                            }
-                            className="warning"
-                            color="primary"
-                        />
-                    )}
                     <CharacterLadder data={data.dps} type={"dps"} />
                 </React.Fragment>
             );
