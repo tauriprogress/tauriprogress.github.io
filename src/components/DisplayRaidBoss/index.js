@@ -48,14 +48,17 @@ class DisplayRaidBoss extends React.PureComponent {
             data,
             error,
             bossName,
-            raidData
+            raidData,
+            selected
         } = this.props.raidBoss;
 
         return (
             <section className="displayRaidBoss">
                 <div className="displayRaidBossContentContainer">
                     <aside>
-                        {raidData && <RaidBossList raid={raidData} />}
+                        {raidData && (
+                            <RaidBossList raid={raidData} selected={selected} />
+                        )}
                     </aside>
                     <div className="displayRaidBossContent">
                         {loading && <Loading />}

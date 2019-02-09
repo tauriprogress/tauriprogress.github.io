@@ -21,6 +21,11 @@ function styles(theme) {
                 color: `${theme.palette.secondary.main} !important`
             }
         },
+        listItemSelected: {
+            "& *": {
+                color: `${theme.palette.secondary.main} !important`
+            }
+        },
         listTitle: {
             backgroundColor: `${theme.palette.primary.main} !important`,
             "& *": {
@@ -49,7 +54,7 @@ class RaidBossList extends React.PureComponent {
     }
 
     render() {
-        const { raid, classes } = this.props;
+        const { raid, classes, selected } = this.props;
         return (
             <Card className={`${classes.container} raidBossList`}>
                 <ListItem
@@ -71,12 +76,16 @@ class RaidBossList extends React.PureComponent {
                             className={classes.listItem}
                             component="li"
                             button
+                            classes={{
+                                selected: classes.listItemSelected
+                            }}
+                            selected={selected === 0}
                         >
                             <RouterLink to={`/raid/${raid.name}`}>
                                 <ListItemText primary="Summary" />
                             </RouterLink>
                         </ListItem>
-                        {raid.encounters.map(encounter => {
+                        {raid.encounters.map((encounter, index) => {
                             let name = encounter.encounter_name;
                             let linkTo = `/raid/${raid.name}/${
                                 encounter.encounter_name
@@ -88,6 +97,10 @@ class RaidBossList extends React.PureComponent {
                                     component="li"
                                     button
                                     key={name}
+                                    classes={{
+                                        selected: classes.listItemSelected
+                                    }}
+                                    selected={selected === index + 1}
                                 >
                                     <RouterLink
                                         to={linkTo}

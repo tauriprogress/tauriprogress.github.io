@@ -21,7 +21,9 @@ class DisplayRaid extends React.PureComponent {
             <section className="displayRaid">
                 <div className="displayRaidContentContainer">
                     <aside>
-                        {raidData && !error && <RaidBossList raid={raidData} />}
+                        {raidData && !error && (
+                            <RaidBossList raid={raidData} selected={0} />
+                        )}
                     </aside>
                     <div className="displayRaidContent">
                         {loading && <Loading />}

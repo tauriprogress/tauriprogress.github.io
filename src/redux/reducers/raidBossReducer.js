@@ -4,7 +4,8 @@ const defaultState = {
     loading: false,
     raidName: null,
     bossName: null,
-    raidData: null
+    raidData: null,
+    selected: null
 };
 
 function raidBossReducer(state = defaultState, action, raids) {
@@ -15,13 +16,22 @@ function raidBossReducer(state = defaultState, action, raids) {
                 return acc;
             }, null);
 
+            let selected = raidData
+                ? raidData.encounters.reduce((acc, curr, index) => {
+                      if (curr.encounter_name === action.payload.bossName)
+                          acc = index + 1;
+                      return acc;
+                  }, null)
+                : null;
+
             return {
                 ...state,
                 loading: true,
                 raidName: action.payload.raidName,
                 bossName: action.payload.bossName,
                 error: null,
-                raidData
+                raidData,
+                selected
             };
         case "RAID_BOSS_FILL":
             let data = action.payload;
