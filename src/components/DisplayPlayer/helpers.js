@@ -15,19 +15,16 @@ export function talentTreeToImage(fullSpecName) {
 
 export function getBossesDefeated(progression) {
     let bossesDefeated = {};
-    let defeated = 0;
     for (let diff in difficulties) {
-        if (!bossesDefeated[diff]) bossesDefeated[diff] = 0;
         for (let bossName in progression[raidName][diff]) {
             if (
                 progression[raidName][diff][bossName].dps.dps ||
                 progression[raidName][diff][bossName].hps.hps
             ) {
-                bossesDefeated[diff]++;
+                if (!bossesDefeated[bossName]) bossesDefeated[bossName] = true;
             }
         }
-        if (defeated < bossesDefeated[diff]) defeated = bossesDefeated[diff];
     }
 
-    return defeated;
+    return Object.keys(bossesDefeated).length;
 }
