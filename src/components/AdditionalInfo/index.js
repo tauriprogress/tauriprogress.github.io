@@ -8,6 +8,7 @@ import Fab from "@material-ui/core/Fab";
 import Divider from "@material-ui/core/Divider";
 import Link from "@material-ui/core/Link";
 import Collapse from "@material-ui/core/Collapse";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -77,13 +78,15 @@ class AdditionalInfo extends React.PureComponent {
                                 )}
 
                                 <Typography className="additionalInfoUpdateRefresh">
-                                    <Fab
-                                        color="primary"
-                                        size="small"
-                                        onClick={this.props.updateDbFetch}
-                                    >
-                                        <Refresh />
-                                    </Fab>
+                                    <Tooltip title="Update database">
+                                        <Fab
+                                            color="primary"
+                                            size="small"
+                                            onClick={this.props.updateDbFetch}
+                                        >
+                                            <Refresh />
+                                        </Fab>
+                                    </Tooltip>
                                 </Typography>
                             </div>
                         )}
