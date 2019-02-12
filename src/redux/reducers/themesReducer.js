@@ -35,6 +35,9 @@ const overrides = {
     MuiTabs: {
         root: {
             backgroundColor: primary
+        },
+        scrollButtons: {
+            color: secondary
         }
     },
 
@@ -63,6 +66,14 @@ const overrides = {
                 "& svg": {
                     fill: secondary
                 }
+            }
+        }
+    },
+
+    MuiListItem: {
+        root: {
+            "&$selected *": {
+                color: `${secondary} !important`
             }
         }
     }

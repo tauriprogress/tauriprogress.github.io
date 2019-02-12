@@ -21,11 +21,6 @@ function styles(theme) {
                 color: `${theme.palette.secondary.main} !important`
             }
         },
-        listItemSelected: {
-            "& *": {
-                color: `${theme.palette.secondary.main} !important`
-            }
-        },
         listTitle: {
             backgroundColor: `${theme.palette.primary.main} !important`,
             "& *": {
@@ -76,9 +71,6 @@ class RaidBossList extends React.PureComponent {
                             className={classes.listItem}
                             component="li"
                             button
-                            classes={{
-                                selected: classes.listItemSelected
-                            }}
                             selected={selected === 0}
                         >
                             <RouterLink to={`/raid/${raid.name}`}>

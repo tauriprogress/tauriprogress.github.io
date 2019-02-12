@@ -62,6 +62,8 @@ class DisplayGuild extends React.PureComponent {
                                 value={active}
                                 onChange={(e, value) => guildSetNav(value)}
                                 indicatorColor="secondary"
+                                variant="scrollable"
+                                scrollButtons="on"
                             >
                                 <Tab label="Progression" className="tab" />
                                 <Tab label="Latest kills" className="tab" />

@@ -32,6 +32,12 @@ export function guildsSetError(payload) {
         payload
     };
 }
+export function guildSelectBoss(payload) {
+    return {
+        type: "GUILD_SELECT_BOSS",
+        payload
+    };
+}
 
 export function raidFetch(payload) {
     return {

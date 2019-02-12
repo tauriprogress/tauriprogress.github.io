@@ -8,11 +8,15 @@ const defaultState = {
     realm: null,
     nav: {
         active: 0
-    }
+    },
+    selectedBossName: null
 };
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
+        case "GUILD_SELECT_BOSS": {
+            return { ...state, selectedBossName: action.payload };
+        }
         case "GUILD_SET_NAV":
             return { ...state, nav: { ...state.nav, active: action.payload } };
         case "GUILD_SET_ERROR":
