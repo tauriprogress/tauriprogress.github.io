@@ -27,7 +27,10 @@ import { raidFetch } from "../../redux/actions";
 class RaidBosses extends React.PureComponent {
     componentDidMount() {
         const raidName = this.props.match.params.raidName;
-        if (this.props.raid.raidName !== raidName)
+        if (
+            this.props.raid.raidName !== raidName ||
+            (!this.props.raid.data && !this.props.raid.loading)
+        )
             this.props.raidFetch(raidName);
     }
 
