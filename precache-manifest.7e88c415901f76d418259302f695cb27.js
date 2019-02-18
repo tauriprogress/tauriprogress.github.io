@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "ac8150e9526eac178f86",
+    "revision": "912012332c857ae37041",
     "url": "/static/css/main.dcd9d79a.chunk.css"
   },
   {
-    "revision": "ac8150e9526eac178f86",
-    "url": "/static/js/main.ac8150e9.chunk.js"
+    "revision": "912012332c857ae37041",
+    "url": "/static/js/main.91201233.chunk.js"
   },
   {
     "revision": "fdfcfda2d9b1bf31db52",
@@ -120,7 +120,7 @@ self.__precacheManifest = [
     "url": "/static/media/UI-EJ-LOREBG-ThunderKingRaid.7f789c15.png"
   },
   {
-    "revision": "3200b5ebaafa0e5cf3e3663d165052df",
+    "revision": "301edc026dfb64e45d2a1f1830691d71",
     "url": "/index.html"
   }
 ];
