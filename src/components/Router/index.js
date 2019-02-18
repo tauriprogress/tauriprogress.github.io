@@ -6,10 +6,9 @@ import Navigation from "../Navigation";
 
 import RaidBossListContainer from "../RaidBossListContainer";
 import DisplayGuilds from "../DisplayGuilds";
-import DisplayRaid from "../DisplayRaid";
+import RaidContainer from "../RaidContainer";
 import DisplayGuild from "../DisplayGuild";
 import DisplayPlayer from "../DisplayPlayer";
-import DisplayRaidBoss from "../DisplayRaidBoss";
 import FightLog from "../FightLog";
 import TauriApi from "../TauriApi";
 
@@ -35,13 +34,8 @@ function Router() {
                         />
                         <Route
                             exact
-                            path="/raid/:raidName"
-                            component={DisplayRaid}
-                        />
-                        <Route
-                            exact
-                            path="/raid/:raidName/:bossName"
-                            component={DisplayRaidBoss}
+                            path="/raid/:raidName/:bossName?"
+                            component={RaidContainer}
                         />
                         <Route
                             exact

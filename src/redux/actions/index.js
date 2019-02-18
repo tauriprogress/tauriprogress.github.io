@@ -46,6 +46,20 @@ export function raidFetch(payload) {
     };
 }
 
+export function raidChangeRaidData(payload) {
+    return {
+        type: "RAID_CHANGE_RAIDDATA",
+        payload
+    };
+}
+
+export function raidSelectBoss(payload) {
+    return {
+        type: "RAID_SELECT_BOSS",
+        payload
+    };
+}
+
 export function raidFill(payload) {
     return {
         type: "RAID_FILL",

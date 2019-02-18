@@ -1,13 +1,15 @@
-.displayRaid
+.raidContainer
     width: 100%
-    &ContentContainer
-        display: flex
+    display: flex
     &Content
         margin: 20px
         flex-grow: 1
         min-width: 260px
+        &Diffs
+            max-width: 180px
+    
 
 @media(max-width: $mobile-break)
-    .displayRaidContentContainer
+    .raidContainer
         flex-wrap: wrap !important
         justify-content: center

@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import raidInfo from "./raidInfo";
+import raidBossReducer from "./raidBossReducer";
 import navReducer from "./navReducer";
 import guildsReducer from "./guildsReducer";
 import guildReducer from "./guildReducer";
@@ -11,6 +12,7 @@ import themesReducer from "./themesReducer";
 
 export default combineReducers({
     raidInfo: raidInfo,
+    raidBoss: raidBossReducer,
     nav: navReducer,
     guilds: guildsReducer,
     guild: guildReducer,

@@ -17,8 +17,7 @@ import { Typography } from "@material-ui/core";
 
 import SearchBar from "../SearchBar";
 import AdditionalInfo from "../AdditionalInfo";
-
-import { navToggle, themeToggle } from "../../redux/actions";
+import { navToggle, themeToggle, raidSelectBoss } from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -28,7 +27,7 @@ function styles(theme) {
     };
 }
 
-function Navigation({ nav, navToggle, themeToggle, classes }) {
+function Navigation({ nav, navToggle, themeToggle, classes, raidSelectBoss }) {
     const { showNav } = nav;
     return (
         <AppBar position="static">
@@ -65,7 +64,10 @@ function Navigation({ nav, navToggle, themeToggle, classes }) {
                         <li>
                             <RouterLink
                                 to={`/raid/${raidName}`}
-                                onClick={() => linkClick(showNav, navToggle)}
+                                onClick={() => {
+                                    raidSelectBoss(0);
+                                    linkClick(showNav, navToggle);
+                                }}
                                 className="navOption"
                             >
                                 <Typography color="inherit">
@@ -114,7 +116,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ navToggle, themeToggle }, dispatch);
+    return bindActionCreators(
+        { navToggle, themeToggle, raidSelectBoss },
+        dispatch
+    );
 }
 
 export default connect(

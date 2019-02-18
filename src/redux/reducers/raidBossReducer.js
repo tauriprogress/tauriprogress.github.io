@@ -3,35 +3,18 @@ const defaultState = {
     error: null,
     loading: false,
     raidName: null,
-    bossName: null,
-    raidData: null,
-    selected: null
+    bossName: null
 };
 
-function raidBossReducer(state = defaultState, action, raids) {
+function raidBossReducer(state = defaultState, action) {
     switch (action.type) {
         case "RAID_BOSS_LOADING":
-            let raidData = raids.reduce((acc, curr) => {
-                if (curr.name === action.payload.raidName) acc = curr;
-                return acc;
-            }, null);
-
-            let selected = raidData
-                ? raidData.encounters.reduce((acc, curr, index) => {
-                      if (curr.encounter_name === action.payload.bossName)
-                          acc = index + 1;
-                      return acc;
-                  }, null)
-                : null;
-
             return {
                 ...state,
                 loading: true,
                 raidName: action.payload.raidName,
                 bossName: action.payload.bossName,
-                error: null,
-                raidData,
-                selected
+                error: null
             };
         case "RAID_BOSS_FILL":
             let data = action.payload;
@@ -69,6 +52,7 @@ function raidBossReducer(state = defaultState, action, raids) {
                 loading: false,
                 error: null
             };
+
         case "RAID_BOSS_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";

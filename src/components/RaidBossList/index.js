@@ -12,7 +12,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Card from "@material-ui/core/Card";
 
-import { raidBossFetch } from "../../redux/actions";
+import { raidBossFetch, raidFetch } from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -49,7 +49,13 @@ class RaidBossList extends React.PureComponent {
     }
 
     render() {
-        const { raid, classes, selected } = this.props;
+        const {
+            raid,
+            classes,
+            selected,
+            raidBossFetch,
+            raidFetch
+        } = this.props;
         return (
             <Card className={`${classes.container} raidBossList`}>
                 <ListItem
@@ -73,7 +79,10 @@ class RaidBossList extends React.PureComponent {
                             button
                             selected={selected === 0}
                         >
-                            <RouterLink to={`/raid/${raid.name}`}>
+                            <RouterLink
+                                to={`/raid/${raid.name}`}
+                                onClick={() => raidFetch(raid.name)}
+                            >
                                 <ListItemText primary="Summary" />
                             </RouterLink>
                         </ListItem>
@@ -97,7 +106,7 @@ class RaidBossList extends React.PureComponent {
                                     <RouterLink
                                         to={linkTo}
                                         onClick={() =>
-                                            this.props.raidBossFetch({
+                                            raidBossFetch({
                                                 raidName: raid.name,
                                                 bossName:
                                                     encounter.encounter_name
@@ -117,7 +126,7 @@ class RaidBossList extends React.PureComponent {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ raidBossFetch }, dispatch);
+    return bindActionCreators({ raidBossFetch, raidFetch }, dispatch);
 }
 
 export default connect(
