@@ -1,5 +1,5 @@
 import { serverUrl } from "tauriprogress-constants/urls";
-import { put, call, takeEvery, select } from "redux-saga/effects";
+import { put, call, takeEvery } from "redux-saga/effects";
 import { guildsSetError, guildsLoad, guildsFill } from "../actions";
 
 async function getData() {
@@ -8,15 +8,6 @@ async function getData() {
 
 function* fetchGuilds() {
     try {
-        const loading = yield select(state => state.guilds.loading);
-        const loaded = yield select(state =>
-            state.guilds.data ? true : false
-        );
-
-        if (loading || loaded) {
-            return;
-        }
-
         yield put(guildsLoad());
 
         const response = yield call(getData);

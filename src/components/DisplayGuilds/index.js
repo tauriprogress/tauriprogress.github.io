@@ -1,7 +1,6 @@
 import { abbreviation } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -17,127 +16,111 @@ import { Typography } from "@material-ui/core";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { guildsFetch } from "../../redux/actions";
-
 import { sortByProgression } from "./helpers";
 
-class DisplayGuilds extends React.PureComponent {
-    componentDidMount() {
-        this.props.guildsFetch();
-    }
+function DisplayGuilds(props) {
+    const {
+        guilds: { data, loading, error },
+        theme: {
+            palette: { factionColors, progStateColors }
+        }
+    } = props;
 
-    render() {
-        const {
-            guilds: { data, loading, error },
-            theme: {
-                palette: { factionColors, progStateColors }
-            }
-        } = this.props;
-
-        return (
-            <section className="displayGuilds">
-                {loading && <Loading />}
-                {error && <ErrorMessage message={error} />}
-                {!loading && !error && data && (
-                    <React.Fragment>
-                        <div className="overflowScroll">
-                            <Table>
-                                <TableHead className="tableHead">
-                                    <TableRow>
-                                        <TableCell>Guild</TableCell>
-                                        <TableCell>Realm</TableCell>
-                                        <TableCell>Faction</TableCell>
-                                        <TableCell>
-                                            {abbreviation} Completion
-                                        </TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {sortByProgression(data).map(
-                                        (guild, index) => {
-                                            return (
-                                                <TableRow key={guild.guildName}>
-                                                    <TableCell
-                                                        component="th"
-                                                        scope="row"
-                                                        className="displayGuildsGuildName"
+    return (
+        <section className="displayGuilds">
+            {loading && <Loading />}
+            {error && <ErrorMessage message={error} />}
+            {!loading && !error && data && (
+                <React.Fragment>
+                    <div className="overflowScroll">
+                        <Table>
+                            <TableHead className="tableHead">
+                                <TableRow>
+                                    <TableCell>Guild</TableCell>
+                                    <TableCell>Realm</TableCell>
+                                    <TableCell>Faction</TableCell>
+                                    <TableCell>
+                                        {abbreviation} Completion
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {sortByProgression(data).map((guild, index) => {
+                                    return (
+                                        <TableRow key={guild.guildName}>
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                                className="displayGuildsGuildName"
+                                            >
+                                                <Typography color="inherit">
+                                                    <span className="textBold">
+                                                        {index + 1}.{" "}
+                                                    </span>
+                                                    <RouterLink
+                                                        to={`/guild/${
+                                                            guild.guildName
+                                                        }?realm=${guild.realm}`}
                                                     >
-                                                        <Typography color="inherit">
-                                                            <span className="textBold">
-                                                                {index + 1}.{" "}
-                                                            </span>
-                                                            <RouterLink
-                                                                to={`/guild/${
-                                                                    guild.guildName
-                                                                }?realm=${
-                                                                    guild.realm
-                                                                }`}
-                                                            >
-                                                                <Link
-                                                                    component="span"
-                                                                    style={{
-                                                                        color: guild.gFaction
-                                                                            ? factionColors.horde
-                                                                            : factionColors.alliance
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        guild.guildName
-                                                                    }
-                                                                </Link>
-                                                            </RouterLink>
-                                                        </Typography>
-                                                    </TableCell>
-                                                    <TableCell
-                                                        component="th"
-                                                        scope="row"
+                                                        <Link
+                                                            component="span"
+                                                            style={{
+                                                                color: guild.gFaction
+                                                                    ? factionColors.horde
+                                                                    : factionColors.alliance
+                                                            }}
+                                                        >
+                                                            {guild.guildName}
+                                                        </Link>
+                                                    </RouterLink>
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                {guild.realm}
+                                            </TableCell>
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                {guild.gFaction
+                                                    ? "Horde"
+                                                    : "Alliance"}
+                                            </TableCell>
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                {guild.progression.completed ? (
+                                                    <span
+                                                        style={{
+                                                            color:
+                                                                progStateColors.defeated
+                                                        }}
                                                     >
-                                                        {guild.realm}
-                                                    </TableCell>
-                                                    <TableCell
-                                                        component="th"
-                                                        scope="row"
-                                                    >
-                                                        {guild.gFaction
-                                                            ? "Horde"
-                                                            : "Alliance"}
-                                                    </TableCell>
-                                                    <TableCell
-                                                        component="th"
-                                                        scope="row"
-                                                    >
-                                                        {guild.progression
-                                                            .completed ? (
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        progStateColors.defeated
-                                                                }}
-                                                            >
-                                                                {new Date(
-                                                                    guild
-                                                                        .progression
-                                                                        .completed *
-                                                                        1000
-                                                                ).toLocaleDateString()}
-                                                            </span>
-                                                        ) : (
+                                                        {new Date(
                                                             guild.progression
-                                                                .currentBossesDefeated
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            );
-                                        }
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    </React.Fragment>
-                )}
-            </section>
-        );
-    }
+                                                                .completed *
+                                                                1000
+                                                        ).toLocaleDateString()}
+                                                    </span>
+                                                ) : (
+                                                    guild.progression
+                                                        .currentBossesDefeated
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </React.Fragment>
+            )}
+        </section>
+    );
 }
 
 function mapStateToProps(state) {
@@ -146,11 +129,4 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ guildsFetch }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withTheme()(DisplayGuilds));
+export default connect(mapStateToProps)(withTheme()(DisplayGuilds));
