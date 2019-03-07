@@ -55,14 +55,23 @@ class SearchPlayer extends React.Component {
         return (
             <div className="searchBarPlayer">
                 <FormControl className="searchBarPlayerFormControl">
-                    <TextField
-                        id="name"
-                        label="Search player"
-                        value={this.state.player}
-                        onChange={e => this.changePlayerName(e.target.value)}
-                        margin="normal"
-                        className="searchBarPlayerName"
-                    />
+                    <form
+                        onSubmit={e => {
+                            e.preventDefault();
+                            this.submit();
+                        }}
+                    >
+                        <TextField
+                            id="name"
+                            label="Search player"
+                            value={this.state.player}
+                            onChange={e =>
+                                this.changePlayerName(e.target.value)
+                            }
+                            margin="normal"
+                            className="searchBarPlayerName"
+                        />
+                    </form>
                 </FormControl>
                 <br />
                 <FormControl className="searchBarPlayerFormControl">

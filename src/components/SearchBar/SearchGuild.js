@@ -207,25 +207,32 @@ class SearchGuild extends React.Component {
         };
         return (
             <div className="searchBarGuild">
-                <Select
-                    options={guilds}
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    className="searchBarGuildSelect"
-                    classes={classes}
-                    styles={selectStyles}
-                    components={components}
-                    placeholder="Search guild"
-                    isClearable
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className="searchBarGuildSubmit"
-                    onClick={this.submit}
+                <form
+                    onSubmit={e => {
+                        e.preventDefault();
+                        this.submit();
+                    }}
                 >
-                    Search guild
-                </Button>
+                    <Select
+                        options={guilds}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        className="searchBarGuildSelect"
+                        classes={classes}
+                        styles={selectStyles}
+                        components={components}
+                        placeholder="Search guild"
+                        isClearable
+                    />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className="searchBarGuildSubmit"
+                        onClick={this.submit}
+                    >
+                        Search guild
+                    </Button>
+                </form>
             </div>
         );
     }
