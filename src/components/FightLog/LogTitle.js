@@ -18,6 +18,9 @@ function LogTitle({ data, theme }) {
             factionColors: { alliance, horde }
         }
     } = theme;
+
+    const date = new Date(data.killtime * 1000);
+
     const general = [
         {
             label: "Guild",
@@ -62,7 +65,9 @@ function LogTitle({ data, theme }) {
         },
         {
             label: "Date",
-            value: new Date(data.killtime * 1000).toLocaleDateString()
+            value: `${date.toLocaleDateString()} ${(
+                "0" + date.getHours()
+            ).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
         }
     ];
 

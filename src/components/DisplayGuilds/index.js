@@ -15,6 +15,7 @@ import { Typography } from "@material-ui/core";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
+import DateTooltip from "../DateTooltip";
 
 import { sortByProgression } from "./helpers";
 
@@ -46,6 +47,13 @@ function DisplayGuilds(props) {
                             </TableHead>
                             <TableBody>
                                 {sortByProgression(data).map((guild, index) => {
+                                    let date = null;
+
+                                    if (guild.progression.completed)
+                                        date = new Date(
+                                            guild.progression.completed * 1000
+                                        );
+
                                     return (
                                         <TableRow key={guild.guildName}>
                                             <TableCell
@@ -93,19 +101,17 @@ function DisplayGuilds(props) {
                                                 component="th"
                                                 scope="row"
                                             >
-                                                {guild.progression.completed ? (
-                                                    <span
-                                                        style={{
-                                                            color:
-                                                                progStateColors.defeated
-                                                        }}
-                                                    >
-                                                        {new Date(
-                                                            guild.progression
-                                                                .completed *
-                                                                1000
-                                                        ).toLocaleDateString()}
-                                                    </span>
+                                                {date ? (
+                                                    <DateTooltip date={date}>
+                                                        <span
+                                                            style={{
+                                                                color:
+                                                                    progStateColors.defeated
+                                                            }}
+                                                        >
+                                                            {date.toLocaleDateString()}
+                                                        </span>
+                                                    </DateTooltip>
                                                 ) : (
                                                     guild.progression
                                                         .currentBossesDefeated

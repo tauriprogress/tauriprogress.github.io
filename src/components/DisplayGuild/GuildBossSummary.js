@@ -1,6 +1,7 @@
 import React from "react";
 
 import MetaDataList from "../MetaDataList";
+import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
@@ -14,11 +15,16 @@ function GuildBossSummary({ bossName, data }) {
         { label: "Fastest kill", value: "-" }
     ];
     if (data) {
+        const date = new Date(data.firstKill * 1000);
         metaData = [
             { label: "Kills", value: data.killCount },
             {
                 label: "First kill",
-                value: new Date(data.firstKill * 1000).toLocaleDateString()
+                value: (
+                    <DateTooltip date={date}>
+                        <span>{date.toLocaleDateString()}</span>
+                    </DateTooltip>
+                )
             },
             { label: "Fastest kill", value: convertFightTime(data.fastestKill) }
         ];

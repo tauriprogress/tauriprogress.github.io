@@ -8,6 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
+import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
@@ -26,29 +27,35 @@ function GuildLatestKills({ data, realm }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((log, index) => (
-                        <TableRow key={log.log_id}>
-                            <TableCell component="th" scope="row">
-                                <Typography className="textBold">
-                                    {index + 1}.
-                                </Typography>
-                            </TableCell>
+                    {data.map((log, index) => {
+                        const date = new Date(log.killtime * 1000);
+                        return (
+                            <TableRow key={log.log_id}>
+                                <TableCell component="th" scope="row">
+                                    <Typography className="textBold">
+                                        {index + 1}.
+                                    </Typography>
+                                </TableCell>
 
-                            <TableCell component="th" scope="row">
-                                <span className="textBold">
-                                    {convertFightTime(log.fight_time)}
-                                </span>
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {new Date(
-                                    log.killtime * 1000
-                                ).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                <LogLink logId={log.log_id} realm={log.realm} />
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                                <TableCell component="th" scope="row">
+                                    <span className="textBold">
+                                        {convertFightTime(log.fight_time)}
+                                    </span>
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    <DateTooltip date={date}>
+                                        <span>{date.toLocaleDateString()}</span>
+                                    </DateTooltip>
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    <LogLink
+                                        logId={log.log_id}
+                                        realm={log.realm}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })}
                 </TableBody>
             </Table>
         </div>

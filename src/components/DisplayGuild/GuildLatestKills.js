@@ -11,6 +11,7 @@ import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
+import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
@@ -30,45 +31,49 @@ function GuildLatestKills({ data, realm }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map(log => (
-                        <TableRow key={log.log_id}>
-                            <TableCell component="th" scope="row">
-                                <span className="textBold">
-                                    <RouterLink
-                                        to={`/raid/${log.mapentry.name}/${
-                                            log.encounter_data.encounter_name
-                                        }`}
-                                    >
-                                        <Typography color="inherit">
-                                            <Link
-                                                component="span"
-                                                color="inherit"
-                                            >
-                                                {
-                                                    log.encounter_data
-                                                        .encounter_name
-                                                }
-                                            </Link>
-                                        </Typography>
-                                    </RouterLink>
-                                </span>
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {difficultyLabels[log.difficulty]}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {convertFightTime(log.fight_time)}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {new Date(
-                                    log.killtime * 1000
-                                ).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                <LogLink logId={log.log_id} realm={realm} />
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    {data.map(log => {
+                        const date = new Date(log.killtime * 1000);
+                        return (
+                            <TableRow key={log.log_id}>
+                                <TableCell component="th" scope="row">
+                                    <span className="textBold">
+                                        <RouterLink
+                                            to={`/raid/${log.mapentry.name}/${
+                                                log.encounter_data
+                                                    .encounter_name
+                                            }`}
+                                        >
+                                            <Typography color="inherit">
+                                                <Link
+                                                    component="span"
+                                                    color="inherit"
+                                                >
+                                                    {
+                                                        log.encounter_data
+                                                            .encounter_name
+                                                    }
+                                                </Link>
+                                            </Typography>
+                                        </RouterLink>
+                                    </span>
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {difficultyLabels[log.difficulty]}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {convertFightTime(log.fight_time)}
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    <DateTooltip date={date}>
+                                        <span>{date.toLocaleDateString()}</span>
+                                    </DateTooltip>
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    <LogLink logId={log.log_id} realm={realm} />
+                                </TableCell>
+                            </TableRow>
+                        );
+                    })}
                 </TableBody>
             </Table>
         </div>

@@ -54,11 +54,7 @@ function getChild(value, data) {
         case 1:
             return <LatestKills data={data.latestKills} />;
         case 2:
-            return (
-                <React.Fragment>
-                    <CharacterLadder data={data.dps} type={"dps"} />
-                </React.Fragment>
-            );
+            return <CharacterLadder data={data.dps} type={"dps"} />;
         case 3:
             return <CharacterLadder data={data.hps} type={"hps"} />;
         default:
