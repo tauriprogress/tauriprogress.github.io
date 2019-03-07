@@ -32,13 +32,12 @@ const tableColumns = [
         id: "dps"
     },
     {
-        label: "Hps",
-        id: "hps"
-    },
-
-    {
         label: "Damage",
         id: "dmg_done"
+    },
+    {
+        label: "Hps",
+        id: "hps"
     },
     {
         label: "Healing",
@@ -162,20 +161,20 @@ function LogMembers({ data, sort, fightLogMembersSort, theme }) {
                             </TableCell>
 
                             <TableCell component="th" scope="row" align="right">
-                                <Tooltip title="Hps">
+                                <Tooltip title="Damage">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
-                                            member.hps
+                                            member.dmg_done
                                         )}
                                     </span>
                                 </Tooltip>
                             </TableCell>
 
                             <TableCell component="th" scope="row" align="right">
-                                <Tooltip title="Damage">
+                                <Tooltip title="Hps">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
-                                            member.dmg_done
+                                            member.hps
                                         )}
                                     </span>
                                 </Tooltip>
