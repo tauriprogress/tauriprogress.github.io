@@ -1,3 +1,5 @@
+import { sortGuilds } from "../../components/DisplayGuilds/helpers";
+
 const defaultState = {
     data: null,
     error: null,
@@ -16,7 +18,13 @@ function guildsReducer(state = defaultState, action) {
         case "GUILDS_FILL":
             return {
                 ...state,
-                data: action.payload,
+                data: sortGuilds(action.payload, {
+                    by: "completion",
+                    direction: "asc"
+                }).map((guild, index) => ({
+                    ...guild,
+                    rank: index + 1
+                })),
                 loading: false,
                 error: null
             };
