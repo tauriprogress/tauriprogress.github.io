@@ -13,10 +13,18 @@ export function sortGuilds(guilds, { by, direction }) {
                     ? first
                     : second;
             }
-            return b.progression.currentBossesDefeated <
-                a.progression.currentBossesDefeated
-                ? first
-                : second;
+
+            if (
+                a.progression.currentBossesDefeated ===
+                b.progression.currentBossesDefeated
+            ) {
+                return a.rank < b.rank ? first : second;
+            }
+
+            return a.progression.currentBossesDefeated <
+                b.progression.currentBossesDefeated
+                ? second
+                : first;
         });
     }
 
@@ -25,9 +33,17 @@ export function sortGuilds(guilds, { by, direction }) {
             if (a.progression.completed && b.progression.completed) {
                 return a.progression.completed - b.progression.completed;
             }
+
+            if (
+                a.progression.currentBossesDefeated ===
+                b.progression.currentBossesDefeated
+            ) {
+                return a.rank > b.rank;
+            }
+
             return (
-                b.progression.currentBossesDefeated -
-                a.progression.currentBossesDefeated
+                a.progression.currentBossesDefeated <
+                b.progression.currentBossesDefeated
             );
         } else {
             return a[by] < b[by] ? first : second;
