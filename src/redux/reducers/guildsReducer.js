@@ -1,5 +1,3 @@
-import { sortGuilds } from "../../components/DisplayGuilds/helpers";
-
 const defaultState = {
     data: null,
     error: null,
@@ -18,19 +16,35 @@ function guildsReducer(state = defaultState, action) {
         case "GUILDS_FILL":
             return {
                 ...state,
-                data: sortGuilds(action.payload, {
-                    by: "completion",
-                    direction: "asc"
-                }).map((guild, index) => ({
-                    ...guild,
-                    rank: index + 1
-                })),
+                data: applyGuildRanks(action.payload),
                 loading: false,
                 error: null
             };
         default:
             return state;
     }
+}
+
+function applyGuildRanks(guilds) {
+    let first = -1;
+    let second = 1;
+    return guilds
+        .sort((a, b) => {
+            if (a.progression.completed && b.progression.completed) {
+                return a.progression.completed < b.progression.completed
+                    ? first
+                    : second;
+            }
+
+            return a.progression.currentBossesDefeated <
+                b.progression.currentBossesDefeated
+                ? second
+                : first;
+        })
+        .map((guild, index) => ({
+            ...guild,
+            rank: index + 1
+        }));
 }
 
 export default guildsReducer;
