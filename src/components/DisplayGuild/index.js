@@ -13,7 +13,11 @@ import GuildLatestKills from "./GuildLatestKills";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { guildFetch, guildSetNav } from "../../redux/actions";
+import {
+    guildFetch,
+    guildSetNav,
+    charLadderFilterReset
+} from "../../redux/actions";
 
 class DisplayGuild extends React.PureComponent {
     componentDidMount() {
@@ -21,11 +25,15 @@ class DisplayGuild extends React.PureComponent {
         const realm = new URLSearchParams(this.props.location.search).get(
             "realm"
         );
-
+        this.props.charLadderFilterReset();
         this.props.guildFetch({
             guildName,
             realm
         });
+    }
+
+    componentWillUnmount() {
+        this.props.charLadderFilterReset();
     }
 
     render() {
@@ -100,7 +108,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ guildFetch, guildSetNav }, dispatch);
+    return bindActionCreators(
+        { guildFetch, guildSetNav, charLadderFilterReset },
+        dispatch
+    );
 }
 
 export default connect(

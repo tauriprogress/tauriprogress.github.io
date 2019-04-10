@@ -15,8 +15,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
-import Collapse from "@material-ui/core/Collapse";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -24,16 +22,10 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import { Typography } from "@material-ui/core";
 
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 
-import {
-    charLadderFilterSet,
-    charLadderFilterReset
-} from "../../redux/actions";
+import { charLadderFilterSet } from "../../redux/actions";
 
 import { getSpecImg } from "../DisplayRaid/helpers";
 import { applyFilter } from "./helpers";
@@ -45,15 +37,9 @@ class CharacterLadder extends React.PureComponent {
             pagination: {
                 rowsPerPage: 50,
                 currentPage: 0
-            },
-            filterOpen: false
+            }
         };
         this.changePage = this.changePage.bind(this);
-        this.toggleFilter = this.toggleFilter.bind(this);
-    }
-
-    componentWillUnmount() {
-        this.props.charLadderFilterReset();
     }
 
     changePage(e, page) {
@@ -76,10 +62,6 @@ class CharacterLadder extends React.PureComponent {
                 [filterName]: value
             });
         }
-    }
-
-    toggleFilter() {
-        this.setState({ ...this.state, filterOpen: !this.state.filterOpen });
     }
 
     render() {
@@ -114,87 +96,71 @@ class CharacterLadder extends React.PureComponent {
         return (
             <div className="overflowScroll">
                 <div className="characterLadderFilters">
-                    <Button onClick={this.toggleFilter}>
-                        Filters{" "}
-                        {this.state.filterOpen ? (
-                            <ExpandLess />
-                        ) : (
-                            <ExpandMore />
-                        )}
-                    </Button>
-                    <Collapse
-                        in={this.state.filterOpen}
-                        timeout="auto"
-                        unmountOnExit
-                        className="characterLadderFiltersContainer"
-                    >
-                        <FormControl className="characterLadderFiltersFormControl">
-                            <TextField
-                                id="name"
-                                label="Name"
-                                value={filter.name}
-                                onChange={e =>
-                                    this.changeFilter("name", e.target.value)
-                                }
-                                margin="normal"
-                                className="characterLadderFiltersSearch"
-                            />
-                        </FormControl>
-                        <br />
+                    <FormControl className="characterLadderFiltersFormControl">
+                        <TextField
+                            id="name"
+                            label="Name"
+                            value={filter.name}
+                            onChange={e =>
+                                this.changeFilter("name", e.target.value)
+                            }
+                            margin="normal"
+                            className="characterLadderFiltersSearch"
+                        />
+                    </FormControl>
 
-                        <FormControl className="characterLadderFiltersFormControl">
-                            <InputLabel htmlFor="class">Class</InputLabel>
-                            <Select
-                                value={filter.class}
-                                onChange={e =>
-                                    this.changeFilter("class", e.target.value)
-                                }
-                                inputProps={{
-                                    name: "class",
-                                    id: "class"
-                                }}
-                                className="characterLadderFiltersSelect"
-                            >
-                                <MenuItem value="">
-                                    <em>All</em>
+                    <FormControl className="characterLadderFiltersFormControl">
+                        <InputLabel htmlFor="class">Class</InputLabel>
+                        <Select
+                            value={filter.class}
+                            onChange={e =>
+                                this.changeFilter("class", e.target.value)
+                            }
+                            inputProps={{
+                                name: "class",
+                                id: "class"
+                            }}
+                            className="characterLadderFiltersSelect"
+                        >
+                            <MenuItem value="">
+                                <em>All</em>
+                            </MenuItem>
+                            {classOptions.map(characterClass => (
+                                <MenuItem
+                                    key={characterClass.id}
+                                    value={characterClass.id}
+                                >
+                                    {characterClass.label}
                                 </MenuItem>
-                                {classOptions.map(characterClass => (
-                                    <MenuItem
-                                        key={characterClass.id}
-                                        value={characterClass.id}
-                                    >
-                                        {characterClass.label}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <FormControl className="characterLadderFiltersFormControl">
-                            <InputLabel htmlFor="class">Spec</InputLabel>
-                            <Select
-                                value={filter.spec}
-                                onChange={e =>
-                                    this.changeFilter("spec", e.target.value)
-                                }
-                                inputProps={{
-                                    name: "spec",
-                                    id: "spec"
-                                }}
-                                className="characterLadderFiltersSelect"
-                            >
-                                <MenuItem value="">
-                                    <em>All</em>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl className="characterLadderFiltersFormControl">
+                        <InputLabel htmlFor="class">Spec</InputLabel>
+                        <Select
+                            value={filter.spec}
+                            onChange={e =>
+                                this.changeFilter("spec", e.target.value)
+                            }
+                            inputProps={{
+                                name: "spec",
+                                id: "spec"
+                            }}
+                            className="characterLadderFiltersSelect"
+                        >
+                            <MenuItem value="">
+                                <em>All</em>
+                            </MenuItem>
+                            {specOptions.map(specOption => (
+                                <MenuItem
+                                    key={specOption.id}
+                                    value={specOption.id}
+                                >
+                                    {specOption.label}
                                 </MenuItem>
-                                {specOptions.map(specOption => (
-                                    <MenuItem
-                                        key={specOption.id}
-                                        value={specOption.id}
-                                    >
-                                        {specOption.label}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Collapse>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </div>
                 <Table>
                     <TableHead className="tableHead">
@@ -326,10 +292,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { charLadderFilterSet, charLadderFilterReset },
-        dispatch
-    );
+    return bindActionCreators({ charLadderFilterSet }, dispatch);
 }
 
 export default connect(
