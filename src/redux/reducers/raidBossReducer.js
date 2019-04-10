@@ -3,11 +3,17 @@ const defaultState = {
     error: null,
     loading: false,
     raidName: null,
-    bossName: null
+    bossName: null,
+    selectedTab: 0
 };
 
 function raidBossReducer(state = defaultState, action) {
     switch (action.type) {
+        case "RAID_BOSS_SELECT_TAB":
+            return {
+                ...state,
+                selectedTab: action.payload
+            };
         case "RAID_BOSS_LOADING":
             return {
                 ...state,

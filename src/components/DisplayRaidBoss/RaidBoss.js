@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -7,44 +9,25 @@ import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
 import CharacterLadder from "../CharacterLadder";
 
-class RaidBoss extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: 0
-        };
+import { raidBossSelectTab } from "../../redux/actions";
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleChangeIndex = this.handleChangeIndex.bind(this);
-    }
+function RaidBoss({ data, selectedTab, raidBossSelectTab }) {
+    return (
+        <React.Fragment>
+            <Tabs
+                value={selectedTab}
+                onChange={(e, value) => raidBossSelectTab(value)}
+                indicatorColor="secondary"
+            >
+                <Tab label="Fastest" className="tab" />
+                <Tab label="Latest" className="tab" />
+                <Tab label="Dps" className="tab" />
+                <Tab label="Hps" className="tab" />
+            </Tabs>
 
-    handleChange(e, value) {
-        this.setState({ ...this.state, value: value });
-    }
-
-    handleChangeIndex = index => {
-        this.setState({ value: index });
-    };
-
-    render() {
-        const { data } = this.props;
-        return (
-            <React.Fragment>
-                <Tabs
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    indicatorColor="secondary"
-                >
-                    <Tab label="Fastest" className="tab" />
-                    <Tab label="Latest" className="tab" />
-                    <Tab label="Dps" className="tab" />
-                    <Tab label="Hps" className="tab" />
-                </Tabs>
-
-                {getChild(this.state.value, data)}
-            </React.Fragment>
-        );
-    }
+            {getChild(selectedTab, data)}
+        </React.Fragment>
+    );
 }
 
 function getChild(value, data) {
@@ -62,4 +45,16 @@ function getChild(value, data) {
     }
 }
 
-export default RaidBoss;
+function mapStateToProps(state) {
+    return {
+        selectedTab: state.raidBoss.selectedTab
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ raidBossSelectTab }, dispatch);
+}
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RaidBoss);

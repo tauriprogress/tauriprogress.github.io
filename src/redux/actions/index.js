@@ -81,6 +81,13 @@ export function raidLoading(payload) {
     };
 }
 
+export function raidBossSelectTab(payload) {
+    return {
+        type: "RAID_BOSS_SELECT_TAB",
+        payload
+    };
+}
+
 export function raidBossFill(payload) {
     return {
         type: "RAID_BOSS_FILL",
