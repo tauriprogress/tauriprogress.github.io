@@ -1,3 +1,4 @@
+import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
 
 import { connect } from "react-redux";
@@ -38,7 +39,9 @@ class DisplayRaidBoss extends React.PureComponent {
                 {!loading && !error && data && (
                     <React.Fragment>
                         <div className="displayRaidBossTitle">
-                            <Typography variant="h4">{bossName}</Typography>
+                            <Typography variant="h4">
+                                {bossName} {difficultyLabels[diff]}
+                            </Typography>
                             <Typography variant="h6">
                                 {data[diff].killCount} Kills
                             </Typography>

@@ -1,3 +1,4 @@
+import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -45,8 +46,16 @@ class RaidContainer extends React.PureComponent {
                             indicatorColor="secondary"
                             className="raidContainerContentDiffs"
                         >
-                            <Tab label="10 HC" value={5} className="tab" />
-                            <Tab label="25 HC" value={6} className="tab" />
+                            <Tab
+                                label={difficultyLabels[5]}
+                                value={5}
+                                className="tab"
+                            />
+                            <Tab
+                                label={difficultyLabels[6]}
+                                value={6}
+                                className="tab"
+                            />
                         </Tabs>
                     )}
 
