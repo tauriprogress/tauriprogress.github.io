@@ -15,6 +15,8 @@ import {
 
 const primary = "#1e1f26";
 const secondary = "#f25c00";
+const darkPSecondary = "#FF8337";
+const lightPSecondary = "#B84600";
 
 const light = "#f6ede2";
 const lightAccent = "#faf5ef";
@@ -35,9 +37,6 @@ const overrides = {
     MuiTabs: {
         root: {
             backgroundColor: primary
-        },
-        scrollButtons: {
-            color: secondary
         }
     },
 
@@ -53,27 +52,15 @@ const overrides = {
 
     MuiLink: {
         root: {
-            textDecoration: "none !important",
-            "&:hover": {
-                color: `${secondary} !important`
-            }
-        }
-    },
-
-    MuiFab: {
-        root: {
-            "&:hover": {
-                "& svg": {
-                    fill: secondary
-                }
-            }
+            textDecoration: "none !important"
         }
     },
 
     MuiListItem: {
         root: {
             "&$selected *": {
-                color: `${secondary} !important`
+                fontWeight: "bold",
+                letterSpacing: "0.5px"
             }
         }
     }
@@ -85,8 +72,9 @@ const lightPalette = {
         contrastText: light
     },
     secondary: {
-        main: secondary
+        main: lightPSecondary
     },
+
     error: {
         main: red[900]
     },
@@ -124,8 +112,9 @@ const darkPalette = {
         contrastText: light
     },
     secondary: {
-        main: secondary
+        main: darkPSecondary
     },
+
     error: {
         main: red[900]
     },
@@ -172,6 +161,37 @@ const defaultState = {
                         backgroundColor: "#e2e3e8"
                     }
                 }
+            },
+            MuiTabs: {
+                ...overrides.MuiTabs,
+                scrollButtons: {
+                    color: lightPSecondary
+                }
+            },
+            MuiLink: {
+                root: {
+                    ...overrides.MuiLink.root,
+                    "&:hover": {
+                        color: `${lightPSecondary} !important`
+                    }
+                }
+            },
+            MuiFab: {
+                root: {
+                    "&:hover": {
+                        "& svg": {
+                            fill: lightPSecondary
+                        }
+                    }
+                }
+            },
+            MuiListItem: {
+                root: {
+                    "&$selected *": {
+                        ...overrides.MuiListItem.root["&$selected *"],
+                        color: `${lightPSecondary} !important`
+                    }
+                }
             }
         }
     }),
@@ -186,6 +206,37 @@ const defaultState = {
                     },
                     "& tr:hover": {
                         backgroundColor: "#343642"
+                    }
+                }
+            },
+            MuiTabs: {
+                ...overrides.MuiTabs,
+                scrollButtons: {
+                    color: darkPSecondary
+                }
+            },
+            MuiLink: {
+                root: {
+                    ...overrides.MuiLink.root,
+                    "&:hover": {
+                        color: `${darkPSecondary} !important`
+                    }
+                }
+            },
+            MuiFab: {
+                root: {
+                    "&:hover": {
+                        "& svg": {
+                            fill: darkPSecondary
+                        }
+                    }
+                }
+            },
+            MuiListItem: {
+                root: {
+                    "&$selected *": {
+                        ...overrides.MuiListItem.root["&$selected *"],
+                        color: `${darkPSecondary} !important`
                     }
                 }
             }

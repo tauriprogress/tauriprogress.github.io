@@ -44,7 +44,7 @@ class DisplayRaidBoss extends React.PureComponent {
                                 <Typography variant="h4">
                                     {bossName} {difficultyLabels[diff]}
                                 </Typography>
-                                <Typography variant="h6">
+                                <Typography variant="body2">
                                     {data[diff].killCount} Kills
                                 </Typography>
                             </div>
