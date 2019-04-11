@@ -2,11 +2,23 @@ import raids from "./raids";
 
 import raidReducer from "./raidReducer";
 
-function raidInfo(state = {}, action) {
-    return {
-        raids: raids(state.raids, action),
-        raid: raidReducer(state.raid, action, state.raids)
-    };
+const defaultState = {
+    selectedDiff: 5,
+    raids: undefined,
+    raid: undefined
+};
+
+function raidInfo(state = defaultState, action) {
+    switch (action.type) {
+        case "RAID_INFO_CHANGE_DIFF":
+            return { ...state, selectedDiff: action.payload };
+        default:
+            return {
+                ...state,
+                raids: raids(state.raids, action),
+                raid: raidReducer(state.raid, action, state.raids)
+            };
+    }
 }
 
 export default raidInfo;

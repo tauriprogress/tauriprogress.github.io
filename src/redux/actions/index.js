@@ -268,3 +268,10 @@ export function themeToggle(payload) {
         payload
     };
 }
+
+export function raidInfoChangeDiff(payload) {
+    return {
+        type: "RAID_INFO_CHANGE_DIFF",
+        payload
+    };
+}

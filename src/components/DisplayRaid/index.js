@@ -1,3 +1,4 @@
+import { difficultyLabels } from "tauriprogress-constants";
 import { specToClass } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
@@ -8,6 +9,8 @@ import { withTheme } from "@material-ui/core/styles";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,7 +25,7 @@ import LogLink from "../LogLink";
 
 import { convertFightTime, getSpecImg } from "./helpers";
 
-import { raidFetch } from "../../redux/actions";
+import { raidFetch, raidInfoChangeDiff } from "../../redux/actions";
 
 class RaidBosses extends React.PureComponent {
     componentDidMount() {
@@ -38,11 +41,11 @@ class RaidBosses extends React.PureComponent {
         const {
             theme: {
                 palette: { classColors, factionColors }
-            },
-            diff
+            }
         } = this.props;
 
         const { loading, data, error, raidName, raidData } = this.props.raid;
+        const { diff, raidInfoChangeDiff } = this.props;
 
         return (
             <React.Fragment>
@@ -50,6 +53,23 @@ class RaidBosses extends React.PureComponent {
                 {error && <ErrorMessage message={error} />}
                 {!loading && !error && data && raidData && (
                     <React.Fragment>
+                        <Tabs
+                            value={diff}
+                            onChange={(e, value) => raidInfoChangeDiff(value)}
+                            indicatorColor="secondary"
+                            className="raidContainerContentDiffs"
+                        >
+                            <Tab
+                                label={difficultyLabels[5]}
+                                value={5}
+                                className="tab"
+                            />
+                            <Tab
+                                label={difficultyLabels[6]}
+                                value={6}
+                                className="tab"
+                            />
+                        </Tabs>
                         <div className="overflowScroll">
                             <Table>
                                 <TableHead className="tableHead">
@@ -339,12 +359,13 @@ class RaidBosses extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        raid: state.raidInfo.raid
+        raid: state.raidInfo.raid,
+        diff: state.raidInfo.selectedDiff
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ raidFetch }, dispatch);
+    return bindActionCreators({ raidFetch, raidInfoChangeDiff }, dispatch);
 }
 
 export default connect(

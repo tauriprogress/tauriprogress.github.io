@@ -37,63 +37,67 @@ function FastestKills({ data, theme }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((kill, index) => {
-                        const date = new Date(kill.killtime * 1000);
+                    {data &&
+                        data.map((kill, index) => {
+                            const date = new Date(kill.killtime * 1000);
 
-                        return (
-                            <TableRow key={kill.log_id}>
-                                <TableCell component="th" scope="row">
-                                    <Typography>
-                                        <span className="textBold">
-                                            {index + 1}.{" "}
-                                        </span>
-                                        {kill.guilddata.name ? (
-                                            <RouterLink
-                                                to={`/guild/${
-                                                    kill.guilddata.name
-                                                }?realm=${kill.realm}`}
-                                            >
-                                                <Link
-                                                    component="span"
-                                                    style={{
-                                                        color: kill.guilddata
-                                                            .faction
-                                                            ? horde
-                                                            : alliance
-                                                    }}
+                            return (
+                                <TableRow key={kill.log_id}>
+                                    <TableCell component="th" scope="row">
+                                        <Typography>
+                                            <span className="textBold">
+                                                {index + 1}.{" "}
+                                            </span>
+                                            {kill.guilddata.name ? (
+                                                <RouterLink
+                                                    to={`/guild/${
+                                                        kill.guilddata.name
+                                                    }?realm=${kill.realm}`}
                                                 >
-                                                    {kill.guilddata.name}
-                                                </Link>
-                                            </RouterLink>
-                                        ) : (
-                                            "Random"
-                                        )}
-                                    </Typography>
-                                </TableCell>
+                                                    <Link
+                                                        component="span"
+                                                        style={{
+                                                            color: kill
+                                                                .guilddata
+                                                                .faction
+                                                                ? horde
+                                                                : alliance
+                                                        }}
+                                                    >
+                                                        {kill.guilddata.name}
+                                                    </Link>
+                                                </RouterLink>
+                                            ) : (
+                                                "Random"
+                                            )}
+                                        </Typography>
+                                    </TableCell>
 
-                                <TableCell component="th" scope="row">
-                                    {convertFightTime(kill.fight_time)}
-                                </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {convertFightTime(kill.fight_time)}
+                                    </TableCell>
 
-                                <TableCell component="th" scope="row">
-                                    {kill.realm}
-                                </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {kill.realm}
+                                    </TableCell>
 
-                                <TableCell component="th" scope="row">
-                                    <DateTooltip date={date}>
-                                        <span>{date.toLocaleDateString()}</span>
-                                    </DateTooltip>
-                                </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        <DateTooltip date={date}>
+                                            <span>
+                                                {date.toLocaleDateString()}
+                                            </span>
+                                        </DateTooltip>
+                                    </TableCell>
 
-                                <TableCell component="th" scope="row">
-                                    <LogLink
-                                        logId={kill.log_id}
-                                        realm={kill.realm}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
+                                    <TableCell component="th" scope="row">
+                                        <LogLink
+                                            logId={kill.log_id}
+                                            realm={kill.realm}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                 </TableBody>
             </Table>
         </div>

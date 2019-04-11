@@ -1,4 +1,5 @@
 export function applyFilter(filter, data) {
+    if (!data) return data;
     let regex = new RegExp(filter.name, "i");
     return data.filter(dataPoint => {
         if (filter.name !== "" && !regex.test(dataPoint.name)) {
