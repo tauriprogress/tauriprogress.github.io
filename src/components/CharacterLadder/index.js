@@ -114,6 +114,9 @@ class CharacterLadder extends React.PureComponent {
                     <FormControl className="characterLadderFiltersFormControl">
                         <InputLabel htmlFor="class">Class</InputLabel>
                         <Select
+                            style={{
+                                color: classColors[filter.class]
+                            }}
                             value={filter.class}
                             onChange={e =>
                                 this.changeFilter("class", e.target.value)
@@ -131,6 +134,9 @@ class CharacterLadder extends React.PureComponent {
                                 <MenuItem
                                     key={characterClass.id}
                                     value={characterClass.id}
+                                    style={{
+                                        color: classColors[characterClass.id]
+                                    }}
                                 >
                                     {characterClass.label}
                                 </MenuItem>
@@ -140,6 +146,9 @@ class CharacterLadder extends React.PureComponent {
                     <FormControl className="characterLadderFiltersFormControl">
                         <InputLabel htmlFor="class">Spec</InputLabel>
                         <Select
+                            style={{
+                                color: classColors[filter.class]
+                            }}
                             value={filter.spec}
                             onChange={e =>
                                 this.changeFilter("spec", e.target.value)
@@ -155,6 +164,9 @@ class CharacterLadder extends React.PureComponent {
                             </MenuItem>
                             {specOptions.map(specOption => (
                                 <MenuItem
+                                    style={{
+                                        color: classColors[filter.class]
+                                    }}
                                     key={specOption.id}
                                     value={specOption.id}
                                 >
