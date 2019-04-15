@@ -3,6 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { withTheme } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -38,6 +40,9 @@ class DisplayGuild extends React.PureComponent {
 
     render() {
         const {
+            palette: { factionColors }
+        } = this.props.theme;
+        const {
             data,
             loading,
             error,
@@ -54,7 +59,15 @@ class DisplayGuild extends React.PureComponent {
                 {!loading && !error && data && (
                     <React.Fragment>
                         <div className="displayGuildTitle">
-                            <Typography variant="h4">
+                            <Typography
+                                variant="h4"
+                                style={{
+                                    color:
+                                        data.gFaction === 0
+                                            ? factionColors.alliance
+                                            : factionColors.horde
+                                }}
+                            >
                                 {data.guildName}
                             </Typography>
                             <Typography variant="caption">
@@ -66,17 +79,20 @@ class DisplayGuild extends React.PureComponent {
                             </Typography>
                         </div>
                         <div className="displayGuildContentContainer">
-                            <Tabs
-                                value={active}
-                                onChange={(e, value) => guildSetNav(value)}
-                                indicatorColor="secondary"
-                                variant="scrollable"
-                                scrollButtons="on"
-                            >
-                                <Tab label="Progression" className="tab" />
-                                <Tab label="Latest kills" className="tab" />
-                                <Tab label="Roster" className="tab" />
-                            </Tabs>
+                            <AppBar position="static">
+                                <Tabs
+                                    value={active}
+                                    onChange={(e, value) => guildSetNav(value)}
+                                    indicatorColor="secondary"
+                                    variant="scrollable"
+                                    scrollButtons="on"
+                                    className="displayGuildNavTabs"
+                                >
+                                    <Tab label="Progression" className="tab" />
+                                    <Tab label="Latest kills" className="tab" />
+                                    <Tab label="Roster" className="tab" />
+                                </Tabs>
+                            </AppBar>
                             <div className="displayGuildContent">
                                 {active === 0 && (
                                     <GuildProgression
@@ -117,4 +133,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(DisplayGuild);
+)(withTheme()(DisplayGuild));

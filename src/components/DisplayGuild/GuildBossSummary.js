@@ -1,37 +1,33 @@
 import React from "react";
 
-import MetaDataList from "../MetaDataList";
+import Typography from "@material-ui/core/Typography";
+
 import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../DisplayRaid/helpers";
 
 function GuildBossSummary({ bossName, data }) {
-    let metaData = [
-        { label: "Kills", value: "-" },
-        {
-            label: "First kill",
-            value: "-"
-        },
-        { label: "Fastest kill", value: "-" }
-    ];
+    let date;
     if (data) {
-        const date = new Date(data.firstKill * 1000);
-        metaData = [
-            { label: "Kills", value: data.killCount },
-            {
-                label: "First kill",
-                value: (
+        date = new Date(data.firstKill * 1000);
+    }
+
+    return (
+        <div className="displayGuildBossSummary">
+            <Typography variant="h5">{bossName}</Typography>
+            <Typography variant="caption">
+                {data && data.killCount} Kills
+                <br />
+                First:{" "}
+                {data && (
                     <DateTooltip date={date}>
                         <span>{date.toLocaleDateString()}</span>
                     </DateTooltip>
-                )
-            },
-            { label: "Fastest kill", value: convertFightTime(data.fastestKill) }
-        ];
-    }
-    return (
-        <div className="displayGuildBossSummary">
-            <MetaDataList title={bossName} values={metaData} />
+                )}
+                <br />
+                Fastest:{" "}
+                <span>{data && convertFightTime(data.fastestKill)}</span>
+            </Typography>
         </div>
     );
 }

@@ -18,7 +18,7 @@ import { convertFightTime } from "../DisplayRaid/helpers";
 function GuildLatestKills({ data, realm }) {
     return (
         <div className="overflowScroll">
-            <Table>
+            <Table className="displayGuildLatestTable">
                 <TableHead className="tableHead">
                     <TableRow>
                         <TableCell>Boss name</TableCell>

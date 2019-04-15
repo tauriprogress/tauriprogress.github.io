@@ -43,7 +43,7 @@ class GuildRoster extends React.PureComponent {
         const { pagination } = this.state;
         return (
             <div className="overflowScroll">
-                <Table>
+                <Table className="displayGuildRosterTable">
                     <TableHead className="tableHead">
                         <TableRow>
                             <TableCell>Name</TableCell>
