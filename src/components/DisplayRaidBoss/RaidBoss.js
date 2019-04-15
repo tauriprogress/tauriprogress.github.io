@@ -19,10 +19,10 @@ function RaidBoss({ data, selectedTab, raidBossSelectTab }) {
                 onChange={(e, value) => raidBossSelectTab(value)}
                 indicatorColor="secondary"
             >
-                <Tab label="Fastest" className="tab" />
-                <Tab label="Latest" className="tab" />
                 <Tab label="Dps" className="tab" />
                 <Tab label="Hps" className="tab" />
+                <Tab label="Fastest" className="tab" />
+                <Tab label="Latest" className="tab" />
             </Tabs>
 
             {getChild(selectedTab, data)}
@@ -33,13 +33,13 @@ function RaidBoss({ data, selectedTab, raidBossSelectTab }) {
 function getChild(value, data) {
     switch (value) {
         case 0:
-            return <FastestKills data={data.fastestKills} />;
-        case 1:
-            return <LatestKills data={data.latestKills} />;
-        case 2:
             return <CharacterLadder data={data.dps} type={"dps"} />;
-        case 3:
+        case 1:
             return <CharacterLadder data={data.hps} type={"hps"} />;
+        case 2:
+            return <FastestKills data={data.fastestKills} />;
+        case 3:
+            return <LatestKills data={data.latestKills} />;
         default:
             return 0;
     }

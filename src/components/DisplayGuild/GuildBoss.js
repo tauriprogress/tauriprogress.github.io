@@ -30,23 +30,28 @@ class GuildBoss extends React.PureComponent {
                             onChange={this.handleChange}
                             indicatorColor="secondary"
                         >
-                            <Tab label="Fastest Kills" className="tab" />
                             <Tab label="Dps" className="tab" />
                             <Tab label="Hps" className="tab" />
+                            <Tab label="Fastest Kills" className="tab" />
                         </Tabs>
-                        {this.state.value === 0 && (
-                            <GuildFastestKills data={data.fastestKills} />
-                        )}
-                        {this.state.value === 1 && (
-                            <CharacterLadder data={data.dps} type={"dps"} />
-                        )}
-                        {this.state.value === 2 && (
-                            <CharacterLadder data={data.hps} type={"hps"} />
-                        )}
+                        {getChild(this.state.value, data)}
                     </React.Fragment>
                 )}
             </React.Fragment>
         );
+    }
+}
+
+function getChild(value, data) {
+    switch (value) {
+        case 0:
+            return <CharacterLadder data={data.dps} type={"dps"} />;
+        case 1:
+            return <CharacterLadder data={data.hps} type={"hps"} />;
+        case 2:
+            return <GuildFastestKills data={data.fastestKills} />;
+        default:
+            return 0;
     }
 }
 
