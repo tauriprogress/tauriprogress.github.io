@@ -96,7 +96,7 @@ class CharacterLadder extends React.PureComponent {
         let data = applyFilter(filter, this.props.data);
 
         return (
-            <div className="overflowScroll">
+            <React.Fragment>
                 <div className="characterLadderFilters">
                     <FormControl className="characterLadderFiltersFormControl">
                         <TextField
@@ -176,128 +176,135 @@ class CharacterLadder extends React.PureComponent {
                         </Select>
                     </FormControl>
                 </div>
-                <Table>
-                    <TableHead className="tableHead">
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>
-                                <span className="textCapitalize">{type}</span>
-                            </TableCell>
+                <div className="overflowScroll">
+                    <Table>
+                        <TableHead className="tableHead">
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>
+                                    <span className="textCapitalize">
+                                        {type}
+                                    </span>
+                                </TableCell>
 
-                            <TableCell>ILVL</TableCell>
+                                <TableCell>ILVL</TableCell>
 
-                            <TableCell>Date</TableCell>
-                            <TableCell>Logs</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data &&
-                            data
-                                .slice(
-                                    pagination.currentPage *
-                                        pagination.rowsPerPage,
-                                    (pagination.currentPage + 1) *
-                                        pagination.rowsPerPage
-                                )
-                                .map((char, index) => {
-                                    const date = new Date(char.date * 1000);
-                                    return (
-                                        <TableRow key={index}>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                <Typography color="inherit">
-                                                    <span className="textBold">
-                                                        {index +
-                                                            1 +
-                                                            pagination.currentPage *
-                                                                pagination.rowsPerPage}
-                                                        .{" "}
-                                                    </span>
-                                                    <Tooltip
-                                                        title={char.spec.label}
-                                                    >
-                                                        <Avatar
-                                                            component="span"
-                                                            src={getSpecImg(
-                                                                char.spec.image
-                                                            )}
-                                                            className="classSpecAvatar"
-                                                        />
-                                                    </Tooltip>
-
-                                                    <span
-                                                        style={{
-                                                            color:
-                                                                classColors[
-                                                                    specToClass[
-                                                                        char
-                                                                            .spec
-                                                                            .id
-                                                                    ]
-                                                                ]
-                                                        }}
-                                                    >
-                                                        <RouterLink
-                                                            to={`/player/${
-                                                                char.name
-                                                            }?realm=${
-                                                                char.realm
-                                                            }`}
+                                <TableCell>Date</TableCell>
+                                <TableCell>Logs</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data &&
+                                data
+                                    .slice(
+                                        pagination.currentPage *
+                                            pagination.rowsPerPage,
+                                        (pagination.currentPage + 1) *
+                                            pagination.rowsPerPage
+                                    )
+                                    .map((char, index) => {
+                                        const date = new Date(char.date * 1000);
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    <Typography color="inherit">
+                                                        <span className="textBold">
+                                                            {index +
+                                                                1 +
+                                                                pagination.currentPage *
+                                                                    pagination.rowsPerPage}
+                                                            .{" "}
+                                                        </span>
+                                                        <Tooltip
+                                                            title={
+                                                                char.spec.label
+                                                            }
                                                         >
-                                                            <Link
+                                                            <Avatar
                                                                 component="span"
-                                                                color="inherit"
+                                                                src={getSpecImg(
+                                                                    char.spec
+                                                                        .image
+                                                                )}
+                                                                className="classSpecAvatar"
+                                                            />
+                                                        </Tooltip>
+
+                                                        <span
+                                                            style={{
+                                                                color:
+                                                                    classColors[
+                                                                        specToClass[
+                                                                            char
+                                                                                .spec
+                                                                                .id
+                                                                        ]
+                                                                    ]
+                                                            }}
+                                                        >
+                                                            <RouterLink
+                                                                to={`/player/${
+                                                                    char.name
+                                                                }?realm=${
+                                                                    char.realm
+                                                                }`}
                                                             >
-                                                                {char.name}
-                                                            </Link>
-                                                        </RouterLink>
-                                                    </span>
-                                                </Typography>
-                                            </TableCell>
+                                                                <Link
+                                                                    component="span"
+                                                                    color="inherit"
+                                                                >
+                                                                    {char.name}
+                                                                </Link>
+                                                            </RouterLink>
+                                                        </span>
+                                                    </Typography>
+                                                </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                                className="textBold"
-                                            >
-                                                {new Intl.NumberFormat().format(
-                                                    char[type]
-                                                )}
-                                            </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                    className="textBold"
+                                                >
+                                                    {new Intl.NumberFormat().format(
+                                                        char[type]
+                                                    )}
+                                                </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                {char.ilvl}
-                                            </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    {char.ilvl}
+                                                </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                <DateTooltip date={date}>
-                                                    <span>
-                                                        {date.toLocaleDateString()}
-                                                    </span>
-                                                </DateTooltip>
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                <LogLink
-                                                    logId={char.logId}
-                                                    realm={char.realm}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                    </TableBody>
-                </Table>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    <DateTooltip date={date}>
+                                                        <span>
+                                                            {date.toLocaleDateString()}
+                                                        </span>
+                                                    </DateTooltip>
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    <LogLink
+                                                        logId={char.logId}
+                                                        realm={char.realm}
+                                                    />
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                        </TableBody>
+                    </Table>
+                </div>
                 {data && (
                     <TablePagination
                         rowsPerPageOptions={[]}
@@ -314,7 +321,7 @@ class CharacterLadder extends React.PureComponent {
                         onChangePage={this.changePage}
                     />
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }
