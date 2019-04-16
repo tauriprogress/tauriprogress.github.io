@@ -42,6 +42,7 @@ function PlayerStats({ data, classes }) {
         { label: "Hit", value: data.characterStat.melee_hit_rating },
         { label: "Crit", value: data.characterStat.melee_crit_rating },
         { label: "Haste", value: data.characterStat.hasterating_melee_dmg },
+        { label: "Mastery", value: data.characterStat.mastery_rating },
         { label: "Dodge", value: data.characterStat.dodge_chance + "%" },
         { label: "Parry", value: data.characterStat.parry_chance + "%" }
     ];

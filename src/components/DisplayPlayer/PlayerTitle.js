@@ -17,7 +17,9 @@ function PlayerTitle({ data, theme }) {
     const {
         palette: { classColors, factionColors }
     } = theme;
-    const fullSpecName = `${data.treeName_0} ${characterClasses[data.class]}`;
+    const fullSpecName = `${data["treeName_" + data.activeSpec]} ${
+        characterClasses[data.class]
+    }`;
     return (
         <div className="displayPlayerTitle">
             <Typography variant="h4">
