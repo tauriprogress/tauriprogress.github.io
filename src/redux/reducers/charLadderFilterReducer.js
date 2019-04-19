@@ -9,7 +9,18 @@ const defaultState = {
 function charLadderFilterReducer(state = defaultState, action) {
     switch (action.type) {
         case "CHAR_LADDER_FILTER_SET":
-            return { ...state, ...action.payload };
+            if (action.payload.filterName === "class") {
+                return {
+                    ...state,
+                    [action.payload.filterName]: action.payload.value,
+                    spec: ""
+                };
+            }
+
+            return {
+                ...state,
+                [action.payload.filterName]: action.payload.value
+            };
         case "CHAR_LADDER_FILTER_RESET":
             return { ...state, ...defaultState };
         default:
