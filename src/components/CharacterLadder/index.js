@@ -1,11 +1,16 @@
-import { specs, specToClass, characterClasses } from "tauriprogress-constants";
+import {
+    realms,
+    specs,
+    specToClass,
+    characterClasses
+} from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { withTheme } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -28,7 +33,21 @@ import DateTooltip from "../DateTooltip";
 import { charLadderFilterSet } from "../../redux/actions";
 
 import { getSpecImg } from "../DisplayRaid/helpers";
-import { applyFilter } from "./helpers";
+import { filterChars } from "./helpers";
+
+const styles = {
+    root: {
+        width: "160px"
+    }
+};
+
+const StyledSelect = withStyles(styles)(Select);
+const StyledTextField = withStyles(styles)(TextField);
+
+let realmNames = [];
+for (let realmKey in realms) {
+    realmNames.push(realms[realmKey]);
+}
 
 class CharacterLadder extends React.PureComponent {
     constructor(props) {
@@ -69,8 +88,9 @@ class CharacterLadder extends React.PureComponent {
             type,
             filter,
             theme: {
-                palette: { classColors }
-            }
+                palette: { classColors, factionColors }
+            },
+            disableFilter = {}
         } = this.props;
         const { pagination } = this.state;
 
@@ -93,13 +113,13 @@ class CharacterLadder extends React.PureComponent {
             }
         }
 
-        let data = applyFilter(filter, this.props.data);
+        let data = filterChars(filter, this.props.data);
 
         return (
             <React.Fragment>
                 <div className="characterLadderFilters">
                     <FormControl className="characterLadderFiltersFormControl">
-                        <TextField
+                        <StyledTextField
                             id="name"
                             label="Name"
                             value={filter.name}
@@ -113,7 +133,7 @@ class CharacterLadder extends React.PureComponent {
 
                     <FormControl className="characterLadderFiltersFormControl">
                         <InputLabel htmlFor="class">Class</InputLabel>
-                        <Select
+                        <StyledSelect
                             style={{
                                 color: classColors[filter.class]
                             }}
@@ -141,11 +161,11 @@ class CharacterLadder extends React.PureComponent {
                                     {characterClass.label}
                                 </MenuItem>
                             ))}
-                        </Select>
+                        </StyledSelect>
                     </FormControl>
                     <FormControl className="characterLadderFiltersFormControl">
                         <InputLabel htmlFor="class">Spec</InputLabel>
-                        <Select
+                        <StyledSelect
                             style={{
                                 color: classColors[filter.class]
                             }}
@@ -173,8 +193,76 @@ class CharacterLadder extends React.PureComponent {
                                     {specOption.label}
                                 </MenuItem>
                             ))}
-                        </Select>
+                        </StyledSelect>
                     </FormControl>
+                    {!disableFilter.faction && (
+                        <FormControl className="characterLadderFiltersFormControl">
+                            <InputLabel htmlFor="class">Faction</InputLabel>
+                            <StyledSelect
+                                value={filter.faction}
+                                onChange={e =>
+                                    this.changeFilter("faction", e.target.value)
+                                }
+                                style={{
+                                    color:
+                                        filter.faction === 0
+                                            ? factionColors.alliance
+                                            : factionColors.horde
+                                }}
+                                inputProps={{
+                                    name: "faction",
+                                    id: "faction"
+                                }}
+                                className="characterLadderFiltersSelect"
+                            >
+                                <MenuItem value="">
+                                    <em>All</em>
+                                </MenuItem>
+                                <MenuItem
+                                    style={{
+                                        color: factionColors.alliance
+                                    }}
+                                    value={0}
+                                >
+                                    Alliance
+                                </MenuItem>
+                                <MenuItem
+                                    style={{
+                                        color: factionColors.horde
+                                    }}
+                                    value={1}
+                                >
+                                    Horde
+                                </MenuItem>
+                            </StyledSelect>
+                        </FormControl>
+                    )}
+
+                    {!disableFilter.realm && (
+                        <FormControl className="characterLadderFiltersFormControl">
+                            <InputLabel htmlFor="class">Server</InputLabel>
+                            <StyledSelect
+                                value={filter.realm}
+                                onChange={e =>
+                                    this.changeFilter("realm", e.target.value)
+                                }
+                                inputProps={{
+                                    name: "realm",
+                                    id: "realm"
+                                }}
+                                className="characterLadderFiltersSelect"
+                            >
+                                <MenuItem value="">
+                                    <em>All</em>
+                                </MenuItem>
+                                {realmNames.map(realm => (
+                                    <MenuItem key={realm} value={realm}>
+                                        {realm}
+                                    </MenuItem>
+                                ))}
+                            </StyledSelect>
+                        </FormControl>
+                    )}
                 </div>
                 <div className="overflowScroll">
                     <Table>

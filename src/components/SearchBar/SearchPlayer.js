@@ -14,6 +14,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import { playerFetch } from "../../redux/actions";
 
+let realmNames = [];
+for (let realmKey in realms) {
+    realmNames.push(realms[realmKey]);
+}
+
 class SearchPlayer extends React.Component {
     constructor(props) {
         super(props);
@@ -48,10 +53,6 @@ class SearchPlayer extends React.Component {
     }
 
     render() {
-        let realmNames = [];
-        for (let realmKey in realms) {
-            realmNames.push(realms[realmKey]);
-        }
         return (
             <div className="searchBarPlayer">
                 <FormControl className="searchBarPlayerFormControl">

@@ -45,9 +45,27 @@ class GuildBoss extends React.PureComponent {
 function getChild(value, data) {
     switch (value) {
         case 0:
-            return <CharacterLadder data={data.dps} type={"dps"} />;
+            return (
+                <CharacterLadder
+                    data={data.dps}
+                    type={"dps"}
+                    disableFilter={{
+                        faction: true,
+                        realm: true
+                    }}
+                />
+            );
         case 1:
-            return <CharacterLadder data={data.hps} type={"hps"} />;
+            return (
+                <CharacterLadder
+                    data={data.hps}
+                    type={"hps"}
+                    disableFilter={{
+                        faction: true,
+                        realm: true
+                    }}
+                />
+            );
         case 2:
             return <GuildFastestKills data={data.fastestKills} />;
         default:

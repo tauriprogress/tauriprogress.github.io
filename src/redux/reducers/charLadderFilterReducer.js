@@ -1,7 +1,9 @@
 const defaultState = {
     name: "",
     class: "",
-    spec: ""
+    spec: "",
+    faction: "",
+    realm: ""
 };
 
 function charLadderFilterReducer(state = defaultState, action) {
