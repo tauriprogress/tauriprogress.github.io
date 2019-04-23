@@ -1,5 +1,5 @@
 import { difficultyLabels } from "tauriprogress-constants";
-import { specToClass } from "tauriprogress-constants";
+import { specToClass, specs } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -194,7 +194,6 @@ class RaidBosses extends React.PureComponent {
                                                                             currentBoss
                                                                                 .bestDps
                                                                                 .spec
-                                                                                .id
                                                                         ]
                                                                     ]
                                                             }}
@@ -237,18 +236,21 @@ class RaidBosses extends React.PureComponent {
                                                         </span>
                                                         <Tooltip
                                                             title={
-                                                                currentBoss
-                                                                    .bestDps
-                                                                    .spec.label
+                                                                specs[
+                                                                    currentBoss
+                                                                        .bestDps
+                                                                        .spec
+                                                                ].label
                                                             }
                                                         >
                                                             <Avatar
                                                                 component="span"
                                                                 src={getSpecImg(
-                                                                    currentBoss
-                                                                        .bestDps
-                                                                        .spec
-                                                                        .image
+                                                                    specs[
+                                                                        currentBoss
+                                                                            .bestDps
+                                                                            .spec
+                                                                    ].image
                                                                 )}
                                                                 className="classSpecAvatar"
                                                             />
@@ -276,7 +278,6 @@ class RaidBosses extends React.PureComponent {
                                                                             currentBoss
                                                                                 .bestHps
                                                                                 .spec
-                                                                                .id
                                                                         ]
                                                                     ]
                                                             }}
@@ -319,18 +320,21 @@ class RaidBosses extends React.PureComponent {
                                                         </span>
                                                         <Tooltip
                                                             title={
-                                                                currentBoss
-                                                                    .bestHps
-                                                                    .spec.label
+                                                                specs[
+                                                                    currentBoss
+                                                                        .bestHps
+                                                                        .spec
+                                                                ].label
                                                             }
                                                         >
                                                             <Avatar
                                                                 component="span"
                                                                 src={getSpecImg(
-                                                                    currentBoss
-                                                                        .bestHps
-                                                                        .spec
-                                                                        .image
+                                                                    specs[
+                                                                        currentBoss
+                                                                            .bestHps
+                                                                            .spec
+                                                                    ].image
                                                                 )}
                                                                 className="classSpecAvatar"
                                                             />

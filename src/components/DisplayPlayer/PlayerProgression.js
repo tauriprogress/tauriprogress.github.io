@@ -1,4 +1,5 @@
 import { raidName } from "tauriprogress-constants/currentContent";
+import { specs } from "tauriprogress-constants";
 import React from "react";
 
 import { Link as RouterLink } from "react-router-dom";
@@ -170,16 +171,20 @@ class PlayerProgression extends React.PureComponent {
                                                                     </span>
                                                                     <Tooltip
                                                                         title={
-                                                                            dps
-                                                                                .spec
+                                                                            specs[
+                                                                                dps
+                                                                                    .spec
+                                                                            ]
                                                                                 .label
                                                                         }
                                                                     >
                                                                         <Avatar
                                                                             component="span"
                                                                             src={getSpecImg(
-                                                                                dps
-                                                                                    .spec
+                                                                                specs[
+                                                                                    dps
+                                                                                        .spec
+                                                                                ]
                                                                                     .image
                                                                             )}
                                                                             className="classSpecAvatar"
@@ -264,15 +269,19 @@ class PlayerProgression extends React.PureComponent {
                                                                 </span>
                                                                 <Tooltip
                                                                     title={
-                                                                        hps.spec
-                                                                            .label
+                                                                        specs[
+                                                                            hps
+                                                                                .spec
+                                                                        ].label
                                                                     }
                                                                 >
                                                                     <Avatar
                                                                         component="span"
                                                                         src={getSpecImg(
-                                                                            hps
-                                                                                .spec
+                                                                            specs[
+                                                                                hps
+                                                                                    .spec
+                                                                            ]
                                                                                 .image
                                                                         )}
                                                                         className="classSpecAvatar"

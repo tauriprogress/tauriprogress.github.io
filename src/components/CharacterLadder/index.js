@@ -1,4 +1,4 @@
-import { specToClass } from "tauriprogress-constants";
+import { specToClass, specs } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -104,14 +104,17 @@ class CharacterLadder extends React.PureComponent {
                                                         </span>
                                                         <Tooltip
                                                             title={
-                                                                char.spec.label
+                                                                specs[char.spec]
+                                                                    .label
                                                             }
                                                         >
                                                             <Avatar
                                                                 component="span"
                                                                 src={getSpecImg(
-                                                                    char.spec
-                                                                        .image
+                                                                    specs[
+                                                                        char
+                                                                            .spec
+                                                                    ].image
                                                                 )}
                                                                 className="classSpecAvatar"
                                                             />
@@ -124,7 +127,6 @@ class CharacterLadder extends React.PureComponent {
                                                                         specToClass[
                                                                             char
                                                                                 .spec
-                                                                                .id
                                                                         ]
                                                                     ]
                                                             }}

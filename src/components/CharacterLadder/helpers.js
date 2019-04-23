@@ -10,7 +10,7 @@ export function filterChars(filter, chars) {
             return false;
         }
 
-        if (filter.spec !== "" && char.spec.id !== Number(filter.spec)) {
+        if (filter.spec !== "" && char.spec !== Number(filter.spec)) {
             return false;
         }
 
