@@ -2,6 +2,7 @@ const defaultState = {
     name: "",
     class: "",
     spec: "",
+    role: "",
     faction: "",
     realm: ""
 };

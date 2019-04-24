@@ -21,7 +21,7 @@ import { charLadderFilterSet } from "../../redux/actions";
 
 const styles = {
     root: {
-        width: "160px"
+        width: "150px"
     }
 };
 
@@ -146,6 +146,30 @@ function Filters({
                             {specOption.label}
                         </MenuItem>
                     ))}
+                </StyledSelect>
+            </FormControl>
+            <FormControl className="characterLadderFiltersFormControl">
+                <InputLabel htmlFor="class">Role</InputLabel>
+                <StyledSelect
+                    value={filter.role}
+                    onChange={e =>
+                        charLadderFilterSet({
+                            filterName: "role",
+                            value: e.target.value
+                        })
+                    }
+                    inputProps={{
+                        name: "role",
+                        id: "role"
+                    }}
+                    className="characterLadderFiltersSelect"
+                >
+                    <MenuItem value="">
+                        <em>All</em>
+                    </MenuItem>
+                    <MenuItem value={"damage"}>Damage</MenuItem>
+                    <MenuItem value={"heal"}>Heal</MenuItem>
+                    <MenuItem value={"tank"}>Tank</MenuItem>
                 </StyledSelect>
             </FormControl>
             {!disableFilter.faction && (

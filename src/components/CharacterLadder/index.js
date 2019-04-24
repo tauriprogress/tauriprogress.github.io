@@ -56,6 +56,7 @@ class CharacterLadder extends React.PureComponent {
         const { pagination } = this.state;
 
         let data = filterChars(filter, this.props.data);
+        console.log(data);
 
         return (
             <React.Fragment>

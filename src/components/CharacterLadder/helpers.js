@@ -1,3 +1,5 @@
+import { specs } from "tauriprogress-constants";
+
 export function filterChars(filter, chars) {
     if (!chars) return chars;
     let regex = new RegExp(filter.name, "i");
@@ -19,6 +21,10 @@ export function filterChars(filter, chars) {
         }
 
         if (filter.realm !== "" && char.realm !== filter.realm) {
+            return false;
+        }
+
+        if (filter.role !== "" && specs[char.spec].role !== filter.role) {
             return false;
         }
 
