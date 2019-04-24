@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "74fe540122bb29be4fc7",
+    "revision": "1c370a2b19321e21be47",
     "url": "/static/css/main.f392f66d.chunk.css"
   },
   {
-    "revision": "74fe540122bb29be4fc7",
-    "url": "/static/js/main.74fe5401.chunk.js"
+    "revision": "1c370a2b19321e21be47",
+    "url": "/static/js/main.1c370a2b.chunk.js"
   },
   {
     "revision": "fdfcfda2d9b1bf31db52",
     "url": "/static/js/runtime~main.fdfcfda2.js"
   },
   {
-    "revision": "29fc9e25391eb4c2340d",
+    "revision": "97b3ee46ede2f1d12ac1",
     "url": "/static/css/2.76afec1a.chunk.css"
   },
   {
-    "revision": "29fc9e25391eb4c2340d",
-    "url": "/static/js/2.29fc9e25.chunk.js"
+    "revision": "97b3ee46ede2f1d12ac1",
+    "url": "/static/js/2.97b3ee46.chunk.js"
   },
   {
     "revision": "987b84570ea69ee660455b8d5e91f5f1",
@@ -44,12 +44,12 @@ self.__precacheManifest = [
     "url": "/static/media/roboto-latin-900.19b7a0ad.woff2"
   },
   {
-    "revision": "e9dbbe8a693dd275c16d32feb101f1c1",
-    "url": "/static/media/roboto-latin-100.e9dbbe8a.woff"
-  },
-  {
     "revision": "6232f43d15b0e7a0bf0fe82e295bdd06",
     "url": "/static/media/roboto-latin-100italic.6232f43d.woff2"
+  },
+  {
+    "revision": "e9dbbe8a693dd275c16d32feb101f1c1",
+    "url": "/static/media/roboto-latin-100.e9dbbe8a.woff"
   },
   {
     "revision": "d704bb3d579b7d5e40880c75705c8a71",
@@ -92,12 +92,12 @@ self.__precacheManifest = [
     "url": "/static/media/roboto-latin-500italic.ffcc050b.woff"
   },
   {
-    "revision": "cf6613d1adf490972c557a8e318e0868",
-    "url": "/static/media/roboto-latin-700.cf6613d1.woff"
-  },
-  {
     "revision": "010c1aeee3c6d1cbb1d5761d80353823",
     "url": "/static/media/roboto-latin-700italic.010c1aee.woff2"
+  },
+  {
+    "revision": "cf6613d1adf490972c557a8e318e0868",
+    "url": "/static/media/roboto-latin-700.cf6613d1.woff"
   },
   {
     "revision": "846d1890aee87fde5d8ced8eba360c3a",
@@ -120,7 +120,7 @@ self.__precacheManifest = [
     "url": "/static/media/UI-EJ-LOREBG-ThunderKingRaid.7f789c15.png"
   },
   {
-    "revision": "5cc6359f1df722fd1cf6a1b4b15b45ed",
+    "revision": "9ee1716912e378afbeac3ef63e3f160f",
     "url": "/index.html"
   }
 ];
