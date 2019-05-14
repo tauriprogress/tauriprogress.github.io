@@ -45,21 +45,11 @@ class GuildBoss extends React.PureComponent {
 function getChild(value, data) {
     switch (value) {
         case 0:
-            return (
-                <CharacterLadder
-                    data={data.dps}
-                    type={"dps"}
-                    disableFilter={{
-                        faction: true,
-                        realm: true
-                    }}
-                />
-            );
         case 1:
             return (
                 <CharacterLadder
-                    data={data.hps}
-                    type={"hps"}
+                    data={value === 0 ? data.dps : data.hps}
+                    type={value === 0 ? "dps" : "hps"}
                     disableFilter={{
                         faction: true,
                         realm: true

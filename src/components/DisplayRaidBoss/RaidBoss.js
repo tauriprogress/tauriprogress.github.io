@@ -33,9 +33,13 @@ function RaidBoss({ data, selectedTab, raidBossSelectTab }) {
 function getChild(value, data) {
     switch (value) {
         case 0:
-            return <CharacterLadder data={data.dps} type={"dps"} />;
         case 1:
-            return <CharacterLadder data={data.hps} type={"hps"} />;
+            return (
+                <CharacterLadder
+                    data={value === 0 ? data.dps : data.hps}
+                    type={value === 0 ? "dps" : "hps"}
+                />
+            );
         case 2:
             return <FastestKills data={data.fastestKills} />;
         case 3:

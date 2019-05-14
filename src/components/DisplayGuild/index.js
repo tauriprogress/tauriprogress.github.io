@@ -125,7 +125,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { guildFetch, guildSetNav, charLadderFilterReset },
+        {
+            guildFetch,
+            guildSetNav,
+            charLadderFilterReset
+        },
         dispatch
     );
 }

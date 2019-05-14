@@ -192,6 +192,13 @@ export function charLadderFilterReset(payload) {
     };
 }
 
+export function charLadderPaginationPageSet(payload) {
+    return {
+        type: "CHAR_LADDER_PAGINATION_PAGE_SET",
+        payload
+    };
+}
+
 export function updateDbFetch(payload) {
     return {
         type: "UPDATE_DB_FETCH",

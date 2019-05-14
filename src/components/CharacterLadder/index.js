@@ -1,6 +1,7 @@
 import { specToClass, specs } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -25,23 +26,17 @@ import Filters from "./Filters";
 import { getSpecImg } from "../DisplayRaid/helpers";
 import { filterChars } from "./helpers";
 
+import { charLadderPaginationPageSet } from "../../redux/actions";
+
 class CharacterLadder extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pagination: {
-                rowsPerPage: 50,
-                currentPage: 0
-            }
-        };
-        this.changePage = this.changePage.bind(this);
+    componentDidUpdate({ type, data }) {
+        if (type !== this.props.type || data !== this.props.data) {
+            this.props.charLadderPaginationPageSet(0);
+        }
     }
 
-    changePage(e, page) {
-        this.setState({
-            ...this.state,
-            pagination: { ...this.state.pagination, currentPage: page }
-        });
+    componentWillUnmount() {
+        this.props.charLadderPaginationPageSet(0);
     }
 
     render() {
@@ -51,12 +46,11 @@ class CharacterLadder extends React.PureComponent {
             theme: {
                 palette: { classColors }
             },
-            disableFilter = {}
+            disableFilter = {},
+            pagination
         } = this.props;
-        const { pagination } = this.state;
 
         let data = filterChars(filter, this.props.data);
-        console.log(data);
 
         return (
             <React.Fragment>
@@ -205,7 +199,9 @@ class CharacterLadder extends React.PureComponent {
                         nextIconButtonProps={{
                             "aria-label": "Next Page"
                         }}
-                        onChangePage={this.changePage}
+                        onChangePage={(e, page) =>
+                            this.props.charLadderPaginationPageSet(page)
+                        }
                     />
                 )}
             </React.Fragment>
@@ -215,8 +211,16 @@ class CharacterLadder extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        filter: state.charLadderFilter
+        filter: state.charLadder.filter,
+        pagination: state.charLadder.pagination
     };
 }
 
-export default connect(mapStateToProps)(withTheme()(CharacterLadder));
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ charLadderPaginationPageSet }, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withTheme()(CharacterLadder));

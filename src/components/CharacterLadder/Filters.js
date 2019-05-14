@@ -252,7 +252,7 @@ function Filters({
 
 function mapStateToProps(state) {
     return {
-        filter: state.charLadderFilter
+        filter: state.charLadder.filter
     };
 }
 
