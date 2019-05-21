@@ -7,6 +7,7 @@ import getRaidBossSaga from "./getRaidBossSaga";
 import getLogSaga from "./getLogSaga";
 import getGuildSaga from "./getGuildSaga";
 import getPlayerSaga from "./getPlayerSaga";
+import updateRaidBossSaga from "./updateRaidBossSaga";
 
 function* sagas() {
     yield all([
@@ -17,7 +18,8 @@ function* sagas() {
         getRaidBossSaga(),
         getLogSaga(),
         getGuildSaga(),
-        getPlayerSaga()
+        getPlayerSaga(),
+        updateRaidBossSaga()
     ]);
 }
 

@@ -4,16 +4,36 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
+import Refresh from "@material-ui/icons/Refresh";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import RaidBoss from "./RaidBoss";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { raidBossFetch, raidInfoChangeDiff } from "../../redux/actions";
+import {
+    raidBossFetch,
+    raidInfoChangeDiff,
+    raidBossUpdateStart
+} from "../../redux/actions";
 
+import { convertTime } from "./helpers";
+
+function styles(theme) {
+    return {
+        fab: {
+            width: "20px",
+            height: "20px",
+            minHeight: "20px"
+        }
+    };
+}
 class DisplayRaidBoss extends React.PureComponent {
     componentDidMount() {
         const raidName = this.props.match.params.raidName;
@@ -30,8 +50,20 @@ class DisplayRaidBoss extends React.PureComponent {
         }
     }
     render() {
-        const { loading, data, error, bossName } = this.props.raidBoss;
-        const { diff, raidInfoChangeDiff } = this.props;
+        const {
+            loading,
+            data,
+            error,
+            bossName,
+            raidName,
+            update
+        } = this.props.raidBoss;
+        const {
+            diff,
+            raidInfoChangeDiff,
+            raidBossUpdateStart,
+            classes
+        } = this.props;
 
         return (
             <React.Fragment>
@@ -50,23 +82,108 @@ class DisplayRaidBoss extends React.PureComponent {
                             </div>
                         )}
 
-                        <Tabs
-                            value={diff}
-                            onChange={(e, value) => raidInfoChangeDiff(value)}
-                            indicatorColor="secondary"
-                            className="raidContainerContentDiffs"
-                        >
-                            <Tab
-                                label={difficultyLabels[5]}
-                                value={5}
-                                className="tab"
-                            />
-                            <Tab
-                                label={difficultyLabels[6]}
-                                value={6}
-                                className="tab"
-                            />
-                        </Tabs>
+                        <div className="displayRaidBossDiffTabContainer">
+                            <Tabs
+                                value={diff}
+                                onChange={(e, value) =>
+                                    raidInfoChangeDiff(value)
+                                }
+                                indicatorColor="secondary"
+                                className="raidContainerContentDiffs"
+                            >
+                                <Tab
+                                    label={difficultyLabels[5]}
+                                    value={5}
+                                    className="tab"
+                                />
+                                <Tab
+                                    label={difficultyLabels[6]}
+                                    value={6}
+                                    className="tab"
+                                />
+                            </Tabs>
+                            {!loading && (
+                                <div className="displayRaidBossDiffTabContainerUpdate">
+                                    {!update.loading ? (
+                                        <React.Fragment>
+                                            {!update.error && update.wait && (
+                                                <Typography className="updateError">
+                                                    {`Please wait ${
+                                                        update.wait
+                                                    } seconds`}{" "}
+                                                    <Fab
+                                                        color="primary"
+                                                        onClick={() =>
+                                                            raidBossUpdateStart(
+                                                                {
+                                                                    raidName: raidName,
+                                                                    bossName: bossName
+                                                                }
+                                                            )
+                                                        }
+                                                        className={classes.fab}
+                                                    >
+                                                        <Refresh fontSize="small" />
+                                                    </Fab>
+                                                </Typography>
+                                            )}
+                                            {update.error && (
+                                                <Tooltip title={update.error}>
+                                                    <Typography className="updateError">
+                                                        Error{" "}
+                                                        <Fab
+                                                            color="primary"
+                                                            onClick={() =>
+                                                                raidBossUpdateStart(
+                                                                    {
+                                                                        raidName: raidName,
+                                                                        bossName: bossName
+                                                                    }
+                                                                )
+                                                            }
+                                                            className={
+                                                                classes.fab
+                                                            }
+                                                        >
+                                                            <Refresh fontSize="small" />
+                                                        </Fab>
+                                                    </Typography>
+                                                </Tooltip>
+                                            )}
+                                            {!update.error && !update.wait && (
+                                                <Typography variant="body2">
+                                                    <React.Fragment>
+                                                        {`${convertTime(
+                                                            data[diff]
+                                                                .lastUpdated
+                                                        )} ago`}
+                                                    </React.Fragment>{" "}
+                                                    <Fab
+                                                        color="primary"
+                                                        onClick={() =>
+                                                            raidBossUpdateStart(
+                                                                {
+                                                                    raidName: raidName,
+                                                                    bossName: bossName
+                                                                }
+                                                            )
+                                                        }
+                                                        className={classes.fab}
+                                                    >
+                                                        <Refresh fontSize="small" />
+                                                    </Fab>
+                                                </Typography>
+                                            )}
+                                        </React.Fragment>
+                                    ) : (
+                                        <CircularProgress
+                                            color="secondary"
+                                            size={20}
+                                        />
+                                    )}
+                                </div>
+                            )}
+                        </div>
                         <RaidBoss data={!loading ? data[diff] : {}} />
                     </React.Fragment>
                 )}
@@ -83,10 +200,13 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ raidBossFetch, raidInfoChangeDiff }, dispatch);
+    return bindActionCreators(
+        { raidBossFetch, raidInfoChangeDiff, raidBossUpdateStart },
+        dispatch
+    );
 }
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(DisplayRaidBoss);
+)(withStyles(styles)(DisplayRaidBoss));
