@@ -42,7 +42,7 @@ function FastestKills({ data, theme }) {
                             const date = new Date(kill.killtime * 1000);
 
                             return (
-                                <TableRow key={kill.log_id}>
+                                <TableRow key={index}>
                                     <TableCell component="th" scope="row">
                                         <Typography>
                                             <span className="textBold">

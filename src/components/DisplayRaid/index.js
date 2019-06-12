@@ -22,12 +22,26 @@ import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
+import Filters from "./Filters";
 
-import { convertFightTime, getSpecImg } from "./helpers";
+import { convertFightTime, getSpecImg, applyFilter } from "./helpers";
 
 import { raidFetch, raidInfoChangeDiff } from "../../redux/actions";
 
 class RaidBosses extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            filter: {
+                realm: "",
+                faction: "",
+                class: "",
+                spec: ""
+            }
+        };
+        this.changeFilter.bind(this);
+    }
+
     componentDidMount() {
         const raidName = this.props.match.params.raidName;
         if (
@@ -37,21 +51,43 @@ class RaidBosses extends React.PureComponent {
             this.props.raidFetch(raidName);
     }
 
+    changeFilter(filterOptions) {
+        this.setState({
+            ...this.state,
+            filter: {
+                ...this.state.filter,
+                spec:
+                    filterOptions.filterName === "class"
+                        ? ""
+                        : this.state.filter.spec,
+                [filterOptions.filterName]: filterOptions.value
+            }
+        });
+    }
+
     render() {
         const {
             theme: {
                 palette: { classColors, factionColors }
-            }
+            },
+            diff,
+            raidInfoChangeDiff
         } = this.props;
+        const { loading, error, raidName, raidData, data } = this.props.raid;
+        const { filter } = this.state;
+        let actions = {
+            changeFilter: this.changeFilter.bind(this)
+        };
+        let filteredData = null;
 
-        const { loading, data, error, raidName, raidData } = this.props.raid;
-        const { diff, raidInfoChangeDiff } = this.props;
-
+        if (data !== null) {
+            filteredData = applyFilter(data[diff], raidData, filter);
+        }
         return (
             <React.Fragment>
                 {loading && <Loading />}
                 {error && <ErrorMessage message={error} />}
-                {!loading && !error && data && raidData && (
+                {!loading && !error && filteredData && raidData && (
                     <React.Fragment>
                         <Tabs
                             value={diff}
@@ -70,12 +106,12 @@ class RaidBosses extends React.PureComponent {
                                 className="tab"
                             />
                         </Tabs>
+                        <Filters filter={filter} actions={actions} />
                         <div className="overflowScroll">
                             <Table>
                                 <TableHead className="tableHead">
                                     <TableRow>
                                         <TableCell>Boss name</TableCell>
-                                        <TableCell>Kills</TableCell>
                                         <TableCell>Fastest</TableCell>
                                         <TableCell>Dps</TableCell>
                                         <TableCell>Hps</TableCell>
@@ -84,7 +120,7 @@ class RaidBosses extends React.PureComponent {
                                 <TableBody>
                                     {raidData.encounters.map((boss, index) => {
                                         const currentBoss =
-                                            data[diff][boss.encounter_name];
+                                            filteredData[boss.encounter_name];
                                         return (
                                             <TableRow
                                                 key={currentBoss.bossName}
@@ -117,16 +153,6 @@ class RaidBosses extends React.PureComponent {
                                                     component="th"
                                                     scope="row"
                                                 >
-                                                    <span className="textBold">
-                                                        {currentBoss.killCount}{" "}
-                                                    </span>
-                                                    Kills
-                                                </TableCell>
-
-                                                <TableCell
-                                                    component="th"
-                                                    scope="row"
-                                                >
                                                     <Typography color="inherit">
                                                         <LogLink
                                                             logId={
@@ -147,37 +173,43 @@ class RaidBosses extends React.PureComponent {
                                                                     .fight_time
                                                             )}{" "}
                                                         </span>
-                                                        <RouterLink
-                                                            to={`/guild/${
-                                                                currentBoss
-                                                                    .fastestKills
-                                                                    .guilddata
-                                                                    .name
-                                                            }?realm=${
-                                                                currentBoss
-                                                                    .fastestKills
-                                                                    .realm
-                                                            }`}
-                                                        >
-                                                            <Link
-                                                                component="span"
-                                                                style={{
-                                                                    color: currentBoss
-                                                                        .fastestKills
-                                                                        .guilddata
-                                                                        .faction
-                                                                        ? factionColors.horde
-                                                                        : factionColors.alliance
-                                                                }}
-                                                            >
-                                                                {
+                                                        {currentBoss
+                                                            .fastestKills
+                                                            .guilddata.name ? (
+                                                            <RouterLink
+                                                                to={`/guild/${
                                                                     currentBoss
                                                                         .fastestKills
                                                                         .guilddata
                                                                         .name
-                                                                }
-                                                            </Link>
-                                                        </RouterLink>
+                                                                }?realm=${
+                                                                    currentBoss
+                                                                        .fastestKills
+                                                                        .realm
+                                                                }`}
+                                                            >
+                                                                <Link
+                                                                    component="span"
+                                                                    style={{
+                                                                        color: currentBoss
+                                                                            .fastestKills
+                                                                            .guilddata
+                                                                            .faction
+                                                                            ? factionColors.horde
+                                                                            : factionColors.alliance
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        currentBoss
+                                                                            .fastestKills
+                                                                            .guilddata
+                                                                            .name
+                                                                    }
+                                                                </Link>
+                                                            </RouterLink>
+                                                        ) : (
+                                                            "Random"
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
 
@@ -185,168 +217,183 @@ class RaidBosses extends React.PureComponent {
                                                     component="th"
                                                     scope="row"
                                                 >
-                                                    <Typography color="inherit">
-                                                        <span
-                                                            style={{
-                                                                color:
-                                                                    classColors[
-                                                                        specToClass[
+                                                    {currentBoss.bestDps
+                                                        .name && (
+                                                        <Typography color="inherit">
+                                                            <span className="bossInfoCharContainer">
+                                                                <span className="textBold">
+                                                                    {new Intl.NumberFormat().format(
+                                                                        Math.round(
+                                                                            currentBoss
+                                                                                .bestDps
+                                                                                .dps
+                                                                        )
+                                                                    )}{" "}
+                                                                </span>
+                                                                <br />
+
+                                                                <span className="textBold">
+                                                                    {
+                                                                        currentBoss
+                                                                            .bestDps
+                                                                            .ilvl
+                                                                    }{" "}
+                                                                </span>
+                                                                <Tooltip
+                                                                    title={
+                                                                        specs[
                                                                             currentBoss
                                                                                 .bestDps
                                                                                 .spec
-                                                                        ]
-                                                                    ]
-                                                            }}
-                                                            className={
-                                                                "BossInfoCharName"
-                                                            }
-                                                        >
-                                                            <RouterLink
-                                                                to={`/player/${
-                                                                    currentBoss
-                                                                        .bestDps
-                                                                        .name
-                                                                }?realm=${
-                                                                    currentBoss
-                                                                        .bestDps
-                                                                        .realm
-                                                                }`}
-                                                            >
-                                                                <Link
-                                                                    component="span"
-                                                                    color="inherit"
-                                                                >
-                                                                    {
-                                                                        currentBoss
-                                                                            .bestDps
-                                                                            .name
+                                                                        ].label
                                                                     }
-                                                                </Link>
-                                                            </RouterLink>
-                                                        </span>
-                                                        <br />
-                                                        <span className="textBold">
-                                                            {new Intl.NumberFormat().format(
-                                                                Math.round(
-                                                                    currentBoss
-                                                                        .bestDps
-                                                                        .dps
-                                                                )
-                                                            )}{" "}
-                                                        </span>
-                                                        <Tooltip
-                                                            title={
-                                                                specs[
-                                                                    currentBoss
-                                                                        .bestDps
-                                                                        .spec
-                                                                ].label
-                                                            }
-                                                        >
-                                                            <Avatar
-                                                                component="span"
-                                                                src={getSpecImg(
-                                                                    specs[
-                                                                        currentBoss
-                                                                            .bestDps
-                                                                            .spec
-                                                                    ].image
-                                                                )}
-                                                                className="classSpecAvatar"
-                                                            />
-                                                        </Tooltip>
-                                                        <span className="textBold">
-                                                            {
-                                                                currentBoss
-                                                                    .bestDps
-                                                                    .ilvl
-                                                            }{" "}
-                                                        </span>
-                                                    </Typography>
+                                                                >
+                                                                    <Avatar
+                                                                        component="span"
+                                                                        src={getSpecImg(
+                                                                            specs[
+                                                                                currentBoss
+                                                                                    .bestDps
+                                                                                    .spec
+                                                                            ]
+                                                                                .image
+                                                                        )}
+                                                                        className="classSpecAvatar"
+                                                                    />
+                                                                </Tooltip>
+
+                                                                <span
+                                                                    style={{
+                                                                        color:
+                                                                            classColors[
+                                                                                specToClass[
+                                                                                    currentBoss
+                                                                                        .bestDps
+                                                                                        .spec
+                                                                                ]
+                                                                            ]
+                                                                    }}
+                                                                    className={
+                                                                        "bossInfoCharName"
+                                                                    }
+                                                                >
+                                                                    <RouterLink
+                                                                        to={`/player/${
+                                                                            currentBoss
+                                                                                .bestDps
+                                                                                .name
+                                                                        }?realm=${
+                                                                            currentBoss
+                                                                                .bestDps
+                                                                                .realm
+                                                                        }`}
+                                                                    >
+                                                                        <Link
+                                                                            component="span"
+                                                                            color="inherit"
+                                                                        >
+                                                                            {
+                                                                                currentBoss
+                                                                                    .bestDps
+                                                                                    .name
+                                                                            }
+                                                                        </Link>
+                                                                    </RouterLink>
+                                                                </span>
+                                                            </span>
+                                                        </Typography>
+                                                    )}
                                                 </TableCell>
 
                                                 <TableCell
                                                     component="th"
                                                     scope="row"
                                                 >
-                                                    <Typography color="inherit">
-                                                        <span
-                                                            style={{
-                                                                color:
-                                                                    classColors[
-                                                                        specToClass[
-                                                                            currentBoss
-                                                                                .bestHps
-                                                                                .spec
-                                                                        ]
-                                                                    ]
-                                                            }}
-                                                            className={
-                                                                "BossInfoCharName"
-                                                            }
-                                                        >
-                                                            <RouterLink
-                                                                to={`/player/${
-                                                                    currentBoss
-                                                                        .bestHps
-                                                                        .name
-                                                                }?realm=${
-                                                                    currentBoss
-                                                                        .bestHps
-                                                                        .realm
-                                                                }`}
-                                                            >
-                                                                <Link
-                                                                    component="span"
-                                                                    color="inherit"
-                                                                >
+                                                    {currentBoss.bestHps
+                                                        .name && (
+                                                        <Typography color="inherit">
+                                                            <span className="textBold">
+                                                                {new Intl.NumberFormat().format(
+                                                                    Math.round(
+                                                                        currentBoss
+                                                                            .bestHps
+                                                                            .hps
+                                                                    )
+                                                                )}{" "}
+                                                            </span>
+                                                            <br />
+                                                            <span className="bossInfoCharContainer">
+                                                                <span className="textBold">
                                                                     {
                                                                         currentBoss
                                                                             .bestHps
-                                                                            .name
+                                                                            .ilvl
+                                                                    }{" "}
+                                                                </span>
+                                                                <Tooltip
+                                                                    title={
+                                                                        specs[
+                                                                            currentBoss
+                                                                                .bestHps
+                                                                                .spec
+                                                                        ].label
                                                                     }
-                                                                </Link>
-                                                            </RouterLink>
-                                                        </span>
-                                                        <br />
-                                                        <span className="textBold">
-                                                            {new Intl.NumberFormat().format(
-                                                                Math.round(
-                                                                    currentBoss
-                                                                        .bestHps
-                                                                        .hps
-                                                                )
-                                                            )}{" "}
-                                                        </span>
-                                                        <Tooltip
-                                                            title={
-                                                                specs[
-                                                                    currentBoss
-                                                                        .bestHps
-                                                                        .spec
-                                                                ].label
-                                                            }
-                                                        >
-                                                            <Avatar
-                                                                component="span"
-                                                                src={getSpecImg(
-                                                                    specs[
-                                                                        currentBoss
-                                                                            .bestHps
-                                                                            .spec
-                                                                    ].image
-                                                                )}
-                                                                className="classSpecAvatar"
-                                                            />
-                                                        </Tooltip>
-                                                        <span className="textBold">
-                                                            {
-                                                                currentBoss
-                                                                    .bestHps
-                                                                    .ilvl
-                                                            }{" "}
-                                                        </span>
-                                                    </Typography>
+                                                                >
+                                                                    <Avatar
+                                                                        component="span"
+                                                                        src={getSpecImg(
+                                                                            specs[
+                                                                                currentBoss
+                                                                                    .bestHps
+                                                                                    .spec
+                                                                            ]
+                                                                                .image
+                                                                        )}
+                                                                        className="classSpecAvatar"
+                                                                    />
+                                                                </Tooltip>
+
+                                                                <span
+                                                                    style={{
+                                                                        color:
+                                                                            classColors[
+                                                                                specToClass[
+                                                                                    currentBoss
+                                                                                        .bestHps
+                                                                                        .spec
+                                                                                ]
+                                                                            ]
+                                                                    }}
+                                                                    className={
+                                                                        "bossInfoCharName"
+                                                                    }
+                                                                >
+                                                                    <RouterLink
+                                                                        to={`/player/${
+                                                                            currentBoss
+                                                                                .bestHps
+                                                                                .name
+                                                                        }?realm=${
+                                                                            currentBoss
+                                                                                .bestHps
+                                                                                .realm
+                                                                        }`}
+                                                                    >
+                                                                        <Link
+                                                                            component="span"
+                                                                            color="inherit"
+                                                                        >
+                                                                            {
+                                                                                currentBoss
+                                                                                    .bestHps
+                                                                                    .name
+                                                                            }
+                                                                        </Link>
+                                                                    </RouterLink>
+                                                                </span>
+                                                            </span>
+                                                        </Typography>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         );

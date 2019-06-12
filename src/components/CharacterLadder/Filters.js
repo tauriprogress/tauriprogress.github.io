@@ -61,8 +61,8 @@ function Filters({
     }
 
     return (
-        <div className="characterLadderFilters">
-            <FormControl className="characterLadderFiltersFormControl">
+        <div className="globalFilterStyles">
+            <FormControl className="globalFilterStylesFormControl">
                 <StyledTextField
                     id="name"
                     label="Name"
@@ -74,11 +74,11 @@ function Filters({
                         })
                     }
                     margin="normal"
-                    className="characterLadderFiltersSearch"
+                    className="globalFilterStylesSearch"
                 />
             </FormControl>
 
-            <FormControl className="characterLadderFiltersFormControl">
+            <FormControl className="globalFilterStylesFormControl">
                 <InputLabel htmlFor="class">Class</InputLabel>
                 <StyledSelect
                     style={{
@@ -95,7 +95,7 @@ function Filters({
                         name: "class",
                         id: "class"
                     }}
-                    className="characterLadderFiltersSelect"
+                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -113,7 +113,7 @@ function Filters({
                     ))}
                 </StyledSelect>
             </FormControl>
-            <FormControl className="characterLadderFiltersFormControl">
+            <FormControl className="globalFilterStylesFormControl">
                 <InputLabel htmlFor="class">Spec</InputLabel>
                 <StyledSelect
                     style={{
@@ -130,7 +130,7 @@ function Filters({
                         name: "spec",
                         id: "spec"
                     }}
-                    className="characterLadderFiltersSelect"
+                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -148,7 +148,7 @@ function Filters({
                     ))}
                 </StyledSelect>
             </FormControl>
-            <FormControl className="characterLadderFiltersFormControl">
+            <FormControl className="globalFilterStylesFormControl">
                 <InputLabel htmlFor="class">Role</InputLabel>
                 <StyledSelect
                     value={filter.role}
@@ -162,7 +162,7 @@ function Filters({
                         name: "role",
                         id: "role"
                     }}
-                    className="characterLadderFiltersSelect"
+                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -173,7 +173,7 @@ function Filters({
                 </StyledSelect>
             </FormControl>
             {!disableFilter.faction && (
-                <FormControl className="characterLadderFiltersFormControl">
+                <FormControl className="globalFilterStylesFormControl">
                     <InputLabel htmlFor="class">Faction</InputLabel>
                     <StyledSelect
                         value={filter.faction}
@@ -193,7 +193,7 @@ function Filters({
                             name: "faction",
                             id: "faction"
                         }}
-                        className="characterLadderFiltersSelect"
+                        className="globalFilterStylesSelect"
                     >
                         <MenuItem value="">
                             <em>All</em>
@@ -219,7 +219,7 @@ function Filters({
             )}
 
             {!disableFilter.realm && (
-                <FormControl className="characterLadderFiltersFormControl">
+                <FormControl className="globalFilterStylesFormControl">
                     <InputLabel htmlFor="class">Server</InputLabel>
                     <StyledSelect
                         value={filter.realm}
@@ -233,7 +233,7 @@ function Filters({
                             name: "realm",
                             id: "realm"
                         }}
-                        className="characterLadderFiltersSelect"
+                        className="globalFilterStylesSelect"
                     >
                         <MenuItem value="">
                             <em>All</em>

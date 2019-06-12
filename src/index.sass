@@ -8,7 +8,6 @@ $mobile-break: 600px
 @import './components/DisplayRaidBoss/index.sass'
 @import './components/DisplayGuild/index.sass'
 @import './components/DisplayPlayer/index.sass'
-@import './components/CharacterLadder/index.sass'
 @import './components/AdditionalInfo/index.sass'
 @import './components/FightLog/index.sass'
 @import './components/NotFound/index.sass'
@@ -54,8 +53,21 @@ a
         background: none !important
     *
         border: none !important
+.bossInfoCharContainer
+    display: inline-block
+    max-width: 120px
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
 
-
+.globalFilterStyles
+    display: flex
+    justify-content: center
+    flex-wrap: wrap    
+    &FormControl
+        margin: 5px !important
+    &Search
+        margin: 0px !important
 @media(max-width: $mobile-break)
     main
         justify-content: center
