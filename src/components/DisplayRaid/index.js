@@ -153,64 +153,72 @@ class RaidBosses extends React.PureComponent {
                                                     component="th"
                                                     scope="row"
                                                 >
-                                                    <Typography color="inherit">
-                                                        <LogLink
-                                                            logId={
-                                                                currentBoss
-                                                                    .fastestKills
-                                                                    .log_id
-                                                            }
-                                                            realm={
-                                                                currentBoss
-                                                                    .fastestKills
-                                                                    .realm
-                                                            }
-                                                        />{" "}
-                                                        <span className="textBold">
-                                                            {convertFightTime(
-                                                                currentBoss
-                                                                    .fastestKills
-                                                                    .fight_time
-                                                            )}{" "}
-                                                        </span>
-                                                        {currentBoss
-                                                            .fastestKills
-                                                            .guilddata.name ? (
-                                                            <RouterLink
-                                                                to={`/guild/${
+                                                    {currentBoss.fastestKills
+                                                        .guilddata ? (
+                                                        <Typography color="inherit">
+                                                            <LogLink
+                                                                logId={
                                                                     currentBoss
                                                                         .fastestKills
-                                                                        .guilddata
-                                                                        .name
-                                                                }?realm=${
+                                                                        .log_id
+                                                                }
+                                                                realm={
                                                                     currentBoss
                                                                         .fastestKills
                                                                         .realm
-                                                                }`}
-                                                            >
-                                                                <Link
-                                                                    component="span"
-                                                                    style={{
-                                                                        color: currentBoss
-                                                                            .fastestKills
-                                                                            .guilddata
-                                                                            .faction
-                                                                            ? factionColors.horde
-                                                                            : factionColors.alliance
-                                                                    }}
-                                                                >
-                                                                    {
+                                                                }
+                                                            />{" "}
+                                                            <span className="textBold">
+                                                                {convertFightTime(
+                                                                    currentBoss
+                                                                        .fastestKills
+                                                                        .fight_time
+                                                                )}{" "}
+                                                            </span>
+                                                            {currentBoss
+                                                                .fastestKills
+                                                                .guilddata
+                                                                .name ? (
+                                                                <RouterLink
+                                                                    to={`/guild/${
                                                                         currentBoss
                                                                             .fastestKills
                                                                             .guilddata
                                                                             .name
-                                                                    }
-                                                                </Link>
-                                                            </RouterLink>
-                                                        ) : (
-                                                            "Random"
-                                                        )}
-                                                    </Typography>
+                                                                    }?realm=${
+                                                                        currentBoss
+                                                                            .fastestKills
+                                                                            .realm
+                                                                    }`}
+                                                                >
+                                                                    <Link
+                                                                        component="span"
+                                                                        style={{
+                                                                            color: currentBoss
+                                                                                .fastestKills
+                                                                                .guilddata
+                                                                                .faction
+                                                                                ? factionColors.horde
+                                                                                : factionColors.alliance
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            currentBoss
+                                                                                .fastestKills
+                                                                                .guilddata
+                                                                                .name
+                                                                        }
+                                                                    </Link>
+                                                                </RouterLink>
+                                                            ) : (
+                                                                "Random"
+                                                            )}
+                                                        </Typography>
+                                                    ) : (
+                                                        <Typography>
+                                                            No data
+                                                        </Typography>
+                                                    )}
                                                 </TableCell>
 
                                                 <TableCell
@@ -218,7 +226,7 @@ class RaidBosses extends React.PureComponent {
                                                     scope="row"
                                                 >
                                                     {currentBoss.bestDps
-                                                        .name && (
+                                                        .name ? (
                                                         <Typography color="inherit">
                                                             <span className="bossInfoCharContainer">
                                                                 <span className="textBold">
@@ -302,6 +310,10 @@ class RaidBosses extends React.PureComponent {
                                                                 </span>
                                                             </span>
                                                         </Typography>
+                                                    ) : (
+                                                        <Typography>
+                                                            No data
+                                                        </Typography>
                                                     )}
                                                 </TableCell>
 
@@ -310,7 +322,7 @@ class RaidBosses extends React.PureComponent {
                                                     scope="row"
                                                 >
                                                     {currentBoss.bestHps
-                                                        .name && (
+                                                        .name ? (
                                                         <Typography color="inherit">
                                                             <span className="textBold">
                                                                 {new Intl.NumberFormat().format(
@@ -392,6 +404,10 @@ class RaidBosses extends React.PureComponent {
                                                                     </RouterLink>
                                                                 </span>
                                                             </span>
+                                                        </Typography>
+                                                    ) : (
+                                                        <Typography>
+                                                            No data
                                                         </Typography>
                                                     )}
                                                 </TableCell>
