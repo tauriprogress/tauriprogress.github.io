@@ -9,7 +9,7 @@ import SearchPlayer from "./SearchPlayer";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { guildsFetch, navToggle } from "../../redux/actions";
+import { navToggle } from "../../redux/actions";
 
 class SearchBar extends React.PureComponent {
     constructor(props) {
@@ -20,12 +20,10 @@ class SearchBar extends React.PureComponent {
         this.toggleDrawer = this.toggleDrawer.bind(this);
     }
 
-    componentDidMount() {
-        this.props.guildsFetch();
-    }
-
     toggleDrawer(value) {
-        this.props.navToggle(false);
+        if (value === false) {
+            this.props.navToggle(false);
+        }
         this.setState({ ...this.state, drawerOpen: value });
     }
 
@@ -35,6 +33,7 @@ class SearchBar extends React.PureComponent {
             <React.Fragment>
                 <span
                     className="navOption"
+                    id="navSearch"
                     onClick={() => this.toggleDrawer(true)}
                 >
                     Search
@@ -72,7 +71,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ guildsFetch, navToggle }, dispatch);
+    return bindActionCreators({ navToggle }, dispatch);
 }
 
 export default connect(

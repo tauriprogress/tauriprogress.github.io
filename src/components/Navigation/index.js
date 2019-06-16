@@ -1,8 +1,6 @@
-import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link as RouterLink } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -12,12 +10,11 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Brightness from "@material-ui/icons/Brightness4";
 import Fab from "@material-ui/core/Fab";
-import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Drawer from "@material-ui/core/Drawer";
 
-import SearchBar from "../SearchBar";
+import NavLinks from "./NavLinks";
 import AdditionalInfo from "../AdditionalInfo";
-import { navToggle, themeToggle, raidSelectBoss } from "../../redux/actions";
+import { navToggle, themeToggle, guildsFetch } from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -27,97 +24,65 @@ function styles(theme) {
     };
 }
 
-function Navigation({ nav, navToggle, themeToggle, classes, raidSelectBoss }) {
-    const { showNav } = nav;
-    return (
-        <AppBar position="static">
-            <Toolbar className="navToolBar">
-                <IconButton
-                    color="inherit"
-                    aria-label="Menu"
-                    className="burger"
-                    onClick={() => navToggle()}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <nav
-                    className={
-                        showNav
-                            ? `${classes.nav} showNav`
-                            : `${classes.nav} hide`
-                    }
-                >
-                    <ul>
-                        <li>
-                            <RouterLink
-                                to="/"
-                                onClick={() => linkClick(showNav, navToggle)}
-                                className="navOption"
-                            >
-                                <Typography color="inherit">
-                                    <Link component="span" color="inherit">
-                                        Home
-                                    </Link>
-                                </Typography>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <RouterLink
-                                to={`/raid/${raidName}`}
-                                onClick={() => {
-                                    raidSelectBoss(0);
-                                    linkClick(showNav, navToggle);
-                                }}
-                                className="navOption"
-                            >
-                                <Typography color="inherit">
-                                    <Link component="span" color="inherit">
-                                        {raidName}
-                                    </Link>
-                                </Typography>
-                            </RouterLink>
-                        </li>
-                        <li>
-                            <Typography color="inherit">
-                                <Link component="span" color="inherit">
-                                    <SearchBar />
-                                </Link>
-                            </Typography>
-                        </li>
-                    </ul>
-                </nav>
-                <div className="navToolBarIcons">
-                    <Tooltip title="Toggle theme">
-                        <Fab color="primary" size="small" onClick={themeToggle}>
-                            <Brightness fontSize="large" />
-                        </Fab>
-                    </Tooltip>
+class Navigation extends React.Component {
+    componentDidMount() {
+        this.props.guildsFetch();
+    }
 
-                    <AdditionalInfo />
-                </div>
-                {showNav && (
-                    <div className="cover" onClick={() => navToggle()} />
-                )}
-            </Toolbar>
-        </AppBar>
-    );
-}
-
-function linkClick(showNav, navToggle) {
-    if (showNav) {
-        navToggle(false);
+    render() {
+        const { showNav, themeToggle, navToggle } = this.props;
+        return (
+            <AppBar position="static">
+                <Toolbar className="navToolBar">
+                    <IconButton
+                        color="inherit"
+                        aria-label="Menu"
+                        className="burger"
+                        onClick={() => navToggle(true)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <div className="desktopNav">
+                        <NavLinks />
+                    </div>
+                    <Drawer
+                        anchor="top"
+                        open={showNav}
+                        onClose={() => navToggle(false)}
+                    >
+                        <NavLinks />
+                    </Drawer>
+                    <div className="navToolBarIcons">
+                        <div className="navToolBarIconContainer">
+                            <Tooltip title="Toggle theme">
+                                <Fab
+                                    color="primary"
+                                    size="small"
+                                    onClick={themeToggle}
+                                >
+                                    <Brightness fontSize="large" />
+                                </Fab>
+                            </Tooltip>
+                        </div>
+                        <div className="navToolBarIconContainer">
+                            <AdditionalInfo />
+                        </div>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        nav: state.nav
+        showNav: state.nav.showNav
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { navToggle, themeToggle, raidSelectBoss },
+        { themeToggle, navToggle, guildsFetch },
         dispatch
     );
 }
