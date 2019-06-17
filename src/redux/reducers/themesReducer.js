@@ -63,6 +63,19 @@ const overrides = {
                 letterSpacing: "0.5px"
             }
         }
+    },
+    MuiTableCell: {
+        root: {
+            maxWidth: "200px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            "& *": {
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+            }
+        }
     }
 };
 
