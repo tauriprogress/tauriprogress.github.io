@@ -37,7 +37,7 @@ class RaidBossList extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            open: true
+            open: window.innerWidth > 600 ? true : false
         };
         this.handleClick = this.handleClick.bind(this);
     }
