@@ -30,14 +30,10 @@ function styles(theme) {
             backgroundColor: theme.palette.backgroundAccent
         },
         bossDefeated: {
-            "& *": {
-                color: theme.palette.progStateColors.defeated
-            }
+            borderLeft: `8px solid ${theme.palette.progStateColors.defeated}`
         },
         bossAlive: {
-            "& *": {
-                color: theme.palette.progStateColors.alive
-            }
+            borderLeft: `8px solid ${theme.palette.progStateColors.alive}`
         }
     };
 }
