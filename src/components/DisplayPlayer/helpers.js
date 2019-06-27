@@ -5,7 +5,7 @@ export function talentTreeToImage(fullSpecName) {
     const regexp = new RegExp(fullSpecName, "ig");
     for (let specKey in specs) {
         if (regexp.exec(specs[specKey].label)) {
-            const imageName = `${specs[specKey].image}.png`;
+            const imageName = `${specs[specKey].image}.jpg`;
             return require(`../../assets/specs/${imageName}`);
         }
     }
@@ -27,4 +27,14 @@ export function getBossesDefeated(progression) {
     }
 
     return Object.keys(bossesDefeated).length;
+}
+
+export function displayHealing(bosses) {
+    for (let bossName in bosses) {
+        if (bosses[bossName].hps.hps) {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -21,7 +21,7 @@ export function convertFightTime(time) {
 }
 
 export function getSpecImg(imageName) {
-    return require(`../../assets/specs/${imageName}.png`);
+    return require(`../../assets/specs/${imageName}.jpg`);
 }
 
 export function applyFilter(data, raidData, filter) {

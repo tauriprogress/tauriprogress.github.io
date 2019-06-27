@@ -23,6 +23,20 @@ const lightAccent = "#faf5ef";
 const dark = "#25272f";
 const darkAccent = "#2c2f39";
 
+const defaultClassColors = {
+    1: "#c79c6e",
+    2: "#f58cba",
+    3: "#abd473",
+    4: "#fff569",
+    5: grey[700],
+    6: "#c41f3b",
+    7: "#0070de",
+    8: "#69ccf0",
+    9: "#9482c9",
+    10: "#00ff96",
+    11: "#ff7d0a"
+};
+
 const overrides = {
     MuiTab: {
         root: {
@@ -95,6 +109,7 @@ const lightPalette = {
         default: light
     },
     backgroundAccent: lightAccent,
+    defaultClassColors,
     classColors: {
         1: brown[700],
         2: pink[700],
@@ -135,6 +150,7 @@ const darkPalette = {
         default: dark
     },
     backgroundAccent: darkAccent,
+    defaultClassColors,
     classColors: {
         1: brown[300],
         2: pink[300],

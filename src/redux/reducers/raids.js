@@ -4,7 +4,7 @@ let defaultState = getDefaultState();
 
 function getDefaultState() {
     let bosses = {};
-    let newState = [];
+    let newState = {};
     function onlyUnique(value, index, self) {
         let filter = false;
         if (!bosses[value.encounter_name]) {
@@ -18,13 +18,13 @@ function getDefaultState() {
 
     for (let raid of raids) {
         let raidInfo = require(`tauriprogress-constants/${raid.raidName}`);
-        newState.push({
+        newState[raid.raidName] = {
             ...{
                 ...raidInfo,
                 encounters: raidInfo.encounters.filter(onlyUnique)
             },
             picture: require(`../../assets/raids/${raidInfo.picture}`)
-        });
+        };
     }
 
     return newState;

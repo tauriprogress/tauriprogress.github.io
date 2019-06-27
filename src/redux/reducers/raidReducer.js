@@ -10,10 +10,7 @@ const defaultState = {
 function raidReducer(state = defaultState, action, raids) {
     switch (action.type) {
         case "RAID_CHANGE_RAIDDATA":
-            let raidData = raids.reduce((acc, curr) => {
-                if (curr.name === action.payload) acc = curr;
-                return acc;
-            }, null);
+            let raidData = raids[action.payload] || null;
 
             return {
                 ...state,

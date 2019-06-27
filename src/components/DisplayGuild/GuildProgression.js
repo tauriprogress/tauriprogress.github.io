@@ -1,4 +1,5 @@
 import { difficultyLabels } from "tauriprogress-constants";
+import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -74,7 +75,7 @@ class GuildProgression extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        raid: state.raidInfo.raids[0],
+        raid: state.raidInfo.raids[raidName],
         selectedBossName: state.guild.selectedBossName
     };
 }

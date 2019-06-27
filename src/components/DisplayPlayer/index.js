@@ -1,3 +1,4 @@
+import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 
 import { connect } from "react-redux";
@@ -48,7 +49,7 @@ class DisplayPlayer extends React.PureComponent {
 function mapStateToProps(state) {
     return {
         player: state.player,
-        raidBosses: state.raidInfo.raids[0].encounters
+        raidBosses: state.raidInfo.raids[raidName].encounters
     };
 }
 

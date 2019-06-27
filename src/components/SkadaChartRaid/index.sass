@@ -1,0 +1,76 @@
+.skadaChart
+    min-width: 280px
+    max-width: 400px
+
+    &Boss
+        font-size: 13px !important
+        display: flex !important
+        height: 30px
+        width: 100%
+
+    &SpecIcon
+        height: 30px !important
+        width: 30px !important
+        background-color: grey
+        path:nth-child(2)
+            fill: lightgrey
+
+    &Rank
+        overflow: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
+        flex-shrink: 1
+
+
+    &BossName
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        padding-right: 5px
+
+    &Values
+        display: flex
+        justify-content: space-between
+        position: relative
+        height: 30px 
+        margin-right: 5px
+        padding-left: 2px
+        z-index: -2
+        flex: 1
+        overflow: hidden
+        > span
+            display: block
+
+        &:before
+            position: absolute
+            top: 0
+            left: 0
+            display: block
+            height: 100%
+            width: 100%
+            z-index: -1
+            content: ""
+            background: linear-gradient(0deg, rgba(70,70,70, 0.5) 0%, rgba(255,255,255, 0.1) 98%, rgba(255,255,255, 1) 98%),
+        *
+            font-weight: bold
+            color: white
+            z-index: 1
+            line-height: 30px
+            text-shadow: 0 0 1px #000, 0 0 1px #000, 0 0 1px #000, 0 0 1px #000
+
+    &PerformanceValue
+        white-space: nowrap
+        .direct
+            font-weight: bold
+            color: #51fa49
+
+    &LogContainer
+        display: flex
+        height: 100%
+        align-items: center
+        width: 45px
+
+
+
+            
+    
