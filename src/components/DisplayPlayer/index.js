@@ -7,8 +7,9 @@ import { bindActionCreators } from "redux";
 import PlayerTitle from "./PlayerTitle";
 import PlayerStats from "./PlayerStats";
 import PlayerProgression from "./PlayerProgression";
-import ErrorMessage from "../ErrorMessage";
+import PlayerLatestKills from "./PlayerLatestKills";
 import Loading from "../Loading";
+import ErrorMessage from "../ErrorMessage";
 
 import { playerFetch } from "../../redux/actions";
 
@@ -23,7 +24,6 @@ class DisplayPlayer extends React.PureComponent {
 
     render() {
         const { data, loading, error } = this.props.player;
-
         return (
             <section className="displayPlayer">
                 {loading && <Loading />}
@@ -38,6 +38,7 @@ class DisplayPlayer extends React.PureComponent {
                                 data={data.progression}
                                 raidBosses={this.props.raidBosses}
                             />
+                            <PlayerLatestKills />
                         </div>
                     </React.Fragment>
                 )}

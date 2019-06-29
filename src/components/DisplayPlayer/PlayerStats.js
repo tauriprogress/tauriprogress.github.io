@@ -48,11 +48,13 @@ function PlayerStats({ data, classes }) {
     ];
 
     return (
-        <Card className={`${classes.container} displayPlayerStats`}>
-            <MetaDataList title="General" values={general} />
-            <MetaDataList title="Primary Stats" values={primaryStats} />
-            <MetaDataList title="Secondary Stats" values={secondaryStats} />
-        </Card>
+        <div>
+            <Card className={`${classes.container} displayPlayerStats`}>
+                <MetaDataList title="General" values={general} />
+                <MetaDataList title="Primary Stats" values={primaryStats} />
+                <MetaDataList title="Secondary Stats" values={secondaryStats} />
+            </Card>
+        </div>
     );
 }
 

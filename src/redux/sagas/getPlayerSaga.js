@@ -49,6 +49,6 @@ function* fetchPlayer({ payload }) {
     }
 }
 
-export default function* getPlayerSata() {
+export default function* getPlayerSaga() {
     yield takeEvery("PLAYER_FETCH", fetchPlayer);
 }

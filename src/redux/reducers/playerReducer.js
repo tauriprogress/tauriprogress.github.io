@@ -3,7 +3,12 @@ const defaultState = {
     error: null,
     loading: false,
     playerName: null,
-    realm: null
+    realm: null,
+    latestKills: {
+        loading: false,
+        data: null,
+        error: null
+    }
 };
 
 function playerReducer(state = defaultState, action) {
@@ -30,6 +35,35 @@ function playerReducer(state = defaultState, action) {
                 playerName: action.payload.name,
                 realm: action.payload.realm
             };
+
+        case "PLAYER_LATESTKILLS_LOADING":
+            return {
+                ...state,
+                latestKills: {
+                    ...state.latestKills,
+                    loading: action.payload
+                }
+            };
+        case "PLAYER_LATESTKILLS_SET_ERROR":
+            return {
+                ...state,
+                latestKills: {
+                    ...state.latestKills,
+                    loading: false,
+                    error: action.payload
+                }
+            };
+        case "PLAYER_LATESTKILLS_FILL":
+            return {
+                ...state,
+                latestKills: {
+                    ...state.latestKills,
+                    loading: false,
+                    error: null,
+                    data: action.payload
+                }
+            };
+
         default:
             return state;
     }

@@ -207,6 +207,27 @@ export function playerFill(payload) {
     };
 }
 
+export function playerLatestKillsLoading(payload) {
+    return {
+        type: "PLAYER_LATESTKILLS_LOADING",
+        payload
+    };
+}
+
+export function playerLatestKillsSetError(payload) {
+    return {
+        type: "PLAYER_LATESTKILLS_SET_ERROR",
+        payload
+    };
+}
+
+export function playerLatestKillsFill(payload) {
+    return {
+        type: "PLAYER_LATESTKILLS_FILL",
+        payload
+    };
+}
+
 export function charLadderFilterSet(payload) {
     return {
         type: "CHAR_LADDER_FILTER_SET",

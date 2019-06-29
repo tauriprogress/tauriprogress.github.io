@@ -8,34 +8,64 @@
         text-align: center
     &ContentContainer
         display: flex
+        flex-wrap: wrap
+
     &Stats
         min-width: 260px
         width: 260px
-        margin: 20px 
+        margin: 20px 10px
+        
     &Tabs
         width: 180px
     &Progression
-        min-width: 260px
-        max-width: 100%
+        min-width: 280px
         margin-top: 20px
+        max-width: fit-content
+        flex-shrink: 2
+        flex-basis: 280px
+        flex-grow: 2
+
         &Rank
             width: 60px
         &ChartContainer
             display: flex
             flex-wrap: wrap
-            max-width: 100%
+            min-width: 280px
             > div
                 max-width: 100%
                 padding-bottom: 5px
                 > h5
                     padding: 5px 0 
-            
+    .playerLatestKills
+        min-width: 260px
+        width: 280px
+        margin: 20px auto 20px
+        
+        ul
+            padding: 0
+        li
+            padding: 5px 12px
+            span
+                font-size: 14px
+        &LogContainer
+            float: right
+        &Kill
+            display: flex
+            justify-content: space-between
+            *
+                display: block
+                overflow: hidden
+                white-space: nowrap
+                text-overflow: ellipsis
+
+
+        
 @media(max-width: $mobile-break)
     .displayPlayerContentContainer
-        flex-wrap: wrap
         justify-content: center
 
     .displayPlayerProgression
         max-width: 320px
         &ChartContainer
             justify-content: center
+            
