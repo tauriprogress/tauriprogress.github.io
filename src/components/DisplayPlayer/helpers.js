@@ -18,8 +18,8 @@ export function getBossesDefeated(progression) {
     for (let diff in difficulties) {
         for (let bossName in progression[raidName][diff]) {
             if (
-                progression[raidName][diff][bossName].dps.dps ||
-                progression[raidName][diff][bossName].hps.hps
+                progression[raidName][diff][bossName]["noSpec"].dps.dps ||
+                progression[raidName][diff][bossName]["noSpec"].hps.hps
             ) {
                 if (!bossesDefeated[bossName]) bossesDefeated[bossName] = true;
             }
@@ -31,7 +31,7 @@ export function getBossesDefeated(progression) {
 
 export function displayHealing(bosses) {
     for (let bossName in bosses) {
-        if (bosses[bossName].hps.hps) {
+        if (bosses[bossName]["noSpec"].hps.hps) {
             return true;
         }
     }

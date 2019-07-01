@@ -3,7 +3,6 @@ import React from "react";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { Typography } from "@material-ui/core";
 
 import SkadaChartRaid from "../SkadaChartRaid";
 
@@ -13,23 +12,24 @@ class PlayerProgression extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            value: 5
+            difficulty: 5
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.changeDifficulty = this.changeDifficulty.bind(this);
     }
 
-    handleChange(e, value) {
-        this.setState({ ...this.state, value: value });
+    changeDifficulty(e, difficulty) {
+        this.setState({ ...this.state, difficulty: difficulty });
     }
 
     render() {
-        const { data } = this.props;
+        const { data, characterClass } = this.props;
+        const { difficulty } = this.state;
 
         return (
             <div className="displayPlayerProgression">
                 <Tabs
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    value={difficulty}
+                    onChange={this.changeDifficulty}
                     indicatorColor="secondary"
                     className="displayPlayerTabs"
                 >
@@ -37,23 +37,19 @@ class PlayerProgression extends React.PureComponent {
                     <Tab label="25 HC" className="tab" value={6} />
                 </Tabs>
                 <div className="displayPlayerProgressionChartContainer">
-                    <div>
-                        <Typography variant="h5">Damage</Typography>
+                    <SkadaChartRaid
+                        raidName={raidName}
+                        data={data[raidName][difficulty]}
+                        characterClass={characterClass}
+                        variant="dps"
+                    />
+                    {displayHealing(data[raidName][difficulty]) && (
                         <SkadaChartRaid
                             raidName={raidName}
-                            data={data[raidName][this.state.value]}
-                            variant="dps"
+                            data={data[raidName][difficulty]}
+                            characterClass={characterClass}
+                            variant="hps"
                         />
-                    </div>
-                    {displayHealing(data[raidName][this.state.value]) && (
-                        <div>
-                            <Typography variant="h5">Heal</Typography>
-                            <SkadaChartRaid
-                                raidName={raidName}
-                                data={data[raidName][this.state.value]}
-                                variant="hps"
-                            />
-                        </div>
                     )}
                 </div>
             </div>

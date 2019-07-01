@@ -45,8 +45,8 @@ function PlayerLatestKills({ classes, loading, error, data, realm }) {
                     {error && <ErrorMessage message={error} />}
                     {data &&
                         data.logs.map(log => (
-                            <React.Fragment>
-                                <ListItem key={log.log_id}>
+                            <React.Fragment key={log.log_id}>
+                                <ListItem>
                                     <ListItemText>
                                         <span className="playerLatestKillsKill">
                                             <span className="playerLatestKillsBossName">
