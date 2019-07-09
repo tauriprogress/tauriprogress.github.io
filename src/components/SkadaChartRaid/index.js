@@ -7,6 +7,7 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import IconMissing from "@material-ui/icons/NotInterested";
+import IconTotal from "@material-ui/icons/BarChart";
 import SelectAll from "@material-ui/icons/SelectAll";
 
 import LogLink from "../LogLink";
@@ -73,7 +74,7 @@ class SkadaChartRaid extends React.Component {
                             />
                         </Tooltip>
                         {iconSpecs.map(specInfo => (
-                            <Tooltip title={specInfo.label}>
+                            <Tooltip title={specInfo.label} key={specInfo.id}>
                                 <img
                                     src={getSpecImg(specInfo.image)}
                                     className={`skadaChartTitleIcon ${spec ===
@@ -86,6 +87,61 @@ class SkadaChartRaid extends React.Component {
                     </span>
                 </Typography>
                 <List disablePadding>
+                    <ListItem component="li" className={classes.listItem}>
+                        <Typography className="skadaChartBoss">
+                            <Tooltip
+                                title={`Total ${variant} divided by the number of bosses in the raid`}
+                            >
+                                <IconTotal className="skadaChartSpecIcon" />
+                            </Tooltip>
+                            {data.total[spec] ? (
+                                <span
+                                    className="skadaChartValues skadaChartTotal"
+                                    style={{
+                                        background: `linear-gradient(to right, #48698c ${data
+                                            .total[spec][variant].topPercent ||
+                                            0}%, #222 ${data.total[spec][
+                                            variant
+                                        ].topPercent || 0}%)`
+                                    }}
+                                >
+                                    <span className="skadaChartRank">
+                                        <span className="skadaChartBossName">
+                                            Total
+                                        </span>
+                                    </span>
+                                    <span className="skadaChartPerformanceValue">
+                                        <React.Fragment>
+                                            <span className="direct">
+                                                {`${shortNumber(
+                                                    data.total[spec][variant][
+                                                        variant
+                                                    ]
+                                                )}`}
+                                            </span>
+                                            {` (${data.total[spec][
+                                                variant
+                                            ].topPercent.toFixed(1)}%)`}
+                                        </React.Fragment>
+                                    </span>
+                                </span>
+                            ) : (
+                                <span
+                                    className="skadaChartValues skadaChartTotal"
+                                    style={{
+                                        background: "#222"
+                                    }}
+                                >
+                                    <span className="skadaChartRank">
+                                        <span className="skadaChartBossName">
+                                            Total
+                                        </span>
+                                    </span>
+                                </span>
+                            )}
+                        </Typography>
+                    </ListItem>
+
                     {raidBosses.map(boss => {
                         const currentBoss = data[boss.encounter_name][spec];
                         const playerData = currentBoss[variant];
@@ -111,24 +167,24 @@ class SkadaChartRaid extends React.Component {
                                         </Tooltip>
                                     ) : (
                                         <Tooltip title="No data">
-                                            <IconMissing className="skadaChartSpecIcon" />
+                                            <IconMissing className="skadaChartSpecIcon SkadaChartIconMissing" />
                                         </Tooltip>
                                     )}
 
                                     <span
                                         className="skadaChartValues"
                                         style={{
-                                            background:
-                                                playerData[variant] &&
-                                                `linear-gradient(to right, ${
-                                                    defaultClassColors[
-                                                        playerData.class
-                                                    ]
-                                                } ${
-                                                    playerData.topPercent
-                                                }%, #222 ${
-                                                    playerData.topPercent
-                                                }%)`
+                                            background: playerData[variant]
+                                                ? `linear-gradient(to right, ${
+                                                      defaultClassColors[
+                                                          playerData.class
+                                                      ]
+                                                  } ${
+                                                      playerData.topPercent
+                                                  }%, #222 ${
+                                                      playerData.topPercent
+                                                  }%)`
+                                                : "#222"
                                         }}
                                     >
                                         <span className="skadaChartRank">
