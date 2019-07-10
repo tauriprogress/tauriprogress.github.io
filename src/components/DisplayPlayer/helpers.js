@@ -17,6 +17,7 @@ export function getBossesDefeated(progression) {
     let bossesDefeated = {};
     for (let diff in difficulties) {
         for (let bossName in progression[raidName][diff]) {
+            if (bossName === "total") continue;
             if (
                 progression[raidName][diff][bossName]["noSpec"].dps.dps ||
                 progression[raidName][diff][bossName]["noSpec"].hps.hps
