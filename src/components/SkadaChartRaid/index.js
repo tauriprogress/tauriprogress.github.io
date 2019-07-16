@@ -12,8 +12,7 @@ import SelectAll from "@material-ui/icons/SelectAll";
 
 import LogLink from "../LogLink";
 
-import { getSpecImg } from "../DisplayRaid/helpers";
-import { shortNumber } from "./helpers";
+import { getSpecImg, shortNumber } from "../../helpers";
 import { Typography, Tooltip } from "@material-ui/core";
 
 function styles() {

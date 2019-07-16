@@ -20,7 +20,7 @@ import Loading from "../Loading";
 
 import { lastUpdatedFetch, updateDbFetch } from "../../redux/actions";
 
-import { convertMinutes } from "./helpers";
+import { convertMinutes } from "../../helpers";
 import { Typography } from "@material-ui/core";
 
 class AdditionalInfo extends React.PureComponent {

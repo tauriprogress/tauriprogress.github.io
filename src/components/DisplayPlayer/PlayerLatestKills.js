@@ -14,7 +14,7 @@ import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 import LogLink from "../LogLink";
 
-import { convertFightTime } from "../DisplayRaid/helpers";
+import { convertFightTime } from "../../helpers";
 
 function styles(theme) {
     return {

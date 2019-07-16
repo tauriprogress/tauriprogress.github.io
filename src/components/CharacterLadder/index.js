@@ -23,7 +23,7 @@ import DateTooltip from "../DateTooltip";
 
 import Filters from "./Filters";
 
-import { getSpecImg } from "../DisplayRaid/helpers";
+import { getSpecImg } from "../../helpers";
 import { filterChars } from "./helpers";
 
 import { charLadderPaginationPageSet } from "../../redux/actions";

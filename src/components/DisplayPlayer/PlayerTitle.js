@@ -11,7 +11,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
 
-import { talentTreeToImage } from "./helpers";
+import { talentTreeToImage } from "../../helpers";
 
 function PlayerTitle({ data, theme }) {
     const {

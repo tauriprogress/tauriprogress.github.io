@@ -10,7 +10,7 @@ import Link from "@material-ui/core/Link";
 
 import MetaDataList from "../MetaDataList";
 
-import { convertFightTime } from "../DisplayRaid/helpers";
+import { convertFightTime } from "../../helpers";
 
 function LogTitle({ data, theme }) {
     const {

@@ -1,4 +1,5 @@
 import { realms, characterClasses, classToSpec } from "tauriprogress-constants";
+import { getNestedObjectValue } from "../../helpers";
 
 const factionIds = [0, 1];
 let realmNames = [];
@@ -8,20 +9,6 @@ for (let realmId in realms) {
 let classIds = [];
 for (let classId in characterClasses) {
     classIds.push(classId);
-}
-
-export function convertFightTime(time) {
-    let mins = Math.floor(time / 1000 / 60);
-    let remainingSecs = Math.floor(time / 1000) - mins * 60;
-
-    if (remainingSecs < 10) {
-        remainingSecs = "0" + remainingSecs;
-    }
-    return `${mins}:${remainingSecs}`;
-}
-
-export function getSpecImg(imageName) {
-    return require(`../../assets/specs/${imageName}.jpg`);
 }
 
 export function applyFilter(data, raidData, filter) {
@@ -90,16 +77,4 @@ export function applyFilter(data, raidData, filter) {
         newData[bossName].bestHps = bestHps;
     }
     return newData;
-}
-
-function getNestedObjectValue(obj, keys) {
-    let currentKey = keys[0];
-
-    if (keys.length === 1) {
-        return obj.hasOwnProperty(currentKey) ? obj[currentKey] : false;
-    } else {
-        return obj.hasOwnProperty(currentKey)
-            ? getNestedObjectValue(obj[currentKey], keys.slice(1, keys.length))
-            : false;
-    }
 }

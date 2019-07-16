@@ -14,7 +14,7 @@ import { Typography } from "@material-ui/core";
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 
-import { convertFightTime } from "../DisplayRaid/helpers";
+import { convertFightTime } from "../../helpers";
 
 function FastestKills({ data, theme }) {
     const {

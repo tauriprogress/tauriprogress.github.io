@@ -23,7 +23,7 @@ import {
     raidBossUpdateStart
 } from "../../redux/actions";
 
-import { convertTime } from "./helpers";
+import { lastUpdatedTime } from "./helpers";
 
 function styles(theme) {
     return {
@@ -153,7 +153,7 @@ class DisplayRaidBoss extends React.PureComponent {
                                             {!update.error && !update.wait && (
                                                 <Typography variant="body2">
                                                     <React.Fragment>
-                                                        {`${convertTime(
+                                                        {`${lastUpdatedTime(
                                                             data[diff]
                                                                 .lastUpdated
                                                         )} ago`}

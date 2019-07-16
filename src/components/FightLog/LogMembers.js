@@ -17,7 +17,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Link from "@material-ui/core/Link";
 import { Typography } from "@material-ui/core";
 
-import { getSpecImg } from "../DisplayRaid/helpers";
+import { getSpecImg } from "../../helpers";
 import { sortMembers } from "./helpers";
 
 import { fightLogMembersSort } from "../../redux/actions";

@@ -24,7 +24,9 @@ import { Typography } from "@material-ui/core";
 import LogLink from "../LogLink";
 import Filters from "./Filters";
 
-import { convertFightTime, getSpecImg, applyFilter } from "./helpers";
+import { applyFilter } from "./helpers";
+
+import { convertFightTime, getSpecImg } from "../../helpers";
 
 import { raidFetch, raidInfoChangeDiff } from "../../redux/actions";
 

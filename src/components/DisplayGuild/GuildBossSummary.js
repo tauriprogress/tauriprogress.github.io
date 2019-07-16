@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 import DateTooltip from "../DateTooltip";
 
-import { convertFightTime } from "../DisplayRaid/helpers";
+import { convertFightTime } from "../../helpers";
 
 function GuildBossSummary({ bossName, data }) {
     let date;
