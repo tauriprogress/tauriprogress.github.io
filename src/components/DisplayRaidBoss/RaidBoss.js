@@ -7,6 +7,7 @@ import Tab from "@material-ui/core/Tab";
 
 import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
+import RaidBossStats from "./RaidBossStats";
 import CharacterLadder from "../CharacterLadder";
 
 import { raidBossSelectTab } from "../../redux/actions";
@@ -18,13 +19,15 @@ function RaidBoss({ data, selectedTab, raidBossSelectTab }) {
                 value={selectedTab}
                 onChange={(e, value) => raidBossSelectTab(value)}
                 indicatorColor="secondary"
+                variant="scrollable"
+                scrollButtons="auto"
             >
                 <Tab label="Dps" className="tab" />
                 <Tab label="Hps" className="tab" />
                 <Tab label="Fastest" className="tab" />
                 <Tab label="Latest" className="tab" />
+                <Tab label="Stats" className="tab" />
             </Tabs>
-
             {getChild(selectedTab, data)}
         </React.Fragment>
     );
@@ -44,6 +47,8 @@ function getChild(value, data) {
             return <FastestKills data={data.fastestKills} />;
         case 3:
             return <LatestKills data={data.latestKills} />;
+        case 4:
+            return <RaidBossStats data={data} />;
         default:
             return 0;
     }

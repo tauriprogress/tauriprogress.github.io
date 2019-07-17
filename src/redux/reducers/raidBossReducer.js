@@ -1,3 +1,5 @@
+import { classToSpec } from "tauriprogress-constants";
+
 const defaultState = {
     data: null,
     error: null,
@@ -5,6 +7,7 @@ const defaultState = {
     raidName: null,
     bossName: null,
     selectedTab: 0,
+    stats: null,
     update: {
         loading: false,
         error: null,
@@ -28,33 +31,53 @@ function raidBossReducer(state = defaultState, action) {
                 error: null
             };
         case "RAID_BOSS_FILL":
+            // CALC STATS HERE
             let data = action.payload;
-            let dps = {};
-            for (let diff in data) {
-                dps[diff] = [];
-                for (let charKey in data[diff].dps) {
-                    if (typeof data[diff].dps[charKey].dps !== "number")
-                        continue;
-                    data[diff].dps[charKey].dps = Math.round(
-                        data[diff].dps[charKey].dps
-                    );
-                    dps[diff].push(data[diff].dps[charKey]);
+            let playerData = {};
+            let distribution = {
+                total: 0,
+                classes: {}
+            };
+            for (let charClass in classToSpec) {
+                distribution.classes[charClass] = {
+                    total: 0,
+                    specs: {}
+                };
+
+                for (let spec of classToSpec[charClass]) {
+                    distribution.classes[charClass].specs[spec] = 0;
                 }
-                data[diff].dps = dps[diff];
-                data[diff].dps.sort((a, b) => b.dps - a.dps);
             }
 
-            let hps = {};
-            for (let diff in data) {
-                hps[diff] = [];
-                for (let charKey in data[diff].hps) {
-                    data[diff].hps[charKey].hps = Math.round(
-                        data[diff].hps[charKey].hps
-                    );
-                    hps[diff].push(data[diff].hps[charKey]);
+            for (let variant of ["dps", "hps"]) {
+                playerData[variant] = {};
+
+                for (let diff in data) {
+                    playerData[variant][diff] = [];
+                    for (let charKey in data[diff][variant]) {
+                        if (
+                            typeof data[diff][variant][charKey][variant] !==
+                            "number"
+                        )
+                            continue;
+                        data[diff][variant][charKey][variant] = Math.round(
+                            data[diff][variant][charKey][variant]
+                        );
+                        playerData[variant][diff].push(
+                            data[diff][variant][charKey]
+                        );
+
+                        distribution.total += 1;
+                        distribution.classes[
+                            data[diff][variant][charKey].class
+                        ].total += 1;
+                        distribution.classes[
+                            data[diff][variant][charKey].class
+                        ].specs[data[diff][variant][charKey].spec] += 1;
+                    }
+                    data[diff][variant] = playerData[variant][diff];
+                    data[diff][variant].sort((a, b) => b[variant] - a[variant]);
                 }
-                data[diff].hps = hps[diff];
-                data[diff].hps.sort((a, b) => b.hps - a.hps);
             }
 
             return {
@@ -62,6 +85,7 @@ function raidBossReducer(state = defaultState, action) {
                 data: action.payload,
                 loading: false,
                 error: null,
+                stats: distribution,
                 update: {
                     loading: false,
                     error: null,

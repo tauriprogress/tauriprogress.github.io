@@ -12,6 +12,20 @@ export function getNestedObjectValue(obj, keys) {
     }
 }
 
+export function addNestedObjectValue(obj, keys, value) {
+    let currentKey = keys[0];
+    if (currentKey !== undefined) {
+        obj[currentKey] = addNestedObjectValue(
+            obj.hasOwnProperty(currentKey) ? obj[currentKey] : {},
+            keys.slice(1, keys.length),
+            value
+        );
+        return obj;
+    } else {
+        return value !== undefined ? value : {};
+    }
+}
+
 export function convertMinutes(minutes) {
     if (minutes < 60) return `${minutes} minutes`;
     return `${Math.round(minutes / 60)} hours`;
