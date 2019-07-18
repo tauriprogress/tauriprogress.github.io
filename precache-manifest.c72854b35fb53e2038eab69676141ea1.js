@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "c62445eb565bce50c38a",
-    "url": "/static/css/main.008ffe14.chunk.css"
+    "revision": "42c3da0ac691bd758604",
+    "url": "/static/css/main.c863bc7d.chunk.css"
   },
   {
-    "revision": "c62445eb565bce50c38a",
+    "revision": "42c3da0ac691bd758604",
     "url": "/static/js/main.674610cd.chunk.js"
   },
   {
@@ -32,12 +32,12 @@ self.__precacheManifest = [
     "url": "/static/media/roboto-latin-100italic.6232f43d.woff2"
   },
   {
-    "revision": "d704bb3d579b7d5e40880c75705c8a71",
-    "url": "/static/media/roboto-latin-100italic.d704bb3d.woff"
-  },
-  {
     "revision": "55536c8e9e9a532651e3cf374f290ea3",
     "url": "/static/media/roboto-latin-300.55536c8e.woff2"
+  },
+  {
+    "revision": "d704bb3d579b7d5e40880c75705c8a71",
+    "url": "/static/media/roboto-latin-100italic.d704bb3d.woff"
   },
   {
     "revision": "a1471d1d6431c893582a5f6a250db3f9",
@@ -80,12 +80,12 @@ self.__precacheManifest = [
     "url": "/static/media/roboto-latin-500italic.510dec37.woff2"
   },
   {
-    "revision": "037d830416495def72b7881024c14b7b",
-    "url": "/static/media/roboto-latin-700.037d8304.woff2"
-  },
-  {
     "revision": "ffcc050b2d92d4b14a4fcb527ee0bcc8",
     "url": "/static/media/roboto-latin-500italic.ffcc050b.woff"
+  },
+  {
+    "revision": "037d830416495def72b7881024c14b7b",
+    "url": "/static/media/roboto-latin-700.037d8304.woff2"
   },
   {
     "revision": "cf6613d1adf490972c557a8e318e0868",
@@ -120,7 +120,7 @@ self.__precacheManifest = [
     "url": "/static/media/UI-EJ-LOREBG-ThunderKingRaid.7f789c15.png"
   },
   {
-    "revision": "934d15581bf95c025c62606c17f733d8",
+    "revision": "1975badba5664dcb159e734f5f8ef35c",
     "url": "/index.html"
   }
 ];
