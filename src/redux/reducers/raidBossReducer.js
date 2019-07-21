@@ -7,7 +7,6 @@ const defaultState = {
     raidName: null,
     bossName: null,
     selectedTab: 0,
-    stats: null,
     update: {
         loading: false,
         error: null,
@@ -31,50 +30,62 @@ function raidBossReducer(state = defaultState, action) {
                 error: null
             };
         case "RAID_BOSS_FILL":
-            // CALC STATS HERE
             let data = action.payload;
             let playerData = {};
-            let distribution = {
-                total: 0,
-                classes: {}
-            };
+
+            let stats = { total: 0, classes: {} };
+
             for (let charClass in classToSpec) {
-                distribution.classes[charClass] = {
+                stats.classes[charClass] = {
                     total: 0,
                     specs: {}
                 };
 
                 for (let spec of classToSpec[charClass]) {
-                    distribution.classes[charClass].specs[spec] = 0;
+                    stats.classes[charClass].specs[spec] = {
+                        total: 0,
+                        dps: 0,
+                        hps: 0
+                    };
                 }
             }
 
-            for (let variant of ["dps", "hps"]) {
-                playerData[variant] = {};
+            for (let diff in data) {
+                data[diff].stats = JSON.parse(JSON.stringify(stats));
 
-                for (let diff in data) {
+                for (let variant of ["dps", "hps"]) {
+                    playerData[variant] = {};
                     playerData[variant][diff] = [];
-                    for (let charKey in data[diff][variant]) {
-                        if (
-                            typeof data[diff][variant][charKey][variant] !==
-                            "number"
-                        )
-                            continue;
-                        data[diff][variant][charKey][variant] = Math.round(
-                            data[diff][variant][charKey][variant]
-                        );
-                        playerData[variant][diff].push(
-                            data[diff][variant][charKey]
-                        );
 
-                        distribution.total += 1;
-                        distribution.classes[
-                            data[diff][variant][charKey].class
+                    for (let charKey in data[diff][variant]) {
+                        let currentChar = data[diff][variant][charKey];
+
+                        if (typeof currentChar[variant] !== "number") continue;
+                        currentChar[variant] = Math.round(currentChar[variant]);
+                        playerData[variant][diff].push(currentChar);
+
+                        data[diff].stats.total += 1;
+                        data[diff].stats.classes[currentChar.class].total += 1;
+
+                        data[diff].stats.classes[currentChar.class].specs[
+                            currentChar.spec
                         ].total += 1;
-                        distribution.classes[
-                            data[diff][variant][charKey].class
-                        ].specs[data[diff][variant][charKey].spec] += 1;
+
+                        // CALC AVG VARIANT(dps/hps) OF SPEC
+                        // FORMULA: ((CURRENTNUM - CURRENTAVG) / NEWTOTAL) + CURRENTAVG
+                        data[diff].stats.classes[currentChar.class].specs[
+                            currentChar.spec
+                        ][variant] = Math.round(
+                            (currentChar[variant] -
+                                data[diff].stats.classes[currentChar.class]
+                                    .specs[currentChar.spec][variant]) /
+                                data[diff].stats.classes[currentChar.class]
+                                    .specs[currentChar.spec].total +
+                                data[diff].stats.classes[currentChar.class]
+                                    .specs[currentChar.spec][variant]
+                        );
                     }
+
                     data[diff][variant] = playerData[variant][diff];
                     data[diff][variant].sort((a, b) => b[variant] - a[variant]);
                 }
@@ -82,10 +93,9 @@ function raidBossReducer(state = defaultState, action) {
 
             return {
                 ...state,
-                data: action.payload,
+                data: data,
                 loading: false,
                 error: null,
-                stats: distribution,
                 update: {
                     loading: false,
                     error: null,

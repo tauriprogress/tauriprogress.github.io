@@ -1,18 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
 
-function RaidBossStats({ stats }) {
+function RaidBossStats({ data }) {
     return (
         <div className="displayRaidBossStatsContainer">
-            {JSON.stringify(stats)}
+            {console.log(data)}
+            {JSON.stringify(data)}
         </div>
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        stats: state.raidBoss.stats
-    };
-}
-
-export default connect(mapStateToProps)(RaidBossStats);
+export default RaidBossStats;

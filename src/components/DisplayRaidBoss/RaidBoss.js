@@ -48,7 +48,7 @@ function getChild(value, data) {
         case 3:
             return <LatestKills data={data.latestKills} />;
         case 4:
-            return <RaidBossStats data={data} />;
+            return <RaidBossStats data={data.stats} />;
         default:
             return 0;
     }
