@@ -180,10 +180,10 @@ class SkadaChartRaid extends React.Component {
                                                       ]
                                                   } ${
                                                       playerData.topPercent
-                                                  }%, #222 ${
+                                                  }%, rgba(0, 0, 0, 0) ${
                                                       playerData.topPercent
                                                   }%)`
-                                                : "#222"
+                                                : "rgba(0, 0, 0, 0)"
                                         }}
                                     >
                                         <span className="skadaChartRank">

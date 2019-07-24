@@ -28,7 +28,7 @@ const defaultClassColors = {
     2: "#f58cba",
     3: "#abd473",
     4: "#fff569",
-    5: grey[700],
+    5: "#ffffff",
     6: "#c41f3b",
     7: "#0070de",
     8: "#69ccf0",

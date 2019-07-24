@@ -20,7 +20,7 @@ function RaidBoss({ data, selectedTab, raidBossSelectTab }) {
                 onChange={(e, value) => raidBossSelectTab(value)}
                 indicatorColor="secondary"
                 variant="scrollable"
-                scrollButtons="auto"
+                scrollButtons="on"
             >
                 <Tab label="Dps" className="tab" />
                 <Tab label="Hps" className="tab" />

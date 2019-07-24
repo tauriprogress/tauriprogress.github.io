@@ -33,29 +33,36 @@ function raidBossReducer(state = defaultState, action) {
             let data = action.payload;
             let playerData = {};
 
-            let stats = { total: 0, classes: {} };
-
-            for (let charClass in classToSpec) {
-                stats.classes[charClass] = {
-                    total: 0,
-                    specs: {}
-                };
-
-                for (let spec of classToSpec[charClass]) {
-                    stats.classes[charClass].specs[spec] = {
-                        total: 0,
-                        dps: 0,
-                        hps: 0
-                    };
-                }
-            }
-
             for (let diff in data) {
-                data[diff].stats = JSON.parse(JSON.stringify(stats));
+                let stats = {
+                    dps: {
+                        total: 0,
+                        classes: {}
+                    },
+                    hps: {
+                        total: 0,
+                        classes: {}
+                    }
+                };
 
                 for (let variant of ["dps", "hps"]) {
                     playerData[variant] = {};
                     playerData[variant][diff] = [];
+
+                    for (let charClass in classToSpec) {
+                        stats[variant].classes[charClass] = {
+                            total: 0,
+                            specs: {}
+                        };
+
+                        for (let spec of classToSpec[charClass]) {
+                            stats[variant].classes[charClass].specs[spec] = {
+                                total: 0,
+                                [variant]: 0,
+                                avgIlvl: 0
+                            };
+                        }
+                    }
 
                     for (let charKey in data[diff][variant]) {
                         let currentChar = data[diff][variant][charKey];
@@ -64,28 +71,45 @@ function raidBossReducer(state = defaultState, action) {
                         currentChar[variant] = Math.round(currentChar[variant]);
                         playerData[variant][diff].push(currentChar);
 
-                        data[diff].stats.total += 1;
-                        data[diff].stats.classes[currentChar.class].total += 1;
-
-                        data[diff].stats.classes[currentChar.class].specs[
+                        stats[variant].total += 1;
+                        stats[variant].classes[currentChar.class].total += 1;
+                        stats[variant].classes[currentChar.class].specs[
                             currentChar.spec
                         ].total += 1;
 
-                        // CALC AVG VARIANT(dps/hps) OF SPEC
+                        // CALC AVG OF SPEC (dps, hps, ilvl)
                         // FORMULA: ((CURRENTNUM - CURRENTAVG) / NEWTOTAL) + CURRENTAVG
-                        data[diff].stats.classes[currentChar.class].specs[
+                        stats[variant].classes[currentChar.class].specs[
                             currentChar.spec
                         ][variant] = Math.round(
                             (currentChar[variant] -
-                                data[diff].stats.classes[currentChar.class]
-                                    .specs[currentChar.spec][variant]) /
-                                data[diff].stats.classes[currentChar.class]
-                                    .specs[currentChar.spec].total +
-                                data[diff].stats.classes[currentChar.class]
-                                    .specs[currentChar.spec][variant]
+                                stats[variant].classes[currentChar.class].specs[
+                                    currentChar.spec
+                                ][variant]) /
+                                stats[variant].classes[currentChar.class].specs[
+                                    currentChar.spec
+                                ].total +
+                                stats[variant].classes[currentChar.class].specs[
+                                    currentChar.spec
+                                ][variant]
                         );
+
+                        stats[variant].classes[currentChar.class].specs[
+                            currentChar.spec
+                        ].avgIlvl =
+                            Math.round(
+                                ((currentChar.ilvl -
+                                    stats[variant].classes[currentChar.class]
+                                        .specs[currentChar.spec].avgIlvl) /
+                                    stats[variant].classes[currentChar.class]
+                                        .specs[currentChar.spec].total +
+                                    stats[variant].classes[currentChar.class]
+                                        .specs[currentChar.spec].avgIlvl) *
+                                    10
+                            ) / 10;
                     }
 
+                    data[diff].stats = JSON.parse(JSON.stringify(stats));
                     data[diff][variant] = playerData[variant][diff];
                     data[diff][variant].sort((a, b) => b[variant] - a[variant]);
                 }
