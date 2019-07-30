@@ -93,7 +93,7 @@ class SkadaChartRaid extends React.Component {
                             >
                                 <IconTotal className="skadaChartSpecIcon" />
                             </Tooltip>
-                            {data.total[spec] ? (
+                            {data.total[spec] && data.total[spec][variant] ? (
                                 <span
                                     className="skadaChartValues skadaChartTotal"
                                     style={{
@@ -118,9 +118,14 @@ class SkadaChartRaid extends React.Component {
                                                     ]
                                                 )}`}
                                             </span>
-                                            {` (${data.total[spec][
-                                                variant
-                                            ].topPercent.toFixed(1)}%)`}
+                                            {` (${
+                                                data.total[spec][variant]
+                                                    .topPercent
+                                                    ? data.total[spec][
+                                                          variant
+                                                      ].topPercent.toFixed(1)
+                                                    : 0
+                                            }%)`}
                                         </React.Fragment>
                                     </span>
                                 </span>

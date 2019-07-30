@@ -81,8 +81,7 @@ class RaidBosses extends React.PureComponent {
             changeFilter: this.changeFilter.bind(this)
         };
         let filteredData = null;
-
-        if (data !== null) {
+        if (!loading && data !== null) {
             filteredData = applyFilter(data[diff], raidData, filter);
         }
         return (

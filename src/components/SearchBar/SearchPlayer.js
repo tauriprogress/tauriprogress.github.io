@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import { playerFetch } from "../../redux/actions";
+import { playerDataFetch } from "../../redux/actions";
 
 let realmNames = [];
 for (let realmKey in realms) {
@@ -107,7 +107,7 @@ class SearchPlayer extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ playerFetch }, dispatch);
+    return bindActionCreators({ playerFetch: playerDataFetch }, dispatch);
 }
 
 export default withRouter(

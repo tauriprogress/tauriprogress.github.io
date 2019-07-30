@@ -86,7 +86,11 @@ class GuildRaidBossList extends React.PureComponent {
                                     encounter.encounter_name
                                 }
                                 onClick={() =>
-                                    guildSelectBoss(encounter.encounter_name)
+                                    guildSelectBoss({
+                                        selectedRaidName: raid.name,
+                                        selectedBossName:
+                                            encounter.encounter_name
+                                    })
                                 }
                             >
                                 <ListItemText

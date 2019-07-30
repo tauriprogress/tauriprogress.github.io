@@ -2,6 +2,9 @@ import { difficulties, raidName } from "tauriprogress-constants/currentContent";
 
 export function getBossesDefeated(progression) {
     let bossesDefeated = {};
+    if (!progression || !progression[raidName]) {
+        return 0;
+    }
     for (let diff in difficulties) {
         for (let bossName in progression[raidName][diff]) {
             if (bossName === "total") continue;

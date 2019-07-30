@@ -179,30 +179,65 @@ export function guildSetNav(payload) {
     };
 }
 
-export function playerFetch(payload) {
+export function playerDataFetch(payload) {
     return {
-        type: "PLAYER_FETCH",
+        type: "PLAYER_DATA_FETCH",
         payload
     };
 }
 
-export function playerSetError(payload) {
+export function playerDataSetError(payload) {
     return {
-        type: "PLAYER_SET_ERROR",
+        type: "PLAYER_DATA_SET_ERROR",
         payload
     };
 }
 
-export function playerLoading(payload) {
+export function playerDataLoading(payload) {
     return {
-        type: "PLAYER_LOADING",
+        type: "PLAYER_DATA_LOADING",
         payload
     };
 }
 
-export function playerFill(payload) {
+export function playerDataFill(payload) {
     return {
-        type: "PLAYER_FILL",
+        type: "PLAYER_DATA_FILL",
+        payload
+    };
+}
+
+export function playerProgressionFetch(payload) {
+    return {
+        type: "PLAYER_PROGRESSION_FETCH",
+        payload
+    };
+}
+
+export function playerProgressionSelectRaid(payload) {
+    return {
+        type: "PLAYER_PROGRESSION_SELECT_RAID",
+        payload
+    };
+}
+
+export function playerProgressionSetError(payload) {
+    return {
+        type: "PLAYER_PROGRESSION_SET_ERROR",
+        payload
+    };
+}
+
+export function playerProgressionLoading(payload) {
+    return {
+        type: "PLAYER_PROGRESSION_LOADING",
+        payload
+    };
+}
+
+export function playerProgressionFill(payload) {
+    return {
+        type: "PLAYER_PROGRESSION_FILL",
         payload
     };
 }

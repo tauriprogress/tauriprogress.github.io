@@ -92,7 +92,8 @@ class AdditionalInfo extends React.PureComponent {
                         )}
                         <Divider />
 
-                        <div className="additionalInfoIssues">
+                        {/*
+                            <div className="additionalInfoIssues">
                             <Typography
                                 variant="button"
                                 onClick={this.toggleIssues}
@@ -132,6 +133,7 @@ class AdditionalInfo extends React.PureComponent {
                             </Collapse>
                         </div>
                         <Divider />
+                            */}
 
                         <Typography>
                             <Link
@@ -187,9 +189,11 @@ class AdditionalInfo extends React.PureComponent {
                         <Typography>
                             Data is collected since{" "}
                             <span className="textBold">
-                                {new Date(1541640000000).toLocaleDateString()}.
-                            </span>
+                                {new Date(1541640000000).toLocaleDateString()}
+                            </span>{" "}
+                            and only of heroic bosses.
                         </Typography>
+
                         <Divider />
 
                         <Typography>

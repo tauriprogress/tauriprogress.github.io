@@ -1,8 +1,12 @@
-import { raidName } from "tauriprogress-constants/currentContent";
 import { serverUrl } from "tauriprogress-constants/urls";
 
 import { put, call, takeEvery, select } from "redux-saga/effects";
-import { playerLoading, playerFill, playerSetError } from "../actions";
+import {
+    playerDataLoading,
+    playerDataFill,
+    playerDataSetError,
+    playerProgressionFetch
+} from "../actions";
 
 async function getData(playerName, realm) {
     return await fetch(`${serverUrl}/getplayer`, {
@@ -12,7 +16,6 @@ async function getData(playerName, realm) {
         },
         body: JSON.stringify({
             playerName: playerName,
-            raidName: raidName,
             realm: realm
         })
     }).then(res => res.json());
@@ -31,7 +34,7 @@ function* fetchPlayer({ payload }) {
         }
 
         yield put(
-            playerLoading({
+            playerDataLoading({
                 playerName,
                 realm
             })
@@ -42,13 +45,24 @@ function* fetchPlayer({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(playerFill(response.response));
+            yield put(playerDataFill(response.response));
+            let selectedRaid = yield select(
+                state => state.player.progression.selectedRaid
+            );
+            yield put(
+                playerProgressionFetch({
+                    playerName,
+                    characterClass: response.response.class,
+                    realm,
+                    raidName: selectedRaid
+                })
+            );
         }
     } catch (err) {
-        yield put(playerSetError(err.message));
+        yield put(playerDataSetError(err.message));
     }
 }
 
-export default function* getPlayerSaga() {
-    yield takeEvery("PLAYER_FETCH", fetchPlayer);
+export default function* getPlayerDataSaga() {
+    yield takeEvery("PLAYER_DATA_FETCH", fetchPlayer);
 }

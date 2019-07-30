@@ -7,10 +7,9 @@ import PlayerTitle from "./PlayerTitle";
 import PlayerStats from "./PlayerStats";
 import PlayerProgression from "./PlayerProgression";
 import PlayerLatestKills from "./PlayerLatestKills";
-import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 
-import { playerFetch } from "../../redux/actions";
+import { playerDataFetch } from "../../redux/actions";
 
 class DisplayPlayer extends React.PureComponent {
     componentDidMount() {
@@ -18,25 +17,21 @@ class DisplayPlayer extends React.PureComponent {
         const realm = new URLSearchParams(this.props.location.search).get(
             "realm"
         );
-        this.props.playerFetch({ playerName, realm });
+        this.props.playerDataFetch({ playerName, realm });
     }
 
     render() {
-        const { data, loading, error } = this.props.player;
+        const { error } = this.props;
         return (
             <section className="displayPlayer">
-                {loading && <Loading />}
-
-                {error && <ErrorMessage message={error} />}
-                {!loading && !error && data && (
+                {error ? (
+                    <ErrorMessage message={error} />
+                ) : (
                     <React.Fragment>
-                        <PlayerTitle data={data} />
+                        <PlayerTitle />
                         <div className="displayPlayerContentContainer">
-                            <PlayerStats data={data} />
-                            <PlayerProgression
-                                data={data.progression}
-                                characterClass={data.class}
-                            />
+                            <PlayerStats />
+                            <PlayerProgression />
                             <PlayerLatestKills />
                         </div>
                     </React.Fragment>
@@ -48,14 +43,14 @@ class DisplayPlayer extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        player: state.player
+        error: state.player.data.error
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            playerFetch
+            playerDataFetch
         },
         dispatch
     );

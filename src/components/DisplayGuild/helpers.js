@@ -1,6 +1,4 @@
-import { raidName } from "tauriprogress-constants/currentContent";
-
-export function getBossesDefeated(raidBosses, progression) {
+export function getBossesDefeated(raidName, raidBosses, progression) {
     let defeatedBosses = {};
 
     for (let diff in progression[raidName]) {

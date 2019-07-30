@@ -2,6 +2,7 @@ import { characterClasses } from "tauriprogress-constants";
 import { armoryUrl } from "tauriprogress-constants/urls";
 
 import React from "react";
+import { connect } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -14,12 +15,16 @@ import { Typography } from "@material-ui/core";
 import { talentTreeToImage } from "../../helpers";
 
 function PlayerTitle({ data, theme }) {
+    if (!data) {
+        return <div className="displayPlayerTitle" />;
+    }
     const {
         palette: { classColors, factionColors }
     } = theme;
     const fullSpecName = `${data["treeName_" + data.activeSpec]} ${
         characterClasses[data.class]
     }`;
+
     return (
         <div className="displayPlayerTitle">
             <Typography variant="h4">
@@ -80,4 +85,10 @@ function PlayerTitle({ data, theme }) {
     );
 }
 
-export default withTheme()(PlayerTitle);
+function mapStateToProps(state) {
+    return {
+        data: state.player.data.data
+    };
+}
+
+export default connect(mapStateToProps)(withTheme()(PlayerTitle));

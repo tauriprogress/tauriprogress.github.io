@@ -1,4 +1,4 @@
-import { raidName } from "tauriprogress-constants/currentContent";
+import { raids } from "tauriprogress-constants/currentContent";
 
 const defaultState = {
     data: null,
@@ -9,13 +9,14 @@ const defaultState = {
     nav: {
         active: 0
     },
-    selectedBossName: null
+    selectedBossName: null,
+    selectedRaidName: null
 };
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
         case "GUILD_SELECT_BOSS": {
-            return { ...state, selectedBossName: action.payload };
+            return { ...state, ...action.payload };
         }
         case "GUILD_SET_NAV":
             return { ...state, nav: { ...state.nav, active: action.payload } };
@@ -35,54 +36,61 @@ function guildReducer(state = defaultState, action) {
         case "GUILD_FILL":
             let progression = action.payload.progression;
 
-            for (let diffKey in progression[raidName]) {
-                let dps = [];
-                for (let bossKey in progression[raidName][diffKey]) {
-                    for (let charKey in progression[raidName][diffKey][bossKey]
-                        .dps) {
-                        let currentDps =
-                            progression[raidName][diffKey][bossKey].dps[charKey]
-                                .dps;
-                        if (typeof currentDps !== "number") continue;
-                        progression[raidName][diffKey][bossKey].dps[
-                            charKey
-                        ].dps = Math.round(currentDps);
+            for (let raid of raids) {
+                let raidName = raid.raidName;
+                for (let diffKey in progression[raidName]) {
+                    for (let bossKey in progression[raidName][diffKey]) {
+                        let dps = [];
+                        for (let charKey in progression[raidName][diffKey][
+                            bossKey
+                        ].dps) {
+                            let currentDps =
+                                progression[raidName][diffKey][bossKey].dps[
+                                    charKey
+                                ].dps;
+                            if (typeof currentDps !== "number") continue;
+                            progression[raidName][diffKey][bossKey].dps[
+                                charKey
+                            ].dps = Math.round(currentDps);
 
-                        dps.push(
-                            progression[raidName][diffKey][bossKey].dps[charKey]
+                            dps.push(
+                                progression[raidName][diffKey][bossKey].dps[
+                                    charKey
+                                ]
+                            );
+                        }
+                        progression[raidName][diffKey][bossKey].dps = dps.sort(
+                            (a, b) => b.dps - a.dps
                         );
                     }
-                    progression[raidName][diffKey][bossKey].dps = dps.sort(
-                        (a, b) => b.dps - a.dps
-                    );
-                    dps = [];
                 }
-            }
 
-            for (let diffKey in progression[raidName]) {
-                let hps = [];
+                for (let diffKey in progression[raidName]) {
+                    for (let bossKey in progression[raidName][diffKey]) {
+                        let hps = [];
+                        for (let charKey in progression[raidName][diffKey][
+                            bossKey
+                        ].hps) {
+                            progression[raidName][diffKey][bossKey].hps[
+                                charKey
+                            ].hps = Math.round(
+                                progression[raidName][diffKey][bossKey].hps[
+                                    charKey
+                                ].hps
+                            );
 
-                for (let bossKey in progression[raidName][diffKey]) {
-                    for (let charKey in progression[raidName][diffKey][bossKey]
-                        .hps) {
-                        progression[raidName][diffKey][bossKey].hps[
-                            charKey
-                        ].hps = Math.round(
-                            progression[raidName][diffKey][bossKey].hps[charKey]
-                                .hps
-                        );
-
-                        hps.push(
-                            progression[raidName][diffKey][bossKey].hps[charKey]
+                            hps.push(
+                                progression[raidName][diffKey][bossKey].hps[
+                                    charKey
+                                ]
+                            );
+                        }
+                        progression[raidName][diffKey][bossKey].hps = hps.sort(
+                            (a, b) => b.hps - a.hps
                         );
                     }
-                    progression[raidName][diffKey][bossKey].hps = hps.sort(
-                        (a, b) => b.hps - a.hps
-                    );
-                    hps = [];
                 }
             }
-
             return {
                 ...state,
                 data: {

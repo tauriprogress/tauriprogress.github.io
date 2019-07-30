@@ -24,6 +24,21 @@
         flex-shrink: 2
         flex-basis: 280px
         flex-grow: 2
+        &RaidNames
+            display: flex
+            flex-wrap: wrap
+            padding: 0 !important
+            margin-bottom: 3px !important
+            li
+                border-radius: 2px
+                width: 270px !important
+                margin: 0 2px 2px 0
+                background-position: 50% 50% !important
+                *
+                    padding: 0px !important
+                    overflow: hidden
+                    white-space: nowrap
+                    text-overflow: ellipsis
 
         &Rank
             width: 60px
@@ -66,4 +81,9 @@
         max-width: 320px
         &ChartContainer
             justify-content: center
+        &RaidNames
+            justify-content: center
+    .displayPlayerTabs
+        margin: auto
+
             

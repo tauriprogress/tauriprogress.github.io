@@ -16,17 +16,21 @@ function GuildBossSummary({ bossName, data }) {
         <div className="displayGuildBossSummary">
             <Typography variant="h5">{bossName}</Typography>
             <Typography variant="caption">
-                {data && data.killCount} Kills
-                <br />
-                First:{" "}
-                {data && (
-                    <DateTooltip date={date}>
-                        <span>{date.toLocaleDateString()}</span>
-                    </DateTooltip>
+                {data ? (
+                    <React.Fragment>
+                        {data.killCount} Kills
+                        <br />
+                        First:{" "}
+                        <DateTooltip date={date}>
+                            <span>{date.toLocaleDateString()}</span>
+                        </DateTooltip>
+                        <br />
+                        Fastest:{" "}
+                        <span>{convertFightTime(data.fastestKill)}</span>
+                    </React.Fragment>
+                ) : (
+                    <span style={{ color: "#b71c1c" }}>Alive</span>
                 )}
-                <br />
-                Fastest:{" "}
-                <span>{data && convertFightTime(data.fastestKill)}</span>
             </Typography>
         </div>
     );
