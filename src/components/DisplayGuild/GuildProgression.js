@@ -89,6 +89,15 @@ class GuildProgression extends React.PureComponent {
                         ))}
                     </aside>
                     <div className="displayGuildProgressionDataContainer">
+                        <Tabs
+                            value={this.state.tab}
+                            onChange={this.tabChange}
+                            indicatorColor="secondary"
+                            className="displayGuildDifficultyTab"
+                        >
+                            <Tab label="10 HC" className="tab" value={5} />
+                            <Tab label="25 HC" className="tab" value={6} />
+                        </Tabs>
                         <GuildBossSummary
                             bossName={`${selectedBossName} ${
                                 boss ? difficultyLabels[this.state.tab] : ""
@@ -97,23 +106,6 @@ class GuildProgression extends React.PureComponent {
                         />
                         {boss && (
                             <React.Fragment>
-                                <Tabs
-                                    value={this.state.tab}
-                                    onChange={this.tabChange}
-                                    indicatorColor="secondary"
-                                    className="displayGuildDifficultyTab"
-                                >
-                                    <Tab
-                                        label="10 HC"
-                                        className="tab"
-                                        value={5}
-                                    />
-                                    <Tab
-                                        label="25 HC"
-                                        className="tab"
-                                        value={6}
-                                    />
-                                </Tabs>
                                 <GuildBoss data={boss} />
                             </React.Fragment>
                         )}
