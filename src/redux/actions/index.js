@@ -116,34 +116,6 @@ export function raidBossLoading(payload) {
     };
 }
 
-export function raidBossUpdateStart(payload) {
-    return {
-        type: "RAID_BOSS_UPDATE_START",
-        payload
-    };
-}
-
-export function raidBossUpdateLoading(payload) {
-    return {
-        type: "RAID_BOSS_UPDATE_LOADING",
-        payload
-    };
-}
-
-export function raidBossUpdateDone(payload) {
-    return {
-        type: "RAID_BOSS_UDPATE_DONE",
-        payload
-    };
-}
-
-export function raidBossUpdateSetError(payload) {
-    return {
-        type: "RAID_BOSS_UPDATE_SET_ERROR",
-        payload
-    };
-}
-
 export function guildFetch(payload) {
     return {
         type: "GUILD_FETCH",
@@ -280,13 +252,6 @@ export function charLadderFilterReset(payload) {
 export function charLadderPaginationPageSet(payload) {
     return {
         type: "CHAR_LADDER_PAGINATION_PAGE_SET",
-        payload
-    };
-}
-
-export function updateDbFetch(payload) {
-    return {
-        type: "UPDATE_DB_FETCH",
         payload
     };
 }

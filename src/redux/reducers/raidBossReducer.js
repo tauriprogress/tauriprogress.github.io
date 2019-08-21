@@ -6,12 +6,7 @@ const defaultState = {
     loading: false,
     raidName: null,
     bossName: null,
-    selectedTab: 0,
-    update: {
-        loading: false,
-        error: null,
-        wait: null
-    }
+    selectedTab: 0
 };
 
 function raidBossReducer(state = defaultState, action) {
@@ -119,12 +114,7 @@ function raidBossReducer(state = defaultState, action) {
                 ...state,
                 data: data,
                 loading: false,
-                error: null,
-                update: {
-                    loading: false,
-                    error: null,
-                    wait: null
-                }
+                error: null
             };
 
         case "RAID_BOSS_SET_ERROR":
@@ -132,37 +122,6 @@ function raidBossReducer(state = defaultState, action) {
                 action.payload = "Unkown error.";
             }
             return { ...state, error: action.payload, loading: false };
-
-        case "RAID_BOSS_UPDATE_LOADING":
-            return {
-                ...state,
-                update: {
-                    ...state.update,
-                    loading: true,
-                    error: null,
-                    wait: null
-                }
-            };
-        case "RAID_BOSS_UPDATE_SET_ERROR":
-            return {
-                ...state,
-                update: {
-                    ...state.update,
-                    loading: false,
-                    error: action.payload.err,
-                    wait: action.payload.wait
-                }
-            };
-        case "RAID_BOSS_UDPATE_DONE":
-            return {
-                ...state,
-                update: {
-                    ...state.update,
-                    loading: false,
-                    error: null,
-                    wait: null
-                }
-            };
         default:
             return state;
     }

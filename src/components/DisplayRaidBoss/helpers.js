@@ -1,9 +1,3 @@
-export function lastUpdatedTime(time) {
-    let minutes = Math.round((new Date().getTime() / 1000 - Number(time)) / 60);
-    if (minutes < 60) return `${minutes} minutes`;
-    return `${Math.round(minutes / 60)} hours`;
-}
-
 export function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
     var angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
 

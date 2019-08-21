@@ -1,7 +1,8 @@
 const defaultState = {
     lastUpdated: null,
     loading: false,
-    error: null
+    error: null,
+    isUpdating: false
 };
 
 function additionalInfoReducer(state = defaultState, action) {
@@ -13,7 +14,8 @@ function additionalInfoReducer(state = defaultState, action) {
         case "ADDITIONAL_INFO_FILL":
             return {
                 ...state,
-                lastUpdated: action.payload,
+                lastUpdated: action.payload.lastUpdated,
+                isUpdating: action.payload.isUpdating,
                 loading: false,
                 error: null
             };

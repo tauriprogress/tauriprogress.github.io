@@ -8,17 +8,14 @@ import Fab from "@material-ui/core/Fab";
 import Divider from "@material-ui/core/Divider";
 import Link from "@material-ui/core/Link";
 //import Collapse from "@material-ui/core/Collapse";
-import Tooltip from "@material-ui/core/Tooltip";
-
 //import ExpandMore from "@material-ui/icons/ExpandMore";
 //import ExpandLess from "@material-ui/icons/ExpandLess";
 import Info from "@material-ui/icons/Info";
-import Refresh from "@material-ui/icons/Refresh";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { lastUpdatedFetch, updateDbFetch } from "../../redux/actions";
+import { lastUpdatedFetch } from "../../redux/actions";
 
 import { convertMinutes } from "../../helpers";
 import { Typography } from "@material-ui/core";
@@ -50,7 +47,12 @@ class AdditionalInfo extends React.PureComponent {
     }
 
     render() {
-        const { lastUpdated, loading, error } = this.props.additionalInfo;
+        const {
+            lastUpdated,
+            isUpdating,
+            loading,
+            error
+        } = this.props.additionalInfo;
 
         return (
             <div className="additionalInfo">
@@ -67,27 +69,18 @@ class AdditionalInfo extends React.PureComponent {
                         {!loading && error && <ErrorMessage message={error} />}
                         {!loading && (
                             <div className="additionalInfoUpdate">
-                                {lastUpdated && (
+                                <Typography>
+                                    Last updated:{" "}
+                                    <span className="textBold">
+                                        {convertMinutes(lastUpdated || 0)}
+                                    </span>{" "}
+                                    ago.
+                                </Typography>
+                                {isUpdating && (
                                     <Typography>
-                                        Last updated:{" "}
-                                        <span className="textBold">
-                                            {convertMinutes(lastUpdated)}
-                                        </span>{" "}
-                                        ago.
+                                        Database is currently updating.
                                     </Typography>
                                 )}
-
-                                <Typography className="additionalInfoUpdateRefresh">
-                                    <Tooltip title="Update database">
-                                        <Fab
-                                            color="primary"
-                                            size="small"
-                                            onClick={this.props.updateDbFetch}
-                                        >
-                                            <Refresh />
-                                        </Fab>
-                                    </Tooltip>
-                                </Typography>
                             </div>
                         )}
                         <Divider />
@@ -187,11 +180,16 @@ class AdditionalInfo extends React.PureComponent {
                         <Divider />
 
                         <Typography>
+                            Database updating is now automated.
+                        </Typography>
+                        <Divider />
+
+                        <Typography>
                             Data is collected since{" "}
                             <span className="textBold">
                                 {new Date(1541640000000).toLocaleDateString()}
                             </span>{" "}
-                            and only of heroic bosses.
+                            and only of heroic encounters.
                         </Typography>
 
                         <Divider />
@@ -215,8 +213,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-            lastUpdatedFetch,
-            updateDbFetch
+            lastUpdatedFetch
         },
         dispatch
     );
