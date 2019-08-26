@@ -80,13 +80,20 @@ class PlayerProgression extends React.PureComponent {
 
         return (
             <div className="displayPlayerProgression">
+                <Tabs
+                    value={difficulty}
+                    onChange={this.changeDifficulty}
+                    indicatorColor="secondary"
+                    className="displayPlayerTabs"
+                >
+                    <Tab label="10 HC" className="tab" value={5} />
+                    <Tab label="25 HC" className="tab" value={6} />
+                </Tabs>
                 <List className="displayPlayerProgressionRaidNames">
                     {raids.map(raid => (
                         <ListItem
                             key={raid.name}
-                            className={`${classes.listItem} ${
-                                classes.listTitle
-                            }`}
+                            className={`${classes.listItem} ${classes.listTitle}`}
                             button
                             onClick={() => this.changeRaid(raid.name)}
                             style={{
@@ -103,15 +110,6 @@ class PlayerProgression extends React.PureComponent {
                     ))}
                 </List>
 
-                <Tabs
-                    value={difficulty}
-                    onChange={this.changeDifficulty}
-                    indicatorColor="secondary"
-                    className="displayPlayerTabs"
-                >
-                    <Tab label="10 HC" className="tab" value={5} />
-                    <Tab label="25 HC" className="tab" value={6} />
-                </Tabs>
                 <div className="displayPlayerProgressionChartContainer">
                     {loading && <Loading />}
                     {!loading && error && <ErrorMessage message={error} />}
