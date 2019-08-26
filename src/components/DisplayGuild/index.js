@@ -22,6 +22,26 @@ import {
 } from "../../redux/actions";
 
 class DisplayGuild extends React.PureComponent {
+    componentDidUpdate() {
+        const guildName = this.props.match.params.guildName;
+        const realm = new URLSearchParams(this.props.location.search).get(
+            "realm"
+        );
+
+        const { oldGuildName, oldRealm } = this.props;
+
+        if (
+            guildName.toLowerCase() !== oldGuildName.toLowerCase() ||
+            realm !== oldRealm
+        ) {
+            this.props.charLadderFilterReset();
+            this.props.guildFetch({
+                guildName,
+                realm
+            });
+        }
+    }
+
     componentDidMount() {
         const guildName = this.props.match.params.guildName;
         const realm = new URLSearchParams(this.props.location.search).get(
@@ -119,7 +139,9 @@ class DisplayGuild extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        guild: state.guild
+        guild: state.guild,
+        oldGuildName: state.guild.guildName,
+        oldRealm: state.guild.realm
     };
 }
 

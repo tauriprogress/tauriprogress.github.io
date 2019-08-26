@@ -12,6 +12,22 @@ import ErrorMessage from "../ErrorMessage";
 import { playerDataFetch } from "../../redux/actions";
 
 class DisplayPlayer extends React.PureComponent {
+    componentDidUpdate() {
+        const playerName = this.props.match.params.playerName;
+        const realm = new URLSearchParams(this.props.location.search).get(
+            "realm"
+        );
+
+        const { oldPlayerName, oldRealm } = this.props;
+
+        if (
+            playerName.toLowerCase() !== oldPlayerName.toLowerCase() ||
+            realm !== oldRealm
+        ) {
+            this.props.playerDataFetch({ playerName, realm });
+        }
+    }
+
     componentDidMount() {
         const playerName = this.props.match.params.playerName;
         const realm = new URLSearchParams(this.props.location.search).get(
@@ -43,7 +59,9 @@ class DisplayPlayer extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        error: state.player.data.error
+        error: state.player.data.error,
+        oldPlayerName: state.player.playerName,
+        oldRealm: state.player.realm
     };
 }
 
