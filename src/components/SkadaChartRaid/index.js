@@ -152,9 +152,11 @@ class SkadaChartRaid extends React.Component {
 
                         return (
                             <ListItem
-                                component="li"
+                                component={playerData[variant] ? "a" : "li"}
                                 key={boss.encounter_name}
                                 className={classes.listItem}
+                                href={`/log/${playerData.logId}?realm=${playerData.realm}`}
+                                target="_blank"
                             >
                                 <Typography className="skadaChartBoss">
                                     {playerData[variant] ? (
@@ -212,20 +214,6 @@ class SkadaChartRaid extends React.Component {
                                                 </React.Fragment>
                                             )}
                                         </span>
-                                    </span>
-
-                                    <span className="skadaChartLogContainer">
-                                        {playerData[variant] && (
-                                            <React.Fragment>
-                                                <span className="textBold ">
-                                                    {playerData.ilvl}
-                                                </span>
-                                                <LogLink
-                                                    logId={playerData.logId}
-                                                    realm={playerData.realm}
-                                                />
-                                            </React.Fragment>
-                                        )}
                                     </span>
                                 </Typography>
                             </ListItem>

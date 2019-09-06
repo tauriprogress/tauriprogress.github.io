@@ -11,6 +11,7 @@ import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
 
 import { getBossesDefeated } from "./helpers";
+import { getNestedObjectValue } from "../../helpers";
 
 import { guildSelectBoss } from "../../redux/actions";
 
@@ -51,17 +52,18 @@ class GuildProgression extends React.PureComponent {
             return <div className="displayGuildProgression" />;
         } else {
             let extendedRaids = [];
-            let boss = false;
+            let boss = getNestedObjectValue(progression, [
+                selectedRaidName,
+                this.state.tab,
+                selectedBossName
+            ]);
+
             for (let raidName in raids) {
                 let bossesDefeated = getBossesDefeated(
                     raidName,
                     raids[raidName].encounters,
                     progression
                 );
-
-                if (bossesDefeated[selectedBossName]) {
-                    boss = true;
-                }
 
                 raids[raidName].encounters = raids[raidName].encounters.map(
                     boss => ({
@@ -73,12 +75,6 @@ class GuildProgression extends React.PureComponent {
                 );
 
                 extendedRaids.push(raids[raidName]);
-            }
-            if (boss) {
-                boss =
-                    progression[selectedRaidName][this.state.tab][
-                        selectedBossName
-                    ];
             }
 
             return (
