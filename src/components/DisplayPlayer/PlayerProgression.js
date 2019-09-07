@@ -99,9 +99,6 @@ class PlayerProgression extends React.PureComponent {
                             style={{
                                 background: "url(" + raid.picture + ")"
                             }}
-                            classes={{
-                                selected: classes.listItemSelected
-                            }}
                             selected={selectedRaid === raid.name}
                             component="li"
                         >

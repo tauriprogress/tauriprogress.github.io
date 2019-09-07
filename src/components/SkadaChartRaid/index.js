@@ -10,8 +10,6 @@ import IconMissing from "@material-ui/icons/NotInterested";
 import IconTotal from "@material-ui/icons/BarChart";
 import SelectAll from "@material-ui/icons/SelectAll";
 
-import LogLink from "../LogLink";
-
 import { getSpecImg, shortNumber } from "../../helpers";
 import { Typography, Tooltip } from "@material-ui/core";
 
@@ -154,7 +152,11 @@ class SkadaChartRaid extends React.Component {
                             <ListItem
                                 component={playerData[variant] ? "a" : "li"}
                                 key={boss.encounter_name}
-                                className={classes.listItem}
+                                className={`${classes.listItem} ${
+                                    currentBoss[variant][variant]
+                                        ? "bossLink"
+                                        : ""
+                                }`}
                                 href={`/log/${playerData.logId}?realm=${playerData.realm}`}
                                 target="_blank"
                             >

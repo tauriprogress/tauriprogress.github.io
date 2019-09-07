@@ -1,10 +1,8 @@
 .skadaChart
-    width: 320px
     &Title
         padding: 5px 0 
         display: flex !important
         justify-content: space-between
-        padding-right: 50px
         span
             position: relative
         &Icons
@@ -29,9 +27,12 @@
         display: flex !important
         height: 30px
         width: 100%
+    .bossLink
+        &:hover
+            *
+                color: #f25c00
 
-    &Total
-        margin-right: 50px !important
+    
 
     &SpecIcon
         height: 30px !important
@@ -53,14 +54,12 @@
         overflow: hidden
         text-overflow: ellipsis
         white-space: nowrap
-        padding-right: 5px
 
     &Values
         display: flex
         justify-content: space-between
         position: relative
         height: 30px 
-        margin-right: 5px
         padding-left: 2px
         z-index: 1
         flex: 1
