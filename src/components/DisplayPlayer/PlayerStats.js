@@ -18,11 +18,11 @@ function styles(theme) {
     };
 }
 
-function PlayerStats({ data, classes }) {
+function PlayerStats({ data, classes, progression }) {
     const general = [
         {
             label: `${abbreviation} HC`,
-            value: data && getBossesDefeated(data.progression)
+            value: progression && getBossesDefeated(progression)
         },
         { label: "Achievements", value: data && data.pts },
         { label: "Level", value: data && data.level },
@@ -85,7 +85,8 @@ function PlayerStats({ data, classes }) {
 
 function mapStateToProps(state) {
     return {
-        data: state.player.data.data
+        data: state.player.data.data,
+        progression: state.player.progression.data
     };
 }
 
