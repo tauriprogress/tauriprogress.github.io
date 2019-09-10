@@ -1,4 +1,4 @@
-import { difficultyLabels } from "tauriprogress-constants";
+import { difficultyLabels, currentContent } from "tauriprogress-constants";
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -10,7 +10,7 @@ import GuildRaidList from "./GuildRaidBossList";
 import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
 
-import { getBossesDefeated } from "./helpers";
+import { getBossesDefeated, selectDefaultDifficulty } from "./helpers";
 import { getNestedObjectValue } from "../../helpers";
 
 import { guildSelectBoss } from "../../redux/actions";
@@ -19,20 +19,23 @@ class GuildProgression extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            tab: 5
+            tab: selectDefaultDifficulty(
+                this.props.progression,
+                currentContent.raidName,
+                this.props.raids[currentContent.raidName].encounters[0]
+                    .encounter_name
+            )
         };
         this.tabChange = this.tabChange.bind(this);
     }
 
     componentDidMount() {
         if (!this.props.selectedBossName) {
-            const raidName = this.props.raids[Object.keys(this.props.raids)[0]]
-                .name;
-
             this.props.guildSelectBoss({
-                selectedRaidName: this.props.raids[raidName].name,
-                selectedBossName: this.props.raids[raidName].encounters[0]
-                    .encounter_name
+                selectedRaidName: this.props.raids[currentContent.raidName]
+                    .name,
+                selectedBossName: this.props.raids[currentContent.raidName]
+                    .encounters[0].encounter_name
             });
         }
     }
@@ -48,6 +51,7 @@ class GuildProgression extends React.PureComponent {
             selectedRaidName,
             selectedBossName
         } = this.props;
+
         if (!selectedBossName) {
             return <div className="displayGuildProgression" />;
         } else {
