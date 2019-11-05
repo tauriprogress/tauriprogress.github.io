@@ -5,7 +5,7 @@ import {
     characterClasses
 } from "tauriprogress-constants";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import TextField from "@material-ui/core/TextField";
@@ -16,7 +16,10 @@ import FormControl from "@material-ui/core/FormControl";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
-import { charLadderFilterSet } from "../../redux/actions";
+import {
+    charLadderFilterSet,
+    charLadderFilterReset
+} from "../../redux/actions";
 
 const styles = {
     root: {
@@ -35,6 +38,8 @@ for (let realmKey in realms) {
 function Filters({ disableFilter, theme }) {
     const filter = useSelector(state => state.charLadder.filter);
     const dispatch = useDispatch();
+
+    useEffect(() => () => dispatch(charLadderFilterReset()), []);
 
     const {
         palette: { classColors, factionColors }
