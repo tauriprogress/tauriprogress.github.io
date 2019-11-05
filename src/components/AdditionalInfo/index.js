@@ -1,15 +1,11 @@
 //import { valuesCorrectSince } from "tauriprogress-constants";
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import Divider from "@material-ui/core/Divider";
 import Link from "@material-ui/core/Link";
-//import Collapse from "@material-ui/core/Collapse";
-//import ExpandMore from "@material-ui/icons/ExpandMore";
-//import ExpandLess from "@material-ui/icons/ExpandLess";
 import Info from "@material-ui/icons/Info";
 
 import ErrorMessage from "../ErrorMessage";
@@ -20,206 +16,120 @@ import { lastUpdatedFetch } from "../../redux/actions";
 import { convertMinutes } from "../../helpers";
 import { Typography } from "@material-ui/core";
 
-class AdditionalInfo extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            drawerOpen: false,
-            issuesOpen: false
-        };
+function AdditionalInfo() {
+    const [isOpen, setOpen] = useState(false);
 
-        this.open = this.open.bind(this);
-        this.toggleDrawer = this.toggleDrawer.bind(this);
-        this.toggleIssues = this.toggleIssues.bind(this);
-    }
+    const { lastUpdated, isUpdating, loading, error } = useSelector(
+        state => state.additionalInfo
+    );
 
-    open() {
-        this.props.lastUpdatedFetch();
-        this.toggleDrawer(true);
-    }
+    const dispatch = useDispatch();
 
-    toggleDrawer(value) {
-        this.setState({ ...this.state, drawerOpen: value });
-    }
+    useEffect(() => {
+        if (isOpen) {
+            dispatch(lastUpdatedFetch());
+        }
+    }, [isOpen]);
 
-    toggleIssues() {
-        this.setState({ ...this.state, issuesOpen: !this.state.issuesOpen });
-    }
-
-    render() {
-        const {
-            lastUpdated,
-            isUpdating,
-            loading,
-            error
-        } = this.props.additionalInfo;
-
-        return (
-            <div className="additionalInfo">
-                <Fab color="primary" size="small" onClick={this.open}>
-                    <Info fontSize="large" />
-                </Fab>
-                <Drawer
-                    open={this.state.drawerOpen}
-                    onClose={() => this.toggleDrawer(false)}
-                    anchor="right"
-                >
-                    <div className="additionalInfoContent">
-                        {loading && <Loading />}
-                        {!loading && error && <ErrorMessage message={error} />}
-                        {!loading && (
-                            <div className="additionalInfoUpdate">
-                                <Typography>
-                                    Last updated:{" "}
-                                    <span className="textBold">
-                                        {convertMinutes(lastUpdated || 0)}
-                                    </span>{" "}
-                                    ago.
-                                </Typography>
-                                {isUpdating && (
-                                    <Typography>
-                                        Database is currently updating.
-                                    </Typography>
-                                )}
-                            </div>
-                        )}
-                        <Divider />
-
-                        {/*
-                            <div className="additionalInfoIssues">
-                            <Typography
-                                variant="button"
-                                onClick={this.toggleIssues}
-                                className="additionalInfoIssuesButton"
-                            >
-                                <Link color="inherit" component="span">
-                                    Known issues{" "}
-                                    {this.state.issuesOpen ? (
-                                        <ExpandLess />
-                                    ) : (
-                                        <ExpandMore />
-                                    )}
-                                </Link>
+    return (
+        <div className="additionalInfo">
+            <Fab
+                color="primary"
+                size="small"
+                onClick={() => setOpen(isOpen ? false : true)}
+            >
+                <Info fontSize="large" />
+            </Fab>
+            <Drawer open={isOpen} onClose={() => setOpen(false)} anchor="right">
+                <div className="additionalInfoContent">
+                    {loading && <Loading />}
+                    {!loading && error && <ErrorMessage message={error} />}
+                    {!loading && (
+                        <div className="additionalInfoUpdate">
+                            <Typography>
+                                Last updated:{" "}
+                                <span className="textBold">
+                                    {convertMinutes(lastUpdated || 0)}
+                                </span>{" "}
+                                ago.
                             </Typography>
-                            <Collapse
-                                in={this.state.issuesOpen}
-                                timeout="auto"
-                                unmountOnExit
-                            >
+                            {isUpdating && (
                                 <Typography>
-                                    DPS of Durumu is only collected since{" "}
-                                    <span className="textBold">
-                                        {new Date(
-                                            valuesCorrectSince * 1000
-                                        ).toLocaleDateString()}{" "}
-                                    </span>
-                                    due to a bug.
-                                    <br /> Healing and absorb in some cases may
-                                    be incorrect before{" "}
-                                    <span className="textBold">
-                                        {new Date(
-                                            valuesCorrectSince * 1000
-                                        ).toLocaleDateString()}{" "}
-                                    </span>
-                                    due to a bug.
+                                    Database is currently updating.
                                 </Typography>
-                            </Collapse>
+                            )}
                         </div>
-                        <Divider />
-                            */}
+                    )}
 
-                        <Typography>
+                    <Divider />
+
+                    <Typography>
+                        <Link
+                            color="inherit"
+                            component="span"
+                            className="textBold"
+                        >
+                            <a
+                                href="https://tauriwow.com/"
+                                target="_blank"
+                                rel="noreferrer noopener"
+                            >
+                                Tauri WoW
+                            </a>
+                        </Link>
+
+                        <br />
+
+                        <span className="textBold">
                             <Link
                                 color="inherit"
                                 component="span"
                                 className="textBold"
                             >
                                 <a
-                                    href="https://tauriwow.com/"
+                                    href="https://community.tauriwow.com/index.php?/topic/2076/"
                                     target="_blank"
                                     rel="noreferrer noopener"
                                 >
-                                    Tauri WoW
+                                    Forums
                                 </a>
                             </Link>
-
-                            <br />
-
-                            <span className="textBold">
-                                <Link
-                                    color="inherit"
-                                    component="span"
-                                    className="textBold"
+                        </span>
+                        <br />
+                        <span className="textBold">
+                            <Link
+                                color="inherit"
+                                component="span"
+                                className="textBold"
+                            >
+                                <a
+                                    href="https://github.com/tauriprogress"
+                                    target="_blank"
+                                    rel="noreferrer noopener"
                                 >
-                                    <a
-                                        href="https://community.tauriwow.com/index.php?/topic/2076/"
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                    >
-                                        Forums
-                                    </a>
-                                </Link>
-                            </span>
-                            <br />
-                            <span className="textBold">
-                                <Link
-                                    color="inherit"
-                                    component="span"
-                                    className="textBold"
-                                >
-                                    <a
-                                        href="https://github.com/tauriprogress"
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                    >
-                                        Github
-                                    </a>
-                                </Link>
-                            </span>
-                        </Typography>
-                        <Divider />
+                                    Github
+                                </a>
+                            </Link>
+                        </span>
+                    </Typography>
+                    <Divider />
+                    <Typography>
+                        Data is collected since{" "}
+                        <span className="textBold">
+                            {new Date(1541640000000).toLocaleDateString()}
+                        </span>{" "}
+                        and only of heroic encounters.
+                    </Typography>
 
-                        <Typography>
-                            Database updating is now automated.
-                        </Typography>
-                        <Divider />
+                    <Divider />
 
-                        <Typography>
-                            Data is collected since{" "}
-                            <span className="textBold">
-                                {new Date(1541640000000).toLocaleDateString()}
-                            </span>{" "}
-                            and only of heroic encounters.
-                        </Typography>
-
-                        <Divider />
-
-                        <Typography>
-                            Fanmade website to track progression on tauri.
-                        </Typography>
-                    </div>
-                </Drawer>
-            </div>
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    return {
-        additionalInfo: state.additionalInfo
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        {
-            lastUpdatedFetch
-        },
-        dispatch
+                    <Typography>
+                        Fanmade website to track progression on tauri.
+                    </Typography>
+                </div>
+            </Drawer>
+        </div>
     );
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdditionalInfo);
+export default AdditionalInfo;
