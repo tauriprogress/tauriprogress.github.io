@@ -6,10 +6,6 @@ const defaultState = {
         role: "",
         faction: "",
         realm: ""
-    },
-    pagination: {
-        rowsPerPage: 50,
-        currentPage: 0
     }
 };
 
@@ -36,11 +32,6 @@ function charLadderFilterReducer(state = defaultState, action) {
             };
         case "CHAR_LADDER_FILTER_RESET":
             return { ...state, filter: defaultState.filter };
-        case "CHAR_LADDER_PAGINATION_PAGE_SET":
-            return {
-                ...state,
-                pagination: { ...state.pagination, currentPage: action.payload }
-            };
         default:
             return state;
     }

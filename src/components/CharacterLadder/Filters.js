@@ -6,8 +6,7 @@ import {
 } from "tauriprogress-constants";
 
 import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -33,21 +32,23 @@ for (let realmKey in realms) {
     realmNames.push(realms[realmKey]);
 }
 
-function Filters({
-    filter,
-    disableFilter,
-    charLadderFilterSet,
-    theme: {
-        palette: { classColors, factionColors }
-    }
-}) {
-    let specOptions = [];
+function Filters({ disableFilter, theme }) {
+    const filter = useSelector(state => state.charLadder.filter);
+    const dispatch = useDispatch();
 
+    const {
+        palette: { classColors, factionColors }
+    } = theme;
+
+    let specOptions = [];
     for (let specId in specToClass) {
         if (specToClass[specId] === Number(filter.class)) {
             specOptions.push({
-                id: specId,
-                label: specs[specId].label
+                value: specId,
+                name: specs[specId].label,
+                style: {
+                    color: classColors[filter.class]
+                }
             });
         }
     }
@@ -55,8 +56,87 @@ function Filters({
     let classOptions = [];
     for (let classId in characterClasses) {
         classOptions.push({
-            id: classId,
-            label: characterClasses[classId]
+            value: classId,
+            name: characterClasses[classId],
+            style: {
+                color: classColors[classId]
+            }
+        });
+    }
+    let realmOptions = [];
+    for (let realm of realmNames) {
+        realmOptions.push({
+            value: realm,
+            name: realm
+        });
+    }
+
+    let selects = [
+        {
+            name: "class",
+            style: {
+                color: classColors[filter.class]
+            },
+            options: classOptions
+        },
+        {
+            name: "spec",
+            style: {
+                color: classColors[filter.class]
+            },
+            options: specOptions
+        },
+        {
+            name: "role",
+            options: [
+                {
+                    value: "damage",
+                    name: "damage"
+                },
+                {
+                    value: "heal",
+                    name: "heal"
+                },
+                {
+                    value: "tank",
+                    name: "tank"
+                }
+            ]
+        }
+    ];
+
+    if (!disableFilter.faction) {
+        selects.push({
+            name: "faction",
+            style: {
+                color:
+                    filter.faction === 0
+                        ? factionColors.alliance
+                        : factionColors.horde
+            },
+            options: [
+                {
+                    value: 0,
+                    name: "alliance",
+                    style: {
+                        color: factionColors.alliance
+                    }
+                },
+                {
+                    value: 1,
+                    name: "horde",
+                    style: {
+                        color: factionColors.horde
+                    }
+                }
+            ]
+        });
+    }
+
+    if (!disableFilter.realm) {
+        selects.push({
+            name: "realm",
+            options: realmOptions
         });
     }
 
@@ -68,199 +148,62 @@ function Filters({
                     label="Name"
                     value={filter.name}
                     onChange={e =>
-                        charLadderFilterSet({
-                            filterName: "name",
-                            value: e.target.value
-                        })
+                        dispatch(
+                            charLadderFilterSet({
+                                filterName: "name",
+                                value: e.target.value
+                            })
+                        )
                     }
                     margin="normal"
                     className="globalFilterStylesSearch"
                 />
             </FormControl>
 
-            <FormControl className="globalFilterStylesFormControl">
-                <InputLabel htmlFor="class">Class</InputLabel>
-                <StyledSelect
-                    style={{
-                        color: classColors[filter.class]
-                    }}
-                    value={filter.class}
-                    onChange={e =>
-                        charLadderFilterSet({
-                            filterName: "class",
-                            value: e.target.value
-                        })
-                    }
-                    inputProps={{
-                        name: "class",
-                        id: "class"
-                    }}
-                    className="globalFilterStylesSelect"
+            {selects.map(select => (
+                <FormControl
+                    className="globalFilterStylesFormControl"
+                    key={select.name}
                 >
-                    <MenuItem value="">
-                        <em>All</em>
-                    </MenuItem>
-                    {classOptions.map(characterClass => (
-                        <MenuItem
-                            key={characterClass.id}
-                            value={characterClass.id}
-                            style={{
-                                color: classColors[characterClass.id]
-                            }}
-                        >
-                            {characterClass.label}
-                        </MenuItem>
-                    ))}
-                </StyledSelect>
-            </FormControl>
-            <FormControl className="globalFilterStylesFormControl">
-                <InputLabel htmlFor="class">Spec</InputLabel>
-                <StyledSelect
-                    style={{
-                        color: classColors[filter.class]
-                    }}
-                    value={filter.spec}
-                    onChange={e =>
-                        charLadderFilterSet({
-                            filterName: "spec",
-                            value: e.target.value
-                        })
-                    }
-                    inputProps={{
-                        name: "spec",
-                        id: "spec"
-                    }}
-                    className="globalFilterStylesSelect"
-                >
-                    <MenuItem value="">
-                        <em>All</em>
-                    </MenuItem>
-                    {specOptions.map(specOption => (
-                        <MenuItem
-                            style={{
-                                color: classColors[filter.class]
-                            }}
-                            key={specOption.id}
-                            value={specOption.id}
-                        >
-                            {specOption.label}
-                        </MenuItem>
-                    ))}
-                </StyledSelect>
-            </FormControl>
-            <FormControl className="globalFilterStylesFormControl">
-                <InputLabel htmlFor="class">Role</InputLabel>
-                <StyledSelect
-                    value={filter.role}
-                    onChange={e =>
-                        charLadderFilterSet({
-                            filterName: "role",
-                            value: e.target.value
-                        })
-                    }
-                    inputProps={{
-                        name: "role",
-                        id: "role"
-                    }}
-                    className="globalFilterStylesSelect"
-                >
-                    <MenuItem value="">
-                        <em>All</em>
-                    </MenuItem>
-                    <MenuItem value={"damage"}>Damage</MenuItem>
-                    <MenuItem value={"heal"}>Heal</MenuItem>
-                    <MenuItem value={"tank"}>Tank</MenuItem>
-                </StyledSelect>
-            </FormControl>
-            {!disableFilter.faction && (
-                <FormControl className="globalFilterStylesFormControl">
-                    <InputLabel htmlFor="class">Faction</InputLabel>
+                    <InputLabel htmlFor="class">
+                        <span className="textCapitalize">{select.name}</span>
+                    </InputLabel>
                     <StyledSelect
-                        value={filter.faction}
+                        style={select.style}
+                        value={filter[select.name]}
                         onChange={e =>
-                            charLadderFilterSet({
-                                filterName: "faction",
-                                value: e.target.value
-                            })
+                            dispatch(
+                                charLadderFilterSet({
+                                    filterName: select.name,
+                                    value: e.target.value
+                                })
+                            )
                         }
-                        style={{
-                            color:
-                                filter.faction === 0
-                                    ? factionColors.alliance
-                                    : factionColors.horde
-                        }}
                         inputProps={{
-                            name: "faction",
-                            id: "faction"
+                            name: select.name,
+                            id: select.name
                         }}
                         className="globalFilterStylesSelect"
                     >
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        <MenuItem
-                            style={{
-                                color: factionColors.alliance
-                            }}
-                            value={0}
-                        >
-                            Alliance
-                        </MenuItem>
-                        <MenuItem
-                            style={{
-                                color: factionColors.horde
-                            }}
-                            value={1}
-                        >
-                            Horde
-                        </MenuItem>
-                    </StyledSelect>
-                </FormControl>
-            )}
-
-            {!disableFilter.realm && (
-                <FormControl className="globalFilterStylesFormControl">
-                    <InputLabel htmlFor="class">Server</InputLabel>
-                    <StyledSelect
-                        value={filter.realm}
-                        onChange={e =>
-                            charLadderFilterSet({
-                                filterName: "realm",
-                                value: e.target.value
-                            })
-                        }
-                        inputProps={{
-                            name: "realm",
-                            id: "realm"
-                        }}
-                        className="globalFilterStylesSelect"
-                    >
-                        <MenuItem value="">
-                            <em>All</em>
-                        </MenuItem>
-                        {realmNames.map(realm => (
-                            <MenuItem key={realm} value={realm}>
-                                {realm}
+                        {select.options.map(option => (
+                            <MenuItem
+                                key={option.name}
+                                value={option.value}
+                                style={option.style}
+                            >
+                                <span className="textCapitalize">
+                                    {option.name}
+                                </span>
                             </MenuItem>
                         ))}
                     </StyledSelect>
                 </FormControl>
-            )}
+            ))}
         </div>
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        filter: state.charLadder.filter
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ charLadderFilterSet }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withTheme()(Filters));
+export default withTheme()(Filters);
