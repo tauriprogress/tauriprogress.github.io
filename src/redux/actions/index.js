@@ -144,9 +144,9 @@ export function guildFill(payload) {
     };
 }
 
-export function guildSetNav(payload) {
+export function guildSelectTab(payload) {
     return {
-        type: "GUILD_SET_NAV",
+        type: "GUILD_SELECT_TAB",
         payload
     };
 }

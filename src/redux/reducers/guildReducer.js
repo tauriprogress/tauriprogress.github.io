@@ -6,9 +6,7 @@ const defaultState = {
     loading: false,
     guildName: null,
     realm: null,
-    nav: {
-        active: 0
-    },
+    tab: 0,
     selectedBossName: null,
     selectedRaidName: null
 };
@@ -18,8 +16,8 @@ function guildReducer(state = defaultState, action) {
         case "GUILD_SELECT_BOSS": {
             return { ...state, ...action.payload };
         }
-        case "GUILD_SET_NAV":
-            return { ...state, nav: { ...state.nav, active: action.payload } };
+        case "GUILD_SELECT_TAB":
+            return { ...state, tab: action.payload };
         case "GUILD_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";

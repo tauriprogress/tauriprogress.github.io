@@ -7,7 +7,7 @@ import Navigation from "../Navigation";
 import RaidBossListContainer from "../RaidBossListContainer";
 import DisplayGuilds from "../DisplayGuilds";
 import RaidContainer from "../RaidContainer";
-import DisplayGuild from "../DisplayGuild";
+import Guild from "../Guild";
 import DisplayPlayer from "../DisplayPlayer";
 import FightLog from "../FightLog";
 import TauriApi from "../TauriApi";
@@ -40,7 +40,7 @@ function Router() {
                         <Route
                             exact
                             path="/guild/:guildName"
-                            component={DisplayGuild}
+                            component={Guild}
                         />
                         <Route
                             exact
