@@ -5,7 +5,7 @@ import { CssBaseline } from "@material-ui/core";
 import Navigation from "../Navigation";
 
 import RaidBossListContainer from "../RaidBossListContainer";
-import DisplayGuilds from "../DisplayGuilds";
+import GuildList from "../GuildList";
 import RaidContainer from "../RaidContainer";
 import Guild from "../Guild";
 import DisplayPlayer from "../DisplayPlayer";
@@ -28,7 +28,7 @@ function Router() {
                             render={() => (
                                 <React.Fragment>
                                     <RaidBossListContainer />
-                                    <DisplayGuilds />
+                                    <GuildList />
                                 </React.Fragment>
                             )}
                         />
