@@ -78,18 +78,33 @@ function Guild({ theme, match, location }) {
                             </Tabs>
                         </AppBar>
                         <div className="displayGuildContent">
-                            {tab === 0 && (
-                                <GuildProgression
-                                    progression={data.progression}
-                                />
-                            )}
-                            {tab === 1 && (
-                                <GuildLatestKills
-                                    data={data.progression.latestKills}
-                                    realm={data.realm}
-                                />
-                            )}
-                            {tab === 2 && <GuildRoster data={data.guildList} />}
+                            {(() => {
+                                switch (tab) {
+                                    case 0:
+                                        return (
+                                            <GuildProgression
+                                                progression={data.progression}
+                                            />
+                                        );
+                                    case 1:
+                                        return (
+                                            <GuildLatestKills
+                                                data={
+                                                    data.progression.latestKills
+                                                }
+                                                realm={data.realm}
+                                            />
+                                        );
+                                    case 2:
+                                        return (
+                                            <GuildRoster
+                                                data={data.guildList}
+                                            />
+                                        );
+                                    default:
+                                        return null;
+                                }
+                            })()}
                         </div>
                     </div>
                 </React.Fragment>

@@ -12,7 +12,7 @@ import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../../helpers";
 
-function GuildLatestKills({ data, realm }) {
+function GuildFastestKills({ data }) {
     return (
         <div className="overflowScroll">
             <Table>
@@ -62,4 +62,4 @@ function GuildLatestKills({ data, realm }) {
     );
 }
 
-export default GuildLatestKills;
+export default GuildFastestKills;

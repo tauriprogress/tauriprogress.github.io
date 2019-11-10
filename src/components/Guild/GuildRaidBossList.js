@@ -1,6 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -38,89 +37,56 @@ function styles(theme) {
     };
 }
 
-class GuildRaidBossList extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: true
-        };
-        this.handleClick = this.handleClick.bind(this);
-    }
+function GuildRaidBossList({ raid, classes }) {
+    const [open, setOpen] = useState(true);
+    const selectedBossName = useSelector(state => state.guild.selectedBossName);
+    const dispatch = useDispatch();
 
-    handleClick() {
-        this.setState({
-            open: this.state.open ? false : true
-        });
-    }
-    render() {
-        const { raid, classes, selectedBossName, guildSelectBoss } = this.props;
-        return (
-            <Card className={`displayGuildRaidBossList ${classes.container}`}>
-                <ListItem
-                    button
-                    onClick={this.handleClick}
-                    className={`displayGuildRaidBossListTitle ${
-                        classes.listItem
-                    } ${classes.listTitle}`}
-                    style={{
-                        background: "url(" + raid.picture + ")"
-                    }}
-                >
-                    <ListItemText inset primary={raid.name} />
-                    {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                    <List disablePadding>
-                        {raid.encounters.map((encounter, index) => (
-                            <ListItem
-                                component="li"
-                                button
-                                className={`${classes.listItem} ${
-                                    encounter.defeated
-                                        ? classes.bossDefeated
-                                        : classes.bossAlive
-                                }`}
-                                key={encounter.encounter_name}
-                                selected={
-                                    selectedBossName ===
-                                    encounter.encounter_name
-                                }
-                                onClick={() =>
+    return (
+        <Card className={`displayGuildRaidBossList ${classes.container}`}>
+            <ListItem
+                button
+                onClick={() => setOpen(open ? false : true)}
+                className={`displayGuildRaidBossListTitle ${classes.listItem} ${classes.listTitle}`}
+                style={{
+                    background: "url(" + raid.picture + ")"
+                }}
+            >
+                <ListItemText inset primary={raid.name} />
+                {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                    {raid.encounters.map((encounter, index) => (
+                        <ListItem
+                            component="li"
+                            button
+                            className={`${classes.listItem} ${
+                                encounter.defeated
+                                    ? classes.bossDefeated
+                                    : classes.bossAlive
+                            }`}
+                            key={encounter.encounter_name}
+                            selected={
+                                selectedBossName === encounter.encounter_name
+                            }
+                            onClick={() =>
+                                dispatch(
                                     guildSelectBoss({
                                         selectedRaidName: raid.name,
                                         selectedBossName:
                                             encounter.encounter_name
                                     })
-                                }
-                            >
-                                <ListItemText
-                                    primary={encounter.encounter_name}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Collapse>
-            </Card>
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    return {
-        selectedBossName: state.guild.selectedBossName
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        {
-            guildSelectBoss
-        },
-        dispatch
+                                )
+                            }
+                        >
+                            <ListItemText primary={encounter.encounter_name} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Collapse>
+        </Card>
     );
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(GuildRaidBossList));
+export default withStyles(styles)(GuildRaidBossList);
