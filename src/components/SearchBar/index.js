@@ -28,7 +28,7 @@ class SearchBar extends React.PureComponent {
     }
 
     render() {
-        const { loading, error, data } = this.props;
+        const { loading, error } = this.props;
         return (
             <React.Fragment>
                 <span
@@ -46,16 +46,14 @@ class SearchBar extends React.PureComponent {
                 >
                     {loading && <Loading />}
                     {error && <ErrorMessage message={error} />}
-                    {!loading && !error && data && (
-                        <React.Fragment>
-                            <SearchGuild
-                                closeDrawer={() => this.toggleDrawer(false)}
-                            />
-                            <SearchPlayer
-                                closeDrawer={() => this.toggleDrawer(false)}
-                            />
-                        </React.Fragment>
-                    )}
+                    <React.Fragment>
+                        <SearchGuild
+                            closeDrawer={() => this.toggleDrawer(false)}
+                        />
+                        <SearchPlayer
+                            closeDrawer={() => this.toggleDrawer(false)}
+                        />
+                    </React.Fragment>
                 </Drawer>
             </React.Fragment>
         );
@@ -65,8 +63,7 @@ class SearchBar extends React.PureComponent {
 function mapStateToProps(state) {
     return {
         loading: state.guilds.loading,
-        error: state.guilds.error,
-        data: state.guilds.data ? true : false
+        error: state.guilds.error
     };
 }
 

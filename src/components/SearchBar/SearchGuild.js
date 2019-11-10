@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import { withRouter } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -12,6 +14,8 @@ import { emphasize } from "@material-ui/core/styles/colorManipulator";
 
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
+
+import { guildsFetch } from "../../redux/actions";
 
 const styles = theme => ({
     root: {
@@ -172,6 +176,10 @@ class SearchGuild extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
+    componentDidMount() {
+        this.props.guildsFetch();
+    }
+
     handleChange(value) {
         this.setState({ ...this.state, value: value });
     }
@@ -212,6 +220,7 @@ class SearchGuild extends React.Component {
                         classes={classes}
                         styles={selectStyles}
                         components={components}
+                        isDisabled={!guilds.length}
                         placeholder="Search guild"
                         isClearable
                     />
@@ -230,6 +239,12 @@ class SearchGuild extends React.Component {
 }
 
 function mapStateToProps(state) {
+    if (!state.guilds.data) {
+        return {
+            guilds: []
+        };
+    }
+
     return {
         guilds: state.guilds.data.map(guild => ({
             label: guild.guildName,
@@ -241,6 +256,15 @@ function mapStateToProps(state) {
     };
 }
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ guildsFetch }, dispatch);
+}
+
 export default withStyles(styles, { withTheme: true })(
-    withRouter(connect(mapStateToProps)(SearchGuild))
+    withRouter(
+        connect(
+            mapStateToProps,
+            mapDispatchToProps
+        )(SearchGuild)
+    )
 );

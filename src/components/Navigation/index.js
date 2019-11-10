@@ -14,7 +14,7 @@ import Drawer from "@material-ui/core/Drawer";
 
 import NavLinks from "./NavLinks";
 import AdditionalInfo from "../AdditionalInfo";
-import { navToggle, themeToggle, guildsFetch } from "../../redux/actions";
+import { navToggle, themeToggle } from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -25,10 +25,6 @@ function styles(theme) {
 }
 
 class Navigation extends React.Component {
-    componentDidMount() {
-        this.props.guildsFetch();
-    }
-
     render() {
         const { showNav, themeToggle, navToggle } = this.props;
         return (
@@ -81,10 +77,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        { themeToggle, navToggle, guildsFetch },
-        dispatch
-    );
+    return bindActionCreators({ themeToggle, navToggle }, dispatch);
 }
 
 export default connect(
