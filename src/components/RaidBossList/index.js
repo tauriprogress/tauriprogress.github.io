@@ -1,6 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
@@ -33,103 +32,75 @@ function styles(theme) {
     };
 }
 
-class RaidBossList extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: window.innerWidth > 600 ? true : false
-        };
-        this.handleClick = this.handleClick.bind(this);
-    }
+function RaidBossList({ raid, classes, selected }) {
+    const [open, setOpen] = useState(window.innerWidth > 600 ? true : false);
 
-    handleClick() {
-        this.setState({
-            open: this.state.open ? false : true
-        });
-    }
+    const dispatch = useDispatch();
 
-    render() {
-        const {
-            raid,
-            classes,
-            selected,
-            raidBossFetch,
-            raidFetch
-        } = this.props;
-        return (
-            <Card className={`${classes.container} raidBossList`}>
-                <ListItem
-                    className={`raidBossListTitle ${classes.listItem} ${
-                        classes.listTitle
-                    }`}
-                    button
-                    onClick={this.handleClick}
-                    style={{
-                        background: "url(" + raid.picture + ")"
-                    }}
-                >
-                    <ListItemText inset primary={raid.name} />
-                    {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                    <List disablePadding>
-                        <ListItem
-                            className={classes.listItem}
-                            component="li"
-                            button
-                            selected={selected === 0}
+    return (
+        <Card className={`${classes.container} raidBossList`}>
+            <ListItem
+                className={`raidBossListTitle ${classes.listItem} ${classes.listTitle}`}
+                button
+                onClick={() => setOpen(open ? false : true)}
+                style={{
+                    background: "url(" + raid.picture + ")"
+                }}
+            >
+                <ListItemText inset primary={raid.name} />
+                {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                    <ListItem
+                        className={classes.listItem}
+                        component="li"
+                        button
+                        selected={selected === 0}
+                    >
+                        <RouterLink
+                            to={`/raid/${raid.name}`}
+                            onClick={() => dispatch(raidFetch(raid.name))}
                         >
-                            <RouterLink
-                                to={`/raid/${raid.name}`}
-                                onClick={() => raidFetch(raid.name)}
-                            >
-                                <ListItemText primary="Summary" />
-                            </RouterLink>
-                        </ListItem>
-                        {raid.encounters.map((encounter, index) => {
-                            let name = encounter.encounter_name;
-                            let linkTo = `/raid/${raid.name}/${
-                                encounter.encounter_name
-                            }`;
+                            <ListItemText primary="Summary" />
+                        </RouterLink>
+                    </ListItem>
+                    {raid.encounters.map((encounter, index) => {
+                        let name = encounter.encounter_name;
+                        let linkTo = `/raid/${raid.name}/${encounter.encounter_name}`;
 
-                            return (
-                                <ListItem
-                                    className={classes.listItem}
-                                    component="li"
-                                    button
-                                    key={name}
-                                    classes={{
-                                        selected: classes.listItemSelected
-                                    }}
-                                    selected={selected === index + 1}
-                                >
-                                    <RouterLink
-                                        to={linkTo}
-                                        onClick={() =>
+                        return (
+                            <ListItem
+                                className={classes.listItem}
+                                component="li"
+                                button
+                                key={name}
+                                classes={{
+                                    selected: classes.listItemSelected
+                                }}
+                                selected={selected === index + 1}
+                            >
+                                <RouterLink
+                                    to={linkTo}
+                                    onClick={() =>
+                                        dispatch(
                                             raidBossFetch({
                                                 raidName: raid.name,
                                                 bossName:
                                                     encounter.encounter_name
                                             })
-                                        }
-                                    >
-                                        <ListItemText primary={name} />
-                                    </RouterLink>
-                                </ListItem>
-                            );
-                        })}
-                    </List>
-                </Collapse>
-            </Card>
-        );
-    }
+                                        )
+                                    }
+                                >
+                                    <ListItemText primary={name} />
+                                </RouterLink>
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </Collapse>
+        </Card>
+    );
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ raidBossFetch, raidFetch }, dispatch);
-}
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(withStyles(styles)(RaidBossList));
+export default withStyles(styles)(RaidBossList);
