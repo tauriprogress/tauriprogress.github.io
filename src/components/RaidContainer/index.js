@@ -1,14 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { useSelector } from "react-redux";
 
 import DisplayRaid from "../DisplayRaid";
 import RaidBossList from "../RaidBossList";
 import DisplayRaidBoss from "../DisplayRaidBoss";
 
-import { raidFetch, raidBossFetch } from "../../redux/actions";
+function RaidContainer({ match }) {
+    const { raidData, selected, error } = useSelector(state => ({
+        raidData: state.raidInfo.raid.raidData,
+        selected: state.raidInfo.raid.selected
+    }));
 
-function RaidContainer({ match, raidData, selected, error }) {
     return (
         <section className="raidContainer">
             {!error && (
@@ -29,18 +31,4 @@ function RaidContainer({ match, raidData, selected, error }) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        raidData: state.raidInfo.raid.raidData,
-        selected: state.raidInfo.raid.selected
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ raidFetch, raidBossFetch }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(RaidContainer);
+export default RaidContainer;
