@@ -1,9 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import RaidBossList from "../RaidBossList";
 
-function RaidBossListContainer({ raids }) {
+function RaidBossListContainer() {
+    const raids = useSelector(state => state.raidInfo.raids);
     let raidsArr = [];
     for (let raidName in raids) {
         raidsArr.push(raids[raidName]);
@@ -18,10 +19,4 @@ function RaidBossListContainer({ raids }) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        raids: state.raidInfo.raids
-    };
-}
-
-export default connect(mapStateToProps)(RaidBossListContainer);
+export default RaidBossListContainer;
