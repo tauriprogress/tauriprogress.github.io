@@ -8,7 +8,7 @@ import RaidBossListContainer from "../RaidBossListContainer";
 import GuildList from "../GuildList";
 import RaidContainer from "../RaidContainer";
 import Guild from "../Guild";
-import DisplayPlayer from "../DisplayPlayer";
+import Player from "../Player";
 import FightLog from "../FightLog";
 import TauriApi from "../TauriApi";
 
@@ -45,7 +45,7 @@ function Router() {
                         <Route
                             exact
                             path="/player/:playerName"
-                            component={DisplayPlayer}
+                            component={Player}
                         />
                         <Route exact path="/log/:logId" component={FightLog} />
                         <Route exact path="/secret" component={TauriApi} />
