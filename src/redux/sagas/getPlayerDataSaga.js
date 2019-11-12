@@ -25,11 +25,9 @@ function* fetchPlayer({ payload }) {
     try {
         const { playerName, realm } = payload;
 
-        const loading = yield select(state => state.player.loading);
-        const oldplayerName = yield select(state => state.player.playerName);
-        const oldRealm = yield select(state => state.player.realm);
+        const loading = yield select(state => state.player.data.loading);
 
-        if (loading && playerName === oldplayerName && realm === oldRealm) {
+        if (loading) {
             return;
         }
 

@@ -1,7 +1,7 @@
 import { abbreviation } from "tauriprogress-constants/currentContent";
 
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -18,7 +18,14 @@ function styles(theme) {
     };
 }
 
-function PlayerStats({ data, classes, progression }) {
+function PlayerStats({ classes }) {
+    const { data, progression } = useSelector(state => {
+        return {
+            data: state.player.data.data,
+            progression: state.player.progression.data
+        };
+    });
+
     const general = [
         {
             label: `${abbreviation} HC`,
@@ -83,11 +90,4 @@ function PlayerStats({ data, classes, progression }) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        data: state.player.data.data,
-        progression: state.player.progression.data
-    };
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(PlayerStats));
+export default withStyles(styles)(PlayerStats);

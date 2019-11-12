@@ -1,6 +1,6 @@
 import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -30,7 +30,12 @@ function styles(theme) {
     };
 }
 
-function PlayerLatestKills({ classes, loading, error, data, realm }) {
+function PlayerLatestKills({ classes }) {
+    const { loading, error, data } = useSelector(
+        state => state.player.latestKills
+    );
+    const realm = useSelector(state => state.player.realm);
+
     return (
         <div className="playerLatestKills">
             <Card className={`${classes.container} `}>
@@ -92,11 +97,4 @@ function PlayerLatestKills({ classes, loading, error, data, realm }) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        ...state.player.latestKills,
-        realm: state.player.realm
-    };
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(PlayerLatestKills));
+export default withStyles(styles)(PlayerLatestKills);

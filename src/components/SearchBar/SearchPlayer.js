@@ -1,7 +1,5 @@
 import { realms } from "tauriprogress-constants";
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import { withRouter } from "react-router-dom";
 
@@ -11,8 +9,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-
-import { playerDataFetch } from "../../redux/actions";
 
 let realmNames = [];
 for (let realmKey in realms) {
@@ -45,10 +41,6 @@ class SearchPlayer extends React.Component {
                 `/player/${this.state.player}?realm=${this.state.realm}`
             );
             this.props.closeDrawer();
-            this.props.playerFetch({
-                playerName: this.state.player,
-                realm: this.state.realm
-            });
         }
     }
 
@@ -106,13 +98,4 @@ class SearchPlayer extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ playerFetch: playerDataFetch }, dispatch);
-}
-
-export default withRouter(
-    connect(
-        null,
-        mapDispatchToProps
-    )(SearchPlayer)
-);
+export default withRouter(SearchPlayer);

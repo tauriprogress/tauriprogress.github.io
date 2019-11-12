@@ -2,7 +2,7 @@ import { characterClasses } from "tauriprogress-constants";
 import { armoryUrl } from "tauriprogress-constants/urls";
 
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -14,7 +14,8 @@ import { Typography } from "@material-ui/core";
 
 import { talentTreeToImage } from "../../helpers";
 
-function PlayerTitle({ data, theme }) {
+function PlayerTitle({ theme }) {
+    const data = useSelector(state => state.player.data.data);
     if (!data) {
         return <div className="displayPlayerTitle" />;
     }
@@ -85,10 +86,4 @@ function PlayerTitle({ data, theme }) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        data: state.player.data.data
-    };
-}
-
-export default connect(mapStateToProps)(withTheme()(PlayerTitle));
+export default withTheme()(PlayerTitle);
