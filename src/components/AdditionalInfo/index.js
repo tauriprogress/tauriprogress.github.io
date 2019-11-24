@@ -1,4 +1,3 @@
-//import { valuesCorrectSince } from "tauriprogress-constants";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -112,6 +111,7 @@ function AdditionalInfo() {
                             </Link>
                         </span>
                     </Typography>
+
                     <Divider />
                     <Typography>
                         Data is collected since{" "}
@@ -121,6 +121,32 @@ function AdditionalInfo() {
                         and only of heroic encounters.
                     </Typography>
 
+                    <Divider />
+                    <Typography>
+                        Dps of arms warriors between{" "}
+                        <span className="textBold">
+                            {new Date(1565187719000).toLocaleDateString()}
+                        </span>{" "}
+                        and{" "}
+                        <span className="textBold">
+                            {new Date(1573639200000).toLocaleDateString()}
+                        </span>{" "}
+                        have been set to 0 because of a{" "}
+                        <Link
+                            color="secondary"
+                            component="span"
+                            className="textBold"
+                        >
+                            <a
+                                href="https://bug.tauriwow.com/index.php?do=details&task_id=18932"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                bug fix
+                            </a>
+                        </Link>
+                        .
+                    </Typography>
                     <Divider />
 
                     <Typography>
