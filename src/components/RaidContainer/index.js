@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import Raid from "../Raid";
 import RaidBossList from "../RaidBossList";
-import DisplayRaidBoss from "../DisplayRaidBoss";
+import RaidBoss from "../RaidBoss";
 
 function RaidContainer({ match }) {
     const { raidData, selected, error } = useSelector(state => ({
@@ -24,7 +24,7 @@ function RaidContainer({ match }) {
                 {!match.params.bossName ? (
                     <Raid match={match} />
                 ) : (
-                    <DisplayRaidBoss match={match} />
+                    <RaidBoss match={match} />
                 )}
             </div>
         </section>
