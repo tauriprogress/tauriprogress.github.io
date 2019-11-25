@@ -29,7 +29,7 @@ for (let realmKey in realms) {
 
 function Filters({
     filter,
-    actions,
+    changeFilter,
     theme: {
         palette: { classColors, factionColors }
     }
@@ -60,7 +60,7 @@ function Filters({
                 <StyledSelect
                     value={filter.realm}
                     onChange={e =>
-                        actions.changeFilter({
+                        changeFilter({
                             filterName: "realm",
                             value: e.target.value
                         })
@@ -86,7 +86,7 @@ function Filters({
                 <StyledSelect
                     value={filter.faction}
                     onChange={e =>
-                        actions.changeFilter({
+                        changeFilter({
                             filterName: "faction",
                             value: e.target.value
                         })
@@ -133,7 +133,7 @@ function Filters({
                     }}
                     value={filter.class}
                     onChange={e =>
-                        actions.changeFilter({
+                        changeFilter({
                             filterName: "class",
                             value: e.target.value
                         })
@@ -168,7 +168,7 @@ function Filters({
                     }}
                     value={filter.spec}
                     onChange={e =>
-                        actions.changeFilter({
+                        changeFilter({
                             filterName: "spec",
                             value: e.target.value
                         })

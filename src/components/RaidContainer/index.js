@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import DisplayRaid from "../DisplayRaid";
+import Raid from "../Raid";
 import RaidBossList from "../RaidBossList";
 import DisplayRaidBoss from "../DisplayRaidBoss";
 
@@ -22,7 +22,7 @@ function RaidContainer({ match }) {
             )}
             <div className="raidContainerContent">
                 {!match.params.bossName ? (
-                    <DisplayRaid match={match} />
+                    <Raid match={match} />
                 ) : (
                     <DisplayRaidBoss match={match} />
                 )}
