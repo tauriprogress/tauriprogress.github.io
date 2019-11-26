@@ -1,11 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
+
+import { useSelector } from "react-redux";
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import Router from "./Router";
 
-function App({ themes }) {
+function App() {
+    const themes = useSelector(state => state.themes);
     return (
         <MuiThemeProvider theme={themes[themes.type]}>
             <Router />
@@ -13,10 +15,4 @@ function App({ themes }) {
     );
 }
 
-function mapStatetoProps(state) {
-    return {
-        themes: state.themes
-    };
-}
-
-export default connect(mapStatetoProps)(App);
+export default App;
