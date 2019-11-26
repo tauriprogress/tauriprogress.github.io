@@ -1,6 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -24,63 +23,49 @@ function styles(theme) {
     };
 }
 
-class Navigation extends React.Component {
-    render() {
-        const { showNav, themeToggle, navToggle } = this.props;
-        return (
-            <AppBar position="static">
-                <Toolbar className="navToolBar">
-                    <IconButton
-                        color="inherit"
-                        aria-label="Menu"
-                        className="burger"
-                        onClick={() => navToggle(true)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <div className="desktopNav">
-                        <NavLinks />
+function Navigation(props) {
+    const showNav = useSelector(state => state.nav.showNav);
+    const dispatch = useDispatch();
+    return (
+        <AppBar position="static">
+            <Toolbar className="navToolBar">
+                <IconButton
+                    color="inherit"
+                    aria-label="Menu"
+                    className="burger"
+                    onClick={() => dispatch(navToggle(true))}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <div className="desktopNav">
+                    <NavLinks />
+                </div>
+                <Drawer
+                    anchor="top"
+                    open={showNav}
+                    onClose={() => dispatch(navToggle(false))}
+                >
+                    <NavLinks />
+                </Drawer>
+                <div className="navToolBarIcons">
+                    <div className="navToolBarIconContainer">
+                        <Tooltip title="Toggle theme">
+                            <Fab
+                                color="primary"
+                                size="small"
+                                onClick={() => dispatch(themeToggle())}
+                            >
+                                <Brightness fontSize="large" />
+                            </Fab>
+                        </Tooltip>
                     </div>
-                    <Drawer
-                        anchor="top"
-                        open={showNav}
-                        onClose={() => navToggle(false)}
-                    >
-                        <NavLinks />
-                    </Drawer>
-                    <div className="navToolBarIcons">
-                        <div className="navToolBarIconContainer">
-                            <Tooltip title="Toggle theme">
-                                <Fab
-                                    color="primary"
-                                    size="small"
-                                    onClick={themeToggle}
-                                >
-                                    <Brightness fontSize="large" />
-                                </Fab>
-                            </Tooltip>
-                        </div>
-                        <div className="navToolBarIconContainer">
-                            <AdditionalInfo />
-                        </div>
+                    <div className="navToolBarIconContainer">
+                        <AdditionalInfo />
                     </div>
-                </Toolbar>
-            </AppBar>
-        );
-    }
+                </div>
+            </Toolbar>
+        </AppBar>
+    );
 }
 
-function mapStateToProps(state) {
-    return {
-        showNav: state.nav.showNav
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ themeToggle, navToggle }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(Navigation));
+export default withStyles(styles)(Navigation);

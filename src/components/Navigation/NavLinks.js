@@ -1,7 +1,6 @@
 import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -22,7 +21,8 @@ function styles(theme) {
     };
 }
 
-function NavLinks({ classes, raidSelectBoss, navToggle }) {
+function NavLinks({ classes }) {
+    const dispatch = useDispatch();
     return (
         <nav className={classes.nav}>
             <ul>
@@ -39,8 +39,8 @@ function NavLinks({ classes, raidSelectBoss, navToggle }) {
                     <RouterLink
                         to={`/raid/${raidName}`}
                         onClick={() => {
-                            navToggle(false);
-                            raidSelectBoss(0);
+                            dispatch(navToggle(false));
+                            dispatch(raidSelectBoss(0));
                         }}
                     >
                         <Typography color="inherit" className="navOption">
@@ -62,11 +62,4 @@ function NavLinks({ classes, raidSelectBoss, navToggle }) {
     );
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ raidSelectBoss, navToggle }, dispatch);
-}
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(withStyles(styles)(NavLinks));
+export default withStyles(styles)(NavLinks);
