@@ -1,7 +1,5 @@
 import { specToClass, specs } from "tauriprogress-constants";
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState } from "react";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -20,12 +18,10 @@ import { Typography } from "@material-ui/core";
 import { getSpecImg } from "../../helpers";
 import { sortMembers } from "./helpers";
 
-import { fightLogMembersSort } from "../../redux/actions";
-
 const tableColumns = [
     {
         label: "Player",
-        id: "name"
+        id: "ilvl"
     },
     {
         label: "Dps",
@@ -65,7 +61,7 @@ const tableColumns = [
     }
 ];
 
-function LogTableHead({ sort, fightLogMembersSort }) {
+function LogTableHead({ sort, setSort }) {
     return (
         <TableHead className="tableHead">
             <TableRow>
@@ -81,7 +77,7 @@ function LogTableHead({ sort, fightLogMembersSort }) {
                                 active={sort.by === column.id}
                                 direction={sort.direction}
                                 onClick={() =>
-                                    fightLogMembersSort({
+                                    setSort({
                                         by: column.id,
                                         direction:
                                             sort.by === column.id
@@ -102,17 +98,19 @@ function LogTableHead({ sort, fightLogMembersSort }) {
     );
 }
 
-function LogMembers({ data, sort, fightLogMembersSort, theme }) {
+function LogMembers({ data, theme }) {
+    const [sort, setSort] = useState({
+        by: "dps",
+        direction: "desc"
+    });
+
     const {
         palette: { classColors }
     } = theme;
     return (
         <div className="fightLogMembers overflowScroll">
             <Table>
-                <LogTableHead
-                    sort={sort}
-                    fightLogMembersSort={fightLogMembersSort}
-                />
+                <LogTableHead sort={sort} setSort={setSort} />
                 <TableBody>
                     {sortMembers(data.members, sort).map(member => (
                         <TableRow key={member.name}>
@@ -131,9 +129,7 @@ function LogMembers({ data, sort, fightLogMembersSort, theme }) {
                                         />
                                     </Tooltip>{" "}
                                     <RouterLink
-                                        to={`/player/${member.name}?realm=${
-                                            data.realm
-                                        }`}
+                                        to={`/player/${member.name}?realm=${data.realm}`}
                                     >
                                         <Link
                                             component="span"
@@ -235,17 +231,4 @@ function LogMembers({ data, sort, fightLogMembersSort, theme }) {
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        sort: state.fightLog.sort
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fightLogMembersSort }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withTheme()(LogMembers));
+export default withTheme()(LogMembers);

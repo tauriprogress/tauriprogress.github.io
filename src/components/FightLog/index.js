@@ -1,6 +1,6 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useEffect } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
 
 import LogTitle from "./LogTitle";
 import LogMembers from "./LogMembers";
@@ -9,47 +9,31 @@ import Loading from "../Loading";
 
 import { fightLogFetch } from "../../redux/actions";
 
-class FightLog extends React.PureComponent {
-    componentDidMount() {
-        const logId = this.props.match.params.logId;
-        const realm = new URLSearchParams(this.props.location.search).get(
-            "realm"
-        );
+function FightLog({ match, location }) {
+    const { loading, error, data } = useSelector(state => state.fightLog);
 
-        this.props.fightLogFetch({ logId, realm });
-    }
+    const dispatch = useDispatch();
 
-    render() {
-        const { loading, error, data } = this.props.fightLog;
+    useEffect(() => {
+        const logId = match.params.logId;
+        const realm = new URLSearchParams(location.search).get("realm");
+        dispatch(fightLogFetch({ logId, realm }));
+    }, []);
 
-        return (
-            <section className="fightLog">
-                {loading && <Loading />}
+    return (
+        <section className="fightLog">
+            {loading && <Loading />}
 
-                {error && <ErrorMessage message={error} />}
+            {error && <ErrorMessage message={error} />}
 
-                {!loading && !error && data && (
-                    <div className="fightLogContentContainer">
-                        <LogTitle data={data} />
-                        <LogMembers data={data} />
-                    </div>
-                )}
-            </section>
-        );
-    }
+            {!loading && !error && data && (
+                <div className="fightLogContentContainer">
+                    <LogTitle data={data} />
+                    <LogMembers data={data} />
+                </div>
+            )}
+        </section>
+    );
 }
 
-function mapStateToProps(state) {
-    return {
-        fightLog: state.fightLog
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fightLogFetch }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FightLog);
+export default FightLog;

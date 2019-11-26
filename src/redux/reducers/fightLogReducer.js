@@ -1,11 +1,7 @@
 const defaultState = {
     data: null,
     error: null,
-    loading: false,
-    sort: {
-        by: "dps",
-        direction: "desc"
-    }
+    loading: false
 };
 
 function fightLogReducer(state = defaultState, action) {
@@ -27,8 +23,6 @@ function fightLogReducer(state = defaultState, action) {
             }));
 
             return { ...state, data: data, loading: false, error: null };
-        case "FIGHT_LOG_MEMBERS_SORT":
-            return { ...state, sort: action.payload };
         default:
             return state;
     }

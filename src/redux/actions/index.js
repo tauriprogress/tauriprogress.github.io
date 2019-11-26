@@ -305,13 +305,6 @@ export function fightLogFill(payload) {
     };
 }
 
-export function fightLogMembersSort(payload) {
-    return {
-        type: "FIGHT_LOG_MEMBERS_SORT",
-        payload
-    };
-}
-
 export function themeToggle(payload) {
     return {
         type: "THEME_TOGGLE",
