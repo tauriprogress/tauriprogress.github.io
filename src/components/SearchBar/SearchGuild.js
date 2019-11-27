@@ -1,6 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { withRouter } from "react-router-dom";
 
@@ -166,105 +165,80 @@ const components = {
     SingleValue,
     ValueContainer
 };
-class SearchGuild extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ""
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.submit = this.submit.bind(this);
-    }
 
-    componentDidMount() {
-        this.props.guildsFetch();
-    }
-
-    handleChange(value) {
-        this.setState({ ...this.state, value: value });
-    }
-
-    submit() {
-        if (this.state.value) {
-            this.props.history.push(
-                `/guild/${this.state.value.value.guildName}?realm=${this.state.value.value.realm}`
-            );
-            this.props.closeDrawer();
+function SearchGuild({ closeDrawer, classes, theme, history }) {
+    const guilds = useSelector(state => {
+        if (!state.guilds.data) {
+            return [];
         }
-    }
 
-    render() {
-        const { guilds, classes, theme } = this.props;
-        const selectStyles = {
-            input: base => ({
-                ...base,
-                color: theme.palette.text.primary,
-                "& input": {
-                    font: "inherit"
-                }
-            })
-        };
-        return (
-            <div className="searchBarGuild">
-                <form
-                    onSubmit={e => {
-                        e.preventDefault();
-                        this.submit();
-                    }}
-                >
-                    <Select
-                        options={guilds}
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        className="searchBarGuildSelect"
-                        classes={classes}
-                        styles={selectStyles}
-                        components={components}
-                        isDisabled={!guilds.length}
-                        placeholder="Search guild"
-                        isClearable
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className="searchBarGuildSubmit"
-                        onClick={this.submit}
-                    >
-                        Search guild
-                    </Button>
-                </form>
-            </div>
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    if (!state.guilds.data) {
-        return {
-            guilds: []
-        };
-    }
-
-    return {
-        guilds: state.guilds.data.map(guild => ({
+        return state.guilds.data.map(guild => ({
             label: guild.guildName,
             value: {
                 guildName: guild.guildName,
                 realm: guild.realm
             }
-        }))
+        }));
+    });
+
+    const selectStyles = {
+        input: base => ({
+            ...base,
+            color: theme.palette.text.primary,
+            "& input": {
+                font: "inherit"
+            }
+        })
     };
+
+    const [guild, setGuild] = useState("");
+
+    const dispatch = useDispatch();
+
+    function submit() {
+        if (guild) {
+            history.push(
+                `/guild/${guild.value.guildName}?realm=${guild.value.realm}`
+            );
+            closeDrawer();
+        }
+    }
+
+    useEffect(() => {
+        dispatch(guildsFetch());
+    }, []);
+
+    return (
+        <div className="searchBarGuild">
+            <form
+                onSubmit={e => {
+                    e.preventDefault();
+                    submit();
+                }}
+            >
+                <Select
+                    options={guilds}
+                    value={guild}
+                    onChange={setGuild}
+                    className="searchBarGuildSelect"
+                    classes={classes}
+                    styles={selectStyles}
+                    components={components}
+                    isDisabled={!guilds.length}
+                    placeholder="Search guild"
+                    isClearable
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className="searchBarGuildSubmit"
+                    onClick={submit}
+                >
+                    Search guild
+                </Button>
+            </form>
+        </div>
+    );
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ guildsFetch }, dispatch);
-}
-
-export default withStyles(styles, { withTheme: true })(
-    withRouter(
-        connect(
-            mapStateToProps,
-            mapDispatchToProps
-        )(SearchGuild)
-    )
-);
+export default withStyles(styles, { withTheme: true })(withRouter(SearchGuild));

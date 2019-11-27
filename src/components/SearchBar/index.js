@@ -1,6 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Drawer from "@material-ui/core/Drawer";
 
@@ -11,67 +10,46 @@ import Loading from "../Loading";
 
 import { navToggle } from "../../redux/actions";
 
-class SearchBar extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            drawerOpen: false
-        };
-        this.toggleDrawer = this.toggleDrawer.bind(this);
-    }
-
-    toggleDrawer(value) {
-        if (value === false) {
-            this.props.navToggle(false);
-        }
-        this.setState({ ...this.state, drawerOpen: value });
-    }
-
-    render() {
-        const { loading, error } = this.props;
-        return (
-            <React.Fragment>
-                <span
-                    className="navOption"
-                    id="navSearch"
-                    onClick={() => this.toggleDrawer(true)}
-                >
-                    Search
-                </span>
-                <Drawer
-                    open={this.state.drawerOpen}
-                    onClose={() => this.toggleDrawer(false)}
-                    anchor="left"
-                    className="searchBar"
-                >
-                    {loading && <Loading />}
-                    {error && <ErrorMessage message={error} />}
-                    <React.Fragment>
-                        <SearchGuild
-                            closeDrawer={() => this.toggleDrawer(false)}
-                        />
-                        <SearchPlayer
-                            closeDrawer={() => this.toggleDrawer(false)}
-                        />
-                    </React.Fragment>
-                </Drawer>
-            </React.Fragment>
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    return {
+function SearchBar() {
+    const { loading, error } = useSelector(state => ({
         loading: state.guilds.loading,
         error: state.guilds.error
-    };
+    }));
+
+    const [drawerOpen, setDrawer] = useState(false);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (drawerOpen === false) {
+            dispatch(navToggle(false));
+        }
+    }, [drawerOpen]);
+
+    return (
+        <React.Fragment>
+            <span
+                className="navOption"
+                id="navSearch"
+                onClick={() => setDrawer(true)}
+            >
+                Search
+            </span>
+            <Drawer
+                open={drawerOpen}
+                onClose={() => setDrawer(false)}
+                anchor="left"
+                className="searchBar"
+            >
+                {loading && <Loading />}
+                {error && <ErrorMessage message={error} />}
+                <React.Fragment>
+                    <SearchGuild closeDrawer={() => setDrawer(false)} />
+                    <SearchPlayer closeDrawer={() => setDrawer(false)} />
+                </React.Fragment>
+            </Drawer>
+        </React.Fragment>
+    );
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ navToggle }, dispatch);
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SearchBar);
+export default SearchBar;

@@ -1,5 +1,5 @@
 import { realms } from "tauriprogress-constants";
-import React from "react";
+import React, { useState } from "react";
 
 import { withRouter } from "react-router-dom";
 
@@ -15,87 +15,65 @@ for (let realmKey in realms) {
     realmNames.push(realms[realmKey]);
 }
 
-class SearchPlayer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            player: "",
-            realm: realms[Object.keys(realms)[0]]
-        };
-        this.handleChange = this.changePlayerName.bind(this);
-        this.changeRealm = this.changeRealm.bind(this);
-        this.submit = this.submit.bind(this);
-    }
+function SearchPlayer({ closeDrawer, history }) {
+    const [player, setPlayer] = useState("");
+    const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
 
-    changePlayerName(player) {
-        this.setState({ ...this.state, player: player });
-    }
-
-    changeRealm(realm) {
-        this.setState({ ...this.state, realm: realm });
-    }
-
-    submit() {
-        if (this.state.player) {
-            this.props.history.push(
-                `/player/${this.state.player}?realm=${this.state.realm}`
-            );
-            this.props.closeDrawer();
+    function submit() {
+        if (player) {
+            history.push(`/player/${player}?realm=${realm}`);
+            closeDrawer();
         }
     }
 
-    render() {
-        return (
-            <div className="searchBarPlayer">
-                <FormControl className="searchBarPlayerFormControl">
-                    <form
-                        onSubmit={e => {
-                            e.preventDefault();
-                            this.submit();
-                        }}
-                    >
-                        <TextField
-                            id="name"
-                            label="Search player"
-                            value={this.state.player}
-                            onChange={e =>
-                                this.changePlayerName(e.target.value)
-                            }
-                            margin="normal"
-                            className="searchBarPlayerName"
-                        />
-                    </form>
-                </FormControl>
-                <br />
-                <FormControl className="searchBarPlayerFormControl">
-                    <InputLabel htmlFor="realm">Realm</InputLabel>
-                    <Select
-                        value={this.state.realm}
-                        onChange={e => this.changeRealm(e.target.value)}
-                        inputProps={{
-                            name: "realm",
-                            id: "realm"
-                        }}
-                        className="searchBarPlayerSelectRealm"
-                    >
-                        {realmNames.map(realmName => (
-                            <MenuItem key={realmName} value={realmName}>
-                                {realmName}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className="searchBarPlayerSubmit"
-                    onClick={this.submit}
+    return (
+        <div className="searchBarPlayer">
+            <FormControl className="searchBarPlayerFormControl">
+                <form
+                    onSubmit={e => {
+                        e.preventDefault();
+                        submit();
+                    }}
                 >
-                    search player
-                </Button>
-            </div>
-        );
-    }
+                    <TextField
+                        id="name"
+                        label="Search player"
+                        value={player}
+                        onChange={e => setPlayer(e.target.value)}
+                        margin="normal"
+                        className="searchBarPlayerName"
+                    />
+                </form>
+            </FormControl>
+            <br />
+            <FormControl className="searchBarPlayerFormControl">
+                <InputLabel htmlFor="realm">Realm</InputLabel>
+                <Select
+                    value={realm}
+                    onChange={e => setRealm(e.target.value)}
+                    inputProps={{
+                        name: "realm",
+                        id: "realm"
+                    }}
+                    className="searchBarPlayerSelectRealm"
+                >
+                    {realmNames.map(realmName => (
+                        <MenuItem key={realmName} value={realmName}>
+                            {realmName}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+            <Button
+                variant="contained"
+                color="primary"
+                className="searchBarPlayerSubmit"
+                onClick={submit}
+            >
+                search player
+            </Button>
+        </div>
+    );
 }
 
 export default withRouter(SearchPlayer);
