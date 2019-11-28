@@ -22,6 +22,7 @@ import DateTooltip from "../DateTooltip";
 import { sortGuilds } from "./helpers";
 
 import { guildsFetch } from "../../redux/actions";
+import DisplayDate from "../DisplayDate";
 
 function GuildList({ theme }) {
     const { factionColors, progStateColors } = theme.palette;
@@ -173,7 +174,10 @@ function GuildList({ theme }) {
                                                                     progStateColors.defeated
                                                             }}
                                                         >
-                                                            {date.toLocaleDateString()}
+                                                            <DisplayDate
+                                                                date={date}
+                                                                align="right"
+                                                            />
                                                         </span>
                                                     </DateTooltip>
                                                 ) : (

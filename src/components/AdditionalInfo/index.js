@@ -9,6 +9,7 @@ import Info from "@material-ui/icons/Info";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
+import DisplayDate from "../DisplayDate";
 
 import { lastUpdatedFetch } from "../../redux/actions";
 
@@ -115,23 +116,16 @@ function AdditionalInfo() {
                     <Divider />
                     <Typography>
                         Data is collected since{" "}
-                        <span className="textBold">
-                            {new Date(1541640000000).toLocaleDateString()}
-                        </span>{" "}
-                        and only of heroic encounters.
+                        <DisplayDate date={new Date(1541640000000)} /> and only
+                        of heroic encounters.
                     </Typography>
 
                     <Divider />
                     <Typography>
                         Dps of arms warriors between{" "}
-                        <span className="textBold">
-                            {new Date(1565187719000).toLocaleDateString()}
-                        </span>{" "}
-                        and{" "}
-                        <span className="textBold">
-                            {new Date(1573639200000).toLocaleDateString()}
-                        </span>{" "}
-                        have been set to 0 because of a{" "}
+                        <DisplayDate date={new Date(1565187719000)} /> and{" "}
+                        <DisplayDate date={new Date(1573639200000)} /> have been
+                        set to 0 because of a{" "}
                         <Link
                             color="secondary"
                             component="span"

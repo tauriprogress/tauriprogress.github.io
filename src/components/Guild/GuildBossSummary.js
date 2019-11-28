@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../../helpers";
+import DisplayDate from "../DisplayDate";
 
 function GuildBossSummary({ bossName, data }) {
     let date;
@@ -22,7 +23,7 @@ function GuildBossSummary({ bossName, data }) {
                         <br />
                         First:{" "}
                         <DateTooltip date={date}>
-                            <span>{date.toLocaleDateString()}</span>
+                            <DisplayDate date={date} />
                         </DateTooltip>
                         <br />
                         Fastest:{" "}

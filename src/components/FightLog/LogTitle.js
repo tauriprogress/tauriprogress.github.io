@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
 import Warning from "@material-ui/icons/Warning";
 import Link from "@material-ui/core/Link";
+import DisplayDate from "../DisplayDate";
 
 import MetaDataList from "../MetaDataList";
 
@@ -45,9 +46,7 @@ function LogTitle({ data, theme }) {
             label: "Boss",
             value: (
                 <RouterLink
-                    to={`/raid/${data.mapentry.name}/${
-                        data.encounter_data.encounter_name
-                    }`}
+                    to={`/raid/${data.mapentry.name}/${data.encounter_data.encounter_name}`}
                 >
                     <Link className="textBold" color="inherit" component="span">
                         {data.encounter_data.encounter_name}
@@ -65,9 +64,14 @@ function LogTitle({ data, theme }) {
         },
         {
             label: "Date",
-            value: `${date.toLocaleDateString()} ${(
-                "0" + date.getHours()
-            ).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`
+            value: (
+                <DisplayDate date={date}>
+                    {" "}
+                    {`${("0" + date.getHours()).slice(-2)}:${(
+                        "0" + date.getMinutes()
+                    ).slice(-2)}`}
+                </DisplayDate>
+            )
         }
     ];
 

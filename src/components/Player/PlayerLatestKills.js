@@ -15,6 +15,7 @@ import ErrorMessage from "../ErrorMessage";
 import LogLink from "../LogLink";
 
 import { convertFightTime } from "../../helpers";
+import DisplayDate from "../DisplayDate";
 
 function styles(theme) {
     return {
@@ -66,9 +67,15 @@ function PlayerLatestKills({ classes }) {
                                                     }`}
                                                 </span>
                                                 <span className="playerLatestKillsDate">
-                                                    {new Date(
-                                                        log.killtime * 1000
-                                                    ).toLocaleDateString()}
+                                                    <DisplayDate
+                                                        date={
+                                                            new Date(
+                                                                log.killtime *
+                                                                    1000
+                                                            )
+                                                        }
+                                                        align="right"
+                                                    />
                                                 </span>
                                             </span>
 

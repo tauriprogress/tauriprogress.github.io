@@ -1,5 +1,20 @@
 import { specs } from "tauriprogress-constants";
 
+const months = {
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec"
+};
+
 export function getNestedObjectValue(obj, keys) {
     let currentKey = keys[0];
 
@@ -65,4 +80,12 @@ export function shortNumber(number) {
     } else {
         return `${(Math.round(number / 10000) / 100).toFixed(1)}M`;
     }
+}
+
+export function dateToString(date) {
+    let day = date.getDate();
+
+    return `${day < 10 ? `${day}` : day} ${
+        months[date.getMonth()]
+    } ${date.getFullYear()}`;
 }

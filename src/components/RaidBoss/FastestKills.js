@@ -15,6 +15,7 @@ import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../../helpers";
+import DisplayDate from "../DisplayDate";
 
 function FastestKills({ data, theme }) {
     const {
@@ -50,9 +51,7 @@ function FastestKills({ data, theme }) {
                                             </span>
                                             {kill.guilddata.name ? (
                                                 <RouterLink
-                                                    to={`/guild/${
-                                                        kill.guilddata.name
-                                                    }?realm=${kill.realm}`}
+                                                    to={`/guild/${kill.guilddata.name}?realm=${kill.realm}`}
                                                 >
                                                     <Link
                                                         component="span"
@@ -83,9 +82,10 @@ function FastestKills({ data, theme }) {
 
                                     <TableCell component="th" scope="row">
                                         <DateTooltip date={date}>
-                                            <span>
-                                                {date.toLocaleDateString()}
-                                            </span>
+                                            <DisplayDate
+                                                date={date}
+                                                align="right"
+                                            />
                                         </DateTooltip>
                                     </TableCell>
 

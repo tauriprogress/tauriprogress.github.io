@@ -14,6 +14,7 @@ import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../../helpers";
+import DisplayDate from "../DisplayDate";
 
 function GuildLatestKills({ data, realm }) {
     return (
@@ -38,10 +39,7 @@ function GuildLatestKills({ data, realm }) {
                                 <TableCell component="th" scope="row">
                                     <span className="textBold">
                                         <RouterLink
-                                            to={`/raid/${log.mapentry.name}/${
-                                                log.encounter_data
-                                                    .encounter_name
-                                            }`}
+                                            to={`/raid/${log.mapentry.name}/${log.encounter_data.encounter_name}`}
                                         >
                                             <Typography color="inherit">
                                                 <Link
@@ -65,7 +63,10 @@ function GuildLatestKills({ data, realm }) {
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     <DateTooltip date={date}>
-                                        <span>{date.toLocaleDateString()}</span>
+                                        <DisplayDate
+                                            date={date}
+                                            align="right"
+                                        />
                                     </DateTooltip>
                                 </TableCell>
                                 <TableCell component="th" scope="row">

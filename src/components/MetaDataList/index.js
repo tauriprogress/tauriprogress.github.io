@@ -29,7 +29,10 @@ function MetaDataList({ className, values, title, classes }) {
                         primary={
                             <div className="metaDataListItemContainer">
                                 {value.label}
-                                <Typography className={"textBold"}>
+                                <Typography
+                                    className={"textBold"}
+                                    component="span"
+                                >
                                     {value.value}
                                 </Typography>
                             </div>

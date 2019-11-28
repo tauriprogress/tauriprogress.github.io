@@ -19,6 +19,7 @@ import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
+import DisplayDate from "../DisplayDate";
 
 import Filters from "./Filters";
 
@@ -139,9 +140,10 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                                 scope="row"
                                             >
                                                 <DateTooltip date={date}>
-                                                    <span>
-                                                        {date.toLocaleDateString()}
-                                                    </span>
+                                                    <DisplayDate
+                                                        date={date}
+                                                        align="right"
+                                                    />
                                                 </DateTooltip>
                                             </TableCell>
                                             <TableCell

@@ -11,6 +11,7 @@ import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 
 import { convertFightTime } from "../../helpers";
+import DisplayDate from "../DisplayDate";
 
 function GuildFastestKills({ data }) {
     return (
@@ -44,7 +45,10 @@ function GuildFastestKills({ data }) {
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     <DateTooltip date={date}>
-                                        <span>{date.toLocaleDateString()}</span>
+                                        <DisplayDate
+                                            date={date}
+                                            align="right"
+                                        />
                                     </DateTooltip>
                                 </TableCell>
                                 <TableCell component="th" scope="row">

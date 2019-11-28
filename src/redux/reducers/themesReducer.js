@@ -1,3 +1,6 @@
+import "typeface-roboto";
+import "typeface-roboto-mono";
+
 import { createMuiTheme } from "@material-ui/core/styles";
 import {
     brown,
@@ -36,7 +39,17 @@ const defaultClassColors = {
     10: "#00ff96",
     11: "#ff7d0a"
 };
-
+const defaultTheme = {
+    typography: {
+        fontFamily: [
+            "Roboto",
+            "Open-Sans",
+            '"Helvetica Neue"',
+            "Arial",
+            "sans-serif"
+        ].join(",")
+    }
+};
 const overrides = {
     MuiTab: {
         root: {
@@ -178,6 +191,7 @@ const darkPalette = {
 const defaultState = {
     type: localStorage.getItem("themeType") || "light",
     light: createMuiTheme({
+        ...defaultTheme,
         palette: lightPalette,
         overrides: {
             ...overrides,
@@ -225,6 +239,7 @@ const defaultState = {
         }
     }),
     dark: createMuiTheme({
+        ...defaultTheme,
         palette: darkPalette,
         overrides: {
             ...overrides,
