@@ -8,8 +8,6 @@ import SearchPlayer from "./SearchPlayer";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { navToggle } from "../../redux/actions";
-
 function SearchBar() {
     const { loading, error } = useSelector(state => ({
         loading: state.guilds.loading,
@@ -17,14 +15,6 @@ function SearchBar() {
     }));
 
     const [drawerOpen, setDrawer] = useState(false);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (drawerOpen === false) {
-            dispatch(navToggle(false));
-        }
-    }, [drawerOpen]);
 
     return (
         <React.Fragment>

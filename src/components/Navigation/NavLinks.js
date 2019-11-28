@@ -26,7 +26,10 @@ function NavLinks({ classes }) {
     return (
         <nav className={classes.nav}>
             <ul>
-                <li className={classes.li} onClick={() => navToggle(false)}>
+                <li
+                    className={classes.li}
+                    onClick={() => dispatch(navToggle(false))}
+                >
                     <RouterLink to="/">
                         <Typography color="inherit" className="navOption">
                             <Link component="span" color="inherit">

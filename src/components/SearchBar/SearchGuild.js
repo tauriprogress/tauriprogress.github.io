@@ -14,7 +14,8 @@ import { emphasize } from "@material-ui/core/styles/colorManipulator";
 import Select from "react-select";
 import Button from "@material-ui/core/Button";
 
-import { guildsFetch } from "../../redux/actions";
+import { guildsFetch, navToggle } from "../../redux/actions";
+import {} from "../../redux/actions";
 
 const styles = theme => ({
     root: {
@@ -200,6 +201,7 @@ function SearchGuild({ closeDrawer, classes, theme, history }) {
             history.push(
                 `/guild/${guild.value.guildName}?realm=${guild.value.realm}`
             );
+            dispatch(navToggle(false));
             closeDrawer();
         }
     }

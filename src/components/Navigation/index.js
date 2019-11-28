@@ -26,6 +26,7 @@ function styles(theme) {
 function Navigation(props) {
     const showNav = useSelector(state => state.nav.showNav);
     const dispatch = useDispatch();
+
     return (
         <AppBar position="static">
             <Toolbar className="navToolBar">

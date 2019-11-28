@@ -1,6 +1,8 @@
 import { realms } from "tauriprogress-constants";
 import React, { useState } from "react";
 
+import { useDispatch } from "react-redux";
+
 import { withRouter } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
@@ -9,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import { navToggle } from "../../redux/actions";
 
 let realmNames = [];
 for (let realmKey in realms) {
@@ -18,10 +21,12 @@ for (let realmKey in realms) {
 function SearchPlayer({ closeDrawer, history }) {
     const [player, setPlayer] = useState("");
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
+    const dispatch = useDispatch();
 
     function submit() {
         if (player) {
             history.push(`/player/${player}?realm=${realm}`);
+            dispatch(navToggle(false));
             closeDrawer();
         }
     }
