@@ -231,4 +231,4 @@ function LogMembers({ data, theme }) {
     );
 }
 
-export default withTheme()(LogMembers);
+export default withTheme(LogMembers);

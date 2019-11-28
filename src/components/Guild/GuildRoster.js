@@ -82,4 +82,4 @@ function GuildRoster({ data, theme }) {
     );
 }
 
-export default withTheme()(GuildRoster);
+export default withTheme(GuildRoster);

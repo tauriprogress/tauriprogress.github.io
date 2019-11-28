@@ -384,4 +384,4 @@ function Raid({ match, theme }) {
     );
 }
 
-export default withTheme()(Raid);
+export default withTheme(Raid);

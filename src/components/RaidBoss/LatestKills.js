@@ -102,4 +102,4 @@ function LatestKills({ data, theme }) {
     );
 }
 
-export default withTheme()(LatestKills);
+export default withTheme(LatestKills);

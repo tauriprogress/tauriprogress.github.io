@@ -113,4 +113,4 @@ function Guild({ theme, match, location }) {
     );
 }
 
-export default withTheme()(Guild);
+export default withTheme(Guild);

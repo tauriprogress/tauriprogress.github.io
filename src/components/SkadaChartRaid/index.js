@@ -209,4 +209,4 @@ function SkadaChartRaid({
     );
 }
 
-export default withTheme()(withStyles(styles)(SkadaChartRaid));
+export default withTheme(withStyles(styles)(SkadaChartRaid));

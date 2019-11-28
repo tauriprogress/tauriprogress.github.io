@@ -199,4 +199,4 @@ function Filters({
     );
 }
 
-export default withTheme()(Filters);
+export default withTheme(Filters);

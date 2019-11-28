@@ -86,4 +86,4 @@ function PlayerTitle({ theme }) {
     );
 }
 
-export default withTheme()(PlayerTitle);
+export default withTheme(PlayerTitle);

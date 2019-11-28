@@ -153,4 +153,4 @@ function LogTitle({ data, theme }) {
     );
 }
 
-export default withTheme()(LogTitle);
+export default withTheme(LogTitle);

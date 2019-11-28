@@ -235,4 +235,4 @@ function RaidBossStats({ data, theme }) {
     );
 }
 
-export default withTheme()(RaidBossStats);
+export default withTheme(RaidBossStats);

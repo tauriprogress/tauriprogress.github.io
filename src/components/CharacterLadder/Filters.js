@@ -211,4 +211,4 @@ function Filters({ disableFilter, theme }) {
     );
 }
 
-export default withTheme()(Filters);
+export default withTheme(Filters);

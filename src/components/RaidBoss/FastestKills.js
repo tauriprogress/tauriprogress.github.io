@@ -104,4 +104,4 @@ function FastestKills({ data, theme }) {
     );
 }
 
-export default withTheme()(FastestKills);
+export default withTheme(FastestKills);

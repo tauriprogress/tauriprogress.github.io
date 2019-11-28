@@ -197,4 +197,4 @@ function GuildList({ theme }) {
     );
 }
 
-export default withTheme()(GuildList);
+export default withTheme(GuildList);

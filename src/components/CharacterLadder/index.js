@@ -181,4 +181,4 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
     );
 }
 
-export default withTheme()(CharacterLadder);
+export default withTheme(CharacterLadder);
