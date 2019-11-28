@@ -2,12 +2,10 @@ import { difficultyLabels, currentContent } from "tauriprogress-constants";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-
 import GuildRaidBossList from "./GuildRaidBossList";
 import GuildBoss from "./GuildBoss";
 import GuildBossSummary from "./GuildBossSummary";
+import SelectDifficulty from "../SelectDifficulty";
 
 import { getBossesDefeated, selectDefaultDifficulty } from "./helpers";
 import { getNestedObjectValue } from "../../helpers";
@@ -79,15 +77,10 @@ function GuildProgression({ progression }) {
                     }`}
                     data={boss}
                 />
-                <Tabs
-                    value={difficulty}
+                <SelectDifficulty
+                    difficulty={difficulty}
                     onChange={(e, difficulty) => setDifficulty(difficulty)}
-                    indicatorColor="secondary"
-                    className="displayGuildDifficultyTab"
-                >
-                    <Tab label="10 HC" className="tab" value={5} />
-                    <Tab label="25 HC" className="tab" value={6} />
-                </Tabs>
+                />
                 {boss && (
                     <React.Fragment>
                         <GuildBoss data={boss} />

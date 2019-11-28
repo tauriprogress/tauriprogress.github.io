@@ -14,6 +14,7 @@ import FastestKills from "./FastestKills";
 import LatestKills from "./LatestKills";
 import RaidBossStats from "./RaidBossStats";
 import CharacterLadder from "../CharacterLadder";
+import SelectDifficulty from "../SelectDifficulty";
 
 import {
     raidBossFetch,
@@ -72,25 +73,12 @@ function RaidBoss({ match }) {
                     )}
 
                     <div className="displayRaidBossDiffTabContainer">
-                        <Tabs
-                            value={diff}
+                        <SelectDifficulty
+                            difficulty={diff}
                             onChange={(e, value) =>
                                 dispatch(raidInfoChangeDiff(value))
                             }
-                            indicatorColor="secondary"
-                            className="raidContainerContentDiffs"
-                        >
-                            <Tab
-                                label={difficultyLabels[5]}
-                                value={5}
-                                className="tab"
-                            />
-                            <Tab
-                                label={difficultyLabels[6]}
-                                value={6}
-                                className="tab"
-                            />
-                        </Tabs>
+                        />
                     </div>
 
                     <React.Fragment>

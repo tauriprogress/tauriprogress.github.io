@@ -1,4 +1,3 @@
-import { difficultyLabels } from "tauriprogress-constants";
 import { specToClass, specs } from "tauriprogress-constants";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,8 +7,6 @@ import { withTheme } from "@material-ui/core/styles";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,6 +19,7 @@ import { Typography } from "@material-ui/core";
 
 import LogLink from "../LogLink";
 import Filters from "./Filters";
+import SelectDifficulty from "../SelectDifficulty";
 
 import { applyFilter } from "./helpers";
 
@@ -82,25 +80,12 @@ function Raid({ match, theme }) {
             {error && <ErrorMessage message={error} />}
             {!loading && !error && filteredData && raidData && (
                 <React.Fragment>
-                    <Tabs
-                        value={diff}
+                    <SelectDifficulty
+                        difficulty={diff}
                         onChange={(e, value) =>
                             dispatch(raidInfoChangeDiff(value))
                         }
-                        indicatorColor="secondary"
-                        className="raidContainerContentDiffs"
-                    >
-                        <Tab
-                            label={difficultyLabels[5]}
-                            value={5}
-                            className="tab"
-                        />
-                        <Tab
-                            label={difficultyLabels[6]}
-                            value={6}
-                            className="tab"
-                        />
-                    </Tabs>
+                    />
                     <Filters filter={filter} changeFilter={changeFilter} />
                     <div className="overflowScroll">
                         <Table>

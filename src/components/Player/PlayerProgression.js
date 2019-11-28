@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 import SkadaChartRaid from "../SkadaChartRaid";
+import SelectDifficulty from "../SelectDifficulty";
 
 import { displayHealing } from "./helpers";
 
@@ -81,15 +80,10 @@ function PlayerProgression({ classes }) {
 
     return (
         <div className="displayPlayerProgression">
-            <Tabs
-                value={difficulty}
+            <SelectDifficulty
+                difficulty={difficulty}
                 onChange={(e, difficulty) => setDifficulty(difficulty)}
-                indicatorColor="secondary"
-                className="displayPlayerTabs"
-            >
-                <Tab label="10 HC" className="tab" value={5} />
-                <Tab label="25 HC" className="tab" value={6} />
-            </Tabs>
+            />
             <List className="displayPlayerProgressionRaidNames">
                 {raids.map(raid => (
                     <ListItem
