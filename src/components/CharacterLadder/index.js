@@ -140,12 +140,10 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                                 scope="row"
                                             >
                                                 <DateTooltip date={date}>
-                                                    <span>
-                                                        <DisplayDate
-                                                            date={date}
-                                                            align="right"
-                                                        />
-                                                    </span>
+                                                    <DisplayDate
+                                                        date={date}
+                                                        align="right"
+                                                    />
                                                 </DateTooltip>
                                             </TableCell>
                                             <TableCell

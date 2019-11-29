@@ -9,7 +9,7 @@ function DateTooltip({ date, children }) {
                 "0" + date.getMinutes()
             ).slice(-2)}`}
         >
-            {children}
+            <span>{children}</span>
         </Tooltip>
     );
 }
