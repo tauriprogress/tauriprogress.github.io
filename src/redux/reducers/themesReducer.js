@@ -41,6 +41,7 @@ const defaultClassColors = {
 };
 const defaultTheme = {
     typography: {
+        fontSize: (14 / 16) * 14,
         fontFamily: [
             "Roboto",
             "Open-Sans",
