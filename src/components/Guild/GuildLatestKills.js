@@ -63,10 +63,12 @@ function GuildLatestKills({ data, realm }) {
                                 </TableCell>
                                 <TableCell component="th" scope="row">
                                     <DateTooltip date={date}>
-                                        <DisplayDate
-                                            date={date}
-                                            align="right"
-                                        />
+                                        <span>
+                                            <DisplayDate
+                                                date={date}
+                                                align="right"
+                                            />
+                                        </span>
                                     </DateTooltip>
                                 </TableCell>
                                 <TableCell component="th" scope="row">

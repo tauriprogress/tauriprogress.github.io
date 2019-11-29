@@ -82,10 +82,12 @@ function FastestKills({ data, theme }) {
 
                                     <TableCell component="th" scope="row">
                                         <DateTooltip date={date}>
-                                            <DisplayDate
-                                                date={date}
-                                                align="right"
-                                            />
+                                            <span>
+                                                <DisplayDate
+                                                    date={date}
+                                                    align="right"
+                                                />
+                                            </span>
                                         </DateTooltip>
                                     </TableCell>
 

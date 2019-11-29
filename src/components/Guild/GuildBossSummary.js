@@ -23,7 +23,9 @@ function GuildBossSummary({ bossName, data }) {
                         <br />
                         First:{" "}
                         <DateTooltip date={date}>
-                            <DisplayDate date={date} />
+                            <span>
+                                <DisplayDate date={date} />
+                            </span>
                         </DateTooltip>
                         <br />
                         Fastest:{" "}
