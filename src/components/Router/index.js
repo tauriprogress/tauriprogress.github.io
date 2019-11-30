@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { CssBaseline } from "@material-ui/core";
 
 import Navigation from "../Navigation";
 
@@ -18,7 +17,6 @@ function Router() {
     return (
         <BrowserRouter>
             <React.Fragment>
-                <CssBaseline />
                 <Navigation />
                 <main>
                     <Switch>
