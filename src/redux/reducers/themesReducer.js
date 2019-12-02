@@ -49,60 +49,18 @@ const defaultTheme = {
             "Arial",
             "sans-serif"
         ].join(",")
+    },
+    baseColors: {
+        dark: primary,
+        light: light,
+        secondary: secondary
     }
 };
 const overrides = {
-    MuiTab: {
-        root: {
-            minWidth: "auto !important",
-            color: "grey !important",
-            "&$selected": {
-                color: "white !important"
-            }
-        }
-    },
-
-    MuiTabs: {
-        root: {
-            backgroundColor: primary
-        }
-    },
-
-    MuiChip: {
-        root: {
-            margin: "5px",
-            height: "auto"
-        },
-        label: {
-            whiteSpace: "normal"
-        }
-    },
-
     MuiLink: {
         root: {
-            textDecoration: "none !important"
-        }
-    },
-
-    MuiListItem: {
-        root: {
-            "&$selected *": {
-                fontWeight: "bold",
-                letterSpacing: "0.5px"
-            }
-        }
-    },
-    MuiTableCell: {
-        root: {
-            maxWidth: "200px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            "& *": {
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap"
-            }
+            textDecoration: "none !important",
+            cursor: "pointer"
         }
     }
 };
@@ -191,49 +149,17 @@ const darkPalette = {
 
 const defaultState = {
     type: localStorage.getItem("themeType") || "light",
+
     light: createMuiTheme({
         ...defaultTheme,
         palette: lightPalette,
         overrides: {
             ...overrides,
-            MuiTableBody: {
-                root: {
-                    "& tr:nth-child(odd)": {
-                        backgroundColor: lightPalette.backgroundAccent
-                    },
-                    "& tr:hover": {
-                        backgroundColor: "#e2e3e8"
-                    }
-                }
-            },
-            MuiTabs: {
-                ...overrides.MuiTabs,
-                scrollButtons: {
-                    color: lightPSecondary
-                }
-            },
             MuiLink: {
                 root: {
                     ...overrides.MuiLink.root,
                     "&:hover": {
-                        color: `${lightPSecondary} !important`
-                    }
-                }
-            },
-            MuiFab: {
-                root: {
-                    "&:hover": {
-                        "& svg": {
-                            fill: lightPSecondary
-                        }
-                    }
-                }
-            },
-            MuiListItem: {
-                root: {
-                    "&$selected *": {
-                        ...overrides.MuiListItem.root["&$selected *"],
-                        color: `${lightPSecondary} !important`
+                        color: `${lightPSecondary}`
                     }
                 }
             }
@@ -244,45 +170,17 @@ const defaultState = {
         palette: darkPalette,
         overrides: {
             ...overrides,
-            MuiTableBody: {
-                root: {
-                    "& tr:nth-child(odd)": {
-                        backgroundColor: darkPalette.backgroundAccent
-                    },
-                    "& tr:hover": {
-                        backgroundColor: "#343642"
-                    }
-                }
-            },
-            MuiTabs: {
-                ...overrides.MuiTabs,
-                scrollButtons: {
-                    color: darkPSecondary
-                }
-            },
             MuiLink: {
                 root: {
                     ...overrides.MuiLink.root,
                     "&:hover": {
-                        color: `${darkPSecondary} !important`
+                        color: `${darkPSecondary}`
                     }
                 }
             },
-            MuiFab: {
+            MuiPaper: {
                 root: {
-                    "&:hover": {
-                        "& svg": {
-                            fill: darkPSecondary
-                        }
-                    }
-                }
-            },
-            MuiListItem: {
-                root: {
-                    "&$selected *": {
-                        ...overrides.MuiListItem.root["&$selected *"],
-                        color: `${darkPSecondary} !important`
-                    }
+                    backgroundColor: dark
                 }
             }
         }

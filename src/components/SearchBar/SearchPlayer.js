@@ -11,6 +11,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
+
 import { navToggle } from "../../redux/actions";
 
 let realmNames = [];
@@ -32,8 +34,8 @@ function SearchPlayer({ closeDrawer, history }) {
     }
 
     return (
-        <div className="searchBarPlayer">
-            <FormControl className="searchBarPlayerFormControl">
+        <Grid container direction="column" style={{ marginTop: "16px" }}>
+            <Grid item>
                 <form
                     onSubmit={e => {
                         e.preventDefault();
@@ -44,40 +46,49 @@ function SearchPlayer({ closeDrawer, history }) {
                         id="name"
                         label="Search player"
                         value={player}
+                        fullWidth
                         onChange={e => setPlayer(e.target.value)}
-                        margin="normal"
-                        className="searchBarPlayerName"
                     />
                 </form>
-            </FormControl>
-            <br />
-            <FormControl className="searchBarPlayerFormControl">
-                <InputLabel htmlFor="realm">Realm</InputLabel>
-                <Select
-                    value={realm}
-                    onChange={e => setRealm(e.target.value)}
-                    inputProps={{
-                        name: "realm",
-                        id: "realm"
+            </Grid>
+            <Grid item style={{ marginTop: "4px" }}>
+                <FormControl fullWidth>
+                    <InputLabel htmlFor="realm">Realm</InputLabel>
+                    <Select
+                        value={realm}
+                        onChange={e => setRealm(e.target.value)}
+                        inputProps={{
+                            name: "realm",
+                            id: "realm"
+                        }}
+                    >
+                        {realmNames.map(realmName => (
+                            <MenuItem key={realmName} value={realmName}>
+                                {realmName}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item>
+                <Grid
+                    container
+                    justify="flex-end"
+                    style={{
+                        display: "flex",
+                        marginTop: "8px"
                     }}
-                    className="searchBarPlayerSelectRealm"
                 >
-                    {realmNames.map(realmName => (
-                        <MenuItem key={realmName} value={realmName}>
-                            {realmName}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-            <Button
-                variant="contained"
-                color="primary"
-                className="searchBarPlayerSubmit"
-                onClick={submit}
-            >
-                search player
-            </Button>
-        </div>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={submit}
+                    >
+                        search player
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
     );
 }
 
