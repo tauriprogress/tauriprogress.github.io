@@ -62,6 +62,13 @@ const overrides = {
             textDecoration: "none !important",
             cursor: "pointer"
         }
+    },
+    MuiListItem: {
+        root: {
+            "&$selected": {
+                fontWeight: "bold"
+            }
+        }
     }
 };
 
@@ -162,6 +169,14 @@ const defaultState = {
                         color: `${lightPSecondary}`
                     }
                 }
+            },
+            MuiListItem: {
+                root: {
+                    "&$selected": {
+                        ...overrides.MuiListItem.root["&$selected"],
+                        color: `${lightPSecondary}`
+                    }
+                }
             }
         }
     }),
@@ -180,7 +195,15 @@ const defaultState = {
             },
             MuiPaper: {
                 root: {
-                    backgroundColor: dark
+                    backgroundColor: darkAccent
+                }
+            },
+            MuiListItem: {
+                root: {
+                    "&$selected": {
+                        ...overrides.MuiListItem.root["&$selected"],
+                        color: `${darkPSecondary}`
+                    }
                 }
             }
         }
