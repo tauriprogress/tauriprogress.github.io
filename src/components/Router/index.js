@@ -3,8 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Navigation from "../Navigation";
 
-import RaidBossListContainer from "../RaidBossListContainer";
-import GuildList from "../GuildList";
+import Home from "../Home";
 import RaidContainer from "../RaidContainer";
 import Guild from "../Guild";
 import Player from "../Player";
@@ -20,16 +19,7 @@ function Router() {
                 <Navigation />
                 <main>
                     <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <React.Fragment>
-                                    <RaidBossListContainer />
-                                    <GuildList />
-                                </React.Fragment>
-                            )}
-                        />
+                        <Route exact path="/" render={Home} />
                         <Route
                             exact
                             path="/raid/:raidName/:bossName?"

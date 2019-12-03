@@ -11,11 +11,11 @@ function RaidBossListContainer() {
     }
 
     return (
-        <aside>
+        <React.Fragment>
             {raidsArr.map(raid => (
                 <RaidBossList key={raid.name} raid={raid} />
             ))}
-        </aside>
+        </React.Fragment>
     );
 }
 

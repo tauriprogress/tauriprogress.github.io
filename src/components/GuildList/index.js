@@ -35,165 +35,148 @@ function GuildList({ theme }) {
     }, []);
 
     return (
-        <section className="displayGuilds">
+        <React.Fragment>
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
-                <React.Fragment>
-                    <div className="overflowScroll">
-                        <Table>
-                            <TableHead className="tableHead">
-                                <TableRow>
-                                    <TableCell>Guild</TableCell>
-                                    <TableCell>
-                                        <Tooltip title="Sort" enterDelay={300}>
-                                            <TableSortLabel
-                                                active={sort.by === "realm"}
-                                                direction={sort.direction}
-                                                onClick={() =>
-                                                    setSort({
-                                                        by: "realm",
-                                                        direction:
-                                                            sort.by === "realm"
-                                                                ? sort.direction ===
-                                                                  "asc"
-                                                                    ? "desc"
-                                                                    : "asc"
-                                                                : "desc"
-                                                    })
-                                                }
-                                            >
-                                                Realm
-                                            </TableSortLabel>
-                                        </Tooltip>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Tooltip title="Sort" enterDelay={300}>
-                                            <TableSortLabel
-                                                active={sort.by === "gFaction"}
-                                                direction={sort.direction}
-                                                onClick={() =>
-                                                    setSort({
-                                                        by: "gFaction",
-                                                        direction:
-                                                            sort.by ===
-                                                            "gFaction"
-                                                                ? sort.direction ===
-                                                                  "asc"
-                                                                    ? "desc"
-                                                                    : "asc"
-                                                                : "desc"
-                                                    })
-                                                }
-                                            >
-                                                Faction
-                                            </TableSortLabel>
-                                        </Tooltip>
-                                    </TableCell>
-                                    <TableCell>
-                                        <TableSortLabel
-                                            active={sort.by === "completion"}
-                                            direction={sort.direction}
-                                            onClick={() =>
-                                                setSort({
-                                                    by: "completion",
-                                                    direction:
-                                                        sort.by === "completion"
-                                                            ? sort.direction ===
-                                                              "desc"
-                                                                ? "asc"
-                                                                : "desc"
+                <Table>
+                    <TableHead className="tableHead">
+                        <TableRow>
+                            <TableCell>Guild</TableCell>
+                            <TableCell>
+                                <Tooltip title="Sort" enterDelay={300}>
+                                    <TableSortLabel
+                                        active={sort.by === "realm"}
+                                        direction={sort.direction}
+                                        onClick={() =>
+                                            setSort({
+                                                by: "realm",
+                                                direction:
+                                                    sort.by === "realm"
+                                                        ? sort.direction ===
+                                                          "asc"
+                                                            ? "desc"
                                                             : "asc"
-                                                })
-                                            }
-                                        >
-                                            {abbreviation} Completion
-                                        </TableSortLabel>
+                                                        : "desc"
+                                            })
+                                        }
+                                    >
+                                        Realm
+                                    </TableSortLabel>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell>
+                                <Tooltip title="Sort" enterDelay={300}>
+                                    <TableSortLabel
+                                        active={sort.by === "gFaction"}
+                                        direction={sort.direction}
+                                        onClick={() =>
+                                            setSort({
+                                                by: "gFaction",
+                                                direction:
+                                                    sort.by === "gFaction"
+                                                        ? sort.direction ===
+                                                          "asc"
+                                                            ? "desc"
+                                                            : "asc"
+                                                        : "desc"
+                                            })
+                                        }
+                                    >
+                                        Faction
+                                    </TableSortLabel>
+                                </Tooltip>
+                            </TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    active={sort.by === "completion"}
+                                    direction={sort.direction}
+                                    onClick={() =>
+                                        setSort({
+                                            by: "completion",
+                                            direction:
+                                                sort.by === "completion"
+                                                    ? sort.direction === "desc"
+                                                        ? "asc"
+                                                        : "desc"
+                                                    : "asc"
+                                        })
+                                    }
+                                >
+                                    {abbreviation} Completion
+                                </TableSortLabel>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {sortGuilds(data, sort).map(guild => {
+                            let date = null;
+
+                            if (guild.progression.completed)
+                                date = new Date(
+                                    guild.progression.completed * 1000
+                                );
+
+                            return (
+                                <TableRow key={guild.guildName}>
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        className="displayGuildsGuildName"
+                                    >
+                                        <Typography color="inherit">
+                                            <span className="textBold">
+                                                {guild.rank}.{" "}
+                                            </span>
+                                            <RouterLink
+                                                to={`/guild/${guild.guildName}?realm=${guild.realm}`}
+                                            >
+                                                <Link
+                                                    component="span"
+                                                    style={{
+                                                        color: guild.gFaction
+                                                            ? factionColors.horde
+                                                            : factionColors.alliance
+                                                    }}
+                                                >
+                                                    {guild.guildName}
+                                                </Link>
+                                            </RouterLink>
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {guild.realm}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {guild.gFaction ? "Horde" : "Alliance"}
+                                    </TableCell>
+                                    <TableCell component="th" scope="row">
+                                        {date ? (
+                                            <DateTooltip date={date}>
+                                                <span
+                                                    style={{
+                                                        color:
+                                                            progStateColors.defeated
+                                                    }}
+                                                >
+                                                    <DisplayDate
+                                                        date={date}
+                                                        align="right"
+                                                    />
+                                                </span>
+                                            </DateTooltip>
+                                        ) : (
+                                            guild.progression
+                                                .currentBossesDefeated
+                                        )}
                                     </TableCell>
                                 </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {sortGuilds(data, sort).map(guild => {
-                                    let date = null;
-
-                                    if (guild.progression.completed)
-                                        date = new Date(
-                                            guild.progression.completed * 1000
-                                        );
-
-                                    return (
-                                        <TableRow key={guild.guildName}>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                                className="displayGuildsGuildName"
-                                            >
-                                                <Typography color="inherit">
-                                                    <span className="textBold">
-                                                        {guild.rank}.{" "}
-                                                    </span>
-                                                    <RouterLink
-                                                        to={`/guild/${guild.guildName}?realm=${guild.realm}`}
-                                                    >
-                                                        <Link
-                                                            component="span"
-                                                            style={{
-                                                                color: guild.gFaction
-                                                                    ? factionColors.horde
-                                                                    : factionColors.alliance
-                                                            }}
-                                                        >
-                                                            {guild.guildName}
-                                                        </Link>
-                                                    </RouterLink>
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                {guild.realm}
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                {guild.gFaction
-                                                    ? "Horde"
-                                                    : "Alliance"}
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
-                                                {date ? (
-                                                    <DateTooltip date={date}>
-                                                        <span
-                                                            style={{
-                                                                color:
-                                                                    progStateColors.defeated
-                                                            }}
-                                                        >
-                                                            <DisplayDate
-                                                                date={date}
-                                                                align="right"
-                                                            />
-                                                        </span>
-                                                    </DateTooltip>
-                                                ) : (
-                                                    guild.progression
-                                                        .currentBossesDefeated
-                                                )}
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </React.Fragment>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
             )}
-        </section>
+        </React.Fragment>
     );
 }
 
