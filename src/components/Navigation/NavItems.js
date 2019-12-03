@@ -16,7 +16,8 @@ import { navToggle, raidSelectBoss } from "../../redux/actions";
 function styles(theme) {
     return {
         navItem: {
-            margin: theme.spacing(2)
+            margin: theme.spacing(2),
+            fontWeight: "500"
         }
     };
 }

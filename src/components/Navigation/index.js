@@ -32,11 +32,14 @@ function styles(theme) {
         },
         appBar: {
             marginBottom: theme.spacing(4)
+        },
+        desktopNav: {
+            paddingLeft: theme.spacing(4)
         }
     };
 }
 
-function Nav2({ classes }) {
+function Navigation({ classes }) {
     const showNav = useSelector(state => state.nav.showNav);
     const dispatch = useDispatch();
 
@@ -73,7 +76,11 @@ function Nav2({ classes }) {
                     </Drawer>
 
                     <Hidden xsDown implementation="css">
-                        <Grid container implementation="css">
+                        <Grid
+                            container
+                            implementation="css"
+                            className={classes.desktopNav}
+                        >
                             <NavItems />
                         </Grid>
                     </Hidden>
@@ -108,4 +115,4 @@ function Nav2({ classes }) {
     );
 }
 
-export default withStyles(styles)(Nav2);
+export default withStyles(styles)(Navigation);
