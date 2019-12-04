@@ -1,16 +1,31 @@
 import React from "react";
 
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { withStyles } from "@material-ui/core/styles";
 
-function Loading() {
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Container from "@material-ui/core/Container";
+
+function styles(theme) {
+    return {
+        container: {
+            paddingTop: theme.spacing(4),
+            paddingBottom: theme.spacing(4),
+            display: "flex",
+            justifyContent: "center",
+            minWidth: "280px"
+        }
+    };
+}
+
+function Loading({ classes }) {
     return (
-        <div className="loaderContainer">
+        <Container className={classes.container}>
             <CircularProgress
                 className="additionalInfoLoader"
                 color="secondary"
             />
-        </div>
+        </Container>
     );
 }
 
-export default Loading;
+export default withStyles(styles)(Loading);
