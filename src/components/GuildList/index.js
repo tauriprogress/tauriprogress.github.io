@@ -1,33 +1,65 @@
-import { abbreviation } from "tauriprogress-constants/currentContent";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { withTheme } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import DateTooltip from "../DateTooltip";
 
-import { sortGuilds } from "./helpers";
-
 import { guildsFetch } from "../../redux/actions";
 import DisplayDate from "../DisplayDate";
 
-function GuildList({ theme }) {
+function styles(theme) {
+    return {
+        cell: {
+            padding: theme.spacing(1)
+        },
+        rank: {
+            minWidth: "70px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+            padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
+            "& p": {
+                fontSize: `${18 / 16}rem`
+            }
+        },
+        guildName: {
+            fontSize: `${18 / 16}rem`,
+            lineHeight: `${20 / 16}rem`
+        },
+        table: {
+            maxWidth: "1000px"
+        },
+        tableHead: {
+            paddingTop: "0px",
+            paddingLeft: theme.spacing(10)
+        },
+        progression: {
+            fontWeight: "bold",
+            paddingLeft: theme.spacing(1)
+        },
+        realm: {
+            color: theme.palette.text.secondary,
+            fontSize: `${10 / 16}rem`,
+            lineHeight: `${11 / 16}rem`
+        }
+    };
+}
+
+function GuildList({ theme, classes }) {
     const { factionColors, progStateColors } = theme.palette;
     const { data, loading, error } = useSelector(state => state.guilds);
-    const [sort, setSort] = useState({ by: "completion", direction: "asc" });
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -39,77 +71,28 @@ function GuildList({ theme }) {
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
-                <Table>
-                    <TableHead className="tableHead">
+                <Table className={classes.table}>
+                    <TableHead>
                         <TableRow>
-                            <TableCell>Guild</TableCell>
-                            <TableCell>
-                                <Tooltip title="Sort" enterDelay={300}>
-                                    <TableSortLabel
-                                        active={sort.by === "realm"}
-                                        direction={sort.direction}
-                                        onClick={() =>
-                                            setSort({
-                                                by: "realm",
-                                                direction:
-                                                    sort.by === "realm"
-                                                        ? sort.direction ===
-                                                          "asc"
-                                                            ? "desc"
-                                                            : "asc"
-                                                        : "desc"
-                                            })
-                                        }
-                                    >
-                                        Realm
-                                    </TableSortLabel>
-                                </Tooltip>
+                            <TableCell className={classes.tableHead}>
+                                Guild
                             </TableCell>
-                            <TableCell>
-                                <Tooltip title="Sort" enterDelay={300}>
-                                    <TableSortLabel
-                                        active={sort.by === "gFaction"}
-                                        direction={sort.direction}
-                                        onClick={() =>
-                                            setSort({
-                                                by: "gFaction",
-                                                direction:
-                                                    sort.by === "gFaction"
-                                                        ? sort.direction ===
-                                                          "asc"
-                                                            ? "desc"
-                                                            : "asc"
-                                                        : "desc"
-                                            })
-                                        }
-                                    >
-                                        Faction
-                                    </TableSortLabel>
-                                </Tooltip>
+                            <TableCell
+                                align="right"
+                                className={classes.tableHead}
+                            >
+                                25 HC
                             </TableCell>
-                            <TableCell>
-                                <TableSortLabel
-                                    active={sort.by === "completion"}
-                                    direction={sort.direction}
-                                    onClick={() =>
-                                        setSort({
-                                            by: "completion",
-                                            direction:
-                                                sort.by === "completion"
-                                                    ? sort.direction === "desc"
-                                                        ? "asc"
-                                                        : "desc"
-                                                    : "asc"
-                                        })
-                                    }
-                                >
-                                    {abbreviation} Completion
-                                </TableSortLabel>
+                            <TableCell
+                                align="right"
+                                className={classes.tableHead}
+                            >
+                                10 HC
                             </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortGuilds(data, sort).map(guild => {
+                        {data.map(guild => {
                             let date = null;
 
                             if (guild.progression.completed)
@@ -117,58 +100,121 @@ function GuildList({ theme }) {
                                     guild.progression.completed * 1000
                                 );
 
+                            let randomDate = new Date();
+
                             return (
-                                <TableRow key={guild.guildName}>
-                                    <TableCell
-                                        component="th"
-                                        scope="row"
-                                        className="displayGuildsGuildName"
-                                    >
-                                        <Typography color="inherit">
-                                            <span className="textBold">
-                                                {guild.rank}.{" "}
-                                            </span>
-                                            <RouterLink
-                                                to={`/guild/${guild.guildName}?realm=${guild.realm}`}
-                                            >
-                                                <Link
-                                                    component="span"
-                                                    style={{
-                                                        color: guild.gFaction
-                                                            ? factionColors.horde
-                                                            : factionColors.alliance
-                                                    }}
+                                <TableRow key={guild.guildName} hover>
+                                    <TableCell className={classes.cell}>
+                                        <Grid container wrap="nowrap">
+                                            <Grid item className={classes.rank}>
+                                                <Typography color="inherit">
+                                                    {guild.rank}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Grid
+                                                    container
+                                                    direction="column"
                                                 >
-                                                    {guild.guildName}
-                                                </Link>
-                                            </RouterLink>
+                                                    <Grid item>
+                                                        <Typography
+                                                            className={
+                                                                classes.guildName
+                                                            }
+                                                        >
+                                                            <Link
+                                                                component={
+                                                                    RouterLink
+                                                                }
+                                                                style={{
+                                                                    color: guild.gFaction
+                                                                        ? factionColors.horde
+                                                                        : factionColors.alliance
+                                                                }}
+                                                                to={`/guild/${guild.guildName}?realm=${guild.realm}`}
+                                                            >
+                                                                {
+                                                                    guild.guildName
+                                                                }
+                                                            </Link>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        className={
+                                                            classes.realm
+                                                        }
+                                                    >
+                                                        <Typography
+                                                            variant="caption"
+                                                            className={
+                                                                classes.realm
+                                                            }
+                                                        >
+                                                            {guild.realm}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </TableCell>
+                                    <TableCell
+                                        className={classes.cell}
+                                        align="right"
+                                    >
+                                        <Typography>
+                                            <Typography variant="caption">
+                                                <DateTooltip date={randomDate}>
+                                                    <span
+                                                        style={{
+                                                            color:
+                                                                progStateColors.defeated
+                                                        }}
+                                                    >
+                                                        <DisplayDate
+                                                            date={randomDate}
+                                                            align="right"
+                                                        />
+                                                    </span>
+                                                </DateTooltip>
+                                            </Typography>
+                                            <span
+                                                className={classes.progression}
+                                            >
+                                                0/14
+                                            </span>
                                         </Typography>
                                     </TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {guild.realm}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {guild.gFaction ? "Horde" : "Alliance"}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {date ? (
-                                            <DateTooltip date={date}>
-                                                <span
-                                                    style={{
-                                                        color:
-                                                            progStateColors.defeated
-                                                    }}
-                                                >
-                                                    <DisplayDate
-                                                        date={date}
-                                                        align="right"
-                                                    />
-                                                </span>
-                                            </DateTooltip>
-                                        ) : (
-                                            guild.progression
-                                                .currentBossesDefeated
-                                        )}
+                                    <TableCell
+                                        className={classes.cell}
+                                        align="right"
+                                    >
+                                        <Typography>
+                                            <Typography variant="caption">
+                                                <DateTooltip date={randomDate}>
+                                                    <span
+                                                        style={{
+                                                            color:
+                                                                progStateColors.defeated
+                                                        }}
+                                                    >
+                                                        <DisplayDate
+                                                            date={randomDate}
+                                                            align="right"
+                                                        />
+                                                    </span>
+                                                </DateTooltip>
+                                            </Typography>
+                                            <span
+                                                className={classes.progression}
+                                            >
+                                                {
+                                                    guild.progression
+                                                        .currentBossesDefeated
+                                                }
+                                                /14
+                                            </span>
+                                        </Typography>
                                     </TableCell>
                                 </TableRow>
                             );
@@ -180,4 +226,4 @@ function GuildList({ theme }) {
     );
 }
 
-export default withTheme(GuildList);
+export default withStyles(styles)(withTheme(GuildList));

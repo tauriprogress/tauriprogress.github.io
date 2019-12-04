@@ -1,5 +1,5 @@
 import "typeface-roboto";
-import "typeface-roboto-mono";
+import "typeface-b612-mono";
 
 import { createMuiTheme } from "@material-ui/core/styles";
 import {
@@ -69,6 +69,11 @@ const overrides = {
                 fontWeight: "bold"
             }
         }
+    },
+    MuiTable: {
+        root: {
+            whiteSpace: "nowrap"
+        }
     }
 };
 
@@ -85,9 +90,9 @@ const lightPalette = {
         main: red[900]
     },
     background: {
-        default: light
+        default: light,
+        accent: lightAccent
     },
-    backgroundAccent: lightAccent,
     defaultClassColors,
     classColors: {
         1: brown[700],
@@ -126,9 +131,9 @@ const darkPalette = {
         main: red[900]
     },
     background: {
-        default: dark
+        default: dark,
+        accent: darkAccent
     },
-    backgroundAccent: darkAccent,
     defaultClassColors,
     classColors: {
         1: brown[300],
@@ -177,6 +182,13 @@ const defaultState = {
                         color: `${lightPSecondary}`
                     }
                 }
+            },
+            MuiTableBody: {
+                root: {
+                    "& tr:nth-child(odd)": {
+                        backgroundColor: lightPalette.background.accent
+                    }
+                }
             }
         }
     }),
@@ -204,6 +216,18 @@ const defaultState = {
                         ...overrides.MuiListItem.root["&$selected"],
                         color: `${darkPSecondary}`
                     }
+                }
+            },
+            MuiTableBody: {
+                root: {
+                    "& tr:nth-child(odd)": {
+                        backgroundColor: darkPalette.background.accent
+                    }
+                }
+            },
+            MuiTableCell: {
+                body: {
+                    color: darkPalette.primary.contrastText
                 }
             }
         }

@@ -20,7 +20,8 @@ function styles(theme) {
             textAlign: "center"
         },
         itemTwo: {
-            flexGrow: 5
+            flexGrow: 5,
+            margin: "0 10px"
         }
     };
 }
