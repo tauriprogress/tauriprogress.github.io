@@ -8,7 +8,7 @@ async function getData() {
 
 function* fetchGuilds() {
     try {
-        const requested = yield select(state => !!state.guilds.data);
+        const requested = yield select(state => !!state.guildList.data);
 
         if (requested) {
             return;

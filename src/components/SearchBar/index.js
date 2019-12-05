@@ -21,8 +21,8 @@ function styles(theme) {
 
 function SearchBar({ classes }) {
     const { loading, error } = useSelector(state => ({
-        loading: state.guilds.loading,
-        error: state.guilds.error
+        loading: state.guildList.loading,
+        error: state.guildList.error
     }));
 
     const [drawerOpen, setDrawer] = useState(false);

@@ -30,14 +30,18 @@ function applyGuildRanks(guilds) {
     let second = 1;
     return guilds
         .sort((a, b) => {
-            if (a.progression.completed && b.progression.completed) {
-                return a.progression.completed < b.progression.completed
+            if (
+                a.progression.completion.completed &&
+                b.progression.completion.completed
+            ) {
+                return a.progression.completion.completed <
+                    b.progression.completion.completed
                     ? first
                     : second;
             }
 
-            return a.progression.currentBossesDefeated <
-                b.progression.currentBossesDefeated
+            return a.progression.completion.bossesDefeated <
+                b.progression.completion.bossesDefeated
                 ? second
                 : first;
         })

@@ -12,11 +12,11 @@ import { guildsFetch, navToggle } from "../../redux/actions";
 
 function SearchGuild({ closeDrawer, history }) {
     const guilds = useSelector(state => {
-        if (!state.guilds.data) {
+        if (!state.guildList.data) {
             return [];
         }
 
-        return state.guilds.data.map(guild => ({
+        return state.guildList.data.map(guild => ({
             label: guild.guildName,
             value: {
                 guildName: guild.guildName,
