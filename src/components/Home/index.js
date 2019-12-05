@@ -1,48 +1,18 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/styles";
-
 import RaidBossListContainer from "../RaidBossListContainer";
 import GuildList from "../GuildList";
 import OverflowScroll from "../OverflowScroll";
+import AsideContainer from "../AsideContainer";
 
-function styles(theme) {
-    return {
-        container: {
-            maxWidth: "100vw",
-            display: "flex",
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                flexWrap: "wrap"
-            }
-        },
-        itemOne: {
-            flexGrow: 1,
-            textAlign: "center"
-        },
-        itemTwo: {
-            flexGrow: 5,
-            margin: "0 10px"
-        }
-    };
-}
-
-const Home = withStyles(styles)(({ classes }) => {
+function Home() {
     return (
-        <div className={classes.container}>
-            <aside className={classes.itemOne}>
-                <RaidBossListContainer />
-            </aside>
-            <OverflowScroll className={classes.itemTwo}>
-                <section>
-                    <GuildList />
-                </section>
+        <AsideContainer AsideComponent={RaidBossListContainer}>
+            <OverflowScroll>
+                <GuildList />
             </OverflowScroll>
-        </div>
+        </AsideContainer>
     );
-});
-
-function StyledHome() {
-    return <Home />;
 }
 
-export default StyledHome;
+export default Home;
