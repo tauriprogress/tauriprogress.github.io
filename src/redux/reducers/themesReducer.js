@@ -74,6 +74,11 @@ const overrides = {
         root: {
             whiteSpace: "nowrap"
         }
+    },
+    MuiTooltip: {
+        tooltip: {
+            backgroundColor: primary
+        }
     }
 };
 

@@ -125,7 +125,10 @@ function GuildList({ theme, classes }) {
                                 <TableRow key={guild.guildName} hover>
                                     <TableCell className={classes.cell}>
                                         <Grid container wrap="nowrap">
-                                            <Grid item className={classes.rank}>
+                                            <Grid
+                                                item
+                                                className={`${classes.rank} rank`}
+                                            >
                                                 <Typography color="inherit">
                                                     {guild.rank}
                                                 </Typography>
@@ -271,18 +274,9 @@ function GuildList({ theme, classes }) {
                                                         <DateTooltip
                                                             date={firstKill}
                                                         >
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        progStateColors.defeated
-                                                                }}
-                                                            >
-                                                                <DisplayDate
-                                                                    date={
-                                                                        firstKill
-                                                                    }
-                                                                />
-                                                            </span>
+                                                            <DisplayDate
+                                                                date={firstKill}
+                                                            />
                                                         </DateTooltip>
                                                     </Typography>
                                                 )}
@@ -292,12 +286,27 @@ function GuildList({ theme, classes }) {
                                                         classes.progression
                                                     }
                                                 >
-                                                    {
-                                                        guild.progression
-                                                            .completion
-                                                            .bossesDefeated
-                                                    }
-                                                    /14
+                                                    <span
+                                                        style={{
+                                                            color:
+                                                                firstKill &&
+                                                                progStateColors.defeated
+                                                        }}
+                                                    >
+                                                        {
+                                                            guild.progression
+                                                                .completion
+                                                                .bossesDefeated
+                                                        }
+                                                    </span>
+
+                                                    <span
+                                                        className={
+                                                            classes.secondaryText
+                                                        }
+                                                    >
+                                                        / 14
+                                                    </span>
                                                 </span>
                                             </React.Fragment>
                                         </Typography>
