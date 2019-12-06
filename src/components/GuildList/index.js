@@ -53,11 +53,12 @@ function styles(theme) {
         },
         progression: {
             fontWeight: "bold",
+            fontSize: `${20 / 16}rem`,
             paddingLeft: theme.spacing(1)
         },
         secondaryText: {
             color: theme.palette.text.secondary,
-            fontSize: `${10 / 16}rem`,
+            fontSize: `${11 / 16}rem`,
             lineHeight: `${11 / 16}rem`
         },
         overallProgression: {
@@ -271,7 +272,7 @@ function GuildList({ theme, classes }) {
                                         >
                                             <React.Fragment>
                                                 {firstKill && (
-                                                    <Typography variant="caption">
+                                                    <Typography component="span">
                                                         <DateTooltip
                                                             date={firstKill}
                                                         >
