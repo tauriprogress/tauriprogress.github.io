@@ -26,6 +26,8 @@ const lightAccent = "#faf5ef";
 const dark = "#25272f";
 const darkAccent = "#2c2f39";
 
+const lightGrey = "#c4c4c4";
+
 const defaultClassColors = {
     1: "#c79c6e",
     2: "#f58cba",
@@ -78,6 +80,19 @@ const overrides = {
     MuiTooltip: {
         tooltip: {
             backgroundColor: primary
+        }
+    },
+    MuiTabs: {
+        root: {
+            backgroundColor: primary,
+            color: lightGrey
+        }
+    },
+    MuiTab: {
+        root: {
+            "&$selected": {
+                color: "white"
+            }
         }
     }
 };

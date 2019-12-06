@@ -1,29 +1,43 @@
 import { difficultyLabels } from "tauriprogress-constants";
 
 import React from "react";
-import { Tabs, Tab } from "@material-ui/core";
 
-function SelectDifficulty({ difficulty, onChange }) {
+import { withStyles } from "@material-ui/core/styles";
+
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+
+function styles(theme) {
+    return {
+        tabs: {
+            width: "160px"
+        },
+        tab: {
+            minWidth: "80px"
+        }
+    };
+}
+
+function SelectDifficulty({ classes, difficulty, onChange }) {
     return (
         <Tabs
             onChange={onChange}
             value={difficulty}
-            textColor="primary"
             variant="fullWidth"
-            style={{ width: "170px" }}
+            className={classes.tabs}
         >
             <Tab
                 value={5}
-                indicatorColor="secondary"
                 label={difficultyLabels[5]}
+                className={classes.tab}
             />
             <Tab
                 value={6}
-                indicatorColor="secondary"
                 label={difficultyLabels[6]}
+                className={classes.tab}
             />
         </Tabs>
     );
 }
 
-export default SelectDifficulty;
+export default withStyles(styles)(SelectDifficulty);
