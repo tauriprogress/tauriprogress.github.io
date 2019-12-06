@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 
-import { withTheme } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
@@ -12,10 +12,9 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Avatar from "@material-ui/core/Avatar";
-import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import LogLink from "../LogLink";
 import Filters from "./Filters";
@@ -27,6 +26,7 @@ import { applyFilter } from "./helpers";
 import { convertFightTime, getSpecImg } from "../../helpers";
 
 import { raidFetch, raidInfoChangeDiff } from "../../redux/actions";
+import SpecImg from "../SpecImg";
 
 function useFilter(initialState) {
     const [filter, setFilter] = useState(initialState);
@@ -42,7 +42,18 @@ function useFilter(initialState) {
     return [filter, changeFilter];
 }
 
-function Raid({ match, theme }) {
+function styles(theme) {
+    return {
+        boldText: {
+            fontWeight: "bold"
+        },
+        cell: {
+            padding: theme.spacing(1)
+        }
+    };
+}
+
+function Raid({ classes, match, theme }) {
     const {
         palette: { classColors, factionColors }
     } = theme;
@@ -90,7 +101,7 @@ function Raid({ match, theme }) {
                     <Filters filter={filter} changeFilter={changeFilter} />
                     <OverflowScroll>
                         <Table>
-                            <TableHead className="tableHead">
+                            <TableHead>
                                 <TableRow>
                                     <TableCell>Boss name</TableCell>
                                     <TableCell>Fastest</TableCell>
@@ -103,33 +114,26 @@ function Raid({ match, theme }) {
                                     const currentBoss =
                                         filteredData[boss.encounter_name];
                                     return (
-                                        <TableRow key={currentBoss.bossName}>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                        <TableRow
+                                            key={currentBoss.bossName}
+                                            hover
+                                        >
+                                            <TableCell className={classes.cell}>
                                                 <Typography color="inherit">
-                                                    <span className="textBold">
-                                                        <RouterLink
-                                                            to={`/raid/${raidName}/${currentBoss.bossName}`}
-                                                        >
-                                                            <Link
-                                                                component="span"
-                                                                color="inherit"
-                                                            >
-                                                                {
-                                                                    currentBoss.bossName
-                                                                }
-                                                            </Link>
-                                                        </RouterLink>
-                                                    </span>
+                                                    <Link
+                                                        component={RouterLink}
+                                                        color="inherit"
+                                                        to={`/raid/${raidName}/${currentBoss.bossName}`}
+                                                        className={
+                                                            classes.boldText
+                                                        }
+                                                    >
+                                                        {currentBoss.bossName}
+                                                    </Link>
                                                 </Typography>
                                             </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                            <TableCell className={classes.cell}>
                                                 {currentBoss.fastestKills
                                                     .guilddata ? (
                                                     <Typography color="inherit">
@@ -144,39 +148,44 @@ function Raid({ match, theme }) {
                                                                     .fastestKills
                                                                     .realm
                                                             }
-                                                        />{" "}
-                                                        <span className="textBold">
+                                                        />
+                                                        <span
+                                                            className={
+                                                                classes.boldText
+                                                            }
+                                                        >
+                                                            {" "}
                                                             {convertFightTime(
                                                                 currentBoss
                                                                     .fastestKills
                                                                     .fight_time
                                                             )}{" "}
                                                         </span>
+
                                                         {currentBoss
                                                             .fastestKills
                                                             .guilddata.name ? (
-                                                            <RouterLink
+                                                            <Link
+                                                                component={
+                                                                    RouterLink
+                                                                }
+                                                                style={{
+                                                                    color: currentBoss
+                                                                        .fastestKills
+                                                                        .guilddata
+                                                                        .faction
+                                                                        ? factionColors.horde
+                                                                        : factionColors.alliance
+                                                                }}
                                                                 to={`/guild/${currentBoss.fastestKills.guilddata.name}?realm=${currentBoss.fastestKills.realm}`}
                                                             >
-                                                                <Link
-                                                                    component="span"
-                                                                    style={{
-                                                                        color: currentBoss
-                                                                            .fastestKills
-                                                                            .guilddata
-                                                                            .faction
-                                                                            ? factionColors.horde
-                                                                            : factionColors.alliance
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        currentBoss
-                                                                            .fastestKills
-                                                                            .guilddata
-                                                                            .name
-                                                                    }
-                                                                </Link>
-                                                            </RouterLink>
+                                                                {
+                                                                    currentBoss
+                                                                        .fastestKills
+                                                                        .guilddata
+                                                                        .name
+                                                                }
+                                                            </Link>
                                                         ) : (
                                                             "Random"
                                                         )}
@@ -188,42 +197,36 @@ function Raid({ match, theme }) {
                                                 )}
                                             </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                            <TableCell className={classes.cell}>
                                                 {currentBoss.bestDps.name ? (
-                                                    <Typography color="inherit">
-                                                        <span className="bossInfoCharContainer">
-                                                            <span className="textBold">
+                                                    <Grid
+                                                        container
+                                                        direction="column"
+                                                    >
+                                                        <Grid item>
+                                                            <Typography
+                                                                color="inherit"
+                                                                className={
+                                                                    classes.boldText
+                                                                }
+                                                            >
                                                                 {new Intl.NumberFormat().format(
                                                                     Math.round(
                                                                         currentBoss
                                                                             .bestDps
                                                                             .dps
                                                                     )
-                                                                )}{" "}
-                                                            </span>
-                                                            <br />
-
-                                                            <span className="textBold">
+                                                                )}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography color="inherit">
                                                                 {
                                                                     currentBoss
                                                                         .bestDps
                                                                         .ilvl
                                                                 }{" "}
-                                                            </span>
-                                                            <Tooltip
-                                                                title={
-                                                                    specs[
-                                                                        currentBoss
-                                                                            .bestDps
-                                                                            .spec
-                                                                    ].label
-                                                                }
-                                                            >
-                                                                <Avatar
-                                                                    component="span"
+                                                                <SpecImg
                                                                     src={getSpecImg(
                                                                         specs[
                                                                             currentBoss
@@ -231,42 +234,39 @@ function Raid({ match, theme }) {
                                                                                 .spec
                                                                         ].image
                                                                     )}
-                                                                    className="classSpecAvatar"
-                                                                />
-                                                            </Tooltip>
-
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        classColors[
-                                                                            specToClass[
-                                                                                currentBoss
-                                                                                    .bestDps
-                                                                                    .spec
-                                                                            ]
-                                                                        ]
-                                                                }}
-                                                                className={
-                                                                    "bossInfoCharName"
-                                                                }
-                                                            >
-                                                                <RouterLink
-                                                                    to={`/player/${currentBoss.bestDps.name}?realm=${currentBoss.bestDps.realm}`}
-                                                                >
-                                                                    <Link
-                                                                        component="span"
-                                                                        color="inherit"
-                                                                    >
-                                                                        {
+                                                                    title={
+                                                                        specs[
                                                                             currentBoss
                                                                                 .bestDps
-                                                                                .name
-                                                                        }
-                                                                    </Link>
-                                                                </RouterLink>
-                                                            </span>
-                                                        </span>
-                                                    </Typography>
+                                                                                .spec
+                                                                        ].label
+                                                                    }
+                                                                />
+                                                                <Link
+                                                                    component={
+                                                                        RouterLink
+                                                                    }
+                                                                    style={{
+                                                                        color:
+                                                                            classColors[
+                                                                                specToClass[
+                                                                                    currentBoss
+                                                                                        .bestDps
+                                                                                        .spec
+                                                                                ]
+                                                                            ]
+                                                                    }}
+                                                                    to={`/player/${currentBoss.bestDps.name}?realm=${currentBoss.bestDps.realm}`}
+                                                                >
+                                                                    {
+                                                                        currentBoss
+                                                                            .bestDps
+                                                                            .name
+                                                                    }
+                                                                </Link>
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
                                                 ) : (
                                                     <Typography>
                                                         No data
@@ -274,41 +274,36 @@ function Raid({ match, theme }) {
                                                 )}
                                             </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                            <TableCell className={classes.cell}>
                                                 {currentBoss.bestHps.name ? (
-                                                    <Typography color="inherit">
-                                                        <span className="textBold">
-                                                            {new Intl.NumberFormat().format(
-                                                                Math.round(
-                                                                    currentBoss
-                                                                        .bestHps
-                                                                        .hps
-                                                                )
-                                                            )}{" "}
-                                                        </span>
-                                                        <br />
-                                                        <span className="bossInfoCharContainer">
-                                                            <span className="textBold">
+                                                    <Grid
+                                                        container
+                                                        direction="column"
+                                                    >
+                                                        <Grid item>
+                                                            <Typography
+                                                                color="inherit"
+                                                                className={
+                                                                    classes.boldText
+                                                                }
+                                                            >
+                                                                {new Intl.NumberFormat().format(
+                                                                    Math.round(
+                                                                        currentBoss
+                                                                            .bestHps
+                                                                            .hps
+                                                                    )
+                                                                )}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography color="inherit">
                                                                 {
                                                                     currentBoss
                                                                         .bestHps
                                                                         .ilvl
                                                                 }{" "}
-                                                            </span>
-                                                            <Tooltip
-                                                                title={
-                                                                    specs[
-                                                                        currentBoss
-                                                                            .bestHps
-                                                                            .spec
-                                                                    ].label
-                                                                }
-                                                            >
-                                                                <Avatar
-                                                                    component="span"
+                                                                <SpecImg
                                                                     src={getSpecImg(
                                                                         specs[
                                                                             currentBoss
@@ -316,42 +311,39 @@ function Raid({ match, theme }) {
                                                                                 .spec
                                                                         ].image
                                                                     )}
-                                                                    className="classSpecAvatar"
-                                                                />
-                                                            </Tooltip>
-
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        classColors[
-                                                                            specToClass[
-                                                                                currentBoss
-                                                                                    .bestHps
-                                                                                    .spec
-                                                                            ]
-                                                                        ]
-                                                                }}
-                                                                className={
-                                                                    "bossInfoCharName"
-                                                                }
-                                                            >
-                                                                <RouterLink
-                                                                    to={`/player/${currentBoss.bestHps.name}?realm=${currentBoss.bestHps.realm}`}
-                                                                >
-                                                                    <Link
-                                                                        component="span"
-                                                                        color="inherit"
-                                                                    >
-                                                                        {
+                                                                    title={
+                                                                        specs[
                                                                             currentBoss
                                                                                 .bestHps
-                                                                                .name
-                                                                        }
-                                                                    </Link>
-                                                                </RouterLink>
-                                                            </span>
-                                                        </span>
-                                                    </Typography>
+                                                                                .spec
+                                                                        ].label
+                                                                    }
+                                                                />
+                                                                <Link
+                                                                    component={
+                                                                        RouterLink
+                                                                    }
+                                                                    style={{
+                                                                        color:
+                                                                            classColors[
+                                                                                specToClass[
+                                                                                    currentBoss
+                                                                                        .bestHps
+                                                                                        .spec
+                                                                                ]
+                                                                            ]
+                                                                    }}
+                                                                    to={`/player/${currentBoss.bestHps.name}?realm=${currentBoss.bestHps.realm}`}
+                                                                >
+                                                                    {
+                                                                        currentBoss
+                                                                            .bestHps
+                                                                            .name
+                                                                    }
+                                                                </Link>
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
                                                 ) : (
                                                     <Typography>
                                                         No data
@@ -370,4 +362,4 @@ function Raid({ match, theme }) {
     );
 }
 
-export default withTheme(Raid);
+export default withStyles(styles)(withTheme(Raid));
