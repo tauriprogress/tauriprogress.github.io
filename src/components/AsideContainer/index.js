@@ -12,11 +12,14 @@ function styles(theme) {
             }
         },
         itemOne: {
-            flexGrow: 1,
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                margin: "auto"
+            },
+            width: "280px",
             textAlign: "center"
         },
         itemTwo: {
-            flexGrow: 5,
+            flexGrow: 1,
             margin: "0 10px",
             overflow: "hidden"
         }

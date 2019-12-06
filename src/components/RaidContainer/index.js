@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Raid from "../Raid";
 import RaidBossList from "../RaidBossList";
 import RaidBoss from "../RaidBoss";
+import AsideContainer from "../AsideContainer";
 
 function RaidContainer({ match }) {
     const { raidData, selected, error } = useSelector(state => ({
@@ -12,22 +13,17 @@ function RaidContainer({ match }) {
     }));
 
     return (
-        <section className="raidContainer">
-            {!error && (
-                <aside>
-                    {raidData && (
-                        <RaidBossList raid={raidData} selected={selected} />
-                    )}
-                </aside>
+        <AsideContainer
+            AsideComponent={() =>
+                raidData && <RaidBossList raid={raidData} selected={selected} />
+            }
+        >
+            {!match.params.bossName ? (
+                <Raid match={match} />
+            ) : (
+                <RaidBoss match={match} />
             )}
-            <div className="raidContainerContent">
-                {!match.params.bossName ? (
-                    <Raid match={match} />
-                ) : (
-                    <RaidBoss match={match} />
-                )}
-            </div>
-        </section>
+        </AsideContainer>
     );
 }
 
