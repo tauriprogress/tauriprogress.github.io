@@ -99,6 +99,15 @@ const overrides = {
         root: {
             width: "100px"
         }
+    },
+
+    MuiAvatar: {
+        root: {
+            width: "16px",
+            height: "16px",
+            display: "inline-block",
+            transform: "translate(0, 2px)"
+        }
     }
 };
 
@@ -196,7 +205,7 @@ const defaultState = {
                 root: {
                     ...overrides.MuiLink.root,
                     "&:hover": {
-                        color: `${lightPSecondary}`
+                        color: `${lightPSecondary} !important`
                     }
                 }
             },
@@ -226,7 +235,7 @@ const defaultState = {
                 root: {
                     ...overrides.MuiLink.root,
                     "&:hover": {
-                        color: `${darkPSecondary}`
+                        color: `${darkPSecondary} !important`
                     }
                 }
             },
@@ -253,6 +262,13 @@ const defaultState = {
             MuiTableCell: {
                 body: {
                     color: darkPalette.primary.contrastText
+                }
+            },
+            MuiInputLabel: {
+                root: {
+                    "&$focused": {
+                        color: "white !important"
+                    }
                 }
             }
         }
