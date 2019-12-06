@@ -20,6 +20,7 @@ import { Typography } from "@material-ui/core";
 import LogLink from "../LogLink";
 import Filters from "./Filters";
 import SelectDifficulty from "../SelectDifficulty";
+import OverflowScroll from "../OverflowScroll";
 
 import { applyFilter } from "./helpers";
 
@@ -87,7 +88,7 @@ function Raid({ match, theme }) {
                         }
                     />
                     <Filters filter={filter} changeFilter={changeFilter} />
-                    <div className="overflowScroll">
+                    <OverflowScroll>
                         <Table>
                             <TableHead className="tableHead">
                                 <TableRow>
@@ -362,7 +363,7 @@ function Raid({ match, theme }) {
                                 })}
                             </TableBody>
                         </Table>
-                    </div>
+                    </OverflowScroll>
                 </React.Fragment>
             )}
         </React.Fragment>

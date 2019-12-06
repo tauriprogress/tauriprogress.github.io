@@ -94,6 +94,11 @@ const overrides = {
                 color: "white"
             }
         }
+    },
+    MuiSelect: {
+        root: {
+            width: "100px"
+        }
     }
 };
 

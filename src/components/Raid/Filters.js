@@ -11,23 +11,31 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
+import Container from "@material-ui/core/Container";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
-
-const styles = {
-    root: {
-        width: "150px"
-    }
-};
-
-const StyledSelect = withStyles(styles)(Select);
 
 let realmNames = [];
 for (let realmKey in realms) {
     realmNames.push(realms[realmKey]);
 }
 
+function styles(theme) {
+    return {
+        formControl: {
+            margin: `0 ${theme.spacing(1)}px`
+        },
+        container: {
+            padding: 0,
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap"
+        }
+    };
+}
+
 function Filters({
+    classes,
     filter,
     changeFilter,
     theme: {
@@ -54,10 +62,10 @@ function Filters({
     }
 
     return (
-        <div className="globalFilterStyles">
-            <FormControl className="globalFilterStylesFormControl">
+        <Container className={classes.container}>
+            <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="realm">Server</InputLabel>
-                <StyledSelect
+                <Select
                     value={filter.realm}
                     onChange={e =>
                         changeFilter({
@@ -69,7 +77,6 @@ function Filters({
                         name: "realm",
                         id: "realm"
                     }}
-                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -79,11 +86,11 @@ function Filters({
                             {realm}
                         </MenuItem>
                     ))}
-                </StyledSelect>
+                </Select>
             </FormControl>
-            <FormControl className="globalFilterStylesFormControl">
+            <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="faction">Faction</InputLabel>
-                <StyledSelect
+                <Select
                     value={filter.faction}
                     onChange={e =>
                         changeFilter({
@@ -101,7 +108,6 @@ function Filters({
                         name: "faction",
                         id: "faction"
                     }}
-                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -122,12 +128,12 @@ function Filters({
                     >
                         Horde
                     </MenuItem>
-                </StyledSelect>
+                </Select>
             </FormControl>
 
-            <FormControl className="globalFilterStylesFormControl">
+            <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="class">Class</InputLabel>
-                <StyledSelect
+                <Select
                     style={{
                         color: classColors[filter.class]
                     }}
@@ -142,7 +148,6 @@ function Filters({
                         name: "class",
                         id: "class"
                     }}
-                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -158,11 +163,11 @@ function Filters({
                             {characterClass.label}
                         </MenuItem>
                     ))}
-                </StyledSelect>
+                </Select>
             </FormControl>
-            <FormControl className="globalFilterStylesFormControl">
+            <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="spec">Spec</InputLabel>
-                <StyledSelect
+                <Select
                     style={{
                         color: classColors[filter.class]
                     }}
@@ -177,7 +182,6 @@ function Filters({
                         name: "spec",
                         id: "spec"
                     }}
-                    className="globalFilterStylesSelect"
                 >
                     <MenuItem value="">
                         <em>All</em>
@@ -193,10 +197,10 @@ function Filters({
                             {specOption.label}
                         </MenuItem>
                     ))}
-                </StyledSelect>
+                </Select>
             </FormControl>
-        </div>
+        </Container>
     );
 }
 
-export default withTheme(Filters);
+export default withStyles(styles)(withTheme(Filters));
