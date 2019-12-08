@@ -2,8 +2,9 @@ import { realms } from "tauriprogress-constants";
 import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
-
 import { withRouter } from "react-router-dom";
+
+import { withStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -20,7 +21,25 @@ for (let realmKey in realms) {
     realmNames.push(realms[realmKey]);
 }
 
-function SearchPlayer({ closeDrawer, history }) {
+function styles(theme) {
+    return {
+        container: {
+            marginTop: "16px"
+        },
+        selectRealm: {
+            width: "100%"
+        },
+        realm: {
+            marginTop: "4px"
+        },
+        searchPlayerButtonContainer: {
+            display: "flex",
+            marginTop: "8px"
+        }
+    };
+}
+
+function SearchPlayer({ classes, closeDrawer, history }) {
     const [player, setPlayer] = useState("");
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
     const dispatch = useDispatch();
@@ -34,7 +53,7 @@ function SearchPlayer({ closeDrawer, history }) {
     }
 
     return (
-        <Grid container direction="column" style={{ marginTop: "16px" }}>
+        <Grid container direction="column" className={classes.container}>
             <Grid item>
                 <form
                     onSubmit={e => {
@@ -51,7 +70,7 @@ function SearchPlayer({ closeDrawer, history }) {
                     />
                 </form>
             </Grid>
-            <Grid item style={{ marginTop: "4px" }}>
+            <Grid item classeName={classes.realm}>
                 <FormControl fullWidth>
                     <InputLabel htmlFor="realm">Realm</InputLabel>
                     <Select
@@ -61,6 +80,7 @@ function SearchPlayer({ closeDrawer, history }) {
                             name: "realm",
                             id: "realm"
                         }}
+                        classes={{ root: classes.selectRealm }}
                     >
                         {realmNames.map(realmName => (
                             <MenuItem key={realmName} value={realmName}>
@@ -74,10 +94,7 @@ function SearchPlayer({ closeDrawer, history }) {
                 <Grid
                     container
                     justify="flex-end"
-                    style={{
-                        display: "flex",
-                        marginTop: "8px"
-                    }}
+                    className={classes.searchPlayerButtonContainer}
                 >
                     <Button
                         variant="contained"
@@ -92,4 +109,4 @@ function SearchPlayer({ closeDrawer, history }) {
     );
 }
 
-export default withRouter(SearchPlayer);
+export default withStyles(styles)(withRouter(SearchPlayer));
