@@ -11,7 +11,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-import Container from "@material-ui/core/Container";
+
+import FilterContainer from "../FilterContainer";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
@@ -24,12 +25,6 @@ function styles(theme) {
     return {
         formControl: {
             margin: `0 ${theme.spacing(1)}px`
-        },
-        container: {
-            padding: 0,
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap"
         }
     };
 }
@@ -62,7 +57,7 @@ function Filters({
     }
 
     return (
-        <Container className={classes.container}>
+        <FilterContainer>
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="realm">Server</InputLabel>
                 <Select
@@ -199,7 +194,7 @@ function Filters({
                     ))}
                 </Select>
             </FormControl>
-        </Container>
+        </FilterContainer>
     );
 }
 
