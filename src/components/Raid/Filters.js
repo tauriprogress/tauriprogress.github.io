@@ -14,19 +14,11 @@ import FormControl from "@material-ui/core/FormControl";
 
 import FilterContainer from "../FilterContainer";
 
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withTheme } from "@material-ui/core/styles";
 
 let realmNames = [];
 for (let realmKey in realms) {
     realmNames.push(realms[realmKey]);
-}
-
-function styles(theme) {
-    return {
-        formControl: {
-            margin: `0 ${theme.spacing(1)}px`
-        }
-    };
 }
 
 function Filters({
@@ -58,7 +50,7 @@ function Filters({
 
     return (
         <FilterContainer>
-            <FormControl className={classes.formControl}>
+            <FormControl>
                 <InputLabel htmlFor="realm">Server</InputLabel>
                 <Select
                     value={filter.realm}
@@ -83,7 +75,7 @@ function Filters({
                     ))}
                 </Select>
             </FormControl>
-            <FormControl className={classes.formControl}>
+            <FormControl>
                 <InputLabel htmlFor="faction">Faction</InputLabel>
                 <Select
                     value={filter.faction}
@@ -126,7 +118,7 @@ function Filters({
                 </Select>
             </FormControl>
 
-            <FormControl className={classes.formControl}>
+            <FormControl>
                 <InputLabel htmlFor="class">Class</InputLabel>
                 <Select
                     style={{
@@ -160,7 +152,7 @@ function Filters({
                     ))}
                 </Select>
             </FormControl>
-            <FormControl className={classes.formControl}>
+            <FormControl>
                 <InputLabel htmlFor="spec">Spec</InputLabel>
                 <Select
                     style={{
@@ -198,4 +190,4 @@ function Filters({
     );
 }
 
-export default withStyles(styles)(withTheme(Filters));
+export default withTheme(Filters);

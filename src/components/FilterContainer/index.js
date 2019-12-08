@@ -9,7 +9,10 @@ function styles(theme) {
             padding: 0,
             display: "flex",
             justifyContent: "center",
-            flexWrap: "wrap"
+            flexWrap: "wrap",
+            "& .MuiFormControl-root": {
+                margin: `0 ${theme.spacing(1)}px`
+            }
         }
     };
 }
