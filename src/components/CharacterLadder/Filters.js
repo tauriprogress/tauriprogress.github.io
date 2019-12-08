@@ -4,9 +4,10 @@ import {
     specToClass,
     characterClasses
 } from "tauriprogress-constants";
-
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import { withTheme, withStyles } from "@material-ui/core/styles";
 
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -14,28 +15,31 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import FilterContainer from "../FilterContainer";
 
 import {
     charLadderFilterSet,
     charLadderFilterReset
 } from "../../redux/actions";
 
-const styles = {
-    root: {
-        width: "150px"
-    }
-};
-
-const StyledSelect = withStyles(styles)(Select);
-const StyledTextField = withStyles(styles)(TextField);
-
 let realmNames = [];
 for (let realmKey in realms) {
     realmNames.push(realms[realmKey]);
 }
 
-function Filters({ disableFilter, theme }) {
+function styles(theme) {
+    return {
+        textField: {
+            width: "124px",
+            padding: "0px"
+        },
+        capitalize: {
+            textTransform: "capitalize"
+        }
+    };
+}
+
+function Filters({ classes, disableFilter, theme }) {
     const filter = useSelector(state => state.charLadder.filter);
     const dispatch = useDispatch();
 
@@ -146,34 +150,28 @@ function Filters({ disableFilter, theme }) {
     }
 
     return (
-        <div className="globalFilterStyles">
-            <FormControl className="globalFilterStylesFormControl">
-                <StyledTextField
-                    id="name"
-                    label="Name"
-                    value={filter.name}
-                    onChange={e =>
-                        dispatch(
-                            charLadderFilterSet({
-                                filterName: "name",
-                                value: e.target.value
-                            })
-                        )
-                    }
-                    margin="normal"
-                    className="globalFilterStylesSearch"
-                />
-            </FormControl>
+        <FilterContainer>
+            <TextField
+                id="name"
+                label="Name"
+                value={filter.name}
+                onChange={e =>
+                    dispatch(
+                        charLadderFilterSet({
+                            filterName: "name",
+                            value: e.target.value
+                        })
+                    )
+                }
+                className={classes.textField}
+            />
 
             {selects.map(select => (
-                <FormControl
-                    className="globalFilterStylesFormControl"
-                    key={select.name}
-                >
-                    <InputLabel htmlFor="class">
-                        <span className="textCapitalize">{select.name}</span>
+                <FormControl key={select.name}>
+                    <InputLabel htmlFor="class" className={classes.capitalize}>
+                        {select.name}
                     </InputLabel>
-                    <StyledSelect
+                    <Select
                         style={select.style}
                         value={filter[select.name]}
                         onChange={e =>
@@ -188,7 +186,7 @@ function Filters({ disableFilter, theme }) {
                             name: select.name,
                             id: select.name
                         }}
-                        className="globalFilterStylesSelect"
+                        className={classes.capitalize}
                     >
                         <MenuItem value="">
                             <em>All</em>
@@ -198,17 +196,16 @@ function Filters({ disableFilter, theme }) {
                                 key={option.name}
                                 value={option.value}
                                 style={option.style}
+                                className={classes.capitalize}
                             >
-                                <span className="textCapitalize">
-                                    {option.name}
-                                </span>
+                                <span>{option.name}</span>
                             </MenuItem>
                         ))}
-                    </StyledSelect>
+                    </Select>
                 </FormControl>
             ))}
-        </div>
+        </FilterContainer>
     );
 }
 
-export default withTheme(Filters);
+export default withStyles(styles)(withTheme(Filters));

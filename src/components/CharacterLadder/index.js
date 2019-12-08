@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { withTheme } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@material-ui/core/styles";
+
 import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -20,14 +21,29 @@ import { Typography } from "@material-ui/core";
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 import DisplayDate from "../DisplayDate";
+import OverflowScroll from "../OverflowScroll";
 
 import Filters from "./Filters";
 
 import { getSpecImg } from "../../helpers";
 import { filterChars } from "./helpers";
 
-function CharacterLadder({ disableFilter = {}, type, data, theme }) {
-    const rowsPerPage = 50;
+function styles(theme) {
+    return {
+        capitalize: {
+            textTransform: "capitalize"
+        },
+        bold: {
+            fontWeight: "bold"
+        },
+        cell: {
+            padding: theme.spacing(1)
+        }
+    };
+}
+
+function CharacterLadder({ classes, disableFilter = {}, type, data, theme }) {
+    const rowsPerPage = 30;
     const [page, setPage] = useState(0);
 
     const filter = useSelector(state => state.charLadder.filter);
@@ -41,13 +57,13 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
     return (
         <React.Fragment>
             <Filters disableFilter={disableFilter} />
-            <div className="overflowScroll">
+            <OverflowScroll>
                 <Table>
                     <TableHead className="tableHead">
                         <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>
-                                <span className="textCapitalize">{type}</span>
+                            <TableCell className={classes.capitalize}>
+                                {type}
                             </TableCell>
                             <TableCell>ILVL</TableCell>
                             <TableCell>Date</TableCell>
@@ -64,13 +80,12 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                 .map((char, index) => {
                                     const date = new Date(char.date * 1000);
                                     return (
-                                        <TableRow key={index}>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                        <TableRow key={index} hover>
+                                            <TableCell className={classes.cell}>
                                                 <Typography color="inherit">
-                                                    <span className="textBold">
+                                                    <span
+                                                        className={classes.bold}
+                                                    >
                                                         {index +
                                                             1 +
                                                             page * rowsPerPage}
@@ -92,7 +107,9 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                                         />
                                                     </Tooltip>
 
-                                                    <span
+                                                    <Link
+                                                        component={RouterLink}
+                                                        to={`/player/${char.name}?realm=${char.realm}`}
                                                         style={{
                                                             color:
                                                                 theme.palette
@@ -104,41 +121,24 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                                                 ]
                                                         }}
                                                     >
-                                                        <RouterLink
-                                                            to={`/player/${char.name}?realm=${char.realm}`}
-                                                        >
-                                                            <Link
-                                                                component="span"
-                                                                color="inherit"
-                                                            >
-                                                                {char.name}
-                                                            </Link>
-                                                        </RouterLink>
-                                                    </span>
+                                                        {char.name}
+                                                    </Link>
                                                 </Typography>
                                             </TableCell>
 
                                             <TableCell
-                                                component="th"
-                                                scope="row"
-                                                className="textBold"
+                                                className={`${classes.bold} ${classes.cell}`}
                                             >
                                                 {new Intl.NumberFormat().format(
                                                     char[type]
                                                 )}
                                             </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                            <TableCell className={classes.cell}>
                                                 {char.ilvl}
                                             </TableCell>
 
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                            <TableCell className={classes.cell}>
                                                 <DateTooltip date={date}>
                                                     <DisplayDate
                                                         date={date}
@@ -146,10 +146,7 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                                     />
                                                 </DateTooltip>
                                             </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                            >
+                                            <TableCell className={classes.cell}>
                                                 <LogLink
                                                     logId={char.logId}
                                                     realm={char.realm}
@@ -160,7 +157,7 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
                                 })}
                     </TableBody>
                 </Table>
-            </div>
+            </OverflowScroll>
             {filteredData && (
                 <TablePagination
                     rowsPerPageOptions={[]}
@@ -181,4 +178,4 @@ function CharacterLadder({ disableFilter = {}, type, data, theme }) {
     );
 }
 
-export default withTheme(CharacterLadder);
+export default withStyles(styles)(withTheme(CharacterLadder));
