@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import DateTooltip from "../DateTooltip";
+import WithRealm from "../WithRealm";
 
 import { guildsFetch } from "../../redux/actions";
 import DisplayDate from "../DisplayDate";
@@ -42,9 +43,6 @@ function styles(theme) {
         guildName: {
             fontSize: `${18 / 16}rem`,
             lineHeight: `${20 / 16}rem`
-        },
-        table: {
-            margin: "auto"
         },
         tableHead: {
             paddingTop: "0px",
@@ -135,49 +133,29 @@ function GuildList({ theme, classes }) {
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
-                                                <Grid
-                                                    container
-                                                    direction="column"
+                                                <WithRealm
+                                                    realmName={guild.realm}
                                                 >
-                                                    <Grid item>
-                                                        <Typography
-                                                            className={
-                                                                classes.guildName
-                                                            }
-                                                        >
-                                                            <Link
-                                                                component={
-                                                                    RouterLink
-                                                                }
-                                                                style={{
-                                                                    color: guild.gFaction
-                                                                        ? factionColors.horde
-                                                                        : factionColors.alliance
-                                                                }}
-                                                                to={`/guild/${guild.guildName}?realm=${guild.realm}`}
-                                                            >
-                                                                {
-                                                                    guild.guildName
-                                                                }
-                                                            </Link>
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid
-                                                        item
+                                                    <Typography
                                                         className={
-                                                            classes.secondaryText
+                                                            classes.guildName
                                                         }
                                                     >
-                                                        <Typography
-                                                            variant="caption"
-                                                            className={
-                                                                classes.secondaryText
+                                                        <Link
+                                                            component={
+                                                                RouterLink
                                                             }
+                                                            style={{
+                                                                color: guild.gFaction
+                                                                    ? factionColors.horde
+                                                                    : factionColors.alliance
+                                                            }}
+                                                            to={`/guild/${guild.guildName}?realm=${guild.realm}`}
                                                         >
-                                                            {guild.realm}
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
+                                                            {guild.guildName}
+                                                        </Link>
+                                                    </Typography>
+                                                </WithRealm>
                                             </Grid>
                                         </Grid>
                                     </TableCell>
