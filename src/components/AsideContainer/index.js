@@ -15,7 +15,7 @@ function styles(theme) {
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 margin: "auto"
             },
-            width: "280px",
+            width: "260px",
             textAlign: "center"
         },
         itemTwo: {

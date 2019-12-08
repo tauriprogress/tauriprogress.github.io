@@ -44,7 +44,6 @@ function styles(theme) {
             lineHeight: `${20 / 16}rem`
         },
         table: {
-            maxWidth: "1000px",
             margin: "auto"
         },
         tableHead: {
