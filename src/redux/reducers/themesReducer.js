@@ -92,7 +92,8 @@ const overrides = {
         root: {
             "&$selected": {
                 color: "white"
-            }
+            },
+            minWidth: "80px !important"
         }
     },
     MuiSelect: {

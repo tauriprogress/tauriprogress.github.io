@@ -11,9 +11,6 @@ function styles(theme) {
     return {
         tabs: {
             width: "160px"
-        },
-        tab: {
-            minWidth: "80px"
         }
     };
 }
