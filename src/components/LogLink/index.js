@@ -22,6 +22,8 @@ function LogLink({ classes, logId, realm }) {
                 component={RouterLink}
                 color="inherit"
                 to={`/log/${logId}?realm=${realm}`}
+                rel="noopener noreferrer"
+                target="_blank"
             >
                 <Info className={classes.icon} />
             </Link>
