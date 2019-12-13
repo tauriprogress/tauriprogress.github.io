@@ -3,8 +3,7 @@ import React, { useState } from "react";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { withTheme } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -64,6 +63,14 @@ const tableColumns = [
     }
 ];
 
+function styles(theme) {
+    return {
+        bold: {
+            fontWeight: "bold !important"
+        }
+    };
+}
+
 function LogTableHead({ sort, setSort }) {
     return (
         <TableHead>
@@ -101,7 +108,7 @@ function LogTableHead({ sort, setSort }) {
     );
 }
 
-function LogMembers({ data, theme }) {
+function LogMembers({ classes, data, theme }) {
     const [sort, setSort] = useState({
         by: "dps",
         direction: "desc"
@@ -119,7 +126,9 @@ function LogMembers({ data, theme }) {
                         <TableRow key={member.name}>
                             <TableCell component="th" scope="row">
                                 <Typography>
-                                    <span>{member.ilvl} </span>{" "}
+                                    <span className={classes.bold}>
+                                        {member.ilvl}{" "}
+                                    </span>{" "}
                                     <SpecImg
                                         src={getSpecImg(
                                             specs[member.spec].image
@@ -141,7 +150,7 @@ function LogMembers({ data, theme }) {
                                 </Typography>
                             </TableCell>
 
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Dps">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -151,7 +160,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Damage">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -161,7 +170,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Hps">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -171,7 +180,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Healing">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -181,7 +190,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Heal">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -190,7 +199,7 @@ function LogMembers({ data, theme }) {
                                     </span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Absorb">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -199,7 +208,7 @@ function LogMembers({ data, theme }) {
                                     </span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Damage taken">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -208,12 +217,12 @@ function LogMembers({ data, theme }) {
                                     </span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Interrupts">
                                     <span>{member.interrupts}</span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" className={classes.bold}>
                                 <Tooltip title="Dispells">
                                     <span>{member.dispells}</span>
                                 </Tooltip>
@@ -226,4 +235,4 @@ function LogMembers({ data, theme }) {
     );
 }
 
-export default withTheme(LogMembers);
+export default withStyles(styles)(withTheme(LogMembers));

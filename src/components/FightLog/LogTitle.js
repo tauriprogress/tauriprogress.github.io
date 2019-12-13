@@ -1,14 +1,12 @@
-import { difficultyLabels, valuesCorrectSince } from "tauriprogress-constants";
+import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { withTheme } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Chip from "@material-ui/core/Chip";
-import Warning from "@material-ui/icons/Warning";
 import Link from "@material-ui/core/Link";
-import DisplayDate from "../DisplayDate";
+import Grid from "@material-ui/core/Grid";
 
+import DisplayDate from "../DisplayDate";
 import MetaDataList from "../MetaDataList";
 
 import { convertFightTime } from "../../helpers";
@@ -26,18 +24,15 @@ function LogTitle({ data, theme }) {
         {
             label: "Guild",
             value: data.guildid ? (
-                <RouterLink
+                <Link
+                    component={RouterLink}
                     to={`/guild/${data.guilddata.name}?realm=${data.realm}`}
+                    style={{
+                        color: data.guilddata.faction ? horde : alliance
+                    }}
                 >
-                    <Link
-                        component="span"
-                        style={{
-                            color: data.guilddata.faction ? horde : alliance
-                        }}
-                    >
-                        {data.guilddata.name}
-                    </Link>
-                </RouterLink>
+                    {data.guilddata.name}
+                </Link>
             ) : (
                 "Random"
             )
@@ -45,13 +40,13 @@ function LogTitle({ data, theme }) {
         {
             label: "Boss",
             value: (
-                <RouterLink
+                <Link
+                    color="inherit"
+                    component={RouterLink}
                     to={`/raid/${data.mapentry.name}/${data.encounter_data.encounter_name}`}
                 >
-                    <Link className="textBold" color="inherit" component="span">
-                        {data.encounter_data.encounter_name}
-                    </Link>
-                </RouterLink>
+                    {data.encounter_data.encounter_name}
+                </Link>
             )
         },
         {
@@ -111,45 +106,14 @@ function LogTitle({ data, theme }) {
     ];
 
     return (
-        <div className="fightLogTitle">
-            <MetaDataList title="General" values={general} />
-            <MetaDataList title="Total" values={total} />
-            <div>
-                {data.encounter_data.encounter_name ===
-                    "Durumu the Forgotten" &&
-                    data.killtime < valuesCorrectSince && (
-                        <React.Fragment>
-                            <Chip
-                                label={`Durumu damage data is incorrect before ${new Date(
-                                    valuesCorrectSince * 1000
-                                ).toLocaleDateString()} due to a bug.`}
-                                avatar={
-                                    <Avatar>
-                                        <Warning color="secondary" />
-                                    </Avatar>
-                                }
-                                className="warning"
-                                color="primary"
-                            />
-                            <br />
-                        </React.Fragment>
-                    )}
-                {data.killtime < valuesCorrectSince && (
-                    <Chip
-                        label={`Absorb data is incorrect before ${new Date(
-                            valuesCorrectSince * 1000
-                        ).toLocaleDateString()} due to a bug.`}
-                        avatar={
-                            <Avatar>
-                                <Warning color="secondary" />
-                            </Avatar>
-                        }
-                        className="warning"
-                        color="primary"
-                    />
-                )}
-            </div>
-        </div>
+        <Grid container>
+            <Grid item>
+                <MetaDataList title="General" values={general} />
+            </Grid>
+            <Grid item>
+                <MetaDataList title="Total" values={total} />
+            </Grid>
+        </Grid>
     );
 }
 
