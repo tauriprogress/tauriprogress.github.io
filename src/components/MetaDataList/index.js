@@ -3,42 +3,51 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 function styles(theme) {
     return {
+        container: {
+            width: "260px",
+            margin: "0 10px"
+        },
         title: {
             backgroundColor: theme.palette.primary.main,
             "& *": {
                 color: `${theme.palette.primary.contrastText} !important`
-            }
+            },
+            borderRadius: "4px"
+        },
+        bold: {
+            fontWeight: "bold"
         }
     };
 }
 
-function MetaDataList({ className, values, title, classes }) {
+function MetaDataList({ values, title, classes }) {
     return (
-        <List className={className + " metaDataList"} component="ul">
+        <List className={classes.container} component="ul">
             <ListItem className={classes.title}>
-                <ListItemText color="inherit" primary={title} />
+                <Typography color="inherit">{title}</Typography>
             </ListItem>
             {values.map((value, index) => (
-                <ListItem key={index}>
-                    <ListItemText
-                        primary={
-                            <div className="metaDataListItemContainer">
-                                {value.label}
-                                <Typography
-                                    className={"textBold"}
-                                    component="span"
-                                >
+                <React.Fragment>
+                    <ListItem key={index}>
+                        <Grid container justify="space-between">
+                            <Grid item>
+                                <Typography>{value.label}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography className={classes.bold}>
                                     {value.value}
                                 </Typography>
-                            </div>
-                        }
-                    />
-                </ListItem>
+                            </Grid>
+                        </Grid>
+                    </ListItem>
+                    <Divider variant="middle" />
+                </React.Fragment>
             ))}
         </List>
     );
