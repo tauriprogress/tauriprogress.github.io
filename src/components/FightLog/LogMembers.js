@@ -13,7 +13,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+
+import OverflowScroll from "../OverflowScroll";
+import SpecImg from "../SpecImg";
 
 import { getSpecImg } from "../../helpers";
 import { sortMembers } from "./helpers";
@@ -63,7 +66,7 @@ const tableColumns = [
 
 function LogTableHead({ sort, setSort }) {
     return (
-        <TableHead className="tableHead">
+        <TableHead>
             <TableRow>
                 {tableColumns.map(column => (
                     <TableCell
@@ -108,7 +111,7 @@ function LogMembers({ data, theme }) {
         palette: { classColors }
     } = theme;
     return (
-        <div className="fightLogMembers overflowScroll">
+        <OverflowScroll>
             <Table>
                 <LogTableHead sort={sort} setSort={setSort} />
                 <TableBody>
@@ -116,37 +119,29 @@ function LogMembers({ data, theme }) {
                         <TableRow key={member.name}>
                             <TableCell component="th" scope="row">
                                 <Typography>
-                                    <span className="textBold">
-                                        {member.ilvl}{" "}
-                                    </span>{" "}
-                                    <Tooltip title={specs[member.spec].label}>
-                                        <Avatar
-                                            component="span"
-                                            src={getSpecImg(
-                                                specs[member.spec].image
-                                            )}
-                                            className="classSpecAvatar"
-                                        />
-                                    </Tooltip>{" "}
-                                    <RouterLink
+                                    <span>{member.ilvl} </span>{" "}
+                                    <SpecImg
+                                        src={getSpecImg(
+                                            specs[member.spec].image
+                                        )}
+                                        title={specs[member.spec].label}
+                                    />
+                                    <Link
                                         to={`/player/${member.name}?realm=${data.realm}`}
+                                        component={RouterLink}
+                                        style={{
+                                            color:
+                                                classColors[
+                                                    specToClass[member.spec]
+                                                ]
+                                        }}
                                     >
-                                        <Link
-                                            component="span"
-                                            style={{
-                                                color:
-                                                    classColors[
-                                                        specToClass[member.spec]
-                                                    ]
-                                            }}
-                                        >
-                                            {member.name}
-                                        </Link>
-                                    </RouterLink>
+                                        {member.name}
+                                    </Link>
                                 </Typography>
                             </TableCell>
 
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Dps">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -156,7 +151,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Damage">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -166,7 +161,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Hps">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -176,7 +171,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Healing">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -186,7 +181,7 @@ function LogMembers({ data, theme }) {
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Heal">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -195,7 +190,7 @@ function LogMembers({ data, theme }) {
                                     </span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Absorb">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -204,7 +199,7 @@ function LogMembers({ data, theme }) {
                                     </span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Damage taken">
                                     <span className="textBold">
                                         {new Intl.NumberFormat().format(
@@ -213,12 +208,12 @@ function LogMembers({ data, theme }) {
                                     </span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Interrupts">
                                     <span>{member.interrupts}</span>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell component="th" scope="row" align="right">
+                            <TableCell align="right">
                                 <Tooltip title="Dispells">
                                     <span>{member.dispells}</span>
                                 </Tooltip>
@@ -227,7 +222,7 @@ function LogMembers({ data, theme }) {
                     ))}
                 </TableBody>
             </Table>
-        </div>
+        </OverflowScroll>
     );
 }
 

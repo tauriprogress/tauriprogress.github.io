@@ -15,13 +15,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
-
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 import DisplayDate from "../DisplayDate";
 import OverflowScroll from "../OverflowScroll";
+import SpecImg from "../SpecImg";
 
 import Filters from "./Filters";
 
@@ -91,21 +91,16 @@ function CharacterLadder({ classes, disableFilter = {}, type, data, theme }) {
                                                             page * rowsPerPage}
                                                         .{" "}
                                                     </span>
-                                                    <Tooltip
+                                                    <SpecImg
+                                                        src={getSpecImg(
+                                                            specs[char.spec]
+                                                                .image
+                                                        )}
                                                         title={
                                                             specs[char.spec]
                                                                 .label
                                                         }
-                                                    >
-                                                        <Avatar
-                                                            component="span"
-                                                            src={getSpecImg(
-                                                                specs[char.spec]
-                                                                    .image
-                                                            )}
-                                                            className="classSpecAvatar"
-                                                        />
-                                                    </Tooltip>
+                                                    />
 
                                                     <Link
                                                         component={RouterLink}

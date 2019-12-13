@@ -20,13 +20,13 @@ import LogLink from "../LogLink";
 import Filters from "./Filters";
 import SelectDifficulty from "../SelectDifficulty";
 import OverflowScroll from "../OverflowScroll";
+import SpecImg from "../SpecImg";
 
 import { applyFilter } from "./helpers";
 
 import { convertFightTime, getSpecImg } from "../../helpers";
 
 import { raidFetch, raidInfoChangeDiff } from "../../redux/actions";
-import SpecImg from "../SpecImg";
 
 function useFilter(initialState) {
     const [filter, setFilter] = useState(initialState);
