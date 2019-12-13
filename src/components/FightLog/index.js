@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
+import Container from "@material-ui/core/Container";
+
 import LogTitle from "./LogTitle";
 import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
@@ -27,10 +29,10 @@ function FightLog({ match, location }) {
             {error && <ErrorMessage message={error} />}
 
             {!loading && !error && data && (
-                <div className="fightLogContentContainer">
+                <Container>
                     <LogTitle data={data} />
                     <LogMembers data={data} />
-                </div>
+                </Container>
             )}
         </section>
     );
