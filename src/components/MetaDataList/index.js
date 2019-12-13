@@ -33,8 +33,8 @@ function MetaDataList({ values, title, classes }) {
                 <Typography color="inherit">{title}</Typography>
             </ListItem>
             {values.map((value, index) => (
-                <React.Fragment>
-                    <ListItem key={index}>
+                <React.Fragment key={index}>
+                    <ListItem>
                         <Grid container justify="space-between">
                             <Grid item>
                                 <Typography>{value.label}</Typography>
