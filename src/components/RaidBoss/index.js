@@ -1,4 +1,3 @@
-import { difficultyLabels } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -62,24 +61,21 @@ function RaidBoss({ match }) {
             {!error && data && (
                 <React.Fragment>
                     {!loading && (
-                        <div className="displayRaidBossTitle">
-                            <Typography variant="h4">
-                                {bossName} {difficultyLabels[diff]}
-                            </Typography>
-                            <Typography variant="body2">
+                        <Typography variant="h4" align="center">
+                            {bossName}
+                            <Typography variant="caption" color="textSecondary">
+                                {" "}
                                 {boss.killCount} Kills
                             </Typography>
-                        </div>
+                        </Typography>
                     )}
 
-                    <div className="displayRaidBossDiffTabContainer">
-                        <SelectDifficulty
-                            difficulty={diff}
-                            onChange={(e, value) =>
-                                dispatch(raidInfoChangeDiff(value))
-                            }
-                        />
-                    </div>
+                    <SelectDifficulty
+                        difficulty={diff}
+                        onChange={(e, value) =>
+                            dispatch(raidInfoChangeDiff(value))
+                        }
+                    />
 
                     <React.Fragment>
                         <Tabs
@@ -87,15 +83,14 @@ function RaidBoss({ match }) {
                             onChange={(e, value) =>
                                 dispatch(raidBossSelectTab(value))
                             }
-                            indicatorColor="secondary"
                             variant="scrollable"
                             scrollButtons="on"
                         >
-                            <Tab label="Dps" className="tab" />
-                            <Tab label="Hps" className="tab" />
-                            <Tab label="Fastest" className="tab" />
-                            <Tab label="Latest" className="tab" />
-                            <Tab label="Stats" className="tab" />
+                            <Tab label="Dps" />
+                            <Tab label="Hps" />
+                            <Tab label="Fastest" />
+                            <Tab label="Latest" />
+                            <Tab label="Stats" />
                         </Tabs>
                         {(boss => {
                             switch (selectedTab) {

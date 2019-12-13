@@ -20,10 +20,7 @@ function styles(theme) {
 function Loading({ classes }) {
     return (
         <Container className={classes.container}>
-            <CircularProgress
-                className="additionalInfoLoader"
-                color="secondary"
-            />
+            <CircularProgress color="secondary" />
         </Container>
     );
 }

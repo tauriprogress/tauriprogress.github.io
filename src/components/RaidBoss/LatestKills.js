@@ -9,10 +9,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
+import WithRealm from "../WithRealm";
 
 import { convertFightTime } from "../../helpers";
 import DisplayDate from "../DisplayDate";
@@ -30,9 +32,6 @@ function LatestKills({ data, theme }) {
                     <TableRow>
                         <TableCell>Guild</TableCell>
                         <TableCell>Kill time</TableCell>
-
-                        <TableCell>Realm</TableCell>
-
                         <TableCell>Date</TableCell>
                         <TableCell>Logs</TableCell>
                     </TableRow>
@@ -43,43 +42,69 @@ function LatestKills({ data, theme }) {
                             const date = new Date(kill.killtime * 1000);
                             return (
                                 <TableRow key={kill.log_id}>
-                                    <TableCell component="th" scope="row">
-                                        <Typography>
-                                            <span className="textBold">
-                                                {index + 1}.{" "}
-                                            </span>
-                                            {kill.guilddata.name ? (
-                                                <RouterLink
-                                                    to={`/guild/${kill.guilddata.name}?realm=${kill.realm}`}
+                                    <TableCell>
+                                        <Grid
+                                            container
+                                            wrap="nowrap"
+                                            alignItems="center"
+                                        >
+                                            <Grid
+                                                item
+                                                style={{ marginRight: "8px" }}
+                                            >
+                                                <Typography
+                                                    style={{
+                                                        fontWeight: "bold"
+                                                    }}
                                                 >
-                                                    <Link
-                                                        component="span"
-                                                        style={{
-                                                            color: kill
-                                                                .guilddata
-                                                                .faction
-                                                                ? horde
-                                                                : alliance
-                                                        }}
+                                                    {index + 1}.
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                {kill.guilddata.name ? (
+                                                    <WithRealm
+                                                        realmName={kill.realm}
                                                     >
-                                                        {kill.guilddata.name}
-                                                    </Link>
-                                                </RouterLink>
-                                            ) : (
-                                                "Random"
-                                            )}
-                                        </Typography>
+                                                        <Typography>
+                                                            <Link
+                                                                component={
+                                                                    RouterLink
+                                                                }
+                                                                style={{
+                                                                    color: kill
+                                                                        .guilddata
+                                                                        .faction
+                                                                        ? horde
+                                                                        : alliance
+                                                                }}
+                                                                to={`/guild/${kill.guilddata.name}?realm=${kill.realm}`}
+                                                            >
+                                                                {
+                                                                    kill
+                                                                        .guilddata
+                                                                        .name
+                                                                }
+                                                            </Link>
+                                                        </Typography>
+                                                    </WithRealm>
+                                                ) : (
+                                                    <WithRealm
+                                                        realmName={kill.realm}
+                                                    >
+                                                        <Typography>
+                                                            Random
+                                                        </Typography>
+                                                    </WithRealm>
+                                                )}
+                                            </Grid>
+                                        </Grid>
                                     </TableCell>
 
-                                    <TableCell component="th" scope="row">
+                                    <TableCell>
                                         {convertFightTime(kill.fight_time)}
                                     </TableCell>
 
-                                    <TableCell component="th" scope="row">
-                                        {kill.realm}
-                                    </TableCell>
-
-                                    <TableCell component="th" scope="row">
+                                    <TableCell>
                                         <DateTooltip date={date}>
                                             <DisplayDate
                                                 date={date}
@@ -87,7 +112,7 @@ function LatestKills({ data, theme }) {
                                             />
                                         </DateTooltip>
                                     </TableCell>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell>
                                         <LogLink
                                             logId={kill.log_id}
                                             realm={kill.realm}

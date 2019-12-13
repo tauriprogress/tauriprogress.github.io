@@ -7,7 +7,7 @@ import RaidBoss from "../RaidBoss";
 import AsideContainer from "../AsideContainer";
 
 function RaidContainer({ match }) {
-    const { raidData, selected, error } = useSelector(state => ({
+    const { raidData, selected } = useSelector(state => ({
         raidData: state.raidInfo.raid.raidData,
         selected: state.raidInfo.raid.selected
     }));

@@ -9,6 +9,10 @@ import { withTheme } from "@material-ui/core/styles";
 
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+
+import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
 
 import { describeArc } from "./helpers";
 import { getSpecImg, shortNumber } from "../../helpers";
@@ -153,85 +157,75 @@ function RaidBossStats({ data, theme }) {
             best: healingSpecs[0].hps
         }
     };
-
     return (
-        <div className="displayRaidBossStats">
+        <Container>
             {["dps", "hps"].map(variant => (
-                <div className="displayRaidBossStatsContainer" key={variant}>
-                    <div className="displayRaidBossStatsClassDistribution">
-                        <Typography variant="h6">
+                <Grid
+                    container
+                    key={variant}
+                    style={{ marginBottom: theme.spacing(2) }}
+                >
+                    <Grid
+                        item
+                        style={{
+                            flex: 1,
+                            minWidth: "260px"
+                        }}
+                    >
+                        <PerfChartContainer>
+                            <PerfChartTitle>
+                                <Typography variant="h6">
+                                    Average{" "}
+                                    {variant === "dps" ? "Damage" : "Healing"}
+                                </Typography>
+                            </PerfChartTitle>
+
+                            {/* This is the total <PerfChartRow
+                                iconImage={}
+                                iconTitle={}
+                                rank={}
+                                title={}
+                                perfValue={}
+                                perfPercent={}
+                            />*/}
+
+                            {specData[variant].specs.map(spec => (
+                                <PerfChartRow
+                                    key={specs[spec.specId].label}
+                                    iconImage={getSpecImg(
+                                        specs[spec.specId].image
+                                    )}
+                                    iconTitle={specs[spec.specId].label}
+                                    rank={spec.avgIlvl}
+                                    title={specs[spec.specId].label}
+                                    perfValue={shortNumber(spec[variant])}
+                                    perfPercent={
+                                        (spec[variant] /
+                                            specData[variant].best) *
+                                        100
+                                    }
+                                    color={
+                                        defaultClassColors[
+                                            specToClass[spec.specId]
+                                        ]
+                                    }
+                                />
+                            ))}
+                        </PerfChartContainer>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6" align="center">
                             {variant === "dps" ? "Damage" : "Healing"} class
                             distribution
                         </Typography>
-                        <svg>
+                        <svg width="270px" height="270px">
                             {svgData[variant].arcs}
                             {svgData[variant].texts}
                         </svg>
-                    </div>
-                    <div className="displayRaidBossStatsSpecData">
-                        <Typography variant="h6">
-                            Average {variant === "dps" ? "Damage" : "Healing"}
-                        </Typography>
-                        {specData[variant].specs.map(spec => (
-                            <Typography
-                                className="skadaChartBoss"
-                                key={spec.specId}
-                            >
-                                <Tooltip title={specs[spec.specId].label}>
-                                    <img
-                                        src={getSpecImg(
-                                            specs[spec.specId].image
-                                        )}
-                                        alt=""
-                                        className="skadaChartSpecIcon"
-                                    />
-                                </Tooltip>
-                                <Tooltip title={`${spec.total} characters`}>
-                                    <span
-                                        className="skadaChartValues"
-                                        style={{
-                                            background: `linear-gradient(to right, ${
-                                                defaultClassColors[
-                                                    specToClass[spec.specId]
-                                                ]
-                                            } ${Math.floor(
-                                                (spec[variant] /
-                                                    specData[variant].best) *
-                                                    100
-                                            )}%, rgba(0, 0, 0, 0) ${Math.floor(
-                                                (spec[variant] /
-                                                    specData[variant].best) *
-                                                    100
-                                            )}%)`
-                                        }}
-                                    >
-                                        <span className="skadaChartPerformanceRank">
-                                            {spec.avgIlvl}{" "}
-                                            {specs[spec.specId].label}
-                                        </span>
-                                        <span className="skadaChartPerformanceValue">
-                                            <React.Fragment>
-                                                <span className="direct">
-                                                    {`${shortNumber(
-                                                        spec[variant]
-                                                    )}`}
-                                                </span>
-                                                {` (${(
-                                                    (spec[variant] /
-                                                        specData[variant]
-                                                            .best) *
-                                                    100
-                                                ).toFixed(1)}%)`}
-                                            </React.Fragment>
-                                        </span>
-                                    </span>
-                                </Tooltip>
-                            </Typography>
-                        ))}
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             ))}
-        </div>
+        </Container>
     );
 }
 

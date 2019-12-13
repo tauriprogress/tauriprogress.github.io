@@ -109,6 +109,13 @@ const overrides = {
             display: "inline-block",
             transform: "translate(0, 2px)"
         }
+    },
+    MuiContainer: {
+        root: {
+            paddingLeft: "0px !important",
+            paddingRight: "0px !important",
+            maxWidth: "100% !important"
+        }
     }
 };
 

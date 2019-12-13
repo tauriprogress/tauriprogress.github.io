@@ -20,7 +20,6 @@ function styles(theme) {
     return {
         container: {
             margin: "auto",
-            padding: 0,
             display: "flex",
             justifyContent: "center"
         },
