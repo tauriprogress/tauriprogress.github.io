@@ -10,22 +10,7 @@ function styles(theme) {
         container: {
             height: "30px",
             minWidth: "260px",
-            maxWidth: "100%",
-            position: "relative",
-            zIndex: "-2",
-            "&:before": {
-                position: "absolute",
-                top: "0",
-                left: "0",
-                display: "block",
-                height: "100%",
-                width: "100%",
-                content: "''",
-                background:
-                    "linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(100, 100, 100, 0.4) 100%)",
-                borderTop: "1px solid white",
-                zIndex: "-1"
-            }
+            maxWidth: "100%"
         },
         icon: {
             width: "30px",
@@ -48,6 +33,24 @@ function styles(theme) {
         },
         perfValue: {
             textAlign: "right"
+        },
+        bar: {
+            flex: 1,
+            position: "relative",
+            zIndex: "-1",
+            "&:before": {
+                position: "absolute",
+                top: "0",
+                left: "0",
+                display: "block",
+                height: "100%",
+                width: "100%",
+                content: "''",
+                background:
+                    "linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)",
+                borderTop: "1px solid white",
+                zIndex: "-2"
+            }
         }
     };
 }
@@ -64,34 +67,33 @@ function PerfChartRow({
     theme
 }) {
     return (
-        <Grid
-            wrap="nowrap"
-            container
-            className={classes.container}
-            justify="space-between"
-            style={{
-                background: `linear-gradient(to right, ${color} ${perfPercent ||
-                    0}%, ${theme.palette.background.accent} ${perfPercent ||
-                    0}%)`
-            }}
-        >
-            <Grid item className={classes.item}>
-                <Grid container wrap="nowrap">
-                    <Grid
-                        item
-                        className={classes.item}
-                        style={{
-                            minWidth: "30px"
-                        }}
-                    >
-                        <Tooltip title={iconTitle}>
-                            <img
-                                className={classes.icon}
-                                src={iconImage}
-                                alt={iconTitle}
-                            />
-                        </Tooltip>
-                    </Grid>
+        <Grid container className={classes.container} wrap="nowrap">
+            <Grid
+                item
+                className={classes.item}
+                style={{
+                    minWidth: "30px"
+                }}
+            >
+                <Tooltip title={iconTitle}>
+                    <img
+                        className={classes.icon}
+                        src={iconImage}
+                        alt={iconTitle}
+                    />
+                </Tooltip>
+            </Grid>
+
+            <Grid
+                item
+                className={`${classes.item} ${classes.bar}`}
+                style={{
+                    background: `linear-gradient(to right, ${color} ${perfPercent ||
+                        0}%, ${theme.palette.background.accent} ${perfPercent ||
+                        0}%)`
+                }}
+            >
+                <Grid container wrap="nowrap" justify="space-between">
                     <Grid item className={classes.item}>
                         <Typography
                             className={`${classes.typography} ${classes.perfName}`}
@@ -99,20 +101,20 @@ function PerfChartRow({
                             {rank} {title}
                         </Typography>
                     </Grid>
+                    <Grid
+                        item
+                        style={{
+                            width: "125px",
+                            minWidth: "125px"
+                        }}
+                    >
+                        <Typography
+                            className={`${classes.typography} ${classes.perfValue}`}
+                        >
+                            {perfValue} ({perfPercent.toFixed(1)} %)
+                        </Typography>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Grid
-                item
-                style={{
-                    width: "125px",
-                    minWidth: "125px"
-                }}
-            >
-                <Typography
-                    className={`${classes.typography} ${classes.perfValue}`}
-                >
-                    {perfValue} ({perfPercent.toFixed(1)} %)
-                </Typography>
             </Grid>
         </Grid>
     );
