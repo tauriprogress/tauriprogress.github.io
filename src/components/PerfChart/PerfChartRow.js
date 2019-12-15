@@ -4,7 +4,6 @@ import { withStyles, withTheme } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import IconMissing from "@material-ui/icons/NotInterested";
 
 function styles(theme) {
     return {
@@ -58,7 +57,7 @@ function styles(theme) {
 
 function PerfChartRow({
     classes,
-    iconImage,
+    Icon,
     iconTitle,
     rank,
     title,
@@ -77,15 +76,10 @@ function PerfChartRow({
                 }}
             >
                 <Tooltip title={iconTitle}>
-                    {iconImage ? (
-                        <img
-                            className={classes.icon}
-                            src={iconImage}
-                            alt={iconTitle}
-                        />
-                    ) : (
-                        <IconMissing className={classes.icon} />
-                    )}
+                    {React.cloneElement(Icon, {
+                        className: classes.icon,
+                        alt: iconTitle
+                    })}
                 </Tooltip>
             </Grid>
 
