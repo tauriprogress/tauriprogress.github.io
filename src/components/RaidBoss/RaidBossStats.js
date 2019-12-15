@@ -192,9 +192,14 @@ function RaidBossStats({ data, theme }) {
                             {specData[variant].specs.map(spec => (
                                 <PerfChartRow
                                     key={specs[spec.specId].label}
-                                    iconImage={getSpecImg(
-                                        specs[spec.specId].image
-                                    )}
+                                    Icon={
+                                        <img
+                                            src={getSpecImg(
+                                                specs[spec.specId].image
+                                            )}
+                                            alt=""
+                                        />
+                                    }
                                     iconTitle={specs[spec.specId].label}
                                     rank={spec.avgIlvl}
                                     title={specs[spec.specId].label}
