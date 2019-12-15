@@ -26,9 +26,13 @@ function styles(theme) {
     };
 }
 
-function MetaDataList({ values, title, classes }) {
+function MetaDataList({ values, title, classes, className, ...rest }) {
     return (
-        <List className={classes.container} component="ul">
+        <List
+            className={`${classes.container} ${className}`}
+            component="ul"
+            {...rest}
+        >
             <ListItem className={classes.title}>
                 <Typography color="inherit">{title}</Typography>
             </ListItem>
