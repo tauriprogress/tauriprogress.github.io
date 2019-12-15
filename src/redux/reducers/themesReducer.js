@@ -101,7 +101,6 @@ const overrides = {
             width: "100px"
         }
     },
-
     MuiAvatar: {
         root: {
             width: "16px",
@@ -115,6 +114,11 @@ const overrides = {
             paddingLeft: "0px !important",
             paddingRight: "0px !important",
             maxWidth: "100% !important"
+        }
+    },
+    MuiList: {
+        root: {
+            padding: "0px !important"
         }
     }
 };

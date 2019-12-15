@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import { withStyles } from "@material-ui/core/styles";
+
+import Grid from "@material-ui/core/Grid";
+
 import Loading from "../Loading";
 import PlayerTitle from "./PlayerTitle";
 import PlayerStats from "./PlayerStats";
@@ -9,8 +13,13 @@ import PlayerLatestKills from "./PlayerLatestKills";
 import ErrorMessage from "../ErrorMessage";
 
 import { playerDataFetch } from "../../redux/actions";
-
-function Player({ match, location }) {
+function styles() {
+    return {
+        gridContainer: { margin: "10px auto", maxWidth: "1300px" },
+        progContainer: { flex: 1, maxWidth: "650px" }
+    };
+}
+function Player({ classes, match, location }) {
     const playerName = match.params.playerName;
     const realm = new URLSearchParams(location.search).get("realm");
     const { loading, error } = useSelector(state => state.player.data);
@@ -21,7 +30,7 @@ function Player({ match, location }) {
     }, [playerName, realm]);
 
     return (
-        <section className="displayPlayer">
+        <section>
             {error ? (
                 <ErrorMessage message={error} />
             ) : loading ? (
@@ -29,15 +38,25 @@ function Player({ match, location }) {
             ) : (
                 <React.Fragment>
                     <PlayerTitle />
-                    <div className="displayPlayerContentContainer">
-                        <PlayerStats />
-                        <PlayerProgression />
-                        <PlayerLatestKills />
-                    </div>
+                    <Grid
+                        container
+                        className={classes.gridContainer}
+                        justify="space-around"
+                    >
+                        <Grid item>
+                            <PlayerStats />
+                        </Grid>
+                        <Grid item className={classes.progContainer}>
+                            <PlayerProgression />
+                        </Grid>
+                        <Grid item>
+                            <PlayerLatestKills />
+                        </Grid>
+                    </Grid>
                 </React.Fragment>
             )}
         </section>
     );
 }
 
-export default Player;
+export default withStyles(styles)(Player);

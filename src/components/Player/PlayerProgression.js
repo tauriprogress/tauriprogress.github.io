@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import Container from "@material-ui/core/Container";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+
+import Grid from "@material-ui/core/Grid";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
-import SkadaChartRaid from "../SkadaChartRaid";
 import SelectDifficulty from "../SelectDifficulty";
+import RaidChart from "./RaidChart";
 
 import { displayHealing } from "./helpers";
 
@@ -20,16 +22,12 @@ import {
 
 function styles(theme) {
     return {
-        listItem: {
-            "&:hover *": {
-                color: `${theme.palette.secondary.main} !important`
-            }
+        tab: {
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center center"
         },
-        listTitle: {
-            backgroundColor: `${theme.palette.primary.main} !important`,
-            "& *": {
-                color: theme.palette.primary.contrastText
-            }
+        container: {
+            margin: "5px 0"
         }
     };
 }
@@ -79,52 +77,53 @@ function PlayerProgression({ classes }) {
     }
 
     return (
-        <div className="displayPlayerProgression">
+        <Container className={classes.container}>
             <SelectDifficulty
                 difficulty={difficulty}
                 onChange={(e, difficulty) => setDifficulty(difficulty)}
             />
-            <List className="displayPlayerProgressionRaidNames">
+            <Tabs value={selectedRaid} variant="fullWidth">
                 {raids.map(raid => (
-                    <ListItem
+                    <Tab
+                        value={raid.name}
                         key={raid.name}
-                        className={`${classes.listItem} ${classes.listTitle}`}
-                        button
-                        onClick={() => selectRaid(raid.name)}
+                        label={raid.name}
+                        className={classes.tab}
                         style={{
-                            background: "url(" + raid.picture + ")"
+                            backgroundImage: "url(" + raid.picture + ")"
                         }}
-                        selected={selectedRaid === raid.name}
-                        component="li"
-                    >
-                        <ListItemText inset primary={raid.name} />
-                    </ListItem>
+                        onClick={() => selectRaid(raid.name)}
+                    />
                 ))}
-            </List>
+            </Tabs>
 
-            <div className="displayPlayerProgressionChartContainer">
+            <Container>
                 {loading && <Loading />}
                 {!loading && error && <ErrorMessage message={error} />}
                 {data && data[selectedRaid] && (
-                    <React.Fragment>
-                        <SkadaChartRaid
-                            raidName={selectedRaid}
-                            data={data[selectedRaid][difficulty]}
-                            characterClass={characterClass}
-                            variant="dps"
-                        />
-                        {displayHealing(data[selectedRaid][difficulty]) && (
-                            <SkadaChartRaid
+                    <Grid container justify="space-around">
+                        <Grid item>
+                            <RaidChart
                                 raidName={selectedRaid}
                                 data={data[selectedRaid][difficulty]}
                                 characterClass={characterClass}
-                                variant="hps"
+                                variant="dps"
                             />
+                        </Grid>
+                        {displayHealing(data[selectedRaid][difficulty]) && (
+                            <Grid item>
+                                <RaidChart
+                                    raidName={selectedRaid}
+                                    data={data[selectedRaid][difficulty]}
+                                    characterClass={characterClass}
+                                    variant="hps"
+                                />
+                            </Grid>
                         )}
-                    </React.Fragment>
+                    </Grid>
                 )}
-            </div>
-        </div>
+            </Container>
+        </Container>
     );
 }
 

@@ -2,20 +2,22 @@ import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { Link as RouterLink } from "react-router-dom";
+
 import { withStyles } from "@material-ui/core/styles";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
-import LogLink from "../LogLink";
 
-import { convertFightTime } from "../../helpers";
 import DisplayDate from "../DisplayDate";
+import { Typography } from "@material-ui/core";
 
 function styles(theme) {
     return {
@@ -23,10 +25,15 @@ function styles(theme) {
             backgroundColor: theme.palette.primary.main,
             "& *": {
                 color: `${theme.palette.primary.contrastText} !important`
-            }
+            },
+            borderRadius: "4px"
+        },
+        bossName: {
+            fontWeight: "bold"
         },
         container: {
-            backgroundColor: theme.palette.backgroundAccent
+            margin: "0 10px",
+            width: "260px"
         }
     };
 }
@@ -38,25 +45,31 @@ function PlayerLatestKills({ classes }) {
     const realm = useSelector(state => state.player.realm);
 
     return (
-        <div className="playerLatestKills">
-            <Card className={`${classes.container} `}>
-                <List>
-                    <ListItem className={classes.title}>
-                        <ListItemText className="playerLatestKillsTitle">
-                            Latest Kills
-                        </ListItemText>
-                    </ListItem>
-
-                    {loading && <Loading />}
-                    {error && <ErrorMessage message={error} />}
-                    {data &&
-                        data.logs.map(log => (
+        <Card className={classes.container}>
+            <List>
+                <ListItem className={classes.title}>
+                    <Typography>Latest Kills</Typography>
+                </ListItem>
+                {loading && <Loading />}
+                {error && <ErrorMessage message={error} />}
+                {data &&
+                    data.logs.map(log => {
+                        const date = new Date(log.killtime * 1000);
+                        return (
                             <React.Fragment key={log.log_id}>
-                                <ListItem>
-                                    <ListItemText>
-                                        <span className="playerLatestKillsKill">
-                                            <span className="playerLatestKillsBossName">
-                                                <span className="textBold">
+                                <Link
+                                    component={RouterLink}
+                                    color="inherit"
+                                    to={`/log/${log.log_id}?realm=${realm}`}
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                >
+                                    <ListItem>
+                                        <Grid container direction="column">
+                                            <Grid item>
+                                                <Typography
+                                                    className={classes.bossName}
+                                                >
                                                     {`${
                                                         log.encounter_data
                                                             .encounter_name
@@ -65,42 +78,44 @@ function PlayerLatestKills({ classes }) {
                                                             log.difficulty
                                                         ]
                                                     }`}
-                                                </span>
-                                                <span className="playerLatestKillsDate">
-                                                    <DisplayDate
-                                                        date={
-                                                            new Date(
-                                                                log.killtime *
-                                                                    1000
-                                                            )
-                                                        }
-                                                        align="right"
-                                                    />
-                                                </span>
-                                            </span>
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Grid
+                                                    container
+                                                    wrap="nowrap"
+                                                    justify="space-between"
+                                                >
+                                                    <Grid item>
+                                                        <Typography>
+                                                            <DisplayDate
+                                                                date={date}
+                                                            />
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography align="right">
+                                                            {`${(
+                                                                "0" +
+                                                                date.getHours()
+                                                            ).slice(-2)}:${(
+                                                                "0" +
+                                                                date.getMinutes()
+                                                            ).slice(-2)}`}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                </Link>
 
-                                            <span className="playerLatestKillsKillTime">
-                                                <span>
-                                                    {convertFightTime(
-                                                        log.fight_time
-                                                    )}
-                                                </span>
-                                                <span className="playerLatestKillsLogContainer">
-                                                    <LogLink
-                                                        logId={log.log_id}
-                                                        realm={realm}
-                                                    />
-                                                </span>
-                                            </span>
-                                        </span>
-                                    </ListItemText>
-                                </ListItem>
                                 <Divider />
                             </React.Fragment>
-                        ))}
-                </List>
-            </Card>
-        </div>
+                        );
+                    })}
+            </List>
+        </Card>
     );
 }
 

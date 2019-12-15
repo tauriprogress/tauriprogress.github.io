@@ -16,7 +16,7 @@ async function getData(playerName, realm) {
         body: JSON.stringify({
             playerName: playerName,
             realm: realm,
-            limit: 12
+            limit: 13
         })
     }).then(res => res.json());
 }

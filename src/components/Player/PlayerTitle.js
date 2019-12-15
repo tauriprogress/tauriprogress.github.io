@@ -1,16 +1,18 @@
-import { characterClasses } from "tauriprogress-constants";
+import { characterClasses, characterRaces } from "tauriprogress-constants";
 import { armoryUrl } from "tauriprogress-constants/urls";
 
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { withTheme } from "@material-ui/core/styles";
+
 import { Link as RouterLink } from "react-router-dom";
 
-import { withTheme } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Tooltip from "@material-ui/core/Tooltip";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+
+import SpecImg from "../SpecImg";
 
 import { talentTreeToImage } from "../../helpers";
 
@@ -27,62 +29,56 @@ function PlayerTitle({ theme }) {
     }`;
 
     return (
-        <div className="displayPlayerTitle">
+        <Container style={{ textAlign: "center" }}>
             <Typography variant="h4">
-                <a
+                <Link
                     href={`${armoryUrl}?${data.character_url_string.replace(
                         "amp;",
                         ""
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                >
-                    <span
-                        style={{
-                            color: classColors[data.class]
-                        }}
-                    >
-                        {data.name}
-                    </span>
-                </a>
-
-                <Tooltip
-                    title={
-                        <span className="textCapitalize">{fullSpecName}</span>
-                    }
-                >
-                    <Avatar
-                        component="span"
-                        src={talentTreeToImage(fullSpecName)}
-                        className="classSpecAvatar displayPlayerAvatar"
-                    />
-                </Tooltip>
-            </Typography>
-            <Typography variant="button">
-                <span
                     style={{
-                        color:
-                            data.faction_string_class === "Alliance"
-                                ? factionColors.alliance
-                                : factionColors.horde
+                        color: classColors[data.class]
                     }}
                 >
-                    <Typography color="inherit">
-                        <RouterLink
-                            to={`/guild/${data.guildName}?realm=${data.realm}`}
-                        >
-                            <Link component="span" color="inherit">
-                                {data.guildName}
-                            </Link>
-                        </RouterLink>
-                    </Typography>
-                </span>
+                    {data.name}
+                </Link>{" "}
+                <SpecImg
+                    title={fullSpecName}
+                    src={talentTreeToImage(fullSpecName)}
+                    style={{
+                        width: "25px",
+                        height: "25px",
+                        transform: "translate(0, 4px)"
+                    }}
+                />
             </Typography>
-
-            <Typography variant="caption">
-                {data.realm}, {data.faction_string_class}
+            <Typography variant="button">
+                <Typography>
+                    <Link
+                        component={RouterLink}
+                        color="inherit"
+                        to={`/guild/${data.guildName}?realm=${data.realm}`}
+                        style={{
+                            color:
+                                data.faction_string_class === "Alliance"
+                                    ? factionColors.alliance
+                                    : factionColors.horde
+                        }}
+                    >
+                        {data.guildName}
+                    </Link>
+                </Typography>
             </Typography>
-        </div>
+            <Typography variant="caption" color="textSecondary">
+                {data.realm}
+            </Typography>
+            <br />
+            <Typography variant="caption" color="textSecondary">
+                {data.faction_string_class}, {characterRaces[data.race]}
+            </Typography>
+        </Container>
     );
 }
 

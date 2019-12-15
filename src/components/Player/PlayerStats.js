@@ -13,7 +13,12 @@ import { getBossesDefeated } from "./helpers";
 function styles(theme) {
     return {
         container: {
-            backgroundColor: theme.palette.backgroundAccent
+            backgroundColor: theme.palette.backgroundAccent,
+            margin: "0 10px",
+            maxWidth: "260px"
+        },
+        metaDataList: {
+            margin: "0px"
         }
     };
 }
@@ -80,13 +85,23 @@ function PlayerStats({ classes }) {
     ];
 
     return (
-        <div>
-            <Card className={`${classes.container} displayPlayerStats`}>
-                <MetaDataList title="General" values={general} />
-                <MetaDataList title="Primary Stats" values={primaryStats} />
-                <MetaDataList title="Secondary Stats" values={secondaryStats} />
-            </Card>
-        </div>
+        <Card className={`${classes.container}`}>
+            <MetaDataList
+                title="General"
+                values={general}
+                className={classes.metaDataList}
+            />
+            <MetaDataList
+                title="Primary Stats"
+                values={primaryStats}
+                className={classes.metaDataList}
+            />
+            <MetaDataList
+                title="Secondary Stats"
+                values={secondaryStats}
+                className={classes.metaDataList}
+            />
+        </Card>
     );
 }
 
