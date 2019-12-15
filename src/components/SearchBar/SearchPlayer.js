@@ -70,7 +70,7 @@ function SearchPlayer({ classes, closeDrawer, history }) {
                     />
                 </form>
             </Grid>
-            <Grid item classeName={classes.realm}>
+            <Grid item className={classes.realm}>
                 <FormControl fullWidth>
                     <InputLabel htmlFor="realm">Realm</InputLabel>
                     <Select
