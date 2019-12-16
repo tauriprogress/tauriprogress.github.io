@@ -8,25 +8,24 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
+import OverflowScroll from "../OverflowScroll";
 
 import { convertFightTime } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
 function GuildLatestKills({ data, realm }) {
     return (
-        <div className="overflowScroll">
+        <OverflowScroll>
             <Table className="displayGuildLatestTable">
                 <TableHead className="tableHead">
                     <TableRow>
                         <TableCell>Boss name</TableCell>
-
                         <TableCell>Difficulty</TableCell>
                         <TableCell>Time</TableCell>
-
                         <TableCell>Date</TableCell>
                         <TableCell>Logs</TableCell>
                     </TableRow>
@@ -36,40 +35,30 @@ function GuildLatestKills({ data, realm }) {
                         const date = new Date(log.killtime * 1000);
                         return (
                             <TableRow key={log.log_id}>
-                                <TableCell component="th" scope="row">
-                                    <span className="textBold">
-                                        <RouterLink
+                                <TableCell>
+                                    <Typography color="inherit">
+                                        <Link
+                                            component={RouterLink}
+                                            color="inherit"
                                             to={`/raid/${log.mapentry.name}/${log.encounter_data.encounter_name}`}
+                                            style={{ fontWeight: "bold" }}
                                         >
-                                            <Typography color="inherit">
-                                                <Link
-                                                    component="span"
-                                                    color="inherit"
-                                                >
-                                                    {
-                                                        log.encounter_data
-                                                            .encounter_name
-                                                    }
-                                                </Link>
-                                            </Typography>
-                                        </RouterLink>
-                                    </span>
+                                            {log.encounter_data.encounter_name}
+                                        </Link>
+                                    </Typography>
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell>
                                     {difficultyLabels[log.difficulty]}
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell>
                                     {convertFightTime(log.fight_time)}
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell>
                                     <DateTooltip date={date}>
-                                        <DisplayDate
-                                            date={date}
-                                            align="right"
-                                        />
+                                        <DisplayDate date={date} />
                                     </DateTooltip>
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell>
                                     <LogLink logId={log.log_id} realm={realm} />
                                 </TableCell>
                             </TableRow>
@@ -77,7 +66,7 @@ function GuildLatestKills({ data, realm }) {
                     })}
                 </TableBody>
             </Table>
-        </div>
+        </OverflowScroll>
     );
 }
 

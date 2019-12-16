@@ -11,7 +11,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Link from "@material-ui/core/Link";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+
+import OverflowScroll from "../OverflowScroll";
 
 function GuildRoster({ data, theme }) {
     const {
@@ -22,10 +24,10 @@ function GuildRoster({ data, theme }) {
     const [page, setPage] = useState(0);
 
     return (
-        <div className="displayGuildRosterContainer">
-            <div className="overflowScroll">
+        <React.Fragment>
+            <OverflowScroll>
                 <Table>
-                    <TableHead className="tableHead">
+                    <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Class</TableCell>
@@ -39,36 +41,32 @@ function GuildRoster({ data, theme }) {
                             .map(member => (
                                 <TableRow key={member.name}>
                                     <TableCell component="th" scope="row">
-                                        <span
-                                            style={{
-                                                color: classColors[member.class]
-                                            }}
-                                        >
-                                            <RouterLink
+                                        <Typography color="inherit">
+                                            <Link
+                                                component={RouterLink}
+                                                color="inherit"
                                                 to={`/player/${member.name}?realm=${member.realm}`}
+                                                style={{
+                                                    color:
+                                                        classColors[
+                                                            member.class
+                                                        ]
+                                                }}
                                             >
-                                                <Typography color="inherit">
-                                                    <Link
-                                                        component="span"
-                                                        color="inherit"
-                                                    >
-                                                        {member.name}
-                                                    </Link>
-                                                </Typography>
-                                            </RouterLink>
-                                        </span>
+                                                {member.name}
+                                            </Link>
+                                        </Typography>
                                     </TableCell>
                                     <TableCell>
                                         {characterClasses[member.class]}
                                     </TableCell>
-
                                     <TableCell>{member.rank_name}</TableCell>
                                     <TableCell>{member.level}</TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>
                 </Table>
-            </div>
+            </OverflowScroll>
             <TablePagination
                 component="div"
                 rowsPerPageOptions={[]}
@@ -78,7 +76,7 @@ function GuildRoster({ data, theme }) {
                 page={page}
                 onChangePage={(e, page) => setPage(page)}
             />
-        </div>
+        </React.Fragment>
     );
 }
 

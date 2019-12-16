@@ -4,29 +4,50 @@ import { useSelector, useDispatch } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 import { guildSelectBoss } from "../../redux/actions";
 
 function styles(theme) {
     return {
+        container: {
+            margin: "auto",
+            display: "flex",
+            justifyContent: "center"
+        },
+        card: {
+            minWidth: "200px",
+            maxWidth: "260px",
+            margin: "0 10px 10px",
+            flex: 1
+        },
+        title: {
+            backgroundColor: theme.palette.primary.main,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center center",
+            padding: theme.spacing(1),
+            paddingTop: `${theme.spacing(1) + 7}px`,
+            color: theme.baseColors.light,
+            cursor: "pointer",
+            "& p": {
+                fontWeight: "bold"
+            },
+            "&:hover": {
+                color: theme.palette.secondary.main
+            }
+        },
         listItem: {
             "&:hover *": {
                 color: `${theme.palette.secondary.main} !important`
-            }
-        },
-        listTitle: {
-            backgroundColor: `${theme.palette.primary.main} !important`,
-            "& *": {
-                color: theme.palette.primary.contrastText
-            }
-        },
-        container: {
-            backgroundColor: theme.palette.backgroundAccent
+            },
+            padding: theme.spacing(0.5),
+            paddingLeft: theme.spacing(1.5)
         },
         bossDefeated: {
             borderLeft: `8px solid ${theme.palette.progStateColors.defeated}`
@@ -38,54 +59,61 @@ function styles(theme) {
 }
 
 function GuildRaidBossList({ raid, classes }) {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(window.innerWidth > 600 ? true : false);
     const selectedBossName = useSelector(state => state.guild.selectedBossName);
     const dispatch = useDispatch();
 
     return (
-        <Card className={`displayGuildRaidBossList ${classes.container}`}>
-            <ListItem
-                button
-                onClick={() => setOpen(open ? false : true)}
-                className={`displayGuildRaidBossListTitle ${classes.listItem} ${classes.listTitle}`}
-                style={{
-                    background: "url(" + raid.picture + ")"
-                }}
-            >
-                <ListItemText inset primary={raid.name} />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                <List disablePadding>
-                    {raid.encounters.map((encounter, index) => (
-                        <ListItem
-                            component="li"
-                            button
-                            className={`${classes.listItem} ${
-                                encounter.defeated
-                                    ? classes.bossDefeated
-                                    : classes.bossAlive
-                            }`}
-                            key={encounter.encounter_name}
-                            selected={
-                                selectedBossName === encounter.encounter_name
-                            }
-                            onClick={() =>
-                                dispatch(
-                                    guildSelectBoss({
-                                        selectedRaidName: raid.name,
-                                        selectedBossName:
-                                            encounter.encounter_name
-                                    })
-                                )
-                            }
-                        >
-                            <ListItemText primary={encounter.encounter_name} />
-                        </ListItem>
-                    ))}
-                </List>
-            </Collapse>
-        </Card>
+        <Container className={classes.container}>
+            <Card className={classes.card}>
+                <Grid
+                    container
+                    onClick={() => setOpen(open ? false : true)}
+                    className={classes.title}
+                    style={{
+                        backgroundImage: "url(" + raid.picture + ")"
+                    }}
+                    justify="space-between"
+                >
+                    <Grid item>
+                        <Typography>{raid.name}</Typography>
+                    </Grid>
+                    <Grid item>{open ? <ExpandLess /> : <ExpandMore />}</Grid>
+                </Grid>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                        {raid.encounters.map((encounter, index) => (
+                            <Typography key={encounter.encounter_name}>
+                                <ListItem
+                                    component="li"
+                                    button
+                                    className={`${classes.listItem} ${
+                                        encounter.defeated
+                                            ? classes.bossDefeated
+                                            : classes.bossAlive
+                                    }`}
+                                    selected={
+                                        selectedBossName ===
+                                        encounter.encounter_name
+                                    }
+                                    onClick={() =>
+                                        dispatch(
+                                            guildSelectBoss({
+                                                selectedRaidName: raid.name,
+                                                selectedBossName:
+                                                    encounter.encounter_name
+                                            })
+                                        )
+                                    }
+                                >
+                                    {encounter.encounter_name}
+                                </ListItem>
+                            </Typography>
+                        ))}
+                    </List>
+                </Collapse>
+            </Card>
+        </Container>
     );
 }
 

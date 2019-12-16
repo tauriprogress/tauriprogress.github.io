@@ -1,17 +1,54 @@
+import { currentContent } from "tauriprogress-constants";
 import React, { useState } from "react";
+
+import { useSelector } from "react-redux";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import CharacterLadder from "../CharacterLadder";
 import GuildFastestKills from "./GuildFastestKills";
+import GuildBossTitle from "./GuildBossTitle";
+import SelectDifficulty from "../SelectDifficulty";
 
-function GuildBoss({ data }) {
+import { getNestedObjectValue } from "../../helpers";
+import { selectDefaultDifficulty } from "./helpers";
+
+function GuildBoss() {
+    const {
+        selectedRaidName,
+        selectedBossName,
+        progression,
+        raids
+    } = useSelector(state => ({
+        ...state.guild,
+        progression: state.guild.data.progression,
+        raids: state.raidInfo.raids
+    }));
+
     const [tab, selectTab] = useState(0);
+    const [difficulty, setDifficulty] = useState(
+        selectDefaultDifficulty(
+            progression,
+            currentContent.raidName,
+            raids[currentContent.raidName].encounters[0].encounter_name
+        )
+    );
+
+    let boss = getNestedObjectValue(progression, [
+        selectedRaidName,
+        difficulty,
+        selectedBossName
+    ]);
 
     return (
         <React.Fragment>
-            {data && (
+            <GuildBossTitle bossName={selectedBossName} data={boss} />
+            <SelectDifficulty
+                difficulty={difficulty}
+                onChange={(e, difficulty) => setDifficulty(difficulty)}
+            />
+            {boss && (
                 <React.Fragment>
                     <Tabs
                         value={tab}
@@ -29,7 +66,7 @@ function GuildBoss({ data }) {
                             case 1:
                                 return (
                                     <CharacterLadder
-                                        data={tab === 0 ? data.dps : data.hps}
+                                        data={tab === 0 ? boss.dps : boss.hps}
                                         type={tab === 0 ? "dps" : "hps"}
                                         disableFilter={{
                                             faction: true,
@@ -40,7 +77,7 @@ function GuildBoss({ data }) {
                             case 2:
                                 return (
                                     <GuildFastestKills
-                                        data={data.fastestKills}
+                                        data={boss.fastestKills}
                                     />
                                 );
                             default:

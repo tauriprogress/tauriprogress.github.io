@@ -1,22 +1,23 @@
 import React from "react";
 
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 import DateTooltip from "../DateTooltip";
-
-import { convertFightTime } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
-function GuildBossSummary({ bossName, data }) {
+import { convertFightTime } from "../../helpers";
+
+function GuildBossTitle({ bossName, data }) {
     let date;
     if (data) {
         date = new Date(data.firstKill * 1000);
     }
 
     return (
-        <div className="displayGuildBossSummary">
+        <Container style={{ textAlign: "center" }}>
             <Typography variant="h5">{bossName}</Typography>
-            <Typography variant="caption">
+            <Typography variant="caption" color="textSecondary">
                 {data ? (
                     <React.Fragment>
                         {data.killCount} Kills
@@ -26,15 +27,14 @@ function GuildBossSummary({ bossName, data }) {
                             <DisplayDate date={date} />
                         </DateTooltip>
                         <br />
-                        Fastest:{" "}
-                        <span>{convertFightTime(data.fastestKill)}</span>
+                        Fastest: {convertFightTime(data.fastestKill)}
                     </React.Fragment>
                 ) : (
                     <span style={{ color: "#b71c1c" }}>Alive</span>
                 )}
             </Typography>
-        </div>
+        </Container>
     );
 }
 
-export default GuildBossSummary;
+export default GuildBossTitle;

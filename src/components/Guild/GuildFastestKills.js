@@ -5,24 +5,23 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
+import OverflowScroll from "../OverflowScroll";
+import DisplayDate from "../DisplayDate";
 
 import { convertFightTime } from "../../helpers";
-import DisplayDate from "../DisplayDate";
 
 function GuildFastestKills({ data }) {
     return (
-        <div className="overflowScroll">
+        <OverflowScroll>
             <Table>
-                <TableHead className="tableHead">
+                <TableHead>
                     <TableRow>
                         <TableCell>Rank</TableCell>
-
                         <TableCell>Time</TableCell>
-
                         <TableCell>Date</TableCell>
                         <TableCell>Logs</TableCell>
                     </TableRow>
@@ -32,26 +31,23 @@ function GuildFastestKills({ data }) {
                         const date = new Date(log.killtime * 1000);
                         return (
                             <TableRow key={log.log_id}>
-                                <TableCell component="th" scope="row">
-                                    <Typography className="textBold">
+                                <TableCell>
+                                    <Typography style={{ fontWeight: "bold" }}>
                                         {index + 1}.
                                     </Typography>
                                 </TableCell>
 
-                                <TableCell component="th" scope="row">
-                                    <span className="textBold">
+                                <TableCell>
+                                    <Typography style={{ fontWeight: "bold" }}>
                                         {convertFightTime(log.fight_time)}
-                                    </span>
+                                    </Typography>
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell>
                                     <DateTooltip date={date}>
-                                        <DisplayDate
-                                            date={date}
-                                            align="right"
-                                        />
+                                        <DisplayDate date={date} />
                                     </DateTooltip>
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell>
                                     <LogLink
                                         logId={log.log_id}
                                         realm={log.realm}
@@ -62,7 +58,7 @@ function GuildFastestKills({ data }) {
                     })}
                 </TableBody>
             </Table>
-        </div>
+        </OverflowScroll>
     );
 }
 

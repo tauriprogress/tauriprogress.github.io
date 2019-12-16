@@ -19,7 +19,7 @@ import { talentTreeToImage } from "../../helpers";
 function PlayerTitle({ theme }) {
     const data = useSelector(state => state.player.data.data);
     if (!data) {
-        return <div className="displayPlayerTitle" />;
+        return <div />;
     }
     const {
         palette: { classColors, factionColors }

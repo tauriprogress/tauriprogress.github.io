@@ -1,31 +1,23 @@
-import { difficultyLabels, currentContent } from "tauriprogress-constants";
-import React, { useState, useEffect } from "react";
+import { currentContent } from "tauriprogress-constants";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import GuildRaidBossList from "./GuildRaidBossList";
 import GuildBoss from "./GuildBoss";
-import GuildBossSummary from "./GuildBossSummary";
-import SelectDifficulty from "../SelectDifficulty";
+import AsideContainer from "../AsideContainer";
 
-import { getBossesDefeated, selectDefaultDifficulty } from "./helpers";
-import { getNestedObjectValue } from "../../helpers";
+import { getBossesDefeated } from "./helpers";
 
 import { guildSelectBoss } from "../../redux/actions";
 
-function GuildProgression({ progression }) {
-    const raids = useSelector(state => state.raidInfo.raids);
-    const { selectedRaidName, selectedBossName } = useSelector(
-        state => state.guild
-    );
-    const dispatch = useDispatch();
+function GuildProgression() {
+    const { selectedBossName, progression, raids } = useSelector(state => ({
+        ...state.guild,
+        progression: state.guild.data.progression,
+        raids: state.raidInfo.raids
+    }));
 
-    const [difficulty, setDifficulty] = useState(
-        selectDefaultDifficulty(
-            progression,
-            currentContent.raidName,
-            raids[currentContent.raidName].encounters[0].encounter_name
-        )
-    );
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(
@@ -38,15 +30,10 @@ function GuildProgression({ progression }) {
     }, []);
 
     if (!selectedBossName) {
-        return <div className="displayGuildProgression" />;
+        return <div />;
     }
 
     let extendedRaids = [];
-    let boss = getNestedObjectValue(progression, [
-        selectedRaidName,
-        difficulty,
-        selectedBossName
-    ]);
 
     for (let raidName in raids) {
         let bossesDefeated = getBossesDefeated(
@@ -64,30 +51,15 @@ function GuildProgression({ progression }) {
     }
 
     return (
-        <div className="displayGuildProgression">
-            <aside>
-                {extendedRaids.map(raid => (
+        <AsideContainer
+            AsideComponent={() =>
+                extendedRaids.map(raid => (
                     <GuildRaidBossList key={raid.name} raid={raid} />
-                ))}
-            </aside>
-            <div className="displayGuildProgressionDataContainer">
-                <GuildBossSummary
-                    bossName={`${selectedBossName} ${
-                        boss ? difficultyLabels[difficulty] : ""
-                    }`}
-                    data={boss}
-                />
-                <SelectDifficulty
-                    difficulty={difficulty}
-                    onChange={(e, difficulty) => setDifficulty(difficulty)}
-                />
-                {boss && (
-                    <React.Fragment>
-                        <GuildBoss data={boss} />
-                    </React.Fragment>
-                )}
-            </div>
-        </div>
+                ))
+            }
+        >
+            <GuildBoss />
+        </AsideContainer>
     );
 }
 
