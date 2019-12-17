@@ -94,7 +94,9 @@ function guildReducer(state = defaultState, action) {
                 data: {
                     ...action.payload,
                     progression: progression,
-                    guildList: data.guildList.sort((a, b) => a.rank - b.rank)
+                    guildList: action.payload.guildList.sort(
+                        (a, b) => a.rank - b.rank
+                    )
                 },
                 guildName: action.payload.guildName,
                 realm: action.payload.realm,
