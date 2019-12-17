@@ -1,33 +1,50 @@
 import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
 import ErrorIcon from "@material-ui/icons/Error";
-import { Typography } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 function styles(theme) {
     return {
-        background: {
-            backgroundColor: theme.palette.error.main
+        container: {
+            paddingTop: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
+            display: "block",
+            maxWidth: "280px !important",
+            margin: "0 auto"
         },
-        textColor: {
-            color: theme.palette.primary.contrastText
+        message: {
+            backgroundColor: theme.palette.error.dark,
+            color: theme.palette.primary.contrastText,
+            maxWidth: "100%",
+            minWidth: "0"
+        },
+        icon: {
+            marginRight: "4px"
         }
     };
 }
 
 function ErrorMessage({ message, classes }) {
     return (
-        <div className="error">
-            <Card className={`${classes.background} errorMessage`}>
-                <ErrorIcon
-                    className={`${classes.textColor} errorMessageIcon`}
-                />
-                <Typography className={`${classes.textColor}`}>
-                    {message}
-                </Typography>
-            </Card>
-        </div>
+        <Container className={classes.container}>
+            <SnackbarContent
+                className={classes.message}
+                message={
+                    <Grid container wrap="nowrap">
+                        <Grid item>
+                            <ErrorIcon className={classes.icon} />
+                        </Grid>
+                        <Grid item>
+                            <Typography>{message}</Typography>
+                        </Grid>
+                    </Grid>
+                }
+            />
+        </Container>
     );
 }
 

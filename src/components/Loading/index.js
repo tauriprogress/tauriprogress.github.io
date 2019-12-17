@@ -12,7 +12,8 @@ function styles(theme) {
             paddingBottom: theme.spacing(4),
             display: "flex",
             justifyContent: "center",
-            minWidth: "280px"
+            maxWidth: "280px !important",
+            margin: "0 auto"
         }
     };
 }
