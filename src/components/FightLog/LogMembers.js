@@ -81,6 +81,7 @@ function LogTableHead({ sort, setSort }) {
                             sort.by === column.id ? sort.direction : false
                         }
                         key={column.id}
+                        align={column.label !== "Player" ? "right" : "left"}
                     >
                         <Tooltip title="Sort" enterDelay={300}>
                             <TableSortLabel
