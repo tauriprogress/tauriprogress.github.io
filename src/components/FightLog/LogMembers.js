@@ -67,6 +67,10 @@ function styles(theme) {
     return {
         bold: {
             fontWeight: "bold !important"
+        },
+        number: {
+            fontWeight: "bold",
+            fontSize: `${12 / 16}rem`
         }
     };
 }
@@ -143,7 +147,7 @@ function LogMembers({ classes, data, theme }) {
                                             color:
                                                 classColors[
                                                     specToClass[member.spec]
-                                                ]
+                                                ].text
                                         }}
                                     >
                                         {member.name}
@@ -151,81 +155,85 @@ function LogMembers({ classes, data, theme }) {
                                 </Typography>
                             </TableCell>
 
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Dps">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.dps
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Damage">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.dmg_done
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Hps">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.hps
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Healing">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.total_healing
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
 
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Heal">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.heal_done
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Absorb">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.absorb_done
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Damage taken">
-                                    <span className="textBold">
+                                    <Typography className={classes.number}>
                                         {new Intl.NumberFormat().format(
                                             member.dmg_taken
                                         )}
-                                    </span>
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Interrupts">
-                                    <span>{member.interrupts}</span>
+                                    <Typography className={classes.number}>
+                                        {member.interrupts}
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell align="right" className={classes.bold}>
+                            <TableCell align="right">
                                 <Tooltip title="Dispells">
-                                    <span>{member.dispells}</span>
+                                    <Typography className={classes.number}>
+                                        {member.dispells}
+                                    </Typography>
                                 </Tooltip>
                             </TableCell>
                         </TableRow>
