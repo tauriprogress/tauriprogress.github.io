@@ -13,34 +13,22 @@ import {
     lightBlue,
     deepPurple,
     teal,
-    deepOrange
+    deepOrange,
+    orange
 } from "@material-ui/core/colors";
 
 const primary = "#1e1f26";
-const secondary = "#f25c00";
-const darkPSecondary = "#FF8337";
-const lightPSecondary = "#B84600";
+const secondary = deepOrange[500];
+const darkPSecondary = deepOrange[300];
+const lightPSecondary = deepOrange[900];
 
 const light = "#f6ede2";
 const lightAccent = "#faf5ef";
-const dark = "#25272f";
-const darkAccent = "#2c2f39";
+const dark = "#26262f";
+const darkAccent = "#2d2d36";
 
 const lightGrey = "#c4c4c4";
 
-const defaultClassColors = {
-    1: "#c79c6e",
-    2: "#f58cba",
-    3: "#abd473",
-    4: "#fff569",
-    5: "#ffffff",
-    6: "#c41f3b",
-    7: "#0070de",
-    8: "#69ccf0",
-    9: "#9482c9",
-    10: "#00ff96",
-    11: "#ff7d0a"
-};
 const defaultTheme = {
     typography: {
         fontSize: (14 / 16) * 14,
@@ -139,19 +127,51 @@ const lightPalette = {
         default: light,
         accent: lightAccent
     },
-    defaultClassColors,
     classColors: {
-        1: brown[700],
-        2: pink[700],
-        3: green[900],
-        4: "#7f7200",
-        5: grey[700],
-        6: red[800],
-        7: indigo[700],
-        8: lightBlue[800],
-        9: deepPurple[700],
-        10: teal[700],
-        11: deepOrange[900]
+        1: {
+            text: brown[700],
+            background: "#c79c6e"
+        },
+        2: {
+            text: pink[700],
+            background: "#f58cba"
+        },
+        3: {
+            text: green[900],
+            background: "#abd473"
+        },
+        4: {
+            text: "#7f7200",
+            background: "#fff569"
+        },
+        5: {
+            text: grey[700],
+            background: "#ffffff"
+        },
+        6: {
+            text: red[800],
+            background: "#c41f3b"
+        },
+        7: {
+            text: indigo[700],
+            background: "#0070de"
+        },
+        8: {
+            text: lightBlue[800],
+            background: "#69ccf0"
+        },
+        9: {
+            text: deepPurple[700],
+            background: "#9482c9"
+        },
+        10: {
+            text: teal[700],
+            background: "#00ff96"
+        },
+        11: {
+            text: orange[900],
+            background: "#ff7d0a"
+        }
     },
     factionColors: {
         alliance: lightBlue[900],
@@ -180,19 +200,51 @@ const darkPalette = {
         default: dark,
         accent: darkAccent
     },
-    defaultClassColors,
     classColors: {
-        1: brown[300],
-        2: pink[300],
-        3: green[400],
-        4: yellow[400],
-        5: grey[300],
-        6: red[300],
-        7: indigo[300],
-        8: lightBlue[400],
-        9: deepPurple[200],
-        10: teal[400],
-        11: deepOrange[400]
+        1: {
+            text: brown[300],
+            background: "#815b32"
+        },
+        2: {
+            text: pink[300],
+            background: "#ed2c80"
+        },
+        3: {
+            text: green[400],
+            background: "#61892a"
+        },
+        4: {
+            text: yellow[400],
+            background: "#b3a700"
+        },
+        5: {
+            text: grey[300],
+            background: "#a6a6a6"
+        },
+        6: {
+            text: red[300],
+            background: "#b71c1c"
+        },
+        7: {
+            text: indigo[300],
+            background: "#005ab3"
+        },
+        8: {
+            text: lightBlue[400],
+            background: "#159fd1"
+        },
+        9: {
+            text: deepPurple[200],
+            background: "#9482c9"
+        },
+        10: {
+            text: teal[400],
+            background: "#00b369"
+        },
+        11: {
+            text: orange[800],
+            background: "#b35400"
+        }
     },
     factionColors: {
         alliance: lightBlue[400],

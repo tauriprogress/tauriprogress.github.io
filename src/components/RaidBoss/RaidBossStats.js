@@ -21,7 +21,7 @@ function RaidBossStats({ data, theme }) {
     if (!data) return <div />;
 
     let {
-        palette: { defaultClassColors }
+        palette: { classColors }
     } = theme;
 
     let charClasses = [];
@@ -74,7 +74,7 @@ function RaidBossStats({ data, theme }) {
             return (
                 <Tooltip title={tooltip} key={charClass}>
                     <path
-                        fill={defaultClassColors[charClass]}
+                        fill={classColors[charClass].background}
                         stroke="none"
                         d={`${arc} L 135 135`}
                     />
@@ -180,15 +180,6 @@ function RaidBossStats({ data, theme }) {
                                 </Typography>
                             </PerfChartTitle>
 
-                            {/* This is the total <PerfChartRow
-                                iconImage={}
-                                iconTitle={}
-                                rank={}
-                                title={}
-                                perfValue={}
-                                perfPercent={}
-                            />*/}
-
                             {specData[variant].specs.map(spec => (
                                 <PerfChartRow
                                     key={specs[spec.specId].label}
@@ -210,9 +201,8 @@ function RaidBossStats({ data, theme }) {
                                         100
                                     }
                                     color={
-                                        defaultClassColors[
-                                            specToClass[spec.specId]
-                                        ]
+                                        classColors[specToClass[spec.specId]]
+                                            .background
                                     }
                                 />
                             ))}

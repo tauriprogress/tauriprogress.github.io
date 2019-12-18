@@ -39,7 +39,7 @@ function PlayerTitle({ theme }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                        color: classColors[data.class]
+                        color: classColors[data.class].text
                     }}
                 >
                     {data.name}

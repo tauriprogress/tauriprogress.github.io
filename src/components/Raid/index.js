@@ -255,6 +255,7 @@ function Raid({ classes, match, theme }) {
                                                                                         .spec
                                                                                 ]
                                                                             ]
+                                                                                .text
                                                                     }}
                                                                     to={`/player/${currentBoss.bestDps.name}?realm=${currentBoss.bestDps.realm}`}
                                                                 >
@@ -332,6 +333,7 @@ function Raid({ classes, match, theme }) {
                                                                                         .spec
                                                                                 ]
                                                                             ]
+                                                                                .text
                                                                     }}
                                                                     to={`/player/${currentBoss.bestHps.name}?realm=${currentBoss.bestHps.realm}`}
                                                                 >

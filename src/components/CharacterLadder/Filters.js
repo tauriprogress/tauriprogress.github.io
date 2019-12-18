@@ -50,13 +50,16 @@ function Filters({ classes, disableFilter, theme }) {
     } = theme;
 
     let specOptions = [];
+    const classColor = filter.class
+        ? classColors[filter.class].text
+        : "inherit";
     for (let specId in specToClass) {
         if (specToClass[specId] === Number(filter.class)) {
             specOptions.push({
                 value: specId,
                 name: specs[specId].label,
                 style: {
-                    color: classColors[filter.class]
+                    color: classColors[filter.class].text
                 }
             });
         }
@@ -68,7 +71,7 @@ function Filters({ classes, disableFilter, theme }) {
             value: classId,
             name: characterClasses[classId],
             style: {
-                color: classColors[classId]
+                color: classColors[classId].text
             }
         });
     }
@@ -79,19 +82,18 @@ function Filters({ classes, disableFilter, theme }) {
             name: realm
         });
     }
-
     let selects = [
         {
             name: "class",
             style: {
-                color: classColors[filter.class]
+                color: classColor
             },
             options: classOptions
         },
         {
             name: "spec",
             style: {
-                color: classColors[filter.class]
+                color: classColor
             },
             options: specOptions
         },

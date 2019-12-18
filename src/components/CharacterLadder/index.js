@@ -111,7 +111,7 @@ function CharacterLadder({ classes, disableFilter = {}, type, data, theme }) {
                                                                         char
                                                                             .spec
                                                                     ]
-                                                                ]
+                                                                ].text
                                                         }}
                                                     >
                                                         {char.name}

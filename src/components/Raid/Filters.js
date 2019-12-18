@@ -48,6 +48,10 @@ function Filters({
         });
     }
 
+    const classColor = filter.class
+        ? classColors[filter.class].text
+        : "inherit";
+
     return (
         <FilterContainer>
             <FormControl>
@@ -122,7 +126,7 @@ function Filters({
                 <InputLabel htmlFor="class">Class</InputLabel>
                 <Select
                     style={{
-                        color: classColors[filter.class]
+                        color: classColor
                     }}
                     value={filter.class}
                     onChange={e =>
@@ -144,7 +148,7 @@ function Filters({
                             key={characterClass.id}
                             value={characterClass.id}
                             style={{
-                                color: classColors[characterClass.id]
+                                color: classColors[characterClass.id].text
                             }}
                         >
                             {characterClass.label}
@@ -156,7 +160,7 @@ function Filters({
                 <InputLabel htmlFor="spec">Spec</InputLabel>
                 <Select
                     style={{
-                        color: classColors[filter.class]
+                        color: classColor
                     }}
                     value={filter.spec}
                     onChange={e =>
@@ -176,7 +180,7 @@ function Filters({
                     {specOptions.map(specOption => (
                         <MenuItem
                             style={{
-                                color: classColors[filter.class]
+                                color: classColor
                             }}
                             key={specOption.id}
                             value={specOption.id}

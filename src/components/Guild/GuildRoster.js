@@ -50,7 +50,7 @@ function GuildRoster({ data, theme }) {
                                                     color:
                                                         classColors[
                                                             member.class
-                                                        ]
+                                                        ].text
                                                 }}
                                             >
                                                 {member.name}

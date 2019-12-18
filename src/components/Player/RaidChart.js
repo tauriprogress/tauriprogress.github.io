@@ -58,7 +58,7 @@ function RaidChart({
     theme,
     variant = "dps"
 }) {
-    const { defaultClassColors } = theme.palette;
+    const { classColors } = theme.palette;
     const raids = useSelector(state => state.raidInfo.raids);
 
     const [spec, setSpec] = useState("noSpec");
@@ -147,6 +147,7 @@ function RaidChart({
             {raidBosses.map(boss => {
                 const currentBoss = data[boss.encounter_name][spec];
                 const playerData = currentBoss[variant];
+
                 return (
                     <React.Fragment key={boss.encounter_name}>
                         {playerData[variant] ? (
@@ -171,7 +172,9 @@ function RaidChart({
                                     title={boss.encounter_name}
                                     perfValue={shortNumber(playerData[variant])}
                                     perfPercent={playerData.topPercent}
-                                    color={defaultClassColors[playerData.class]}
+                                    color={
+                                        classColors[playerData.class].background
+                                    }
                                 />
                             </Link>
                         ) : (
@@ -182,7 +185,6 @@ function RaidChart({
                                 title={boss.encounter_name}
                                 perfValue={shortNumber(0)}
                                 perfPercent={0}
-                                color={defaultClassColors[playerData.class]}
                             />
                         )}
                     </React.Fragment>
