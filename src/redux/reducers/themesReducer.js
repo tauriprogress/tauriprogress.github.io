@@ -1,5 +1,4 @@
 import "typeface-roboto";
-import "typeface-b612-mono";
 
 import { createMuiTheme } from "@material-ui/core/styles";
 import {
