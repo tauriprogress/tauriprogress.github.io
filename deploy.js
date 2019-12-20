@@ -51,7 +51,7 @@ const oldBuildFiles = [
             )
         );
 
-        console.log("Chaning server url back to original");
+        console.log("Changing server url back to original");
         await fs.writeJSON(urlsPath, urls);
     } catch (err) {
         console.error(err);
