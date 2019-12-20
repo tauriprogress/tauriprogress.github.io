@@ -11,5 +11,4 @@ To run locally:
   5. run: git clone https://github.com/tauriprogress/tauriprogress.github.io.git
   6. run: npm install
   7. setup: the [server](https://github.com/tauriprogress/server)
-  8. since the app uses a git repo which is installed as a package to get the url of the server to make requests to it, in order to run this app locally you need to change the server url variable to http://localhost:3001 in node_modules. node_modules\tauriprogress-constants\urls.json
- 9. run: npm start
+  8. run: npm start
