@@ -12,7 +12,8 @@ const oldBuildFiles = [
     "index.html",
     "asset-manifest.json",
     "service-worker.js",
-    "precache-manifest."
+    "precache-manifest.",
+    "icon.svg"
 ];
 
 (async function() {
