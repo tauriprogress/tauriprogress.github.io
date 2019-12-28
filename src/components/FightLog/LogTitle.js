@@ -1,13 +1,19 @@
-import { difficultyLabels } from "tauriprogress-constants";
+import { difficultyLabels, specs } from "tauriprogress-constants";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { withTheme } from "@material-ui/core/styles";
+
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 
 import DisplayDate from "../DisplayDate";
 import MetaDataList from "../MetaDataList";
+import RoleIcon from "./RoleIcon";
+import tankIcon from "../../assets/roles/Tank.svg";
+import healIcon from "../../assets/roles/Healer.svg";
+import rangedIcon from "../../assets/roles/Ranged.svg";
+import meleeIcon from "../../assets/roles/Melee.svg";
 
 import { convertFightTime } from "../../helpers";
 
@@ -17,6 +23,23 @@ function LogTitle({ data, theme }) {
             factionColors: { alliance, horde }
         }
     } = theme;
+
+    let countComposition = {
+        heal: 0,
+        melee: 0,
+        ranged: 0,
+        tank: 0
+    };
+
+    for (let member of data.members) {
+        let role = specs[member.spec].role;
+
+        if (role === "damage") {
+            role = specs[member.spec].rangeType;
+        }
+
+        countComposition[role] += 1;
+    }
 
     const date = new Date(data.killtime * 1000);
 
@@ -105,6 +128,56 @@ function LogTitle({ data, theme }) {
         { label: "Resurrects", value: data.resurrects_fight }
     ];
 
+    const composition = [
+        {
+            label: "Players",
+            value: (
+                <span>
+                    {countComposition.tank +
+                        countComposition.heal +
+                        countComposition.ranged +
+                        countComposition.melee}
+                </span>
+            )
+        },
+        {
+            label: "Tank",
+            value: (
+                <span>
+                    {countComposition.tank}
+                    <RoleIcon src={tankIcon} />
+                </span>
+            )
+        },
+        {
+            label: "Healer",
+            value: (
+                <span>
+                    {countComposition.heal}
+                    <RoleIcon src={healIcon} />
+                </span>
+            )
+        },
+        {
+            label: "Ranged",
+            value: (
+                <span>
+                    {countComposition.ranged}
+                    <RoleIcon src={rangedIcon} />
+                </span>
+            )
+        },
+        {
+            label: "Melee",
+            value: (
+                <span>
+                    {countComposition.melee}
+                    <RoleIcon src={meleeIcon} />
+                </span>
+            )
+        }
+    ];
+
     return (
         <Grid container>
             <Grid item>
@@ -112,6 +185,9 @@ function LogTitle({ data, theme }) {
             </Grid>
             <Grid item>
                 <MetaDataList title="Total" values={total} />
+            </Grid>
+            <Grid item>
+                <MetaDataList title="Composition" values={composition} />
             </Grid>
         </Grid>
     );
