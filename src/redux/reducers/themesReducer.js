@@ -146,7 +146,7 @@ const lightPalette = {
         },
         5: {
             text: grey[700],
-            background: "#ffffff"
+            background: "#a6a6a6"
         },
         6: {
             text: red[800],
