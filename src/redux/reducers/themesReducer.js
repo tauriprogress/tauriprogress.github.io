@@ -124,7 +124,8 @@ const lightPalette = {
     },
     background: {
         default: light,
-        accent: lightAccent
+        accent: lightAccent,
+        tooltip: light
     },
     classColors: {
         1: {
@@ -197,7 +198,8 @@ const darkPalette = {
     },
     background: {
         default: dark,
-        accent: darkAccent
+        accent: darkAccent,
+        tooltip: primary
     },
     classColors: {
         1: {
