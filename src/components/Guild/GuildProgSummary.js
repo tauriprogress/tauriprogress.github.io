@@ -65,8 +65,8 @@ function GuildProgSummary() {
     return (
         <Grid container justify="center">
             {data.map(raidData => (
-                <Grid item>
-                    <GuildRaidSummary key={raidData.raidName} data={raidData} />
+                <Grid item key={raidData.raidName}>
+                    <GuildRaidSummary data={raidData} />
                 </Grid>
             ))}
         </Grid>
