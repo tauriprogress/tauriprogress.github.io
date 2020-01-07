@@ -22,8 +22,8 @@ function styles(theme) {
             color: theme.palette.progStateColors.alive
         },
         container: {
-            margin: "10px",
-            width: "280px",
+            margin: "0 10px 10px",
+            width: "260px",
             borderRadius: "4px"
         },
         tableCell: {

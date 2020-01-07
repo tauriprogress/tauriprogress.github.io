@@ -5,6 +5,7 @@ import { withStyles, withTheme } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 
 import allianceEmblem from "../../assets/faction/alliance.png";
@@ -13,10 +14,11 @@ import hordeEmblem from "../../assets/faction/horde.png";
 function styles(theme) {
     return {
         container: {
-            textAlign: "center"
+            padding: "0 10px"
         },
         emblem: {
-            height: "150px"
+            height: "70px",
+            margin: "0 10px"
         }
     };
 }
@@ -44,27 +46,33 @@ function GuildIntroduction({ classes, theme }) {
         guildFaction === 0 ? factionColors.alliance : factionColors.horde;
 
     return (
-        <div className={classes.container}>
-            <img className={classes.emblem} src={emblem} alt="faction emblem" />
-            <Typography variant="h4">
-                <Link
-                    target="_blank"
-                    href={`https://tauriwow.com/armory#guild-info.xml?r=${guildRealm}&gn=${guildName}`}
-                    rel="noopener noreferrer"
-                    style={{
-                        color: factionColor
-                    }}
-                >
-                    {guildName}
-                </Link>
-            </Typography>
-            <Typography color="textSecondary">
-                {guildFaction ? "Horde" : "Alliance"}, {guildRealm}
-            </Typography>
-            <Typography color="textSecondary" variant="caption">
-                {guildMemberCount} members
-            </Typography>
-        </div>
+        <Grid className={classes.container} container wrap="nowrap">
+            <Grid item>
+                <img
+                    className={classes.emblem}
+                    src={emblem}
+                    alt="faction emblem"
+                />
+            </Grid>
+            <Grid item>
+                <Typography variant="h4">
+                    <Link
+                        target="_blank"
+                        href={`https://tauriwow.com/armory#guild-info.xml?r=${guildRealm}&gn=${guildName}`}
+                        rel="noopener noreferrer"
+                        style={{
+                            color: factionColor
+                        }}
+                    >
+                        {guildName}
+                    </Link>
+                </Typography>
+                <Typography color="textSecondary">
+                    {guildFaction ? "Horde" : "Alliance"}, {guildRealm},{" "}
+                    {guildMemberCount} members
+                </Typography>
+            </Grid>
+        </Grid>
     );
 }
 
