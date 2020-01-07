@@ -1,4 +1,4 @@
-import { specs } from "tauriprogress-constants";
+import { specs, characterClasses } from "tauriprogress-constants";
 
 const months = {
     0: "Jan",
@@ -14,6 +14,11 @@ const months = {
     10: "Nov",
     11: "Dec"
 };
+
+export function classImg(classId) {
+    const imageName = characterClasses[classId];
+    return require(`../assets/classes/${imageName}.jpg`);
+}
 
 export function getNestedObjectValue(obj, keys) {
     let currentKey = keys[0];
