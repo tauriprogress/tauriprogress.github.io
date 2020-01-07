@@ -39,7 +39,10 @@ function styles(theme) {
             color: theme.baseColors.light
         },
         title: {
-            padding: theme.spacing(2)
+            padding: theme.spacing(2),
+            "& p": {
+                cursor: "default"
+            }
         },
         tableColumnTitle: {
             fontSize: `${13 / 16}rem`,
@@ -189,7 +192,8 @@ function GuildRaidSummary({ classes, data }) {
                         </Grid>
                         <Grid item>
                             <Typography>
-                                {`${data.defeatedBosses}/${data.totalBosses}`}
+                                {`${data.defeatedBosses}/${data.totalBosses}`}{" "}
+                                HC
                             </Typography>
                         </Grid>
                     </Grid>
