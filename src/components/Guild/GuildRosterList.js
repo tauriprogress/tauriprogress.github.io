@@ -30,9 +30,7 @@ import { classImg } from "../../helpers";
 function styles(theme) {
     return {
         container: {
-            margin: theme.spacing(1),
-            padding: theme.spacing(1),
-            minHeight: "570px"
+            minHeight: "550px"
         },
         cell: {
             padding: theme.spacing(1)

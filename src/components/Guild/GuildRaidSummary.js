@@ -22,7 +22,7 @@ function styles(theme) {
             color: theme.palette.progStateColors.alive
         },
         container: {
-            margin: "0 10px 10px",
+            margin: `0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
             width: "260px",
             borderRadius: "4px"
         },

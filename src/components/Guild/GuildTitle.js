@@ -14,16 +14,21 @@ import hordeEmblem from "../../assets/faction/horde.png";
 function styles(theme) {
     return {
         container: {
-            padding: "0 10px"
+            padding: `0 ${theme.spacing(1)}px`,
+            marginBottom: theme.spacing(1),
+            textAlign: "left"
         },
         emblem: {
             height: "70px",
-            margin: "0 10px"
+            margin: `0 ${theme.spacing(1)}px`
+        },
+        textNoWrap: {
+            whiteSpace: "nowrap"
         }
     };
 }
 
-function GuildIntroduction({ classes, theme }) {
+function GuildTitle({ classes, theme }) {
     const {
         guildName,
         guildFaction,
@@ -69,11 +74,13 @@ function GuildIntroduction({ classes, theme }) {
                 </Typography>
                 <Typography color="textSecondary">
                     {guildFaction ? "Horde" : "Alliance"}, {guildRealm},{" "}
-                    {guildMemberCount} members
+                    <span className={classes.textNoWrap}>
+                        {guildMemberCount} members
+                    </span>
                 </Typography>
             </Grid>
         </Grid>
     );
 }
 
-export default withStyles(styles)(withTheme(GuildIntroduction));
+export default withStyles(styles)(withTheme(GuildTitle));

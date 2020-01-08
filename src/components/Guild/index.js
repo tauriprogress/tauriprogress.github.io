@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
-
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import GuildIntroduction from "./GuildIntroduction";
+import GuildTitle from "./GuildTitle";
 import GuildProgSummary from "./GuildProgSummary";
 import GuildRoster from "./GuildRoster";
+import GuildProgression from "./GuildProgression";
+import AsideContainer from "../AsideContainer";
 
 import { guildFetch, guildSelectTab } from "../../redux/actions";
 
@@ -36,15 +36,11 @@ function Guild({ match, location }) {
 
             {!loading && !error && loaded && (
                 <React.Fragment>
-                    <Grid container>
-                        <Grid item>
-                            <GuildIntroduction />
-                        </Grid>
-                        <Grid item style={{ flex: "1" }}>
-                            <GuildProgSummary />
-                        </Grid>
-                    </Grid>
+                    <AsideContainer AsideComponent={GuildTitle}>
+                        <GuildProgSummary />
+                    </AsideContainer>
                     <GuildRoster />
+                    <GuildProgression />
                 </React.Fragment>
             )}
         </section>

@@ -3,11 +3,9 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
-
 import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
-import { Typography } from "@material-ui/core";
+import AsideContainer from "../AsideContainer";
 
 function GuildRoster() {
     const members = useSelector(state => state.guild.data.guildList);
@@ -37,21 +35,20 @@ function GuildRoster() {
     }
 
     return (
-        <Grid container justify="space-around" alignItems="center">
-            <Grid item>
+        <AsideContainer
+            AsideComponent={() => (
                 <GuildRosterChart
                     classInfo={classInfo}
                     maxClassCount={maxClassCount}
                 />
-            </Grid>
-            <Grid item style={{ flex: 1 }}>
-                <GuildRosterList
-                    members={members}
-                    classInfo={classInfo}
-                    ranks={ranks}
-                />
-            </Grid>
-        </Grid>
+            )}
+        >
+            <GuildRosterList
+                members={members}
+                classInfo={classInfo}
+                ranks={ranks}
+            />
+        </AsideContainer>
     );
 }
 

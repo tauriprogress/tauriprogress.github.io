@@ -6,6 +6,7 @@ import { withStyles, withTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
 
 import SpecImg from "../SpecImg";
 
@@ -16,17 +17,24 @@ function styles(theme) {
         container: {
             textAlign: "center",
             margin: theme.spacing(1),
-            maxWidth: "180px",
-            borderRadius: "3px",
-            backgroundColor: theme.palette.background.accent,
-            boxShadow: theme.shadows[1]
+            marginTop: theme.spacing(6),
+            borderRadius: "4px",
+            minWidth: "200px",
+            maxWidth: "260px",
+            boxShadow: theme.shadows[1],
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                marginTop: theme.spacing(1)
+            }
         },
         charContainer: {
-            margin: "0 10px",
-            padding: "10px 10px"
+            margin: `0 ${theme.spacing(1)}px`,
+            padding: theme.spacing(1)
+        },
+        barContainer: {
+            flex: 1
         },
         bar: {
-            height: "30px",
+            height: "35px",
             margin: "1px 0",
             position: "relative",
             borderLeft: "1px solid rgba(0, 0, 0, 0.4)",
@@ -43,26 +51,23 @@ function styles(theme) {
             }
         },
         classImg: {
-            marginRight: "5px",
-            height: "25px",
-            width: "25px",
-            transform: "translate(0, 4px)"
+            marginRight: theme.spacing(0.5),
+            height: "24px",
+            width: "24px",
+            transform: "translate(0, 6px)"
         }
     };
 }
 
 function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
-    const maxWidth = 160;
-
     return (
-        <div className={classes.container}>
+        <Card className={classes.container}>
             <div className={classes.charContainer}>
                 <Typography variant="h6">Class Distribution</Typography>
 
                 <Grid
                     container
                     wrap="nowrap"
-                    style={{ width: `${maxWidth}px` }}
                     justify="space-between"
                     direction="column"
                 >
@@ -78,7 +83,7 @@ function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
                                         }
                                     />
                                 </Grid>
-                                <Grid item>
+                                <Grid item className={classes.barContainer}>
                                     <Tooltip
                                         placement={"left"}
                                         title={
@@ -95,7 +100,7 @@ function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
                                             style={{
                                                 width: `${(charClass.count /
                                                     maxClassCount) *
-                                                    (maxWidth - 50)}px`,
+                                                    100}%`,
                                                 backgroundColor:
                                                     theme.palette.classColors[
                                                         charClass.classId
@@ -109,7 +114,7 @@ function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
                     ))}
                 </Grid>
             </div>
-        </div>
+        </Card>
     );
 }
 

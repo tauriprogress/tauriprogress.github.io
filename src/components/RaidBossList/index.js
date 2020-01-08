@@ -26,7 +26,7 @@ function styles(theme) {
         card: {
             minWidth: "200px",
             maxWidth: "260px",
-            margin: "0 10px 10px",
+            margin: `0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
             flex: 1
         },
         title: {

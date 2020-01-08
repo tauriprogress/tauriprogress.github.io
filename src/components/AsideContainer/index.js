@@ -20,15 +20,15 @@ function styles(theme) {
         },
         itemTwo: {
             flexGrow: 1,
-            margin: "0 10px",
+            margin: `0 ${theme.spacing(1)}px`,
             overflow: "hidden"
         }
     };
 }
 
-function AsideContainer({ classes, AsideComponent, children }) {
+function AsideContainer({ classes, AsideComponent, children, ...rest }) {
     return (
-        <div className={classes.container}>
+        <div className={classes.container} {...rest}>
             <aside className={classes.itemOne}>
                 <AsideComponent />
             </aside>
