@@ -41,7 +41,9 @@ const defaultTheme = {
     },
     baseColors: {
         dark: primary,
+        darkAccent: darkAccent,
         light: light,
+        lightAccent: lightAccent,
         secondary: secondary
     }
 };
