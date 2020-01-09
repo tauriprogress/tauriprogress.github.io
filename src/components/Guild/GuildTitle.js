@@ -73,7 +73,8 @@ function GuildTitle({ classes, theme }) {
                     </Link>
                 </Typography>
                 <Typography color="textSecondary">
-                    {guildFaction ? "Horde" : "Alliance"}, {guildRealm},{" "}
+                    <span className={classes.textNoWrap}>{guildRealm}</span>,{" "}
+                    {guildFaction ? "Horde" : "Alliance"},{" "}
                     <span className={classes.textNoWrap}>
                         {guildMemberCount} members
                     </span>
