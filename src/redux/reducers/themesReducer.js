@@ -206,19 +206,19 @@ const darkPalette = {
     classColors: {
         1: {
             text: brown[300],
-            background: "#815b32"
+            background: "#936739"
         },
         2: {
             text: pink[300],
-            background: "#ed2c80"
+            background: "#EF438E"
         },
         3: {
             text: green[400],
-            background: "#61892a"
+            background: "#6F9C30"
         },
         4: {
             text: yellow[400],
-            background: "#b3a700"
+            background: "#CCBE00"
         },
         5: {
             text: grey[300],
@@ -230,7 +230,7 @@ const darkPalette = {
         },
         7: {
             text: indigo[300],
-            background: "#005ab3"
+            background: "#0066CC"
         },
         8: {
             text: lightBlue[400],
@@ -246,7 +246,7 @@ const darkPalette = {
         },
         11: {
             text: orange[800],
-            background: "#b35400"
+            background: "#E06900"
         }
     },
     factionColors: {
