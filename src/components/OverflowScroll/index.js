@@ -4,7 +4,11 @@ import { withStyles } from "@material-ui/styles";
 function styles(theme) {
     return {
         overflowScroll: {
-            overflowX: "scroll"
+            overflowX: "scroll",
+            scrollbarWidth: "none",
+            "&::-webkit-scrollbar": {
+                display: "none"
+            }
         }
     };
 }
