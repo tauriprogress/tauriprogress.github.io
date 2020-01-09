@@ -15,6 +15,16 @@ const months = {
     11: "Dec"
 };
 
+export const days = {
+    0: "Sunday",
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday"
+};
+
 export function classImg(classId) {
     const imageName = characterClasses[classId];
     return require(`../assets/classes/${imageName}.jpg`);
@@ -87,10 +97,53 @@ export function shortNumber(number) {
     }
 }
 
+export function getLatestWednesday(date) {
+    const currentDate = date ? date : new Date();
+    const currentDay = currentDate.getDay();
+
+    const wednesdayDaysAgo = (currentDay < 3 ? currentDay + 7 : currentDay) - 3;
+
+    let lastWednesdayDate = currentDate.getDate() - wednesdayDaysAgo;
+    if (currentDay === 3 && currentDate.getHours() < 9) {
+        lastWednesdayDate -= 7;
+    }
+
+    return new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        lastWednesdayDate,
+        10
+    );
+}
+
 export function dateToString(date) {
     let day = date.getDate();
 
     return `${day < 10 ? `${day}` : day} ${
         months[date.getMonth()]
     } ${date.getFullYear()}`;
+}
+
+export function dateTextByWeek(weeksAgo) {
+    if (weeksAgo === 0) {
+        return "This week";
+    } else if (weeksAgo === 1) {
+        return "Last week";
+    } else if (weeksAgo < 5) {
+        return `${weeksAgo} weeks ago`;
+    } else if (weeksAgo < 9) {
+        return "A month ago";
+    } else if (weeksAgo < 56) {
+        return `${Math.floor(weeksAgo / 4)} months ago`;
+    } else if (weeksAgo < 56 * 2) {
+        return "A year ago";
+    } else {
+        return `${Math.floor(weeksAgo / 56)} years ago`;
+    }
+}
+
+export function dateTextHours(date) {
+    return `${("0" + date.getHours()).slice(-2)}:${(
+        "0" + date.getMinutes()
+    ).slice(-2)}`;
 }
