@@ -23,6 +23,7 @@ import FormControl from "@material-ui/core/FormControl";
 
 import FilterContainer from "../FilterContainer";
 import SpecImg from "../SpecImg";
+import OverflowScroll from "../OverflowScroll";
 
 import { filterMembers } from "./helpers";
 import { classImg } from "../../helpers";
@@ -139,52 +140,61 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                     </Select>
                 </FormControl>
             </FilterContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell className={classes.cell}>Name</TableCell>
-                        <TableCell className={classes.cell}>Rank</TableCell>
-                        <TableCell className={classes.cell}>Level</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {filteredMembers
-                        .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                        .map(member => (
-                            <TableRow key={member.name}>
-                                <TableCell className={classes.cell}>
-                                    <Typography>
-                                        <SpecImg
-                                            className={classes.classImg}
-                                            title={
-                                                characterClasses[member.class]
-                                            }
-                                            src={classImg(member.class)}
-                                        />
-                                        <Link
-                                            component={RouterLink}
-                                            to={`/player/${member.name}?realm=${realm}`}
-                                            style={{
-                                                color:
-                                                    theme.palette.classColors[
+            <OverflowScroll>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell className={classes.cell}>Name</TableCell>
+                            <TableCell className={classes.cell}>Rank</TableCell>
+                            <TableCell className={classes.cell}>
+                                Level
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {filteredMembers
+                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+                            .map(member => (
+                                <TableRow key={member.name}>
+                                    <TableCell className={classes.cell}>
+                                        <Typography>
+                                            <SpecImg
+                                                className={classes.classImg}
+                                                title={
+                                                    characterClasses[
                                                         member.class
-                                                    ].text
-                                            }}
-                                        >
-                                            {member.name}
-                                        </Link>
-                                    </Typography>
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    <Typography>{member.rank_name}</Typography>
-                                </TableCell>
-                                <TableCell className={classes.cell}>
-                                    <Typography>{member.level}</Typography>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                </TableBody>
-            </Table>
+                                                    ]
+                                                }
+                                                src={classImg(member.class)}
+                                            />
+                                            <Link
+                                                component={RouterLink}
+                                                to={`/player/${member.name}?realm=${realm}`}
+                                                style={{
+                                                    color:
+                                                        theme.palette
+                                                            .classColors[
+                                                            member.class
+                                                        ].text
+                                                }}
+                                            >
+                                                {member.name}
+                                            </Link>
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        <Typography>
+                                            {member.rank_name}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        <Typography>{member.level}</Typography>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </OverflowScroll>
             <TablePagination
                 rowsPerPageOptions={[]}
                 component="div"
