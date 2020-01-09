@@ -9,6 +9,7 @@ import GuildTitle from "./GuildTitle";
 import GuildProgSummary from "./GuildProgSummary";
 import GuildRoster from "./GuildRoster";
 import GuildProgression from "./GuildProgression";
+import GuildLastestKills from "./GuildLastestKills";
 import AsideContainer from "../AsideContainer";
 
 import { guildFetch, guildSelectTab } from "../../redux/actions";
@@ -41,6 +42,7 @@ function Guild({ match, location }) {
                     </AsideContainer>
                     <GuildRoster />
                     <GuildProgression />
+                    <GuildLastestKills />
                 </React.Fragment>
             )}
         </section>
