@@ -80,6 +80,7 @@ function GuildBoss() {
                             <CharacterLadder
                                 data={tab === 0 ? boss.dps : boss.hps}
                                 type={tab === 0 ? "dps" : "hps"}
+                                rowsPerPage={15}
                                 disableFilter={{
                                     faction: true,
                                     realm: true
