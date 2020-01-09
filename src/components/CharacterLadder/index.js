@@ -40,8 +40,14 @@ function styles(theme) {
     };
 }
 
-function CharacterLadder({ classes, disableFilter = {}, type, data, theme }) {
-    const rowsPerPage = 30;
+function CharacterLadder({
+    classes,
+    disableFilter = {},
+    type,
+    data,
+    theme,
+    rowsPerPage = 30
+}) {
     const [page, setPage] = useState(0);
 
     const filter = useSelector(state => state.charLadder.filter);
