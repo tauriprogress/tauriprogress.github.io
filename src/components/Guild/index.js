@@ -12,13 +12,13 @@ import GuildProgression from "./GuildProgression";
 import GuildLastestKills from "./GuildLastestKills";
 import AsideContainer from "../AsideContainer";
 
-import { guildFetch, guildSelectTab } from "../../redux/actions";
+import { guildFetch } from "../../redux/actions";
 
 function Guild({ match, location }) {
     const urlGuildName = match.params.guildName;
     const urlRealm = new URLSearchParams(location.search).get("realm");
 
-    const { loading, loaded, error, tab } = useSelector(state => ({
+    const { loading, loaded, error } = useSelector(state => ({
         loading: state.guild.loading,
         loaded: state.guild.data ? true : false,
         error: state.guild.error

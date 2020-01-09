@@ -144,13 +144,6 @@ export function guildFill(payload) {
     };
 }
 
-export function guildSelectTab(payload) {
-    return {
-        type: "GUILD_SELECT_TAB",
-        payload
-    };
-}
-
 export function playerDataFetch(payload) {
     return {
         type: "PLAYER_DATA_FETCH",
