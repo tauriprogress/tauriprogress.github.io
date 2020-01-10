@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Collapse from "@material-ui/core/Collapse";
+import Divider from "@material-ui/core/Divider";
 
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -18,12 +19,12 @@ function styles(theme) {
         },
         title: {
             padding: theme.spacing(1),
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-            borderRadius: "4px",
-            "&:hover": {
-                backgroundColor: theme.baseColors.darkAccent
+            "& *": {
+                fontWeight: "bold"
             }
+        },
+        divider: {
+            backgroundColor: theme.palette.secondary.main
         }
     };
 }
@@ -39,6 +40,7 @@ function CollapseableList({ classes, listTitle, children, ...rest }) {
             >
                 {listTitle} {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
+            <Divider className={classes.divider} />
             <Collapse in={open} timeout="auto" {...rest}>
                 <List component="ul" disablePadding className={classes.list}>
                     {children}
