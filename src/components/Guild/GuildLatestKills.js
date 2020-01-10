@@ -10,6 +10,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 import CollapsableList from "../CollapseableList";
 
@@ -21,22 +22,27 @@ import {
     dateToString,
     dateTextHours
 } from "../../helpers";
+import SideCard from "../SideCard";
 
 function styles(theme) {
     return {
+        container: {
+            marginTop: theme.spacing(6),
+            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+                marginTop: theme.spacing(1)
+            },
+            height: "480px"
+        },
         listItem: {
             display: "block"
         },
-        container: {
-            maxWidth: "600px",
-            margin: "auto",
-            padding: theme.spacing(1)
-        },
-        bold: {
-            fontWeight: "bold"
-        },
+
         bossNameContainer: {
             paddingRight: theme.spacing(1)
+        },
+        list: {
+            maxHeight: "450px",
+            overflowY: "scroll"
         }
     };
 }
@@ -80,9 +86,8 @@ function GuildLastestKills({ classes }) {
     }
 
     return (
-        <section className={classes.container}>
-            <Typography variant="h4">Latest kills</Typography>
-            <List component="div" disablePadding>
+        <SideCard title={"Latest Kills"} className={classes.container}>
+            <List component="div" disablePadding className={classes.list}>
                 {dateArray.map(date => (
                     <ListItem
                         component="div"
@@ -116,9 +121,7 @@ function GuildLastestKills({ classes }) {
                                             direction="column"
                                         >
                                             <Grid item>
-                                                <Typography
-                                                    className={classes.bold}
-                                                >
+                                                <Typography>
                                                     {`${log.dateDay} ${log.dateHours}`}
                                                 </Typography>
                                             </Grid>
@@ -140,10 +143,7 @@ function GuildLastestKills({ classes }) {
                                             }
                                         >
                                             <Grid item>
-                                                <Typography
-                                                    align="right"
-                                                    className={classes.bold}
-                                                >
+                                                <Typography align="right">
                                                     {
                                                         log.encounter_data
                                                             .encounter_name
@@ -166,13 +166,14 @@ function GuildLastestKills({ classes }) {
                                             </Grid>
                                         </Grid>
                                     </ListItem>
+                                    <Divider />
                                 </Link>
                             ))}
                         </CollapsableList>
                     </ListItem>
                 ))}
             </List>
-        </section>
+        </SideCard>
     );
 }
 

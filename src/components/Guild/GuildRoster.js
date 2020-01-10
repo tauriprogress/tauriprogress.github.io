@@ -3,13 +3,29 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 
+import { withStyles } from "@material-ui/core/styles";
+
+import Grid from "@material-ui/core/Grid";
+
 import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
-import AsideContainer from "../AsideContainer";
+import GuildLatestKills from "./GuildLatestKills";
 
-function GuildRoster() {
+function styles(theme) {
+    return {
+        gridItemFlex: {
+            flex: 1
+        },
+        container: {
+            margin: `${theme.spacing(2)}px 0`
+        }
+    };
+}
+
+function GuildRoster({ classes }) {
     const members = useSelector(state => state.guild.data.guildList);
 
+    const totalChars = members.length;
     let countClasses = {};
     let classInfo = [];
     let maxClassCount = 0;
@@ -35,21 +51,26 @@ function GuildRoster() {
     }
 
     return (
-        <AsideContainer
-            AsideComponent={() => (
+        <Grid container justify="space-around" className={classes.container}>
+            <Grid item>
                 <GuildRosterChart
                     classInfo={classInfo}
                     maxClassCount={maxClassCount}
+                    totalChars={totalChars}
                 />
-            )}
-        >
-            <GuildRosterList
-                members={members}
-                classInfo={classInfo}
-                ranks={ranks}
-            />
-        </AsideContainer>
+            </Grid>
+            <Grid item className={classes.gridItemFlex}>
+                <GuildRosterList
+                    members={members}
+                    classInfo={classInfo}
+                    ranks={ranks}
+                />
+            </Grid>
+            <Grid item>
+                <GuildLatestKills />
+            </Grid>
+        </Grid>
     );
 }
 
-export default GuildRoster;
+export default withStyles(styles)(GuildRoster);
