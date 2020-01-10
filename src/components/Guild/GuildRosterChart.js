@@ -6,25 +6,20 @@ import { withStyles, withTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
 
 import SpecImg from "../SpecImg";
+import SideCard from "../SideCard";
 
 import { classImg } from "../../helpers";
 
 function styles(theme) {
     return {
         container: {
-            textAlign: "center",
-            margin: theme.spacing(1),
             marginTop: theme.spacing(6),
-            borderRadius: "4px",
-            minWidth: "200px",
-            maxWidth: "260px",
-            boxShadow: theme.shadows[1],
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 marginTop: theme.spacing(1)
-            }
+            },
+            height: "480px"
         },
         charContainer: {
             margin: `0 ${theme.spacing(1)}px`,
@@ -34,10 +29,18 @@ function styles(theme) {
             flex: 1
         },
         bar: {
-            height: "35px",
-            margin: "1px 0",
+            height: "38px",
             position: "relative",
-            borderLeft: "1px solid rgba(0, 0, 0, 0.4)",
+            borderBottom: `1px solid ${theme.palette.background.accent}`,
+            display: "flex",
+            alignItems: "center",
+            "& > p": {
+                paddingLeft: theme.spacing(1),
+                fontWeight: "bold",
+                color: theme.baseColors.light,
+                textShadow:
+                    "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000"
+            },
             "&:before": {
                 position: "absolute",
                 top: "0",
@@ -47,24 +50,28 @@ function styles(theme) {
                 width: "100%",
                 content: "''",
                 background:
-                    "linear-gradient(90deg, rgba(0, 0, 0, 0.4) 0%, rgba(100, 100, 100, 0.2) 100%)"
+                    "linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)"
             }
         },
         classImg: {
             marginRight: theme.spacing(0.5),
             height: "24px",
             width: "24px",
-            transform: "translate(0, 6px)"
+            transform: "translate(0, 7px)"
         }
     };
 }
 
-function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
+function GuildRosterChart({
+    classes,
+    theme,
+    totalChars,
+    classInfo,
+    maxClassCount
+}) {
     return (
-        <Card className={classes.container}>
+        <SideCard title={"Class Distribution"} className={classes.container}>
             <div className={classes.charContainer}>
-                <Typography variant="h6">Class Distribution</Typography>
-
                 <Grid
                     container
                     wrap="nowrap"
@@ -106,7 +113,16 @@ function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
                                                         charClass.classId
                                                     ].background
                                             }}
-                                        ></Grid>
+                                        >
+                                            <Typography>
+                                                {Math.floor(
+                                                    (charClass.count /
+                                                        totalChars) *
+                                                        100
+                                                )}
+                                                %
+                                            </Typography>
+                                        </Grid>
                                     </Tooltip>
                                 </Grid>
                             </Grid>
@@ -114,7 +130,7 @@ function GuildRosterChart({ classes, theme, classInfo, maxClassCount }) {
                     ))}
                 </Grid>
             </div>
-        </Card>
+        </SideCard>
     );
 }
 
