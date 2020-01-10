@@ -8,16 +8,16 @@ import { withStyles } from "@material-ui/core/styles";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
+import SideCard from "../SideCard";
 
 import DisplayDate from "../DisplayDate";
-import { Typography } from "@material-ui/core";
 
 function styles(theme) {
     return {
@@ -45,11 +45,8 @@ function PlayerLatestKills({ classes }) {
     const realm = useSelector(state => state.player.realm);
 
     return (
-        <Card className={classes.container}>
+        <SideCard title={"Latest Kills"}>
             <List>
-                <ListItem className={classes.title}>
-                    <Typography>Latest Kills</Typography>
-                </ListItem>
                 {loading && <Loading />}
                 {error && <ErrorMessage message={error} />}
                 {data &&
@@ -115,7 +112,7 @@ function PlayerLatestKills({ classes }) {
                         );
                     })}
             </List>
-        </Card>
+        </SideCard>
     );
 }
 
