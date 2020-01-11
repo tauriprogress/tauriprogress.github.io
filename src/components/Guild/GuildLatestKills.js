@@ -88,7 +88,7 @@ function GuildLastestKills({ classes }) {
     return (
         <SideCard title={"Latest Kills"} className={classes.container}>
             <List component="div" disablePadding className={classes.list}>
-                {dateArray.map(date => (
+                {dateArray.map((date, index) => (
                     <ListItem
                         component="div"
                         className={classes.listItem}
@@ -96,6 +96,7 @@ function GuildLastestKills({ classes }) {
                         disableGutters
                     >
                         <CollapsableList
+                            defaultState={!index ? true : false}
                             listTitle={
                                 <Typography
                                     variant="button"
