@@ -30,8 +30,14 @@ function styles(theme) {
     };
 }
 
-function CollapseableList({ classes, listTitle, children, ...rest }) {
-    const [open, setOpen] = useState(true);
+function CollapseableList({
+    classes,
+    listTitle,
+    children,
+    defaultState = true,
+    ...rest
+}) {
+    const [open, setOpen] = useState(defaultState);
     return (
         <React.Fragment>
             <ListItem
