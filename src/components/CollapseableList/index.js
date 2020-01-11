@@ -14,7 +14,8 @@ function styles(theme) {
     return {
         list: {
             "& li": {
-                paddingLeft: theme.spacing(2)
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(1)
             }
         },
         title: {
