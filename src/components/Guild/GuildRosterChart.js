@@ -19,11 +19,16 @@ function styles(theme) {
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 marginTop: theme.spacing(1)
             },
-            height: "480px"
+            height: "480px",
+            display: "flex",
+            flexDirection: "column"
         },
         charContainer: {
             margin: `0 ${theme.spacing(1)}px`,
-            padding: theme.spacing(1)
+            padding: theme.spacing(1),
+            flex: 1,
+            display: "flex",
+            alignItems: "center"
         },
         barContainer: {
             flex: 1
@@ -39,7 +44,8 @@ function styles(theme) {
                 fontWeight: "bold",
                 color: theme.baseColors.light,
                 textShadow:
-                    "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000"
+                    "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
+                zIndex: 2
             },
             "&:before": {
                 position: "absolute",
