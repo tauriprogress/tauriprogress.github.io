@@ -34,15 +34,15 @@ function styles(theme) {
             height: "480px"
         },
         listItem: {
-            display: "block"
-        },
-
-        bossNameContainer: {
-            paddingRight: theme.spacing(1)
+            display: "block",
+            padding: 0
         },
         list: {
             maxHeight: "450px",
             overflowY: "scroll"
+        },
+        bossName: {
+            fontWeight: "bold"
         }
     };
 }
@@ -121,29 +121,9 @@ function GuildLastestKills({ classes }) {
                                             direction="column"
                                         >
                                             <Grid item>
-                                                <Typography>
-                                                    {`${log.dateDay} ${log.dateHours}`}
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
                                                 <Typography
-                                                    variant="caption"
-                                                    color="textSecondary"
+                                                    className={classes.bossName}
                                                 >
-                                                    {log.dateText}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid
-                                            container
-                                            wrap="nowrap"
-                                            direction="column"
-                                            className={
-                                                classes.bossNameContainer
-                                            }
-                                        >
-                                            <Grid item>
-                                                <Typography align="right">
                                                     {
                                                         log.encounter_data
                                                             .encounter_name
@@ -154,14 +134,35 @@ function GuildLastestKills({ classes }) {
                                                 <Typography
                                                     variant="caption"
                                                     color="textSecondary"
-                                                    align="right"
-                                                    component="p"
                                                 >
                                                     {
                                                         difficultyLabels[
                                                             log.difficulty
                                                         ]
                                                     }
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid
+                                            container
+                                            wrap="nowrap"
+                                            direction="column"
+                                        >
+                                            <Grid item>
+                                                <Typography align="right">
+                                                    {log.dateDay}
+                                                    <br />
+                                                    {log.dateHours}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography
+                                                    variant="caption"
+                                                    color="textSecondary"
+                                                    align="right"
+                                                    component="p"
+                                                >
+                                                    {log.dateText}
                                                 </Typography>
                                             </Grid>
                                         </Grid>
