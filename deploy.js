@@ -52,8 +52,16 @@ const oldBuildFiles = [
             )
         );
 
+        console.log("Git commit build");
+        await exec("git add -A");
+        await exec('git commit -m "build"');
+        console.log("Git push");
+        await exec("git push");
+
         console.log("Changing server url back to original");
         await fs.writeJSON(urlsPath, urls);
+
+        console.log("Successful build and push");
     } catch (err) {
         console.error(err);
     }
