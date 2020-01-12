@@ -1,4 +1,4 @@
-import { specs, classToSpec } from "tauriprogress-constants";
+import { specs, classToSpec, characterClasses } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -17,7 +17,7 @@ import IconTotal from "@material-ui/icons/BarChart";
 
 import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
 
-import { getSpecImg, shortNumber } from "../../helpers";
+import { getSpecImg, classImg, shortNumber } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -101,6 +101,23 @@ function RaidChart({
                                     </Tooltip>
                                 }
                             />
+
+                            <Tab
+                                className={classes.iconTab}
+                                value="class"
+                                icon={
+                                    <Tooltip
+                                        title={characterClasses[characterClass]}
+                                    >
+                                        <img
+                                            className={classes.specIcon}
+                                            src={classImg(characterClass)}
+                                            alt=""
+                                        />
+                                    </Tooltip>
+                                }
+                            />
+
                             {iconSpecs.map(specInfo => (
                                 <Tab
                                     key={specInfo.id}
