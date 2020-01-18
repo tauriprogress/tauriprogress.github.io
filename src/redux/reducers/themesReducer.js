@@ -25,6 +25,7 @@ const light = "#f6ede2";
 const lightAccent = "#faf5ef";
 const dark = "#26262f";
 const darkAccent = "#2d2d36";
+const darkComponentBackground = "#30303B";
 
 const lightGrey = "#c4c4c4";
 
@@ -45,6 +46,14 @@ const defaultTheme = {
         light: light,
         lightAccent: lightAccent,
         secondary: secondary
+    },
+    qualityColors: {
+        5: "#ff8000",
+        4: "#a335ee",
+        3: "#0070dd",
+        2: "#1eff00",
+        1: "#fff",
+        0: "#9d9d9d"
     }
 };
 const overrides = {
@@ -183,6 +192,14 @@ const lightPalette = {
         alive: red[900],
         defeated: green[900]
     },
+    qualityColors: {
+        5: "#B35900",
+        4: "#a335ee",
+        3: "#0070dd",
+        2: "#108A00",
+        1: grey[700],
+        0: "#9d9d9d"
+    },
     type: "light"
 };
 
@@ -257,6 +274,14 @@ const darkPalette = {
         alive: red[300],
         defeated: green[400]
     },
+    qualityColors: {
+        5: "#ff8000",
+        4: "#a335ee",
+        3: "#0070dd",
+        2: "#1eff00",
+        1: "#fff",
+        0: "#9d9d9d"
+    },
     type: "dark"
 };
 
@@ -308,7 +333,7 @@ const defaultState = {
             },
             MuiPaper: {
                 root: {
-                    backgroundColor: darkAccent
+                    backgroundColor: darkComponentBackground
                 }
             },
             MuiListItem: {

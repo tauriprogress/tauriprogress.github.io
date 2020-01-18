@@ -228,6 +228,34 @@ export function playerLatestKillsFill(payload) {
     };
 }
 
+export function playerItemsFetch(payload) {
+    return {
+        type: "PLAYER_ITEMS_FETCH",
+        payload
+    };
+}
+
+export function playerItemsLoading(payload) {
+    return {
+        type: "PLAYER_ITEMS_LOADING",
+        payload
+    };
+}
+
+export function playerItemsSetError(payload) {
+    return {
+        type: "PLAYER_ITEMS_SET_ERROR",
+        payload
+    };
+}
+
+export function playerItemsFill(payload) {
+    return {
+        type: "PLAYER_ITEMS_FILL",
+        payload
+    };
+}
+
 export function charLadderFilterSet(payload) {
     return {
         type: "CHAR_LADDER_FILTER_SET",

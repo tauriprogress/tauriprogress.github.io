@@ -1,5 +1,34 @@
 import { specs, characterClasses } from "tauriprogress-constants";
 
+const socketInfo = {
+    1: {
+        icon: 1,
+        desc: "Meta Socket"
+    },
+    2: {
+        icon: 2,
+        desc: "Red Socket"
+    },
+    4: {
+        icon: 4,
+        desc: "Yellow Socket"
+    },
+    8: {
+        icon: 8,
+        desc: "Blue Socket"
+    }
+};
+
+export const gemColorsToSockets = {
+    1: { matches: { 0: true, 1: true } },
+    2: { matches: { 0: true, 2: true } },
+    4: { matches: { 0: true, 4: true } },
+    8: { matches: { 0: true, 8: true } },
+    12: { matches: { 0: true, 8: true, 4: true } },
+    10: { matches: { 0: true, 8: true, 2: true } },
+    6: { matches: { 0: true, 4: true, 2: true } }
+};
+
 const months = {
     0: "Jan",
     1: "Feb",
@@ -24,6 +53,42 @@ export const days = {
     5: "Friday",
     6: "Saturday"
 };
+
+export function categorizedLogDates(logs) {
+    const currentTime = new Date().getTime();
+    const week = 1000 * 60 * 60 * 24 * 7;
+
+    let dates = {};
+    let dateArray = [];
+
+    for (let log of logs) {
+        const logDate = new Date(log.killtime * 1000);
+        const latestWednesDay = getLatestWednesday(logDate);
+        const weeksAgo = Math.floor(
+            (currentTime - latestWednesDay.getTime()) / week
+        );
+        const dateText = dateTextByWeek(weeksAgo);
+
+        if (!dates[dateText])
+            dates[dateText] = {
+                text: dateText,
+                kills: []
+            };
+
+        dates[dateText].kills.push({
+            ...log,
+            dateText: dateToString(logDate),
+            dateDay: days[logDate.getDay()],
+            dateHours: dateTextHours(logDate)
+        });
+    }
+
+    for (let date in dates) {
+        dateArray.push(dates[date]);
+    }
+
+    return dateArray;
+}
 
 export function classImg(classId) {
     const imageName = characterClasses[classId];
@@ -146,4 +211,21 @@ export function dateTextHours(date) {
     return `${("0" + date.getHours()).slice(-2)}:${(
         "0" + date.getMinutes()
     ).slice(-2)}`;
+}
+
+export function numberWithCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function getSocketInfo(type) {
+    if (socketInfo[type]) {
+        return {
+            ...socketInfo[type],
+            icon: require(`../assets/tooltip/${socketInfo[type].icon}.png`)
+        };
+    }
+
+    return {
+        icon: false
+    };
 }

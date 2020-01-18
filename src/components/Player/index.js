@@ -10,6 +10,7 @@ import PlayerTitle from "./PlayerTitle";
 import PlayerStats from "./PlayerStats";
 import PlayerProgression from "./PlayerProgression";
 import PlayerLatestKills from "./PlayerLatestKills";
+import PlayerItems from "./PlayerItems";
 import ErrorMessage from "../ErrorMessage";
 
 import { playerDataFetch } from "../../redux/actions";
@@ -50,9 +51,10 @@ function Player({ classes, match, location }) {
                             <PlayerProgression />
                         </Grid>
                         <Grid item>
-                            <PlayerLatestKills />
+                            <PlayerItems />
                         </Grid>
                     </Grid>
+                    <PlayerLatestKills />
                 </React.Fragment>
             )}
         </section>

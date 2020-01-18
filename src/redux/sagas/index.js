@@ -8,6 +8,7 @@ import getGuildSaga from "./getGuildSaga";
 import getPlayerDataSaga from "./getPlayerDataSaga";
 import getPlayerLatestKillsSaga from "./getPlayerLatestKillsSaga";
 import getPlayerProgressionSaga from "./getPlayerProgressionSaga";
+import getPlayerItemsSaga from "./getPlayerItemsSaga";
 
 function* sagas() {
     yield all([
@@ -19,7 +20,8 @@ function* sagas() {
         getGuildSaga(),
         getPlayerDataSaga(),
         getPlayerLatestKillsSaga(),
-        getPlayerProgressionSaga()
+        getPlayerProgressionSaga(),
+        getPlayerItemsSaga()
     ]);
 }
 
