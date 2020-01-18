@@ -2,6 +2,7 @@ import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import SideCard from "../SideCard";
 import LatestKills from "../LatestKills";
 
 import { useSelector } from "react-redux";
@@ -9,11 +10,17 @@ import { useSelector } from "react-redux";
 function styles(theme) {
     return {
         container: {
+            display: "flex",
+            flexDirection: "column",
             marginTop: theme.spacing(6),
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 marginTop: theme.spacing(1)
             },
             height: "480px"
+        },
+        latestKills: {
+            flex: 1,
+            overflowY: "scroll"
         }
     };
 }
@@ -25,11 +32,13 @@ function GuildLastestKills({ classes }) {
     }));
 
     return (
-        <LatestKills
-            logs={latestKills}
-            realm={realm}
-            className={classes.container}
-        />
+        <SideCard title="Latest Kills" className={classes.container}>
+            <LatestKills
+                logs={latestKills}
+                realm={realm}
+                className={classes.latestKills}
+            />
+        </SideCard>
     );
 }
 

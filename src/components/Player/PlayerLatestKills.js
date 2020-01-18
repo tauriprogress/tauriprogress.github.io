@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import Typography from "@material-ui/core/Typography";
+
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 import LatestKills from "../LatestKills";
@@ -10,7 +12,13 @@ import LatestKills from "../LatestKills";
 function styles(theme) {
     return {
         container: {
-            height: "600px"
+            backgroundColor: theme.palette.background.accent,
+
+            padding: `${theme.spacing(4)}px ${theme.spacing(1)}px`
+        },
+        latestKills: {
+            maxWidth: "500px",
+            margin: "auto"
         }
     };
 }
@@ -20,23 +28,25 @@ function PlayerLatestKills({ classes }) {
         state => state.player.latestKills
     );
     const realm = useSelector(state => state.player.realm);
-
     return (
-        <LatestKills
-            logs={data ? data.logs : []}
-            realm={realm}
-            className={classes.container}
-        >
-            {(() => {
-                if (loading) {
-                    return <Loading />;
-                } else if (error) {
-                    return <ErrorMessage message={error} />;
-                } else {
-                    return null;
-                }
-            })()}
-        </LatestKills>
+        <div className={classes.container}>
+            <LatestKills
+                logs={data ? data.logs : []}
+                realm={realm}
+                className={classes.latestKills}
+            >
+                <Typography variant="h6">Latest Kills</Typography>
+                {(() => {
+                    if (loading) {
+                        return <Loading />;
+                    } else if (error) {
+                        return <ErrorMessage message={error} />;
+                    } else {
+                        return null;
+                    }
+                })()}
+            </LatestKills>
+        </div>
     );
 }
 

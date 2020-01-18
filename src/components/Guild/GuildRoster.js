@@ -17,7 +17,9 @@ function styles(theme) {
             flex: 1
         },
         container: {
-            margin: `${theme.spacing(2)}px 0`
+            margin: `${theme.spacing(2)}px 0`,
+            backgroundColor: theme.palette.background.accent,
+            padding: `${theme.palette.background.accent}px 0`
         }
     };
 }

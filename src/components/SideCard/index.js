@@ -15,7 +15,8 @@ function styles(theme) {
         },
         container: {
             margin: `0 ${theme.spacing(1)}px`,
-            width: "260px"
+            minWidth: "260px",
+            maxWidth: "260px"
         }
     };
 }
