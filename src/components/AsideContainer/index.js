@@ -28,7 +28,7 @@ function styles(theme) {
 
 function AsideContainer({ classes, AsideComponent, children, ...rest }) {
     return (
-        <div className={classes.container} {...rest}>
+        <div {...rest} className={`${classes.container} ${rest.className}`}>
             <aside className={classes.itemOne}>
                 <AsideComponent />
             </aside>
