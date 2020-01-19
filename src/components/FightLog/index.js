@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import { useLocation, useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import Container from "@material-ui/core/Container";
@@ -11,7 +12,9 @@ import Loading from "../Loading";
 
 import { fightLogFetch } from "../../redux/actions";
 
-function FightLog({ match, location }) {
+function FightLog() {
+    const location = useLocation();
+    const match = useRouteMatch("/log/:logId");
     const { loading, error, data } = useSelector(state => state.fightLog);
 
     const dispatch = useDispatch();
