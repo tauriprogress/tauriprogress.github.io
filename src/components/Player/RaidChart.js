@@ -2,7 +2,6 @@ import { specs, classToSpec, characterClasses } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
@@ -10,11 +9,11 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
-import Link from "@material-ui/core/Link";
 import SelectAll from "@material-ui/icons/SelectAll";
 import IconMissing from "@material-ui/icons/NotInterested";
 import IconTotal from "@material-ui/icons/BarChart";
 
+import LogLink from "../LogLink";
 import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
 
 import { getSpecImg, classImg, shortNumber } from "../../helpers";
@@ -168,11 +167,9 @@ function RaidChart({
                 return (
                     <React.Fragment key={boss.encounter_name}>
                         {playerData[variant] ? (
-                            <Link
-                                to={`/log/${playerData.logId}?realm=${playerData.realm}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                component={RouterLink}
+                            <LogLink
+                                logId={playerData.logId}
+                                realm={playerData.realm}
                                 className={classes.link}
                             >
                                 <PerfChartRow
@@ -193,7 +190,7 @@ function RaidChart({
                                         classColors[playerData.class].background
                                     }
                                 />
-                            </Link>
+                            </LogLink>
                         ) : (
                             <PerfChartRow
                                 Icon={<IconMissing />}

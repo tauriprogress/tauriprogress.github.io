@@ -1,34 +1,24 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
-
-import { Link as RouterLink } from "react-router-dom";
-import Info from "@material-ui/icons/Info";
-import Tooltip from "@material-ui/core/Tooltip";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
-function styles(theme) {
-    return {
-        icon: {
-            transform: "translate(0, 5px)"
-        }
-    };
-}
-
-function LogLink({ classes, logId, realm }) {
+function LogLink({ children, logId, realm, ...rest }) {
+    const location = useLocation();
     return (
-        <Tooltip title={"Logs"}>
-            <Link
-                component={RouterLink}
-                color="inherit"
-                to={`/log/${logId}?realm=${realm}`}
-                rel="noopener noreferrer"
-                target="_blank"
-            >
-                <Info className={classes.icon} />
-            </Link>
-        </Tooltip>
+        <Link
+            component={RouterLink}
+            color="inherit"
+            to={{
+                pathname: `/log/${logId}`,
+                search: `?realm=${realm}`,
+                state: { background: location }
+            }}
+            {...rest}
+        >
+            {children}
+        </Link>
     );
 }
 
-export default withStyles(styles)(LogLink);
+export default LogLink;

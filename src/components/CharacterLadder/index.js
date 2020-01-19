@@ -14,6 +14,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Typography from "@material-ui/core/Typography";
+import Info from "@material-ui/icons/Info";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
@@ -149,7 +150,14 @@ function CharacterLadder({
                                                 <LogLink
                                                     logId={char.logId}
                                                     realm={char.realm}
-                                                />
+                                                >
+                                                    <Info
+                                                        style={{
+                                                            transform:
+                                                                "translate(0, 5px)"
+                                                        }}
+                                                    />
+                                                </LogLink>
                                             </TableCell>
                                         </TableRow>
                                     );

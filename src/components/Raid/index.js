@@ -15,6 +15,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Info from "@material-ui/icons/Info";
 
 import LogLink from "../LogLink";
 import Filters from "./Filters";
@@ -148,7 +149,14 @@ function Raid({ classes, match, theme }) {
                                                                     .fastestKills
                                                                     .realm
                                                             }
-                                                        />
+                                                        >
+                                                            <Info
+                                                                style={{
+                                                                    transform:
+                                                                        "translate(0, 5px)"
+                                                                }}
+                                                            />
+                                                        </LogLink>
                                                         <span
                                                             className={
                                                                 classes.boldText

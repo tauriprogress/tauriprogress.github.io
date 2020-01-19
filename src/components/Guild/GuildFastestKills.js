@@ -6,6 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
+import Info from "@material-ui/icons/Info";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
@@ -51,7 +52,13 @@ function GuildFastestKills({ data }) {
                                     <LogLink
                                         logId={log.log_id}
                                         realm={log.realm}
-                                    />
+                                    >
+                                        <Info
+                                            style={{
+                                                transform: "translate(0, 5px)"
+                                            }}
+                                        />
+                                    </LogLink>
                                 </TableCell>
                             </TableRow>
                         );

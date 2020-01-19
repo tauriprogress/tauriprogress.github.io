@@ -11,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Info from "@material-ui/icons/Info";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
@@ -116,7 +117,14 @@ function LatestKills({ data, theme }) {
                                         <LogLink
                                             logId={kill.log_id}
                                             realm={kill.realm}
-                                        />
+                                        >
+                                            <Info
+                                                style={{
+                                                    transform:
+                                                        "translate(0, 5px)"
+                                                }}
+                                            />
+                                        </LogLink>
                                     </TableCell>
                                 </TableRow>
                             );

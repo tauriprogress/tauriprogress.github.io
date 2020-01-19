@@ -3,16 +3,14 @@ import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import { Link as RouterLink } from "react-router-dom";
-
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 
 import CollapsableList from "../CollapseableList";
+import LogLink from "../LogLink";
 
 import { categorizedLogDates } from "../../helpers";
 
@@ -52,12 +50,10 @@ function LatestKills({ classes, logs, realm, children, ...rest }) {
                         }
                     >
                         {date.kills.map(log => (
-                            <Link
-                                component={RouterLink}
+                            <LogLink
                                 color="inherit"
-                                to={`/log/${log.log_id}?realm=${realm}`}
-                                rel="noopener noreferrer"
-                                target="_blank"
+                                logId={log.log_id}
+                                realm={realm}
                                 key={log.log_id}
                             >
                                 <ListItem component="li" disableGutters>
@@ -114,7 +110,7 @@ function LatestKills({ classes, logs, realm, children, ...rest }) {
                                     </Grid>
                                 </ListItem>
                                 <Divider />
-                            </Link>
+                            </LogLink>
                         ))}
                     </CollapsableList>
                 </ListItem>
