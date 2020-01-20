@@ -76,7 +76,7 @@ function PlayerTitle({ classes, theme }) {
                         color: classColors[data.class].text
                     }}
                 >
-                    {data.tname}
+                    {data.tname || data.name}
                 </Link>
             </Typography>
             <Typography variant="button" className={classes.guildName}>
