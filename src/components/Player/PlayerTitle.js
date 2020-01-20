@@ -4,7 +4,7 @@ import { armoryUrl } from "tauriprogress-constants/urls";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { withTheme } from "@material-ui/core/styles";
+import { withStyles, withTheme } from "@material-ui/core/styles";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -16,7 +16,36 @@ import SpecImg from "../SpecImg";
 
 import { talentTreeToImage } from "../../helpers";
 
-function PlayerTitle({ theme }) {
+function styles(theme) {
+    return {
+        playerName: {
+            paddingBottom: 0,
+            lineHeight: 1
+        },
+        guildName: {
+            paddingTop: 0,
+            paddingBottom: theme.spacing(1),
+            display: "block",
+            lineHeight: 1
+        },
+        container: {
+            textAlign: "center"
+        },
+        specImg: {
+            width: "30px",
+            height: "30px",
+            transform: "translate(0, 4px)",
+            marginRight: theme.spacing(0.4)
+        },
+        playerMetaData: {
+            padding: 0,
+            fontSize: `${12 / 16}rem`,
+            lineHeight: 1
+        }
+    };
+}
+
+function PlayerTitle({ classes, theme }) {
     const data = useSelector(state => state.player.data.data);
     if (!data) {
         return <div />;
@@ -29,8 +58,13 @@ function PlayerTitle({ theme }) {
     }`;
 
     return (
-        <Container style={{ textAlign: "center" }}>
-            <Typography variant="h4">
+        <Container className={classes.container}>
+            <Typography variant="h4" className={classes.playerName}>
+                <SpecImg
+                    title={fullSpecName}
+                    src={talentTreeToImage(fullSpecName)}
+                    className={classes.specImg}
+                />
                 <Link
                     href={`${armoryUrl}?${data.character_url_string.replace(
                         "amp;",
@@ -42,44 +76,52 @@ function PlayerTitle({ theme }) {
                         color: classColors[data.class].text
                     }}
                 >
-                    {data.name}
-                </Link>{" "}
-                <SpecImg
-                    title={fullSpecName}
-                    src={talentTreeToImage(fullSpecName)}
+                    {data.tname}
+                </Link>
+            </Typography>
+            <Typography variant="button" className={classes.guildName}>
+                <Link
+                    component={RouterLink}
+                    color="inherit"
+                    to={`/guild/${data.guildName}?realm=${data.realm}`}
                     style={{
-                        width: "25px",
-                        height: "25px",
-                        transform: "translate(0, 4px)"
+                        color:
+                            data.faction_string_class === "Alliance"
+                                ? factionColors.alliance
+                                : factionColors.horde
                     }}
-                />
+                >
+                    {data.guildName}
+                </Link>
             </Typography>
-            <Typography variant="button">
-                <Typography>
-                    <Link
-                        component={RouterLink}
-                        color="inherit"
-                        to={`/guild/${data.guildName}?realm=${data.realm}`}
-                        style={{
-                            color:
-                                data.faction_string_class === "Alliance"
-                                    ? factionColors.alliance
-                                    : factionColors.horde
-                        }}
-                    >
-                        {data.guildName}
-                    </Link>
-                </Typography>
-            </Typography>
-            <Typography variant="caption" color="textSecondary">
-                {data.realm}
-            </Typography>
-            <br />
-            <Typography variant="caption" color="textSecondary">
-                {data.faction_string_class}, {characterRaces[data.race]}
+            <Typography
+                className={classes.playerMetaData}
+                color="textSecondary"
+            >
+                Level {data.level} {characterRaces[data.race]}
+                <br /> ilvl {data.avgitemlevel}{" "}
+                <span
+                    style={{
+                        color: classColors[data.class].text
+                    }}
+                >
+                    {fullSpecName}
+                </span>
+                <br />
+                {data.realm}{" "}
+                <span
+                    style={{
+                        color:
+                            data.faction_string_class === "Alliance"
+                                ? factionColors.alliance
+                                : factionColors.horde
+                    }}
+                >
+                    {data.faction_string_class}
+                </span>
             </Typography>
         </Container>
     );
 }
 
-export default withTheme(PlayerTitle);
+export default withStyles(styles)(withTheme(PlayerTitle));
