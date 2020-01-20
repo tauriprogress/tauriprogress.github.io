@@ -25,8 +25,8 @@ function styles(theme) {
             width: "280px"
         },
         specIcon: {
-            width: "100%",
-            height: "100%"
+            maxWidth: "100%",
+            maxHeight: "100%"
         },
         iconTabContainer: {
             minHeight: "25px !important"
