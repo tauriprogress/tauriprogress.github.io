@@ -118,6 +118,12 @@ const overrides = {
         root: {
             padding: "0px !important"
         }
+    },
+    MuiBackdrop: {
+        root: {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            backdropFilter: "blur(3px)"
+        }
     }
 };
 

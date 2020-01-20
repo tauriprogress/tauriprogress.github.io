@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 
 import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
 import Card from "@material-ui/core/Card";
 
 import FightLog from "./";
@@ -46,7 +47,12 @@ function FightLogWithModal({ classes }) {
     }
 
     return (
-        <Modal open={true} onClose={close} className={classes.modal}>
+        <Modal
+            open={true}
+            onClose={close}
+            className={classes.modal}
+            BackdropComponent={Backdrop}
+        >
             <Card className={classes.card}>
                 <Fab
                     color={"secondary"}
