@@ -28,10 +28,11 @@ function PlayerLatestKills({ classes }) {
         state => state.player.latestKills
     );
     const realm = useSelector(state => state.player.realm);
+    const logs = data ? data.logs : [];
     return (
         <div className={classes.container}>
             <LatestKills
-                logs={data ? data.logs : []}
+                logs={logs}
                 realm={realm}
                 className={classes.latestKills}
             >
@@ -41,6 +42,8 @@ function PlayerLatestKills({ classes }) {
                         return <Loading />;
                     } else if (error) {
                         return <ErrorMessage message={error} />;
+                    } else if (!logs.length) {
+                        return <Typography>No data</Typography>;
                     } else {
                         return null;
                     }
