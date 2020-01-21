@@ -16,9 +16,6 @@ function styles(theme) {
     return {
         container: {
             marginTop: theme.spacing(1),
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                marginTop: theme.spacing(1)
-            },
             height: "480px",
             display: "flex",
             flexDirection: "column"

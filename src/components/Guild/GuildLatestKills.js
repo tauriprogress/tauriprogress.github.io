@@ -13,9 +13,6 @@ function styles(theme) {
             display: "flex",
             flexDirection: "column",
             marginTop: theme.spacing(1),
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                marginTop: theme.spacing(1)
-            },
             height: "480px"
         },
         latestKills: {
