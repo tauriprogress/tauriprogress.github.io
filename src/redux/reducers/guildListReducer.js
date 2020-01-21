@@ -28,27 +28,22 @@ function guildsReducer(state = defaultState, action) {
 function applyGuildRanks(guilds) {
     let first = -1;
     let second = 1;
-    return guilds
-        .sort((a, b) => {
-            if (
-                a.progression.completion.completed &&
+    return guilds.sort((a, b) => {
+        if (
+            a.progression.completion.completed &&
+            b.progression.completion.completed
+        ) {
+            return a.progression.completion.completed <
                 b.progression.completion.completed
-            ) {
-                return a.progression.completion.completed <
-                    b.progression.completion.completed
-                    ? first
-                    : second;
-            }
+                ? first
+                : second;
+        }
 
-            return a.progression.completion.bossesDefeated <
-                b.progression.completion.bossesDefeated
-                ? second
-                : first;
-        })
-        .map((guild, index) => ({
-            ...guild,
-            rank: index + 1
-        }));
+        return a.progression.completion.bossesDefeated <
+            b.progression.completion.bossesDefeated
+            ? second
+            : first;
+    });
 }
 
 export default guildsReducer;

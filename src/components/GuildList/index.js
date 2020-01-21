@@ -1,5 +1,5 @@
 import { difficultyLabels } from "tauriprogress-constants";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
@@ -19,10 +19,12 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import DateTooltip from "../DateTooltip";
 import WithRealm from "../WithRealm";
+import GuildListFilter from "./GuildListFilter";
 
 import { guildsFetch } from "../../redux/actions";
 import DisplayDate from "../DisplayDate";
 
+import { filterGuildList } from "./helpers";
 import { dateToString } from "../../helpers";
 
 function styles(theme) {
@@ -68,6 +70,12 @@ function styles(theme) {
 function GuildList({ theme, classes }) {
     const { factionColors, progStateColors } = theme.palette;
     const { data, loading, error } = useSelector(state => state.guildList);
+    const [filter, setFilter] = useState({
+        realm: "",
+        faction: "",
+        difficulty: ""
+    });
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -79,118 +87,168 @@ function GuildList({ theme, classes }) {
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className={classes.tableHead}>
-                                Guild
-                            </TableCell>
-                            <TableCell
-                                align="center"
-                                className={classes.tableHead}
-                                colSpan="2"
-                            >
-                                Progression
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map(guild => {
-                            let progress = {};
-                            for (let difficulty in guild.progression
-                                .completion) {
-                                let date =
-                                    guild.progression.completion[difficulty]
-                                        .completed * 1000;
-                                progress[difficulty] = {
-                                    date: date
-                                        ? dateToString(new Date(date))
-                                        : false,
-                                    bossesDefeated:
-                                        guild.progression.completion[difficulty]
-                                            .progress
-                                };
-                            }
+                <React.Fragment>
+                    <GuildListFilter filter={filter} setFilter={setFilter} />
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.tableHead}>
+                                    Guild
+                                </TableCell>
+                                <TableCell
+                                    align="center"
+                                    className={classes.tableHead}
+                                    colSpan="2"
+                                >
+                                    Progression
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filterGuildList(filter, data).map(
+                                (guild, index) => {
+                                    let progress = {};
+                                    for (let difficulty in guild.progression
+                                        .completion) {
+                                        let date =
+                                            guild.progression.completion[
+                                                difficulty
+                                            ].completed * 1000;
+                                        progress[difficulty] = {
+                                            date: date
+                                                ? dateToString(new Date(date))
+                                                : false,
+                                            bossesDefeated:
+                                                guild.progression.completion[
+                                                    difficulty
+                                                ].progress
+                                        };
+                                    }
 
-                            let firstKill = guild.progression.completion
-                                .completed
-                                ? new Date(
-                                      guild.progression.completion.completed *
-                                          1000
-                                  )
-                                : false;
+                                    let firstKill = guild.progression.completion
+                                        .completed
+                                        ? new Date(
+                                              guild.progression.completion
+                                                  .completed * 1000
+                                          )
+                                        : false;
 
-                            return (
-                                <TableRow key={guild.guildName} hover>
-                                    <TableCell className={classes.cell}>
-                                        <Grid container wrap="nowrap">
-                                            <Grid
-                                                item
-                                                className={`${classes.rank} rank`}
-                                            >
-                                                <Typography color="inherit">
-                                                    {guild.rank}
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <WithRealm
-                                                    realmName={guild.realm}
-                                                >
-                                                    <Typography
-                                                        className={
-                                                            classes.guildName
-                                                        }
+                                    return (
+                                        <TableRow key={guild.guildName} hover>
+                                            <TableCell className={classes.cell}>
+                                                <Grid container wrap="nowrap">
+                                                    <Grid
+                                                        item
+                                                        className={`${classes.rank} rank`}
                                                     >
-                                                        <Link
-                                                            component={
-                                                                RouterLink
+                                                        <Typography color="inherit">
+                                                            {index + 1}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <WithRealm
+                                                            realmName={
+                                                                guild.realm
                                                             }
-                                                            style={{
-                                                                color: guild.gFaction
-                                                                    ? factionColors.horde
-                                                                    : factionColors.alliance
-                                                            }}
-                                                            to={`/guild/${guild.guildName}?realm=${guild.realm}`}
                                                         >
-                                                            {guild.guildName}
-                                                        </Link>
-                                                    </Typography>
-                                                </WithRealm>
-                                            </Grid>
-                                        </Grid>
-                                    </TableCell>
-
-                                    <TableCell
-                                        className={classes.cell}
-                                        align="right"
-                                    >
-                                        <Grid container direction="column">
-                                            {[6, 5].map(difficulty => (
-                                                <Grid
-                                                    item
-                                                    key={`${guild.guildname} ${difficulty}`}
-                                                >
-                                                    {progress[difficulty] ? (
-                                                        progress[difficulty]
-                                                            .date ? (
-                                                            <Tooltip
-                                                                title={
-                                                                    progress[
-                                                                        difficulty
-                                                                    ].date
+                                                            <Typography
+                                                                className={
+                                                                    classes.guildName
                                                                 }
                                                             >
+                                                                <Link
+                                                                    component={
+                                                                        RouterLink
+                                                                    }
+                                                                    style={{
+                                                                        color: guild.gFaction
+                                                                            ? factionColors.horde
+                                                                            : factionColors.alliance
+                                                                    }}
+                                                                    to={`/guild/${guild.guildName}?realm=${guild.realm}`}
+                                                                >
+                                                                    {
+                                                                        guild.guildName
+                                                                    }
+                                                                </Link>
+                                                            </Typography>
+                                                        </WithRealm>
+                                                    </Grid>
+                                                </Grid>
+                                            </TableCell>
+
+                                            <TableCell
+                                                className={classes.cell}
+                                                align="right"
+                                            >
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                >
+                                                    {[6, 5].map(difficulty => (
+                                                        <Grid
+                                                            item
+                                                            key={`${guild.guildname} ${difficulty}`}
+                                                        >
+                                                            {progress[
+                                                                difficulty
+                                                            ] ? (
+                                                                progress[
+                                                                    difficulty
+                                                                ].date ? (
+                                                                    <Tooltip
+                                                                        title={
+                                                                            progress[
+                                                                                difficulty
+                                                                            ]
+                                                                                .date
+                                                                        }
+                                                                    >
+                                                                        <Typography variant="caption">
+                                                                            <span
+                                                                                className={`${classes.secondaryText} ${classes.progression}`}
+                                                                            >
+                                                                                {
+                                                                                    progress[
+                                                                                        difficulty
+                                                                                    ]
+                                                                                        .bossesDefeated
+                                                                                }
+                                                                                /14{" "}
+                                                                                {
+                                                                                    difficultyLabels[
+                                                                                        difficulty
+                                                                                    ]
+                                                                                }
+                                                                            </span>
+                                                                        </Typography>
+                                                                    </Tooltip>
+                                                                ) : (
+                                                                    <Typography variant="caption">
+                                                                        <span
+                                                                            className={`${classes.secondaryText} ${classes.progression}`}
+                                                                        >
+                                                                            {
+                                                                                progress[
+                                                                                    difficulty
+                                                                                ]
+                                                                                    .bossesDefeated
+                                                                            }
+                                                                            /14{" "}
+                                                                            {
+                                                                                difficultyLabels[
+                                                                                    difficulty
+                                                                                ]
+                                                                            }
+                                                                        </span>
+                                                                    </Typography>
+                                                                )
+                                                            ) : (
                                                                 <Typography variant="caption">
                                                                     <span
                                                                         className={`${classes.secondaryText} ${classes.progression}`}
                                                                     >
-                                                                        {
-                                                                            progress[
-                                                                                difficulty
-                                                                            ]
-                                                                                .bossesDefeated
-                                                                        }
-                                                                        /14{" "}
+                                                                        0/14{" "}
                                                                         {
                                                                             difficultyLabels[
                                                                                 difficulty
@@ -198,103 +256,76 @@ function GuildList({ theme, classes }) {
                                                                         }
                                                                     </span>
                                                                 </Typography>
-                                                            </Tooltip>
-                                                        ) : (
-                                                            <Typography variant="caption">
-                                                                <span
-                                                                    className={`${classes.secondaryText} ${classes.progression}`}
-                                                                >
-                                                                    {
-                                                                        progress[
-                                                                            difficulty
-                                                                        ]
-                                                                            .bossesDefeated
-                                                                    }
-                                                                    /14{" "}
-                                                                    {
-                                                                        difficultyLabels[
-                                                                            difficulty
-                                                                        ]
-                                                                    }
-                                                                </span>
-                                                            </Typography>
-                                                        )
-                                                    ) : (
-                                                        <Typography variant="caption">
-                                                            <span
-                                                                className={`${classes.secondaryText} ${classes.progression}`}
-                                                            >
-                                                                0/14{" "}
-                                                                {
-                                                                    difficultyLabels[
-                                                                        difficulty
-                                                                    ]
-                                                                }
-                                                            </span>
-                                                        </Typography>
-                                                    )}
+                                                            )}
+                                                        </Grid>
+                                                    ))}
                                                 </Grid>
-                                            ))}
-                                        </Grid>
-                                    </TableCell>
+                                            </TableCell>
 
-                                    <TableCell
-                                        className={classes.cell}
-                                        align="right"
-                                    >
-                                        <Typography
-                                            className={
-                                                classes.overallProgression
-                                            }
-                                        >
-                                            <React.Fragment>
-                                                {firstKill && (
-                                                    <Typography component="span">
-                                                        <DateTooltip
-                                                            date={firstKill}
-                                                        >
-                                                            <DisplayDate
-                                                                date={firstKill}
-                                                            />
-                                                        </DateTooltip>
-                                                    </Typography>
-                                                )}
-
-                                                <span
+                                            <TableCell
+                                                className={classes.cell}
+                                                align="right"
+                                            >
+                                                <Typography
                                                     className={
-                                                        classes.progression
+                                                        classes.overallProgression
                                                     }
                                                 >
-                                                    <span
-                                                        style={{
-                                                            color:
-                                                                firstKill &&
-                                                                progStateColors.defeated
-                                                        }}
-                                                    >
-                                                        {
-                                                            guild.progression
-                                                                .completion
-                                                                .bossesDefeated
-                                                        }
-                                                    </span>
+                                                    <React.Fragment>
+                                                        {firstKill && (
+                                                            <Typography component="span">
+                                                                <DateTooltip
+                                                                    date={
+                                                                        firstKill
+                                                                    }
+                                                                >
+                                                                    <DisplayDate
+                                                                        date={
+                                                                            firstKill
+                                                                        }
+                                                                    />
+                                                                </DateTooltip>
+                                                            </Typography>
+                                                        )}
 
-                                                    <span
-                                                        className={
-                                                            classes.secondaryText
-                                                        }
-                                                    >
-                                                        / 14
-                                                    </span>
-                                                </span>
-                                            </React.Fragment>
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
+                                                        <span
+                                                            className={
+                                                                classes.progression
+                                                            }
+                                                        >
+                                                            <span
+                                                                style={{
+                                                                    color:
+                                                                        firstKill &&
+                                                                        progStateColors.defeated
+                                                                }}
+                                                            >
+                                                                {
+                                                                    guild
+                                                                        .progression
+                                                                        .completion
+                                                                        .bossesDefeated
+                                                                }
+                                                            </span>
+
+                                                            <span
+                                                                className={
+                                                                    classes.secondaryText
+                                                                }
+                                                            >
+                                                                / 14
+                                                            </span>
+                                                        </span>
+                                                    </React.Fragment>
+                                                </Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                }
+                            )}
+                        </TableBody>
+                    </Table>
+                </React.Fragment>
             )}
         </React.Fragment>
     );
