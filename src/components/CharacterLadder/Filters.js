@@ -16,6 +16,7 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
 import FilterContainer from "../FilterContainer";
+import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterContainer";
 
 import {
     charLadderFilterSet,
@@ -48,6 +49,9 @@ function Filters({ classes, disableFilter, theme }) {
     const {
         palette: { classColors, factionColors }
     } = theme;
+
+    const FilterContainerComponent =
+        window.innerWidth > 600 ? FilterContainer : CollapseableFilterContainer;
 
     let specOptions = [];
     const classColor = filter.class
@@ -152,7 +156,7 @@ function Filters({ classes, disableFilter, theme }) {
     }
 
     return (
-        <FilterContainer>
+        <FilterContainerComponent>
             <TextField
                 id="name"
                 label="Name"
@@ -206,7 +210,7 @@ function Filters({ classes, disableFilter, theme }) {
                     </Select>
                 </FormControl>
             ))}
-        </FilterContainer>
+        </FilterContainerComponent>
     );
 }
 

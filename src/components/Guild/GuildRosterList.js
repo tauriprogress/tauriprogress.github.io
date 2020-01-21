@@ -21,7 +21,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
-import FilterContainer from "../FilterContainer";
+import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
 import SpecImg from "../SpecImg";
 import OverflowScroll from "../OverflowScroll";
 

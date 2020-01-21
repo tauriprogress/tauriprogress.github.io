@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import FilterContainer from "../FilterContainer";
+import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
 
 let realmNames = [];
 for (let realmKey in realms) {
