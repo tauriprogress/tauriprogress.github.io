@@ -15,7 +15,7 @@ import { classImg } from "../../helpers";
 function styles(theme) {
     return {
         container: {
-            marginTop: theme.spacing(6),
+            marginTop: theme.spacing(1),
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 marginTop: theme.spacing(1)
             },
