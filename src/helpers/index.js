@@ -229,3 +229,8 @@ export function getSocketInfo(type) {
         icon: false
     };
 }
+
+export function guildActivityBoundary() {
+    const week = 1000 * 60 * 60 * 24 * 7;
+    return getLatestWednesday(new Date(new Date().getTime() - week * 2));
+}

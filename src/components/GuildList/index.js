@@ -26,7 +26,7 @@ import { guildsFetch } from "../../redux/actions";
 import DisplayDate from "../DisplayDate";
 
 import { filterGuildList } from "./helpers";
-import { dateToString, getLatestWednesday } from "../../helpers";
+import { dateToString, guildActivityBoundary } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -79,14 +79,13 @@ function styles(theme) {
 function GuildList({ theme, classes }) {
     const { factionColors, progStateColors } = theme.palette;
     const { data, loading, error } = useSelector(state => state.guildList);
-    const week = 1000 * 60 * 60 * 24 * 7;
-    const timeBoundary = getLatestWednesday(
-        new Date(new Date().getTime() - week * 2)
-    );
+    const timeBoundary = guildActivityBoundary();
+
     const [filter, setFilter] = useState({
         realm: "",
         faction: "",
-        difficulty: ""
+        difficulty: "",
+        activity: ""
     });
 
     const dispatch = useDispatch();
