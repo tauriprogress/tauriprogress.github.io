@@ -19,6 +19,10 @@ import { convertMinutes } from "../../helpers";
 
 function styles(theme) {
     return {
+        bold: {
+            fontWeight: "bold",
+            wordBreak: "break-all"
+        },
         drawerPaper: {
             padding: theme.spacing(2),
             width: "260px"
@@ -62,10 +66,7 @@ function AdditionalInfo({ classes }) {
                     <div className="additionalInfoUpdate">
                         <Typography>
                             Last updated:{" "}
-                            <span className="textBold">
-                                {convertMinutes(lastUpdated || 0)}
-                            </span>{" "}
-                            ago.
+                            <span>{convertMinutes(lastUpdated || 0)}</span> ago.
                         </Typography>
                         {isUpdating && (
                             <Typography>
@@ -90,7 +91,7 @@ function AdditionalInfo({ classes }) {
 
                     <br />
 
-                    <span className="textBold">
+                    <span>
                         <Link
                             color="inherit"
                             href="https://community.tauriwow.com/index.php?/topic/2076/"
@@ -102,7 +103,7 @@ function AdditionalInfo({ classes }) {
                         </Link>
                     </span>
                     <br />
-                    <span className="textBold">
+                    <span>
                         <Link
                             color="inherit"
                             href="https://github.com/tauriprogress"
@@ -140,9 +141,21 @@ function AdditionalInfo({ classes }) {
                     .
                 </Typography>
                 <Divider />
-
                 <Typography>
                     Fanmade website to track progression on tauri.
+                </Typography>
+                <Divider />
+                <Typography>
+                    Consider supporting with
+                    <br />
+                    <span className={classes.bold}>
+                        Bitcoin: <br /> 1BMRBQXuMfWixfAStiYGxmBjXgv3N9535G
+                    </span>
+                    <br />
+                    <span className={classes.bold}>
+                        Ethereum: <br />{" "}
+                        0x6aad5b7641EC021918EB03b4c8bB947ea668C3dc
+                    </span>
                 </Typography>
             </Drawer>
         </React.Fragment>
