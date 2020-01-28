@@ -95,6 +95,34 @@ function GuildListFilter({ theme, filter, setFilter }) {
                     </MenuItem>
                 </Select>
             </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="class">Activity</InputLabel>
+                <Select
+                    value={filter.activity}
+                    onChange={e =>
+                        setFilter({
+                            ...filter,
+                            activity: e.target.value
+                        })
+                    }
+                >
+                    <MenuItem value="">
+                        <em>All</em>
+                    </MenuItem>
+                    <MenuItem value={true}>
+                        <span>Active</span>
+                    </MenuItem>
+                    <MenuItem value={false}>
+                        <span>Inactive</span>
+                    </MenuItem>
+                    <MenuItem value={5}>
+                        <span>Active in 10 HC</span>
+                    </MenuItem>
+                    <MenuItem value={6}>
+                        <span>Active in 25 HC</span>
+                    </MenuItem>
+                </Select>
+            </FormControl>
         </FilterContainer>
     );
 }

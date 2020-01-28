@@ -1,4 +1,8 @@
+import { guildActivityBoundary } from "../../helpers";
+
 export function filterGuildList(filter, guildList) {
+    const timeBoundary = guildActivityBoundary();
+
     return guildList.filter(guild => {
         if (
             filter.faction !== "" &&
@@ -16,6 +20,27 @@ export function filterGuildList(filter, guildList) {
             !guild.progression.completion[filter.difficulty]
         ) {
             return false;
+        }
+
+        if (filter.activity !== "") {
+            if (typeof filter.activity === "number") {
+                if (
+                    !guild.activity[filter.activity] ||
+                    timeBoundary > guild.activity[filter.activity] * 1000
+                ) {
+                    return false;
+                }
+            } else {
+                let isActive = false;
+
+                for (let difficulty in guild.activity) {
+                    if (timeBoundary < guild.activity[difficulty] * 1000) {
+                        isActive = true;
+                    }
+                }
+
+                return isActive === filter.activity;
+            }
         }
 
         return true;
