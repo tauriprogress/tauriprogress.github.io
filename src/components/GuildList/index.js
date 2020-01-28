@@ -20,12 +20,13 @@ import Loading from "../Loading";
 import DateTooltip from "../DateTooltip";
 import WithRealm from "../WithRealm";
 import GuildListFilter from "./GuildListFilter";
+import ConditionalWrapper from "../ConditionalWrapper";
 
 import { guildsFetch } from "../../redux/actions";
 import DisplayDate from "../DisplayDate";
 
 import { filterGuildList } from "./helpers";
-import { dateToString } from "../../helpers";
+import { dateToString, getLatestWednesday } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -53,7 +54,8 @@ function styles(theme) {
         progression: {
             fontWeight: "bold",
             fontSize: `${20 / 16}rem`,
-            paddingLeft: theme.spacing(1)
+            display: "inline-block",
+            minWidth: "64px"
         },
         secondaryText: {
             color: theme.palette.text.secondary,
@@ -63,6 +65,13 @@ function styles(theme) {
         overallProgression: {
             fontSize: `${18 / 16}rem`,
             lineHeight: `${20 / 16}rem`
+        },
+        inactive: {
+            color: theme.palette.error.light,
+            fontSize: `${10 / 16}rem`,
+            marginRight: "1px",
+            textAlign: "left",
+            fontWeight: "bold"
         }
     };
 }
@@ -70,6 +79,10 @@ function styles(theme) {
 function GuildList({ theme, classes }) {
     const { factionColors, progStateColors } = theme.palette;
     const { data, loading, error } = useSelector(state => state.guildList);
+    const week = 1000 * 60 * 60 * 24 * 7;
+    const timeBoundary = getLatestWednesday(
+        new Date(new Date().getTime() - week * 2)
+    );
     const [filter, setFilter] = useState({
         realm: "",
         faction: "",
@@ -188,43 +201,52 @@ function GuildList({ theme, classes }) {
                                                     {[6, 5].map(difficulty => (
                                                         <Grid
                                                             item
-                                                            key={`${guild.guildname} ${difficulty}`}
+                                                            key={`${guild.guildName} ${difficulty}`}
                                                         >
                                                             {progress[
                                                                 difficulty
                                                             ] ? (
-                                                                progress[
-                                                                    difficulty
-                                                                ].date ? (
-                                                                    <Tooltip
-                                                                        title={
+                                                                <Typography variant="caption">
+                                                                    {timeBoundary >
+                                                                        guild
+                                                                            .activity[
+                                                                            difficulty
+                                                                        ] *
+                                                                            1000 && (
+                                                                        <Tooltip
+                                                                            title={`${guild.guildName} is not actively raiding in ${difficultyLabels[difficulty]} anymore`}
+                                                                        >
+                                                                            <span
+                                                                                className={
+                                                                                    classes.inactive
+                                                                                }
+                                                                            >
+                                                                                Inactive
+                                                                            </span>
+                                                                        </Tooltip>
+                                                                    )}
+                                                                    <ConditionalWrapper
+                                                                        condition={
                                                                             progress[
                                                                                 difficulty
                                                                             ]
                                                                                 .date
                                                                         }
-                                                                    >
-                                                                        <Typography variant="caption">
-                                                                            <span
-                                                                                className={`${classes.secondaryText} ${classes.progression}`}
-                                                                            >
-                                                                                {
+                                                                        wrap={children => (
+                                                                            <Tooltip
+                                                                                title={
                                                                                     progress[
                                                                                         difficulty
                                                                                     ]
-                                                                                        .bossesDefeated
+                                                                                        .date
                                                                                 }
-                                                                                /14{" "}
+                                                                            >
                                                                                 {
-                                                                                    difficultyLabels[
-                                                                                        difficulty
-                                                                                    ]
+                                                                                    children
                                                                                 }
-                                                                            </span>
-                                                                        </Typography>
-                                                                    </Tooltip>
-                                                                ) : (
-                                                                    <Typography variant="caption">
+                                                                            </Tooltip>
+                                                                        )}
+                                                                    >
                                                                         <span
                                                                             className={`${classes.secondaryText} ${classes.progression}`}
                                                                         >
@@ -241,8 +263,8 @@ function GuildList({ theme, classes }) {
                                                                                 ]
                                                                             }
                                                                         </span>
-                                                                    </Typography>
-                                                                )
+                                                                    </ConditionalWrapper>
+                                                                </Typography>
                                                             ) : (
                                                                 <Typography variant="caption">
                                                                     <span
