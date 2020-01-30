@@ -8,6 +8,7 @@ import Loading from "../Loading";
 import GuildTitle from "./GuildTitle";
 import GuildProgSummary from "./GuildProgSummary";
 import GuildRoster from "./GuildRoster";
+import GuildBossKillsDays from "./GuildBossKillsDays";
 import GuildProgression from "./GuildProgression";
 import AsideContainer from "../AsideContainer";
 
@@ -41,6 +42,7 @@ function Guild({ match, location }) {
                     </AsideContainer>
                     <GuildRoster />
                     <GuildProgression />
+                    <GuildBossKillsDays />
                 </React.Fragment>
             )}
         </section>
