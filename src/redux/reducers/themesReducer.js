@@ -206,6 +206,16 @@ const lightPalette = {
         1: grey[700],
         0: "#9d9d9d"
     },
+    weightColors: {
+        NaN: light,
+        0: light,
+        1: deepOrange[200],
+        20: deepOrange[400],
+        40: deepOrange[500],
+        60: deepOrange[700],
+        80: deepOrange[800],
+        100: deepOrange[900]
+    },
     type: "light"
 };
 
@@ -287,6 +297,16 @@ const darkPalette = {
         2: "#1eff00",
         1: "#fff",
         0: "#9d9d9d"
+    },
+    weightColors: {
+        NaN: "#2D2D36",
+        0: "#2D2D36",
+        1: "#6c3124",
+        20: "#80321e",
+        40: "#953318",
+        60: "##aa3512",
+        80: "#b5350f",
+        100: "#BF360C"
     },
     type: "dark"
 };
