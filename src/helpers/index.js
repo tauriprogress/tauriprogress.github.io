@@ -54,6 +54,16 @@ export const days = {
     6: "Saturday"
 };
 
+export const hours = new Array(24).fill(0).map((value, index) => {
+    if (index === 0) {
+        return "12 am";
+    } else if (index === 12) {
+        return "12 pm";
+    } else {
+        return index > 12 ? `${index - 12} pm` : `${index} am`;
+    }
+});
+
 export function categorizedLogDates(logs) {
     const currentTime = new Date().getTime();
     const week = 1000 * 60 * 60 * 24 * 7;
@@ -233,4 +243,17 @@ export function getSocketInfo(type) {
 export function guildActivityBoundary() {
     const week = 1000 * 60 * 60 * 24 * 7;
     return getLatestWednesday(new Date(new Date().getTime() - week * 2));
+}
+
+export function shiftDays(day) {
+    return day === 6 ? 0 : day + 1;
+}
+
+export function colorWeight(current, max) {
+    const percent = Math.floor((current / max) * 100);
+    if (percent < 20 && percent >= 1) {
+        return 1;
+    }
+
+    return Math.floor(percent / 20) * 20;
 }
