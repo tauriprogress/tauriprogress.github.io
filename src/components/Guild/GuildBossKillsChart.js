@@ -7,6 +7,8 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 
+import Help from "@material-ui/icons/Help";
+
 import {
     days as dayLabels,
     hours as hourLabels,
@@ -53,6 +55,9 @@ function styles(theme) {
             margin: `0 0 ${theme.spacing(1)}px`,
             lineHeight: 1,
             textAlign: "center"
+        },
+        icon: {
+            transform: "translate(0, 2px)"
         }
     };
 }
@@ -66,7 +71,16 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
     return (
         <Card className={classes.container}>
             <Typography className={classes.title}>
-                {title} boss kills
+                {title} boss kills{" "}
+                {title === "Recent" && (
+                    <Tooltip title={"Recent is the last 2 weeks"}>
+                        <Help
+                            color="disabled"
+                            fontSize="small"
+                            className={classes.icon}
+                        />
+                    </Tooltip>
+                )}
             </Typography>
             <Grid container wrap="nowrap" justify="center">
                 <Grid item className={classes.labelColumn}>
