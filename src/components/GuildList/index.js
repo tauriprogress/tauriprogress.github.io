@@ -127,9 +127,7 @@ function GuildList({ theme, classes }) {
                                                 difficulty
                                             ].completed * 1000;
                                         progress[difficulty] = {
-                                            date: date
-                                                ? dateToString(new Date(date))
-                                                : false,
+                                            date: date ? new Date(date) : false,
                                             bossesDefeated:
                                                 guild.progression.completion[
                                                     difficulty
@@ -233,12 +231,12 @@ function GuildList({ theme, classes }) {
                                                                         }
                                                                         wrap={children => (
                                                                             <Tooltip
-                                                                                title={
+                                                                                title={dateToString(
                                                                                     progress[
                                                                                         difficulty
                                                                                     ]
                                                                                         .date
-                                                                                }
+                                                                                )}
                                                                             >
                                                                                 {
                                                                                     children
@@ -293,41 +291,90 @@ function GuildList({ theme, classes }) {
                                                     }
                                                 >
                                                     <React.Fragment>
-                                                        {firstKill && (
-                                                            <Typography component="span">
-                                                                <DateTooltip
-                                                                    date={
-                                                                        firstKill
-                                                                    }
-                                                                >
-                                                                    <DisplayDate
-                                                                        date={
-                                                                            firstKill
-                                                                        }
-                                                                    />
-                                                                </DateTooltip>
-                                                            </Typography>
-                                                        )}
+                                                        {filter.difficulty
+                                                            ? progress[
+                                                                  filter
+                                                                      .difficulty
+                                                              ].date && (
+                                                                  <Typography component="span">
+                                                                      <DateTooltip
+                                                                          date={
+                                                                              progress[
+                                                                                  filter
+                                                                                      .difficulty
+                                                                              ]
+                                                                                  .date
+                                                                          }
+                                                                      >
+                                                                          <DisplayDate
+                                                                              date={
+                                                                                  progress[
+                                                                                      filter
+                                                                                          .difficulty
+                                                                                  ]
+                                                                                      .date
+                                                                              }
+                                                                          />
+                                                                      </DateTooltip>
+                                                                  </Typography>
+                                                              )
+                                                            : firstKill && (
+                                                                  <Typography component="span">
+                                                                      <DateTooltip
+                                                                          date={
+                                                                              firstKill
+                                                                          }
+                                                                      >
+                                                                          <DisplayDate
+                                                                              date={
+                                                                                  firstKill
+                                                                              }
+                                                                          />
+                                                                      </DateTooltip>
+                                                                  </Typography>
+                                                              )}
 
                                                         <span
                                                             className={
                                                                 classes.progression
                                                             }
                                                         >
-                                                            <span
-                                                                style={{
-                                                                    color:
-                                                                        firstKill &&
-                                                                        progStateColors.defeated
-                                                                }}
-                                                            >
-                                                                {
-                                                                    guild
-                                                                        .progression
-                                                                        .completion
-                                                                        .bossesDefeated
-                                                                }
-                                                            </span>
+                                                            {filter.difficulty ? (
+                                                                <span
+                                                                    style={{
+                                                                        color:
+                                                                            progress[
+                                                                                filter
+                                                                                    .difficulty
+                                                                            ]
+                                                                                .date &&
+                                                                            progStateColors.defeated
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        progress[
+                                                                            filter
+                                                                                .difficulty
+                                                                        ]
+                                                                            .bossesDefeated
+                                                                    }
+                                                                </span>
+                                                            ) : (
+                                                                <span
+                                                                    style={{
+                                                                        color:
+                                                                            firstKill &&
+                                                                            progStateColors.defeated
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        guild
+                                                                            .progression
+                                                                            .completion
+                                                                            .bossesDefeated
+                                                                    }
+                                                                </span>
+                                                            )}
 
                                                             <span
                                                                 className={

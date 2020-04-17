@@ -3,7 +3,7 @@ import { guildActivityBoundary } from "../../helpers";
 export function filterGuildList(filter, guildList) {
     const timeBoundary = guildActivityBoundary();
 
-    return guildList.filter(guild => {
+    const filteredGuildList = guildList.filter(guild => {
         if (
             filter.faction !== "" &&
             guild.gFaction !== Number(filter.faction)
@@ -45,4 +45,27 @@ export function filterGuildList(filter, guildList) {
 
         return true;
     });
+
+    if (filter.difficulty) {
+        return filteredGuildList.sort((a, b) => {
+            let first = -1;
+            let second = 1;
+            if (
+                a.progression.completion[filter.difficulty].completed &&
+                b.progression.completion[filter.difficulty].completed
+            ) {
+                return a.progression.completion[filter.difficulty].completed <
+                    b.progression.completion[filter.difficulty].completed
+                    ? first
+                    : second;
+            }
+
+            return a.progression.completion[filter.difficulty].progress <
+                b.progression.completion[filter.difficulty].progress
+                ? second
+                : first;
+        });
+    }
+
+    return filteredGuildList;
 }
