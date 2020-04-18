@@ -14,6 +14,8 @@ import Link from "@material-ui/core/Link";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
@@ -74,6 +76,13 @@ function styles(theme) {
             textAlign: "left",
             fontWeight: "bold"
         },
+        active: {
+            color: theme.palette.progStateColors.defeated,
+            fontSize: `${10 / 16}rem`,
+            marginRight: "1px",
+            textAlign: "left",
+            fontWeight: "bold"
+        },
         loader: {
             width: "100vw"
         }
@@ -91,6 +100,11 @@ function GuildList({ theme, classes }) {
         difficulty: "",
         activity: ""
     });
+
+    const [showActivity, setShowActivity] = useState(false);
+    function toggleActivity() {
+        setShowActivity(!showActivity);
+    }
 
     const dispatch = useDispatch();
 
@@ -113,9 +127,27 @@ function GuildList({ theme, classes }) {
                                         Guild
                                     </TableCell>
                                     <TableCell
+                                        className={classes.tableHead}
+                                        align="right"
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={showActivity}
+                                                    onChange={toggleActivity}
+                                                    inputProps={{
+                                                        "aria-label":
+                                                            "primary checkbox"
+                                                    }}
+                                                    color="primary"
+                                                />
+                                            }
+                                            label="Activity"
+                                        />
+                                    </TableCell>
+                                    <TableCell
                                         align="center"
                                         className={classes.tableHead}
-                                        colSpan="2"
                                     >
                                         Progression
                                     </TableCell>
@@ -220,24 +252,37 @@ function GuildList({ theme, classes }) {
                                                                         difficulty
                                                                     ] ? (
                                                                         <Typography variant="caption">
-                                                                            {timeBoundary >
+                                                                            {showActivity &&
+                                                                                (timeBoundary >
                                                                                 guild
                                                                                     .activity[
                                                                                     difficulty
                                                                                 ] *
-                                                                                    1000 && (
-                                                                                <Tooltip
-                                                                                    title={`${guild.guildName} is not actively raiding in ${difficultyLabels[difficulty]} anymore`}
-                                                                                >
-                                                                                    <span
-                                                                                        className={
-                                                                                            classes.inactive
-                                                                                        }
+                                                                                    1000 ? (
+                                                                                    <Tooltip
+                                                                                        title={`${guild.guildName} is not actively raiding in ${difficultyLabels[difficulty]} anymore`}
                                                                                     >
-                                                                                        Inactive
-                                                                                    </span>
-                                                                                </Tooltip>
-                                                                            )}
+                                                                                        <span
+                                                                                            className={
+                                                                                                classes.inactive
+                                                                                            }
+                                                                                        >
+                                                                                            Inactive
+                                                                                        </span>
+                                                                                    </Tooltip>
+                                                                                ) : (
+                                                                                    <Tooltip
+                                                                                        title={`${guild.guildName} is raiding in ${difficultyLabels[difficulty]}`}
+                                                                                    >
+                                                                                        <span
+                                                                                            className={
+                                                                                                classes.active
+                                                                                            }
+                                                                                        >
+                                                                                            Inactive
+                                                                                        </span>
+                                                                                    </Tooltip>
+                                                                                ))}
                                                                             <ConditionalWrapper
                                                                                 condition={
                                                                                     progress[
