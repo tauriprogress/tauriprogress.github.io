@@ -16,16 +16,16 @@ import {
     orange
 } from "@material-ui/core/colors";
 
-const primary = "#1e1f26";
+const primary = "#1d2124";
 const secondary = deepOrange[500];
 const darkPSecondary = deepOrange[300];
 const lightPSecondary = deepOrange[900];
 
-const light = "#f6ede2";
-const lightAccent = "#faf5ef";
-const dark = "#26262f";
-const darkAccent = "#2d2d36";
-const darkComponentBackground = "#30303B";
+const light = "#f7f7f7";
+const lightAccent = "#eee";
+const dark = "#24292e";
+const darkAccent = "#2b3138";
+const darkComponentBackground = "#333a41";
 
 const lightGrey = "#c4c4c4";
 
@@ -299,13 +299,13 @@ const darkPalette = {
         0: "#9d9d9d"
     },
     weightColors: {
-        NaN: "#2D2D36",
-        0: "#2D2D36",
-        1: "#6c3124",
-        20: "#80321e",
-        40: "#953318",
-        60: "##aa3512",
-        80: "#b5350f",
+        NaN: "#2b3138",
+        0: "#2b3138",
+        1: "#64372d",
+        20: "#783927",
+        40: "#823925",
+        60: "#96391e",
+        80: "#ab3817",
         100: "#BF360C"
     },
     type: "dark"
