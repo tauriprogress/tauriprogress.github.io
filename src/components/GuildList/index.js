@@ -279,7 +279,7 @@ function GuildList({ theme, classes }) {
                                                                                                 classes.active
                                                                                             }
                                                                                         >
-                                                                                            Inactive
+                                                                                            Active
                                                                                         </span>
                                                                                     </Tooltip>
                                                                                 ))}
