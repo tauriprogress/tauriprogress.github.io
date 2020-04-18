@@ -73,6 +73,9 @@ function styles(theme) {
             marginRight: "1px",
             textAlign: "left",
             fontWeight: "bold"
+        },
+        loader: {
+            width: "100vw"
         }
     };
 }
@@ -97,7 +100,7 @@ function GuildList({ theme, classes }) {
 
     return (
         <React.Fragment>
-            {loading && <Loading />}
+            {loading && <Loading className={classes.loader} />}
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
                 <React.Fragment>

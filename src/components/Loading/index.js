@@ -18,9 +18,9 @@ function styles(theme) {
     };
 }
 
-function Loading({ classes }) {
+function Loading({ classes, className = "" }) {
     return (
-        <Container className={classes.container}>
+        <Container className={`${classes.container} ${className}`}>
             <CircularProgress color="secondary" />
         </Container>
     );
