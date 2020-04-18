@@ -139,7 +139,7 @@ function GuildList({ theme, classes }) {
                                                         "aria-label":
                                                             "primary checkbox"
                                                     }}
-                                                    color="primary"
+                                                    color="secondary"
                                                 />
                                             }
                                             label="Activity"
