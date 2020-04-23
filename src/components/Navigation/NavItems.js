@@ -18,6 +18,10 @@ function styles(theme) {
         navItem: {
             margin: theme.spacing(2),
             fontWeight: "500"
+        },
+        customLink: {
+            color: "inherit",
+            textDecoration: "none"
         }
     };
 }
@@ -62,6 +66,18 @@ function NavItems({ classes }) {
                     <Link color="inherit">
                         <SearchBar />
                     </Link>
+                </Typography>
+            </Grid>
+            <Grid item>
+                <Typography className={classes.navItem}>
+                    <a
+                        href="https://discordapp.com/invite/3RWayqd"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className={classes.customLink}
+                    >
+                        Discord
+                    </a>
                 </Typography>
             </Grid>
         </React.Fragment>
