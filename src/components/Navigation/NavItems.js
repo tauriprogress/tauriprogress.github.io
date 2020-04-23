@@ -13,15 +13,28 @@ import SearchBar from "../SearchBar";
 
 import { navToggle, raidSelectBoss } from "../../redux/actions";
 
+import discordIcon from "../../assets/social/discord.svg";
+
 function styles(theme) {
     return {
         navItem: {
             margin: theme.spacing(2),
-            fontWeight: "500"
+            fontWeight: "500",
+            position: "relative"
         },
         customLink: {
             color: "inherit",
-            textDecoration: "none"
+            textDecoration: "none",
+            marginLeft: "26px"
+        },
+        discordLogo: {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "24px",
+            height: "24px",
+            marginRight: "4px",
+            transform: "translate(0, -2px)"
         }
     };
 }
@@ -76,6 +89,11 @@ function NavItems({ classes }) {
                         rel="noreferrer noopener"
                         className={classes.customLink}
                     >
+                        <img
+                            src={discordIcon}
+                            alt="discord"
+                            className={classes.discordLogo}
+                        />
                         Discord
                     </a>
                 </Typography>
