@@ -1,4 +1,4 @@
-import { specs, characterClasses } from "tauriprogress-constants";
+import { specs, characterClasses, realms } from "tauriprogress-constants";
 
 const socketInfo = {
     1: {
@@ -256,4 +256,14 @@ export function colorWeight(current, max) {
     }
 
     return Math.floor(percent / 20) * 20;
+}
+
+export function validRealm(realm) {
+    for (let key in realms) {
+        if (realms[key] === realm) {
+            return true;
+        }
+    }
+
+    return false;
 }
