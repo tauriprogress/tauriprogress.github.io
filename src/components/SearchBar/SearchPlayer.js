@@ -16,10 +16,7 @@ import Grid from "@material-ui/core/Grid";
 
 import { navToggle } from "../../redux/actions";
 
-let realmNames = [];
-for (let realmKey in realms) {
-    realmNames.push(realms[realmKey]);
-}
+import { realmNames } from "../../helpers";
 
 function styles(theme) {
     return {

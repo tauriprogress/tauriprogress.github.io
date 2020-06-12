@@ -1,11 +1,9 @@
-import { realms, characterClasses, classToSpec } from "tauriprogress-constants";
+import { characterClasses, classToSpec } from "tauriprogress-constants";
 import { getNestedObjectValue } from "../../helpers";
 
+import { realmNames } from "../../helpers";
+
 const factionIds = [0, 1];
-let realmNames = [];
-for (let realmId in realms) {
-    realmNames.push(realms[realmId]);
-}
 let classIds = [];
 for (let classId in characterClasses) {
     classIds.push(classId);

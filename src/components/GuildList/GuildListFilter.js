@@ -1,4 +1,3 @@
-import { realms } from "tauriprogress-constants";
 import React from "react";
 
 import { withTheme } from "@material-ui/core/styles";
@@ -10,10 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
 
-let realmNames = [];
-for (let realmKey in realms) {
-    realmNames.push(realms[realmKey]);
-}
+import { realmNames } from "../../helpers";
 
 function GuildListFilter({ theme, filter, setFilter }) {
     return (

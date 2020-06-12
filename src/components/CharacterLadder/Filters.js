@@ -1,9 +1,4 @@
-import {
-    realms,
-    specs,
-    specToClass,
-    characterClasses
-} from "tauriprogress-constants";
+import { specs, specToClass, characterClasses } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -23,10 +18,7 @@ import {
     charLadderFilterReset
 } from "../../redux/actions";
 
-let realmNames = [];
-for (let realmKey in realms) {
-    realmNames.push(realms[realmKey]);
-}
+import { realmNames } from "../../helpers";
 
 function styles(theme) {
     return {

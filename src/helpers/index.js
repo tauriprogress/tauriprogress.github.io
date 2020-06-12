@@ -1,5 +1,13 @@
 import { specs, characterClasses, realms } from "tauriprogress-constants";
 
+export const realmNames = (() => {
+    let realmNames = [];
+    for (let realmKey in realms) {
+        realmNames.push(realms[realmKey]);
+    }
+    return realmNames;
+})();
+
 const socketInfo = {
     1: {
         icon: 1,

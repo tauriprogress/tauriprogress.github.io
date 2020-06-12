@@ -1,9 +1,4 @@
-import {
-    realms,
-    specs,
-    specToClass,
-    characterClasses
-} from "tauriprogress-constants";
+import { specs, specToClass, characterClasses } from "tauriprogress-constants";
 
 import React from "react";
 
@@ -16,13 +11,9 @@ import FilterContainer from "../FilterContainer";
 
 import { withTheme } from "@material-ui/core/styles";
 
-let realmNames = [];
-for (let realmKey in realms) {
-    realmNames.push(realms[realmKey]);
-}
+import { realmNames } from "../../helpers";
 
 function Filters({
-    classes,
     filter,
     changeFilter,
     theme: {
@@ -55,7 +46,7 @@ function Filters({
     return (
         <FilterContainer>
             <FormControl>
-                <InputLabel htmlFor="realm">Server</InputLabel>
+                <InputLabel htmlFor="realm">Realm</InputLabel>
                 <Select
                     value={filter.realm}
                     onChange={e =>
