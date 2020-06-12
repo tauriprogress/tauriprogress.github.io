@@ -267,3 +267,7 @@ export function validRealm(realm) {
 
     return false;
 }
+
+export function getRealmFromLocation(location) {
+    return new URLSearchParams(location.search).get("realm");
+}
