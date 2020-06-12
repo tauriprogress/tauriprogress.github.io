@@ -11,6 +11,7 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
 import { fightLogFetch } from "../../redux/actions";
+import { getRealmFromLocation } from "../../helpers";
 
 function FightLog() {
     const location = useLocation();
@@ -21,7 +22,7 @@ function FightLog() {
 
     useEffect(() => {
         const logId = match.params.logId;
-        const realm = new URLSearchParams(location.search).get("realm");
+        const realm = getRealmFromLocation(location);
         dispatch(fightLogFetch({ logId, realm }));
     }, []);
 

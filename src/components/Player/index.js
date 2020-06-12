@@ -14,15 +14,19 @@ import PlayerItems from "./PlayerItems";
 import ErrorMessage from "../ErrorMessage";
 
 import { playerDataFetch } from "../../redux/actions";
+
+import { getRealmFromLocation } from "../../helpers";
+
 function styles() {
     return {
         gridContainer: { margin: "10px auto", maxWidth: "1300px" },
         progContainer: { flex: 1, maxWidth: "650px" }
     };
 }
+
 function Player({ classes, match, location }) {
     const playerName = match.params.playerName;
-    const realm = new URLSearchParams(location.search).get("realm");
+    const realm = getRealmFromLocation(location);
     const { loading, error } = useSelector(state => state.player.data);
     const dispatch = useDispatch();
 

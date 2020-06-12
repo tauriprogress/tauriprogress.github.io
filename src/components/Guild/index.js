@@ -14,9 +14,11 @@ import AsideContainer from "../AsideContainer";
 
 import { guildFetch } from "../../redux/actions";
 
+import { getRealmFromLocation } from "../../helpers";
+
 function Guild({ match, location }) {
     const urlGuildName = match.params.guildName;
-    const urlRealm = new URLSearchParams(location.search).get("realm");
+    const urlRealm = getRealmFromLocation(location);
 
     const { loading, loaded, error } = useSelector(state => ({
         loading: state.guild.loading,
