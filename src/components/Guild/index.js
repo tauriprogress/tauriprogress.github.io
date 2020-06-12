@@ -11,6 +11,7 @@ import GuildRoster from "./GuildRoster";
 import GuildBossKillsDays from "./GuildBossKillsDays";
 import GuildProgression from "./GuildProgression";
 import AsideContainer from "../AsideContainer";
+import SelectRealm from "../SelectRealm";
 
 import { guildFetch } from "../../redux/actions";
 
@@ -35,7 +36,12 @@ function Guild({ match, location }) {
         <section>
             {loading && <Loading />}
 
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <React.Fragment>
+                    <ErrorMessage message={error} />
+                    {error === "guild not found" && <SelectRealm />}
+                </React.Fragment>
+            )}
 
             {!loading && !error && loaded && (
                 <React.Fragment>

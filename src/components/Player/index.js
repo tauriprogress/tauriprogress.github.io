@@ -11,6 +11,7 @@ import PlayerStats from "./PlayerStats";
 import PlayerProgression from "./PlayerProgression";
 import PlayerLatestKills from "./PlayerLatestKills";
 import PlayerItems from "./PlayerItems";
+import SelectRealm from "../SelectRealm";
 import ErrorMessage from "../ErrorMessage";
 
 import { playerDataFetch } from "../../redux/actions";
@@ -37,7 +38,10 @@ function Player({ classes, match, location }) {
     return (
         <section>
             {error ? (
-                <ErrorMessage message={error} />
+                <React.Fragment>
+                    <ErrorMessage message={error} />
+                    {error === "character not found" && <SelectRealm />}
+                </React.Fragment>
             ) : loading ? (
                 <Loading />
             ) : (
