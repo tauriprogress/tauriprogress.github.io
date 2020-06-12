@@ -13,6 +13,8 @@ import TauriApi from "../TauriApi";
 
 import NotFound from "../NotFound";
 
+import { validateRealm } from "./helpers";
+
 function RouteSwitch() {
     const location = useLocation();
     const background = location.state && location.state.background;
@@ -27,18 +29,38 @@ function RouteSwitch() {
                         path="/raid/:raidName/:bossName?"
                         component={RaidContainer}
                     />
-                    <Route exact path="/guild/:guildName" component={Guild} />
+                    <Route
+                        exact
+                        path="/guild/:guildName"
+                        component={({ match }) =>
+                            validateRealm(match, location, Guild)
+                        }
+                    />
                     <Route
                         exact
                         path="/player/:playerName"
-                        component={Player}
+                        component={({ match }) =>
+                            validateRealm(match, location, Player)
+                        }
                     />
-                    <Route exact path="/log/:logId" component={FightLog} />
+                    <Route
+                        exact
+                        path="/log/:logId"
+                        component={({ match }) =>
+                            validateRealm(match, location, FightLog)
+                        }
+                    />
                     <Route exact path="/secret" component={TauriApi} />
                     <Route component={NotFound} />
                 </Switch>
                 {background && (
-                    <Route exact path="/log/:logId" component={ModalFightLog} />
+                    <Route
+                        exact
+                        path="/log/:logId"
+                        component={({ match }) =>
+                            validateRealm(match, location, ModalFightLog)
+                        }
+                    />
                 )}
             </main>
         </React.Fragment>
