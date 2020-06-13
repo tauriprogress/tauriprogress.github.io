@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import validateRealm from "../Router/validateRealm";
+
 import Grid from "@material-ui/core/Grid";
 
 import Loading from "../Loading";
@@ -69,4 +71,4 @@ function Player({ classes, match, location }) {
     );
 }
 
-export default withStyles(styles)(Player);
+export default withStyles(styles)(validateRealm()(Player));

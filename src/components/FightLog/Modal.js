@@ -38,7 +38,7 @@ function styles(theme) {
     };
 }
 
-function FightLogWithModal({ classes }) {
+function FightLogWithModal({ match, classes }) {
     const history = useHistory();
 
     function close(e) {
@@ -62,7 +62,7 @@ function FightLogWithModal({ classes }) {
                     <CloseIcon />
                 </Fab>
                 <div className={classes.logContainer}>
-                    <FightLog />
+                    <FightLog match={match} />
                 </div>
             </Card>
         </Modal>

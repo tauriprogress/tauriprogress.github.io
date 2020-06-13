@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
+import validateRealm from "../Router/validateRealm";
+
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
@@ -18,8 +20,8 @@ import { guildFetch } from "../../redux/actions";
 import { getRealmFromLocation } from "../../helpers";
 
 function Guild({ match, location }) {
-    const urlGuildName = match.params.guildName;
-    const urlRealm = getRealmFromLocation(location);
+    const guildName = match.params.guildName;
+    const realm = getRealmFromLocation(location);
 
     const { loading, loaded, error } = useSelector(state => ({
         loading: state.guild.loading,
@@ -30,8 +32,8 @@ function Guild({ match, location }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(guildFetch({ guildName: urlGuildName, realm: urlRealm }));
-    }, [urlGuildName, urlRealm]);
+        dispatch(guildFetch({ guildName: guildName, realm: realm }));
+    }, [guildName, realm]);
     return (
         <section>
             {loading && <Loading />}
@@ -57,4 +59,4 @@ function Guild({ match, location }) {
     );
 }
 
-export default Guild;
+export default validateRealm()(Guild);
