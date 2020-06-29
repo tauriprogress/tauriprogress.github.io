@@ -218,7 +218,7 @@ function GuildList({ theme, classes }) {
                                                                             RouterLink
                                                                         }
                                                                         style={{
-                                                                            color: guild.gFaction
+                                                                            color: guild.faction
                                                                                 ? factionColors.horde
                                                                                 : factionColors.alliance
                                                                         }}
