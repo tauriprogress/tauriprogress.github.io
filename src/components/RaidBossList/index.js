@@ -8,7 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Card from "@material-ui/core/Card";
+import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
@@ -20,16 +20,17 @@ function styles(theme) {
     return {
         container: {
             margin: "auto",
-            display: "flex",
-            justifyContent: "center"
+            display: "flex"
         },
-        card: {
+        content: {
             minWidth: "200px",
             maxWidth: "260px",
             margin: `0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
-            flex: 1
+            flex: 1,
+            borderRadius: "4px"
         },
         title: {
+            borderRadius: "4px",
             backgroundColor: theme.palette.primary.main,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",
@@ -58,7 +59,7 @@ function RaidBossList({ raid, classes, selected }) {
 
     return (
         <Container className={classes.container}>
-            <Card className={classes.card}>
+            <Container className={classes.content}>
                 <Grid
                     container
                     style={{
@@ -74,7 +75,7 @@ function RaidBossList({ raid, classes, selected }) {
                     <Grid item>{open ? <ExpandLess /> : <ExpandMore />}</Grid>
                 </Grid>
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List disablePadding>
+                    <List disablePadding className={classes.list}>
                         <Link
                             color="inherit"
                             component={RouterLink}
@@ -87,7 +88,6 @@ function RaidBossList({ raid, classes, selected }) {
                                     button
                                     selected={selected === 0}
                                     className={classes.listItem}
-                                    divider
                                 >
                                     Summary
                                 </ListItem>
@@ -120,7 +120,6 @@ function RaidBossList({ raid, classes, selected }) {
                                             key={name}
                                             selected={selected === index + 1}
                                             className={classes.listItem}
-                                            divider
                                         >
                                             {name}
                                         </ListItem>
@@ -129,8 +128,9 @@ function RaidBossList({ raid, classes, selected }) {
                             );
                         })}
                     </List>
+                    <Divider />
                 </Collapse>
-            </Card>
+            </Container>
         </Container>
     );
 }
