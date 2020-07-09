@@ -12,7 +12,6 @@ function styles(theme) {
         container: {
             display: "flex",
             flexDirection: "column",
-            marginTop: theme.spacing(1),
             height: "480px"
         },
         latestKills: {

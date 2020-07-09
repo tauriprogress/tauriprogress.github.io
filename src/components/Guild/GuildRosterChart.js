@@ -15,7 +15,6 @@ import { classImg } from "../../helpers";
 function styles(theme) {
     return {
         container: {
-            marginTop: theme.spacing(1),
             height: "480px",
             display: "flex",
             flexDirection: "column"
@@ -108,9 +107,11 @@ function GuildRosterChart({
                                             item
                                             className={classes.bar}
                                             style={{
-                                                width: `${(charClass.count /
-                                                    maxClassCount) *
-                                                    100}%`,
+                                                width: `${
+                                                    (charClass.count /
+                                                        maxClassCount) *
+                                                    100
+                                                }%`,
                                                 backgroundColor:
                                                     theme.palette.classColors[
                                                         charClass.classId
