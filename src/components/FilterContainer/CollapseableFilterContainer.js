@@ -32,8 +32,7 @@ function styles(theme) {
         filterContainer: {
             backgroundColor: theme.palette.background.accent,
             marginBottom: theme.spacing(1),
-            borderRadius: "4px",
-            marginTop: theme.spacing(1)
+            borderRadius: "4px"
         },
         iconContainer: {
             height: "15px"
