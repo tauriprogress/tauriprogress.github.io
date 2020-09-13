@@ -1,13 +1,11 @@
+const fs = require("fs");
 const util = require("util");
-const fs = require("fs-extra");
 const exec = util.promisify(require("child_process").exec);
 
 const googlAnalitycs =
     "<!-- Global site tag (gtag.js) - Google Analytics --><script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-156000531-1\"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-156000531-1');</script>";
 const spaScript =
     '<script type="text/javascript">(function(l) { if (l.search) { var q = {}; l.search.slice(1).split("&").forEach(function(v) {var a = v.split("=");q[a[0]] = a.slice(1).join("=").replace(/~and~/g, "&");});if (q.p !== undefined) {window.history.replaceState(null,null,l.pathname.slice(0, -1) +(q.p || "") +(q.q ? "?" + q.q : "") +l.hash);}}})(window.location);</script>';
-const urlsPath = "./node_modules/tauriprogress-constants/urls.json";
-const serverUrl = "https://tauriprogress-server.glitch.me";
 const oldBuildFiles = [
     "static",
     "manifest.json",
@@ -18,12 +16,8 @@ const oldBuildFiles = [
     "icon.svg"
 ];
 
-(async function() {
+(async function () {
     try {
-        console.log("Changing server url to production");
-        const urls = await fs.readJson(urlsPath);
-        await fs.writeJson(urlsPath, { ...urls, serverUrl: serverUrl });
-
         console.log("Cleaning up previous build");
         const fileNames = await fs.readdir("./");
         for (let name of fileNames) {
@@ -61,9 +55,6 @@ const oldBuildFiles = [
         await exec('git commit -m "build"');
         console.log("Git push");
         await exec("git push");
-
-        console.log("Changing server url back to original");
-        await fs.writeJSON(urlsPath, urls);
 
         console.log("Successful build and push");
     } catch (err) {
