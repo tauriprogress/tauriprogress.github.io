@@ -9,6 +9,7 @@ import charLadderReducer from "./charLadderReducer";
 import additionalInfoReducer from "./additionalInfoReducer";
 import fightLogReducer from "./fightLogReducer";
 import themesReducer from "./themesReducer";
+import environmentReducer from "./environmentReducer";
 
 export default combineReducers({
     raidInfo: raidInfo,
@@ -20,5 +21,6 @@ export default combineReducers({
     charLadder: charLadderReducer,
     additionalInfo: additionalInfoReducer,
     fightLog: fightLogReducer,
-    themes: themesReducer
+    themes: themesReducer,
+    enviroment: environmentReducer
 });
