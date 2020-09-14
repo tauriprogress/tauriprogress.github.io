@@ -1,5 +1,5 @@
-import { realms } from "tauriprogress-constants";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 
 import { validRealm, getRealmFromLocation } from "../../helpers";
@@ -9,6 +9,7 @@ function validateRealm() {
         const ValidateRealm = React.forwardRef(
             ({ innerRef, ...otherprops }, ref) => {
                 const location = useLocation();
+                const realms = useSelector(state => state.environment.realms);
 
                 return !validRealm(getRealmFromLocation(location)) ? (
                     <Redirect
