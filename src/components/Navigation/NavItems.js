@@ -1,4 +1,3 @@
-import { raidName } from "tauriprogress-constants/currentContent";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
@@ -55,22 +54,6 @@ function NavItems({ classes }) {
                         color="inherit"
                     >
                         Home
-                    </Link>
-                </Typography>
-            </Grid>
-
-            <Grid item>
-                <Typography className={classes.navItem}>
-                    <Link
-                        component={RouterLink}
-                        to={`/raid/${raidName}`}
-                        onClick={() => {
-                            dispatch(navToggle(false));
-                            dispatch(raidSelectBoss(0));
-                        }}
-                        color="inherit"
-                    >
-                        {raidName}
                     </Link>
                 </Typography>
             </Grid>

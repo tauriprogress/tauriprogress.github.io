@@ -1,5 +1,4 @@
-import { serverUrl } from "tauriprogress-constants/urls";
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, select } from "redux-saga/effects";
 import {
     raidLoading,
     raidFill,
@@ -8,7 +7,7 @@ import {
     raidSelectBoss
 } from "../actions";
 
-async function getData(raidName) {
+async function getData(serverUrl, raidName) {
     return await fetch(`${serverUrl}/getraid`, {
         method: "post",
         headers: {
@@ -26,7 +25,8 @@ function* fetchRaid({ payload: raidName }) {
         yield put(raidChangeRaidData(raidName));
         yield put(raidSelectBoss(0));
 
-        const response = yield call(getData, raidName);
+        const serverUrl = yield select(state => state.environment.serverUrl);
+        const response = yield call(getData, serverUrl, raidName);
 
         if (!response.success) {
             throw new Error(response.errorstring);

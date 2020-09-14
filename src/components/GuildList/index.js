@@ -1,4 +1,3 @@
-import { difficultyLabels } from "tauriprogress-constants";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -46,7 +45,7 @@ function styles(theme) {
                 fontSize: `${18 / 16}rem`
             }
         },
-        guildName: {
+        name: {
             fontSize: `${18 / 16}rem`,
             lineHeight: `${20 / 16}rem`
         },
@@ -92,6 +91,9 @@ function styles(theme) {
 function GuildList({ theme, classes }) {
     const { factionColors, progStateColors } = theme.palette;
     const { data, loading, error } = useSelector(state => state.guildList);
+    const difficultyNames = useSelector(
+        state => state.environment.difficultyNames
+    );
     const timeBoundary = guildActivityBoundary();
 
     const [filter, setFilter] = useState({
@@ -183,10 +185,7 @@ function GuildList({ theme, classes }) {
                                             : false;
 
                                         return (
-                                            <TableRow
-                                                key={guild.guildName}
-                                                hover
-                                            >
+                                            <TableRow key={guild._id} hover>
                                                 <TableCell
                                                     className={classes.cell}
                                                 >
@@ -210,7 +209,7 @@ function GuildList({ theme, classes }) {
                                                             >
                                                                 <Typography
                                                                     className={
-                                                                        classes.guildName
+                                                                        classes.name
                                                                     }
                                                                 >
                                                                     <Link
@@ -218,14 +217,14 @@ function GuildList({ theme, classes }) {
                                                                             RouterLink
                                                                         }
                                                                         style={{
-                                                                            color: guild.faction
+                                                                            color: guild.f
                                                                                 ? factionColors.horde
                                                                                 : factionColors.alliance
                                                                         }}
-                                                                        to={`/guild/${guild.guildName}?realm=${guild.realm}`}
+                                                                        to={`/guild/${guild.name}?realm=${guild.realm}`}
                                                                     >
                                                                         {
-                                                                            guild.guildName
+                                                                            guild.name
                                                                         }
                                                                     </Link>
                                                                 </Typography>
@@ -246,7 +245,7 @@ function GuildList({ theme, classes }) {
                                                             difficulty => (
                                                                 <Grid
                                                                     item
-                                                                    key={`${guild.guildName} ${difficulty}`}
+                                                                    key={`${guild.name} ${difficulty}`}
                                                                 >
                                                                     {progress[
                                                                         difficulty
@@ -260,7 +259,7 @@ function GuildList({ theme, classes }) {
                                                                                 ] *
                                                                                     1000 ? (
                                                                                     <Tooltip
-                                                                                        title={`${guild.guildName} is not actively raiding in ${difficultyLabels[difficulty]} anymore`}
+                                                                                        title={`${guild.name} is not actively raiding in ${difficultyNames[difficulty]} anymore`}
                                                                                     >
                                                                                         <span
                                                                                             className={
@@ -272,7 +271,7 @@ function GuildList({ theme, classes }) {
                                                                                     </Tooltip>
                                                                                 ) : (
                                                                                     <Tooltip
-                                                                                        title={`${guild.guildName} is raiding in ${difficultyLabels[difficulty]}`}
+                                                                                        title={`${guild.name} is raiding in ${difficultyNames[difficulty]}`}
                                                                                     >
                                                                                         <span
                                                                                             className={
@@ -316,7 +315,7 @@ function GuildList({ theme, classes }) {
                                                                                     }
                                                                                     /14{" "}
                                                                                     {
-                                                                                        difficultyLabels[
+                                                                                        difficultyNames[
                                                                                             difficulty
                                                                                         ]
                                                                                     }
@@ -330,7 +329,7 @@ function GuildList({ theme, classes }) {
                                                                             >
                                                                                 0/14{" "}
                                                                                 {
-                                                                                    difficultyLabels[
+                                                                                    difficultyNames[
                                                                                         difficulty
                                                                                     ]
                                                                                 }

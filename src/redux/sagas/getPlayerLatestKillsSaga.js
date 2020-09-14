@@ -1,5 +1,3 @@
-import { serverUrl } from "tauriprogress-constants/urls";
-
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
     playerLatestKillsLoading,
@@ -7,7 +5,7 @@ import {
     playerLatestKillsSetError
 } from "../actions";
 
-async function getData(playerName, realm) {
+async function getData(serverUrl, playerName, realm) {
     return await fetch(`${serverUrl}/playerBossKills`, {
         method: "post",
         headers: {
@@ -33,7 +31,8 @@ function* fetchLatestKillsOfPlayer({ payload }) {
 
         yield put(playerLatestKillsLoading(true));
 
-        const response = yield call(getData, playerName, realm);
+        const serverUrl = yield select(state => state.environment.serverUrl);
+        const response = yield call(getData, serverUrl, playerName, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);

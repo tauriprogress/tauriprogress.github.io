@@ -1,5 +1,3 @@
-import { serverUrl } from "tauriprogress-constants/urls";
-
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
     playerProgressionLoading,
@@ -7,7 +5,7 @@ import {
     playerProgressionSetError
 } from "../actions";
 
-async function getData(playerName, realm, raidName, characterClass) {
+async function getData(serverUrl, playerName, realm, raidName, characterClass) {
     return await fetch(`${serverUrl}/getplayerperformance`, {
         method: "post",
         headers: {
@@ -34,8 +32,10 @@ function* fetchPlayerProgression({ payload }) {
 
         yield put(playerProgressionLoading());
 
+        const serverUrl = yield select(state => state.environment.serverUrl);
         const response = yield call(
             getData,
+            serverUrl,
             playerName,
             realm,
             raidName,

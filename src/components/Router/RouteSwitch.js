@@ -6,7 +6,7 @@ import Navigation from "../Navigation";
 import Home from "../Home";
 import RaidContainer from "../RaidContainer";
 import Guild from "../Guild";
-import Player from "../Player";
+//import Player from "../Player";
 import FightLog from "../FightLog";
 import ModalFightLog from "../FightLog/Modal";
 import TauriApi from "../TauriApi";
@@ -28,11 +28,13 @@ function RouteSwitch() {
                         component={RaidContainer}
                     />
                     <Route exact path="/guild/:guildName" component={Guild} />
+                    {/*
                     <Route
                         exact
                         path="/player/:playerName"
                         component={Player}
                     />
+                    */}
                     <Route exact path="/log/:logId" component={FightLog} />
                     <Route exact path="/secret" component={TauriApi} />
                     <Route component={NotFound} />

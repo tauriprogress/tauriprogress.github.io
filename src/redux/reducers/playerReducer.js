@@ -1,6 +1,5 @@
 import { iconUrl } from "tauriprogress-constants/urls.json";
 
-import { raidName } from "tauriprogress-constants/currentContent";
 import { inventoryType } from "tauriprogress-constants";
 
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
@@ -17,7 +16,7 @@ const defaultState = {
         loading: false,
         error: null,
         data: null,
-        selectedRaid: raidName
+        selectedRaid: null
     },
     latestKills: {
         loading: false,

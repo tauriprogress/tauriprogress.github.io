@@ -1,5 +1,3 @@
-import { raids } from "tauriprogress-constants/currentContent";
-
 const defaultState = {
     data: null,
     error: null,
@@ -31,7 +29,7 @@ function guildReducer(state = defaultState, action) {
         case "GUILD_FILL":
             let progression = action.payload.progression;
 
-            for (let raid of raids) {
+            for (let raid of action.payload.raids) {
                 let raidName = raid.raidName;
                 for (let diffKey in progression[raidName]) {
                     for (let bossKey in progression[raidName][diffKey]) {

@@ -1,5 +1,3 @@
-import { abbreviation } from "tauriprogress-constants/currentContent";
-
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -32,10 +30,6 @@ function PlayerStats({ classes }) {
     });
 
     const general = [
-        {
-            label: `${abbreviation} HC`,
-            value: progression && getBossesDefeated(progression)
-        },
         { label: "Achievements", value: data && data.pts },
         { label: "Level", value: data && data.level },
         { label: "Ilvl", value: data && data.avgitemlevel }

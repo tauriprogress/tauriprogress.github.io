@@ -1,5 +1,3 @@
-import { serverUrl } from "tauriprogress-constants/urls";
-
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
     playerItemsLoading,
@@ -7,7 +5,7 @@ import {
     playerItemsFill
 } from "../actions";
 
-async function getData(ids, realm) {
+async function getData(serverUrl, ids, realm) {
     return await fetch(`${serverUrl}/getitems`, {
         method: "post",
         headers: {
@@ -36,7 +34,8 @@ function* fetchPlayerItems({ payload }) {
 
         yield put(playerItemsLoading(true));
 
-        const response = yield call(getData, filteredIds, realm);
+        const serverUrl = yield select(state => state.environment.serverUrl);
+        const response = yield call(getData, serverUrl, filteredIds, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);

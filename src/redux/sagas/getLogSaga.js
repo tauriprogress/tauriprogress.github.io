@@ -1,8 +1,7 @@
-import { serverUrl } from "tauriprogress-constants/urls";
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, select } from "redux-saga/effects";
 import { fightLogLoading, fightLogFill, fightLogSetError } from "../actions";
 
-async function getData(logId, realm) {
+async function getData(serverUrl, logId, realm) {
     return await fetch(`${serverUrl}/getlog`, {
         method: "post",
         headers: {
@@ -21,7 +20,8 @@ function* fetchLog({ payload }) {
 
         yield put(fightLogLoading());
 
-        const response = yield call(getData, logId, realm);
+        const serverUrl = yield select(state => state.environment.serverUrl);
+        const response = yield call(getData, serverUrl, logId, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);

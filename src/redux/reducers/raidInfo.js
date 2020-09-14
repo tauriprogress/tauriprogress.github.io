@@ -1,5 +1,3 @@
-import raids from "./raids";
-
 import raidReducer from "./raidReducer";
 
 const defaultState = {
@@ -15,7 +13,6 @@ function raidInfo(state = defaultState, action) {
         default:
             return {
                 ...state,
-                raids: raids(state.raids, action),
                 raid: raidReducer(state.raid, action, state.raids)
             };
     }

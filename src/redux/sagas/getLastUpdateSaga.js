@@ -1,12 +1,11 @@
-import { serverUrl } from "tauriprogress-constants/urls";
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, select } from "redux-saga/effects";
 import {
     additionalInfoLoading,
     additionalInfoFill,
     additionalInfoSetError
 } from "../actions";
 
-async function getData() {
+async function getData(serverUrl) {
     return await fetch(`${serverUrl}/lastupdated`).then(res => res.json());
 }
 
@@ -14,7 +13,8 @@ function* fetchLastUpdated() {
     try {
         yield put(additionalInfoLoading());
 
-        const response = yield call(getData);
+        const serverUrl = yield select(state => state.environment.serverUrl);
+        const response = yield call(getData, serverUrl);
 
         if (!response.success) {
             throw new Error(response.errorstring);
