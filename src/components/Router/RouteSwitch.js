@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 
-import Navigation from "../Navigation";
+import Header from "../Header";
 
 import Home from "../Home";
 import RaidContainer from "../RaidContainer";
@@ -18,7 +18,7 @@ function RouteSwitch() {
     const background = location.state && location.state.background;
     return (
         <React.Fragment>
-            <Navigation />
+            <Header />
             <main>
                 <Switch location={background || location}>
                     <Route exact path="/" render={Home} />
