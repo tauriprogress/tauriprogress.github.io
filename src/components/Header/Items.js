@@ -15,14 +15,11 @@ import discordIcon from "../../assets/social/discord.svg";
 function styles(theme) {
     return {
         iconButton: {
-            margin: 8,
-            padding: 3,
             "&:hover": {
                 color: theme.palette.secondary.main
             }
         },
         textItem: {
-            margin: theme.spacing(2) + 2,
             fontWeight: "500",
             position: "relative"
         },
@@ -33,12 +30,18 @@ function styles(theme) {
         },
         discordLogo: {
             position: "absolute",
-            top: 0,
             left: 0,
             width: "24px",
             height: "24px",
             marginRight: "4px",
             transform: "translate(0, -2px)"
+        },
+        verticalCenter: {
+            display: "flex",
+            alignItems: "center"
+        },
+        stretchHeight: {
+            height: "100%"
         }
     };
 }
@@ -47,34 +50,38 @@ function NavItems({ classes }) {
     const dispatch = useDispatch();
 
     return (
-        <Grid container>
-            <Grid item>
-                <Typography>
-                    <IconButton
-                        color="inherit"
-                        className={classes.iconButton}
-                        onClick={() => dispatch(navToggle())}
-                    >
-                        <MenuIcon fontSize="large" />
-                    </IconButton>
-                </Typography>
+        <Grid container className={classes.stretchHeight}>
+            <Grid item className={classes.verticalCenter}>
+                <div>
+                    <Typography>
+                        <IconButton
+                            color="inherit"
+                            className={classes.iconButton}
+                            onClick={() => dispatch(navToggle())}
+                        >
+                            <MenuIcon fontSize="large" />
+                        </IconButton>
+                    </Typography>
+                </div>
             </Grid>
-            <Grid item>
-                <Typography className={classes.textItem}>
-                    <a
-                        href="https://discordapp.com/invite/3RWayqd"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className={classes.customLink}
-                    >
-                        <img
-                            src={discordIcon}
-                            alt="discord"
-                            className={classes.discordLogo}
-                        />
-                        Discord
-                    </a>
-                </Typography>
+            <Grid item className={classes.verticalCenter}>
+                <div>
+                    <Typography className={classes.textItem}>
+                        <a
+                            href="https://discordapp.com/invite/3RWayqd"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className={classes.customLink}
+                        >
+                            <img
+                                src={discordIcon}
+                                alt="discord"
+                                className={classes.discordLogo}
+                            />
+                            Discord
+                        </a>
+                    </Typography>
+                </div>
             </Grid>
         </Grid>
     );

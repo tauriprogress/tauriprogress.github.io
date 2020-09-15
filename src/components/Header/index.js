@@ -16,13 +16,28 @@ import AdditionalInfo from "../AdditionalInfo";
 import { themeToggle } from "../../redux/actions";
 
 function styles(theme) {
+    const height = "55px";
     return {
+        container: {
+            height: height,
+            "& header": {
+                height: height,
+                width: "100%",
+                position: "fixed",
+                backgroundColor: theme.palette.background.default
+            }
+        },
         iconButton: {
-            margin: 8,
-            padding: 3,
             "&:hover": {
                 color: theme.palette.secondary.main
             }
+        },
+        stretchHeight: {
+            height: "100%"
+        },
+        verticalCenter: {
+            display: "flex",
+            alignItems: "center"
         }
     };
 }
@@ -31,44 +46,53 @@ function Header({ classes }) {
     const dispatch = useDispatch();
 
     return (
-        <React.Fragment>
-            <Grid
-                container
-                justify="space-between"
-                wrap="nowrap"
-                component="header"
-            >
-                <Grid item>
-                    <Items />
-                </Grid>
-                <Grid item>
-                    <Grid container>
-                        <Grid item>
-                            <Typography>
-                                <IconButton
-                                    color="inherit"
-                                    className={classes.iconButton}
-                                    onClick={() => dispatch(themeToggle())}
-                                >
-                                    <Brightness fontSize="large" />
-                                </IconButton>
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography>
-                                <IconButton
-                                    color="inherit"
-                                    className={classes.iconButton}
-                                >
-                                    <AdditionalInfo />
-                                </IconButton>
-                            </Typography>
+        <div className={classes.container}>
+            <header>
+                <Grid
+                    container
+                    justify="space-between"
+                    wrap="nowrap"
+                    alignContent="center"
+                    className={classes.stretchHeight}
+                >
+                    <Grid item className={classes.stretchHeight}>
+                        <Items />
+                    </Grid>
+                    <Grid item>
+                        <Grid container className={classes.stretchHeight}>
+                            <Grid item className={classes.verticalCenter}>
+                                <div>
+                                    <Typography>
+                                        <IconButton
+                                            color="inherit"
+                                            className={classes.iconButton}
+                                            onClick={() =>
+                                                dispatch(themeToggle())
+                                            }
+                                        >
+                                            <Brightness fontSize="large" />
+                                        </IconButton>
+                                    </Typography>
+                                </div>
+                            </Grid>
+                            <Grid item className={classes.verticalCenter}>
+                                <div>
+                                    <Typography>
+                                        <IconButton
+                                            color="inherit"
+                                            className={classes.iconButton}
+                                        >
+                                            <AdditionalInfo />
+                                        </IconButton>
+                                    </Typography>
+                                </div>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-            <Divider />
-        </React.Fragment>
+                <Divider />
+            </header>
+        </div>
     );
 }
 
