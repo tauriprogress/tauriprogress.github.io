@@ -1,23 +1,28 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import MenuIcon from "@material-ui/icons/Menu";
+import IconButton from "@material-ui/core/IconButton";
 
-import SearchBar from "../SearchBar";
-
-import { navToggle, raidSelectBoss } from "../../redux/actions";
+import { navToggle } from "../../redux/actions";
 
 import discordIcon from "../../assets/social/discord.svg";
 
 function styles(theme) {
     return {
-        navItem: {
-            margin: theme.spacing(2),
+        iconButton: {
+            margin: 8,
+            padding: 3,
+            "&:hover": {
+                color: theme.palette.secondary.main
+            }
+        },
+        textItem: {
+            margin: theme.spacing(2) + 2,
             fontWeight: "500",
             position: "relative"
         },
@@ -42,30 +47,20 @@ function NavItems({ classes }) {
     const dispatch = useDispatch();
 
     return (
-        <React.Fragment>
+        <Grid container>
             <Grid item>
-                <Typography className={classes.navItem}>
-                    <Link
-                        component={RouterLink}
-                        to="/"
-                        onClick={() => {
-                            dispatch(navToggle(false));
-                        }}
+                <Typography>
+                    <IconButton
                         color="inherit"
+                        className={classes.iconButton}
+                        onClick={() => dispatch(navToggle())}
                     >
-                        Home
-                    </Link>
+                        <MenuIcon fontSize="large" />
+                    </IconButton>
                 </Typography>
             </Grid>
             <Grid item>
-                <Typography className={classes.navItem}>
-                    <Link color="inherit">
-                        <SearchBar />
-                    </Link>
-                </Typography>
-            </Grid>
-            <Grid item>
-                <Typography className={classes.navItem}>
+                <Typography className={classes.textItem}>
                     <a
                         href="https://discordapp.com/invite/3RWayqd"
                         target="_blank"
@@ -81,7 +76,7 @@ function NavItems({ classes }) {
                     </a>
                 </Typography>
             </Grid>
-        </React.Fragment>
+        </Grid>
     );
 }
 

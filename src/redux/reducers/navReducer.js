@@ -1,5 +1,5 @@
 const defaultState = {
-    showNav: false
+    open: true
 };
 
 function navReducer(state = defaultState, action) {
@@ -7,10 +7,10 @@ function navReducer(state = defaultState, action) {
         case "NAV_TOGGLE":
             return {
                 ...state,
-                showNav:
+                open:
                     action.payload !== undefined
                         ? action.payload
-                        : state.showNav
+                        : state.open
                         ? false
                         : true
             };

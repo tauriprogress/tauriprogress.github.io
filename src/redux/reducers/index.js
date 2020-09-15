@@ -14,7 +14,7 @@ import environmentReducer from "./environmentReducer";
 export default combineReducers({
     raidInfo: raidInfo,
     raidBoss: raidBossReducer,
-    nav: navReducer,
+    navigation: navReducer,
     guildList: guildListReducer,
     guild: guildReducer,
     //player: playerReducer,
