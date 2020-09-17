@@ -1,5 +1,6 @@
+export const navBreakpoint = 1000;
 const defaultState = {
-    open: true
+    open: window.innerWidth < navBreakpoint ? false : true
 };
 
 function navReducer(state = defaultState, action) {
