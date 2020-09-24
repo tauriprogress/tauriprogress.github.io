@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 
@@ -9,9 +10,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
 
-import { realmNames } from "../../helpers";
+import { getRealmNames } from "../../helpers";
 
 function GuildListFilter({ theme, filter, setFilter }) {
+    const realms = getRealmNames(
+        useSelector(state => state.environment.realms)
+    );
+
     return (
         <FilterContainer>
             <FormControl>
@@ -28,7 +33,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                     <MenuItem value="">
                         <em>All</em>
                     </MenuItem>
-                    {realmNames.map(realmName => (
+                    {realms.map(realmName => (
                         <MenuItem key={realmName} value={realmName}>
                             <span>{realmName}</span>
                         </MenuItem>

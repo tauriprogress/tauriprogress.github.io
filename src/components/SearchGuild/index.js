@@ -2,26 +2,32 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { guildsFetch, navToggle } from "../../redux/actions";
+import { guildsFetch } from "../../redux/actions";
 
-function SearchGuild({ closeDrawer, history }) {
+function styles() {
+    return {
+        container: {
+            width: "100%"
+        }
+    };
+}
+
+function SearchGuild({ classes, history }) {
     const guilds = useSelector(state => {
         if (!state.guildList.data) {
             return [];
         }
 
         return state.guildList.data.map(guild => ({
-            label: guild.guildName,
-            value: {
-                guildName: guild.guildName,
-                realm: guild.realm
-            }
+            name: guild.name,
+            realm: guild.realm
         }));
     });
 
@@ -31,11 +37,7 @@ function SearchGuild({ closeDrawer, history }) {
 
     function submit() {
         if (guild) {
-            history.push(
-                `/guild/${guild.value.guildName}?realm=${guild.value.realm}`
-            );
-            dispatch(navToggle(false));
-            closeDrawer();
+            history.push(`/guild/${guild.name}?realm=${guild.realm}`);
         }
     }
 
@@ -45,6 +47,7 @@ function SearchGuild({ closeDrawer, history }) {
 
     return (
         <form
+            className={classes.container}
             onSubmit={e => {
                 e.preventDefault();
                 submit();
@@ -55,10 +58,8 @@ function SearchGuild({ closeDrawer, history }) {
                     <Autocomplete
                         options={guilds}
                         autoHighlight
-                        getOptionLabel={guild => guild.value.guildName}
-                        renderOption={guild => (
-                            <span>{guild.value.guildName}</span>
-                        )}
+                        getOptionLabel={guild => guild.name}
+                        renderOption={guild => <span>{guild.name}</span>}
                         renderInput={params => (
                             <TextField
                                 {...params}
@@ -96,4 +97,4 @@ function SearchGuild({ closeDrawer, history }) {
     );
 }
 
-export default withRouter(SearchGuild);
+export default withRouter(withStyles(styles)(SearchGuild));

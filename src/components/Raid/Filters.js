@@ -1,6 +1,7 @@
 import { specs, specToClass, characterClasses } from "tauriprogress-constants";
 
 import React from "react";
+import { useSelector } from "react-redux";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -11,7 +12,7 @@ import FilterContainer from "../FilterContainer";
 
 import { withTheme } from "@material-ui/core/styles";
 
-import { realmNames } from "../../helpers";
+import { getRealmNames } from "../../helpers";
 
 function Filters({
     filter,
@@ -42,7 +43,9 @@ function Filters({
     const classColor = filter.class
         ? classColors[filter.class].text
         : "inherit";
-
+    const realms = getRealmNames(
+        useSelector(state => state.environment.realms)
+    );
     return (
         <FilterContainer>
             <FormControl>
@@ -63,7 +66,7 @@ function Filters({
                     <MenuItem value="">
                         <em>All</em>
                     </MenuItem>
-                    {realmNames.map(realm => (
+                    {realms.map(realm => (
                         <MenuItem key={realm} value={realm}>
                             {realm}
                         </MenuItem>

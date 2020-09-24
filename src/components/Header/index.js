@@ -2,10 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
+
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-
 import Divider from "@material-ui/core/Divider";
 
 import Brightness from "@material-ui/icons/Brightness4";
@@ -15,13 +15,14 @@ import AdditionalInfo from "../AdditionalInfo";
 
 import { themeToggle } from "../../redux/actions";
 
+export const headerHeight = "55px";
+
 function styles(theme) {
-    const height = "55px";
     return {
         container: {
-            height: height,
+            height: headerHeight,
             "& header": {
-                height: height,
+                height: headerHeight,
                 width: "100%",
                 position: "fixed",
                 backgroundColor: theme.palette.background.default

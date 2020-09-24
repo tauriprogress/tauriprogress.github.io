@@ -5,8 +5,6 @@ import { withStyles } from "@material-ui/core";
 
 import Drawer from "@material-ui/core/Drawer";
 
-import SearchGuild from "./SearchGuild";
-import SearchPlayer from "./SearchPlayer";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 

@@ -1,15 +1,13 @@
 import { characterClasses, classToSpec } from "tauriprogress-constants";
 import { getNestedObjectValue } from "../../helpers";
 
-import { realmNames } from "../../helpers";
-
 const factionIds = [0, 1];
 let classIds = [];
 for (let classId in characterClasses) {
     classIds.push(classId);
 }
 
-export function applyFilter(data, raidData, filter) {
+export function applyFilter(data, raidData, filter, realmNames) {
     if (!data || !raidData || !filter) return data;
     let newData = { ...JSON.parse(JSON.stringify(data)) };
 

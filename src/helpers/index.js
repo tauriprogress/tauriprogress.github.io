@@ -1,12 +1,12 @@
-import { specs, characterClasses, realms } from "tauriprogress-constants";
+import { specs, characterClasses } from "tauriprogress-constants";
 
-export const realmNames = (() => {
+export function getRealmNames(realms) {
     let realmNames = [];
     for (let realmKey in realms) {
         realmNames.push(realms[realmKey]);
     }
     return realmNames;
-})();
+}
 
 const socketInfo = {
     1: {
@@ -111,6 +111,10 @@ export function categorizedLogDates(logs) {
 export function classImg(classId) {
     const imageName = characterClasses[classId];
     return require(`../assets/classes/${imageName}.jpg`);
+}
+
+export function raidImg(imageName) {
+    return require(`../assets/raids/${imageName}`);
 }
 
 export function getNestedObjectValue(obj, keys) {
@@ -266,7 +270,7 @@ export function colorWeight(current, max) {
     return Math.floor(percent / 20) * 20;
 }
 
-export function validRealm(realm) {
+export function validRealm(realms, realm) {
     for (let key in realms) {
         if (realms[key] === realm) {
             return true;

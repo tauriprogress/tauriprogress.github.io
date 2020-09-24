@@ -18,7 +18,7 @@ import {
     charLadderFilterReset
 } from "../../redux/actions";
 
-import { realmNames } from "../../helpers";
+import { getRealmNames } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -33,7 +33,10 @@ function styles(theme) {
 }
 
 function Filters({ classes, disableFilter, theme }) {
-    const filter = useSelector(state => state.charLadder.filter);
+    const { filter, realms } = useSelector(state => ({
+        filter: state.charLadder.filter,
+        realms: getRealmNames(state.environment.realms)
+    }));
     const dispatch = useDispatch();
 
     useEffect(() => () => dispatch(charLadderFilterReset()), []);
@@ -72,7 +75,7 @@ function Filters({ classes, disableFilter, theme }) {
         });
     }
     let realmOptions = [];
-    for (let realm of realmNames) {
+    for (let realm of realms) {
         realmOptions.push({
             value: realm,
             name: realm

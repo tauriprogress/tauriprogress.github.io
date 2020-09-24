@@ -1,7 +1,5 @@
-import { realms } from "tauriprogress-constants";
 import React, { useState } from "react";
-
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -14,14 +12,13 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
-import { navToggle } from "../../redux/actions";
+import { getRealmNames } from "../../helpers";
 
-import { realmNames } from "../../helpers";
-
-function styles(theme) {
+function styles() {
     return {
         container: {
-            marginTop: "16px"
+            marginTop: "16px",
+            width: "100%"
         },
         selectRealm: {
             width: "100%"
@@ -36,16 +33,16 @@ function styles(theme) {
     };
 }
 
-function SearchPlayer({ classes, closeDrawer, history }) {
+function SearchPlayer({ classes, history }) {
     const [player, setPlayer] = useState("");
+    const realms = getRealmNames(
+        useSelector(state => state.environment.realms)
+    );
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
-    const dispatch = useDispatch();
 
     function submit() {
         if (player) {
             history.push(`/player/${player}?realm=${realm}`);
-            dispatch(navToggle(false));
-            closeDrawer();
         }
     }
 
@@ -67,26 +64,28 @@ function SearchPlayer({ classes, closeDrawer, history }) {
                     />
                 </form>
             </Grid>
-            <Grid item className={classes.realm}>
-                <FormControl fullWidth>
-                    <InputLabel htmlFor="realm">Realm</InputLabel>
-                    <Select
-                        value={realm}
-                        onChange={e => setRealm(e.target.value)}
-                        inputProps={{
-                            name: "realm",
-                            id: "realm"
-                        }}
-                        classes={{ root: classes.selectRealm }}
-                    >
-                        {realmNames.map(realmName => (
-                            <MenuItem key={realmName} value={realmName}>
-                                {realmName}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </Grid>
+            {realms.length > 1 && (
+                <Grid item className={classes.realm}>
+                    <FormControl fullWidth>
+                        <InputLabel htmlFor="realm">Realm</InputLabel>
+                        <Select
+                            value={realm}
+                            onChange={e => setRealm(e.target.value)}
+                            inputProps={{
+                                name: "realm",
+                                id: "realm"
+                            }}
+                            classes={{ root: classes.selectRealm }}
+                        >
+                            {realms.map(realmName => (
+                                <MenuItem key={realmName} value={realmName}>
+                                    {realmName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+            )}
             <Grid item>
                 <Grid
                     container
@@ -106,4 +105,4 @@ function SearchPlayer({ classes, closeDrawer, history }) {
     );
 }
 
-export default withStyles(styles)(withRouter(SearchPlayer));
+export default withRouter(withStyles(styles)(SearchPlayer));
