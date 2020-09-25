@@ -34,22 +34,22 @@ function styles(theme) {
             width: `${width}px`,
             [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
                 display: "none"
-            },
-            "& nav:hover": {
-                overflowY: "scroll"
             }
         },
         container: {
             position: "fixed",
             width: `${width}px`,
-            height: `calc(100% - ${headerHeight})`
+            height: `calc(100% - ${headerHeight})`,
+            overflowX: "hidden"
         },
         nav: {
             height: "100%",
-            width: `${width}px`,
-            overflow: "hidden",
+            width: `${width + 17}px`,
+            overflowY: "scroll",
+            [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
+                width: `${width}px`
+            },
             "& > ul": {
-                width: `${width - 17}px`,
                 marginBottom: "20px"
             }
         },
