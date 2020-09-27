@@ -39,7 +39,6 @@ function RaidBoss({ match }) {
     const boss = data ? data[diff] : {};
 
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (
             match.params.raidName !== raidName ||

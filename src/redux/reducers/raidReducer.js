@@ -1,10 +1,16 @@
 const defaultState = {
-    data: null,
+    selected: 0,
     error: null,
     loading: false,
-    raidName: null,
-    raidData: null,
-    selected: 0
+    filter: {
+        difficulty: 6,
+        name: "",
+        class: "",
+        spec: "",
+        role: "",
+        faction: "",
+        realm: ""
+    }
 };
 
 function raidReducer(state = defaultState, action, raids) {

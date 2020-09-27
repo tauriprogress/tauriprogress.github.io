@@ -3,7 +3,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 
 import AppContainer from "../AppContainer";
 
-import RaidContainer from "../RaidContainer";
+import Raid from "../Raid";
 import Guild from "../Guild";
 //import Player from "../Player";
 import FightLog from "../FightLog";
@@ -23,7 +23,7 @@ function RouteSwitch() {
                 <Route
                     exact
                     path="/raid/:raidName/:bossName?"
-                    component={RaidContainer}
+                    component={Raid}
                 />
                 <Route exact path="/guild/:guildName" component={Guild} />
                 {/*

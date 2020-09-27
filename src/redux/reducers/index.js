@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
-import raidInfo from "./raidInfo";
+import raidReducer from "./raidReducer";
+import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
 import navReducer from "./navReducer";
 import guildListReducer from "./guildListReducer";
 import guildReducer from "./guildReducer";
+// rename this to character from player
 //import playerReducer from "./playerReducer";
 import charLadderReducer from "./charLadderReducer";
 import additionalInfoReducer from "./additionalInfoReducer";
@@ -12,7 +14,8 @@ import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
 
 export default combineReducers({
-    raidInfo: raidInfo,
+    raid: raidReducer,
+    raidSummary: raidSummaryReducer,
     raidBoss: raidBossReducer,
     navigation: navReducer,
     guildList: guildListReducer,
