@@ -5,16 +5,16 @@ import Grid from "@material-ui/core/Grid";
 
 import Header from "../Header";
 import SideNavigation from "../SideNavigation";
-
+import OverflowScroll from "../OverflowScroll";
 function styles() {
     return {
         container: {
-            display: "flex",
             width: "100%",
-            "& main": {
-                flex: 1,
-                paddingTop: "10px"
-            }
+            display: "flex"
+        },
+        content: {
+            flex: 1,
+            paddingTop: "10px"
         }
     };
 }
@@ -25,7 +25,9 @@ function AppContainer({ classes, children }) {
             <Header />
             <Grid className={classes.container}>
                 <SideNavigation />
-                <main>{children}</main>
+                <OverflowScroll className={classes.content}>
+                    <main>{children}</main>
+                </OverflowScroll>
             </Grid>
         </React.Fragment>
     );
