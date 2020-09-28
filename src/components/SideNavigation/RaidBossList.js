@@ -34,16 +34,6 @@ function RaidBossList({ raid, classes, selected }) {
 
     const dispatch = useDispatch();
 
-    const encounteredBossNames = {};
-
-    function uniqueBossNames(boss) {
-        if (encounteredBossNames[boss.name]) {
-            return false;
-        }
-        encounteredBossNames[boss.name] = true;
-        return true;
-    }
-
     return (
         <React.Fragment>
             <ListItem
@@ -74,39 +64,36 @@ function RaidBossList({ raid, classes, selected }) {
                             <ListItemText primary={"Summary"} />
                         </ListItem>
                     </Link>
-                    {raid.bosses
-                        .filter(uniqueBossNames)
-                        .reverse()
-                        .map((boss, index) => {
-                            let name = boss.name;
-                            let linkTo = `/raid/${raid.name}/${boss.name}`;
+                    {raid.bosses.reverse().map((boss, index) => {
+                        let name = boss.name;
+                        let linkTo = `/raid/${raid.name}/${boss.name}`;
 
-                            return (
-                                <Link
+                        return (
+                            <Link
+                                key={name}
+                                color="inherit"
+                                component={RouterLink}
+                                to={linkTo}
+                                onClick={() =>
+                                    dispatch(
+                                        raidBossFetch({
+                                            raidName: raid.name,
+                                            bossName: boss.name
+                                        })
+                                    )
+                                }
+                            >
+                                <ListItem
+                                    button
                                     key={name}
-                                    color="inherit"
-                                    component={RouterLink}
-                                    to={linkTo}
-                                    onClick={() =>
-                                        dispatch(
-                                            raidBossFetch({
-                                                raidName: raid.name,
-                                                bossName: boss.name
-                                            })
-                                        )
-                                    }
+                                    selected={selected === index + 1}
+                                    className={classes.nestedNavItem}
                                 >
-                                    <ListItem
-                                        button
-                                        key={name}
-                                        selected={selected === index + 1}
-                                        className={classes.nestedNavItem}
-                                    >
-                                        <ListItemText primary={name} />
-                                    </ListItem>
-                                </Link>
-                            );
-                        })}
+                                    <ListItemText primary={name} />
+                                </ListItem>
+                            </Link>
+                        );
+                    })}
                 </List>
             </Collapse>
         </React.Fragment>
