@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-
+import Button from "@material-ui/core/Button";
 function styles(theme) {
     return {
         container: {
@@ -23,16 +23,14 @@ function styles(theme) {
             paddingTop: "4px"
         },
         filterTitle: {
-            backgroundColor: theme.baseColors.dark,
+            backgroundColor: theme.baseColors.secondary,
             color: theme.baseColors.light,
             padding: theme.spacing(1),
             cursor: "pointer",
             borderRadius: "4px"
         },
         filterContainer: {
-            backgroundColor: theme.palette.background.accent,
-            marginBottom: theme.spacing(1),
-            borderRadius: "4px"
+            padding: "0 20px"
         },
         iconContainer: {
             height: "15px"
@@ -49,21 +47,22 @@ function CollapseableFilterContainer({
 
     return (
         <div className={classes.filterContainer}>
-            <Grid
-                container
-                justify={"center"}
+            <Button
+                fullWidth
+                variant="contained"
                 onClick={() => setOpen(!open)}
-                className={classes.filterTitle}
             >
-                <Grid item>
-                    <Typography color="inherit" variant="button">
-                        Filters
-                    </Typography>
+                <Grid container justify={"center"}>
+                    <Grid item>
+                        <Typography color="inherit" variant="button">
+                            Filters
+                        </Typography>
+                    </Grid>
+                    <Grid className={classes.iconContainer} item>
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                    </Grid>
                 </Grid>
-                <Grid className={classes.iconContainer} item>
-                    {open ? <ExpandLess /> : <ExpandMore />}
-                </Grid>
-            </Grid>
+            </Button>
 
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <Container className={classes.container}>{children}</Container>
