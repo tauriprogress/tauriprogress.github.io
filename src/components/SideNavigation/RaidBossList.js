@@ -64,13 +64,14 @@ function RaidBossList({ raid, classes, selected }) {
                             <ListItemText primary={"Summary"} />
                         </ListItem>
                     </Link>
-                    {raid.bosses.reverse().map((boss, index) => {
-                        let name = boss.name;
+                    {raid.bosses.map((a, index) => {
+                        const boss =
+                            raid.bosses[raid.bosses.length - 1 - index];
                         let linkTo = `/raid/${raid.name}/${boss.name}`;
 
                         return (
                             <Link
-                                key={name}
+                                key={boss.name}
                                 color="inherit"
                                 component={RouterLink}
                                 to={linkTo}
@@ -85,11 +86,10 @@ function RaidBossList({ raid, classes, selected }) {
                             >
                                 <ListItem
                                     button
-                                    key={name}
                                     selected={selected === index + 1}
                                     className={classes.nestedNavItem}
                                 >
-                                    <ListItemText primary={name} />
+                                    <ListItemText primary={boss.name} />
                                 </ListItem>
                             </Link>
                         );
