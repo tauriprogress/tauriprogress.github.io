@@ -25,6 +25,7 @@ function styles(theme) {
                 height: headerHeight,
                 width: "100%",
                 position: "fixed",
+                zIndex: 9999,
                 backgroundColor: theme.palette.background.default
             }
         },
