@@ -7,6 +7,8 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
+import BossSummary from "./BossSummary";
+
 import { applyFilter } from "./helpers";
 
 import { convertFightTime, getSpecImg } from "../../helpers";
@@ -43,23 +45,52 @@ function RaidSummary({ classes, match, theme }) {
         palette: { classColors, factionColors }
     } = theme;
 
-    const { loading, error, data } = useSelector(state => {
+    const raidName = match.params.raidName;
+
+    const { loading, error, data, raid } = useSelector(state => {
         return {
-            ...state.raidSummary
+            ...state.raidSummary,
+            raid: state.environment.currentContent.raids.reduce((acc, raid) => {
+                if (raid.name === raidName) {
+                    acc = raid;
+                }
+                return acc;
+            }, null)
         };
     });
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (match.params.raidName || (!data && !loading))
-            dispatch(fetchRaidSummary(raidNameToId[match.params.raidName]));
+        if (raidName || (!data && !loading))
+            dispatch(fetchRaidSummary(raidNameToId[raidName]));
     }, []);
 
     return (
         <div>
-            {JSON.stringify(error)}
-            {JSON.stringify(data)}
+            {loading && <Loading />}
+            {error && <ErrorMessage message={error} />}
+            {!error && !loading && data && (
+                <React.Fragment>
+                    {raid.bosses.map(boss => {
+                        let bossData = {};
+                        for (const difficulty in boss.difficultyIds) {
+                            bossData[difficulty] =
+                                data[
+                                    `${boss.difficultyIds[difficulty]} ${difficulty}`
+                                ];
+                        }
+                        return (
+                            <BossSummary
+                                bossInfo={boss}
+                                data={bossData}
+                                key={boss.name}
+                            />
+                        );
+                    })}
+                    here is the data{console.log(data)}
+                </React.Fragment>
+            )}
         </div>
     );
 }
