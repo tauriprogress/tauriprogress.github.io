@@ -1,9 +1,23 @@
+import constants from "tauriprogress-constants";
+const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
+
+const defaultDifficulty = constants[
+    defaultRealmGroup
+].currentContent.raids.reduce((acc, raid) => {
+    for (const difficulty of raid.difficulties) {
+        if (difficulty > acc) {
+            acc = difficulty;
+        }
+    }
+    return acc;
+}, 0);
+
 const defaultState = {
     selected: 0,
     error: null,
     loading: false,
     filter: {
-        difficulty: 6,
+        difficulty: defaultDifficulty,
         class: "",
         spec: "",
         role: "",
