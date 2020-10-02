@@ -4,7 +4,6 @@ const defaultState = {
     loading: false,
     filter: {
         difficulty: 6,
-        name: "",
         class: "",
         spec: "",
         role: "",
@@ -15,40 +14,27 @@ const defaultState = {
 
 function raidReducer(state = defaultState, action, raids) {
     switch (action.type) {
-        case "RAID_CHANGE_RAIDDATA":
-            let raidData = raids[action.payload] || null;
-
-            return {
-                ...state,
-                raidName: action.payload,
-                raidData
-            };
-
-        case "RAID_SELECT_BOSS":
-            return {
-                ...state,
-                selected: action.payload
-            };
-
-        case "RAID_LOADING":
-            return {
-                ...state,
-                loading: true,
-                error: null,
-                raidName: action.payload
-            };
-        case "RAID_FILL":
-            return {
-                ...state,
-                data: action.payload,
-                loading: false,
-                error: null
-            };
-        case "RAID_SET_ERROR":
-            if (!action.payload) {
-                action.payload = "Unkown error.";
+        case "RAID_FILTER_SET":
+            if (action.payload.filterName === "class") {
+                return {
+                    ...state,
+                    filter: {
+                        ...state.filter,
+                        [action.payload.filterName]: action.payload.value,
+                        spec: ""
+                    }
+                };
             }
-            return { ...state, error: action.payload, loading: false };
+
+            return {
+                ...state,
+                filter: {
+                    ...state.filter,
+                    [action.payload.filterName]: action.payload.value
+                }
+            };
+        case "RAID_FILTER_RESET":
+            return { ...state, filter: defaultState.filter };
         default:
             return state;
     }

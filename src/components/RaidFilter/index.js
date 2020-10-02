@@ -14,6 +14,8 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 
 import { getRealmNames } from "../../helpers";
 
+import { setRaidFilter } from "../../redux/actions";
+
 function styles(theme) {
     return {
         capitalize: {
@@ -31,7 +33,7 @@ function RaidFilter({ classes, theme }) {
         difficultyNames,
         difficulties
     } = useSelector(state => ({
-        filter: state.charLadder.filter, // from where
+        filter: state.raid.filter,
         realms: getRealmNames(state.environment.realms),
         specs: state.environment.specs,
         characterClassNames: state.environment.characterClassNames,
@@ -173,10 +175,12 @@ function RaidFilter({ classes, theme }) {
                         style={select.style}
                         value={filter[select.name]}
                         onChange={e =>
-                            console.log({
-                                filterName: select.name,
-                                value: e.target.value
-                            })
+                            dispatch(
+                                setRaidFilter({
+                                    filterName: select.name,
+                                    value: e.target.value
+                                })
+                            )
                         }
                         inputProps={{
                             name: select.name,

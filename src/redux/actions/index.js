@@ -340,4 +340,5 @@ export function raidInfoChangeDiff(payload) {
     };
 }
 
+export * from "./raid";
 export * from "./raidSummary";
