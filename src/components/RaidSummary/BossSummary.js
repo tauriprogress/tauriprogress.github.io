@@ -1,11 +1,14 @@
 import React from "react";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
+import { Link as RouterLink } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 
 import WithRealm from "../WithRealm";
+import LogLink from "../LogLink";
 
 import { applyFilter } from "./helpers";
 
@@ -36,7 +39,6 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
         palette: { classColors, factionColors }
     } = theme;
 
-    console.log(factionColors);
     return (
         <div className={classes.container}>
             <Typography variant="h5" align="center">
@@ -68,12 +70,26 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 : ""
                                         }}
                                     >
-                                        {log.guild ? log.guild.name : "Random"}
+                                        {log.guild ? (
+                                            <Link
+                                                style={{
+                                                    color: "inherit"
+                                                }}
+                                                component={RouterLink}
+                                                to={`/guild/${log.guild.name}?realm=${log.realm}`}
+                                            >
+                                                {log.guild.name}
+                                            </Link>
+                                        ) : (
+                                            "Random"
+                                        )}
                                     </p>
                                 </WithRealm>
 
                                 <p className={classes.listText}>
-                                    {convertFightTime(log.fightLength)}
+                                    <LogLink logId={log.id} realm={log.realm}>
+                                        {convertFightTime(log.fightLength)}
+                                    </LogLink>
                                 </p>
                             </li>
                         ))}
@@ -99,12 +115,28 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 : ""
                                         }}
                                     >
-                                        {log.guild ? log.guild.name : "Random"}
+                                        {log.guild ? (
+                                            <Link
+                                                style={{
+                                                    color: "inherit"
+                                                }}
+                                                component={RouterLink}
+                                                to={`/guild/${log.guild.name}?realm=${log.realm}`}
+                                            >
+                                                {log.guild.name}
+                                            </Link>
+                                        ) : (
+                                            "Random"
+                                        )}
                                     </p>
                                 </WithRealm>
 
                                 <p className={classes.listText}>
-                                    {dateToString(new Date(log.date * 1000))}
+                                    <LogLink logId={log.id} realm={log.realm}>
+                                        {dateToString(
+                                            new Date(log.date * 1000)
+                                        )}
+                                    </LogLink>
                                 </p>
                             </li>
                         ))}
