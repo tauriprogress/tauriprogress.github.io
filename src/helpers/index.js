@@ -283,3 +283,7 @@ export function validRealm(realms, realm) {
 export function getRealmFromLocation(location) {
     return new URLSearchParams(location.search).get("realm");
 }
+
+export function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
