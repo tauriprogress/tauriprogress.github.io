@@ -1,76 +1,76 @@
-import { characterClasses, classToSpec } from "tauriprogress-constants";
-import { getNestedObjectValue } from "../../helpers";
+import { getNestedObjectValue, capitalize } from "../../helpers";
 
-const factionIds = [0, 1];
-let classIds = [];
-for (let classId in characterClasses) {
-    classIds.push(classId);
-}
+export function applyFilter(bossData, filter, specs) {
+    let boss = JSON.parse(JSON.stringify(bossData[filter.difficulty]));
 
-export function applyFilter(data, raidData, filter, realmNames) {
-    if (!data || !raidData || !filter) return data;
-    let newData = { ...JSON.parse(JSON.stringify(data)) };
+    for (const property of ["firstKills", "fastestKills"]) {
+        let data = [];
+        for (const realmName in boss[property]) {
+            if (filter.realm !== "" && filter.realm !== realmName) continue;
 
-    let realms = filter.realm !== "" ? [filter.realm] : realmNames;
-    let factions = filter.faction !== "" ? [filter.faction] : factionIds;
-    let classes = filter.class !== "" ? [filter.class] : classIds;
+            for (const faction in boss[property][realmName]) {
+                if (filter.faction !== "" && filter.faction !== Number(faction))
+                    continue;
 
-    for (let encounter of raidData.encounters) {
-        let bossName = encounter.encounter_name;
-        let fastestKill = {
-            fight_time: Number.MAX_VALUE
-        };
-        let bestDps = {
-            dps: 0
-        };
-        let bestHps = {
-            hps: 0
-        };
-        for (let realm of realms) {
-            for (let faction of factions) {
-                let currentFastKill = getNestedObjectValue(
-                    data[bossName].fastestKills,
-                    [realm, faction]
-                )[0];
-                if (
-                    currentFastKill &&
-                    currentFastKill.fight_time < fastestKill.fight_time
-                ) {
-                    fastestKill = currentFastKill;
+                data = data.concat(boss[property][realmName][faction]);
+            }
+        }
+
+        boss[property] = data
+            .sort((a, b) => {
+                if (property === "firstKills") {
+                    return a.date - b.date;
+                } else {
+                    return a.fightLength - b.fightLength;
                 }
+            })
+            .slice(0, 3);
+    }
 
-                for (let classId of classes) {
-                    let specs =
-                        filter.spec !== ""
-                            ? [filter.spec]
-                            : classToSpec[classId];
+    for (const combatMetric of ["dps", "hps"]) {
+        const property = `best${capitalize(combatMetric)}`;
 
-                    for (let spec of specs) {
-                        let keys = [realm, faction, classId, spec];
+        let data = [];
+        for (const realmName in boss[property]) {
+            if (filter.realm !== "" && filter.realm !== realmName) continue;
 
-                        let dps = getNestedObjectValue(
-                            data[bossName].bestDps,
-                            keys
-                        );
-                        if (dps && dps.dps > bestDps.dps) {
-                            bestDps = dps;
-                        }
+            for (const faction in boss[property][realmName]) {
+                if (filter.faction !== "" && filter.faction !== Number(faction))
+                    continue;
 
-                        let hps = getNestedObjectValue(
-                            data[bossName].bestHps,
-                            keys
-                        );
-                        if (hps && hps.hps > bestHps.hps) {
-                            bestHps = hps;
+                for (const classId in boss[property][realmName][faction]) {
+                    if (filter.class !== "" && filter.class !== classId)
+                        continue;
+
+                    for (const specId in boss[property][realmName][faction][
+                        classId
+                    ]) {
+                        if (filter.spec !== "" && filter.spec !== specId)
+                            continue;
+
+                        let characters =
+                            boss[property][realmName][faction][classId][specId];
+                        if (filter.role) {
+                            data = data.concat(
+                                characters.filter(
+                                    char =>
+                                        specs[char.spec].role === filter.role
+                                )
+                            );
+                        } else {
+                            data = data.concat(characters);
                         }
                     }
                 }
             }
         }
 
-        newData[bossName].fastestKills = fastestKill;
-        newData[bossName].bestDps = bestDps;
-        newData[bossName].bestHps = bestHps;
+        boss[property] = data
+            .sort((a, b) => {
+                return b[combatMetric] - a[combatMetric];
+            })
+            .slice(0, 10);
     }
-    return newData;
+
+    return boss;
 }
