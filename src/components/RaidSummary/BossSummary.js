@@ -9,16 +9,24 @@ import Link from "@material-ui/core/Link";
 
 import WithRealm from "../WithRealm";
 import LogLink from "../LogLink";
+import SpecImg from "../SpecImg";
 
 import { applyFilter } from "./helpers";
 
-import { convertFightTime, dateToString } from "../../helpers";
+import {
+    convertFightTime,
+    dateToString,
+    getSpecImg,
+    shortNumber,
+    capitalize
+} from "../../helpers";
 
 function styles(theme) {
     return {
         container: {
             width: "280px",
-            margin: theme.spacing(1)
+            margin: theme.spacing(2),
+            padding: theme.spacing(1)
         },
         list: {
             listStyle: "none",
@@ -29,6 +37,17 @@ function styles(theme) {
         },
         listText: {
             margin: 0
+        },
+        uppercase: {
+            textTransform: "uppercase"
+        },
+        textOverflow: {
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
+        },
+        gridItem: {
+            maxWidth: "50%"
         }
     };
 }
@@ -44,13 +63,15 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
             <Typography variant="h5" align="center">
                 {bossInfo.name}
             </Typography>
+            <Divider />
+
             <Grid
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
             >
-                <Grid item xs>
+                <Grid className={classes.gridItem} item xs>
                     <Typography variant="subtitle2" align="center">
                         Fastest kills
                     </Typography>
@@ -95,7 +116,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                         ))}
                     </ul>
                 </Grid>
-                <Grid item xs>
+                <Grid className={classes.gridItem} item xs>
                     <Typography variant="subtitle2" align="center">
                         First kills
                     </Typography>
@@ -144,30 +165,70 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                 </Grid>
             </Grid>
             <Divider />
-            <div>
-                <div>
-                    <p>DPS</p>
-                    <ul>
-                        {boss.bestDps.map(character => (
-                            <li key={character._id}>
-                                {character.name}
-                                {character.dps}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div>
-                    <p>HPS</p>
-                    <ul>
-                        {boss.bestHps.map(character => (
-                            <li key={character._id}>
-                                {character.name}
-                                {character.hps}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
+
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                {["dps", "hps"].map(combatMetric =>
+                    boss[`best${capitalize(combatMetric)}`].length ? (
+                        <Grid className={classes.gridItem} item xs>
+                            <Typography
+                                variant="subtitle2"
+                                align="center"
+                                className={classes.uppercase}
+                            >
+                                {combatMetric}
+                            </Typography>
+                            <ul className={classes.list}>
+                                {boss[`best${capitalize(combatMetric)}`].map(
+                                    character => (
+                                        <li key={character._id}>
+                                            <p
+                                                className={`${classes.listText} ${classes.textOverflow}`}
+                                            >
+                                                <LogLink
+                                                    logId={character.logId}
+                                                    realm={character.realm}
+                                                >
+                                                    {shortNumber(
+                                                        character[combatMetric]
+                                                    )}
+                                                </LogLink>{" "}
+                                                <SpecImg
+                                                    src={getSpecImg(
+                                                        specs[character.spec]
+                                                            .image
+                                                    )}
+                                                    title={
+                                                        specs[character.spec]
+                                                            .label
+                                                    }
+                                                />
+                                                <Link
+                                                    component={RouterLink}
+                                                    to={`/player/${character.name}?realm=${character.realm}`}
+                                                    style={{
+                                                        color:
+                                                            classColors[
+                                                                character.class
+                                                            ].text
+                                                    }}
+                                                >
+                                                    {character.name}
+                                                </Link>
+                                            </p>
+                                        </li>
+                                    )
+                                )}
+                            </ul>
+                        </Grid>
+                    ) : null
+                )}
+            </Grid>
+            <Divider />
         </div>
     );
 }

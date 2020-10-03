@@ -16,7 +16,6 @@ function* fetchGuilds() {
         yield put(guildsLoad());
 
         const serverUrl = yield select(state => state.environment.urls.server);
-        console.log(serverUrl);
 
         const response = yield call(getData, serverUrl);
         if (!response.success) {
