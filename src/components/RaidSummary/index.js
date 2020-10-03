@@ -27,11 +27,7 @@ function styles(theme) {
     };
 }
 
-function RaidSummary({ classes, match, theme }) {
-    const {
-        palette: { classColors, factionColors }
-    } = theme;
-
+function RaidSummary({ classes, match }) {
     const raidName = match.params.raidName;
 
     const { loading, error, data, raid, filter, specs } = useSelector(state => {
@@ -85,4 +81,4 @@ function RaidSummary({ classes, match, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(RaidSummary));
+export default withStyles(styles)(RaidSummary);

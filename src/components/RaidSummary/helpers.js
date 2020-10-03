@@ -1,4 +1,4 @@
-import { getNestedObjectValue, capitalize } from "../../helpers";
+import { capitalize } from "../../helpers";
 
 export function applyFilter(bossData, filter, specs) {
     let boss = JSON.parse(JSON.stringify(bossData[filter.difficulty]));

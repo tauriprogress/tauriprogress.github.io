@@ -1,50 +1,116 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withTheme, withStyles } from "@material-ui/core/styles";
 
 import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+
+import WithRealm from "../WithRealm";
 
 import { applyFilter } from "./helpers";
+
+import { convertFightTime, dateToString } from "../../helpers";
 
 function styles(theme) {
     return {
         container: {
-            backgroundColor: "pink",
-            width: "260px",
+            width: "280px",
             margin: theme.spacing(1)
+        },
+        list: {
+            listStyle: "none",
+            padding: 0,
+            "& li": {
+                marginBottom: "5px"
+            }
+        },
+        listText: {
+            margin: 0
         }
     };
 }
 
-function BossSummary({ classes, bossInfo, data, filter, specs }) {
+function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
     const boss = applyFilter(data, filter, specs);
+    const {
+        palette: { classColors, factionColors }
+    } = theme;
+
+    console.log(factionColors);
     return (
         <div className={classes.container}>
-            <p>
-                {bossInfo.name} {boss.killCount} kills
-            </p>
-            <div>
-                <p>First kills</p>
-                <ul>
-                    {boss.firstKills.map(log => (
-                        <li key={log.id}>
-                            {log.guild ? log.guild.name : "random"}
+            <Typography variant="h5" align="center">
+                {bossInfo.name}
+            </Typography>
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+            >
+                <Grid item xs>
+                    <Typography variant="subtitle2" align="center">
+                        Fastest kills
+                    </Typography>
+                    <ul className={classes.list}>
+                        {boss.fastestKills.map(log => (
+                            <li key={log.id}>
+                                <WithRealm realmName={log.realm}>
+                                    <p
+                                        className={classes.listText}
+                                        style={{
+                                            color: log.guild
+                                                ? factionColors[
+                                                      log.guild.f
+                                                          ? "horde"
+                                                          : "alliance"
+                                                  ]
+                                                : ""
+                                        }}
+                                    >
+                                        {log.guild ? log.guild.name : "Random"}
+                                    </p>
+                                </WithRealm>
 
-                            {log.realm}
-                            {log.date}
-                        </li>
-                    ))}
-                </ul>
-                <p>Fastest kills</p>
-                <ul>
-                    {boss.fastestKills.map(log => (
-                        <li key={log.id}>
-                            {log.guild ? log.guild.name : "random"}
-                            {log.realm}
-                            {log.fightLength}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                                <p className={classes.listText}>
+                                    {convertFightTime(log.fightLength)}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                </Grid>
+                <Grid item xs>
+                    <Typography variant="subtitle2" align="center">
+                        First kills
+                    </Typography>
+                    <ul className={classes.list}>
+                        {boss.firstKills.map(log => (
+                            <li key={log.id}>
+                                <WithRealm realmName={log.realm}>
+                                    <p
+                                        className={classes.listText}
+                                        style={{
+                                            color: log.guild
+                                                ? factionColors[
+                                                      log.guild.f
+                                                          ? "horde"
+                                                          : "alliance"
+                                                  ]
+                                                : ""
+                                        }}
+                                    >
+                                        {log.guild ? log.guild.name : "Random"}
+                                    </p>
+                                </WithRealm>
+
+                                <p className={classes.listText}>
+                                    {dateToString(new Date(log.date * 1000))}
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
+                </Grid>
+            </Grid>
             <Divider />
             <div>
                 <div>
@@ -74,4 +140,4 @@ function BossSummary({ classes, bossInfo, data, filter, specs }) {
     );
 }
 
-export default withStyles(styles)(BossSummary);
+export default withStyles(styles)(withTheme(BossSummary));
