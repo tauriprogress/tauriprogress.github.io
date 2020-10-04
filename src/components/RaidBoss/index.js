@@ -33,7 +33,7 @@ function RaidBoss({ match }) {
     } = useSelector(state => {
         return {
             ...state.raidBoss,
-            diff: state.raidInfo.selectedDiff
+            diff: state.raid.filter.difficulty
         };
     });
     const boss = data ? data[diff] : {};
