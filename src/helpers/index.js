@@ -204,11 +204,10 @@ export function getLatestWednesday(date) {
 }
 
 export function dateToString(date) {
-    let day = date.getDate();
-
-    return `${day < 10 ? `${day}` : day} ${
-        months[date.getMonth()]
-    } ${date.getFullYear()}`;
+    return `${date.getFullYear()}-${paddingZero(
+        date.getMonth() + 1,
+        2
+    )}-${paddingZero(date.getDate(), 2)}`;
 }
 
 export function dateTextByWeek(weeksAgo) {
@@ -286,4 +285,8 @@ export function getRealmFromLocation(location) {
 
 export function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function paddingZero(number, padding) {
+    return String(number).padStart(padding, "0");
 }
