@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
@@ -29,8 +28,6 @@ function styles(theme) {
 
 function RaidBossList({ raid, classes, selected }) {
     const [open, setOpen] = useState(true);
-
-    const dispatch = useDispatch();
 
     return (
         <React.Fragment>

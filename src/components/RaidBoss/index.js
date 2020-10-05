@@ -1,3 +1,4 @@
+import { raidNameToId } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -10,16 +11,10 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
 import FastestKills from "./FastestKills";
-import LatestKills from "./LatestKills";
-import RaidBossStats from "./RaidBossStats";
+import RecentKills from "./RecentKills";
 import CharacterLadder from "../CharacterLadder";
-import SelectDifficulty from "../SelectDifficulty";
 
-import {
-    raidBossFetch,
-    raidInfoChangeDiff,
-    raidBossSelectTab
-} from "../../redux/actions";
+import { fetchRaidBoss, setRaidBossTab } from "../../redux/actions";
 
 function RaidBoss({ match }) {
     const {
@@ -28,59 +23,51 @@ function RaidBoss({ match }) {
         data,
         error,
         bossName,
-        diff,
-        raidName
+        difficulty,
+        filter,
+        difficultyNames
     } = useSelector(state => {
         return {
             ...state.raidBoss,
-            diff: state.raid.filter.difficulty
+            difficulty: state.raid.filter.difficulty,
+            filter: state.raid.filter,
+            difficultyNames: state.environment.difficultyNames
         };
     });
-    const boss = data ? data[diff] : {};
+    const boss = data ? data[difficulty] : {};
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (
-            match.params.raidName !== raidName ||
-            match.params.bossName !== bossName
-        ) {
+        if (match.params.bossName !== bossName) {
             dispatch(
-                raidBossFetch({
-                    raidName: match.params.raidName,
+                fetchRaidBoss({
+                    raidId: raidNameToId[match.params.raidName],
                     bossName: match.params.bossName
                 })
             );
         }
-    }, []);
+    }, [match.params.bossName]);
 
     return (
         <React.Fragment>
+            <Typography variant="h4" align="center">
+                {`${bossName} ${difficultyNames[difficulty]}`}
+                {boss.killCount && (
+                    <Typography variant="caption" color="textSecondary">
+                        {" "}
+                        {boss.killCount} Kills
+                    </Typography>
+                )}
+            </Typography>
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
-            {!error && data && (
+            {!loading && !error && data && (
                 <React.Fragment>
-                    {!loading && (
-                        <Typography variant="h4" align="center">
-                            {bossName}
-                            <Typography variant="caption" color="textSecondary">
-                                {" "}
-                                {boss.killCount} Kills
-                            </Typography>
-                        </Typography>
-                    )}
-
-                    <SelectDifficulty
-                        difficulty={diff}
-                        onChange={(e, value) =>
-                            dispatch(raidInfoChangeDiff(value))
-                        }
-                    />
-
                     <React.Fragment>
                         <Tabs
                             value={selectedTab}
                             onChange={(e, value) =>
-                                dispatch(raidBossSelectTab(value))
+                                dispatch(setRaidBossTab(value))
                             }
                             variant="scrollable"
                             scrollButtons="on"
@@ -89,7 +76,6 @@ function RaidBoss({ match }) {
                             <Tab label="Hps" />
                             <Tab label="Fastest" />
                             <Tab label="Latest" />
-                            <Tab label="Stats" />
                         </Tabs>
                         {(boss => {
                             switch (selectedTab) {
@@ -97,6 +83,7 @@ function RaidBoss({ match }) {
                                 case 1:
                                     return (
                                         <CharacterLadder
+                                            filter={filter}
                                             data={
                                                 selectedTab === 0
                                                     ? boss.dps
@@ -117,10 +104,8 @@ function RaidBoss({ match }) {
                                     );
                                 case 3:
                                     return (
-                                        <LatestKills data={boss.latestKills} />
+                                        <RecentKills data={boss.recentKills} />
                                     );
-                                case 4:
-                                    return <RaidBossStats data={boss.stats} />;
                                 default:
                                     return 0;
                             }

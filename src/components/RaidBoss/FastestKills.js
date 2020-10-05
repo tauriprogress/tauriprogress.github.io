@@ -11,12 +11,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Info from "@material-ui/icons/Info";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
+import InfoIcon from "../InfoIcon";
 
 import { convertFightTime } from "../../helpers";
 import DisplayDate from "../DisplayDate";
@@ -35,16 +35,14 @@ function FastestKills({ data, theme }) {
                         <TableCell>Guild</TableCell>
                         <TableCell>Kill time</TableCell>
                         <TableCell>Date</TableCell>
-                        <TableCell>Logs</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {data &&
-                        data.map((kill, index) => {
-                            const date = new Date(kill.killtime * 1000);
-
+                        data.map((log, index) => {
+                            const date = new Date(log.date * 1000);
                             return (
-                                <TableRow key={index} hover>
+                                <TableRow key={`${log.id} ${log.realm}`} hover>
                                     <TableCell>
                                         <Grid
                                             container
@@ -64,9 +62,9 @@ function FastestKills({ data, theme }) {
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
-                                                {kill.guilddata.name ? (
+                                                {log.guild ? (
                                                     <WithRealm
-                                                        realmName={kill.realm}
+                                                        realmName={log.realm}
                                                     >
                                                         <Typography>
                                                             <Link
@@ -74,25 +72,20 @@ function FastestKills({ data, theme }) {
                                                                     RouterLink
                                                                 }
                                                                 style={{
-                                                                    color: kill
-                                                                        .guilddata
-                                                                        .faction
+                                                                    color: log
+                                                                        .guild.f
                                                                         ? horde
                                                                         : alliance
                                                                 }}
-                                                                to={`/guild/${kill.guilddata.name}?realm=${kill.realm}`}
+                                                                to={`/guild/${log.guild.name}?realm=${log.realm}`}
                                                             >
-                                                                {
-                                                                    kill
-                                                                        .guilddata
-                                                                        .name
-                                                                }
+                                                                {log.guild.name}
                                                             </Link>
                                                         </Typography>
                                                     </WithRealm>
                                                 ) : (
                                                     <WithRealm
-                                                        realmName={kill.realm}
+                                                        realmName={log.realm}
                                                     >
                                                         <Typography>
                                                             Random
@@ -103,8 +96,14 @@ function FastestKills({ data, theme }) {
                                         </Grid>
                                     </TableCell>
 
-                                    <TableCell>
-                                        {convertFightTime(kill.fight_time)}
+                                    <TableCell style={{ fontWeight: "bold" }}>
+                                        <LogLink
+                                            logId={log.id}
+                                            realm={log.realm}
+                                        >
+                                            <InfoIcon />
+                                            {convertFightTime(log.fightLength)}
+                                        </LogLink>
                                     </TableCell>
 
                                     <TableCell>
@@ -114,20 +113,6 @@ function FastestKills({ data, theme }) {
                                                 align="right"
                                             />
                                         </DateTooltip>
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <LogLink
-                                            logId={kill.log_id}
-                                            realm={kill.realm}
-                                        >
-                                            <Info
-                                                style={{
-                                                    transform:
-                                                        "translate(0, 5px)"
-                                                }}
-                                            />
-                                        </LogLink>
                                     </TableCell>
                                 </TableRow>
                             );

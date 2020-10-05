@@ -1,20 +1,14 @@
 import { put, call, takeLatest, select } from "redux-saga/effects";
-import {
-    raidBossLoading,
-    raidBossFill,
-    raidBossSetError,
-    raidChangeRaidData,
-    raidSelectBoss
-} from "../actions";
+import { setRaidBossLoading, fillRaidBoss, setRaidBossError } from "../actions";
 
-async function getData(serverUrl, raidName, bossName) {
+async function getData(serverUrl, raidId, bossName) {
     return await fetch(`${serverUrl}/getboss`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            raidName: raidName,
+            raidId: raidId,
             bossName: bossName
         })
     }).then(res => res.json());
@@ -22,35 +16,24 @@ async function getData(serverUrl, raidName, bossName) {
 
 function* fetchRaidBoss({ payload }) {
     try {
-        const { raidName, bossName } = payload;
+        const { raidId, bossName } = payload;
+        console.log(raidId, bossName);
 
-        yield put(raidBossLoading({ raidName, bossName }));
-        yield put(raidChangeRaidData(raidName));
+        yield put(setRaidBossLoading({ raidId, bossName }));
 
-        const raidData = yield select(state => state.raidInfo.raid.raidData);
-
-        let selected = raidData
-            ? raidData.encounters.reduce((acc, curr, index) => {
-                  if (curr.encounter_name === bossName) acc = index + 1;
-                  return acc;
-              }, null)
-            : null;
-
-        yield put(raidSelectBoss(selected));
-
-        const serverUrl = yield select(state => state.environment.serverUrl);
-        const response = yield call(getData, serverUrl, raidName, bossName);
+        const serverUrl = yield select(state => state.environment.urls.server);
+        const response = yield call(getData, serverUrl, raidId, bossName);
 
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(raidBossFill(response.response));
+            yield put(fillRaidBoss(response.response));
         }
     } catch (err) {
-        yield put(raidBossSetError(err.message));
+        yield put(setRaidBossError(err.message));
     }
 }
 
 export default function* getRaidSaga() {
-    yield takeLatest("RAID_BOSS_FETCH", fetchRaidBoss);
+    yield takeLatest("RAIDBOSS_FETCH", fetchRaidBoss);
 }
