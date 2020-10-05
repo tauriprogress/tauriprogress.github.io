@@ -19,7 +19,12 @@ async function getData(serverUrl, raidId) {
 
 function* fetchRaidSummary({ payload: raidId }) {
     try {
-        yield put(setRaidSummaryLoading(true));
+        yield put(
+            setRaidSummaryLoading({
+                raidId: raidId,
+                loading: true
+            })
+        );
 
         const serverUrl = yield select(state => state.environment.urls.server);
         const response = yield call(getData, serverUrl, raidId);

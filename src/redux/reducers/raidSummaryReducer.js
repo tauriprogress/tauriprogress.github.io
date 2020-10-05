@@ -1,4 +1,5 @@
 const defaultState = {
+    raidId: undefined,
     loading: false,
     error: null,
     data: undefined
@@ -9,12 +10,14 @@ function raidSummaryReducer(state = defaultState, action) {
         case "RAIDSUMMARY_LOADING":
             return {
                 ...state,
-                loading: action.payload
+                raidId: action.payload.raidId,
+                loading: action.payload.loading
             };
 
         case "RAIDSUMMARY_ERROR":
             return {
                 ...state,
+                raidId: undefined,
                 error: action.payload
             };
 

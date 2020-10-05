@@ -12,8 +12,6 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Link from "@material-ui/core/Link";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { raidBossFetch, raidFetch } from "../../redux/actions";
-
 import { raidImg } from "../../helpers";
 
 function styles(theme) {
@@ -53,7 +51,6 @@ function RaidBossList({ raid, classes, selected }) {
                         color="inherit"
                         component={RouterLink}
                         to={`/raid/${raid.name}`}
-                        onClick={() => dispatch(raidFetch(raid.name))}
                     >
                         <ListItem
                             component="li"
@@ -75,14 +72,6 @@ function RaidBossList({ raid, classes, selected }) {
                                 color="inherit"
                                 component={RouterLink}
                                 to={linkTo}
-                                onClick={() =>
-                                    dispatch(
-                                        raidBossFetch({
-                                            raidName: raid.name,
-                                            bossName: boss.name
-                                        })
-                                    )
-                                }
                             >
                                 <ListItem
                                     button

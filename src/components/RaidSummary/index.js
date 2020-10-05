@@ -25,32 +25,40 @@ function styles(theme) {
 function RaidSummary({ classes, match }) {
     const raidName = match.params.raidName;
 
-    const { loading, error, data, raid, filter, specs } = useSelector(state => {
-        return {
-            ...state.raidSummary,
-            raid: state.environment.currentContent.raids.reduce((acc, raid) => {
-                if (raid.name === raidName) {
-                    acc = raid;
-                }
-                return acc;
-            }, null),
-            filter: state.raid.filter,
-            specs: state.environment.specs
-        };
-    });
+    const { raidId, loading, error, data, raid, filter, specs } = useSelector(
+        state => {
+            return {
+                ...state.raidSummary,
+                raid: state.environment.currentContent.raids.reduce(
+                    (acc, raid) => {
+                        if (raid.id === state.raidSummary.raidId) {
+                            acc = raid;
+                        }
+                        return acc;
+                    },
+                    null
+                ),
+                filter: state.raid.filter,
+                specs: state.environment.specs
+            };
+        }
+    );
 
     const dispatch = useDispatch();
-
     useEffect(() => {
-        if (raidName || (!data && !loading))
+        if (raidNameToId[raidName] !== raidId) {
             dispatch(fetchRaidSummary(raidNameToId[raidName]));
-    }, []);
+        }
+    }, [raidName]);
 
     return (
         <div>
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
-            {!error && !loading && data && (
+            {!raid && (
+                <ErrorMessage message={`${raidName} is not a valid raid.`} />
+            )}
+            {!error && !loading && raid && data && (
                 <Container className={classes.container}>
                     {raid.bosses.map(boss => {
                         let bossData = {};
@@ -62,9 +70,9 @@ function RaidSummary({ classes, match }) {
                         }
                         return (
                             <BossSummary
+                                key={boss.name}
                                 bossInfo={boss}
                                 data={bossData}
-                                key={boss.name}
                                 filter={filter}
                                 specs={specs}
                             />

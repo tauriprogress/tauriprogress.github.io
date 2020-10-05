@@ -174,7 +174,12 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
             >
                 {["dps", "hps"].map(combatMetric =>
                     boss[`best${capitalize(combatMetric)}`].length ? (
-                        <Grid className={classes.gridItem} item xs>
+                        <Grid
+                            key={combatMetric}
+                            className={classes.gridItem}
+                            item
+                            xs
+                        >
                             <Typography
                                 variant="subtitle2"
                                 align="center"
