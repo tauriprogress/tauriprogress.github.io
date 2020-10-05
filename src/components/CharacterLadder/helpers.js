@@ -1,13 +1,8 @@
-import { specs } from "tauriprogress-constants";
+import { shortRealmToFull } from "../../helpers";
 
-export function filterChars(filter, chars) {
+export function filterChars(filter, chars, specs) {
     if (!chars) return chars;
-    let regex = new RegExp(filter.name, "i");
     return chars.filter(char => {
-        if (filter.name !== "" && !regex.test(char.name)) {
-            return false;
-        }
-
         if (filter.class !== "" && char.class !== Number(filter.class)) {
             return false;
         }
@@ -16,11 +11,14 @@ export function filterChars(filter, chars) {
             return false;
         }
 
-        if (filter.faction !== "" && char.faction !== Number(filter.faction)) {
+        if (filter.faction !== "" && char.f !== Number(filter.faction)) {
             return false;
         }
 
-        if (filter.realm !== "" && char.realm !== filter.realm) {
+        if (
+            filter.realm !== "" &&
+            shortRealmToFull(char.realm) !== filter.realm
+        ) {
             return false;
         }
 
