@@ -39,83 +39,6 @@ export function guildSelectBoss(payload) {
     };
 }
 
-export function raidFetch(payload) {
-    return {
-        type: "RAID_FETCH",
-        payload
-    };
-}
-
-export function raidChangeRaidData(payload) {
-    return {
-        type: "RAID_CHANGE_RAIDDATA",
-        payload
-    };
-}
-
-export function raidSelectBoss(payload) {
-    return {
-        type: "RAID_SELECT_BOSS",
-        payload
-    };
-}
-
-export function raidFill(payload) {
-    return {
-        type: "RAID_FILL",
-        payload
-    };
-}
-
-export function raidSetError(payload) {
-    return {
-        type: "RAID_SET_ERROR",
-        payload
-    };
-}
-
-export function raidLoading(payload) {
-    return {
-        type: "RAID_LOADING",
-        payload
-    };
-}
-
-export function raidBossSelectTab(payload) {
-    return {
-        type: "RAID_BOSS_SELECT_TAB",
-        payload
-    };
-}
-
-export function raidBossFill(payload) {
-    return {
-        type: "RAID_BOSS_FILL",
-        payload
-    };
-}
-
-export function raidBossSetError(payload) {
-    return {
-        type: "RAID_BOSS_SET_ERROR",
-        payload
-    };
-}
-
-export function raidBossFetch(payload) {
-    return {
-        type: "RAID_BOSS_FETCH",
-        payload
-    };
-}
-
-export function raidBossLoading(payload) {
-    return {
-        type: "RAID_BOSS_LOADING",
-        payload
-    };
-}
-
 export function guildFetch(payload) {
     return {
         type: "GUILD_FETCH",
@@ -256,20 +179,6 @@ export function playerItemsFill(payload) {
     };
 }
 
-export function charLadderFilterSet(payload) {
-    return {
-        type: "CHAR_LADDER_FILTER_SET",
-        payload
-    };
-}
-
-export function charLadderFilterReset(payload) {
-    return {
-        type: "CHAR_LADDER_FILTER_RESET",
-        payload
-    };
-}
-
 export function lastUpdatedFetch(payload) {
     return {
         type: "LAST_UPDATED_FETCH",
@@ -333,12 +242,6 @@ export function themeToggle(payload) {
     };
 }
 
-export function raidInfoChangeDiff(payload) {
-    return {
-        type: "RAID_INFO_CHANGE_DIFF",
-        payload
-    };
-}
-
 export * from "./raid";
 export * from "./raidSummary";
+export * from "./raidBoss";
