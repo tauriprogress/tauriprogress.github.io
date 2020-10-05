@@ -6,7 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import Header from "../Header";
 import SideNavigation from "../SideNavigation";
 import OverflowScroll from "../OverflowScroll";
-function styles() {
+
+function styles(theme) {
     return {
         container: {
             width: "100%",
@@ -14,7 +15,7 @@ function styles() {
         },
         content: {
             flex: 1,
-            paddingTop: "10px"
+            padding: theme.spacing(2)
         }
     };
 }

@@ -29,9 +29,6 @@ function styles(theme) {
             cursor: "pointer",
             borderRadius: "4px"
         },
-        filterContainer: {
-            padding: "0 20px"
-        },
         iconContainer: {
             height: "15px"
         }
