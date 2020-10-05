@@ -1,4 +1,4 @@
-import { specs, characterClasses } from "tauriprogress-constants";
+import { specs, characterClasses, shortRealms } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
     let realmNames = [];
@@ -289,4 +289,14 @@ export function capitalize(string) {
 
 export function paddingZero(number, padding) {
     return String(number).padStart(padding, "0");
+}
+
+export function shortRealmToFull(shortRealmName) {
+    for (const realmName in shortRealms) {
+        if (shortRealms[realmName] === shortRealmName) {
+            return realmName;
+        }
+    }
+
+    return false;
 }
