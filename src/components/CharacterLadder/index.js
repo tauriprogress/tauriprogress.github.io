@@ -1,4 +1,4 @@
-import { characterSpecToClass, shortRealms } from "tauriprogress-constants";
+import { characterSpecToClass } from "tauriprogress-constants";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -41,7 +41,6 @@ function styles(theme) {
 function CharacterLadder({
     filter,
     classes,
-    disableFilter = {},
     type,
     data,
     theme,
