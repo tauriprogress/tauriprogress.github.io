@@ -12,7 +12,7 @@ import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { fightLogFetch } from "../../redux/actions";
+import { fetchFightLog } from "../../redux/actions";
 import { getRealmFromLocation } from "../../helpers";
 
 function FightLog({ match }) {
@@ -24,7 +24,7 @@ function FightLog({ match }) {
     useEffect(() => {
         const logId = match.params.logId;
         const realm = getRealmFromLocation(location);
-        dispatch(fightLogFetch({ logId, realm }));
+        dispatch(fetchFightLog({ logId, realm }));
     }, []);
 
     return (

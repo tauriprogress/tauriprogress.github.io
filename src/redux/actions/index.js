@@ -207,34 +207,6 @@ export function additionalInfoSetError(payload) {
     };
 }
 
-export function fightLogFetch(payload) {
-    return {
-        type: "FIGHT_LOG_FETCH",
-        payload
-    };
-}
-
-export function fightLogSetError(payload) {
-    return {
-        type: "FIGHT_LOG_SET_ERROR",
-        payload
-    };
-}
-
-export function fightLogLoading(payload) {
-    return {
-        type: "FIGHT_LOG_LOADING",
-        payload
-    };
-}
-
-export function fightLogFill(payload) {
-    return {
-        type: "FIGHT_LOG_FILL",
-        payload
-    };
-}
-
 export function themeToggle(payload) {
     return {
         type: "THEME_TOGGLE",
@@ -245,3 +217,4 @@ export function themeToggle(payload) {
 export * from "./raid";
 export * from "./raidSummary";
 export * from "./raidBoss";
+export * from "./fightLog";

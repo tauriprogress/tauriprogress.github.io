@@ -1,6 +1,6 @@
-import { difficultyLabels, specs } from "tauriprogress-constants";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 
@@ -30,6 +30,11 @@ function LogTitle({ data, theme }) {
         ranged: 0,
         tank: 0
     };
+
+    const { specs, difficultyNames } = useSelector(state => ({
+        specs: state.environment.specs,
+        difficultyNames: state.environment.difficultyNames
+    }));
 
     for (let member of data.members) {
         let role = specs[member.spec].role;
@@ -74,7 +79,7 @@ function LogTitle({ data, theme }) {
         },
         {
             label: "Difficulty",
-            value: difficultyLabels[data.difficulty]
+            value: difficultyNames[data.difficulty]
         },
         {
             label: "Time",

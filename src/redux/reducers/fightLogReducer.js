@@ -6,11 +6,11 @@ const defaultState = {
 
 function fightLogReducer(state = defaultState, action) {
     switch (action.type) {
-        case "FIGHT_LOG_SET_ERROR":
+        case "FIGHTLOG_SET_ERROR":
             return { ...state, error: action.payload, loading: false };
-        case "FIGHT_LOG_LOADING":
+        case "FIGHTLOG_LOADING":
             return { ...state, loading: true, error: null };
-        case "FIGHT_LOG_FILL":
+        case "FIGHTLOG_FILL":
             let data = action.payload;
             data.members = data.members.map(member => ({
                 ...member,

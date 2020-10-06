@@ -1,5 +1,6 @@
-import { specToClass, specs } from "tauriprogress-constants";
+import { characterSpecToClass } from "tauriprogress-constants";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -114,6 +115,10 @@ function LogTableHead({ sort, setSort }) {
 }
 
 function LogMembers({ classes, data, theme }) {
+    const { specs } = useSelector(state => ({
+        specs: state.environment.specs
+    }));
+
     const [sort, setSort] = useState({
         by: "dps",
         direction: "desc"
@@ -146,7 +151,9 @@ function LogMembers({ classes, data, theme }) {
                                         style={{
                                             color:
                                                 classColors[
-                                                    specToClass[member.spec]
+                                                    characterSpecToClass[
+                                                        member.spec
+                                                    ]
                                                 ].text
                                         }}
                                     >

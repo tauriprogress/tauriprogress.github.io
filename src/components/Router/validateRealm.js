@@ -10,8 +10,7 @@ function validateRealm() {
             ({ innerRef, ...otherprops }, ref) => {
                 const location = useLocation();
                 const realms = useSelector(state => state.environment.realms);
-
-                return !validRealm(getRealmFromLocation(location)) ? (
+                return !validRealm(realms, getRealmFromLocation(location)) ? (
                     <Redirect
                         to={`${location.pathname}?realm=${realms["tauri"]}`}
                     />
