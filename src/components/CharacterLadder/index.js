@@ -1,4 +1,4 @@
-import { characterSpecToClass } from "tauriprogress-constants";
+import { characterSpecToClass, shortRealms } from "tauriprogress-constants";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,7 +21,7 @@ import DisplayDate from "../DisplayDate";
 import SpecImg from "../SpecImg";
 import InfoIcon from "../InfoIcon";
 
-import { getSpecImg } from "../../helpers";
+import { getSpecImg, shortRealmToFull } from "../../helpers";
 import { filterChars } from "./helpers";
 
 function styles(theme) {
@@ -76,6 +76,7 @@ function CharacterLadder({
                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
                             .map((char, index) => {
                                 const date = new Date(char.date * 1000);
+                                const realmName = shortRealmToFull(char.realm);
                                 return (
                                     <TableRow key={index} hover>
                                         <TableCell className={classes.cell}>
@@ -97,7 +98,7 @@ function CharacterLadder({
 
                                                 <Link
                                                     component={RouterLink}
-                                                    to={`/player/${char.name}?realm=${char.realm}`}
+                                                    to={`/player/${char.name}?realm=${realmName}`}
                                                     style={{
                                                         color:
                                                             theme.palette
@@ -118,7 +119,7 @@ function CharacterLadder({
                                         >
                                             <LogLink
                                                 logId={char.logId}
-                                                realm={char.realm}
+                                                realm={realmName}
                                             >
                                                 <InfoIcon />
 
