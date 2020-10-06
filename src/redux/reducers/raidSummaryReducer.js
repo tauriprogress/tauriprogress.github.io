@@ -18,7 +18,8 @@ function raidSummaryReducer(state = defaultState, action) {
             return {
                 ...state,
                 raidId: undefined,
-                error: action.payload
+                error: action.payload,
+                loading: false
             };
 
         case "RAIDSUMMARY_FILL":

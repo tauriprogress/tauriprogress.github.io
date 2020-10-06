@@ -17,7 +17,6 @@ async function getData(serverUrl, raidId, bossName) {
 function* fetchRaidBoss({ payload }) {
     try {
         const { raidId, bossName } = payload;
-        console.log(raidId, bossName);
 
         yield put(setRaidBossLoading({ raidId, bossName }));
 
