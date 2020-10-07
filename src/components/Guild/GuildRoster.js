@@ -1,4 +1,3 @@
-import { characterClasses } from "tauriprogress-constants";
 import React from "react";
 
 import { useSelector } from "react-redux";
@@ -9,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 
 import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
-import GuildLatestKills from "./GuildLatestKills";
+import GuildLatestKills from "./GuildRecentKills";
 
 function styles(theme) {
     return {
@@ -25,7 +24,10 @@ function styles(theme) {
 }
 
 function GuildRoster({ classes }) {
-    const members = useSelector(state => state.guild.data.guildList);
+    const { members, characterClassNames } = useSelector(state => ({
+        members: state.guild.data.members,
+        characterClassNames: state.environment.characterClassNames
+    }));
 
     const totalChars = members.length;
     let countClasses = {};
@@ -34,12 +36,12 @@ function GuildRoster({ classes }) {
     let nameRanks = {};
     let ranks = [];
 
-    for (let classId in characterClasses) {
+    for (let classId in characterClassNames) {
         countClasses[classId] = 0;
     }
     for (let member of members) {
         countClasses[member.class] += 1;
-        nameRanks[member.rank_name] = true;
+        nameRanks[member.rankName] = true;
     }
 
     for (let classId in countClasses) {

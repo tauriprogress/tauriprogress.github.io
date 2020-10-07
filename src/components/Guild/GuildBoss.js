@@ -1,4 +1,3 @@
-import { currentContent } from "tauriprogress-constants";
 import React, { useState } from "react";
 
 import { useSelector } from "react-redux";
@@ -8,32 +7,32 @@ import Tab from "@material-ui/core/Tab";
 
 import CharacterLadder from "../CharacterLadder";
 import GuildFastestKills from "./GuildFastestKills";
-import SelectDifficulty from "../SelectDifficulty";
 
 import { getNestedObjectValue } from "../../helpers";
-import { selectDefaultDifficulty } from "./helpers";
 import { Typography } from "@material-ui/core";
+import RaidFilter from "../RaidFilter";
 
 function GuildBoss() {
     const {
         selectedRaidName,
         selectedBossName,
         progression,
-        raids
+        filter,
+        difficultyNames
     } = useSelector(state => ({
         ...state.guild,
         progression: state.guild.data.progression,
-        raids: state.raidInfo.raids
+        raids: state.environment.currentContent.raids,
+        filter: state.raid.filter,
+        difficultyNames: state.environment.difficultyNames
     }));
 
+    filter.realm = "";
+    filter.faction = "";
+
+    const difficulty = filter.difficulty;
+
     const [tab, selectTab] = useState(0);
-    const [difficulty, setDifficulty] = useState(
-        selectDefaultDifficulty(
-            progression,
-            currentContent.raidName,
-            raids[currentContent.raidName].encounters[0].encounter_name
-        )
-    );
 
     let boss = getNestedObjectValue(progression, [
         selectedRaidName,
@@ -51,17 +50,14 @@ function GuildBoss() {
 
     return (
         <React.Fragment>
+            <RaidFilter />
             <Typography variant="h4" align="center">
-                {selectedBossName}
+                {selectedBossName} {difficultyNames[difficulty]}
                 <Typography variant="caption" color="textSecondary">
                     {" "}
                     {boss.killCount ? `${boss.killCount} Kills` : "Alive"}
                 </Typography>
             </Typography>
-            <SelectDifficulty
-                difficulty={difficulty}
-                onChange={(e, difficulty) => setDifficulty(difficulty)}
-            />
             <Tabs
                 value={tab}
                 onChange={(e, tab) => selectTab(tab)}
@@ -78,13 +74,18 @@ function GuildBoss() {
                     case 1:
                         return (
                             <CharacterLadder
-                                data={tab === 0 ? boss.dps : boss.hps}
+                                data={
+                                    tab === 0
+                                        ? Object.values(boss.dps).sort(
+                                              (a, b) => b.dps - a.dps
+                                          )
+                                        : Object.values(boss.hps).sort(
+                                              (a, b) => b.hps - a.hps
+                                          )
+                                }
                                 type={tab === 0 ? "dps" : "hps"}
                                 rowsPerPage={15}
-                                disableFilter={{
-                                    faction: true,
-                                    realm: true
-                                }}
+                                filter={filter}
                             />
                         );
                     case 2:

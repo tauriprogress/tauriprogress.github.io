@@ -1,6 +1,5 @@
-import { difficultyLabels } from "tauriprogress-constants";
 import React from "react";
-
+import { useSelector } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
@@ -26,8 +25,11 @@ function styles(theme) {
     };
 }
 
-function LatestKills({ classes, logs, realm, children, ...rest }) {
+function RecentKills({ classes, logs, realm, children, ...rest }) {
     const logDates = categorizedLogDates(logs);
+    const difficultyNames = useSelector(
+        state => state.environment.difficultyNames
+    );
     return (
         <List {...rest} component="div" disablePadding>
             {children}
@@ -52,9 +54,9 @@ function LatestKills({ classes, logs, realm, children, ...rest }) {
                         {date.kills.map(log => (
                             <LogLink
                                 color="inherit"
-                                logId={log.log_id}
+                                logId={log.id}
                                 realm={realm}
-                                key={log.log_id}
+                                key={log.id}
                             >
                                 <ListItem component="li" disableGutters>
                                     <Grid
@@ -66,10 +68,7 @@ function LatestKills({ classes, logs, realm, children, ...rest }) {
                                             <Typography
                                                 className={classes.bossName}
                                             >
-                                                {
-                                                    log.encounter_data
-                                                        .encounter_name
-                                                }
+                                                {log.boss}
                                             </Typography>
                                         </Grid>
                                         <Grid item>
@@ -78,7 +77,7 @@ function LatestKills({ classes, logs, realm, children, ...rest }) {
                                                 color="textSecondary"
                                             >
                                                 {
-                                                    difficultyLabels[
+                                                    difficultyNames[
                                                         log.difficulty
                                                     ]
                                                 }
@@ -119,4 +118,4 @@ function LatestKills({ classes, logs, realm, children, ...rest }) {
     );
 }
 
-export default withStyles(styles)(LatestKills);
+export default withStyles(styles)(RecentKills);

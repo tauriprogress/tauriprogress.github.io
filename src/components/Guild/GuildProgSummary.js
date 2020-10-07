@@ -1,4 +1,3 @@
-import { currentContent } from "tauriprogress-constants";
 import React from "react";
 
 import { useSelector } from "react-redux";
@@ -12,32 +11,30 @@ import { getNestedObjectValue } from "../../helpers";
 function GuildProgSummary() {
     const { progression, raids } = useSelector(state => ({
         progression: state.guild.data.progression,
-        raids: state.raidInfo.raids
+        raids: state.environment.currentContent.raids
     }));
     let data = [];
 
-    for (let raid of currentContent.raids) {
-        const difficulties = raids[raid.raidName].difficulties;
-        const bossNames = raids[raid.raidName].encounters.map(
-            boss => boss.encounter_name
-        );
+    for (let raid of raids) {
+        const difficulties = raid.difficulties;
+        const bossNames = raid.bosses.map(boss => boss.name);
 
         let raidData = {
-            raidName: raid.raidName,
+            name: raid.name,
             totalBosses: bossNames.length,
             defeatedBosses: 0,
             bosses: [],
-            picture: raids[raid.raidName].picture
+            image: raid.image
         };
 
         for (let bossName of bossNames) {
             let bossData = {
-                bossName: bossName
+                name: bossName
             };
             let defeated = false;
             for (let difficulty of difficulties) {
                 const categorization = [
-                    raid.raidName,
+                    raid.name,
                     difficulty,
                     bossName,
                     "firstKill"
@@ -65,7 +62,7 @@ function GuildProgSummary() {
     return (
         <Grid container justify="center">
             {data.map(raidData => (
-                <Grid item key={raidData.raidName}>
+                <Grid item key={raidData.name}>
                     <GuildRaidSummary data={raidData} />
                 </Grid>
             ))}

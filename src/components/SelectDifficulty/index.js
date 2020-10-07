@@ -1,5 +1,3 @@
-import { difficultyLabels } from "tauriprogress-constants";
-
 import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -23,16 +21,8 @@ function SelectDifficulty({ classes, difficulty, onChange }) {
             variant="fullWidth"
             className={classes.tabs}
         >
-            <Tab
-                value={5}
-                label={difficultyLabels[5]}
-                className={classes.tab}
-            />
-            <Tab
-                value={6}
-                label={difficultyLabels[6]}
-                className={classes.tab}
-            />
+            <Tab value={5} label={"10 HC"} className={classes.tab} />
+            <Tab value={6} label={"25 HC"} className={classes.tab} />
         </Tabs>
     );
 }

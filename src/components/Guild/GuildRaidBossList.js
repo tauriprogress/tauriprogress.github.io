@@ -12,7 +12,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
-import { guildSelectBoss } from "../../redux/actions";
+import { selectGuildBoss } from "../../redux/actions";
+
+import { raidImg } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -71,7 +73,7 @@ function GuildRaidBossList({ raid, classes }) {
                     onClick={() => setOpen(open ? false : true)}
                     className={classes.title}
                     style={{
-                        backgroundImage: "url(" + raid.picture + ")"
+                        backgroundImage: `url(${raidImg(raid.image)})`
                     }}
                     justify="space-between"
                 >
@@ -82,31 +84,27 @@ function GuildRaidBossList({ raid, classes }) {
                 </Grid>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List disablePadding>
-                        {raid.encounters.map((encounter, index) => (
-                            <Typography key={encounter.encounter_name}>
+                        {raid.bosses.map((boss, index) => (
+                            <Typography key={boss.name}>
                                 <ListItem
                                     component="li"
                                     button
                                     className={`${classes.listItem} ${
-                                        encounter.defeated
+                                        boss.defeated
                                             ? classes.bossDefeated
                                             : classes.bossAlive
                                     }`}
-                                    selected={
-                                        selectedBossName ===
-                                        encounter.encounter_name
-                                    }
+                                    selected={selectedBossName === boss.name}
                                     onClick={() =>
                                         dispatch(
-                                            guildSelectBoss({
+                                            selectGuildBoss({
                                                 selectedRaidName: raid.name,
-                                                selectedBossName:
-                                                    encounter.encounter_name
+                                                selectedBossName: boss.name
                                             })
                                         )
                                     }
                                 >
-                                    {encounter.encounter_name}
+                                    {boss.name}
                                 </ListItem>
                             </Typography>
                         ))}

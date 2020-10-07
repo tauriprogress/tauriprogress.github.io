@@ -1,4 +1,4 @@
-import { specs, characterClasses, shortRealms } from "tauriprogress-constants";
+import { specs, shortRealms } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
     let realmNames = [];
@@ -65,7 +65,7 @@ export function categorizedLogDates(logs) {
     let dateArray = [];
 
     for (let log of logs) {
-        const logDate = new Date(log.killtime * 1000);
+        const logDate = new Date(log.date * 1000);
         const latestWednesDay = getLatestWednesday(logDate);
         const weeksAgo = Math.floor(
             (currentTime - latestWednesDay.getTime()) / week
@@ -94,8 +94,7 @@ export function categorizedLogDates(logs) {
 }
 
 export function classImg(classId) {
-    const imageName = characterClasses[classId];
-    return require(`../assets/classes/${imageName}.jpg`);
+    return require(`../assets/classes/${classId}.jpg`);
 }
 
 export function raidImg(imageName) {

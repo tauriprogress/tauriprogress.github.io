@@ -29,26 +29,21 @@ function styles(theme) {
 }
 
 function GuildTitle({ classes, theme }) {
-    const {
-        guildName,
-        guildFaction,
-        guildMemberCount,
-        guildRealm
-    } = useSelector(state => ({
-        guildName: state.guild.data.guildName,
-        guildFaction: state.guild.data.faction,
-        guildMemberCount: state.guild.data.guildMembersCount,
-        guildRealm: state.guild.data.realm
+    const { name, faction, membersCount, realm } = useSelector(state => ({
+        name: state.guild.data.name,
+        faction: state.guild.data.f,
+        membersCount: state.guild.data.members.length,
+        realm: state.guild.data.realm
     }));
 
-    const emblem = guildFaction ? hordeEmblem : allianceEmblem;
+    const emblem = faction ? hordeEmblem : allianceEmblem;
 
     const {
         palette: { factionColors }
     } = theme;
 
     const factionColor =
-        guildFaction === 0 ? factionColors.alliance : factionColors.horde;
+        faction === 0 ? factionColors.alliance : factionColors.horde;
 
     return (
         <Grid className={classes.container} container wrap="nowrap">
@@ -63,21 +58,21 @@ function GuildTitle({ classes, theme }) {
                 <Typography variant="h4">
                     <Link
                         target="_blank"
-                        href={`https://tauriwow.com/armory#guild-info.xml?r=${guildRealm}&gn=${guildName}`}
+                        href={`https://tauriwow.com/armory#guild-info.xml?r=${realm}&gn=${name}`}
                         rel="noopener noreferrer"
                         style={{
                             color: factionColor
                         }}
                     >
-                        {guildName}
+                        {name}
                     </Link>
                 </Typography>
                 <Typography color="textSecondary">
-                    <span className={classes.textNoWrap}>{guildRealm}</span>
+                    <span className={classes.textNoWrap}>{realm}</span>
                     <br />
-                    {guildFaction ? "Horde" : "Alliance"},{" "}
+                    {faction ? "Horde" : "Alliance"},{" "}
                     <span className={classes.textNoWrap}>
-                        {guildMemberCount} members
+                        {membersCount} members
                     </span>
                 </Typography>
             </Grid>

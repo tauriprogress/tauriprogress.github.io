@@ -1,5 +1,5 @@
-import { characterClasses } from "tauriprogress-constants";
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
 
@@ -71,6 +71,9 @@ function GuildRosterChart({
     classInfo,
     maxClassCount
 }) {
+    const characterClassNames = useSelector(
+        state => state.environment.characterClassNames
+    );
     return (
         <SideCard title={"Class Distribution"} className={classes.container}>
             <div className={classes.charContainer}>
@@ -88,7 +91,9 @@ function GuildRosterChart({
                                         className={classes.classImg}
                                         src={classImg(charClass.classId)}
                                         title={
-                                            characterClasses[charClass.classId]
+                                            characterClassNames[
+                                                charClass.classId
+                                            ]
                                         }
                                     />
                                 </Grid>
@@ -97,7 +102,7 @@ function GuildRosterChart({
                                         placement={"left"}
                                         title={
                                             <span>{`${charClass.count} ${
-                                                characterClasses[
+                                                characterClassNames[
                                                     charClass.classId
                                                 ]
                                             }`}</span>

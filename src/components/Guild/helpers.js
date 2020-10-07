@@ -13,7 +13,7 @@ export function filterMembers(members, filter) {
             return false;
         }
 
-        if (filter.rank_name !== "" && member.rank_name !== filter.rank_name) {
+        if (filter.rankName !== "" && member.rankName !== filter.rankName) {
             return false;
         }
 
@@ -26,10 +26,10 @@ export function getBossesDefeated(raidName, raidBosses, progression) {
 
     for (let diff in progression[raidName]) {
         for (let raidBoss of raidBosses) {
-            if (!defeatedBosses[raidBoss.encounter_name]) {
-                defeatedBosses[raidBoss.encounter_name] = progression[raidName][
-                    diff
-                ][raidBoss.encounter_name]
+            if (!defeatedBosses[raidBoss.name]) {
+                defeatedBosses[raidBoss.name] = progression[raidName][diff][
+                    raidBoss.name
+                ]
                     ? true
                     : false;
             }

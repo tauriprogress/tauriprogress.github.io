@@ -3,7 +3,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 
 import SideCard from "../SideCard";
-import LatestKills from "../LatestKills";
+import RecentKills from "../RecentKills";
 
 import { useSelector } from "react-redux";
 
@@ -14,7 +14,7 @@ function styles(theme) {
             flexDirection: "column",
             height: "480px"
         },
-        latestKills: {
+        recentKills: {
             flex: 1,
             overflowY: "scroll"
         }
@@ -22,17 +22,17 @@ function styles(theme) {
 }
 
 function GuildLastestKills({ classes }) {
-    const { latestKills, realm } = useSelector(state => ({
-        latestKills: state.guild.data.progression.latestKills,
+    const { recentKills, realm } = useSelector(state => ({
+        recentKills: state.guild.data.progression.recentKills,
         realm: state.guild.data.realm
     }));
 
     return (
-        <SideCard title="Latest Kills" className={classes.container}>
-            <LatestKills
-                logs={latestKills}
+        <SideCard title="Recent Kills" className={classes.container}>
+            <RecentKills
+                logs={recentKills}
                 realm={realm}
-                className={classes.latestKills}
+                className={classes.recentKills}
             />
         </SideCard>
     );

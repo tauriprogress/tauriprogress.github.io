@@ -39,7 +39,7 @@ function styles(theme) {
 }
 
 function CharacterLadder({
-    filter,
+    filter = {},
     classes,
     type,
     data,

@@ -15,7 +15,7 @@ import GuildProgression from "./GuildProgression";
 import AsideContainer from "../AsideContainer";
 import SelectRealm from "../SelectRealm";
 
-import { guildFetch } from "../../redux/actions";
+import { fetchGuild } from "../../redux/actions";
 
 import { getRealmFromLocation } from "../../helpers";
 
@@ -32,7 +32,7 @@ function Guild({ match, location }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(guildFetch({ guildName: guildName, realm: realm }));
+        dispatch(fetchGuild({ guildName: guildName, realm: realm }));
     }, [guildName, realm]);
     return (
         <section>

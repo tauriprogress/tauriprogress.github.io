@@ -1,5 +1,5 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
-import { guildSetLoading, guildFill, guildSetError } from "../actions";
+import { setGuildLoading, fillGuild, setGuildError } from "../actions";
 
 async function getData(serverUrl, guildName, realm) {
     return await fetch(`${serverUrl}/getguild`, {
@@ -27,13 +27,13 @@ function* fetchGuild({ payload }) {
         }
 
         yield put(
-            guildSetLoading({
+            setGuildLoading({
                 guildName,
                 realm
             })
         );
 
-        const serverUrl = yield select(state => state.environment.serverUrl);
+        const serverUrl = yield select(state => state.environment.urls.server);
         const response = yield call(getData, serverUrl, guildName, realm);
 
         if (!response.success) {
@@ -43,10 +43,10 @@ function* fetchGuild({ payload }) {
                 state => state.environment.currentContent.raids
             );
 
-            yield put(guildFill({ ...response.response, raids: raids }));
+            yield put(fillGuild({ ...response.response, raids: raids }));
         }
     } catch (err) {
-        yield put(guildSetError(err.message));
+        yield put(setGuildError(err.message));
     }
 }
 

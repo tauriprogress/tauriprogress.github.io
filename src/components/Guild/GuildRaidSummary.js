@@ -13,6 +13,8 @@ import TableCell from "@material-ui/core/TableCell";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
+import { raidImg } from "../../helpers";
+
 function styles(theme) {
     return {
         defeated: {
@@ -99,14 +101,14 @@ function GuildRaidSummary({ classes, data }) {
                             </TableHead>
                             <TableBody>
                                 {data.bosses.map(boss => (
-                                    <TableRow key={boss.bossName}>
+                                    <TableRow key={boss.name}>
                                         <TableCell
                                             className={classes.tableCell}
                                         >
                                             <Typography
                                                 className={classes.tableText}
                                             >
-                                                {boss.bossName}
+                                                {boss.name}
                                             </Typography>
                                         </TableCell>
 
@@ -170,7 +172,7 @@ function GuildRaidSummary({ classes, data }) {
             >
                 <div
                     style={{
-                        backgroundImage: `url(${data.picture})`
+                        backgroundImage: `url("${raidImg(data.image)}")`
                     }}
                     className={classes.titleContainer}
                 >
@@ -180,15 +182,17 @@ function GuildRaidSummary({ classes, data }) {
                         justify={"space-between"}
                         wrap={"nowrap"}
                         style={{
-                            background: `linear-gradient(to left, rgba(0, 0, 0, 0.7) ${100 -
-                                (data.defeatedBosses / data.totalBosses) *
-                                    100}%, rgba(0,0,0,0) ${100 -
-                                (data.defeatedBosses / data.totalBosses) *
-                                    100}%)`
+                            background: `linear-gradient(to left, rgba(0, 0, 0, 0.7) ${
+                                100 -
+                                (data.defeatedBosses / data.totalBosses) * 100
+                            }%, rgba(0,0,0,0) ${
+                                100 -
+                                (data.defeatedBosses / data.totalBosses) * 100
+                            }%)`
                         }}
                     >
                         <Grid item>
-                            <Typography>{data.raidName}</Typography>
+                            <Typography>{data.name}</Typography>
                         </Grid>
                         <Grid item>
                             <Typography>

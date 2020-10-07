@@ -1,4 +1,3 @@
-import { characterClasses } from "tauriprogress-constants";
 import React, { useState } from "react";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
@@ -51,14 +50,15 @@ function styles(theme) {
 
 function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
     const rowsPerPage = 10;
-    const { realm } = useSelector(state => ({
-        realm: state.guild.data.realm
+    const { realm, characterClassNames } = useSelector(state => ({
+        realm: state.guild.data.realm,
+        characterClassNames: state.environment.characterClassNames
     }));
 
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState({
         name: "",
-        rank_name: "",
+        rankName: "",
         class: ""
     });
 
@@ -111,7 +111,7 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                 }}
                             >
                                 <span>
-                                    {characterClasses[charClass.classId]}
+                                    {characterClassNames[charClass.classId]}
                                 </span>
                             </MenuItem>
                         ))}
@@ -121,11 +121,11 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                 <FormControl>
                     <InputLabel htmlFor="class">Rank</InputLabel>
                     <Select
-                        value={filter.rank_name}
+                        value={filter.rankName}
                         onChange={e =>
                             setFilter({
                                 ...filter,
-                                rank_name: e.target.value
+                                rankName: e.target.value
                             })
                         }
                     >
@@ -161,7 +161,7 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                             <SpecImg
                                                 className={classes.classImg}
                                                 title={
-                                                    characterClasses[
+                                                    characterClassNames[
                                                         member.class
                                                     ]
                                                 }
@@ -184,11 +184,11 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                     </TableCell>
                                     <TableCell className={classes.cell}>
                                         <Typography>
-                                            {member.rank_name}
+                                            {member.rankName}
                                         </Typography>
                                     </TableCell>
                                     <TableCell className={classes.cell}>
-                                        <Typography>{member.level}</Typography>
+                                        <Typography>{member.lvl}</Typography>
                                     </TableCell>
                                 </TableRow>
                             ))}

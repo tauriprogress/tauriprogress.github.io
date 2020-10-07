@@ -1,4 +1,3 @@
-import { currentContent } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -8,23 +7,22 @@ import AsideContainer from "../AsideContainer";
 
 import { getBossesDefeated } from "./helpers";
 
-import { guildSelectBoss } from "../../redux/actions";
+import { selectGuildBoss } from "../../redux/actions";
 
 function GuildProgression() {
     const { selectedBossName, progression, raids } = useSelector(state => ({
         ...state.guild,
         progression: state.guild.data.progression,
-        raids: state.raidInfo.raids
+        raids: state.environment.currentContent.raids
     }));
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(
-            guildSelectBoss({
-                selectedRaidName: raids[currentContent.raidName].name,
-                selectedBossName:
-                    raids[currentContent.raidName].encounters[0].encounter_name
+            selectGuildBoss({
+                selectedRaidName: raids[0].name,
+                selectedBossName: raids[0].bosses[0].name
             })
         );
     }, []);
@@ -35,19 +33,19 @@ function GuildProgression() {
 
     let extendedRaids = [];
 
-    for (let raidName in raids) {
+    for (let raid of raids) {
         let bossesDefeated = getBossesDefeated(
-            raidName,
-            raids[raidName].encounters,
+            raid.name,
+            raid.bosses,
             progression
         );
 
-        raids[raidName].encounters = raids[raidName].encounters.map(boss => ({
+        raid.bosses = raid.bosses.map(boss => ({
             ...boss,
-            defeated: bossesDefeated[boss.encounter_name] ? true : false
+            defeated: bossesDefeated[boss.name] ? true : false
         }));
 
-        extendedRaids.push(raids[raidName]);
+        extendedRaids.push(raid);
     }
 
     return (
