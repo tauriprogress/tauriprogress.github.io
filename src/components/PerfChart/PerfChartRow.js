@@ -59,7 +59,6 @@ function PerfChartRow({
     classes,
     Icon,
     iconTitle,
-    rank,
     title,
     perfValue,
     perfPercent,
@@ -87,9 +86,11 @@ function PerfChartRow({
                 item
                 className={`${classes.item} ${classes.bar}`}
                 style={{
-                    background: `linear-gradient(to right, ${color} ${perfPercent ||
-                        0}%, ${theme.palette.background.accent} ${perfPercent ||
-                        0}%)`
+                    background: `linear-gradient(to right, ${color} ${
+                        perfPercent || 0
+                    }%, ${theme.palette.background.accent} ${
+                        perfPercent || 0
+                    }%)`
                 }}
             >
                 <Grid container wrap="nowrap" justify="space-between">
@@ -97,7 +98,7 @@ function PerfChartRow({
                         <Typography
                             className={`${classes.typography} ${classes.perfName}`}
                         >
-                            {rank} {title}
+                            {title}
                         </Typography>
                     </Grid>
                     <Grid
