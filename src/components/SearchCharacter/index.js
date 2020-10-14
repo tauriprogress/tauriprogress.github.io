@@ -33,16 +33,16 @@ function styles() {
     };
 }
 
-function SearchPlayer({ classes, history }) {
-    const [player, setPlayer] = useState("");
+function SearchCharacter({ classes, history }) {
+    const [character, setCharacter] = useState("");
     const realms = getRealmNames(
         useSelector(state => state.environment.realms)
     );
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
 
     function submit() {
-        if (player) {
-            history.push(`/player/${player}?realm=${realm}`);
+        if (character) {
+            history.push(`/character/${character}?realm=${realm}`);
         }
     }
 
@@ -58,9 +58,9 @@ function SearchPlayer({ classes, history }) {
                     <TextField
                         id="name"
                         label="Search player"
-                        value={player}
+                        value={character}
                         fullWidth
-                        onChange={e => setPlayer(e.target.value)}
+                        onChange={e => setCharacter(e.target.value)}
                     />
                 </form>
             </Grid>
@@ -105,4 +105,4 @@ function SearchPlayer({ classes, history }) {
     );
 }
 
-export default withRouter(withStyles(styles)(SearchPlayer));
+export default withRouter(withStyles(styles)(SearchCharacter));

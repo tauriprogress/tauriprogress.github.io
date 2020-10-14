@@ -18,7 +18,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 
 import SearchGuild from "../SearchGuild";
-import SearchPlayer from "../SearchPlayer";
+import SearchCharacter from "../SearchCharacter";
 import RaidBossList from "./RaidBossList";
 
 import { navToggle } from "../../redux/actions";
@@ -128,7 +128,7 @@ function Navigation({ classes = {} }) {
                             <SearchGuild />
                         </ListItem>
                         <ListItem className={classes.nestedNavItem}>
-                            <SearchPlayer />
+                            <SearchCharacter />
                         </ListItem>
                     </List>
                 </Collapse>
