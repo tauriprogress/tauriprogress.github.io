@@ -214,7 +214,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 />
                                                 <Link
                                                     component={RouterLink}
-                                                    to={`/player/${character.name}?realm=${character.realm}`}
+                                                    to={`/character/${character.name}?realm=${character.realm}`}
                                                     style={{
                                                         color:
                                                             classColors[

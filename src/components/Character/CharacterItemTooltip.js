@@ -8,7 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import ItemTooltipText from "../ItemTooltipText";
 
-import { playerItemsFetch } from "../../redux/actions";
+import { fetchCharacterItems } from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -23,16 +23,17 @@ function styles(theme) {
 }
 
 function ItemTooltip({ classes, children, id, ids, realm }) {
-    const { loading, error, item } = useSelector(state => ({
-        item: state.player.items.data[id],
-        loading: state.player.items.loading,
-        error: state.player.items.error
+    const { loading, error, item, iconUrl } = useSelector(state => ({
+        item: state.character.items.data[id],
+        loading: state.character.items.loading,
+        error: state.character.items.error,
+        iconUrl: state.environment.urls.icon
     }));
     const dispatch = useDispatch();
 
     async function onOpen() {
         if (!item) {
-            dispatch(playerItemsFetch({ ids, realm }));
+            dispatch(fetchCharacterItems({ ids, realm }));
         }
     }
 
@@ -49,7 +50,7 @@ function ItemTooltip({ classes, children, id, ids, realm }) {
                     {error && error}
 
                     {!loading && !error && item && (
-                        <ItemTooltipText item={item} />
+                        <ItemTooltipText item={item} iconUrl={iconUrl} />
                     )}
                 </React.Fragment>
             }

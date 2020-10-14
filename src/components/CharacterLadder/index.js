@@ -97,7 +97,7 @@ function CharacterLadder({
 
                                                 <Link
                                                     component={RouterLink}
-                                                    to={`/player/${char.name}?realm=${realmName}`}
+                                                    to={`/character/${char.name}?realm=${realmName}`}
                                                     style={{
                                                         color:
                                                             theme.palette

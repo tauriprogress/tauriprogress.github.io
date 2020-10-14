@@ -8,15 +8,15 @@ import validateRealm from "../Router/validateRealm";
 import Grid from "@material-ui/core/Grid";
 
 import Loading from "../Loading";
-import PlayerTitle from "./PlayerTitle";
-import PlayerStats from "./PlayerStats";
-import PlayerProgression from "./PlayerProgression";
-import PlayerLatestKills from "./PlayerLatestKills";
-import PlayerItems from "./PlayerItems";
+import CharacterTitle from "./CharacterTitle";
+import CharacterStats from "./CharacterStats";
+import CharacterProgression from "./CharacterProgression";
+import CharacterRecentKills from "./CharacterRecentKills";
+import CharacterItems from "./CharacterItems";
 import SelectRealm from "../SelectRealm";
 import ErrorMessage from "../ErrorMessage";
 
-import { playerDataFetch } from "../../redux/actions";
+import { fetchCharacterData } from "../../redux/actions";
 
 import { getRealmFromLocation } from "../../helpers";
 
@@ -28,14 +28,14 @@ function styles() {
 }
 
 function Player({ classes, match, location }) {
-    const playerName = match.params.playerName;
+    const characterName = match.params.characterName;
     const realm = getRealmFromLocation(location);
-    const { loading, error } = useSelector(state => state.player.data);
+    const { loading, error } = useSelector(state => state.character.data);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(playerDataFetch({ playerName, realm }));
-    }, [playerName, realm]);
+        dispatch(fetchCharacterData({ characterName: characterName, realm }));
+    }, [characterName, realm]);
 
     return (
         <section>
@@ -48,23 +48,23 @@ function Player({ classes, match, location }) {
                 <Loading />
             ) : (
                 <React.Fragment>
-                    <PlayerTitle />
+                    <CharacterTitle />
                     <Grid
                         container
                         className={classes.gridContainer}
                         justify="space-around"
                     >
                         <Grid item>
-                            <PlayerStats />
+                            <CharacterStats />
                         </Grid>
                         <Grid item className={classes.progContainer}>
-                            <PlayerProgression />
+                            <CharacterProgression />
                         </Grid>
                         <Grid item>
-                            <PlayerItems />
+                            <CharacterItems />
                         </Grid>
                     </Grid>
-                    <PlayerLatestKills />
+                    <CharacterRecentKills />
                 </React.Fragment>
             )}
         </section>

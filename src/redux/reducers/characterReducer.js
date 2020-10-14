@@ -1,6 +1,4 @@
-import { iconUrl } from "tauriprogress-constants/urls.json";
-
-import { inventoryType } from "tauriprogress-constants";
+import { itemSlotNames } from "tauriprogress-constants";
 
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
 
@@ -10,17 +8,17 @@ const defaultState = {
     data: {
         loading: false,
         error: null,
-        data: null
+        data: undefined
     },
     progression: {
         loading: false,
         error: null,
-        data: null,
+        data: undefined,
         selectedRaid: null
     },
-    latestKills: {
+    recentKills: {
         loading: false,
-        data: null,
+        data: undefined,
         error: null
     },
     items: {
@@ -30,9 +28,9 @@ const defaultState = {
     }
 };
 
-function playerReducer(state = defaultState, action) {
+function characterReducer(state = defaultState, action) {
     switch (action.type) {
-        case "PLAYER_DATA_SET_ERROR":
+        case "CHARACTER_DATA_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";
             }
@@ -45,7 +43,7 @@ function playerReducer(state = defaultState, action) {
                 }
             };
 
-        case "PLAYER_DATA_LOADING":
+        case "CHARACTER_DATA_LOADING":
             return {
                 ...state,
                 data: { ...state.data, loading: true, error: null },
@@ -53,7 +51,7 @@ function playerReducer(state = defaultState, action) {
                 realm: action.payload.realm
             };
 
-        case "PLAYER_DATA_FILL":
+        case "CHARACTER_DATA_FILL":
             return {
                 ...state,
                 data: {
@@ -68,7 +66,7 @@ function playerReducer(state = defaultState, action) {
                 items: { ...defaultState.items }
             };
 
-        case "PLAYER_PROGRESSION_SELECT_RAID": {
+        case "CHARACTER_PROGRESSION_SELECT_RAID": {
             return {
                 ...state,
                 progression: {
@@ -78,7 +76,7 @@ function playerReducer(state = defaultState, action) {
             };
         }
 
-        case "PLAYER_PROGRESSION_SET_ERROR":
+        case "CHARACTER_PROGRESSION_SET_ERROR":
             return {
                 ...state,
                 progression: {
@@ -88,7 +86,7 @@ function playerReducer(state = defaultState, action) {
                 }
             };
 
-        case "PLAYER_PROGRESSION_LOADING":
+        case "CHARACTER_PROGRESSION_LOADING":
             return {
                 ...state,
                 progression: {
@@ -98,7 +96,7 @@ function playerReducer(state = defaultState, action) {
                 }
             };
 
-        case "PLAYER_PROGRESSION_FILL":
+        case "CHARACTER_PROGRESSION_FILL":
             return {
                 ...state,
                 progression: {
@@ -109,37 +107,44 @@ function playerReducer(state = defaultState, action) {
                 }
             };
 
-        case "PLAYER_LATESTKILLS_LOADING":
+        case "CHARACTER_RECENTKILLS_LOADING":
             return {
                 ...state,
-                latestKills: {
-                    ...state.latestKills,
+                recentKills: {
+                    ...state.recentKills,
                     loading: action.payload
                 }
             };
 
-        case "PLAYER_LATESTKILLS_SET_ERROR":
+        case "CHARACTER_RECENTKILLS_SET_ERROR":
             return {
                 ...state,
-                latestKills: {
-                    ...state.latestKills,
+                recentKills: {
+                    ...state.recentKills,
                     loading: false,
                     error: action.payload
                 }
             };
 
-        case "PLAYER_LATESTKILLS_FILL":
+        case "CHARACTER_RECENTKILLS_FILL":
             return {
                 ...state,
-                latestKills: {
-                    ...state.latestKills,
+                recentKills: {
+                    ...state.recentKills,
                     loading: false,
                     error: null,
-                    data: action.payload
+                    data: {
+                        logs: action.payload.logs.map(log => ({
+                            id: log.log_id,
+                            date: log.killtime,
+                            boss: log.encounter_data.encounter_name,
+                            difficulty: Number(log.difficulty)
+                        }))
+                    }
                 }
             };
 
-        case "PLAYER_ITEMS_LOADING":
+        case "CHARACTER_ITEMS_LOADING":
             return {
                 ...state,
                 items: {
@@ -149,7 +154,7 @@ function playerReducer(state = defaultState, action) {
                 }
             };
 
-        case "PLAYER_ITEMS_SET_ERROR":
+        case "CHARACTER_ITEMS_SET_ERROR":
             return {
                 ...state,
                 items: {
@@ -159,7 +164,7 @@ function playerReducer(state = defaultState, action) {
                 }
             };
 
-        case "PLAYER_ITEMS_FILL":
+        case "CHARACTER_ITEMS_FILL":
             let data = { ...state.items.data, ...action.payload };
             let itemNames = {
                 Head: 0,
@@ -211,7 +216,7 @@ function playerReducer(state = defaultState, action) {
                         let gem = item.SocketContainedGem[index];
 
                         if (gem) {
-                            gem.icon = `${iconUrl}/small/${gem.icon}.png`;
+                            gem.icon = `/small/${gem.icon}.png`;
                             gem.desc = decodeURIComponent(gem.desc);
                         }
 
@@ -244,11 +249,11 @@ function playerReducer(state = defaultState, action) {
                             items: item.ItemSetInfo.base.Items.reduce(
                                 (acc, curr) => {
                                     acc[
-                                        itemNames[inventoryType[curr.invType]]
+                                        itemNames[itemSlotNames[curr.invType]]
                                     ] = {
                                         ...acc[
                                             itemNames[
-                                                inventoryType[curr.invType]
+                                                itemSlotNames[curr.invType]
                                             ]
                                         ],
                                         name: curr.name
@@ -263,7 +268,7 @@ function playerReducer(state = defaultState, action) {
                         };
 
                     sets[setName].items[
-                        itemNames[inventoryType[item.InventoryType]]
+                        itemNames[itemSlotNames[item.InventoryType]]
                     ] = {
                         equipped: true,
                         guid: guid,
@@ -298,4 +303,4 @@ function playerReducer(state = defaultState, action) {
     }
 }
 
-export default playerReducer;
+export default characterReducer;

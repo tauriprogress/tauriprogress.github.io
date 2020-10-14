@@ -1,5 +1,3 @@
-import { iconUrl } from "tauriprogress-constants/urls.json";
-
 import React from "react";
 
 import { useSelector } from "react-redux";
@@ -12,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
-import PlayerItemTooltip from "./PlayerItemTooltip";
+import CharacterItemTooltip from "./CharacterItemTooltip";
 import SideCard from "../SideCard";
 
 function styles(theme) {
@@ -48,8 +46,11 @@ function styles(theme) {
     };
 }
 
-function PlayerItems({ classes, theme }) {
-    const data = useSelector(state => state.player.data.data);
+function CharacterItems({ classes, theme }) {
+    const { data, iconUrl } = useSelector(state => ({
+        data: state.character.data.data,
+        iconUrl: state.environment.urls.icon
+    }));
     if (!data) {
         return <div />;
     }
@@ -66,7 +67,7 @@ function PlayerItems({ classes, theme }) {
                     item =>
                         item.name && (
                             <React.Fragment key={item.name}>
-                                <PlayerItemTooltip
+                                <CharacterItemTooltip
                                     id={item.guid}
                                     realm={data.realm}
                                     ids={ids}
@@ -128,7 +129,7 @@ function PlayerItems({ classes, theme }) {
                                             </Grid>
                                         </Grid>
                                     </ListItem>
-                                </PlayerItemTooltip>
+                                </CharacterItemTooltip>
                                 <Divider />
                             </React.Fragment>
                         )
@@ -138,4 +139,4 @@ function PlayerItems({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(PlayerItems));
+export default withStyles(styles)(withTheme(CharacterItems));

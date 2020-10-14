@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
-import LatestKills from "../LatestKills";
+import RecentKills from "../RecentKills";
 
 function styles(theme) {
     return {
@@ -16,27 +16,29 @@ function styles(theme) {
 
             padding: `${theme.spacing(4)}px ${theme.spacing(1)}px`
         },
-        latestKills: {
+        recentKills: {
             maxWidth: "500px",
             margin: "auto"
         }
     };
 }
 
-function PlayerLatestKills({ classes }) {
-    const { loading, error, data } = useSelector(
-        state => state.player.latestKills
-    );
-    const realm = useSelector(state => state.player.realm);
+function CharacterRecentKills({ classes }) {
+    const { loading, error, data, realm } = useSelector(state => ({
+        ...state.character.recentKills,
+        realm: state.character.realm
+    }));
+
     const logs = data ? data.logs : [];
+
     return (
         <div className={classes.container}>
-            <LatestKills
+            <RecentKills
                 logs={logs}
                 realm={realm}
-                className={classes.latestKills}
+                className={classes.recentKills}
             >
-                <Typography variant="h6">Latest Kills</Typography>
+                <Typography variant="h6">Recent Kills</Typography>
                 {(() => {
                     if (loading) {
                         return <Loading />;
@@ -48,9 +50,9 @@ function PlayerLatestKills({ classes }) {
                         return null;
                     }
                 })()}
-            </LatestKills>
+            </RecentKills>
         </div>
     );
 }
 
-export default withStyles(styles)(PlayerLatestKills);
+export default withStyles(styles)(CharacterRecentKills);

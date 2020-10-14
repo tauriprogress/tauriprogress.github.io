@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -13,11 +13,12 @@ import ErrorMessage from "../ErrorMessage";
 import SelectDifficulty from "../SelectDifficulty";
 import RaidChart from "./RaidChart";
 
-import { displayHealing } from "./helpers";
+import { displayHealing, defaultDifficulty } from "./helpers";
+import { raidImg } from "../../helpers";
 
 import {
-    playerProgressionFetch,
-    playerProgressionSelectRaid
+    fetchCharacterProgression,
+    selectCharacterProgressionRaid
 } from "../../redux/actions";
 
 function styles(theme) {
@@ -32,7 +33,7 @@ function styles(theme) {
     };
 }
 
-function PlayerProgression({ classes }) {
+function CharacterProgression({ classes }) {
     const {
         loading,
         error,
@@ -40,34 +41,33 @@ function PlayerProgression({ classes }) {
         selectedRaid,
         characterClass,
         raids,
-        playerName,
-        realm
+        characterName,
+        realm,
+        currentContentName
     } = useSelector(state => {
-        let raids = [];
-
-        for (let raidName in state.raidInfo.raids) {
-            raids.push(state.raidInfo.raids[raidName]);
-        }
-
         return {
-            ...state.player.progression,
-            playerName: state.player.data.data && state.player.data.data.name,
-            realm: state.player.data.data && state.player.data.data.realm,
+            ...state.character.progression,
+            characterName:
+                state.character.data.data && state.character.data.data.name,
+            realm: state.character.data.data && state.character.data.data.realm,
             characterClass:
-                state.player.data.data && state.player.data.data.class,
-            raids
+                state.character.data.data && state.character.data.data.class,
+            raids: state.environment.currentContent.raids,
+            currentContentName: state.environment.currentContent.name
         };
     });
 
-    const [difficulty, setDifficulty] = useState(5);
+    const [difficulty, setDifficulty] = useState(
+        defaultDifficulty(raids, currentContentName)
+    );
     const dispatch = useDispatch();
 
     function selectRaid(raidName) {
-        dispatch(playerProgressionSelectRaid(raidName));
-        if (!data[raidName]) {
+        dispatch(selectCharacterProgressionRaid(raidName));
+        if (!data || !data[raidName]) {
             dispatch(
-                playerProgressionFetch({
-                    playerName: playerName,
+                fetchCharacterProgression({
+                    characterName: characterName,
                     realm: realm,
                     raidName: raidName,
                     characterClass: characterClass
@@ -75,6 +75,10 @@ function PlayerProgression({ classes }) {
             );
         }
     }
+
+    useEffect(() => {
+        selectRaid(currentContentName);
+    }, []);
 
     return (
         <Container className={classes.container}>
@@ -90,7 +94,7 @@ function PlayerProgression({ classes }) {
                         label={raid.name}
                         className={classes.tab}
                         style={{
-                            backgroundImage: "url(" + raid.picture + ")"
+                            backgroundImage: `url("${raidImg(raid.image)}")`
                         }}
                         onClick={() => selectRaid(raid.name)}
                     />
@@ -100,7 +104,7 @@ function PlayerProgression({ classes }) {
             <Container>
                 {loading && <Loading />}
                 {!loading && error && <ErrorMessage message={error} />}
-                {data && data[selectedRaid] && (
+                {!loading && !error && data && data[selectedRaid] && (
                     <Grid container justify="space-around">
                         <Grid item>
                             <RaidChart
@@ -127,4 +131,4 @@ function PlayerProgression({ classes }) {
     );
 }
 
-export default withStyles(styles)(PlayerProgression);
+export default withStyles(styles)(CharacterProgression);

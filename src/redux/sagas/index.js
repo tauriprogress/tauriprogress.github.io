@@ -5,10 +5,10 @@ import getRaidSummarySaga from "./getRaidSummarySaga";
 import getRaidBossSaga from "./getRaidBossSaga";
 import getLogSaga from "./getLogSaga";
 import getGuildSaga from "./getGuildSaga";
-import getPlayerDataSaga from "./getPlayerDataSaga";
-import getPlayerLatestKillsSaga from "./getPlayerLatestKillsSaga";
-import getPlayerProgressionSaga from "./getPlayerProgressionSaga";
-import getPlayerItemsSaga from "./getPlayerItemsSaga";
+import getCharacterDataSaga from "./getCharacterDataSaga";
+import getCharacterRecentKillsSaga from "./getCharacterRecentKillsSaga";
+import getCharacterProgressionSaga from "./getCharacterProgressionSaga";
+import getCharacterItemsSaga from "./getCharacterItemsSaga";
 
 function* sagas() {
     yield all([
@@ -18,10 +18,10 @@ function* sagas() {
         getRaidBossSaga(),
         getLogSaga(),
         getGuildSaga(),
-        getPlayerDataSaga(),
-        getPlayerLatestKillsSaga(),
-        getPlayerProgressionSaga(),
-        getPlayerItemsSaga()
+        getCharacterDataSaga(),
+        getCharacterRecentKillsSaga(),
+        getCharacterProgressionSaga(),
+        getCharacterItemsSaga()
     ]);
 }
 

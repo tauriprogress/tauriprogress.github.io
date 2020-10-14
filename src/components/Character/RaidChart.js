@@ -1,4 +1,4 @@
-import { specs, classToSpec, characterClasses } from "tauriprogress-constants";
+import { characterClassToSpec } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -58,15 +58,24 @@ function RaidChart({
     variant = "dps"
 }) {
     const { classColors } = theme.palette;
-    const raids = useSelector(state => state.raidInfo.raids);
+    const { raids, specs, characterClassNames } = useSelector(state => ({
+        raids: state.environment.currentContent.raids,
+        specs: state.environment.specs,
+        characterClassNames: state.environment.characterClassNames
+    }));
 
     const [spec, setSpec] = useState("noSpec");
 
-    const raidBosses = raids[raidName].encounters;
+    const raidBosses = raids.reduce((acc, curr) => {
+        if (curr.name === raidName) {
+            acc = curr.bosses;
+        }
+        return acc;
+    }, []);
 
     let iconSpecs = [];
 
-    for (let charSpec of classToSpec[characterClass]) {
+    for (let charSpec of characterClassToSpec[characterClass]) {
         if (specs[charSpec][`is${variant === "dps" ? "Dps" : "Healer"}`]) {
             iconSpecs.push(specs[charSpec]);
         }
@@ -106,7 +115,9 @@ function RaidChart({
                                 value="class"
                                 icon={
                                     <Tooltip
-                                        title={characterClasses[characterClass]}
+                                        title={
+                                            characterClassNames[characterClass]
+                                        }
                                     >
                                         <img
                                             className={classes.specIcon}
@@ -142,7 +153,6 @@ function RaidChart({
                 <PerfChartRow
                     Icon={<IconTotal />}
                     iconTitle={`Total ${variant} devided by the number of bosses`}
-                    rank={""}
                     title={"Total"}
                     perfValue={shortNumber(data.total[spec][variant][variant])}
                     perfPercent={data.total[spec][variant].topPercent || 0}
@@ -152,7 +162,6 @@ function RaidChart({
                 <PerfChartRow
                     Icon={<IconMissing />}
                     iconTitle={"no spec"}
-                    rank={""}
                     title={"Total"}
                     perfValue={shortNumber(0)}
                     perfPercent={0}
@@ -161,11 +170,11 @@ function RaidChart({
             )}
 
             {raidBosses.map(boss => {
-                const currentBoss = data[boss.encounter_name][spec];
+                const currentBoss = data[boss.name][spec];
                 const playerData = currentBoss[variant];
 
                 return (
-                    <React.Fragment key={boss.encounter_name}>
+                    <React.Fragment key={boss.name}>
                         {playerData[variant] ? (
                             <LogLink
                                 logId={playerData.logId}
@@ -182,8 +191,7 @@ function RaidChart({
                                         />
                                     }
                                     iconTitle={specs[playerData.spec].label}
-                                    rank={playerData.rank}
-                                    title={boss.encounter_name}
+                                    title={boss.name}
                                     perfValue={shortNumber(playerData[variant])}
                                     perfPercent={playerData.topPercent}
                                     color={
@@ -195,8 +203,7 @@ function RaidChart({
                             <PerfChartRow
                                 Icon={<IconMissing />}
                                 iconTitle={"no spec"}
-                                rank={""}
-                                title={boss.encounter_name}
+                                title={boss.name}
                                 perfValue={shortNumber(0)}
                                 perfPercent={0}
                             />

@@ -6,8 +6,6 @@ import Card from "@material-ui/core/Card";
 
 import MetaDataList from "../MetaDataList";
 
-import { getBossesDefeated } from "./helpers";
-
 function styles(theme) {
     return {
         container: {
@@ -21,11 +19,10 @@ function styles(theme) {
     };
 }
 
-function PlayerStats({ classes }) {
-    const { data, progression } = useSelector(state => {
+function CharacterStats({ classes }) {
+    const { data } = useSelector(state => {
         return {
-            data: state.player.data.data,
-            progression: state.player.progression.data
+            data: state.character.data.data
         };
     });
 
@@ -99,4 +96,4 @@ function PlayerStats({ classes }) {
     );
 }
 
-export default withStyles(styles)(PlayerStats);
+export default withStyles(styles)(CharacterStats);

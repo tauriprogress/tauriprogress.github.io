@@ -1,5 +1,4 @@
-import { characterClasses, characterRaces } from "tauriprogress-constants";
-import { armoryUrl } from "tauriprogress-constants/urls";
+import { characterRaceNames } from "tauriprogress-constants";
 
 import React from "react";
 import { useSelector } from "react-redux";
@@ -45,8 +44,16 @@ function styles(theme) {
     };
 }
 
-function PlayerTitle({ classes, theme }) {
-    const data = useSelector(state => state.player.data.data);
+function CharacterTitle({ classes, theme }) {
+    const { data, armoryUrl, characterClassNames, specs } = useSelector(
+        state => ({
+            data: state.character.data.data,
+            armoryUrl: state.environment.urls.armory,
+            characterClassNames: state.environment.characterClassNames,
+            specs: state.environment.specs
+        })
+    );
+
     if (!data) {
         return <div />;
     }
@@ -54,7 +61,7 @@ function PlayerTitle({ classes, theme }) {
         palette: { classColors, factionColors }
     } = theme;
     const fullSpecName = `${data["treeName_" + data.activeSpec]} ${
-        characterClasses[data.class]
+        characterClassNames[data.class]
     }`;
 
     return (
@@ -62,7 +69,7 @@ function PlayerTitle({ classes, theme }) {
             <Typography variant="h4" className={classes.playerName}>
                 <SpecImg
                     title={fullSpecName}
-                    src={talentTreeToImage(fullSpecName)}
+                    src={talentTreeToImage(fullSpecName, specs)}
                     className={classes.specImg}
                 />
                 <Link
@@ -98,7 +105,7 @@ function PlayerTitle({ classes, theme }) {
                 className={classes.playerMetaData}
                 color="textSecondary"
             >
-                Level {data.level} {characterRaces[data.race]}
+                Level {data.level} {characterRaceNames[data.race]}
                 <br /> ilvl {data.avgitemlevel}{" "}
                 <span
                     style={{
@@ -124,4 +131,4 @@ function PlayerTitle({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(PlayerTitle));
+export default withStyles(styles)(withTheme(CharacterTitle));

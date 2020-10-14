@@ -1,8 +1,8 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    playerItemsLoading,
-    playerItemsSetError,
-    playerItemsFill
+    setCharacterItemsLoading,
+    setCharacterItemsError,
+    fillCharacterItems
 } from "../actions";
 
 async function getData(serverUrl, ids, realm) {
@@ -18,35 +18,35 @@ async function getData(serverUrl, ids, realm) {
     }).then(res => res.json());
 }
 
-function* fetchPlayerItems({ payload }) {
+function* fetchCharacterItems({ payload }) {
     try {
         const { ids, realm } = payload;
 
-        const loading = yield select(state => state.player.items.loading);
+        const loading = yield select(state => state.character.items.loading);
 
         if (loading) {
             return;
         }
 
-        const currentItems = yield select(state => state.player.items.data);
+        const currentItems = yield select(state => state.character.items.data);
 
         const filteredIds = ids.filter(guid => !currentItems[guid]);
 
-        yield put(playerItemsLoading(true));
+        yield put(setCharacterItemsLoading(true));
 
-        const serverUrl = yield select(state => state.environment.serverUrl);
+        const serverUrl = yield select(state => state.environment.urls.server);
         const response = yield call(getData, serverUrl, filteredIds, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(playerItemsFill(response.response));
+            yield put(fillCharacterItems(response.response));
         }
     } catch (err) {
-        yield put(playerItemsSetError(err.message));
+        yield put(setCharacterItemsError(err.message));
     }
 }
 
 export default function* getPlayerItemsSaga() {
-    yield takeEvery("PLAYER_ITEMS_FETCH", fetchPlayerItems);
+    yield takeEvery("CHARACTER_ITEMS_FETCH", fetchCharacterItems);
 }

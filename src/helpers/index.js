@@ -1,4 +1,4 @@
-import { specs, shortRealms } from "tauriprogress-constants";
+import { shortRealms } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
     let realmNames = [];
@@ -142,7 +142,7 @@ export function convertFightTime(time) {
     return `${mins}:${remainingSecs}`;
 }
 
-export function talentTreeToImage(fullSpecName) {
+export function talentTreeToImage(fullSpecName, specs) {
     const regexp = new RegExp(fullSpecName, "ig");
     for (let specKey in specs) {
         if (regexp.exec(specs[specKey].label)) {

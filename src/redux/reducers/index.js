@@ -5,8 +5,7 @@ import raidBossReducer from "./raidBossReducer";
 import navReducer from "./navReducer";
 import guildListReducer from "./guildListReducer";
 import guildReducer from "./guildReducer";
-// rename this to character from player
-//import playerReducer from "./playerReducer";
+import characterReducer from "./characterReducer";
 import charLadderReducer from "./charLadderReducer";
 import additionalInfoReducer from "./additionalInfoReducer";
 import fightLogReducer from "./fightLogReducer";
@@ -20,7 +19,7 @@ export default combineReducers({
     navigation: navReducer,
     guildList: guildListReducer,
     guild: guildReducer,
-    //player: playerReducer,
+    character: characterReducer,
     charLadder: charLadderReducer,
     additionalInfo: additionalInfoReducer,
     fightLog: fightLogReducer,

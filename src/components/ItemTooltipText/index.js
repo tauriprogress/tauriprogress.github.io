@@ -1,4 +1,4 @@
-import { inventoryType } from "tauriprogress-constants";
+import { itemSlotNames } from "tauriprogress-constants";
 import React from "react";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
@@ -48,7 +48,7 @@ function styles(theme) {
     };
 }
 
-function ItemTooltipText({ classes, theme, item }) {
+function ItemTooltipText({ classes, theme, item, iconUrl }) {
     return (
         <React.Fragment>
             <Typography
@@ -84,7 +84,7 @@ function ItemTooltipText({ classes, theme, item }) {
                     <Typography
                         className={`${classes.text} ${classes.textWhite}`}
                     >
-                        {inventoryType[item.InventoryType]}
+                        {itemSlotNames[item.InventoryType]}
                     </Typography>
                 </Grid>
                 <Grid item>
@@ -167,7 +167,11 @@ function ItemTooltipText({ classes, theme, item }) {
                         className={`${classes.text} ${classes.textWhite}`}
                     >
                         <img
-                            src={socket.gem ? socket.gem.icon : socket.icon}
+                            src={
+                                socket.gem
+                                    ? `${iconUrl}${socket.gem.icon}`
+                                    : socket.icon
+                            }
                             alt=""
                             className={classes.socketIcon}
                         />
