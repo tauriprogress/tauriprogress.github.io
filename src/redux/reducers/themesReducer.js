@@ -19,8 +19,8 @@ import {
 const primary = "#1d2124";
 const secondary = deepOrange[500];
 
-const light = "#f7f7f7";
-const lightAccent = "#efefef";
+const light = "#fff7f2";
+const lightAccent = "#f5efeb";
 const lightBackgroundDefault = light;
 const lightBackgroundLighter = "#fdfdfd";
 const lightBackgroundDarker = "#d5d5d5";
