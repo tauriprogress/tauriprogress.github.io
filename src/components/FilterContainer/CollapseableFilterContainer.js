@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
+
 function styles(theme) {
     return {
         container: {
@@ -31,6 +32,9 @@ function styles(theme) {
         },
         iconContainer: {
             height: "15px"
+        },
+        button: {
+            backgroundColor: theme.palette.background.accent
         }
     };
 }
@@ -46,8 +50,8 @@ function CollapseableFilterContainer({
         <div className={classes.filterContainer}>
             <Button
                 fullWidth
-                variant="contained"
                 onClick={() => setOpen(!open)}
+                className={classes.button}
             >
                 <Grid container justify={"center"}>
                     <Grid item>
