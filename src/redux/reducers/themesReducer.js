@@ -18,18 +18,20 @@ import {
 
 const primary = "#1d2124";
 const secondary = deepOrange[500];
-const darkPSecondary = deepOrange[300];
 
 const light = "#f7f7f7";
 const lightAccent = "#efefef";
-const lightBackgroundDefault = "#f7f7f7";
-const lightBackgroundLighter = "#fff";
+const lightBackgroundDefault = light;
+const lightBackgroundLighter = "#fdfdfd";
 const lightBackgroundDarker = "#d5d5d5";
 const lightPSecondary = deepOrange[900];
 
-const dark = "#24292e";
-const darkAccent = "#2b3138";
-const darkComponentBackground = "#333a41";
+const dark = "#1a1c1d";
+const darkAccent = "#17191a";
+const darkBackgroundDefault = dark;
+const darkBackgroundLighter = "#222526";
+const darkBackgroundDarker = "#151617";
+const darkPSecondary = deepOrange[300];
 
 const defaultTheme = {
     typography: {
@@ -138,7 +140,7 @@ const lightPalette = {
         accent: lightAccent,
         lighter: lightBackgroundLighter,
         darker: lightBackgroundDarker,
-        tooltip: light
+        tooltip: lightAccent
     },
     classColors: {
         1: {
@@ -228,9 +230,11 @@ const darkPalette = {
         main: red[900]
     },
     background: {
-        default: dark,
+        default: darkBackgroundDefault,
         accent: darkAccent,
-        tooltip: primary
+        lighter: darkBackgroundLighter,
+        darker: darkBackgroundDarker,
+        tooltip: darkAccent
     },
     classColors: {
         1: {
@@ -358,11 +362,6 @@ const defaultState = {
                     }
                 }
             },
-            MuiPaper: {
-                root: {
-                    backgroundColor: darkComponentBackground
-                }
-            },
             MuiListItem: {
                 root: {
                     "&$selected": {
@@ -378,16 +377,16 @@ const defaultState = {
                     }
                 }
             },
-            MuiTableCell: {
-                body: {
-                    color: darkPalette.primary.contrastText
-                }
-            },
             MuiInputLabel: {
                 root: {
                     "&$focused": {
                         color: "white !important"
                     }
+                }
+            },
+            MuiTabs: {
+                root: {
+                    backgroundColor: darkBackgroundDarker
                 }
             }
         }
