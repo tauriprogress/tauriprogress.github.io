@@ -19,15 +19,17 @@ import {
 const primary = "#1d2124";
 const secondary = deepOrange[500];
 const darkPSecondary = deepOrange[300];
-const lightPSecondary = deepOrange[900];
 
 const light = "#f7f7f7";
-const lightAccent = "#eee";
+const lightAccent = "#efefef";
+const lightBackgroundDefault = "#f7f7f7";
+const lightBackgroundLighter = "#fff";
+const lightBackgroundDarker = "#d5d5d5";
+const lightPSecondary = deepOrange[900];
+
 const dark = "#24292e";
 const darkAccent = "#2b3138";
 const darkComponentBackground = "#333a41";
-
-const lightGrey = "#c4c4c4";
 
 const defaultTheme = {
     typography: {
@@ -60,7 +62,8 @@ const overrides = {
     MuiLink: {
         root: {
             textDecoration: "none !important",
-            cursor: "pointer"
+            cursor: "pointer",
+            color: "inherit"
         }
     },
     MuiListItem: {
@@ -80,17 +83,8 @@ const overrides = {
             backgroundColor: primary
         }
     },
-    MuiTabs: {
-        root: {
-            backgroundColor: primary,
-            color: lightGrey
-        }
-    },
     MuiTab: {
         root: {
-            "&$selected": {
-                color: "white"
-            },
             minWidth: "80px !important"
         }
     },
@@ -140,8 +134,10 @@ const lightPalette = {
         main: red[900]
     },
     background: {
-        default: light,
+        default: lightBackgroundDefault,
         accent: lightAccent,
+        lighter: lightBackgroundLighter,
+        darker: lightBackgroundDarker,
         tooltip: light
     },
     classColors: {
@@ -340,6 +336,11 @@ const defaultState = {
                     "& tr:nth-child(odd)": {
                         backgroundColor: lightPalette.background.accent
                     }
+                }
+            },
+            MuiTabs: {
+                root: {
+                    backgroundColor: lightBackgroundDarker
                 }
             }
         }
