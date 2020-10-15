@@ -28,7 +28,7 @@ import { navBreakpoint } from "../../redux/reducers/navReducer";
 import { headerHeight } from "../Header";
 
 function styles(theme) {
-    const width = 250;
+    const width = 240;
     return {
         aside: {
             width: `${width}px`,
@@ -54,7 +54,7 @@ function styles(theme) {
             }
         },
         nestedNavItem: {
-            paddingLeft: theme.spacing(4)
+            paddingLeft: theme.spacing(5)
         }
     };
 }

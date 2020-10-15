@@ -21,7 +21,8 @@ function styles(theme) {
             backgroundPosition: "center"
         },
         nestedNavItem: {
-            paddingLeft: theme.spacing(4)
+            padding: theme.spacing(0.5),
+            paddingLeft: theme.spacing(5)
         }
     };
 }
@@ -42,7 +43,7 @@ function RaidBossList({ raid, classes, selected }) {
                 <ListItemText primary={raid.name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={open} timeout="auto">
                 <List disablePadding>
                     <Link
                         color="inherit"
