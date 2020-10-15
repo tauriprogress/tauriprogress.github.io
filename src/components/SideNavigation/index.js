@@ -46,6 +46,7 @@ function styles(theme) {
             height: "100%",
             width: `${width + 17}px`,
             overflowY: "scroll",
+            backgroundColor: theme.palette.background.lighter,
             [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
                 width: `${width}px`
             },

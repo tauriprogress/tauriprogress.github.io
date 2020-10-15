@@ -26,7 +26,7 @@ function styles(theme) {
                 width: "100%",
                 position: "fixed",
                 zIndex: 1000,
-                backgroundColor: theme.palette.background.default
+                backgroundColor: theme.palette.background.lighter
             }
         },
         iconButton: {
