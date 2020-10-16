@@ -24,6 +24,7 @@ import {
 function styles(theme) {
     return {
         tab: {
+            color: theme.palette.primary.contrastText,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center"
         },
@@ -87,7 +88,10 @@ function CharacterProgression({ classes }) {
                 selected={difficulty}
                 onChange={(e, difficulty) => setDifficulty(difficulty)}
             />
-            <Tabs value={selectedRaid} variant="fullWidth">
+            <Tabs
+                value={selectedRaid || currentContentName}
+                variant="fullWidth"
+            >
                 {raids.map(raid => (
                     <Tab
                         value={raid.name}
