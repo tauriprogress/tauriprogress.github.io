@@ -10,7 +10,10 @@ import Loading from "../Loading";
 
 import BossSummary from "./BossSummary";
 
-import { fetchRaidSummary } from "../../redux/actions";
+import {
+    fetchRaidSummary,
+    setSelectedNavigationItem
+} from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -49,6 +52,9 @@ function RaidSummary({ classes, match }) {
         if (raidNameToId[raidName] !== raidId) {
             dispatch(fetchRaidSummary(raidNameToId[raidName]));
         }
+        dispatch(setSelectedNavigationItem(raidName));
+
+        return () => dispatch(setSelectedNavigationItem(null));
     }, [raidName]);
 
     return (

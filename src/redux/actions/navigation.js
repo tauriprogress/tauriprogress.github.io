@@ -4,3 +4,10 @@ export function toggleNavigation(payload) {
         payload
     };
 }
+
+export function setSelectedNavigationItem(payload) {
+    return {
+        type: "NAVIGATION_SET_SELECTED",
+        payload
+    };
+}

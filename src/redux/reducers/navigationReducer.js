@@ -1,7 +1,7 @@
 export const navBreakpoint = 1000;
 const defaultState = {
     open: window.innerWidth < navBreakpoint ? false : true,
-    selectedBoss: null
+    selected: null
 };
 
 function navigationReducer(state = defaultState, action) {
@@ -15,6 +15,12 @@ function navigationReducer(state = defaultState, action) {
                         : state.open
                         ? false
                         : true
+            };
+
+        case "NAVIGATION_SET_SELECTED":
+            return {
+                ...state,
+                selected: action.payload
             };
         default:
             return state;

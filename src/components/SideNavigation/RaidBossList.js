@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
@@ -27,8 +28,9 @@ function styles(theme) {
     };
 }
 
-function RaidBossList({ raid, classes, selected }) {
+function RaidBossList({ raid, classes }) {
     const [open, setOpen] = useState(true);
+    const selected = useSelector(state => state.navigation.selected);
 
     return (
         <React.Fragment>
@@ -53,7 +55,7 @@ function RaidBossList({ raid, classes, selected }) {
                         <ListItem
                             component="li"
                             button
-                            selected={selected === 0}
+                            selected={selected === raid.name}
                             className={classes.nestedNavItem}
                         >
                             <ListItemText primary={"Summary"} />
@@ -73,7 +75,7 @@ function RaidBossList({ raid, classes, selected }) {
                             >
                                 <ListItem
                                     button
-                                    selected={selected === index + 1}
+                                    selected={selected === boss.name}
                                     className={classes.nestedNavItem}
                                 >
                                     <ListItemText primary={boss.name} />

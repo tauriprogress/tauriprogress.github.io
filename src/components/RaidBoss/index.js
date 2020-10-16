@@ -14,7 +14,11 @@ import FastestKills from "./FastestKills";
 import RecentKills from "./RecentKills";
 import CharacterLadder from "../CharacterLadder";
 
-import { fetchRaidBoss, setRaidBossTab } from "../../redux/actions";
+import {
+    fetchRaidBoss,
+    setRaidBossTab,
+    setSelectedNavigationItem
+} from "../../redux/actions";
 
 function RaidBoss({ match }) {
     const {
@@ -45,7 +49,10 @@ function RaidBoss({ match }) {
                     bossName: match.params.bossName
                 })
             );
+
+            dispatch(setSelectedNavigationItem(match.params.bossName));
         }
+        return () => dispatch(setSelectedNavigationItem(null));
     }, [match.params.bossName]);
 
     return (
