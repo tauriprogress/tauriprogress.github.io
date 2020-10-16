@@ -18,7 +18,8 @@ import {
     dateToString,
     getSpecImg,
     shortNumber,
-    capitalize
+    capitalize,
+    shortRealmToFull
 } from "../../helpers";
 
 function styles(theme) {
@@ -196,7 +197,9 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                             >
                                                 <LogLink
                                                     logId={character.logId}
-                                                    realm={character.realm}
+                                                    realm={shortRealmToFull(
+                                                        character.realm
+                                                    )}
                                                 >
                                                     {shortNumber(
                                                         character[combatMetric]
@@ -214,7 +217,11 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 />
                                                 <Link
                                                     component={RouterLink}
-                                                    to={`/character/${character.name}?realm=${character.realm}`}
+                                                    to={`/character/${
+                                                        character.name
+                                                    }?realm=${shortRealmToFull(
+                                                        character.realm
+                                                    )}`}
                                                     style={{
                                                         color:
                                                             classColors[
