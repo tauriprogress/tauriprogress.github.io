@@ -188,9 +188,12 @@ function RaidFilter({ classes, theme }) {
                         }}
                         className={classes.capitalize}
                     >
-                        <MenuItem value="">
-                            <em>All</em>
-                        </MenuItem>
+                        {select.name !== "difficulty" && (
+                            <MenuItem value="">
+                                <em>All</em>
+                            </MenuItem>
+                        )}
+
                         {select.options.map(option => (
                             <MenuItem
                                 key={option.name}
