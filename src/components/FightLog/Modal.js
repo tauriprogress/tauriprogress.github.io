@@ -23,7 +23,8 @@ function styles(theme) {
             position: "relative",
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 margin: 0
-            }
+            },
+            backgroundColor: theme.palette.background.default
         },
         logContainer: {
             overflowY: "scroll",

@@ -28,7 +28,7 @@ function FightLog({ match }) {
     }, []);
 
     return (
-        <section className="fightLog">
+        <section>
             {loading && <Loading />}
 
             {error && <ErrorMessage message={error} />}
