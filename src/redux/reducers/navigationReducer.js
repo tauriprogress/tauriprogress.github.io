@@ -1,11 +1,12 @@
 export const navBreakpoint = 1000;
 const defaultState = {
-    open: window.innerWidth < navBreakpoint ? false : true
+    open: window.innerWidth < navBreakpoint ? false : true,
+    selectedBoss: null
 };
 
-function navReducer(state = defaultState, action) {
+function navigationReducer(state = defaultState, action) {
     switch (action.type) {
-        case "NAV_TOGGLE":
+        case "NAVIGATION_TOGGLE":
             return {
                 ...state,
                 open:
@@ -20,4 +21,4 @@ function navReducer(state = defaultState, action) {
     }
 }
 
-export default navReducer;
+export default navigationReducer;

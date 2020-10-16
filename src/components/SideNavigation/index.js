@@ -21,9 +21,9 @@ import SearchGuild from "../SearchGuild";
 import SearchCharacter from "../SearchCharacter";
 import RaidBossList from "./RaidBossList";
 
-import { navToggle } from "../../redux/actions";
+import { toggleNavigation } from "../../redux/actions";
 
-import { navBreakpoint } from "../../redux/reducers/navReducer";
+import { navBreakpoint } from "../../redux/reducers/navigationReducer";
 
 import { headerHeight } from "../Header";
 
@@ -80,7 +80,7 @@ function NavigationContainer({ classes }) {
             {window.innerWidth < navBreakpoint && (
                 <Drawer
                     open={open}
-                    onClose={() => dispatch(navToggle(false))}
+                    onClose={() => dispatch(toggleNavigation(false))}
                     anchor="left"
                 >
                     <Navigation

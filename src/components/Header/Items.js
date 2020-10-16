@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 
-import { navToggle } from "../../redux/actions";
+import { toggleNavigation } from "../../redux/actions";
 
 import discordIcon from "../../assets/social/discord.svg";
 
@@ -57,7 +57,7 @@ function NavItems({ classes }) {
                         <IconButton
                             color="inherit"
                             className={classes.iconButton}
-                            onClick={() => dispatch(navToggle())}
+                            onClick={() => dispatch(toggleNavigation())}
                         >
                             <MenuIcon fontSize="large" />
                         </IconButton>

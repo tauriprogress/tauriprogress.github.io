@@ -1,10 +1,3 @@
-export function navToggle(payload) {
-    return {
-        type: "NAV_TOGGLE",
-        payload
-    };
-}
-
 export function lastUpdatedFetch(payload) {
     return {
         type: "LAST_UPDATED_FETCH",
@@ -74,3 +67,4 @@ export * from "./raidBoss";
 export * from "./fightLog";
 export * from "./guild";
 export * from "./character";
+export * from "./navigation";
