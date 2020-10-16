@@ -8,10 +8,10 @@ export function displayHealing(bosses) {
     return false;
 }
 
-export function defaultDifficulty(raids, raidName) {
+export function getDifficulties(raids, raidName) {
     for (const raid of raids) {
         if (raid.name === raidName) {
-            return raid.difficulties[0];
+            return raid.difficulties;
         }
     }
     return 0;

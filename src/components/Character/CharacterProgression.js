@@ -10,10 +10,10 @@ import Grid from "@material-ui/core/Grid";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
-import SelectDifficulty from "../SelectDifficulty";
+import DifficultyTabs from "../DifficultyTabs";
 import RaidChart from "./RaidChart";
 
-import { displayHealing, defaultDifficulty } from "./helpers";
+import { displayHealing, getDifficulties } from "./helpers";
 import { raidImg } from "../../helpers";
 
 import {
@@ -57,9 +57,9 @@ function CharacterProgression({ classes }) {
         };
     });
 
-    const [difficulty, setDifficulty] = useState(
-        defaultDifficulty(raids, currentContentName)
-    );
+    const difficulties = getDifficulties(raids, currentContentName);
+
+    const [difficulty, setDifficulty] = useState(difficulties[0]);
     const dispatch = useDispatch();
 
     function selectRaid(raidName) {
@@ -82,8 +82,9 @@ function CharacterProgression({ classes }) {
 
     return (
         <Container className={classes.container}>
-            <SelectDifficulty
-                difficulty={difficulty}
+            <DifficultyTabs
+                options={difficulties}
+                selected={difficulty}
                 onChange={(e, difficulty) => setDifficulty(difficulty)}
             />
             <Tabs value={selectedRaid} variant="fullWidth">
