@@ -3,7 +3,7 @@ import { itemSlotNames } from "tauriprogress-constants";
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
 
 const defaultState = {
-    playerName: null,
+    characterName: null,
     realm: null,
     data: {
         loading: false,
@@ -47,7 +47,7 @@ function characterReducer(state = defaultState, action) {
             return {
                 ...state,
                 data: { ...state.data, loading: true, error: null },
-                playerName: action.payload.playerName,
+                characterName: action.payload.characterName,
                 realm: action.payload.realm
             };
 
@@ -60,7 +60,7 @@ function characterReducer(state = defaultState, action) {
                     loading: false,
                     error: null
                 },
-                playerName: action.payload.name,
+                characterName: action.payload.name,
                 realm: action.payload.realm,
                 progression: { ...defaultState.progression },
                 items: { ...defaultState.items }

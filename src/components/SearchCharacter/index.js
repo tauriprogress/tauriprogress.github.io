@@ -26,7 +26,7 @@ function styles() {
         realm: {
             marginTop: "4px"
         },
-        searchPlayerButtonContainer: {
+        searchCharacterButtonContainer: {
             display: "flex",
             marginTop: "8px"
         }
@@ -57,7 +57,7 @@ function SearchCharacter({ classes, history }) {
                 >
                     <TextField
                         id="name"
-                        label="Search player"
+                        label="Search character"
                         value={character}
                         fullWidth
                         onChange={e => setCharacter(e.target.value)}
@@ -90,14 +90,14 @@ function SearchCharacter({ classes, history }) {
                 <Grid
                     container
                     justify="flex-end"
-                    className={classes.searchPlayerButtonContainer}
+                    className={classes.searchCharacterButtonContainer}
                 >
                     <Button
                         variant="contained"
                         color="primary"
                         onClick={submit}
                     >
-                        search player
+                        search character
                     </Button>
                 </Grid>
             </Grid>

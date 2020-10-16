@@ -169,7 +169,7 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                             />
                                             <Link
                                                 component={RouterLink}
-                                                to={`/player/${member.name}?realm=${realm}`}
+                                                to={`/character/${member.name}?realm=${realm}`}
                                                 style={{
                                                     color:
                                                         theme.palette

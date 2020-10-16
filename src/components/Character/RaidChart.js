@@ -171,31 +171,34 @@ function RaidChart({
 
             {raidBosses.map(boss => {
                 const currentBoss = data[boss.name][spec];
-                const playerData = currentBoss[variant];
+                const characterData = currentBoss[variant];
 
                 return (
                     <React.Fragment key={boss.name}>
-                        {playerData[variant] ? (
+                        {characterData[variant] ? (
                             <LogLink
-                                logId={playerData.logId}
-                                realm={playerData.realm}
+                                logId={characterData.logId}
+                                realm={characterData.realm}
                                 className={classes.link}
                             >
                                 <PerfChartRow
                                     Icon={
                                         <img
                                             src={getSpecImg(
-                                                specs[playerData.spec].image
+                                                specs[characterData.spec].image
                                             )}
                                             alt=""
                                         />
                                     }
-                                    iconTitle={specs[playerData.spec].label}
+                                    iconTitle={specs[characterData.spec].label}
                                     title={boss.name}
-                                    perfValue={shortNumber(playerData[variant])}
-                                    perfPercent={playerData.topPercent}
+                                    perfValue={shortNumber(
+                                        characterData[variant]
+                                    )}
+                                    perfPercent={characterData.topPercent}
                                     color={
-                                        classColors[playerData.class].background
+                                        classColors[characterData.class]
+                                            .background
                                     }
                                 />
                             </LogLink>

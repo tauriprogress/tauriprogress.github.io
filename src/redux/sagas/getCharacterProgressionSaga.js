@@ -60,6 +60,6 @@ function* fetchCharacterProgression({ payload }) {
     }
 }
 
-export default function* getPlayerProgressionSaga() {
+export default function* getCharacterProgressionSaga() {
     yield takeEvery("CHARACTER_PROGRESSION_FETCH", fetchCharacterProgression);
 }

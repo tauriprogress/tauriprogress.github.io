@@ -47,6 +47,6 @@ function* fetchRecentKillsOfCharacter({ payload }) {
     }
 }
 
-export default function* getPlayerLatestKillsSaga() {
+export default function* getCharacterRecentKillsSaga() {
     yield takeEvery("CHARACTER_DATA_FETCH", fetchRecentKillsOfCharacter);
 }

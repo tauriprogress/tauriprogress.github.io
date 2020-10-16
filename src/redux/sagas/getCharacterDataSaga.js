@@ -18,7 +18,7 @@ async function getData(serverUrl, characterName, realm) {
     }).then(res => res.json());
 }
 
-function* fetchPlayer({ payload }) {
+function* fetchCharacter({ payload }) {
     try {
         const { characterName, realm } = payload;
 
@@ -48,6 +48,6 @@ function* fetchPlayer({ payload }) {
     }
 }
 
-export default function* getPlayerDataSaga() {
-    yield takeEvery("CHARACTER_DATA_FETCH", fetchPlayer);
+export default function* getCharacterDataSaga() {
+    yield takeEvery("CHARACTER_DATA_FETCH", fetchCharacter);
 }

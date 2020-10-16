@@ -27,7 +27,7 @@ function styles() {
     };
 }
 
-function Player({ classes, match, location }) {
+function Character({ classes, match, location }) {
     const characterName = match.params.characterName;
     const realm = getRealmFromLocation(location);
     const { loading, error } = useSelector(state => state.character.data);
@@ -71,4 +71,4 @@ function Player({ classes, match, location }) {
     );
 }
 
-export default withStyles(styles)(validateRealm()(Player));
+export default withStyles(styles)(validateRealm()(Character));

@@ -47,6 +47,6 @@ function* fetchCharacterItems({ payload }) {
     }
 }
 
-export default function* getPlayerItemsSaga() {
+export default function* getCharacterItemsSaga() {
     yield takeEvery("CHARACTER_ITEMS_FETCH", fetchCharacterItems);
 }

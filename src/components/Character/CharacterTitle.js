@@ -17,7 +17,7 @@ import { talentTreeToImage } from "../../helpers";
 
 function styles(theme) {
     return {
-        playerName: {
+        characterName: {
             paddingBottom: 0,
             lineHeight: 1
         },
@@ -36,7 +36,7 @@ function styles(theme) {
             transform: "translate(0, 4px)",
             marginRight: theme.spacing(0.4)
         },
-        playerMetaData: {
+        characterMetaData: {
             padding: 0,
             fontSize: `${12 / 16}rem`,
             lineHeight: 1
@@ -66,7 +66,7 @@ function CharacterTitle({ classes, theme }) {
 
     return (
         <Container className={classes.container}>
-            <Typography variant="h4" className={classes.playerName}>
+            <Typography variant="h4" className={classes.characterName}>
                 <SpecImg
                     title={fullSpecName}
                     src={talentTreeToImage(fullSpecName, specs)}
@@ -102,7 +102,7 @@ function CharacterTitle({ classes, theme }) {
                 </Link>
             </Typography>
             <Typography
-                className={classes.playerMetaData}
+                className={classes.characterMetaData}
                 color="textSecondary"
             >
                 Level {data.level} {characterRaceNames[data.race]}

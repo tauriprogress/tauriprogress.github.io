@@ -135,7 +135,7 @@ function LogTitle({ data, theme }) {
 
     const composition = [
         {
-            label: "Players",
+            label: "Characters",
             value: (
                 <span>
                     {countComposition.tank +

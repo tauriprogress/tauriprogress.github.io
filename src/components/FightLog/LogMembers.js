@@ -23,7 +23,7 @@ import { sortMembers } from "./helpers";
 
 const tableColumns = [
     {
-        label: "Player",
+        label: "Character",
         id: "ilvl"
     },
     {
@@ -86,7 +86,7 @@ function LogTableHead({ sort, setSort }) {
                             sort.by === column.id ? sort.direction : false
                         }
                         key={column.id}
-                        align={column.label !== "Player" ? "right" : "left"}
+                        align={column.label !== "Character" ? "right" : "left"}
                     >
                         <Tooltip title="Sort" enterDelay={300}>
                             <TableSortLabel
@@ -146,7 +146,7 @@ function LogMembers({ classes, data, theme }) {
                                         title={specs[member.spec].label}
                                     />
                                     <Link
-                                        to={`/player/${member.name}?realm=${data.realm}`}
+                                        to={`/character/${member.name}?realm=${data.realm}`}
                                         component={RouterLink}
                                         style={{
                                             color:
