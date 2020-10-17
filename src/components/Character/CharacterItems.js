@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
 import CharacterItemTooltip from "./CharacterItemTooltip";
-import SideCard from "../SideCard";
+import TitledContainer from "../TitledContainer";
 
 function styles(theme) {
     return {
@@ -61,7 +61,7 @@ function CharacterItems({ classes, theme }) {
     );
 
     return (
-        <SideCard title="Items">
+        <TitledContainer title="Items">
             <List>
                 {data.characterItems.map(
                     item =>
@@ -135,7 +135,7 @@ function CharacterItems({ classes, theme }) {
                         )
                 )}
             </List>
-        </SideCard>
+        </TitledContainer>
     );
 }
 

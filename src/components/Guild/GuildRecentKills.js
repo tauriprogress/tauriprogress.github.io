@@ -2,7 +2,7 @@ import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import SideCard from "../SideCard";
+import TitledContainer from "../TitledContainer";
 import RecentKills from "../RecentKills";
 
 import { useSelector } from "react-redux";
@@ -28,13 +28,13 @@ function GuildLastestKills({ classes }) {
     }));
 
     return (
-        <SideCard title="Recent Kills" className={classes.container}>
+        <TitledContainer title="Recent Kills" className={classes.container}>
             <RecentKills
                 logs={recentKills}
                 realm={realm}
                 className={classes.recentKills}
             />
-        </SideCard>
+        </TitledContainer>
     );
 }
 

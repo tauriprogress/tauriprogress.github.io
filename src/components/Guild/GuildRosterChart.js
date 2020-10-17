@@ -8,7 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 
 import SpecImg from "../SpecImg";
-import SideCard from "../SideCard";
+import TitledContainer from "../TitledContainer";
 
 import { classImg } from "../../helpers";
 
@@ -75,7 +75,10 @@ function GuildRosterChart({
         state => state.environment.characterClassNames
     );
     return (
-        <SideCard title={"Class Distribution"} className={classes.container}>
+        <TitledContainer
+            title={"Class Distribution"}
+            className={classes.container}
+        >
             <div className={classes.charContainer}>
                 <Grid
                     container
@@ -139,7 +142,7 @@ function GuildRosterChart({
                     ))}
                 </Grid>
             </div>
-        </SideCard>
+        </TitledContainer>
     );
 }
 
