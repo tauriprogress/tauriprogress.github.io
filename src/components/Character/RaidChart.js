@@ -16,7 +16,12 @@ import IconTotal from "@material-ui/icons/BarChart";
 import LogLink from "../LogLink";
 import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
 
-import { getSpecImg, classImg, shortNumber } from "../../helpers";
+import {
+    getSpecImg,
+    classImg,
+    shortNumber,
+    shortRealmToFull
+} from "../../helpers";
 
 function styles(theme) {
     return {
@@ -178,7 +183,7 @@ function RaidChart({
                         {characterData[variant] ? (
                             <LogLink
                                 logId={characterData.logId}
-                                realm={characterData.realm}
+                                realm={shortRealmToFull(characterData.realm)}
                                 className={classes.link}
                             >
                                 <PerfChartRow
