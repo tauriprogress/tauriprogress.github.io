@@ -36,9 +36,19 @@ function styles(theme) {
 function AdditionalInfo({ classes }) {
     const [isOpen, setOpen] = useState(false);
 
-    const { lastUpdated, isUpdating, loading, error } = useSelector(
-        state => state.additionalInfo
-    );
+    const {
+        lastUpdated,
+        isUpdating,
+        loading,
+        error,
+        realmGroup
+    } = useSelector(state => ({
+        ...state.additionalInfo,
+        realmGroup:
+            Object.keys(state.environment.realms).length > 1
+                ? "tauri"
+                : "crystalsong"
+    }));
 
     const dispatch = useDispatch();
 
@@ -63,7 +73,7 @@ function AdditionalInfo({ classes }) {
                 {loading && <Loading />}
                 {!loading && error && <ErrorMessage message={error} />}
                 {!loading && (
-                    <div className="additionalInfoUpdate">
+                    <div>
                         <Typography>
                             Last updated:{" "}
                             <span>{convertMinutes(lastUpdated || 0)}</span> ago.
@@ -90,19 +100,6 @@ function AdditionalInfo({ classes }) {
                     </Link>
 
                     <br />
-
-                    <span>
-                        <Link
-                            color="inherit"
-                            href="https://community.tauriwow.com/index.php?/topic/2076/"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className={classes.link}
-                        >
-                            Forums
-                        </Link>
-                    </span>
-                    <br />
                     <span>
                         <Link
                             color="inherit"
@@ -117,30 +114,35 @@ function AdditionalInfo({ classes }) {
                 </Typography>
 
                 <Divider />
-                <Typography>
-                    Data is collected since{" "}
-                    <DisplayDate date={new Date(1541640000000)} /> and only of
-                    heroic encounters.
-                </Typography>
+                {realmGroup === "tauri" && (
+                    <React.Fragment>
+                        <Typography>
+                            Data is collected since{" "}
+                            <DisplayDate date={new Date(1541640000000)} /> and
+                            only of heroic encounters.
+                        </Typography>
 
-                <Divider />
-                <Typography>
-                    Dps of arms warriors between{" "}
-                    <DisplayDate date={new Date(1565187719000)} /> and{" "}
-                    <DisplayDate date={new Date(1573639200000)} /> have been set
-                    to 0 because of a{" "}
-                    <Link
-                        color="secondary"
-                        href="https://bug.tauriwow.com/index.php?do=details&task_id=18932"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={classes.link}
-                    >
-                        bug fix
-                    </Link>
-                    .
-                </Typography>
-                <Divider />
+                        <Divider />
+                        <Typography>
+                            Dps of arms warriors between{" "}
+                            <DisplayDate date={new Date(1565187719000)} /> and{" "}
+                            <DisplayDate date={new Date(1573639200000)} /> have
+                            been set to 0 because of a{" "}
+                            <Link
+                                color="secondary"
+                                href="https://bug.tauriwow.com/index.php?do=details&task_id=18932"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={classes.link}
+                            >
+                                bug fix
+                            </Link>
+                            .
+                        </Typography>
+                        <Divider />
+                    </React.Fragment>
+                )}
+
                 <Typography>
                     Fanmade website to track progression on tauri.
                 </Typography>
