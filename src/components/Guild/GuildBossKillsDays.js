@@ -12,7 +12,6 @@ import GuildBossKillsChart from "./GuildBossKillsChart";
 function styles(theme) {
     return {
         container: {
-            backgroundColor: theme.palette.background.accent,
             padding: `${theme.spacing(2)}px 0 ${theme.spacing(4)}px`
         },
         contentContainer: {

@@ -17,7 +17,6 @@ function styles(theme) {
         },
         container: {
             margin: `${theme.spacing(2)}px 0`,
-            backgroundColor: theme.palette.background.accent,
             padding: `${theme.spacing(2)}px 0`
         }
     };
