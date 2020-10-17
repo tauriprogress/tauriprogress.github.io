@@ -165,7 +165,7 @@ function RaidFilter({ classes, theme }) {
     });
 
     return (
-        <CollapseableFilterContainer>
+        <CollapseableFilterContainer defaultState={true}>
             {selects.map(select => (
                 <FormControl key={select.name}>
                     <InputLabel htmlFor="class" className={classes.capitalize}>
