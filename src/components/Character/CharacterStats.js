@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
 
 import MetaDataList from "../MetaDataList";
 
@@ -76,7 +75,7 @@ function CharacterStats({ classes }) {
     ];
 
     return (
-        <Card className={`${classes.container}`}>
+        <div className={`${classes.container}`}>
             <MetaDataList
                 title="General"
                 values={general}
@@ -92,7 +91,7 @@ function CharacterStats({ classes }) {
                 values={secondaryStats}
                 className={classes.metaDataList}
             />
-        </Card>
+        </div>
     );
 }
 
