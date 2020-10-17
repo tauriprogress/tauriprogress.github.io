@@ -167,12 +167,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
             </Grid>
             <Divider />
 
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-            >
+            <Grid container direction="row" justify="center">
                 {["dps", "hps"].map(combatMetric =>
                     boss[`best${capitalize(combatMetric)}`].length ? (
                         <Grid
