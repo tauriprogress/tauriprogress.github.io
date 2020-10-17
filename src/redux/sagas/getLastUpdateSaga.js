@@ -13,7 +13,7 @@ function* fetchLastUpdated() {
     try {
         yield put(additionalInfoLoading());
 
-        const serverUrl = yield select(state => state.environment.serverUrl);
+        const serverUrl = yield select(state => state.environment.urls.server);
         const response = yield call(getData, serverUrl);
 
         if (!response.success) {
