@@ -14,11 +14,7 @@ function styles(theme) {
             margin: "0 10px"
         },
         title: {
-            backgroundColor: theme.palette.primary.main,
-            "& *": {
-                color: `${theme.palette.primary.contrastText} !important`
-            },
-            borderRadius: "4px"
+            backgroundColor: theme.palette.background.darker
         },
         bold: {
             fontWeight: "bold"
