@@ -12,8 +12,6 @@ import RecentKills from "../RecentKills";
 function styles(theme) {
     return {
         container: {
-            backgroundColor: theme.palette.background.accent,
-
             padding: `${theme.spacing(4)}px ${theme.spacing(1)}px`
         },
         recentKills: {

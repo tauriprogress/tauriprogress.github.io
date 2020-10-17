@@ -8,7 +8,6 @@ import MetaDataList from "../MetaDataList";
 function styles(theme) {
     return {
         container: {
-            backgroundColor: theme.palette.backgroundAccent,
             margin: "0 10px",
             maxWidth: "260px"
         },

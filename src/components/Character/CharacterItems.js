@@ -25,9 +25,6 @@ function styles(theme) {
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center"
         },
-        listItem: {
-            padding: theme.spacing(0.5)
-        },
         textContainer: {
             alignItems: "center",
             display: "flex",
@@ -72,7 +69,7 @@ function CharacterItems({ classes, theme }) {
                                     realm={data.realm}
                                     ids={ids}
                                 >
-                                    <ListItem className={classes.listItem}>
+                                    <ListItem>
                                         <Grid container wrap="nowrap">
                                             <Grid
                                                 item
