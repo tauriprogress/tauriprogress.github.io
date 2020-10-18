@@ -10,34 +10,25 @@ import GuildFastestKills from "./GuildFastestKills";
 
 import { getNestedObjectValue } from "../../helpers";
 import { Typography } from "@material-ui/core";
-import RaidFilter from "../RaidFilter";
+
+import OverflowScroll from "../OverflowScroll";
 
 function GuildBoss() {
-    const {
-        selectedRaidName,
-        selectedBossName,
-        progression,
-        filter,
-        difficultyNames
-    } = useSelector(state => ({
-        ...state.guild,
-        progression: state.guild.data.progression,
+    const { filter, data, difficultyNames } = useSelector(state => ({
+        filter: state.guild.progressionFilter,
+        data: state.guild.data.progression,
         raids: state.environment.currentContent.raids,
-        filter: state.raid.filter,
         difficultyNames: state.environment.difficultyNames
     }));
-
-    filter.realm = "";
-    filter.faction = "";
 
     const difficulty = filter.difficulty;
 
     const [tab, selectTab] = useState(0);
 
-    let boss = getNestedObjectValue(progression, [
-        selectedRaidName,
+    let boss = getNestedObjectValue(data, [
+        filter.raid,
         difficulty,
-        selectedBossName
+        filter.boss
     ]);
 
     if (!boss) {
@@ -50,50 +41,64 @@ function GuildBoss() {
 
     return (
         <React.Fragment>
-            <RaidFilter />
             <Typography variant="h4" align="center">
-                {selectedBossName} {difficultyNames[difficulty]}
+                {filter.boss} {difficultyNames[difficulty]}
                 <Typography variant="caption" color="textSecondary">
                     {" "}
                     {boss.killCount ? `${boss.killCount} Kills` : "Alive"}
                 </Typography>
             </Typography>
-            <Tabs
-                value={tab}
-                onChange={(e, tab) => selectTab(tab)}
-                indicatorColor="secondary"
-            >
-                <Tab label="Dps" className="tab" />
-                <Tab label="Hps" className="tab" />
-                <Tab label="Fastest Kills" className="tab" />
-            </Tabs>
-
-            {(() => {
-                switch (tab) {
-                    case 0:
-                    case 1:
-                        return (
-                            <CharacterLadder
-                                data={
-                                    tab === 0
-                                        ? Object.values(boss.dps).sort(
-                                              (a, b) => b.dps - a.dps
-                                          )
-                                        : Object.values(boss.hps).sort(
-                                              (a, b) => b.hps - a.hps
-                                          )
-                                }
-                                type={tab === 0 ? "dps" : "hps"}
-                                rowsPerPage={15}
-                                filter={filter}
-                            />
-                        );
-                    case 2:
-                        return <GuildFastestKills data={boss.fastestKills} />;
-                    default:
-                        return null;
-                }
-            })()}
+            {boss.killCount && (
+                <React.Fragment>
+                    <Tabs
+                        value={tab}
+                        onChange={(e, tab) => selectTab(tab)}
+                        indicatorColor="secondary"
+                    >
+                        <Tab label="Dps" className="tab" />
+                        <Tab label="Hps" className="tab" />
+                        <Tab label="Fastest Kills" className="tab" />
+                    </Tabs>
+                    <OverflowScroll>
+                        {(() => {
+                            switch (tab) {
+                                case 0:
+                                case 1:
+                                    return (
+                                        <CharacterLadder
+                                            data={
+                                                tab === 0
+                                                    ? Object.values(
+                                                          boss.dps
+                                                      ).sort(
+                                                          (a, b) =>
+                                                              b.dps - a.dps
+                                                      )
+                                                    : Object.values(
+                                                          boss.hps
+                                                      ).sort(
+                                                          (a, b) =>
+                                                              b.hps - a.hps
+                                                      )
+                                            }
+                                            type={tab === 0 ? "dps" : "hps"}
+                                            rowsPerPage={15}
+                                            filter={filter}
+                                        />
+                                    );
+                                case 2:
+                                    return (
+                                        <GuildFastestKills
+                                            data={boss.fastestKills}
+                                        />
+                                    );
+                                default:
+                                    return null;
+                            }
+                        })()}
+                    </OverflowScroll>
+                </React.Fragment>
+            )}
         </React.Fragment>
     );
 }

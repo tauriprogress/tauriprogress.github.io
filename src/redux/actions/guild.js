@@ -28,7 +28,21 @@ export function fillGuild(payload) {
 
 export function selectGuildBoss(payload) {
     return {
-        type: "GUILD_SELECT_BOSS",
+        type: "GUILD_PROGRESSION_SELECT_BOSS",
+        payload
+    };
+}
+
+export function selectGuildRaid(payload) {
+    return {
+        type: "GUILD_PROGRESSION_SELECT_RAID",
+        payload
+    };
+}
+
+export function setGuildProgressionFilter(payload) {
+    return {
+        type: "GUILD_PROGRESSION_SET_FILTER",
         payload
     };
 }
