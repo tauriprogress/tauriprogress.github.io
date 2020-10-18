@@ -63,7 +63,13 @@ function RaidBoss({ match }) {
                 {boss.killCount && (
                     <Typography variant="caption" color="textSecondary">
                         {" "}
-                        {boss.killCount} Kills
+                        <span
+                            style={{
+                                whiteSpace: "nowrap"
+                            }}
+                        >
+                            {boss.killCount} Kills
+                        </span>
                     </Typography>
                 )}
             </Typography>
