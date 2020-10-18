@@ -17,7 +17,7 @@ import DateTooltip from "../DateTooltip";
 import WithRealm from "../WithRealm";
 import InfoIcon from "../InfoIcon";
 
-import { convertFightTime } from "../../helpers";
+import { convertFightLength } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
 function LatestKills({ data, theme }) {
@@ -101,7 +101,9 @@ function LatestKills({ data, theme }) {
                                             realm={log.realm}
                                         >
                                             <InfoIcon />
-                                            {convertFightTime(log.fightLength)}
+                                            {convertFightLength(
+                                                log.fightLength
+                                            )}
                                         </LogLink>
                                     </TableCell>
 

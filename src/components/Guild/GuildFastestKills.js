@@ -13,7 +13,7 @@ import OverflowScroll from "../OverflowScroll";
 import DisplayDate from "../DisplayDate";
 import InfoIcon from "../InfoIcon";
 
-import { convertFightTime } from "../../helpers";
+import { convertFightLength } from "../../helpers";
 
 function GuildFastestKills({ data }) {
     return (
@@ -44,7 +44,9 @@ function GuildFastestKills({ data }) {
                                             realm={log.realm}
                                         >
                                             <InfoIcon />
-                                            {convertFightTime(log.fightLength)}
+                                            {convertFightLength(
+                                                log.fightLength
+                                            )}
                                         </LogLink>
                                     </Typography>
                                 </TableCell>

@@ -132,7 +132,7 @@ export function convertMinutes(minutes) {
     return `${Math.round(minutes / 60)} hours`;
 }
 
-export function convertFightTime(time) {
+export function convertFightLength(time) {
     let mins = Math.floor(time / 1000 / 60);
     let remainingSecs = Math.floor(time / 1000) - mins * 60;
 

@@ -14,7 +14,7 @@ import SpecImg from "../SpecImg";
 import { applyFilter } from "./helpers";
 
 import {
-    convertFightTime,
+    convertFightLength,
     dateToString,
     getSpecImg,
     shortNumber,
@@ -110,7 +110,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
 
                                 <p className={classes.listText}>
                                     <LogLink logId={log.id} realm={log.realm}>
-                                        {convertFightTime(log.fightLength)}
+                                        {convertFightLength(log.fightLength)}
                                     </LogLink>
                                 </p>
                             </li>

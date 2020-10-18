@@ -18,7 +18,7 @@ import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
 import InfoIcon from "../InfoIcon";
 
-import { convertFightTime } from "../../helpers";
+import { convertFightLength } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
 function FastestKills({ data, theme }) {
@@ -33,7 +33,7 @@ function FastestKills({ data, theme }) {
                 <TableHead className="tableHead">
                     <TableRow>
                         <TableCell>Guild</TableCell>
-                        <TableCell>Kill time</TableCell>
+                        <TableCell>Fight length</TableCell>
                         <TableCell>Date</TableCell>
                     </TableRow>
                 </TableHead>
@@ -102,7 +102,9 @@ function FastestKills({ data, theme }) {
                                             realm={log.realm}
                                         >
                                             <InfoIcon />
-                                            {convertFightTime(log.fightLength)}
+                                            {convertFightLength(
+                                                log.fightLength
+                                            )}
                                         </LogLink>
                                     </TableCell>
 

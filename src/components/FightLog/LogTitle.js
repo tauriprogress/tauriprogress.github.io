@@ -15,7 +15,7 @@ import healIcon from "../../assets/roles/Healer.svg";
 import rangedIcon from "../../assets/roles/Ranged.svg";
 import meleeIcon from "../../assets/roles/Melee.svg";
 
-import { convertFightTime } from "../../helpers";
+import { convertFightLength } from "../../helpers";
 
 function LogTitle({ data, theme }) {
     const {
@@ -83,7 +83,7 @@ function LogTitle({ data, theme }) {
         },
         {
             label: "Time",
-            value: convertFightTime(data.fight_time)
+            value: convertFightLength(data.fight_time)
         },
         {
             label: "Date",
