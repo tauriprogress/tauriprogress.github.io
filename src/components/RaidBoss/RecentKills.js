@@ -17,7 +17,7 @@ import DateTooltip from "../DateTooltip";
 import WithRealm from "../WithRealm";
 import InfoIcon from "../InfoIcon";
 
-import { convertFightLength } from "../../helpers";
+import { convertFightLength, dateTextHours } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
 function LatestKills({ data, theme }) {
@@ -32,8 +32,9 @@ function LatestKills({ data, theme }) {
                 <TableHead className="tableHead">
                     <TableRow>
                         <TableCell>Guild</TableCell>
-                        <TableCell>Kill time</TableCell>
+                        <TableCell>Fight length</TableCell>
                         <TableCell>Date</TableCell>
+                        <TableCell>Time</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -115,6 +116,7 @@ function LatestKills({ data, theme }) {
                                             />
                                         </DateTooltip>
                                     </TableCell>
+                                    <TableCell>{dateTextHours(date)}</TableCell>
                                 </TableRow>
                             );
                         })}

@@ -18,7 +18,8 @@ import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
 import InfoIcon from "../InfoIcon";
 
-import { convertFightLength } from "../../helpers";
+import { convertFightLength, dateTextHours } from "../../helpers";
+
 import DisplayDate from "../DisplayDate";
 
 function FastestKills({ data, theme }) {
@@ -35,6 +36,7 @@ function FastestKills({ data, theme }) {
                         <TableCell>Guild</TableCell>
                         <TableCell>Fight length</TableCell>
                         <TableCell>Date</TableCell>
+                        <TableCell>Time</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -116,6 +118,7 @@ function FastestKills({ data, theme }) {
                                             />
                                         </DateTooltip>
                                     </TableCell>
+                                    <TableCell>{dateTextHours(date)}</TableCell>
                                 </TableRow>
                             );
                         })}
