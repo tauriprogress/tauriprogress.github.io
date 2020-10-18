@@ -6,7 +6,7 @@ function InfoIcon() {
         <Info
             fontSize="small"
             style={{
-                transform: "translate(0, 5px)"
+                transform: "translate(0, 4px)"
             }}
         />
     );
