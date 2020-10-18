@@ -13,6 +13,7 @@ import Loading from "../Loading";
 import FastestKills from "./FastestKills";
 import RecentKills from "./RecentKills";
 import CharacterLadder from "../CharacterLadder";
+import OverflowScroll from "../OverflowScroll";
 
 import {
     fetchRaidBoss,
@@ -70,20 +71,18 @@ function RaidBoss({ match }) {
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
                 <React.Fragment>
-                    <React.Fragment>
-                        <Tabs
-                            value={selectedTab}
-                            onChange={(e, value) =>
-                                dispatch(setRaidBossTab(value))
-                            }
-                            variant="scrollable"
-                            scrollButtons="on"
-                        >
-                            <Tab label="Dps" />
-                            <Tab label="Hps" />
-                            <Tab label="Fastest" />
-                            <Tab label="Latest" />
-                        </Tabs>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={(e, value) => dispatch(setRaidBossTab(value))}
+                        variant="scrollable"
+                        scrollButtons="on"
+                    >
+                        <Tab label="Dps" />
+                        <Tab label="Hps" />
+                        <Tab label="Fastest" />
+                        <Tab label="Latest" />
+                    </Tabs>
+                    <OverflowScroll>
                         {(boss => {
                             switch (selectedTab) {
                                 case 0:
@@ -117,7 +116,7 @@ function RaidBoss({ match }) {
                                     return 0;
                             }
                         })(!loading ? boss : {})}
-                    </React.Fragment>
+                    </OverflowScroll>
                 </React.Fragment>
             )}
         </React.Fragment>
