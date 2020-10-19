@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
@@ -13,6 +13,10 @@ import Link from "@material-ui/core/Link";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { raidImg } from "../../helpers";
+
+import { toggleNavigation } from "../../redux/actions";
+
+import { navBreakpoint } from "../../redux/reducers/navigationReducer";
 
 function styles(theme) {
     return {
@@ -31,6 +35,7 @@ function styles(theme) {
 function RaidBossList({ raid, classes }) {
     const [open, setOpen] = useState(true);
     const selected = useSelector(state => state.navigation.selected);
+    const dispatch = useDispatch();
 
     return (
         <React.Fragment>
@@ -51,6 +56,10 @@ function RaidBossList({ raid, classes }) {
                         color="inherit"
                         component={RouterLink}
                         to={`/raid/${raid.name}`}
+                        onClick={() =>
+                            window.innerWidth < navBreakpoint &&
+                            dispatch(toggleNavigation(false))
+                        }
                     >
                         <ListItem
                             component="li"
@@ -72,6 +81,10 @@ function RaidBossList({ raid, classes }) {
                                 color="inherit"
                                 component={RouterLink}
                                 to={linkTo}
+                                onClick={() =>
+                                    window.innerWidth < navBreakpoint &&
+                                    dispatch(toggleNavigation(false))
+                                }
                             >
                                 <ListItem
                                     button

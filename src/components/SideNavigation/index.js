@@ -98,6 +98,7 @@ function NavigationContainer({ classes }) {
 function Navigation({ classes = {} }) {
     const raids = useSelector(state => state.environment.currentContent.raids);
     const [searchOpen, setSearchOpen] = React.useState(false);
+    const dispatch = useDispatch();
 
     const searchClick = () => {
         setSearchOpen(!searchOpen);
@@ -106,7 +107,14 @@ function Navigation({ classes = {} }) {
     return (
         <nav className={classes.container}>
             <List>
-                <Link component={RouterLink} to={`/`}>
+                <Link
+                    component={RouterLink}
+                    to={`/`}
+                    onClick={() =>
+                        window.innerWidth < navBreakpoint &&
+                        dispatch(toggleNavigation(false))
+                    }
+                >
                     <ListItem button>
                         <ListItemIcon>
                             <HomeIcon />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -13,6 +13,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
 import { getRealmNames } from "../../helpers";
+
+import { toggleNavigation } from "../../redux/actions";
+
+import { navBreakpoint } from "../../redux/reducers/navigationReducer";
 
 function styles() {
     return {
@@ -39,9 +43,13 @@ function SearchCharacter({ classes, history }) {
         useSelector(state => state.environment.realms)
     );
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
+    const dispatch = useDispatch();
 
     function submit() {
         if (character) {
+            if (window.innerWidth < navBreakpoint) {
+                dispatch(toggleNavigation(false));
+            }
             history.push(`/character/${character}?realm=${realm}`);
         }
     }

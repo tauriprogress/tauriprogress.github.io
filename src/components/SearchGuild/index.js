@@ -11,6 +11,10 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { guildsFetch } from "../../redux/actions";
 
+import { toggleNavigation } from "../../redux/actions";
+
+import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+
 function styles() {
     return {
         container: {
@@ -37,6 +41,9 @@ function SearchGuild({ classes, history }) {
 
     function submit() {
         if (guild) {
+            if (window.innerWidth < navBreakpoint) {
+                dispatch(toggleNavigation(false));
+            }
             history.push(`/guild/${guild.name}?realm=${guild.realm}`);
         }
     }
