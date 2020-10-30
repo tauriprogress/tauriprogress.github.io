@@ -5,12 +5,12 @@ const defaultDifficulty = constants[
     defaultRealmGroup
 ].currentContent.raids.reduce((acc, raid) => {
     for (const difficulty of raid.difficulties) {
-        if (difficulty < acc) {
+        if (difficulty > acc) {
             acc = difficulty;
         }
     }
     return acc;
-}, 10);
+}, 0);
 
 const defaultRaidName = constants[defaultRealmGroup].currentContent.name;
 
