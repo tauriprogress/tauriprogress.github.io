@@ -1,4 +1,3 @@
-import { characterSpecToClass } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -150,11 +149,7 @@ function LogMembers({ classes, data, theme }) {
                                         component={RouterLink}
                                         style={{
                                             color:
-                                                classColors[
-                                                    characterSpecToClass[
-                                                        member.spec
-                                                    ]
-                                                ].text
+                                                classColors[member.class].text
                                         }}
                                     >
                                         {member.name}

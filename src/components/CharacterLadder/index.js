@@ -1,4 +1,3 @@
-import { characterSpecToClass } from "tauriprogress-constants";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -100,16 +99,11 @@ function CharacterLadder({
                                                     component={RouterLink}
                                                     to={`/character/${char.name}?realm=${realmName}`}
                                                     style={{
-                                                        color: characterSpecToClass[
-                                                            char.spec
-                                                        ]
-                                                            ? theme.palette
-                                                                  .classColors[
-                                                                  characterSpecToClass[
-                                                                      char.spec
-                                                                  ]
-                                                              ].text
-                                                            : "inherit"
+                                                        color:
+                                                            theme.palette
+                                                                .classColors[
+                                                                char.class
+                                                            ].text
                                                     }}
                                                 >
                                                     {char.name}
