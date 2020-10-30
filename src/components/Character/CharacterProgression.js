@@ -58,7 +58,9 @@ function CharacterProgression({ classes }) {
         };
     });
 
-    const difficulties = getDifficulties(raids, currentContentName);
+    const difficulties = []
+        .concat(getDifficulties(raids, currentContentName))
+        .reverse();
 
     const [difficulty, setDifficulty] = useState(difficulties[0]);
     const dispatch = useDispatch();
