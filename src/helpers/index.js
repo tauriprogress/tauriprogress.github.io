@@ -146,7 +146,7 @@ export function talentTreeToImage(fullSpecName, specs) {
     const regexp = new RegExp(fullSpecName, "ig");
     for (let specKey in specs) {
         if (regexp.exec(specs[specKey].label)) {
-            const imageName = `${specs[specKey].image}.jpg`;
+            const imageName = `${specs[specKey].image}.png`;
             return require(`../assets/specs/${imageName}`);
         }
     }
@@ -155,7 +155,7 @@ export function talentTreeToImage(fullSpecName, specs) {
 }
 
 export function getSpecImg(imageName) {
-    return require(`../assets/specs/${imageName}.jpg`);
+    return require(`../assets/specs/${imageName}.png`);
 }
 
 export function shortNumber(number) {

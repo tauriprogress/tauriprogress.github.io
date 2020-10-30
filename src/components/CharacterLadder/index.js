@@ -91,7 +91,8 @@ function CharacterLadder({
                                                         specs[char.spec].image
                                                     )}
                                                     title={
-                                                        specs[char.spec].label
+                                                        specs[char.spec]
+                                                            .label || "No spec"
                                                     }
                                                 />
 
@@ -99,13 +100,16 @@ function CharacterLadder({
                                                     component={RouterLink}
                                                     to={`/character/${char.name}?realm=${realmName}`}
                                                     style={{
-                                                        color:
-                                                            theme.palette
-                                                                .classColors[
-                                                                characterSpecToClass[
-                                                                    char.spec
-                                                                ]
-                                                            ].text
+                                                        color: characterSpecToClass[
+                                                            char.spec
+                                                        ]
+                                                            ? theme.palette
+                                                                  .classColors[
+                                                                  characterSpecToClass[
+                                                                      char.spec
+                                                                  ]
+                                                              ].text
+                                                            : "inherit"
                                                     }}
                                                 >
                                                     {char.name}

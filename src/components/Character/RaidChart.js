@@ -209,8 +209,10 @@ function RaidChart({
                             </LogLink>
                         ) : (
                             <PerfChartRow
-                                Icon={<IconMissing />}
-                                iconTitle={"no spec"}
+                                Icon={
+                                    <img src={getSpecImg("undefined")} alt="" />
+                                }
+                                iconTitle={"No spec"}
                                 title={boss.name}
                                 perfValue={shortNumber(0)}
                                 perfPercent={0}
