@@ -113,6 +113,7 @@ function GuildProgressionFilter({ classes, theme }) {
                     value: boss.name,
                     name: boss.name
                 }))
+                .reverse()
         },
         {
             name: "difficulty",
