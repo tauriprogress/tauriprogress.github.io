@@ -8,7 +8,13 @@ const defaultState = {
     realmGroup: defaultRealmGroup,
     urls: !devEnv
         ? defaultUrls
-        : { ...defaultUrls, server: "http://localhost:3001" }
+        : {
+              ...defaultUrls,
+              server:
+                  defaultRealmGroup === "tauri"
+                      ? "http://localhost:3001"
+                      : "http://localhost:3002"
+          }
 };
 
 function environmentReducer(state = defaultState, action) {
