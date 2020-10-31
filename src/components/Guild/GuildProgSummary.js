@@ -9,10 +9,19 @@ import GuildRaidSummary from "./GuildRaidSummary";
 import { getNestedObjectValue } from "../../helpers";
 
 function GuildProgSummary() {
-    const { progression, raids } = useSelector(state => ({
+    const {
+        progression,
+        raids,
+        difficultyNames,
+        completionDifficulties
+    } = useSelector(state => ({
         progression: state.guild.data.progression,
-        raids: state.environment.currentContent.raids
+        raids: state.environment.currentContent.raids,
+        difficultyNames: state.environment.difficultyNames,
+        completionDifficulties:
+            state.environment.currentContent.completionDifficulties
     }));
+
     let data = [];
 
     for (let raid of raids) {
@@ -24,7 +33,8 @@ function GuildProgSummary() {
             totalBosses: bossNames.length,
             defeatedBosses: 0,
             bosses: [],
-            image: raid.image
+            image: raid.image,
+            difficulties: difficulties
         };
 
         for (let bossName of bossNames) {
@@ -44,7 +54,7 @@ function GuildProgSummary() {
 
                 bossData[difficulty] = kill;
 
-                if (kill) {
+                if (kill && completionDifficulties.includes(difficulty)) {
                     defeated = true;
                 }
             }
@@ -63,7 +73,10 @@ function GuildProgSummary() {
         <Grid container justify="center">
             {data.map(raidData => (
                 <Grid item key={raidData.name}>
-                    <GuildRaidSummary data={raidData} />
+                    <GuildRaidSummary
+                        data={raidData}
+                        difficultyNames={difficultyNames}
+                    />
                 </Grid>
             ))}
         </Grid>

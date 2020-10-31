@@ -64,7 +64,7 @@ function styles(theme) {
     };
 }
 
-function GuildRaidSummary({ classes, data }) {
+function GuildRaidSummary({ classes, data, difficultyNames }) {
     return (
         <Card className={classes.container}>
             <Tooltip
@@ -77,26 +77,19 @@ function GuildRaidSummary({ classes, data }) {
                             <TableHead>
                                 <TableRow>
                                     <TableCell className={classes.tableCell} />
-                                    <TableCell
-                                        className={classes.tableCell}
-                                        align="center"
-                                    >
-                                        <Typography
-                                            className={`${classes.tableText} ${classes.tableColumnTitle}`}
+                                    {data.difficulties.map(difficulty => (
+                                        <TableCell
+                                            key={difficulty}
+                                            className={classes.tableCell}
+                                            align="center"
                                         >
-                                            10
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell
-                                        className={classes.tableCell}
-                                        align="center"
-                                    >
-                                        <Typography
-                                            className={`${classes.tableText} ${classes.tableColumnTitle}`}
-                                        >
-                                            25
-                                        </Typography>
-                                    </TableCell>
+                                            <Typography
+                                                className={`${classes.tableText} ${classes.tableColumnTitle}`}
+                                            >
+                                                {difficultyNames[difficulty]}
+                                            </Typography>
+                                        </TableCell>
+                                    ))}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -111,58 +104,36 @@ function GuildRaidSummary({ classes, data }) {
                                                 {boss.name}
                                             </Typography>
                                         </TableCell>
-
-                                        <TableCell
-                                            className={classes.tableCell}
-                                        >
-                                            <Typography
-                                                className={classes.tableText}
+                                        {data.difficulties.map(difficulty => (
+                                            <TableCell
+                                                key={difficulty}
+                                                className={classes.tableCell}
                                             >
-                                                {boss[5] ? (
-                                                    <span
-                                                        className={
-                                                            classes.defeated
-                                                        }
-                                                    >
-                                                        Defeated
-                                                    </span>
-                                                ) : (
-                                                    <span
-                                                        className={
-                                                            classes.alive
-                                                        }
-                                                    >
-                                                        Alive
-                                                    </span>
-                                                )}
-                                            </Typography>
-                                        </TableCell>
-
-                                        <TableCell
-                                            className={classes.tableCell}
-                                        >
-                                            <Typography
-                                                className={classes.tableText}
-                                            >
-                                                {boss[6] ? (
-                                                    <span
-                                                        className={
-                                                            classes.defeated
-                                                        }
-                                                    >
-                                                        Defeated
-                                                    </span>
-                                                ) : (
-                                                    <span
-                                                        className={
-                                                            classes.alive
-                                                        }
-                                                    >
-                                                        Alive
-                                                    </span>
-                                                )}
-                                            </Typography>
-                                        </TableCell>
+                                                <Typography
+                                                    className={
+                                                        classes.tableText
+                                                    }
+                                                >
+                                                    {boss[difficulty] ? (
+                                                        <span
+                                                            className={
+                                                                classes.defeated
+                                                            }
+                                                        >
+                                                            Defeated
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            className={
+                                                                classes.alive
+                                                            }
+                                                        >
+                                                            Alive
+                                                        </span>
+                                                    )}
+                                                </Typography>
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -196,8 +167,7 @@ function GuildRaidSummary({ classes, data }) {
                         </Grid>
                         <Grid item>
                             <Typography>
-                                {`${data.defeatedBosses}/${data.totalBosses}`}{" "}
-                                HC
+                                {`${data.defeatedBosses}/${data.totalBosses}`}
                             </Typography>
                         </Grid>
                     </Grid>
