@@ -97,7 +97,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                         <em>All</em>
                     </MenuItem>
                     {difficulties.map(difficulty => (
-                        <MenuItem value={difficulty}>
+                        <MenuItem value={difficulty} key={difficulty}>
                             <span>{difficultyNames[difficulty]}</span>
                         </MenuItem>
                     ))}
@@ -124,7 +124,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                         <span>Inactive</span>
                     </MenuItem>
                     {difficulties.map(difficulty => (
-                        <MenuItem value={difficulty}>
+                        <MenuItem value={difficulty} key={difficulty}>
                             <span>{difficultyNames[difficulty]}</span>
                         </MenuItem>
                     ))}
