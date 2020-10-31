@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,6 +17,7 @@ import InfoIcon from "../InfoIcon";
 import { convertFightLength } from "../../helpers";
 
 function GuildFastestKills({ data }) {
+    const realm = useSelector(state => state.guild.realm);
     return (
         <OverflowScroll>
             <Table>
@@ -39,10 +41,7 @@ function GuildFastestKills({ data }) {
 
                                 <TableCell>
                                     <Typography style={{ fontWeight: "bold" }}>
-                                        <LogLink
-                                            logId={log.id}
-                                            realm={log.realm}
-                                        >
+                                        <LogLink logId={log.id} realm={realm}>
                                             <InfoIcon />
                                             {convertFightLength(
                                                 log.fightLength
