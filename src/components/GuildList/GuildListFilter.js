@@ -24,27 +24,30 @@ function GuildListFilter({ theme, filter, setFilter }) {
 
     return (
         <FilterContainer>
-            <FormControl>
-                <InputLabel htmlFor="class">Realm</InputLabel>
-                <Select
-                    value={filter.realm}
-                    onChange={e =>
-                        setFilter({
-                            ...filter,
-                            realm: e.target.value
-                        })
-                    }
-                >
-                    <MenuItem value="">
-                        <em>All</em>
-                    </MenuItem>
-                    {realms.map(realmName => (
-                        <MenuItem key={realmName} value={realmName}>
-                            <span>{realmName}</span>
+            {realms.length > 1 && (
+                <FormControl>
+                    <InputLabel htmlFor="class">Realm</InputLabel>
+                    <Select
+                        value={filter.realm}
+                        onChange={e =>
+                            setFilter({
+                                ...filter,
+                                realm: e.target.value
+                            })
+                        }
+                    >
+                        <MenuItem value="">
+                            <em>All</em>
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                        {realms.map(realmName => (
+                            <MenuItem key={realmName} value={realmName}>
+                                <span>{realmName}</span>
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
+
             <FormControl>
                 <InputLabel htmlFor="class">Faction</InputLabel>
                 <Select
