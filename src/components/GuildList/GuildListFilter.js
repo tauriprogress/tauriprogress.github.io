@@ -17,6 +17,11 @@ function GuildListFilter({ theme, filter, setFilter }) {
         useSelector(state => state.environment.realms)
     );
 
+    const { difficulties, difficultyNames } = useSelector(state => ({
+        difficulties: state.environment.currentContent.raids[0].difficulties,
+        difficultyNames: state.environment.difficultyNames
+    }));
+
     return (
         <FilterContainer>
             <FormControl>
@@ -88,12 +93,11 @@ function GuildListFilter({ theme, filter, setFilter }) {
                     <MenuItem value="">
                         <em>All</em>
                     </MenuItem>
-                    <MenuItem value={5}>
-                        <span>10 HC</span>
-                    </MenuItem>
-                    <MenuItem value={6}>
-                        <span>25 HC</span>
-                    </MenuItem>
+                    {difficulties.map(difficulty => (
+                        <MenuItem value={difficulty}>
+                            <span>{difficultyNames[difficulty]}</span>
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
             <FormControl>
@@ -116,12 +120,11 @@ function GuildListFilter({ theme, filter, setFilter }) {
                     <MenuItem value={false}>
                         <span>Inactive</span>
                     </MenuItem>
-                    <MenuItem value={5}>
-                        <span>Active in 10 HC</span>
-                    </MenuItem>
-                    <MenuItem value={6}>
-                        <span>Active in 25 HC</span>
-                    </MenuItem>
+                    {difficulties.map(difficulty => (
+                        <MenuItem value={difficulty}>
+                            <span>{difficultyNames[difficulty]}</span>
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </FilterContainer>
