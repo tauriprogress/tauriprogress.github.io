@@ -90,10 +90,20 @@ function styles(theme) {
 
 function GuildList({ theme, classes }) {
     const { factionColors, progStateColors } = theme.palette;
-    const { data, loading, error } = useSelector(state => state.guildList);
-    const difficultyNames = useSelector(
-        state => state.environment.difficultyNames
-    );
+    const {
+        data,
+        loading,
+        error,
+        difficultyNames,
+        totalBosses,
+        difficulties
+    } = useSelector(state => ({
+        ...state.guildList,
+        difficultyNames: state.environment.difficultyNames,
+        totalBosses: state.environment.currentContent.totalBosses,
+        difficulties: state.environment.currentContent.raids[0].difficulties
+    }));
+
     const timeBoundary = guildActivityBoundary();
 
     const [filter, setFilter] = useState({
@@ -241,7 +251,7 @@ function GuildList({ theme, classes }) {
                                                         container
                                                         direction="column"
                                                     >
-                                                        {[6, 5].map(
+                                                        {difficulties.map(
                                                             difficulty => (
                                                                 <Grid
                                                                     item
@@ -313,7 +323,11 @@ function GuildList({ theme, classes }) {
                                                                                         ]
                                                                                             .bossesDefeated
                                                                                     }
-                                                                                    /14{" "}
+
+                                                                                    /
+                                                                                    {
+                                                                                        totalBosses
+                                                                                    }{" "}
                                                                                     {
                                                                                         difficultyNames[
                                                                                             difficulty
@@ -327,7 +341,10 @@ function GuildList({ theme, classes }) {
                                                                             <span
                                                                                 className={`${classes.secondaryText} ${classes.progression}`}
                                                                             >
-                                                                                0/14{" "}
+                                                                                0/
+                                                                                {
+                                                                                    totalBosses
+                                                                                }{" "}
                                                                                 {
                                                                                     difficultyNames[
                                                                                         difficulty
@@ -442,7 +459,10 @@ function GuildList({ theme, classes }) {
                                                                         classes.secondaryText
                                                                     }
                                                                 >
-                                                                    / 14
+                                                                    /{" "}
+                                                                    {
+                                                                        totalBosses
+                                                                    }
                                                                 </span>
                                                             </span>
                                                         </React.Fragment>
