@@ -51,11 +51,11 @@ function GuildListFilter({ theme, filter, setFilter }) {
             <FormControl>
                 <InputLabel htmlFor="class">Faction</InputLabel>
                 <Select
-                    value={filter.faction}
+                    value={filter.f}
                     onChange={e =>
                         setFilter({
                             ...filter,
-                            faction: e.target.value
+                            f: e.target.value
                         })
                     }
                 >

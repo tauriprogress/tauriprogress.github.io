@@ -108,7 +108,7 @@ function GuildList({ theme, classes }) {
 
     const [filter, setFilter] = useState({
         realm: "",
-        faction: "",
+        f: "",
         difficulty: "",
         activity: ""
     });

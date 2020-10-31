@@ -4,7 +4,7 @@ export function filterGuildList(filter, guildList) {
     const timeBoundary = guildActivityBoundary();
 
     const filteredGuildList = guildList.filter(guild => {
-        if (filter.faction !== "" && guild.faction !== Number(filter.faction)) {
+        if (filter.f !== "" && guild.f !== Number(filter.f)) {
             return false;
         }
 
