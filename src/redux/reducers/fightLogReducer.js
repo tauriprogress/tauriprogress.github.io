@@ -6,6 +6,13 @@ const defaultState = {
 
 function fightLogReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGE_REALMGROUP":
+            return {
+                data: null,
+                error: null,
+                loading: false
+            };
+
         case "FIGHTLOG_SET_ERROR":
             return { ...state, error: action.payload, loading: false };
         case "FIGHTLOG_LOADING":
