@@ -1,3 +1,5 @@
+import constants from "tauriprogress-constants";
+
 import { itemSlotNames } from "tauriprogress-constants";
 
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
@@ -30,6 +32,15 @@ const defaultState = {
 
 function characterReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGE_REALMGROUP":
+            return {
+                ...state,
+                progression: {
+                    ...state.progression,
+                    selectedRaid: constants[action.payload].currentContent.name
+                }
+            };
+
         case "CHARACTER_DATA_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";

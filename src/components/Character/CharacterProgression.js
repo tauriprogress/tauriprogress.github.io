@@ -111,28 +111,32 @@ function CharacterProgression({ classes }) {
             <Container>
                 {loading && <Loading />}
                 {!loading && error && <ErrorMessage message={error} />}
-                {!loading && !error && data && data[selectedRaid] && (
-                    <Grid container justify="space-around">
-                        <Grid item>
-                            <RaidChart
-                                raidName={selectedRaid}
-                                data={data[selectedRaid][difficulty]}
-                                characterClass={characterClass}
-                                variant="dps"
-                            />
-                        </Grid>
-                        {displayHealing(data[selectedRaid][difficulty]) && (
+                {!loading &&
+                    !error &&
+                    data &&
+                    data[selectedRaid] &&
+                    data[selectedRaid][difficulty] && (
+                        <Grid container justify="space-around">
                             <Grid item>
                                 <RaidChart
                                     raidName={selectedRaid}
                                     data={data[selectedRaid][difficulty]}
                                     characterClass={characterClass}
-                                    variant="hps"
+                                    variant="dps"
                                 />
                             </Grid>
-                        )}
-                    </Grid>
-                )}
+                            {displayHealing(data[selectedRaid][difficulty]) && (
+                                <Grid item>
+                                    <RaidChart
+                                        raidName={selectedRaid}
+                                        data={data[selectedRaid][difficulty]}
+                                        characterClass={characterClass}
+                                        variant="hps"
+                                    />
+                                </Grid>
+                            )}
+                        </Grid>
+                    )}
             </Container>
         </Container>
     );
