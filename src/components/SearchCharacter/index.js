@@ -39,9 +39,8 @@ function styles() {
 
 function SearchCharacter({ classes, history }) {
     const [character, setCharacter] = useState("");
-    const realms = getRealmNames(
-        useSelector(state => state.environment.realms)
-    );
+    const realmNames = useSelector(state => state.environment.realms);
+    const realms = getRealmNames(realmNames);
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
     const dispatch = useDispatch();
 
@@ -49,7 +48,7 @@ function SearchCharacter({ classes, history }) {
         if (realms[Object.keys(realms)[0]] !== realm) {
             setRealm(realms[Object.keys(realms)[0]]);
         }
-    }, [realms]);
+    }, [realmNames]);
 
     function submit() {
         if (character) {
