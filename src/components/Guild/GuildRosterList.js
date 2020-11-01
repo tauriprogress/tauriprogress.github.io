@@ -163,7 +163,7 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                                 title={
                                                     characterClassNames[
                                                         member.class
-                                                    ]
+                                                    ] || ""
                                                 }
                                                 src={classImg(member.class)}
                                             />

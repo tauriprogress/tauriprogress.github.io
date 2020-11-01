@@ -96,7 +96,7 @@ function GuildRosterChart({
                                         title={
                                             characterClassNames[
                                                 charClass.classId
-                                            ]
+                                            ] || ""
                                         }
                                     />
                                 </Grid>

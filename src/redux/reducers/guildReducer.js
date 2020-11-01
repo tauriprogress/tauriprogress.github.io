@@ -1,23 +1,19 @@
 import constants from "tauriprogress-constants";
 const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
-
-const defaultDifficulty = constants[
-    defaultRealmGroup
-].currentContent.raids.reduce((acc, raid) => {
-    for (const difficulty of raid.difficulties) {
-        if (difficulty > acc) {
-            acc = difficulty;
-        }
-    }
-    return acc;
-}, 0);
-
-const defaultRaidName = constants[defaultRealmGroup].currentContent.name;
-
-const defaultBossName =
-    constants[defaultRealmGroup].currentContent.raids[0].bosses[0].name;
+const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 let raids = constants[defaultRealmGroup].currentContent.raids;
+
+function getDefaultDifficulty(realmGroup) {
+    return constants[realmGroup].currentContent.raids.reduce((acc, raid) => {
+        for (const difficulty of raid.difficulties) {
+            if (difficulty > acc) {
+                acc = difficulty;
+            }
+        }
+        return acc;
+    }, 0);
+}
 
 const defaultState = {
     data: null,
@@ -26,8 +22,9 @@ const defaultState = {
     guildName: null,
     realm: null,
     progressionFilter: {
-        raid: defaultRaidName,
-        boss: defaultBossName,
+        raid: constants[defaultRealmGroup].currentContent.name,
+        boss:
+            constants[defaultRealmGroup].currentContent.raids[0].bosses[0].name,
         difficulty: defaultDifficulty,
         class: "",
         spec: "",
@@ -39,6 +36,24 @@ const defaultState = {
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGE_REALMGROUP":
+            raids = constants[action.payload].currentContent.raids;
+            return {
+                ...state,
+                progressionFilter: {
+                    raid: constants[action.payload].currentContent.name,
+                    boss:
+                        constants[action.payload].currentContent.raids[0]
+                            .bosses[0].name,
+                    difficulty: getDefaultDifficulty(action.payload),
+                    class: "",
+                    spec: "",
+                    role: "",
+                    faction: "",
+                    realm: ""
+                }
+            };
+
         case "GUILD_PROGRESSION_SELECT_BOSS": {
             return {
                 ...state,
