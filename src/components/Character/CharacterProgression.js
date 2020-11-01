@@ -14,7 +14,7 @@ import DifficultyTabs from "../DifficultyTabs";
 import RaidChart from "./RaidChart";
 
 import { displayHealing, getDifficulties } from "./helpers";
-import { raidImg } from "../../helpers";
+import { raidImg, getDefaultDifficulty } from "../../helpers";
 
 import {
     fetchCharacterProgression,
@@ -44,7 +44,8 @@ function CharacterProgression({ classes }) {
         raids,
         characterName,
         realm,
-        currentContentName
+        currentContentName,
+        realmGroup
     } = useSelector(state => {
         return {
             ...state.character.progression,
@@ -54,7 +55,8 @@ function CharacterProgression({ classes }) {
             characterClass:
                 state.character.data.data && state.character.data.data.class,
             raids: state.environment.currentContent.raids,
-            currentContentName: state.environment.currentContent.name
+            currentContentName: state.environment.currentContent.name,
+            realmGroup: state.environment.realmGroup
         };
     });
 
@@ -62,7 +64,9 @@ function CharacterProgression({ classes }) {
         .concat(getDifficulties(raids, currentContentName))
         .reverse();
 
-    const [difficulty, setDifficulty] = useState(difficulties[0]);
+    const [difficulty, setDifficulty] = useState(
+        getDefaultDifficulty(realmGroup)
+    );
     const dispatch = useDispatch();
 
     function selectRaid(raidName) {

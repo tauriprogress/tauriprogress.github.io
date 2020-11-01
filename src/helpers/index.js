@@ -1,4 +1,4 @@
-import { shortRealms } from "tauriprogress-constants";
+import constants, { shortRealms } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
     let realmNames = [];
@@ -283,4 +283,20 @@ export function shortRealmToFull(shortRealmName) {
     }
 
     return false;
+}
+
+export function getDefaultDifficulty(realmGroup) {
+    return constants[realmGroup].currentContent.raids.reduce(
+        (acc, raid) => {
+            for (const difficulty of raid.difficulties) {
+                if (
+                    realmGroup !== "tauri" ? difficulty > acc : difficulty < acc
+                ) {
+                    acc = difficulty;
+                }
+            }
+            return acc;
+        },
+        realmGroup !== "tauri" ? 0 : 10
+    );
 }
