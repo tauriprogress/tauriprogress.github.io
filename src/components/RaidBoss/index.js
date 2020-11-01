@@ -39,7 +39,12 @@ function RaidBoss({ match }) {
             difficultyNames: state.environment.difficultyNames
         };
     });
-    const boss = data ? data[difficulty] : {};
+    const boss =
+        match.params.bossName === bossName
+            ? data && data[difficulty]
+                ? data[difficulty]
+                : {}
+            : {};
 
     const dispatch = useDispatch();
     useEffect(() => {
