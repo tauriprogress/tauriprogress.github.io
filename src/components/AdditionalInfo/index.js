@@ -36,19 +36,15 @@ function styles(theme) {
 function AdditionalInfo({ classes }) {
     const [isOpen, setOpen] = useState(false);
 
-    const {
-        lastUpdated,
-        isUpdating,
-        loading,
-        error,
-        realmGroup
-    } = useSelector(state => ({
-        ...state.additionalInfo,
-        realmGroup:
-            Object.keys(state.environment.realms).length > 1
-                ? "tauri"
-                : "crystalsong"
-    }));
+    const { lastUpdated, isUpdating, loading, error, realmGroup } = useSelector(
+        state => ({
+            ...state.additionalInfo,
+            realmGroup:
+                Object.keys(state.environment.realms).length > 1
+                    ? "tauri"
+                    : "crystalsong"
+        })
+    );
 
     const dispatch = useDispatch();
 
@@ -114,7 +110,7 @@ function AdditionalInfo({ classes }) {
                 </Typography>
 
                 <Divider />
-                {realmGroup === "tauri" && (
+                {realmGroup === "tauri" ? (
                     <React.Fragment>
                         <Typography>
                             Data is collected since{" "}
@@ -138,6 +134,15 @@ function AdditionalInfo({ classes }) {
                                 bug fix
                             </Link>
                             .
+                        </Typography>
+                        <Divider />
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        <Typography>
+                            Role filtering and composition counting may be
+                            incorrect for wotlk, it's hard to determine role
+                            from spec.
                         </Typography>
                         <Divider />
                     </React.Fragment>
