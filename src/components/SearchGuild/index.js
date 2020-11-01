@@ -24,15 +24,18 @@ function styles() {
 }
 
 function SearchGuild({ classes, history }) {
-    const guilds = useSelector(state => {
+    const { guilds, realmGroup } = useSelector(state => {
         if (!state.guildList.data) {
             return [];
         }
 
-        return state.guildList.data.map(guild => ({
-            name: guild.name,
-            realm: guild.realm
-        }));
+        return {
+            guilds: state.guildList.data.map(guild => ({
+                name: guild.name,
+                realm: guild.realm
+            })),
+            realmGroup: state.environment.realmGroup
+        };
     });
 
     const [guild, setGuild] = useState("");
@@ -49,8 +52,8 @@ function SearchGuild({ classes, history }) {
     }
 
     useEffect(() => {
-        dispatch(guildsFetch());
-    }, []);
+        dispatch(guildsFetch(realmGroup));
+    }, [realmGroup]);
 
     return (
         <form

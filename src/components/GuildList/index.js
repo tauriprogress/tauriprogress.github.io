@@ -96,12 +96,14 @@ function GuildList({ theme, classes }) {
         error,
         difficultyNames,
         totalBosses,
-        difficulties
+        difficulties,
+        realmGroup
     } = useSelector(state => ({
         ...state.guildList,
         difficultyNames: state.environment.difficultyNames,
         totalBosses: state.environment.currentContent.totalBosses,
-        difficulties: state.environment.currentContent.raids[0].difficulties
+        difficulties: state.environment.currentContent.raids[0].difficulties,
+        realmGroup: state.environment.realmGroup
     }));
 
     const timeBoundary = guildActivityBoundary();
@@ -121,8 +123,8 @@ function GuildList({ theme, classes }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(guildsFetch());
-    }, []);
+        dispatch(guildsFetch(realmGroup));
+    }, [realmGroup]);
 
     return (
         <React.Fragment>

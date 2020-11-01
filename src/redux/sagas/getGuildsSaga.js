@@ -5,14 +5,17 @@ async function getData(serverUrl) {
     return await fetch(`${serverUrl}/getguildlist`).then(res => res.json());
 }
 
-function* fetchGuilds() {
+function* fetchGuilds({ payload }) {
     try {
-        const requested = yield select(state => !!state.guildList.data);
+        const { requested, realmGroup, loading } = yield select(state => ({
+            requested: !!state.guildList.data,
+            realmGroup: state.guildList.realmGroup,
+            loading: state.guildList.loading
+        }));
 
-        if (requested) {
+        if ((requested && realmGroup === payload) || loading) {
             return;
         }
-
         yield put(guildsLoad());
 
         const serverUrl = yield select(state => state.environment.urls.server);
@@ -21,7 +24,9 @@ function* fetchGuilds() {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(guildsFill(response.response));
+            yield put(
+                guildsFill({ guilds: response.response, realmGroup: payload })
+            );
         }
     } catch (err) {
         yield put(guildsSetError(err.message));
