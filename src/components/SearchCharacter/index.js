@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -44,6 +44,12 @@ function SearchCharacter({ classes, history }) {
     );
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (realms[Object.keys(realms)[0]] !== realm) {
+            setRealm(realms[Object.keys(realms)[0]]);
+        }
+    }, [realms]);
 
     function submit() {
         if (character) {
