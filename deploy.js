@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
@@ -20,6 +20,7 @@ const oldBuildFiles = [
     try {
         console.log("Cleaning up previous build");
         const fileNames = await fs.readdir("./");
+
         for (let name of fileNames) {
             if (
                 oldBuildFiles.reduce(
