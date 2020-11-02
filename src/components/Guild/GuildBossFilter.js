@@ -65,13 +65,15 @@ function GuildProgressionFilter({ classes, theme }) {
         : "inherit";
     for (let specId in characterSpecToClass) {
         if (characterSpecToClass[specId] === Number(filter.class)) {
-            specOptions.push({
-                value: specId,
-                name: specs[specId].label,
-                style: {
-                    color: classColors[filter.class].text
-                }
-            });
+            if (specs[specId]) {
+                specOptions.push({
+                    value: specId,
+                    name: specs[specId].label,
+                    style: {
+                        color: classColors[filter.class].text
+                    }
+                });
+            }
         }
     }
 
