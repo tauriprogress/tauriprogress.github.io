@@ -178,6 +178,21 @@ function RaidChart({
                 const currentBoss = data[boss.name][spec];
                 const characterData = currentBoss[variant];
 
+                let rank;
+
+                if (characterData.rank) {
+                    switch (spec) {
+                        case "noSpec":
+                            rank = characterData.rank;
+                            break;
+                        case "class":
+                            rank = characterData.cRank;
+                            break;
+                        default:
+                            rank = characterData.sRank;
+                    }
+                }
+
                 return (
                     <React.Fragment key={boss.name}>
                         {characterData[variant] ? (
@@ -195,6 +210,7 @@ function RaidChart({
                                             alt=""
                                         />
                                     }
+                                    rank={rank}
                                     iconTitle={specs[characterData.spec].label}
                                     title={boss.name}
                                     perfValue={shortNumber(

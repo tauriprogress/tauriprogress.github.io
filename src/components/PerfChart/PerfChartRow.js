@@ -63,7 +63,8 @@ function PerfChartRow({
     perfValue,
     perfPercent,
     color,
-    theme
+    theme,
+    rank = ""
 }) {
     return (
         <Grid container className={classes.container} wrap="nowrap">
@@ -98,7 +99,7 @@ function PerfChartRow({
                         <Typography
                             className={`${classes.typography} ${classes.perfName}`}
                         >
-                            {title}
+                            {rank && `${rank}.`} {title}
                         </Typography>
                     </Grid>
                     <Grid
