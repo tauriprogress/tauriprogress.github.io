@@ -71,12 +71,16 @@ function RaidChart({
 
     const [spec, setSpec] = useState("noSpec");
 
-    const raidBosses = raids.reduce((acc, curr) => {
-        if (curr.name === raidName) {
-            acc = curr.bosses;
-        }
-        return acc;
-    }, []);
+    const raidBosses = []
+        .concat(
+            raids.reduce((acc, curr) => {
+                if (curr.name === raidName) {
+                    acc = curr.bosses;
+                }
+                return acc;
+            }, [])
+        )
+        .reverse();
 
     let iconSpecs = [];
 
