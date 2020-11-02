@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation, Redirect } from "react-router-dom";
 
 import AppContainer from "../AppContainer";
 
@@ -33,6 +33,17 @@ function RouteSwitch() {
                 />
                 <Route exact path="/log/:logId" component={FightLog} />
                 <Route exact path="/secret" component={TauriApi} />
+                <Route
+                    path="/player"
+                    component={() => (
+                        <Redirect
+                            to={`${location.pathname.replace(
+                                "player",
+                                "character"
+                            )}${location.search}`}
+                        />
+                    )}
+                />
                 <Route component={NotFound} />
             </Switch>
             {background && (
