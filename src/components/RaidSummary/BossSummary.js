@@ -186,7 +186,9 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                             <ul className={classes.list}>
                                 {boss[`best${capitalize(combatMetric)}`].map(
                                     character => (
-                                        <li key={character._id}>
+                                        <li
+                                            key={`${character._id} ${character.f}`}
+                                        >
                                             <p
                                                 className={`${classes.listText} ${classes.textOverflow}`}
                                             >
