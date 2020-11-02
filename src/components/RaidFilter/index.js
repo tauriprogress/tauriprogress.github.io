@@ -55,20 +55,21 @@ function RaidFilter({ classes, theme }) {
     const {
         palette: { classColors, factionColors }
     } = theme;
-
     let specOptions = [];
     const classColor = filter.class
         ? classColors[filter.class].text
         : "inherit";
     for (let specId in characterSpecToClass) {
         if (characterSpecToClass[specId] === Number(filter.class)) {
-            specOptions.push({
-                value: specId,
-                name: specs[specId].label,
-                style: {
-                    color: classColors[filter.class].text
-                }
-            });
+            if (specs[specId]) {
+                specOptions.push({
+                    value: specId,
+                    name: specs[specId].label,
+                    style: {
+                        color: classColors[filter.class].text
+                    }
+                });
+            }
         }
     }
 
