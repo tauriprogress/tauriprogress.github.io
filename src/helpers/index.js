@@ -32,6 +32,7 @@ export const gemColorsToSockets = {
     2: { matches: { 0: true, 2: true } },
     4: { matches: { 0: true, 4: true } },
     8: { matches: { 0: true, 8: true } },
+    14: { matches: { 0: true, 8: true, 4: true, 2: true } },
     12: { matches: { 0: true, 8: true, 4: true } },
     10: { matches: { 0: true, 8: true, 2: true } },
     6: { matches: { 0: true, 4: true, 2: true } }
