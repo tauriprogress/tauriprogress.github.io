@@ -85,7 +85,10 @@ function RaidChart({
     let iconSpecs = [];
 
     for (let charSpec of characterClassToSpec[characterClass]) {
-        if (specs[charSpec][`is${variant === "dps" ? "Dps" : "Healer"}`]) {
+        if (
+            specs[charSpec] &&
+            specs[charSpec][`is${variant === "dps" ? "Dps" : "Healer"}`]
+        ) {
             iconSpecs.push(specs[charSpec]);
         }
     }
