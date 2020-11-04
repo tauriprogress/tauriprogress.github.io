@@ -70,9 +70,7 @@ function RaidBossList({ raid, classes }) {
                             <ListItemText primary={"Summary"} />
                         </ListItem>
                     </Link>
-                    {raid.bosses.map((a, index) => {
-                        const boss =
-                            raid.bosses[raid.bosses.length - 1 - index];
+                    {raid.bosses.map(boss => {
                         let linkTo = `/raid/${raid.name}/${boss.name}`;
 
                         return (
