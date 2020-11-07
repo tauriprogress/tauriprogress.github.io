@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 
-const Page = props => {
+function Page({ title, children }) {
     useEffect(() => {
-        document.title = props.title || "";
-    }, [props.title]);
-    return props.children;
-};
+        if (title) {
+            document.title = title || "Tauri Progress";
+        }
+    }, [title]);
+
+    return children;
+}
 
 export default Page;

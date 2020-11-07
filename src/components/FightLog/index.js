@@ -7,6 +7,7 @@ import validateRealm from "../Router/validateRealm";
 
 import Container from "@material-ui/core/Container";
 
+import Page from "../Page";
 import LogTitle from "./LogTitle";
 import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
@@ -28,18 +29,26 @@ function FightLog({ match }) {
     }, []);
 
     return (
-        <section>
-            {loading && <Loading />}
+        <Page
+            title={
+                location.background
+                    ? `Log ${match.params.logId} | Tauri Progress`
+                    : null
+            }
+        >
+            <section>
+                {loading && <Loading />}
 
-            {error && <ErrorMessage message={error} />}
+                {error && <ErrorMessage message={error} />}
 
-            {!loading && !error && data && (
-                <Container>
-                    <LogTitle data={data} />
-                    <LogMembers data={data} />
-                </Container>
-            )}
-        </section>
+                {!loading && !error && data && (
+                    <Container>
+                        <LogTitle data={data} />
+                        <LogMembers data={data} />
+                    </Container>
+                )}
+            </section>
+        </Page>
     );
 }
 

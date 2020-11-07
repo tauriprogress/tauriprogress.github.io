@@ -7,6 +7,7 @@ import validateRealm from "../Router/validateRealm";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
+import Page from "../Page";
 import GuildTitle from "./GuildTitle";
 import GuildProgSummary from "./GuildProgSummary";
 import GuildRoster from "./GuildRoster";
@@ -35,27 +36,29 @@ function Guild({ match, location }) {
         dispatch(fetchGuild({ guildName: guildName, realm: realm }));
     }, [guildName, realm]);
     return (
-        <section>
-            {loading && <Loading />}
+        <Page title={`${match.params.guildName} | Tauri Progress`}>
+            <section>
+                {loading && <Loading />}
 
-            {error && (
-                <React.Fragment>
-                    <ErrorMessage message={error} />
-                    {error === "guild not found" && <SelectRealm />}
-                </React.Fragment>
-            )}
+                {error && (
+                    <React.Fragment>
+                        <ErrorMessage message={error} />
+                        {error === "guild not found" && <SelectRealm />}
+                    </React.Fragment>
+                )}
 
-            {!loading && !error && loaded && (
-                <React.Fragment>
-                    <AsideContainer AsideComponent={GuildTitle}>
-                        <GuildProgSummary />
-                    </AsideContainer>
-                    <GuildRoster />
-                    <GuildProgression />
-                    <GuildBossKillsDays />
-                </React.Fragment>
-            )}
-        </section>
+                {!loading && !error && loaded && (
+                    <React.Fragment>
+                        <AsideContainer AsideComponent={GuildTitle}>
+                            <GuildProgSummary />
+                        </AsideContainer>
+                        <GuildRoster />
+                        <GuildProgression />
+                        <GuildBossKillsDays />
+                    </React.Fragment>
+                )}
+            </section>
+        </Page>
     );
 }
 
