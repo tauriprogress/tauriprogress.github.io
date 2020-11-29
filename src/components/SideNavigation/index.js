@@ -16,6 +16,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
+import ListIcon from "@material-ui/icons/List";
 
 import SearchGuild from "../SearchGuild";
 import SearchCharacter from "../SearchCharacter";
@@ -120,6 +121,15 @@ function Navigation({ classes = {} }) {
                             <HomeIcon />
                         </ListItemIcon>
                         <ListItemText primary="Home" />
+                    </ListItem>
+                </Link>
+
+                <Link component={RouterLink} to={`/leaderboard`}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <ListIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Leaderboard" />
                     </ListItem>
                 </Link>
 

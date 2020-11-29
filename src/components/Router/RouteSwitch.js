@@ -10,6 +10,7 @@ import FightLog from "../FightLog";
 import ModalFightLog from "../FightLog/Modal";
 import TauriApi from "../TauriApi";
 import GuildList from "../GuildList";
+import Leaderboard from "../Leaderboard";
 
 import NotFound from "../NotFound";
 
@@ -32,6 +33,8 @@ function RouteSwitch() {
                     component={Character}
                 />
                 <Route exact path="/log/:logId" component={FightLog} />
+                <Route exact path="/leaderboard" component={Leaderboard} />
+
                 <Route exact path="/secret" component={TauriApi} />
                 <Route
                     path="/player"
