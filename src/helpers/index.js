@@ -301,3 +301,15 @@ export function getDefaultDifficulty(realmGroup) {
         realmGroup !== "tauri" ? 0 : 10
     );
 }
+
+export function raidNameToId(raidName) {
+    for (const realmGroup of ["tauri", "crystalsong"]) {
+        for (const raid of constants[realmGroup].currentContent.raids) {
+            if (raid.name === raidName) {
+                return raid.id;
+            }
+        }
+    }
+
+    return false;
+}
