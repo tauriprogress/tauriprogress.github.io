@@ -24,6 +24,8 @@ import SpecImg from "../SpecImg";
 
 import { fetchLeaderboardData } from "../../redux/actions";
 
+import { filterChars } from "./helpers";
+
 import {
     raidNameToId,
     getSpecImg,
@@ -74,8 +76,9 @@ function Leaderboard({ classes, theme }) {
         );
         filteredData = null;
     } else {
-        filteredData = data[dataId][filter.difficulty];
-        if (filteredData) bestPerformance = filteredData[0][combatMetric];
+        filteredData = filterChars(filter, data[dataId][filter.difficulty]);
+        if (filteredData && filteredData.length)
+            bestPerformance = filteredData[0][combatMetric];
 
         loading = data[dataId].loading;
         error = data[dataId].error;

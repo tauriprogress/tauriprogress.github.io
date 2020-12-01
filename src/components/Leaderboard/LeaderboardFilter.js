@@ -56,9 +56,8 @@ function LeaderboardFilter({ classes, theme }) {
     const dispatch = useDispatch();
 
     const {
-        palette: { classColors }
+        palette: { classColors, factionColors }
     } = theme;
-
     let specOptions = [];
     const classColor = filter.class
         ? classColors[filter.class].text
@@ -111,6 +110,32 @@ function LeaderboardFilter({ classes, theme }) {
             }))
         },
         {
+            name: "faction",
+            style: {
+                color:
+                    filter.faction === 0
+                        ? factionColors.alliance
+                        : factionColors.horde
+            },
+            options: [
+                { value: "", name: "all" },
+                {
+                    value: 0,
+                    name: "alliance",
+                    style: {
+                        color: factionColors.alliance
+                    }
+                },
+                {
+                    value: 1,
+                    name: "horde",
+                    style: {
+                        color: factionColors.horde
+                    }
+                }
+            ]
+        },
+        {
             name: "class",
             style: {
                 color: classColor
@@ -137,6 +162,19 @@ function LeaderboardFilter({ classes, theme }) {
             ]
         }
     ];
+
+    if (realmOptions.length > 1) {
+        selects.splice(2, 0, {
+            name: "realm",
+            options: [
+                {
+                    value: "",
+                    name: "all"
+                },
+                ...realmOptions
+            ]
+        });
+    }
 
     return (
         <CollapseableFilterContainer defaultState={true}>
