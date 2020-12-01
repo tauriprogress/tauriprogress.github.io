@@ -20,7 +20,6 @@ const defaultState = {
 function leaderboardReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGE_REALMGROUP":
-            console.log(action);
             return {
                 ...state,
                 filter: {
