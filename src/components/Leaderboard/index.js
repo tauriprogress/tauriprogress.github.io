@@ -108,6 +108,7 @@ function Leaderboard({ classes, theme }) {
                                     <TableRow>
                                         <TableCell>Name</TableCell>
                                         <TableCell>Performance</TableCell>
+                                        <TableCell>Faction</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -197,7 +198,6 @@ function Leaderboard({ classes, theme }) {
                                                                 </Typography>
                                                             </WithRealm>
                                                         </TableCell>
-
                                                         <TableCell
                                                             className={`${classes.bold} ${classes.cell}`}
                                                         >
@@ -205,6 +205,35 @@ function Leaderboard({ classes, theme }) {
                                                                 1
                                                             )}
                                                             %
+                                                        </TableCell>
+                                                        <TableCell
+                                                            className={`${classes.cell}`}
+                                                        >
+                                                            {!char.f ? (
+                                                                <span
+                                                                    style={{
+                                                                        color:
+                                                                            theme
+                                                                                .palette
+                                                                                .factionColors
+                                                                                .alliance
+                                                                    }}
+                                                                >
+                                                                    Alliance
+                                                                </span>
+                                                            ) : (
+                                                                <span
+                                                                    style={{
+                                                                        color:
+                                                                            theme
+                                                                                .palette
+                                                                                .factionColors
+                                                                                .horde
+                                                                    }}
+                                                                >
+                                                                    Horde
+                                                                </span>
+                                                            )}
                                                         </TableCell>
                                                     </TableRow>
                                                 );
