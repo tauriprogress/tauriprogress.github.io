@@ -108,6 +108,7 @@ function Leaderboard({ classes, theme }) {
                                     <TableRow>
                                         <TableCell>Name</TableCell>
                                         <TableCell>Performance</TableCell>
+                                        <TableCell>Ilvl</TableCell>
                                         <TableCell>Faction</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -205,6 +206,11 @@ function Leaderboard({ classes, theme }) {
                                                                 1
                                                             )}
                                                             %
+                                                        </TableCell>
+                                                        <TableCell
+                                                            className={` ${classes.cell}`}
+                                                        >
+                                                            {char.ilvl}
                                                         </TableCell>
                                                         <TableCell
                                                             className={`${classes.cell}`}
