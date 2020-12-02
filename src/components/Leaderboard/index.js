@@ -18,6 +18,8 @@ import Typography from "@material-ui/core/Typography";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
+import WithRealm from "../WithRealm";
+
 import LeaderboardFilter from "./LeaderboardFilter";
 
 import SpecImg from "../SpecImg";
@@ -104,16 +106,8 @@ function Leaderboard({ classes, theme }) {
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell
-                                            className={classes.uppercase}
-                                        >
-                                            Name
-                                        </TableCell>
-                                        <TableCell
-                                            className={classes.uppercase}
-                                        >
-                                            Performance
-                                        </TableCell>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Performance</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -134,66 +128,74 @@ function Leaderboard({ classes, theme }) {
                                                                 classes.cell
                                                             }
                                                         >
-                                                            <Typography color="inherit">
-                                                                <span
-                                                                    className={
-                                                                        classes.bold
-                                                                    }
-                                                                >
-                                                                    {index +
-                                                                        1 +
-                                                                        page *
-                                                                            rowsPerPage}
-                                                                    .{" "}
-                                                                </span>
-                                                                <SpecImg
-                                                                    src={
-                                                                        char.spec
-                                                                            ? getSpecImg(
-                                                                                  specs[
+                                                            <WithRealm
+                                                                realmName={
+                                                                    realmName
+                                                                }
+                                                            >
+                                                                <Typography color="inherit">
+                                                                    <span
+                                                                        className={
+                                                                            classes.bold
+                                                                        }
+                                                                    >
+                                                                        {index +
+                                                                            1 +
+                                                                            page *
+                                                                                rowsPerPage}
+                                                                        .{" "}
+                                                                    </span>
+                                                                    <SpecImg
+                                                                        src={
+                                                                            char.spec
+                                                                                ? getSpecImg(
+                                                                                      specs[
+                                                                                          char
+                                                                                              .spec
+                                                                                      ]
+                                                                                          .image
+                                                                                  )
+                                                                                : classImg(
+                                                                                      char.class
+                                                                                  )
+                                                                        }
+                                                                        title={
+                                                                            char.spec
+                                                                                ? specs[
                                                                                       char
                                                                                           .spec
                                                                                   ]
-                                                                                      .image
-                                                                              )
-                                                                            : classImg(
-                                                                                  char.class
-                                                                              )
-                                                                    }
-                                                                    title={
-                                                                        char.spec
-                                                                            ? specs[
-                                                                                  char
-                                                                                      .spec
-                                                                              ]
-                                                                                  .label ||
-                                                                              "No spec"
-                                                                            : characterClassNames[
-                                                                                  char
-                                                                                      .class
-                                                                              ]
-                                                                    }
-                                                                />
+                                                                                      .label ||
+                                                                                  "No spec"
+                                                                                : characterClassNames[
+                                                                                      char
+                                                                                          .class
+                                                                                  ]
+                                                                        }
+                                                                    />
 
-                                                                <Link
-                                                                    component={
-                                                                        RouterLink
-                                                                    }
-                                                                    to={`/character/${char.name}?realm=${realmName}`}
-                                                                    style={{
-                                                                        color:
-                                                                            theme
-                                                                                .palette
-                                                                                .classColors[
-                                                                                char
-                                                                                    .class
-                                                                            ]
-                                                                                .text
-                                                                    }}
-                                                                >
-                                                                    {char.name}
-                                                                </Link>
-                                                            </Typography>
+                                                                    <Link
+                                                                        component={
+                                                                            RouterLink
+                                                                        }
+                                                                        to={`/character/${char.name}?realm=${realmName}`}
+                                                                        style={{
+                                                                            color:
+                                                                                theme
+                                                                                    .palette
+                                                                                    .classColors[
+                                                                                    char
+                                                                                        .class
+                                                                                ]
+                                                                                    .text
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            char.name
+                                                                        }
+                                                                    </Link>
+                                                                </Typography>
+                                                            </WithRealm>
                                                         </TableCell>
 
                                                         <TableCell
