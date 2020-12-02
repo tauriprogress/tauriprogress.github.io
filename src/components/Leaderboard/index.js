@@ -63,7 +63,6 @@ function Leaderboard({ classes, theme }) {
     }, [combatMetric, data, filter]);
 
     let filteredData = [];
-    let bestPerformance = 0;
     let loading = false;
     let error = null;
 
@@ -77,8 +76,6 @@ function Leaderboard({ classes, theme }) {
         filteredData = null;
     } else {
         filteredData = filterChars(filter, data[dataId][filter.difficulty]);
-        if (filteredData && filteredData.length)
-            bestPerformance = filteredData[0][combatMetric];
 
         loading = data[dataId].loading;
         error = data[dataId].error;
@@ -202,15 +199,9 @@ function Leaderboard({ classes, theme }) {
                                                         <TableCell
                                                             className={`${classes.bold} ${classes.cell}`}
                                                         >
-                                                            {(
-                                                                Math.round(
-                                                                    (char[
-                                                                        combatMetric
-                                                                    ] /
-                                                                        bestPerformance) *
-                                                                        1000
-                                                                ) / 10
-                                                            ).toFixed(1)}
+                                                            {char.topPercent.toFixed(
+                                                                1
+                                                            )}
                                                             %
                                                         </TableCell>
                                                     </TableRow>
