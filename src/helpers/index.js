@@ -269,7 +269,9 @@ export function getRealmFromLocation(location) {
 }
 
 export function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    const capitalized = string.charAt(0).toUpperCase() + string.slice(1);
+
+    return capitalized.length === string.length ? capitalized : string;
 }
 
 export function paddingZero(number, padding) {
