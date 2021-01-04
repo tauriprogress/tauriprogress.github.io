@@ -1,7 +1,5 @@
 import constants from "tauriprogress-constants";
 
-import { itemSlotNames } from "tauriprogress-constants";
-
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
 
 const defaultState = {
@@ -177,36 +175,6 @@ function characterReducer(state = defaultState, action) {
 
         case "CHARACTER_ITEMS_FILL":
             let data = { ...state.items.data, ...action.payload };
-            let itemNames = {
-                Head: 0,
-                Shoulder: 1,
-                Chest: 2,
-                Hands: 3,
-                Legs: 4
-            };
-
-            const items = [
-                {
-                    equipped: false,
-                    guid: null
-                },
-                {
-                    equipped: false,
-                    guid: null
-                },
-                {
-                    equipped: false,
-                    guid: null
-                },
-                {
-                    equipped: false,
-                    guid: null
-                },
-                {
-                    equipped: false,
-                    guid: null
-                }
-            ];
 
             let sets = {};
 
@@ -257,35 +225,30 @@ function characterReducer(state = defaultState, action) {
                     if (!sets[setName])
                         sets[setName] = {
                             equipCount: 0,
-                            items: item.ItemSetInfo.base.Items.reduce(
-                                (acc, curr) => {
-                                    acc[
-                                        itemNames[itemSlotNames[curr.invType]]
-                                    ] = {
-                                        ...acc[
-                                            itemNames[
-                                                itemSlotNames[curr.invType]
-                                            ]
-                                        ],
-                                        name: curr.name
-                                    };
-                                    return acc;
-                                },
-                                JSON.parse(JSON.stringify(items))
+                            items: item.ItemSetInfo.base.Items.sort(
+                                (a, b) => a.invType - b.invType
                             ),
                             effects: item.ItemSetInfo.base.Spells.filter(
                                 effect => effect.spell !== ""
                             )
                         };
 
-                    sets[setName].items[
-                        itemNames[itemSlotNames[item.InventoryType]]
-                    ] = {
-                        equipped: true,
-                        guid: guid,
-                        name: data[guid].item_name
-                    };
-                    sets[setName].equipCount += 1;
+                    for (let i = 0; i < sets[setName].items.length; i++) {
+                        let setItem = sets[setName].items[i];
+
+                        if (
+                            setItem.invType === item.InventoryType &&
+                            !setItem.equipped
+                        ) {
+                            sets[setName].items[i] = {
+                                equipped: true,
+                                guid: guid,
+                                name: data[guid].item_name
+                            };
+
+                            sets[setName].equipCount += 1;
+                        }
+                    }
                 }
             }
             /* For each sets extend related item data with set info */
