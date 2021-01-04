@@ -217,7 +217,7 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                 <div className={classes.containerMarginTop}>
                     <Typography
                         className={`${classes.text} ${classes.textYellow}`}
-                    >{`${item.ItemSetInfo.base.name}(${item.set.equipCount}/5)`}</Typography>
+                    >{`${item.ItemSetInfo.base.name}(${item.set.equipCount}/${item.set.items.length})`}</Typography>
                     {item.set.items.map((setItem, index) => (
                         <Typography
                             key={index}
@@ -232,9 +232,9 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                     ))}
                     {item.set.effects.length && (
                         <div className={classes.containerMarginTop}>
-                            {item.set.effects.map(effect => (
+                            {item.set.effects.map((effect, index) => (
                                 <Typography
-                                    key={effect.threshold}
+                                    key={index}
                                     className={`${classes.text} ${
                                         effect.threshold <= item.set.equipCount
                                             ? classes.textGreen
