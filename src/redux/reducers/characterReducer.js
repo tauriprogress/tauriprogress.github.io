@@ -247,10 +247,12 @@ function characterReducer(state = defaultState, action) {
                             };
 
                             sets[setName].equipCount += 1;
+                            break;
                         }
                     }
                 }
             }
+
             /* For each sets extend related item data with set info */
             for (let setName in sets) {
                 let set = sets[setName];
