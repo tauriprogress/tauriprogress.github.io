@@ -25,6 +25,7 @@ function styles(theme) {
     return {
         tab: {
             color: theme.palette.primary.contrastText,
+            backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center"
         },
