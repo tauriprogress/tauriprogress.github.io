@@ -154,7 +154,8 @@ function Leaderboard({ classes, theme }) {
                                                                         </span>
                                                                         <SpecImg
                                                                             src={
-                                                                                char.spec
+                                                                                filter.spec !==
+                                                                                ""
                                                                                     ? getSpecImg(
                                                                                           specs[
                                                                                               char
@@ -167,7 +168,8 @@ function Leaderboard({ classes, theme }) {
                                                                                       )
                                                                             }
                                                                             title={
-                                                                                char.spec
+                                                                                filter.spec !==
+                                                                                ""
                                                                                     ? specs[
                                                                                           char
                                                                                               .spec
