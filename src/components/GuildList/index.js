@@ -173,19 +173,20 @@ function GuildList({ theme, classes }) {
                                     (guild, index) => {
                                         let progress = {};
                                         for (let difficulty in guild.progression
-                                            .completion) {
+                                            .completion.difficulties) {
                                             let date =
-                                                guild.progression.completion[
-                                                    difficulty
-                                                ].completed * 1000;
+                                                guild.progression.completion
+                                                    .difficulties[difficulty]
+                                                    .completed * 1000;
                                             progress[difficulty] = {
                                                 date: date
                                                     ? new Date(date)
                                                     : false,
                                                 bossesDefeated:
-                                                    guild.progression
-                                                        .completion[difficulty]
-                                                        .progress
+                                                    guild.progression.completion
+                                                        .difficulties[
+                                                        difficulty
+                                                    ].bossesDefeated
                                             };
                                         }
 
@@ -196,7 +197,6 @@ function GuildList({ theme, classes }) {
                                                       .completed * 1000
                                               )
                                             : false;
-
                                         return (
                                             <TableRow key={guild._id} hover>
                                                 <TableCell

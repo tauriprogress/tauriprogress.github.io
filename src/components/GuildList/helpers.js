@@ -14,7 +14,7 @@ export function filterGuildList(filter, guildList) {
 
         if (
             filter.difficulty !== "" &&
-            !guild.progression.completion[filter.difficulty]
+            !guild.progression.completion.difficulties[filter.difficulty]
         ) {
             return false;
         }
@@ -48,17 +48,23 @@ export function filterGuildList(filter, guildList) {
             let first = -1;
             let second = 1;
             if (
-                a.progression.completion[filter.difficulty].completed &&
-                b.progression.completion[filter.difficulty].completed
+                a.progression.completion.difficulties[filter.difficulty]
+                    .completed &&
+                b.progression.completion.difficulties[filter.difficulty]
+                    .completed
             ) {
-                return a.progression.completion[filter.difficulty].completed <
-                    b.progression.completion[filter.difficulty].completed
+                return a.progression.completion.difficulties[filter.difficulty]
+                    .completed <
+                    b.progression.completion.difficulties[filter.difficulty]
+                        .completed
                     ? first
                     : second;
             }
 
-            return a.progression.completion[filter.difficulty].progress <
-                b.progression.completion[filter.difficulty].progress
+            return a.progression.completion.difficulties[filter.difficulty]
+                .progress <
+                b.progression.completion.difficulties[filter.difficulty]
+                    .progress
                 ? second
                 : first;
         });
