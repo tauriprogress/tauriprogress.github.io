@@ -26,6 +26,7 @@ function GuildBoss() {
     const [tab, selectTab] = useState(0);
 
     let boss = getNestedObjectValue(data, [
+        "raids",
         filter.raid,
         difficulty,
         filter.boss

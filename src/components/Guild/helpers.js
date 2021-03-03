@@ -24,12 +24,12 @@ export function filterMembers(members, filter) {
 export function getBossesDefeated(raidName, raidBosses, progression) {
     let defeatedBosses = {};
 
-    for (let diff in progression[raidName]) {
+    for (let diff in progression.raids[raidName]) {
         for (let raidBoss of raidBosses) {
             if (!defeatedBosses[raidBoss.name]) {
-                defeatedBosses[raidBoss.name] = progression[raidName][diff][
-                    raidBoss.name
-                ]
+                defeatedBosses[raidBoss.name] = progression.raids[raidName][
+                    diff
+                ][raidBoss.name]
                     ? true
                     : false;
             }
