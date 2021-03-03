@@ -44,6 +44,7 @@ function GuildProgSummary() {
             let defeated = false;
             for (let difficulty of difficulties) {
                 const categorization = [
+                    "raids",
                     raid.name,
                     difficulty,
                     bossName,
