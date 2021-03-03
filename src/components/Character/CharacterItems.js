@@ -63,7 +63,7 @@ function CharacterItems({ classes, theme }) {
                 {data.characterItems.map(
                     item =>
                         item.name && (
-                            <React.Fragment key={item.name}>
+                            <React.Fragment key={item.guid}>
                                 <CharacterItemTooltip
                                     id={item.guid}
                                     realm={data.realm}
