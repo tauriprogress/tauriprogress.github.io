@@ -8,9 +8,9 @@ import Guild from "../Guild";
 import Character from "../Character";
 import FightLog from "../FightLog";
 import ModalFightLog from "../FightLog/Modal";
-import TauriApi from "../TauriApi";
 import GuildList from "../GuildList";
-import Leaderboard from "../Leaderboard";
+import CharacterLeaderboard from "../CharacterLeaderboard";
+import GuildLeaderboard from "../GuildLeaderboard";
 
 import NotFound from "../NotFound";
 
@@ -33,9 +33,23 @@ function RouteSwitch() {
                     component={Character}
                 />
                 <Route exact path="/log/:logId" component={FightLog} />
-                <Route exact path="/leaderboard" component={Leaderboard} />
+                <Route
+                    exact
+                    path="/leaderboard"
+                    component={() => <Redirect to={"/leaderboard/character"} />}
+                />
+                <Route
+                    exact
+                    path="/leaderboard/character"
+                    component={CharacterLeaderboard}
+                />
 
-                <Route exact path="/secret" component={TauriApi} />
+                <Route
+                    exact
+                    path="/leaderboard/guild"
+                    component={GuildLeaderboard}
+                />
+
                 <Route
                     path="/player"
                     component={() => (
