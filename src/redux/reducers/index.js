@@ -12,6 +12,7 @@ import fightLogReducer from "./fightLogReducer";
 import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
 import characterLeaderboardReducer from "./characterLeaderboardReducer";
+import guildLeaderboardReducer from "./guildLeaderboardReducer";
 
 export default combineReducers({
     raid: raidReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
     fightLog: fightLogReducer,
     themes: themesReducer,
     environment: environmentReducer,
-    characterLeaderboard: characterLeaderboardReducer
+    characterLeaderboard: characterLeaderboardReducer,
+    guildLeaderboard: guildLeaderboardReducer
 });
