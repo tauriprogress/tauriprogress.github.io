@@ -99,10 +99,16 @@ function NavigationContainer({ classes }) {
 function Navigation({ classes = {} }) {
     const raids = useSelector(state => state.environment.currentContent.raids);
     const [searchOpen, setSearchOpen] = React.useState(false);
+    const [leaderboardOpen, setLeaderboardOpen] = React.useState(false);
+
     const dispatch = useDispatch();
 
     const searchClick = () => {
         setSearchOpen(!searchOpen);
+    };
+
+    const leaderboardClick = () => {
+        setLeaderboardOpen(!leaderboardOpen);
     };
 
     return (
@@ -124,14 +130,25 @@ function Navigation({ classes = {} }) {
                     </ListItem>
                 </Link>
 
-                <Link component={RouterLink} to={`/leaderboard`}>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <ListIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Leaderboard" />
-                    </ListItem>
-                </Link>
+                <ListItem button onClick={leaderboardClick}>
+                    <ListItemIcon>
+                        <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Leaderboard" />
+                    {leaderboardOpen ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={leaderboardOpen} timeout="auto" unmountOnExit>
+                    <Link component={RouterLink} to={`/leaderboard/character`}>
+                        <ListItem button className={classes.nestedNavItem}>
+                            <ListItemText primary="Character" />
+                        </ListItem>
+                    </Link>
+                    <Link component={RouterLink} to={`/leaderboard/guild`}>
+                        <ListItem button className={classes.nestedNavItem}>
+                            <ListItemText primary="Guild" />
+                        </ListItem>
+                    </Link>
+                </Collapse>
 
                 <ListItem button onClick={searchClick}>
                     <ListItemIcon>
