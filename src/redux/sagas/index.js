@@ -9,7 +9,7 @@ import getCharacterDataSaga from "./getCharacterDataSaga";
 import getCharacterRecentKillsSaga from "./getCharacterRecentKillsSaga";
 import getCharacterProgressionSaga from "./getCharacterProgressionSaga";
 import getCharacterItemsSaga from "./getCharacterItemsSaga";
-import getLeaderboardData from "./getLeaderboardData";
+import getCharacterLeaderboardData from "./getCharacterLeaderboardData";
 
 function* sagas() {
     yield all([
@@ -23,7 +23,7 @@ function* sagas() {
         getCharacterRecentKillsSaga(),
         getCharacterProgressionSaga(),
         getCharacterItemsSaga(),
-        getLeaderboardData()
+        getCharacterLeaderboardData()
     ]);
 }
 

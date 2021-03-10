@@ -21,11 +21,11 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import WithRealm from "../WithRealm";
 
-import LeaderboardFilter from "./LeaderboardFilter";
+import CharacterLeaderboardFilter from "./CharacterLeaderboardFilter";
 
 import SpecImg from "../SpecImg";
 
-import { fetchLeaderboardData } from "../../redux/actions";
+import { fetchCharacterLeaderboardData } from "../../redux/actions";
 
 import { filterChars } from "./helpers";
 
@@ -50,10 +50,10 @@ function styles(theme) {
     };
 }
 
-function Leaderboard({ classes, theme }) {
+function CharacterLeaderboard({ classes, theme }) {
     const rowsPerPage = 30;
     const dispatch = useDispatch();
-    const { data, filter } = useSelector(state => state.leaderboard);
+    const { data, filter } = useSelector(state => state.characterLeaderboard);
     const [combatMetric, selectCombatMetric] = useState("dps");
     const [page, setPage] = useState(0);
     const { specs, characterClassNames } = useSelector(state => ({
@@ -72,7 +72,7 @@ function Leaderboard({ classes, theme }) {
     const dataId = `${raidNameToId(filter.raid)}${filter.spec}${combatMetric}`;
     if (!data[dataId]) {
         dispatch(
-            fetchLeaderboardData({
+            fetchCharacterLeaderboardData({
                 dataId
             })
         );
@@ -85,9 +85,9 @@ function Leaderboard({ classes, theme }) {
     }
 
     return (
-        <Page title={`Leaderboard | Tauri Progress`}>
+        <Page title={`Character Leaderboard | Tauri Progress`}>
             <section>
-                <LeaderboardFilter />
+                <CharacterLeaderboardFilter />
 
                 <Tabs
                     value={combatMetric}
@@ -280,4 +280,4 @@ function Leaderboard({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(Leaderboard));
+export default withStyles(styles)(withTheme(CharacterLeaderboard));

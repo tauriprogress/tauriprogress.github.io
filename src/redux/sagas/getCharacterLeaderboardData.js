@@ -1,12 +1,12 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    setLeaderboardLoading,
-    setLeaderboardError,
-    fillLeaderboard
+    setCharacterLeaderboardLoading,
+    setCharacterLeaderboardError,
+    fillCharacterLeaderboard
 } from "../actions";
 
 async function getData(serverUrl, dataId) {
-    return await fetch(`${serverUrl}/getleaderboard`, {
+    return await fetch(`${serverUrl}/leaderboard/character`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -17,10 +17,10 @@ async function getData(serverUrl, dataId) {
     }).then(res => res.json());
 }
 
-function* fetchLeaderboard({ payload }) {
+function* fetchCharacterLeaderboard({ payload }) {
     const { dataId } = payload;
     try {
-        yield put(setLeaderboardLoading(dataId));
+        yield put(setCharacterLeaderboardLoading(dataId));
 
         const serverUrl = yield select(state => state.environment.urls.server);
         const response = yield call(getData, serverUrl, dataId);
@@ -28,11 +28,13 @@ function* fetchLeaderboard({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillLeaderboard({ dataId, data: response.response }));
+            yield put(
+                fillCharacterLeaderboard({ dataId, data: response.response })
+            );
         }
     } catch (err) {
         yield put(
-            setLeaderboardError({
+            setCharacterLeaderboardError({
                 dataId: dataId,
                 error: err.message
             })
@@ -41,5 +43,8 @@ function* fetchLeaderboard({ payload }) {
 }
 
 export default function* getLeaderboardDataSaga() {
-    yield takeEvery("LEADERBOARD_DATA_FETCH", fetchLeaderboard);
+    yield takeEvery(
+        "CHARACTER_LEADERBOARD_DATA_FETCH",
+        fetchCharacterLeaderboard
+    );
 }

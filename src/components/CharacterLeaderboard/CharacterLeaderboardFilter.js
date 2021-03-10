@@ -14,7 +14,7 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 
 import { getRealmNames } from "../../helpers";
 
-import { setLeaderboardFilter } from "../../redux/actions";
+import { setCharacterLeaderboardFilter } from "../../redux/actions";
 
 function styles(theme) {
     return {
@@ -24,7 +24,7 @@ function styles(theme) {
     };
 }
 
-function LeaderboardFilter({ classes, theme }) {
+function CharacterLeaderboardFilter({ classes, theme }) {
     const {
         filter,
         realms,
@@ -34,7 +34,7 @@ function LeaderboardFilter({ classes, theme }) {
         difficulties,
         raids
     } = useSelector(state => ({
-        filter: state.leaderboard.filter,
+        filter: state.characterLeaderboard.filter,
         realms: getRealmNames(state.environment.realms),
         specs: state.environment.specs,
         characterClassNames: state.environment.characterClassNames,
@@ -188,7 +188,7 @@ function LeaderboardFilter({ classes, theme }) {
                         value={filter[select.name]}
                         onChange={e =>
                             dispatch(
-                                setLeaderboardFilter({
+                                setCharacterLeaderboardFilter({
                                     filterName: select.name,
                                     value: e.target.value
                                 })
@@ -217,4 +217,4 @@ function LeaderboardFilter({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(LeaderboardFilter));
+export default withStyles(styles)(withTheme(CharacterLeaderboardFilter));

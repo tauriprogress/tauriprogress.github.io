@@ -17,7 +17,7 @@ const defaultState = {
     data: {}
 };
 
-function leaderboardReducer(state = defaultState, action) {
+function characterLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGE_REALMGROUP":
             return {
@@ -31,7 +31,7 @@ function leaderboardReducer(state = defaultState, action) {
                     realm: ""
                 }
             };
-        case "LEADERBOARD_FILTER_SET":
+        case "CHARACTER_LEADERBOARD_FILTER_SET":
             if (action.payload.filterName === "class") {
                 return {
                     ...state,
@@ -51,7 +51,7 @@ function leaderboardReducer(state = defaultState, action) {
                 }
             };
 
-        case "LEADERBOARD_ERROR_SET":
+        case "CHARACTER_LEADERBOARD_ERROR_SET":
             if (!action.payload.error) {
                 action.payload.error = "Unkown error.";
             }
@@ -66,7 +66,7 @@ function leaderboardReducer(state = defaultState, action) {
                     }
                 }
             };
-        case "LEADERBOARD_LOADING_SET":
+        case "CHARACTER_LEADERBOARD_LOADING_SET":
             return {
                 ...state,
                 data: {
@@ -78,7 +78,7 @@ function leaderboardReducer(state = defaultState, action) {
                     }
                 }
             };
-        case "LEADERBOARD_DATA_FILL":
+        case "CHARACTER_LEADERBOARD_DATA_FILL":
             return {
                 ...state,
                 data: {
@@ -97,4 +97,4 @@ function leaderboardReducer(state = defaultState, action) {
     }
 }
 
-export default leaderboardReducer;
+export default characterLeaderboardReducer;
