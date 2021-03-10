@@ -13,7 +13,10 @@ function* fetchGuilds({ payload }) {
             loading: state.guildList.loading
         }));
 
-        if ((requested && realmGroup === payload) || loading) {
+        if (
+            (requested && realmGroup === payload) ||
+            (loading && realmGroup === payload)
+        ) {
             return;
         }
         yield put(guildsLoad());
