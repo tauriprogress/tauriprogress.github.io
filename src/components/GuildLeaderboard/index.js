@@ -3,6 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { guildLeaderboardFetch } from "../../redux/actions";
 
+import Page from "../Page";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
+
 function GuildLeaderboard() {
     const { data, loading, error, realmGroup } = useSelector(state => ({
         ...state.guildLeaderboard,
@@ -15,11 +19,11 @@ function GuildLeaderboard() {
         dispatch(guildLeaderboardFetch(realmGroup));
     }, [realmGroup]);
     return (
-        <div>
-            <p>{error}</p>
-            <p>{loading}</p>
-            <p>{JSON.stringify(data)}</p>
-        </div>
+        <Page title={"Guild Leaderboard | Tauri Progress"}>
+            {loading && <Loading />}
+            {error && <ErrorMessage message={error} />}
+            {!loading && !error && data && JSON.stringify(data)}
+        </Page>
     );
 }
 
