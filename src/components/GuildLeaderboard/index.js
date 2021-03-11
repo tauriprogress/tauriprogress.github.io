@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { guildLeaderboardFetch } from "../../redux/actions";
@@ -6,6 +6,9 @@ import { guildLeaderboardFetch } from "../../redux/actions";
 import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
+
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 function GuildLeaderboard() {
     const { data, loading, error, realmGroup } = useSelector(state => ({
@@ -15,14 +18,25 @@ function GuildLeaderboard() {
 
     const dispatch = useDispatch();
 
+    const [tab, setTab] = useState("fullClear");
+
     useEffect(() => {
         dispatch(guildLeaderboardFetch(realmGroup));
     }, [realmGroup]);
+
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
-            {!loading && !error && data && JSON.stringify(data)}
+            {!loading && !error && data && (
+                <section>
+                    <Tabs value={tab} onChange={(e, value) => setTab(value)}>
+                        <Tab label="FULL CLEAR" value={"fullClear"} />
+                        <Tab label="BEST KILLS" value={"fastestKills"} />
+                    </Tabs>
+                    {JSON.stringify(data)}
+                </section>
+            )}
         </Page>
     );
 }
