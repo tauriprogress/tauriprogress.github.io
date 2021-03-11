@@ -134,11 +134,20 @@ export function convertMinutes(minutes) {
 }
 
 export function convertFightLength(time) {
-    let mins = Math.floor(time / 1000 / 60);
-    let remainingSecs = Math.floor(time / 1000) - mins * 60;
+    let hours = Math.floor(time / 1000 / 60 / 60);
+    let mins = Math.floor(time / 1000 / 60) - hours * 60;
+    let remainingSecs = Math.floor(time / 1000) - (mins * 60 + hours * 60 * 60);
 
     if (remainingSecs < 10) {
         remainingSecs = "0" + remainingSecs;
+    }
+
+    if (mins < 10) {
+        mins = "0" + mins;
+    }
+
+    if (hours) {
+        return `${hours}:${mins}:${remainingSecs}`;
     }
     return `${mins}:${remainingSecs}`;
 }
