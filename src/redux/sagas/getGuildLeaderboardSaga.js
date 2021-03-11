@@ -14,9 +14,9 @@ async function getData(serverUrl) {
 function* fetchGuildLeaderboard({ payload }) {
     try {
         const { requested, realmGroup, loading } = yield select(state => ({
-            requested: !!state.guildList.data,
-            realmGroup: state.guildList.realmGroup,
-            loading: state.guildList.loading
+            requested: !!state.guildLeaderboard.data,
+            realmGroup: state.guildLeaderboard.realmGroup,
+            loading: state.guildLeaderboard.loading
         }));
 
         if (
