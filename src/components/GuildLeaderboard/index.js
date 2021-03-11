@@ -6,12 +6,13 @@ import { guildLeaderboardFetch } from "../../redux/actions";
 import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
+import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 function GuildLeaderboard() {
-    const { data, loading, error, realmGroup } = useSelector(state => ({
+    const { data, loading, error, realmGroup, filter } = useSelector(state => ({
         ...state.guildLeaderboard,
         realmGroup: state.environment.realmGroup
     }));
@@ -30,6 +31,7 @@ function GuildLeaderboard() {
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
                 <section>
+                    <GuildLeaderboardFilter />
                     <Tabs value={tab} onChange={(e, value) => setTab(value)}>
                         <Tab label="FULL CLEAR" value={"fullClear"} />
                         <Tab label="BEST KILLS" value={"fastestKills"} />

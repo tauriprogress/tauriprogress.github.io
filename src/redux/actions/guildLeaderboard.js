@@ -1,3 +1,10 @@
+export function setGuildLeaderboardFilter(payload) {
+    return {
+        type: "GUILD_LEADERBOARD_FILTER_SET",
+        payload
+    };
+}
+
 export function guildLeaderboardFetch(payload) {
     return {
         type: "GUILD_LEADERBOARD_FETCH",
