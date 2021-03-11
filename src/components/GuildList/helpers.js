@@ -47,6 +47,7 @@ export function filterGuildList(filter, guildList) {
         return filteredGuildList.sort((a, b) => {
             let first = -1;
             let second = 1;
+
             if (
                 a.progression.completion.difficulties[filter.difficulty]
                     .completed &&
@@ -62,13 +63,12 @@ export function filterGuildList(filter, guildList) {
             }
 
             return a.progression.completion.difficulties[filter.difficulty]
-                .progress <
+                .bossesDefeated <
                 b.progression.completion.difficulties[filter.difficulty]
-                    .progress
+                    .bossesDefeated
                 ? second
                 : first;
         });
     }
-
     return filteredGuildList;
 }
