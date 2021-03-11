@@ -11,6 +11,9 @@ import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+import { filterGuilds } from "./helpers";
+import { convertFightLength } from "./../../helpers";
+
 function GuildLeaderboard() {
     const { data, loading, error, realmGroup, filter } = useSelector(state => ({
         ...state.guildLeaderboard,
@@ -36,7 +39,16 @@ function GuildLeaderboard() {
                         <Tab label="FULL CLEAR" value={"fullClear"} />
                         <Tab label="BEST KILLS" value={"fastestKills"} />
                     </Tabs>
-                    {JSON.stringify(data)}
+                    {filterGuilds(filter, tab, data).map((guild, index) => (
+                        <p key={index}>
+                            {index}. {guild.name},{" "}
+                            {convertFightLength(
+                                guild.ranking[filter.raid][filter.difficulty][
+                                    tab
+                                ].time
+                            )}
+                        </p>
+                    ))}
                 </section>
             )}
         </Page>
