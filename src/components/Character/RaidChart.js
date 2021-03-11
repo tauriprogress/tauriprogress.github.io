@@ -20,7 +20,8 @@ import {
     getSpecImg,
     classImg,
     shortNumber,
-    shortRealmToFull
+    shortRealmToFull,
+    capitalize
 } from "../../helpers";
 
 function styles(theme) {
@@ -161,7 +162,7 @@ function RaidChart({
                 <PerfChartRow
                     Icon={<IconTotal />}
                     iconTitle={`Total ${variant} devided by the number of bosses`}
-                    title={"Total"}
+                    title={`Average ${capitalize(variant)}`}
                     perfValue={shortNumber(data.total[spec][variant][variant])}
                     perfPercent={data.total[spec][variant].topPercent || 0}
                     color={"#48698c"}
@@ -170,7 +171,7 @@ function RaidChart({
                 <PerfChartRow
                     Icon={<IconMissing />}
                     iconTitle={"no spec"}
-                    title={"Total"}
+                    title={`Average ${capitalize(variant)}`}
                     perfValue={shortNumber(0)}
                     perfPercent={0}
                     color={"#48698c"}
