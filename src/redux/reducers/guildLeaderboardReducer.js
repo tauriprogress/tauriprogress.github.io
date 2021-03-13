@@ -18,6 +18,16 @@ const defaultState = {
 
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGE_REALMGROUP":
+            return {
+                ...state,
+                filter: {
+                    raid: constants[action.payload].currentContent.name,
+                    difficulty: getDefaultDifficulty(action.payload),
+                    faction: "",
+                    realm: ""
+                }
+            };
         case "GUILD_LEADERBOARD_FILTER_SET":
             return {
                 ...state,
