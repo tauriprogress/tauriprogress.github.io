@@ -87,52 +87,15 @@ function GuildLeaderboard({ theme, classes }) {
                         <TableBody>
                             {filterGuilds(filter, tab, data).map(
                                 (guild, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            <Grid container wrap="nowrap">
-                                                <Grid
-                                                    item
-                                                    className={`${classes.rank} rank`}
-                                                >
-                                                    <Typography color="inherit">
-                                                        {index + 1}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item>
-                                                    <WithRealm
-                                                        realmName={guild.realm}
-                                                    >
-                                                        <Typography
-                                                            className={
-                                                                classes.name
-                                                            }
-                                                        >
-                                                            <Link
-                                                                component={
-                                                                    RouterLink
-                                                                }
-                                                                style={{
-                                                                    color: guild.f
-                                                                        ? factionColors.horde
-                                                                        : factionColors.alliance
-                                                                }}
-                                                                to={`/guild/${guild.name}?realm=${guild.realm}`}
-                                                            >
-                                                                {guild.name}
-                                                            </Link>
-                                                        </Typography>
-                                                    </WithRealm>
-                                                </Grid>
-                                            </Grid>
-                                        </TableCell>
-                                        <TableCell>
-                                            {convertFightLength(
-                                                guild.ranking[filter.raid][
-                                                    filter.difficulty
-                                                ][tab].time
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
+                                    <Row
+                                        classes={classes}
+                                        theme={theme}
+                                        guild={guild}
+                                        index={index}
+                                        factionColors={factionColors}
+                                        filter={filter}
+                                        tab={tab}
+                                    />
                                 )
                             )}
                         </TableBody>
@@ -140,6 +103,42 @@ function GuildLeaderboard({ theme, classes }) {
                 </section>
             )}
         </Page>
+    );
+}
+
+function Row({ classes, theme, guild, index, factionColors, filter, tab }) {
+    return (
+        <TableRow key={index}>
+            <TableCell>
+                <Grid container wrap="nowrap">
+                    <Grid item className={`${classes.rank} rank`}>
+                        <Typography color="inherit">{index + 1}</Typography>
+                    </Grid>
+                    <Grid item>
+                        <WithRealm realmName={guild.realm}>
+                            <Typography className={classes.name}>
+                                <Link
+                                    component={RouterLink}
+                                    style={{
+                                        color: guild.f
+                                            ? factionColors.horde
+                                            : factionColors.alliance
+                                    }}
+                                    to={`/guild/${guild.name}?realm=${guild.realm}`}
+                                >
+                                    {guild.name}
+                                </Link>
+                            </Typography>
+                        </WithRealm>
+                    </Grid>
+                </Grid>
+            </TableCell>
+            <TableCell>
+                {convertFightLength(
+                    guild.ranking[filter.raid][filter.difficulty][tab].time
+                )}
+            </TableCell>
+        </TableRow>
     );
 }
 
