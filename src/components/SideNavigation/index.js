@@ -111,17 +111,14 @@ function Navigation({ classes = {} }) {
         setLeaderboardOpen(!leaderboardOpen);
     };
 
+    function toggleNav() {
+        window.innerWidth < navBreakpoint && dispatch(toggleNavigation(false));
+    }
+
     return (
         <nav className={classes.container}>
             <List>
-                <Link
-                    component={RouterLink}
-                    to={`/`}
-                    onClick={() =>
-                        window.innerWidth < navBreakpoint &&
-                        dispatch(toggleNavigation(false))
-                    }
-                >
+                <Link component={RouterLink} to={`/`} onClick={toggleNav}>
                     <ListItem button>
                         <ListItemIcon>
                             <HomeIcon />
@@ -138,12 +135,20 @@ function Navigation({ classes = {} }) {
                     {leaderboardOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={leaderboardOpen} timeout="auto" unmountOnExit>
-                    <Link component={RouterLink} to={`/leaderboard/character`}>
+                    <Link
+                        component={RouterLink}
+                        onClick={toggleNav}
+                        to={`/leaderboard/character`}
+                    >
                         <ListItem button className={classes.nestedNavItem}>
                             <ListItemText primary="Character" />
                         </ListItem>
                     </Link>
-                    <Link component={RouterLink} to={`/leaderboard/guild`}>
+                    <Link
+                        component={RouterLink}
+                        onClick={toggleNav}
+                        to={`/leaderboard/guild`}
+                    >
                         <ListItem button className={classes.nestedNavItem}>
                             <ListItemText primary="Guild" />
                         </ListItem>
