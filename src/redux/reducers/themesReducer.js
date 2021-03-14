@@ -308,6 +308,9 @@ const darkPalette = {
         80: "#ab3817",
         100: "#BF360C"
     },
+    text: {
+        primary: "#ededed"
+    },
     type: "dark"
 };
 
