@@ -9,6 +9,8 @@ import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
+import DisplayDate from "../DisplayDate";
+import OverflowScroll from "../OverflowScroll";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -21,9 +23,15 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import WithRealm from "../WithRealm";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import Collapse from "@material-ui/core/Collapse";
+
+import LogLink from "../LogLink";
+import InfoIcon from "../InfoIcon";
 
 import { filterGuilds } from "./helpers";
-import { convertFightLength } from "./../../helpers";
+import { convertFightLength, dateTextHours } from "./../../helpers";
 
 function styles(theme) {
     return {
@@ -46,6 +54,30 @@ function styles(theme) {
         },
         tableHead: {
             paddingLeft: theme.spacing(10)
+        },
+        tableBody: {
+            "& > tr:nth-child(4n-1)": {
+                backgroundColor: theme.palette.background.default
+            }
+        },
+        row: {
+            "& > *": {
+                borderBottom: "unset"
+            }
+        },
+        innerTable: {
+            padding: 0,
+            "& td": {
+                padding: theme.spacing(0.7)
+            },
+            borderTop: `1px solid ${theme.palette.secondary.main}`
+        },
+
+        bossName: {
+            fontSize: `${14 / 16}rem`
+        },
+        differenceText: {
+            color: theme.palette.progStateColors.defeated
         }
     };
 }
@@ -75,71 +107,138 @@ function GuildLeaderboard({ theme, classes }) {
                         <Tab label="FULL CLEAR" value={"fullClear"} />
                         <Tab label="BEST KILLS" value={"fastestKills"} />
                     </Tabs>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className={classes.tableHead}>
-                                    Guild
-                                </TableCell>
-                                <TableCell>Time</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {filterGuilds(filter, tab, data).map(
-                                (guild, index) => (
-                                    <Row
-                                        classes={classes}
-                                        theme={theme}
-                                        guild={guild}
-                                        index={index}
-                                        factionColors={factionColors}
-                                        filter={filter}
-                                        tab={tab}
-                                    />
-                                )
-                            )}
-                        </TableBody>
-                    </Table>
+                    <OverflowScroll>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell className={classes.tableHead}>
+                                        Guild
+                                    </TableCell>
+                                    <TableCell colSpan={2}>Time</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody className={classes.tableBody}>
+                                {filterGuilds(filter, tab, data).map(
+                                    (guild, index) => (
+                                        <Row
+                                            classes={classes}
+                                            guild={guild}
+                                            index={index}
+                                            factionColors={factionColors}
+                                            filter={filter}
+                                            tab={tab}
+                                            key={`${guild.name}${tab}`}
+                                        />
+                                    )
+                                )}
+                            </TableBody>
+                        </Table>
+                    </OverflowScroll>
                 </section>
             )}
         </Page>
     );
 }
 
-function Row({ classes, theme, guild, index, factionColors, filter, tab }) {
+function Row({ classes, guild, index, factionColors, filter, tab }) {
+    const [open, setOpen] = useState(false);
+
+    function toggleOpen() {
+        setOpen(!open);
+    }
+    const firstLog = guild.ranking[filter.raid][filter.difficulty][tab].logs[0];
+
+    let start = firstLog.date * 1000 - firstLog.fightLength;
+
     return (
-        <TableRow key={index}>
-            <TableCell>
-                <Grid container wrap="nowrap">
-                    <Grid item className={`${classes.rank} rank`}>
-                        <Typography color="inherit">{index + 1}</Typography>
+        <React.Fragment>
+            <TableRow onClick={toggleOpen} className={classes.row}>
+                <TableCell>
+                    <Grid container wrap="nowrap">
+                        <Grid item className={`${classes.rank} rank`}>
+                            <Typography color="inherit">{index + 1}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <WithRealm realmName={guild.realm}>
+                                <Typography className={classes.name}>
+                                    <Link
+                                        component={RouterLink}
+                                        style={{
+                                            color: guild.f
+                                                ? factionColors.horde
+                                                : factionColors.alliance
+                                        }}
+                                        to={`/guild/${guild.name}?realm=${guild.realm}`}
+                                    >
+                                        {guild.name}
+                                    </Link>
+                                </Typography>
+                            </WithRealm>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <WithRealm realmName={guild.realm}>
-                            <Typography className={classes.name}>
-                                <Link
-                                    component={RouterLink}
-                                    style={{
-                                        color: guild.f
-                                            ? factionColors.horde
-                                            : factionColors.alliance
-                                    }}
-                                    to={`/guild/${guild.name}?realm=${guild.realm}`}
-                                >
-                                    {guild.name}
-                                </Link>
-                            </Typography>
-                        </WithRealm>
-                    </Grid>
-                </Grid>
+                </TableCell>
+                <TableCell>
+                    {convertFightLength(
+                        guild.ranking[filter.raid][filter.difficulty][tab].time
+                    )}
+                </TableCell>
+                <TableCell>
+                    <Typography>
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                    </Typography>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell
+                    style={{
+                        padding: 0
+                    }}
+                    colSpan={3}
+                >
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Table className={classes.innerTable}>
+                            <TableBody>
+                                <FullClearDetails
+                                    start={start}
+                                    logs={
+                                        guild.ranking[filter.raid][
+                                            filter.difficulty
+                                        ][tab].logs
+                                    }
+                                    classes={classes}
+                                    guild={guild}
+                                />
+                            </TableBody>
+                        </Table>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
+}
+
+function FullClearDetails({ start, logs, classes, guild }) {
+    return logs.map((log, index) => (
+        <TableRow key={log.id}>
+            <TableCell align={"right"}>
+                {convertFightLength(log.date * 1000 - start)}
             </TableCell>
-            <TableCell>
-                {convertFightLength(
-                    guild.ranking[filter.raid][filter.difficulty][tab].time
-                )}
+            <TableCell align={"right"} className={classes.differenceText}>
+                +
+                {index === 0
+                    ? convertFightLength(log.fightLength)
+                    : convertFightLength(
+                          log.date * 1000 - logs[index - 1].date * 1000
+                      )}
+            </TableCell>
+            <TableCell className={classes.bossName} align={"right"}>
+                <LogLink logId={log.id} realm={guild.realm}>
+                    {log.bossName}
+                    <InfoIcon />
+                </LogLink>
             </TableCell>
         </TableRow>
-    );
+    ));
 }
 
 export default withStyles(styles)(withTheme(GuildLeaderboard));
