@@ -13,6 +13,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
@@ -62,7 +63,11 @@ function CharacterLadder({
                     <TableRow>
                         <TableCell>Name</TableCell>
                         <TableCell className={classes.uppercase}>
-                            {type}
+                            <Tooltip title={"Click for details"}>
+                                <span>
+                                    {type} <InfoIcon />
+                                </span>
+                            </Tooltip>
                         </TableCell>
                         <TableCell>Ilvl</TableCell>
                         <TableCell>Date</TableCell>
@@ -118,8 +123,6 @@ function CharacterLadder({
                                                 logId={char.logId}
                                                 realm={realmName}
                                             >
-                                                <InfoIcon />
-
                                                 {new Intl.NumberFormat().format(
                                                     Math.round(char[type])
                                                 )}
