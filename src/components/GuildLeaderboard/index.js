@@ -198,16 +198,28 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Table className={classes.innerTable}>
                             <TableBody>
-                                <FullClearDetails
-                                    start={start}
-                                    logs={
-                                        guild.ranking[filter.raid][
-                                            filter.difficulty
-                                        ][tab].logs
-                                    }
-                                    classes={classes}
-                                    guild={guild}
-                                />
+                                {tab === "fullClear" ? (
+                                    <FullClearDetails
+                                        start={start}
+                                        logs={
+                                            guild.ranking[filter.raid][
+                                                filter.difficulty
+                                            ][tab].logs
+                                        }
+                                        classes={classes}
+                                        guild={guild}
+                                    />
+                                ) : (
+                                    <BestKillsDetails
+                                        logs={
+                                            guild.ranking[filter.raid][
+                                                filter.difficulty
+                                            ][tab].logs
+                                        }
+                                        classes={classes}
+                                        guild={guild}
+                                    />
+                                )}
                             </TableBody>
                         </Table>
                     </Collapse>
@@ -224,12 +236,34 @@ function FullClearDetails({ start, logs, classes, guild }) {
                 {convertFightLength(log.date * 1000 - start)}
             </TableCell>
             <TableCell align={"right"} className={classes.differenceText}>
-                +
+                +{" "}
                 {index === 0
                     ? convertFightLength(log.fightLength)
                     : convertFightLength(
                           log.date * 1000 - logs[index - 1].date * 1000
                       )}
+            </TableCell>
+            <TableCell className={classes.bossName} align={"right"}>
+                <LogLink logId={log.id} realm={guild.realm}>
+                    {log.bossName}
+                    <InfoIcon />
+                </LogLink>
+            </TableCell>
+        </TableRow>
+    ));
+}
+
+function BestKillsDetails({ logs, classes, guild }) {
+    return logs.map(log => (
+        <TableRow key={log.id}>
+            <TableCell align={"right"} className={classes.differenceText}>
+                {convertFightLength(log.fightLength)}
+            </TableCell>
+            <TableCell align={"right"}>
+                <DisplayDate date={new Date(log.date * 1000)}>
+                    {" "}
+                    {dateTextHours(new Date(log.date * 1000))}
+                </DisplayDate>
             </TableCell>
             <TableCell className={classes.bossName} align={"right"}>
                 <LogLink logId={log.id} realm={guild.realm}>
