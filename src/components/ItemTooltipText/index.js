@@ -213,7 +213,7 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                 </Typography>
             )}
 
-            {item.ItemSetInfo.base && (
+            {item.ItemSetInfo.base && item.set && (
                 <div className={classes.containerMarginTop}>
                     <Typography
                         className={`${classes.text} ${classes.textYellow}`}

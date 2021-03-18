@@ -180,6 +180,9 @@ function characterReducer(state = defaultState, action) {
 
             for (let guid in data) {
                 let item = data[guid];
+                if (item.InventoryType === 5) {
+                    item.InventoryType = 20;
+                }
                 /* Socket info of item */
                 if (!item.socketInfo) {
                     item.socketInfo = {
