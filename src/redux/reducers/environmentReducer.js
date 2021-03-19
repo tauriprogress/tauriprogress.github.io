@@ -1,7 +1,11 @@
 import constants from "tauriprogress-constants";
+import { validRealmGroup } from "../../helpers";
 
 const devEnv = process.env.NODE_ENV === "development" ? true : false;
-const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
+const realmGroupInLocalStorage = localStorage.getItem("realmGroup");
+const defaultRealmGroup = validRealmGroup(realmGroupInLocalStorage)
+    ? realmGroupInLocalStorage
+    : "tauri";
 
 if (devEnv) {
     for (const realmGroup of ["tauri", "crystalsong"]) {
