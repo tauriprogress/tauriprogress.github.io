@@ -1,24 +1,50 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 
-import { validRealm, getRealmFromLocation } from "../../helpers";
+import {
+    validRealm,
+    realmOfRealmGroup,
+    getRealmFromLocation
+} from "../../helpers";
+
+import { changeEnvironmentRealmGroup } from "../../redux/actions";
 
 function validateRealm() {
     return Component => {
         const ValidateRealm = React.forwardRef(
             ({ innerRef, ...otherprops }, ref) => {
                 const location = useLocation();
-                const realms = useSelector(state => state.environment.realms);
-                return !validRealm(realms, getRealmFromLocation(location)) ? (
+                const { realms, realmGroup } = useSelector(state => ({
+                    realms: state.environment.realms,
+                    realmGroup: state.environment.realmGroup
+                }));
+                const currentRealm = getRealmFromLocation(location);
+
+                if (validRealm(currentRealm)) {
+                    if (!realmOfRealmGroup(currentRealm, realms)) {
+                        const dispatch = useDispatch();
+                        dispatch(
+                            changeEnvironmentRealmGroup(
+                                realmGroup === "tauri" ? "crystalsong" : "tauri"
+                            )
+                        );
+                    }
+                    return (
+                        <Component
+                            ref={innerRef || ref}
+                            location={location}
+                            {...otherprops}
+                        />
+                    );
+                }
+                return (
                     <Redirect
-                        to={`${location.pathname}?realm=${realms["tauri"]}`}
-                    />
-                ) : (
-                    <Component
-                        ref={innerRef || ref}
-                        location={location}
-                        {...otherprops}
+                        to={`${location.pathname}?realm=${
+                            realmGroup === "tauri"
+                                ? realms["tauri"]
+                                : realms[Object.keys(realms)[0]]
+                        }`}
                     />
                 );
             }
