@@ -263,9 +263,9 @@ export function colorWeight(current, max) {
     return Math.floor(percent / 20) * 20;
 }
 
-export function validRealm(realms, realm) {
-    for (let key in realms) {
-        if (realms[key] === realm) {
+export function validRealm(realm) {
+    for (let currentRealmName in shortRealms) {
+        if (currentRealmName === realm) {
             return true;
         }
     }
