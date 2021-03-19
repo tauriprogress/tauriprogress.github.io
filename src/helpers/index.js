@@ -273,6 +273,16 @@ export function validRealm(realm) {
     return false;
 }
 
+export function realmOfRealmGroup(realm, realmGroup) {
+    for (let key in realmGroup) {
+        if (realmGroup[key] === realm) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export function getRealmFromLocation(location) {
     return new URLSearchParams(location.search).get("realm");
 }
