@@ -273,14 +273,18 @@ export function validRealm(realm) {
     return false;
 }
 
-export function realmOfRealmGroup(realm, realmGroup) {
-    for (let key in realmGroup) {
-        if (realmGroup[key] === realm) {
+export function realmOfRealmGroup(realm, realmsOfGroup) {
+    for (let key in realmsOfGroup) {
+        if (realmsOfGroup[key] === realm) {
             return true;
         }
     }
 
     return false;
+}
+
+export function validRealmGroup(realmGroup) {
+    return realmGroup === "tauri" || realmGroup === "crystalsong";
 }
 
 export function getRealmFromLocation(location) {
