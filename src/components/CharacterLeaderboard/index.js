@@ -20,6 +20,7 @@ import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import WithRealm from "../WithRealm";
+import PerformanceExplanation from "./PerformanceExplanation";
 
 import CharacterLeaderboardFilter from "./CharacterLeaderboardFilter";
 
@@ -109,7 +110,9 @@ function CharacterLeaderboard({ classes, theme }) {
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Name</TableCell>
-                                            <TableCell>Performance</TableCell>
+                                            <TableCell>
+                                                <PerformanceExplanation />
+                                            </TableCell>
                                             <TableCell>Ilvl</TableCell>
                                             <TableCell>Faction</TableCell>
                                         </TableRow>
