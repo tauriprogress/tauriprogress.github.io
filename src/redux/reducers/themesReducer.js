@@ -61,6 +61,11 @@ const defaultTheme = {
     }
 };
 const overrides = {
+    MuiButton: {
+        root: {
+            borderRadius: "0px"
+        }
+    },
     MuiLink: {
         root: {
             textDecoration: "none !important",

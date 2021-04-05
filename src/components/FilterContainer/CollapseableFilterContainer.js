@@ -34,8 +34,7 @@ function styles(theme) {
             height: "15px"
         },
         button: {
-            backgroundColor: theme.palette.background.accent,
-            borderRadius: "0px"
+            backgroundColor: theme.palette.background.accent
         }
     };
 }
