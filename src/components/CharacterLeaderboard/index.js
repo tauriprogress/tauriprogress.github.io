@@ -70,7 +70,9 @@ function CharacterLeaderboard({ classes, theme }) {
     let loading = false;
     let error = null;
 
-    const dataId = `${raidNameToId(filter.raid)}${filter.spec}${combatMetric}`;
+    const dataId = `${raidNameToId(filter.raid)}${
+        filter.spec ? filter.spec : filter.role
+    }${combatMetric}`;
     if (!data[dataId]) {
         dispatch(
             fetchCharacterLeaderboardData({
@@ -79,7 +81,11 @@ function CharacterLeaderboard({ classes, theme }) {
         );
         filteredData = null;
     } else {
-        filteredData = filterChars(filter, data[dataId][filter.difficulty]);
+        filteredData = filterChars(
+            filter,
+            data[dataId][filter.difficulty],
+            specs
+        );
 
         loading = data[dataId].loading;
         error = data[dataId].error;
@@ -125,9 +131,10 @@ function CharacterLeaderboard({ classes, theme }) {
                                                     (page + 1) * rowsPerPage
                                                 )
                                                 .map((char, index) => {
-                                                    const realmName = shortRealmToFull(
-                                                        char.realm
-                                                    );
+                                                    const realmName =
+                                                        shortRealmToFull(
+                                                            char.realm
+                                                        );
                                                     return (
                                                         <TableRow
                                                             key={index}
@@ -192,14 +199,13 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                             }
                                                                             to={`/character/${char.name}?realm=${realmName}`}
                                                                             style={{
-                                                                                color:
-                                                                                    theme
-                                                                                        .palette
-                                                                                        .classColors[
-                                                                                        char
-                                                                                            .class
-                                                                                    ]
-                                                                                        .text
+                                                                                color: theme
+                                                                                    .palette
+                                                                                    .classColors[
+                                                                                    char
+                                                                                        .class
+                                                                                ]
+                                                                                    .text
                                                                             }}
                                                                         >
                                                                             {
@@ -228,11 +234,10 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                 {!char.f ? (
                                                                     <span
                                                                         style={{
-                                                                            color:
-                                                                                theme
-                                                                                    .palette
-                                                                                    .factionColors
-                                                                                    .alliance
+                                                                            color: theme
+                                                                                .palette
+                                                                                .factionColors
+                                                                                .alliance
                                                                         }}
                                                                     >
                                                                         Alliance
@@ -240,11 +245,10 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                 ) : (
                                                                     <span
                                                                         style={{
-                                                                            color:
-                                                                                theme
-                                                                                    .palette
-                                                                                    .factionColors
-                                                                                    .horde
+                                                                            color: theme
+                                                                                .palette
+                                                                                .factionColors
+                                                                                .horde
                                                                         }}
                                                                     >
                                                                         Horde

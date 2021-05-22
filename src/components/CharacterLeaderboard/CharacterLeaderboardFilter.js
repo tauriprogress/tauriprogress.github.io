@@ -160,6 +160,27 @@ function CharacterLeaderboardFilter({ classes, theme }) {
                 },
                 ...specOptions
             ]
+        },
+        {
+            name: "role",
+            options: [
+                {
+                    value: "",
+                    name: "all"
+                },
+                {
+                    value: "damage",
+                    name: "damage"
+                },
+                {
+                    value: "heal",
+                    name: "heal"
+                },
+                {
+                    value: "tank",
+                    name: "tank"
+                }
+            ]
         }
     ];
 

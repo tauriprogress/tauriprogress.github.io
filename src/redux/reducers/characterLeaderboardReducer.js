@@ -10,7 +10,8 @@ const defaultState = {
         class: "",
         spec: "",
         faction: "",
-        realm: ""
+        realm: "",
+        role: ""
     },
     loading: false,
     error: null,
@@ -28,10 +29,12 @@ function characterLeaderboardReducer(state = defaultState, action) {
                     class: "",
                     spec: "",
                     faction: "",
-                    realm: ""
+                    realm: "",
+                    role: ""
                 }
             };
         case "CHARACTER_LEADERBOARD_FILTER_SET":
+            console.log(action.payload);
             if (action.payload.filterName === "class") {
                 return {
                     ...state,
