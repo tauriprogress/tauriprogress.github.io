@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 
-import SpecImg from "../SpecImg";
+import Avatar from "../Avatar";
 import TitledContainer from "../TitledContainer";
 
 import { classImg } from "../../helpers";
@@ -57,9 +57,9 @@ function styles(theme) {
         },
         classImg: {
             marginRight: theme.spacing(0.5),
-            height: "24px",
-            width: "24px",
-            transform: "translate(0, 7px)"
+            height: "30px",
+            width: "30px",
+            transform: "translate(0, 3px)"
         }
     };
 }
@@ -90,7 +90,7 @@ function GuildRosterChart({
                         <Grid item key={charClass.classId}>
                             <Grid container wrap="nowrap">
                                 <Grid item>
-                                    <SpecImg
+                                    <Avatar
                                         className={classes.classImg}
                                         src={classImg(charClass.classId)}
                                         title={

@@ -3,9 +3,6 @@ import React, { useState } from "react";
 import { withStyles, withTheme } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
-
-import Link from "@material-ui/core/Link";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
@@ -21,7 +18,7 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
 import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
-import SpecImg from "../SpecImg";
+import CharacterName from "../CharacterName";
 import OverflowScroll from "../OverflowScroll";
 
 import { filterMembers } from "./helpers";
@@ -34,12 +31,6 @@ function styles(theme) {
         },
         cell: {
             padding: theme.spacing(1)
-        },
-        classImg: {
-            marginRight: "5px",
-            height: "18px",
-            width: "18px",
-            transform: "translate(0, 4px)"
         },
         textField: {
             width: "124px",
@@ -104,10 +95,9 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                 key={charClass.classId}
                                 value={charClass.classId}
                                 style={{
-                                    color:
-                                        theme.palette.classColors[
-                                            charClass.classId
-                                        ].text
+                                    color: theme.palette.classColors[
+                                        charClass.classId
+                                    ].text
                                 }}
                             >
                                 <span>
@@ -158,28 +148,18 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                                 <TableRow key={member.name}>
                                     <TableCell className={classes.cell}>
                                         <Typography>
-                                            <SpecImg
-                                                className={classes.classImg}
-                                                title={
+                                            <CharacterName
+                                                character={member}
+                                                specIcon={classImg(
+                                                    member.class
+                                                )}
+                                                specIconTitle={
                                                     characterClassNames[
                                                         member.class
                                                     ] || ""
                                                 }
-                                                src={classImg(member.class)}
+                                                realmName={realm}
                                             />
-                                            <Link
-                                                component={RouterLink}
-                                                to={`/character/${member.name}?realm=${realm}`}
-                                                style={{
-                                                    color:
-                                                        theme.palette
-                                                            .classColors[
-                                                            member.class
-                                                        ].text
-                                                }}
-                                            >
-                                                {member.name}
-                                            </Link>
                                         </Typography>
                                     </TableCell>
                                     <TableCell className={classes.cell}>

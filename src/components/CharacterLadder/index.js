@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
-
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
-import Link from "@material-ui/core/Link";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -18,10 +15,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 import DisplayDate from "../DisplayDate";
-import SpecImg from "../SpecImg";
 import InfoIcon from "../InfoIcon";
+import CharacterName from "../CharacterName";
 
-import { getSpecImg, shortRealmToFull } from "../../helpers";
+import { shortRealmToFull } from "../../helpers";
 import { filterChars } from "./helpers";
 
 function styles(theme) {
@@ -90,29 +87,12 @@ function CharacterLadder({
                                                         page * rowsPerPage}
                                                     .{" "}
                                                 </span>
-                                                <SpecImg
-                                                    src={getSpecImg(
-                                                        specs[char.spec].image
-                                                    )}
-                                                    title={
-                                                        specs[char.spec]
-                                                            .label || "No spec"
-                                                    }
-                                                />
 
-                                                <Link
-                                                    component={RouterLink}
-                                                    to={`/character/${char.name}?realm=${realmName}`}
-                                                    style={{
-                                                        color:
-                                                            theme.palette
-                                                                .classColors[
-                                                                char.class
-                                                            ].text
-                                                    }}
-                                                >
-                                                    {char.name}
-                                                </Link>
+                                                <CharacterName
+                                                    character={char}
+                                                    realmName={realmName}
+                                                    specs={specs}
+                                                />
                                             </Typography>
                                         </TableCell>
 

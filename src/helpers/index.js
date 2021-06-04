@@ -155,12 +155,11 @@ export function convertFightLength(time) {
     return `${mins}:${remainingSecs}`;
 }
 
-export function talentTreeToImage(fullSpecName, specs) {
+export function talentTreeToSpec(fullSpecName, specs) {
     const regexp = new RegExp(fullSpecName, "ig");
     for (let specKey in specs) {
         if (regexp.exec(specs[specKey].label)) {
-            const imageName = `${specs[specKey].image}.png`;
-            return require(`../assets/specs/${imageName}`);
+            return Number(specKey);
         }
     }
 

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Link from "@material-ui/core/Link";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -24,7 +22,7 @@ import PerformanceExplanation from "./PerformanceExplanation";
 
 import CharacterLeaderboardFilter from "./CharacterLeaderboardFilter";
 
-import SpecImg from "../SpecImg";
+import CharacterName from "../CharacterName";
 
 import { fetchCharacterLeaderboardData } from "../../redux/actions";
 
@@ -162,8 +160,14 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                                     rowsPerPage}
                                                                             .{" "}
                                                                         </span>
-                                                                        <SpecImg
-                                                                            src={
+                                                                        <CharacterName
+                                                                            character={
+                                                                                char
+                                                                            }
+                                                                            realmName={
+                                                                                realmName
+                                                                            }
+                                                                            specIcon={
                                                                                 filter.spec !==
                                                                                 ""
                                                                                     ? getSpecImg(
@@ -177,7 +181,7 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                                           char.class
                                                                                       )
                                                                             }
-                                                                            title={
+                                                                            specIconTitle={
                                                                                 filter.spec !==
                                                                                 ""
                                                                                     ? specs[
@@ -192,26 +196,6 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                                       ]
                                                                             }
                                                                         />
-
-                                                                        <Link
-                                                                            component={
-                                                                                RouterLink
-                                                                            }
-                                                                            to={`/character/${char.name}?realm=${realmName}`}
-                                                                            style={{
-                                                                                color: theme
-                                                                                    .palette
-                                                                                    .classColors[
-                                                                                    char
-                                                                                        .class
-                                                                                ]
-                                                                                    .text
-                                                                            }}
-                                                                        >
-                                                                            {
-                                                                                char.name
-                                                                            }
-                                                                        </Link>
                                                                     </Typography>
                                                                 </WithRealm>
                                                             </TableCell>

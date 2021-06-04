@@ -9,7 +9,7 @@ import Link from "@material-ui/core/Link";
 
 import WithRealm from "../WithRealm";
 import LogLink from "../LogLink";
-import SpecImg from "../SpecImg";
+import Avatar from "../Avatar";
 
 import { applyFilter } from "./helpers";
 
@@ -202,7 +202,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                         character[combatMetric]
                                                     )}
                                                 </LogLink>{" "}
-                                                <SpecImg
+                                                <Avatar
                                                     src={getSpecImg(
                                                         specs[character.spec]
                                                             .image
@@ -220,10 +220,9 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                         character.realm
                                                     )}`}
                                                     style={{
-                                                        color:
-                                                            classColors[
-                                                                character.class
-                                                            ].text
+                                                        color: classColors[
+                                                            character.class
+                                                        ].text
                                                     }}
                                                 >
                                                     {character.name}

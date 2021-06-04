@@ -11,9 +11,9 @@ import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
-import SpecImg from "../SpecImg";
+import CharacterName from "../CharacterName";
 
-import { talentTreeToImage } from "../../helpers";
+import { talentTreeToSpec } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -30,7 +30,7 @@ function styles(theme) {
         container: {
             textAlign: "center"
         },
-        specImg: {
+        avatar: {
             width: "30px",
             height: "30px",
             transform: "translate(0, 4px)",
@@ -50,7 +50,7 @@ function CharacterTitle({ classes, theme }) {
             data: state.character.data.data,
             armoryUrl: state.environment.urls.armory,
             characterClassNames: state.environment.characterClassNames,
-            specs: state.environment.specs
+            specs: useSelector(state => state.environment.specs)
         })
     );
 
@@ -67,24 +67,23 @@ function CharacterTitle({ classes, theme }) {
     return (
         <Container className={classes.container}>
             <Typography variant="h4" className={classes.characterName}>
-                <SpecImg
-                    title={fullSpecName}
-                    src={talentTreeToImage(fullSpecName, specs)}
-                    className={classes.specImg}
-                />
-                <Link
-                    href={`${armoryUrl}?${data.character_url_string.replace(
+                <CharacterName
+                    character={{
+                        name: data.tname || data.name,
+                        spec: talentTreeToSpec(fullSpecName, specs),
+                        race: `${data.race},${data.gender}`,
+                        class: data.class
+                    }}
+                    specIconClass={classes.avatar}
+                    raceIconClass={classes.avatar}
+                    linkTo={`${armoryUrl}?${data.character_url_string.replace(
                         "amp;",
                         ""
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                        color: classColors[data.class].text
-                    }}
-                >
-                    {data.tname || data.name}
-                </Link>
+                    specs={specs}
+                />
             </Typography>
             <Typography variant="button" className={classes.guildName}>
                 <Link

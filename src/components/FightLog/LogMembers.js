@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
-
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,13 +8,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 
 import OverflowScroll from "../OverflowScroll";
-import SpecImg from "../SpecImg";
+import CharacterName from "../CharacterName";
 
-import { getSpecImg } from "../../helpers";
 import { sortMembers } from "./helpers";
 
 const tableColumns = [
@@ -113,19 +108,12 @@ function LogTableHead({ sort, setSort }) {
     );
 }
 
-function LogMembers({ classes, data, theme }) {
-    const { specs } = useSelector(state => ({
-        specs: state.environment.specs
-    }));
-
+function LogMembers({ classes, data }) {
     const [sort, setSort] = useState({
         by: "dps",
         direction: "desc"
     });
 
-    const {
-        palette: { classColors }
-    } = theme;
     return (
         <OverflowScroll>
             <Table>
@@ -138,22 +126,13 @@ function LogMembers({ classes, data, theme }) {
                                     <span className={classes.bold}>
                                         {member.ilvl}{" "}
                                     </span>{" "}
-                                    <SpecImg
-                                        src={getSpecImg(
-                                            specs[member.spec].image
-                                        )}
-                                        title={specs[member.spec].label}
-                                    />
-                                    <Link
-                                        to={`/character/${member.name}?realm=${data.realm}`}
-                                        component={RouterLink}
-                                        style={{
-                                            color:
-                                                classColors[member.class].text
+                                    <CharacterName
+                                        character={{
+                                            ...member,
+                                            race: `${member.race},${member.gender}`
                                         }}
-                                    >
-                                        {member.name}
-                                    </Link>
+                                        realmName={data.realm}
+                                    />
                                 </Typography>
                             </TableCell>
 
@@ -246,4 +225,4 @@ function LogMembers({ classes, data, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(LogMembers));
+export default withStyles(styles)(LogMembers);
