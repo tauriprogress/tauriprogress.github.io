@@ -176,7 +176,10 @@ export function getRaceImg(imageName) {
 
 export function getRaceName(race) {
     const [raceId, genderId] = race.split(",");
-    return `${characterRaceNames[raceId]} ${genderId ? "Female" : "Male"}`;
+    console.log(genderId);
+    return `${characterRaceNames[raceId]} ${
+        Number(genderId) ? "Female" : "Male"
+    }`;
 }
 
 export function getFactionImg(faction) {
