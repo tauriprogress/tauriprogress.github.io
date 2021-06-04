@@ -1,4 +1,7 @@
-import constants, { shortRealms } from "tauriprogress-constants";
+import constants, {
+    shortRealms,
+    characterRaceNames
+} from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
     let realmNames = [];
@@ -166,6 +169,15 @@ export function talentTreeToImage(fullSpecName, specs) {
 
 export function getSpecImg(imageName) {
     return require(`../assets/specs/${imageName}.png`);
+}
+
+export function getRaceImg(imageName) {
+    return require(`../assets/races/${imageName}.jpg`);
+}
+
+export function getRaceName(race) {
+    const [raceId, genderId] = race.split(",");
+    return `${characterRaceNames[raceId]} ${genderId ? "Female" : "Male"}`;
 }
 
 export function shortNumber(number) {
