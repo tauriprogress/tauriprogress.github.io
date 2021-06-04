@@ -25,7 +25,6 @@ function styles(theme) {
     return {
         tab: {
             color: theme.palette.primary.contrastText,
-            backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center"
         },
@@ -106,7 +105,9 @@ function CharacterProgression({ classes }) {
                         label={raid.name}
                         className={classes.tab}
                         style={{
-                            backgroundImage: `url("${raidImg(raid.image)}")`
+                            backgroundImage: `url("${raidImg(raid.image)}")`,
+                            backgroundSize:
+                                realmGroup !== "tauri" ? "cover" : "default"
                         }}
                         onClick={() => selectRaid(raid.name)}
                     />
