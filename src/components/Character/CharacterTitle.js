@@ -1,5 +1,3 @@
-import { characterRaceNames } from "tauriprogress-constants";
-
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -59,7 +57,7 @@ function CharacterTitle({ classes, theme }) {
         return <div />;
     }
     const {
-        palette: { classColors, factionColors }
+        palette: { factionColors }
     } = theme;
     const fullSpecName = `${data["treeName_" + data.activeSpec]} ${
         characterClassNames[data.class]
