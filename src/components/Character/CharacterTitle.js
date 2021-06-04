@@ -12,8 +12,9 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
 import CharacterName from "../CharacterName";
+import Avatar from "../Avatar";
 
-import { talentTreeToSpec } from "../../helpers";
+import { talentTreeToSpec, getFactionImg } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -104,17 +105,6 @@ function CharacterTitle({ classes, theme }) {
                 className={classes.characterMetaData}
                 color="textSecondary"
             >
-                Level {data.level} {characterRaceNames[data.race]}
-                <br /> ilvl {data.avgitemlevel}{" "}
-                <span
-                    style={{
-                        color: classColors[data.class].text
-                    }}
-                >
-                    {fullSpecName}
-                </span>
-                <br />
-                {data.realm}{" "}
                 <span
                     style={{
                         color:
@@ -123,8 +113,17 @@ function CharacterTitle({ classes, theme }) {
                                 : factionColors.horde
                     }}
                 >
+                    <Avatar
+                        src={getFactionImg(
+                            data.faction_string_class === "Alliance" ? 0 : 1
+                        )}
+                        title={data.faction_string_class}
+                    />{" "}
                     {data.faction_string_class}
-                </span>
+                </span>{" "}
+                {data.realm}
+                <br />
+                LEVEL {data.level}, ILVL {data.avgitemlevel}
             </Typography>
         </Container>
     );
