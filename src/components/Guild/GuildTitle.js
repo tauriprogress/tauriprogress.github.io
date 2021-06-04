@@ -8,8 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 
-import allianceEmblem from "../../assets/faction/alliance.png";
-import hordeEmblem from "../../assets/faction/horde.png";
+import { getFactionImg } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -36,7 +35,7 @@ function GuildTitle({ classes, theme }) {
         realm: state.guild.data.realm
     }));
 
-    const emblem = faction ? hordeEmblem : allianceEmblem;
+    const emblem = getFactionImg(faction);
 
     const {
         palette: { factionColors }

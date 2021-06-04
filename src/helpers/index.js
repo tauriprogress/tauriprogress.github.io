@@ -179,6 +179,10 @@ export function getRaceName(race) {
     return `${characterRaceNames[raceId]} ${genderId ? "Female" : "Male"}`;
 }
 
+export function getFactionImg(faction) {
+    return require(`../assets/faction/${!faction ? "alliance" : "horde"}.png`);
+}
+
 export function shortNumber(number) {
     if (number < 1000) {
         return Math.round(number);
