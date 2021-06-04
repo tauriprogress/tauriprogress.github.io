@@ -17,7 +17,6 @@ import {
     changeEnvironmentRealmGroup
 } from "../../redux/actions";
 
-import discordIcon from "../../assets/social/discord.svg";
 import wotlkIcon from "../../assets/expansionIcon/wotlk.png";
 import mopIcon from "../../assets/expansionIcon/mop.png";
 
@@ -31,19 +30,6 @@ function styles(theme) {
         textItem: {
             fontWeight: "500",
             position: "relative"
-        },
-        customLink: {
-            color: "inherit",
-            textDecoration: "none",
-            marginLeft: "26px"
-        },
-        discordLogo: {
-            position: "absolute",
-            left: 0,
-            width: "24px",
-            height: "24px",
-            marginRight: "4px",
-            transform: "translate(0, -2px)"
         },
         verticalCenter: {
             display: "flex",
@@ -79,25 +65,6 @@ function NavItems({ classes }) {
                 </div>
             </Grid>
 
-            <Grid item className={classes.verticalCenter}>
-                <div>
-                    <Typography className={classes.textItem}>
-                        <a
-                            href="https://discordapp.com/invite/3RWayqd"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className={classes.customLink}
-                        >
-                            <img
-                                src={discordIcon}
-                                alt="discord"
-                                className={classes.discordLogo}
-                            />
-                            Discord
-                        </a>
-                    </Typography>
-                </div>
-            </Grid>
             <Grid item className={classes.verticalCenter}>
                 <div>
                     <Typography className={classes.textItem}>

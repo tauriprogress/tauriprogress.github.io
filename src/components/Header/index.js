@@ -13,6 +13,8 @@ import Brightness from "@material-ui/icons/Brightness4";
 import Items from "./Items";
 import AdditionalInfo from "../AdditionalInfo";
 
+import discordIcon from "../../assets/social/discord.svg";
+
 import { themeToggle } from "../../redux/actions";
 
 export const headerHeight = "55px";
@@ -40,6 +42,23 @@ function styles(theme) {
         verticalCenter: {
             display: "flex",
             alignItems: "center"
+        },
+        textItem: {
+            fontWeight: "500",
+            position: "relative"
+        },
+        customLink: {
+            color: "inherit",
+            textDecoration: "none",
+            marginLeft: "26px"
+        },
+        discordLogo: {
+            position: "absolute",
+            left: 0,
+            width: "24px",
+            height: "24px",
+            marginRight: "4px",
+            transform: "translate(0, -2px)"
         }
     };
 }
@@ -62,6 +81,25 @@ function Header({ classes }) {
                     </Grid>
                     <Grid item>
                         <Grid container className={classes.stretchHeight}>
+                            <Grid item className={classes.verticalCenter}>
+                                <div>
+                                    <Typography className={classes.textItem}>
+                                        <a
+                                            href="https://discordapp.com/invite/3RWayqd"
+                                            target="_blank"
+                                            rel="noreferrer noopener"
+                                            className={classes.customLink}
+                                        >
+                                            <img
+                                                src={discordIcon}
+                                                alt="discord"
+                                                className={classes.discordLogo}
+                                            />
+                                            Discord
+                                        </a>
+                                    </Typography>
+                                </div>
+                            </Grid>
                             <Grid item className={classes.verticalCenter}>
                                 <div>
                                     <Typography>
