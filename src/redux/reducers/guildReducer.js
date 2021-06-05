@@ -13,8 +13,8 @@ const defaultState = {
     realm: null,
     progressionFilter: {
         raid: constants[defaultRealmGroup].currentContent.name,
-        boss:
-            constants[defaultRealmGroup].currentContent.raids[0].bosses[0].name,
+        boss: constants[defaultRealmGroup].currentContent.raids[0].bosses[0]
+            .name,
         difficulty: defaultDifficulty,
         class: "",
         spec: "",
@@ -32,9 +32,8 @@ function guildReducer(state = defaultState, action) {
                 ...state,
                 progressionFilter: {
                     raid: constants[action.payload].currentContent.name,
-                    boss:
-                        constants[action.payload].currentContent.raids[0]
-                            .bosses[0].name,
+                    boss: constants[action.payload].currentContent.raids[0]
+                        .bosses[0].name,
                     difficulty: getDefaultDifficulty(action.payload),
                     class: "",
                     spec: "",
@@ -171,6 +170,7 @@ function guildReducer(state = defaultState, action) {
                     }
                 }
             }
+
             return {
                 ...state,
                 data: {

@@ -39,11 +39,12 @@ function styles(theme) {
     };
 }
 
-function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
+function GuildRosterList({ classes, theme, members, classInfo }) {
     const rowsPerPage = 10;
-    const { realm, characterClassNames } = useSelector(state => ({
+    const { realm, characterClassNames, ranks } = useSelector(state => ({
         realm: state.guild.data.realm,
-        characterClassNames: state.environment.characterClassNames
+        characterClassNames: state.environment.characterClassNames,
+        ranks: state.guild.data.ranks
     }));
 
     const [page, setPage] = useState(0);
@@ -52,7 +53,6 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
         rankName: "",
         class: ""
     });
-
     const filteredMembers = filterMembers(members, filter);
 
     return (
@@ -143,6 +143,15 @@ function GuildRosterList({ classes, theme, members, ranks, classInfo }) {
                     </TableHead>
                     <TableBody>
                         {filteredMembers
+                            .sort((a, b) => {
+                                const aRank = ranks.indexOf(a.rankName);
+                                const bRank = ranks.indexOf(b.rankName);
+
+                                return (
+                                    (aRank > -1 ? aRank : 30) -
+                                    (bRank > -1 ? bRank : 30)
+                                );
+                            })
                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
                             .map(member => (
                                 <TableRow key={member.name}>

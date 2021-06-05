@@ -32,25 +32,18 @@ function GuildRoster({ classes }) {
     let countClasses = {};
     let classInfo = [];
     let maxClassCount = 0;
-    let nameRanks = {};
-    let ranks = [];
 
     for (let classId in characterClassNames) {
         countClasses[classId] = 0;
     }
     for (let member of members) {
         countClasses[member.class] += 1;
-        nameRanks[member.rankName] = true;
     }
 
     for (let classId in countClasses) {
         if (countClasses[classId] > maxClassCount)
             maxClassCount = countClasses[classId];
         classInfo.push({ classId, count: countClasses[classId] });
-    }
-
-    for (let rankName in nameRanks) {
-        ranks.push(rankName);
     }
 
     return (
@@ -63,11 +56,7 @@ function GuildRoster({ classes }) {
                 />
             </Grid>
             <Grid item className={classes.gridItemFlex}>
-                <GuildRosterList
-                    members={members}
-                    classInfo={classInfo}
-                    ranks={ranks}
-                />
+                <GuildRosterList members={members} classInfo={classInfo} />
             </Grid>
             <Grid item>
                 <GuildLatestKills />

@@ -176,7 +176,6 @@ export function getRaceImg(imageName) {
 
 export function getRaceName(race) {
     const [raceId, genderId] = race.split(",");
-    console.log(genderId);
     return `${characterRaceNames[raceId]} ${
         Number(genderId) ? "Female" : "Male"
     }`;
