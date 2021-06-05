@@ -55,6 +55,13 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
     });
     const filteredMembers = filterMembers(members, filter);
 
+    function changeFilter(filter) {
+        if (page > 0) {
+            setPage(0);
+        }
+        setFilter(filter);
+    }
+
     return (
         <div className={classes.container}>
             <FilterContainer>
@@ -63,7 +70,7 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                     label="Name"
                     value={filter.name}
                     onChange={e =>
-                        setFilter({
+                        changeFilter({
                             ...filter,
                             name: e.target.value
                         })
@@ -76,7 +83,7 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                     <Select
                         value={filter.class}
                         onChange={e =>
-                            setFilter({
+                            changeFilter({
                                 ...filter,
                                 class: e.target.value
                             })
@@ -113,7 +120,7 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                     <Select
                         value={filter.rankName}
                         onChange={e =>
-                            setFilter({
+                            changeFilter({
                                 ...filter,
                                 rankName: e.target.value
                             })
