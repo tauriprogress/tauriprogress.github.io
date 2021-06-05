@@ -19,10 +19,10 @@ import {
 const primary = "#1d2124";
 const secondary = deepOrange[500];
 
-const light = "#fff7f2";
-const lightAccent = "#f5efeb";
+const light = "#f9f9f9";
+const lightAccent = "#efefef";
 const lightBackgroundDefault = light;
-const lightBackgroundLighter = "#fdfdfd";
+const lightBackgroundLighter = "#fefefe";
 const lightBackgroundDarker = "#d5d5d5";
 const lightPSecondary = deepOrange[900];
 
@@ -355,6 +355,11 @@ const defaultState = {
                 root: {
                     backgroundColor: lightBackgroundDarker
                 }
+            },
+            MuiDialog: {
+                paper: {
+                    backgroundColor: lightBackgroundDefault
+                }
             }
         }
     }),
@@ -396,6 +401,11 @@ const defaultState = {
             MuiTabs: {
                 root: {
                     backgroundColor: darkBackgroundDarker
+                }
+            },
+            MuiDialog: {
+                paper: {
+                    backgroundColor: darkBackgroundDefault
                 }
             }
         }
