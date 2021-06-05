@@ -41,9 +41,6 @@ function styles(theme) {
         uppercase: {
             textTransform: "uppercase"
         },
-        bold: {
-            fontWeight: "bold"
-        },
         cell: {
             padding: theme.spacing(1)
         },
@@ -53,9 +50,16 @@ function styles(theme) {
             alignItems: "center",
             justifyContent: "right",
             padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
-            "& p": {
-                fontSize: `${18 / 16}rem`
-            }
+            fontWeight: "bold"
+        },
+        firstCellName: {
+            paddingLeft: theme.spacing(10)
+        },
+        containerGrid: {
+            height: "40px"
+        },
+        tableHead: {
+            height: "58px"
         }
     };
 }
@@ -122,9 +126,15 @@ function CharacterLeaderboard({ classes, theme }) {
                         {!loading && !error && filteredData && (
                             <React.Fragment>
                                 <Table>
-                                    <TableHead>
+                                    <TableHead className={classes.tableHead}>
                                         <TableRow>
-                                            <TableCell>Name</TableCell>
+                                            <TableCell
+                                                className={
+                                                    classes.firstCellName
+                                                }
+                                            >
+                                                Name
+                                            </TableCell>
                                             <TableCell>
                                                 <PerformanceExplanation />
                                             </TableCell>
@@ -154,24 +164,23 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                     classes.cell
                                                                 }
                                                             >
-                                                                <Grid container>
+                                                                <Grid
+                                                                    container
+                                                                    className={
+                                                                        classes.containerGrid
+                                                                    }
+                                                                >
                                                                     <Grid
                                                                         item
                                                                         className={
                                                                             classes.rank
                                                                         }
                                                                     >
-                                                                        <span
-                                                                            className={
-                                                                                classes.bold
-                                                                            }
-                                                                        >
-                                                                            {index +
-                                                                                1 +
-                                                                                page *
-                                                                                    rowsPerPage}
-                                                                            .{" "}
-                                                                        </span>
+                                                                        {index +
+                                                                            1 +
+                                                                            page *
+                                                                                rowsPerPage}
+                                                                        .
                                                                     </Grid>
                                                                     <Grid item>
                                                                         <WithRealm

@@ -44,15 +44,9 @@ function styles(theme) {
             alignItems: "center",
             justifyContent: "right",
             padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
-            "& p": {
-                fontSize: `${18 / 16}rem`
-            }
+            fontWeight: "bold"
         },
-        name: {
-            fontSize: `${18 / 16}rem`,
-            lineHeight: `${20 / 16}rem`
-        },
-        tableHead: {
+        firstCellName: {
             paddingLeft: theme.spacing(10)
         },
         tableBody: {
@@ -78,6 +72,12 @@ function styles(theme) {
         },
         differenceText: {
             color: theme.palette.progStateColors.defeated
+        },
+        containerGrid: {
+            height: "40px"
+        },
+        tableHead: {
+            height: "58px"
         }
     };
 }
@@ -109,9 +109,11 @@ function GuildLeaderboard({ theme, classes }) {
                     </Tabs>
                     <OverflowScroll>
                         <Table>
-                            <TableHead>
+                            <TableHead className={classes.tableHead}>
                                 <TableRow>
-                                    <TableCell className={classes.tableHead}>
+                                    <TableCell
+                                        className={classes.firstCellName}
+                                    >
                                         Guild
                                     </TableCell>
                                     <TableCell colSpan={2}>Time</TableCell>
@@ -153,10 +155,14 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
     return (
         <React.Fragment>
             <TableRow onClick={toggleOpen} className={classes.row}>
-                <TableCell>
-                    <Grid container wrap="nowrap">
+                <TableCell className={classes.cell}>
+                    <Grid
+                        container
+                        wrap="nowrap"
+                        className={classes.containerGrid}
+                    >
                         <Grid item className={`${classes.rank} rank`}>
-                            <Typography color="inherit">{index + 1}</Typography>
+                            {index + 1}.
                         </Grid>
                         <Grid item>
                             <WithRealm realmName={guild.realm}>
@@ -177,12 +183,12 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
                         </Grid>
                     </Grid>
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cell}>
                     {convertFightLength(
                         guild.ranking[filter.raid][filter.difficulty][tab].time
                     )}
                 </TableCell>
-                <TableCell>
+                <TableCell className={classes.cell}>
                     <Typography>
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </Typography>
