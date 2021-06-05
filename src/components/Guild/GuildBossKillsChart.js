@@ -24,7 +24,8 @@ function styles(theme) {
         container: {
             width: "280px",
             padding: theme.spacing(1),
-            margin: `${theme.spacing(1)}px 0`
+            margin: `${theme.spacing(1)}px 0`,
+            backgroundColor: theme.palette.background.darker
         },
         title: {
             fontSize: `${16 / 16}rem`,
