@@ -31,7 +31,7 @@ function GuildBossKillsDays({ classes }) {
         <section className={classes.container}>
             <div className={classes.contentContainer}>
                 <Typography variant="h5" className={classes.title}>
-                    Boss kills / day
+                    Boss kills
                 </Typography>
                 <Grid container justify={"space-around"}>
                     <Grid item>
