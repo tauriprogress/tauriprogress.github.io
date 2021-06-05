@@ -13,6 +13,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
@@ -45,6 +46,16 @@ function styles(theme) {
         },
         cell: {
             padding: theme.spacing(1)
+        },
+        rank: {
+            minWidth: "70px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+            padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
+            "& p": {
+                fontSize: `${18 / 16}rem`
+            }
         }
     };
 }
@@ -143,12 +154,13 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                     classes.cell
                                                                 }
                                                             >
-                                                                <WithRealm
-                                                                    realmName={
-                                                                        realmName
-                                                                    }
-                                                                >
-                                                                    <Typography color="inherit">
+                                                                <Grid container>
+                                                                    <Grid
+                                                                        item
+                                                                        className={
+                                                                            classes.rank
+                                                                        }
+                                                                    >
                                                                         <span
                                                                             className={
                                                                                 classes.bold
@@ -160,44 +172,54 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                                     rowsPerPage}
                                                                             .{" "}
                                                                         </span>
-                                                                        <CharacterName
-                                                                            character={
-                                                                                char
-                                                                            }
+                                                                    </Grid>
+                                                                    <Grid item>
+                                                                        <WithRealm
                                                                             realmName={
                                                                                 realmName
                                                                             }
-                                                                            specIcon={
-                                                                                filter.spec !==
-                                                                                ""
-                                                                                    ? getSpecImg(
-                                                                                          specs[
-                                                                                              char
-                                                                                                  .spec
-                                                                                          ]
-                                                                                              .image
-                                                                                      )
-                                                                                    : classImg(
-                                                                                          char.class
-                                                                                      )
-                                                                            }
-                                                                            specIconTitle={
-                                                                                filter.spec !==
-                                                                                ""
-                                                                                    ? specs[
-                                                                                          char
-                                                                                              .spec
-                                                                                      ]
-                                                                                          .label ||
-                                                                                      "No spec"
-                                                                                    : characterClassNames[
-                                                                                          char
-                                                                                              .class
-                                                                                      ]
-                                                                            }
-                                                                        />
-                                                                    </Typography>
-                                                                </WithRealm>
+                                                                        >
+                                                                            <Typography color="inherit">
+                                                                                <CharacterName
+                                                                                    character={
+                                                                                        char
+                                                                                    }
+                                                                                    realmName={
+                                                                                        realmName
+                                                                                    }
+                                                                                    specIcon={
+                                                                                        filter.spec !==
+                                                                                        ""
+                                                                                            ? getSpecImg(
+                                                                                                  specs[
+                                                                                                      char
+                                                                                                          .spec
+                                                                                                  ]
+                                                                                                      .image
+                                                                                              )
+                                                                                            : classImg(
+                                                                                                  char.class
+                                                                                              )
+                                                                                    }
+                                                                                    specIconTitle={
+                                                                                        filter.spec !==
+                                                                                        ""
+                                                                                            ? specs[
+                                                                                                  char
+                                                                                                      .spec
+                                                                                              ]
+                                                                                                  .label ||
+                                                                                              "No spec"
+                                                                                            : characterClassNames[
+                                                                                                  char
+                                                                                                      .class
+                                                                                              ]
+                                                                                    }
+                                                                                />
+                                                                            </Typography>
+                                                                        </WithRealm>
+                                                                    </Grid>
+                                                                </Grid>
                                                             </TableCell>
                                                             <TableCell
                                                                 className={`${classes.bold} ${classes.cell}`}
