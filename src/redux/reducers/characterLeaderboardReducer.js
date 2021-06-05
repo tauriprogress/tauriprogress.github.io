@@ -34,7 +34,6 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 }
             };
         case "CHARACTER_LEADERBOARD_FILTER_SET":
-            console.log(action.payload);
             if (action.payload.filterName === "class") {
                 return {
                     ...state,

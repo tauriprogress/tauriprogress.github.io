@@ -28,7 +28,6 @@ function* fetchRecentKillsOfCharacter({ payload }) {
         );
 
         if (loading) {
-            console.log("what about this");
             return;
         }
 
