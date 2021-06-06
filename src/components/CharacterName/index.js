@@ -23,7 +23,6 @@ function CharacterName({
     classes,
     character,
     realmName,
-    specs,
     specIcon,
     specIconTitle,
     raceIconClass = "",
@@ -31,9 +30,7 @@ function CharacterName({
     linkTo,
     ...rest
 }) {
-    if (!specs) {
-        specs = useSelector(state => state.environment.specs);
-    }
+    const specs = useSelector(state => state.environment.specs);
 
     return (
         <React.Fragment>

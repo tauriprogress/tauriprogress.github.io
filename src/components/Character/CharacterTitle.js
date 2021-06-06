@@ -81,7 +81,6 @@ function CharacterTitle({ classes, theme }) {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    specs={specs}
                 />
             </Typography>
             <Typography variant="button" className={classes.guildName}>
