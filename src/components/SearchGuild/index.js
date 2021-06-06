@@ -25,15 +25,13 @@ function styles() {
 
 function SearchGuild({ classes, history }) {
     const { guilds, realmGroup } = useSelector(state => {
-        if (!state.guildList.data) {
-            return [];
-        }
-
         return {
-            guilds: state.guildList.data.map(guild => ({
-                name: guild.name,
-                realm: guild.realm
-            })),
+            guilds: state.guildList.data
+                ? state.guildList.data.map(guild => ({
+                      name: guild.name,
+                      realm: guild.realm
+                  }))
+                : [],
             realmGroup: state.environment.realmGroup
         };
     });
