@@ -66,32 +66,39 @@ function styles(theme) {
 
 function CharacterLeaderboard({ classes, theme }) {
     const rowsPerPage = 30;
+
     const dispatch = useDispatch();
-    const { data, filter } = useSelector(state => state.characterLeaderboard);
-    const [combatMetric, selectCombatMetric] = useState("dps");
-    const [page, setPage] = useState(0);
-    const { specs, characterClassNames } = useSelector(state => ({
+
+    const { data, filter, specs, characterClassNames } = useSelector(state => ({
+        ...state.characterLeaderboard,
         specs: state.environment.specs,
         characterClassNames: state.environment.characterClassNames
     }));
+
+    const [combatMetric, selectCombatMetric] = useState("dps");
+    const [page, setPage] = useState(0);
 
     useEffect(() => {
         setPage(0);
     }, [combatMetric, data, filter]);
 
+    const dataId = `${raidNameToId(filter.raid)}${
+        filter.spec ? filter.spec : filter.role
+    }${combatMetric}`;
+
     let filteredData = [];
     let loading = false;
     let error = null;
 
-    const dataId = `${raidNameToId(filter.raid)}${
-        filter.spec ? filter.spec : filter.role
-    }${combatMetric}`;
-    if (!data[dataId]) {
+    useEffect(() => {
         dispatch(
             fetchCharacterLeaderboardData({
                 dataId
             })
         );
+    }, [dataId, dispatch]);
+
+    if (!data[dataId]) {
         filteredData = null;
     } else {
         filteredData = filterChars(
@@ -143,136 +150,132 @@ function CharacterLeaderboard({ classes, theme }) {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {filteredData &&
-                                            filteredData
-                                                .slice(
-                                                    page * rowsPerPage,
-                                                    (page + 1) * rowsPerPage
-                                                )
-                                                .map((char, index) => {
-                                                    const realmName =
-                                                        shortRealmToFull(
-                                                            char.realm
-                                                        );
-                                                    return (
-                                                        <TableRow
-                                                            key={index}
-                                                            hover
+                                        {filteredData
+                                            .slice(
+                                                page * rowsPerPage,
+                                                (page + 1) * rowsPerPage
+                                            )
+                                            .map((char, index) => {
+                                                const realmName =
+                                                    shortRealmToFull(
+                                                        char.realm
+                                                    );
+                                                return (
+                                                    <TableRow key={index} hover>
+                                                        <TableCell
+                                                            className={
+                                                                classes.cell
+                                                            }
                                                         >
-                                                            <TableCell
+                                                            <Grid
+                                                                container
                                                                 className={
-                                                                    classes.cell
+                                                                    classes.containerGrid
                                                                 }
                                                             >
                                                                 <Grid
-                                                                    container
+                                                                    item
                                                                     className={
-                                                                        classes.containerGrid
+                                                                        classes.rank
                                                                     }
                                                                 >
-                                                                    <Grid
-                                                                        item
-                                                                        className={
-                                                                            classes.rank
+                                                                    {index +
+                                                                        1 +
+                                                                        page *
+                                                                            rowsPerPage}
+                                                                    .
+                                                                </Grid>
+                                                                <Grid item>
+                                                                    <WithRealm
+                                                                        realmName={
+                                                                            realmName
                                                                         }
                                                                     >
-                                                                        {index +
-                                                                            1 +
-                                                                            page *
-                                                                                rowsPerPage}
-                                                                        .
-                                                                    </Grid>
-                                                                    <Grid item>
-                                                                        <WithRealm
-                                                                            realmName={
-                                                                                realmName
-                                                                            }
-                                                                        >
-                                                                            <Typography color="inherit">
-                                                                                <CharacterName
-                                                                                    character={
-                                                                                        char
-                                                                                    }
-                                                                                    realmName={
-                                                                                        realmName
-                                                                                    }
-                                                                                    specIcon={
-                                                                                        filter.spec !==
-                                                                                        ""
-                                                                                            ? getSpecImg(
-                                                                                                  specs[
-                                                                                                      char
-                                                                                                          .spec
-                                                                                                  ]
-                                                                                                      .image
-                                                                                              )
-                                                                                            : classImg(
-                                                                                                  char.class
-                                                                                              )
-                                                                                    }
-                                                                                    specIconTitle={
-                                                                                        filter.spec !==
-                                                                                        ""
-                                                                                            ? specs[
+                                                                        <Typography color="inherit">
+                                                                            <CharacterName
+                                                                                character={
+                                                                                    char
+                                                                                }
+                                                                                realmName={
+                                                                                    realmName
+                                                                                }
+                                                                                specIcon={
+                                                                                    filter.spec !==
+                                                                                    ""
+                                                                                        ? getSpecImg(
+                                                                                              specs[
                                                                                                   char
                                                                                                       .spec
                                                                                               ]
-                                                                                                  .label ||
-                                                                                              "No spec"
-                                                                                            : characterClassNames[
-                                                                                                  char
-                                                                                                      .class
-                                                                                              ]
-                                                                                    }
-                                                                                />
-                                                                            </Typography>
-                                                                        </WithRealm>
-                                                                    </Grid>
+                                                                                                  .image
+                                                                                          )
+                                                                                        : classImg(
+                                                                                              char.class
+                                                                                          )
+                                                                                }
+                                                                                specIconTitle={
+                                                                                    filter.spec !==
+                                                                                    ""
+                                                                                        ? specs[
+                                                                                              char
+                                                                                                  .spec
+                                                                                          ]
+                                                                                              .label ||
+                                                                                          "No spec"
+                                                                                        : characterClassNames[
+                                                                                              char
+                                                                                                  .class
+                                                                                          ]
+                                                                                }
+                                                                            />
+                                                                        </Typography>
+                                                                    </WithRealm>
                                                                 </Grid>
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={`${classes.bold} ${classes.cell}`}
-                                                            >
-                                                                {char.topPercent.toFixed(
-                                                                    1
-                                                                )}
-                                                                %
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={` ${classes.cell}`}
-                                                            >
-                                                                {char.ilvl}
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={`${classes.cell}`}
-                                                            >
-                                                                {!char.f ? (
-                                                                    <span
-                                                                        style={{
-                                                                            color: theme
-                                                                                .palette
-                                                                                .factionColors
-                                                                                .alliance
-                                                                        }}
-                                                                    >
-                                                                        Alliance
-                                                                    </span>
-                                                                ) : (
-                                                                    <span
-                                                                        style={{
-                                                                            color: theme
-                                                                                .palette
-                                                                                .factionColors
-                                                                                .horde
-                                                                        }}
-                                                                    >
-                                                                        Horde
-                                                                    </span>
-                                                                )}
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    );
-                                                })}
+                                                            </Grid>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            className={`${classes.bold} ${classes.cell}`}
+                                                        >
+                                                            {char.topPercent.toFixed(
+                                                                1
+                                                            )}
+                                                            %
+                                                        </TableCell>
+                                                        <TableCell
+                                                            className={` ${classes.cell}`}
+                                                        >
+                                                            {char.ilvl}
+                                                        </TableCell>
+                                                        <TableCell
+                                                            className={`${classes.cell}`}
+                                                        >
+                                                            {!char.f ? (
+                                                                <span
+                                                                    style={{
+                                                                        color: theme
+                                                                            .palette
+                                                                            .factionColors
+                                                                            .alliance
+                                                                    }}
+                                                                >
+                                                                    Alliance
+                                                                </span>
+                                                            ) : (
+                                                                <span
+                                                                    style={{
+                                                                        color: theme
+                                                                            .palette
+                                                                            .factionColors
+                                                                            .horde
+                                                                    }}
+                                                                >
+                                                                    Horde
+                                                                </span>
+                                                            )}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                );
+                                            })}
                                     </TableBody>
                                 </Table>
                                 {filteredData && (

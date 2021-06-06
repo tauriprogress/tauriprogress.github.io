@@ -20,6 +20,12 @@ async function getData(serverUrl, dataId) {
 function* fetchCharacterLeaderboard({ payload }) {
     const { dataId } = payload;
     try {
+        const dataExists = yield select(state =>
+            state.characterLeaderboard.data[dataId] ? true : false
+        );
+
+        if (dataExists) return;
+
         yield put(setCharacterLeaderboardLoading(dataId));
 
         const serverUrl = yield select(state => state.environment.urls.server);
