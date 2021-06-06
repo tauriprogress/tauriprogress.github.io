@@ -20,10 +20,10 @@ function validateRealm() {
                     realmGroup: state.environment.realmGroup
                 }));
                 const currentRealm = getRealmFromLocation(location);
+                const dispatch = useDispatch();
 
                 if (validRealm(currentRealm)) {
                     if (!realmOfRealmGroup(currentRealm, realms)) {
-                        const dispatch = useDispatch();
                         dispatch(
                             changeEnvironmentRealmGroup(
                                 realmGroup === "tauri" ? "crystalsong" : "tauri"

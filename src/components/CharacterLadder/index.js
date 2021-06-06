@@ -40,7 +40,6 @@ function CharacterLadder({
     classes,
     type,
     data,
-    theme,
     rowsPerPage = 30
 }) {
     const specs = useSelector(state => state.environment.specs);
@@ -91,7 +90,6 @@ function CharacterLadder({
                                                 <CharacterName
                                                     character={char}
                                                     realmName={realmName}
-                                                    specs={specs}
                                                 />
                                             </Typography>
                                         </TableCell>
