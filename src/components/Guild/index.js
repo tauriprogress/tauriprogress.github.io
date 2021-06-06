@@ -34,7 +34,7 @@ function Guild({ match, location }) {
 
     useEffect(() => {
         dispatch(fetchGuild({ guildName: guildName, realm: realm }));
-    }, [guildName, realm]);
+    }, [guildName, realm, dispatch]);
     return (
         <Page title={`${match.params.guildName} | Tauri Progress`}>
             <section>

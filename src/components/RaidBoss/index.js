@@ -48,18 +48,16 @@ function RaidBoss({ match }) {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (match.params.bossName !== bossName) {
-            dispatch(
-                fetchRaidBoss({
-                    raidId: raidNameToId[match.params.raidName],
-                    bossName: match.params.bossName
-                })
-            );
+        dispatch(
+            fetchRaidBoss({
+                raidId: raidNameToId[match.params.raidName],
+                bossName: match.params.bossName
+            })
+        );
 
-            dispatch(setSelectedNavigationItem(match.params.bossName));
-        }
+        dispatch(setSelectedNavigationItem(match.params.bossName));
         return () => dispatch(setSelectedNavigationItem(null));
-    }, [match.params.bossName]);
+    }, [match.params.bossName, match.params.raidName, dispatch]);
 
     return (
         <React.Fragment>

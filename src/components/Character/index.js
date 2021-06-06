@@ -36,7 +36,7 @@ function Character({ classes, match, location }) {
 
     useEffect(() => {
         dispatch(fetchCharacterData({ characterName: characterName, realm }));
-    }, [characterName, realm]);
+    }, [characterName, realm, dispatch]);
 
     return (
         <Page

@@ -18,6 +18,9 @@ function* fetchRaidBoss({ payload }) {
     try {
         const { raidId, bossName } = payload;
 
+        const oldBossName = yield select(state => state.raidBoss.bossName);
+        if (oldBossName === bossName) return;
+
         yield put(setRaidBossLoading({ raidId, bossName }));
 
         const serverUrl = yield select(state => state.environment.urls.server);

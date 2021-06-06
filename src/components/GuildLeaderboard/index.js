@@ -94,7 +94,7 @@ function GuildLeaderboard({ theme, classes }) {
 
     useEffect(() => {
         dispatch(guildLeaderboardFetch(realmGroup));
-    }, [realmGroup]);
+    }, [realmGroup, dispatch]);
 
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>

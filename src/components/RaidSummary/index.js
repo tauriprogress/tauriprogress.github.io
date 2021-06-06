@@ -28,34 +28,27 @@ function styles(theme) {
 function RaidSummary({ classes, match }) {
     const raidName = match.params.raidName;
 
-    const { raidId, loading, error, data, raid, filter, specs } = useSelector(
-        state => {
-            return {
-                ...state.raidSummary,
-                raid: state.environment.currentContent.raids.reduce(
-                    (acc, raid) => {
-                        if (raid.id === state.raidSummary.raidId) {
-                            acc = raid;
-                        }
-                        return acc;
-                    },
-                    null
-                ),
-                filter: state.raid.filter,
-                specs: state.environment.specs
-            };
-        }
-    );
+    const { loading, error, data, raid, filter, specs } = useSelector(state => {
+        return {
+            ...state.raidSummary,
+            raid: state.environment.currentContent.raids.reduce((acc, raid) => {
+                if (raid.id === state.raidSummary.raidId) {
+                    acc = raid;
+                }
+                return acc;
+            }, null),
+            filter: state.raid.filter,
+            specs: state.environment.specs
+        };
+    });
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if (raidNameToId[raidName] !== raidId) {
-            dispatch(fetchRaidSummary(raidNameToId[raidName]));
-        }
+        dispatch(fetchRaidSummary(raidNameToId[raidName]));
         dispatch(setSelectedNavigationItem(raidName));
 
         return () => dispatch(setSelectedNavigationItem(null));
-    }, [raidName]);
+    }, [raidName, dispatch]);
 
     return (
         <div>

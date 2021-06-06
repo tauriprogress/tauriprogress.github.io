@@ -53,7 +53,7 @@ function SearchGuild({ classes, history }) {
 
     useEffect(() => {
         dispatch(guildsFetch(realmGroup));
-    }, [realmGroup]);
+    }, [realmGroup, dispatch]);
 
     return (
         <form

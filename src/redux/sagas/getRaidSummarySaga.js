@@ -19,6 +19,9 @@ async function getData(serverUrl, raidId) {
 
 function* fetchRaidSummary({ payload: raidId }) {
     try {
+        const oldRaidId = yield select(state => state.raidSummary.raidId);
+        if (raidId === oldRaidId) return;
+
         yield put(
             setRaidSummaryLoading({
                 raidId: raidId,

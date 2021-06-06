@@ -42,8 +42,6 @@ function CharacterProgression({ classes }) {
         selectedRaid,
         characterClass,
         raids,
-        characterName,
-        realm,
         currentContentName,
         realmGroup
     } = useSelector(state => {
@@ -71,21 +69,15 @@ function CharacterProgression({ classes }) {
 
     function selectRaid(raidName) {
         dispatch(selectCharacterProgressionRaid(raidName));
-        if (!data || !data[raidName]) {
-            dispatch(
-                fetchCharacterProgression({
-                    characterName: characterName,
-                    realm: realm,
-                    raidName: raidName,
-                    characterClass: characterClass
-                })
-            );
-        }
     }
 
     useEffect(() => {
-        selectRaid(currentContentName);
-    }, []);
+        dispatch(selectCharacterProgressionRaid(currentContentName));
+    }, [currentContentName, dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchCharacterProgression(selectedRaid));
+    }, [selectedRaid, dispatch]);
 
     return (
         <Container className={classes.container}>

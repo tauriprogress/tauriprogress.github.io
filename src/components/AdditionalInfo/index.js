@@ -47,12 +47,11 @@ function AdditionalInfo({ classes }) {
     );
 
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (isOpen) {
             dispatch(lastUpdatedFetch());
         }
-    }, [isOpen]);
+    }, [isOpen, dispatch]);
 
     return (
         <React.Fragment>

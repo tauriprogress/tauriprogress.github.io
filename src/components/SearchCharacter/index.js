@@ -45,9 +45,14 @@ function SearchCharacter({ classes, history }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (realms[Object.keys(realms)[0]] !== realm) {
-            setRealm(realms[Object.keys(realms)[0]]);
-        }
+        const realms = getRealmNames(realmNames);
+        setRealm(currentRealm => {
+            if (realms[Object.keys(realms)[0]] !== currentRealm) {
+                return realms[Object.keys(realms)[0]];
+            }
+
+            return currentRealm;
+        });
     }, [realmNames]);
 
     function submit() {

@@ -125,7 +125,7 @@ function GuildList({ theme, classes }) {
 
     useEffect(() => {
         dispatch(guildsFetch(realmGroup));
-    }, [realmGroup]);
+    }, [realmGroup, dispatch]);
 
     return (
         <Page title={"Tauri Progress"}>

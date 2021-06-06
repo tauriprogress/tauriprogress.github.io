@@ -22,11 +22,12 @@ function FightLog({ match }) {
 
     const dispatch = useDispatch();
 
+    const logId = match.params.logId;
+    const realm = getRealmFromLocation(location);
+
     useEffect(() => {
-        const logId = match.params.logId;
-        const realm = getRealmFromLocation(location);
         dispatch(fetchFightLog({ logId, realm }));
-    }, []);
+    }, [logId, realm, dispatch]);
 
     return (
         <Page
