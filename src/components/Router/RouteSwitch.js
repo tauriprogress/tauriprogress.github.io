@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, Switch, useLocation, Redirect } from "react-router-dom";
 
-import AppContainer from "../AppContainer";
-
 import Raid from "../Raid";
 import Guild from "../Guild";
 import Character from "../Character";
@@ -18,7 +16,7 @@ function RouteSwitch() {
     const location = useLocation();
     const background = location.state && location.state.background;
     return (
-        <AppContainer>
+        <React.Fragment>
             <Switch location={background || location}>
                 <Route exact path="/" render={() => <GuildList />} />
                 <Route
@@ -66,7 +64,7 @@ function RouteSwitch() {
             {background && (
                 <Route exact path="/log/:logId" component={ModalFightLog} />
             )}
-        </AppContainer>
+        </React.Fragment>
     );
 }
 
