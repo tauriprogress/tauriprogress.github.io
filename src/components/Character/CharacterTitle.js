@@ -49,7 +49,7 @@ function CharacterTitle({ classes, theme }) {
             data: state.character.data.data,
             armoryUrl: state.environment.urls.armory,
             characterClassNames: state.environment.characterClassNames,
-            specs: useSelector(state => state.environment.specs)
+            specs: state.environment.specs
         })
     );
 
