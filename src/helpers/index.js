@@ -97,14 +97,6 @@ export function categorizedLogDates(logs) {
     return dateArray;
 }
 
-export function classImg(classId) {
-    return require(`../assets/classes/${classId}.jpg`);
-}
-
-export function raidImg(imageName) {
-    return require(`../assets/raids/${imageName}`);
-}
-
 export function getNestedObjectValue(obj, keys) {
     let currentKey = keys[0];
 
@@ -166,12 +158,25 @@ export function talentTreeToSpec(fullSpecName, specs) {
     return false;
 }
 
+export function classImg(classId) {
+    return require(`../assets/classes/${classId}.jpg`).default;
+}
+
+export function raidImg(imageName) {
+    return require(`../assets/raids/${imageName}`).default;
+}
+
 export function getSpecImg(imageName) {
-    return require(`../assets/specs/${imageName}.png`);
+    return require(`../assets/specs/${imageName}.png`).default;
 }
 
 export function getRaceImg(imageName) {
-    return require(`../assets/races/${imageName}.jpg`);
+    return require(`../assets/races/${imageName}.jpg`).default;
+}
+
+export function getFactionImg(faction) {
+    return require(`../assets/faction/${!faction ? "alliance" : "horde"}.png`)
+        .default;
 }
 
 export function getRaceName(race) {
@@ -179,10 +184,6 @@ export function getRaceName(race) {
     return `${characterRaceNames[raceId]} ${
         Number(genderId) ? "Female" : "Male"
     }`;
-}
-
-export function getFactionImg(faction) {
-    return require(`../assets/faction/${!faction ? "alliance" : "horde"}.png`);
 }
 
 export function shortNumber(number) {
@@ -254,6 +255,7 @@ export function getSocketInfo(type) {
         return {
             ...socketInfo[type],
             icon: require(`../assets/tooltip/${socketInfo[type].icon}.png`)
+                .default
         };
     }
 
