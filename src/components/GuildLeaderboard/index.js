@@ -5,13 +5,6 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 import { guildLeaderboardFetch } from "../../redux/actions";
 import { Link as RouterLink } from "react-router-dom";
 
-import Page from "../Page";
-import ErrorMessage from "../ErrorMessage";
-import Loading from "../Loading";
-import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
-import DisplayDate from "../DisplayDate";
-import OverflowScroll from "../OverflowScroll";
-
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Table from "@material-ui/core/Table";
@@ -27,6 +20,14 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 
+import Page from "../Page";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
+import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
+import DisplayDate from "../DisplayDate";
+import OverflowScroll from "../OverflowScroll";
+import AlignedRankDisplay from "../AlignedRankDisplay";
+
 import LogLink from "../LogLink";
 import InfoIcon from "../InfoIcon";
 
@@ -37,14 +38,6 @@ function styles(theme) {
     return {
         cell: {
             padding: theme.spacing(1)
-        },
-        rank: {
-            minWidth: "70px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "right",
-            padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
-            fontWeight: "bold"
         },
         firstCellName: {
             paddingLeft: theme.spacing(10)
@@ -161,10 +154,7 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
                         wrap="nowrap"
                         className={classes.containerGrid}
                     >
-                        <Grid item className={`${classes.rank} rank`}>
-                            {index + 1}.
-                        </Grid>
-                        <Grid item>
+                        <AlignedRankDisplay rank={index + 1}>
                             <WithRealm realmName={guild.realm}>
                                 <Typography className={classes.name}>
                                     <Link
@@ -180,7 +170,7 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
                                     </Link>
                                 </Typography>
                             </WithRealm>
-                        </Grid>
+                        </AlignedRankDisplay>
                     </Grid>
                 </TableCell>
                 <TableCell className={classes.cell}>

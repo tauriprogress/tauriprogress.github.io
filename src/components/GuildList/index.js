@@ -25,6 +25,7 @@ import GuildListFilter from "./GuildListFilter";
 import ConditionalWrapper from "../ConditionalWrapper";
 import OverflowScroll from "../OverflowScroll";
 import DisplayDate from "../DisplayDate";
+import AlignedRankDisplay from "../AlignedRankDisplay";
 
 import { guildsFetch } from "../../redux/actions";
 
@@ -37,11 +38,6 @@ function styles(theme) {
             padding: theme.spacing(1)
         },
         rank: {
-            minWidth: "70px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "right",
-            padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
             "& p": {
                 fontSize: `${18 / 16}rem`
             }
@@ -202,48 +198,36 @@ function GuildList({ theme, classes }) {
                                                 <TableCell
                                                     className={classes.cell}
                                                 >
-                                                    <Grid
-                                                        container
-                                                        wrap="nowrap"
+                                                    <AlignedRankDisplay
+                                                        rank={index + 1}
+                                                        className={classes.rank}
                                                     >
-                                                        <Grid
-                                                            item
-                                                            className={`${classes.rank} rank`}
+                                                        <WithRealm
+                                                            realmName={
+                                                                guild.realm
+                                                            }
                                                         >
-                                                            <Typography color="inherit">
-                                                                {index + 1}
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <WithRealm
-                                                                realmName={
-                                                                    guild.realm
+                                                            <Typography
+                                                                className={
+                                                                    classes.name
                                                                 }
                                                             >
-                                                                <Typography
-                                                                    className={
-                                                                        classes.name
+                                                                <Link
+                                                                    component={
+                                                                        RouterLink
                                                                     }
+                                                                    style={{
+                                                                        color: guild.f
+                                                                            ? factionColors.horde
+                                                                            : factionColors.alliance
+                                                                    }}
+                                                                    to={`/guild/${guild.name}?realm=${guild.realm}`}
                                                                 >
-                                                                    <Link
-                                                                        component={
-                                                                            RouterLink
-                                                                        }
-                                                                        style={{
-                                                                            color: guild.f
-                                                                                ? factionColors.horde
-                                                                                : factionColors.alliance
-                                                                        }}
-                                                                        to={`/guild/${guild.name}?realm=${guild.realm}`}
-                                                                    >
-                                                                        {
-                                                                            guild.name
-                                                                        }
-                                                                    </Link>
-                                                                </Typography>
-                                                            </WithRealm>
-                                                        </Grid>
-                                                    </Grid>
+                                                                    {guild.name}
+                                                                </Link>
+                                                            </Typography>
+                                                        </WithRealm>
+                                                    </AlignedRankDisplay>
                                                 </TableCell>
 
                                                 <TableCell

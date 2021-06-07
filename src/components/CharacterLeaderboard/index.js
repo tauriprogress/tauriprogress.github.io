@@ -13,13 +13,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from "@material-ui/core/TablePagination";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 
 import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import WithRealm from "../WithRealm";
 import PerformanceExplanation from "./PerformanceExplanation";
+import AlignedRankDisplay from "../AlignedRankDisplay";
+import OverflowScroll from "../OverflowScroll";
 
 import CharacterLeaderboardFilter from "./CharacterLeaderboardFilter";
 
@@ -43,14 +44,6 @@ function styles(theme) {
         },
         cell: {
             padding: theme.spacing(1)
-        },
-        rank: {
-            minWidth: "70px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "right",
-            padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
-            fontWeight: "bold"
         },
         firstCellName: {
             paddingLeft: theme.spacing(10)
@@ -132,60 +125,55 @@ function CharacterLeaderboard({ classes, theme }) {
 
                         {!loading && !error && filteredData && (
                             <React.Fragment>
-                                <Table>
-                                    <TableHead className={classes.tableHead}>
-                                        <TableRow>
-                                            <TableCell
-                                                className={
-                                                    classes.firstCellName
-                                                }
-                                            >
-                                                Name
-                                            </TableCell>
-                                            <TableCell>
-                                                <PerformanceExplanation />
-                                            </TableCell>
-                                            <TableCell>Ilvl</TableCell>
-                                            <TableCell>Faction</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {filteredData
-                                            .slice(
-                                                page * rowsPerPage,
-                                                (page + 1) * rowsPerPage
-                                            )
-                                            .map((char, index) => {
-                                                const realmName =
-                                                    shortRealmToFull(
-                                                        char.realm
-                                                    );
-                                                return (
-                                                    <TableRow key={index} hover>
-                                                        <TableCell
-                                                            className={
-                                                                classes.cell
-                                                            }
+                                <OverflowScroll>
+                                    <Table>
+                                        <TableHead
+                                            className={classes.tableHead}
+                                        >
+                                            <TableRow>
+                                                <TableCell
+                                                    className={
+                                                        classes.firstCellName
+                                                    }
+                                                >
+                                                    Name
+                                                </TableCell>
+                                                <TableCell>
+                                                    <PerformanceExplanation />
+                                                </TableCell>
+                                                <TableCell>Ilvl</TableCell>
+                                                <TableCell>Faction</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {filteredData
+                                                .slice(
+                                                    page * rowsPerPage,
+                                                    (page + 1) * rowsPerPage
+                                                )
+                                                .map((char, index) => {
+                                                    const realmName =
+                                                        shortRealmToFull(
+                                                            char.realm
+                                                        );
+                                                    return (
+                                                        <TableRow
+                                                            key={index}
+                                                            hover
                                                         >
-                                                            <Grid
-                                                                container
+                                                            <TableCell
                                                                 className={
-                                                                    classes.containerGrid
+                                                                    classes.cell
                                                                 }
                                                             >
-                                                                <Grid
-                                                                    item
-                                                                    className={
-                                                                        classes.rank
-                                                                    }
-                                                                >
-                                                                    {index +
+                                                                <AlignedRankDisplay
+                                                                    rank={
+                                                                        index +
                                                                         1 +
                                                                         page *
-                                                                            rowsPerPage}
-                                                                    .
-                                                                </Grid>
-                                                                <Grid item>
+                                                                            rowsPerPage
+                                                                    }
+                                                                >
                                                                     <WithRealm
                                                                         realmName={
                                                                             realmName
@@ -230,54 +218,55 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                             />
                                                                         </Typography>
                                                                     </WithRealm>
-                                                                </Grid>
-                                                            </Grid>
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={`${classes.bold} ${classes.cell}`}
-                                                        >
-                                                            {char.topPercent.toFixed(
-                                                                1
-                                                            )}
-                                                            %
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={` ${classes.cell}`}
-                                                        >
-                                                            {char.ilvl}
-                                                        </TableCell>
-                                                        <TableCell
-                                                            className={`${classes.cell}`}
-                                                        >
-                                                            {!char.f ? (
-                                                                <span
-                                                                    style={{
-                                                                        color: theme
-                                                                            .palette
-                                                                            .factionColors
-                                                                            .alliance
-                                                                    }}
-                                                                >
-                                                                    Alliance
-                                                                </span>
-                                                            ) : (
-                                                                <span
-                                                                    style={{
-                                                                        color: theme
-                                                                            .palette
-                                                                            .factionColors
-                                                                            .horde
-                                                                    }}
-                                                                >
-                                                                    Horde
-                                                                </span>
-                                                            )}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                    </TableBody>
-                                </Table>
+                                                                </AlignedRankDisplay>
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={`${classes.bold} ${classes.cell}`}
+                                                            >
+                                                                {char.topPercent.toFixed(
+                                                                    1
+                                                                )}
+                                                                %
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={` ${classes.cell}`}
+                                                            >
+                                                                {char.ilvl}
+                                                            </TableCell>
+                                                            <TableCell
+                                                                className={`${classes.cell}`}
+                                                            >
+                                                                {!char.f ? (
+                                                                    <span
+                                                                        style={{
+                                                                            color: theme
+                                                                                .palette
+                                                                                .factionColors
+                                                                                .alliance
+                                                                        }}
+                                                                    >
+                                                                        Alliance
+                                                                    </span>
+                                                                ) : (
+                                                                    <span
+                                                                        style={{
+                                                                            color: theme
+                                                                                .palette
+                                                                                .factionColors
+                                                                                .horde
+                                                                        }}
+                                                                    >
+                                                                        Horde
+                                                                    </span>
+                                                                )}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                        </TableBody>
+                                    </Table>
+                                </OverflowScroll>
+
                                 {filteredData && (
                                     <TablePagination
                                         rowsPerPageOptions={[]}
