@@ -13,7 +13,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import WithRealm from "../WithRealm";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -47,7 +46,8 @@ function styles(theme) {
                 backgroundColor: theme.palette.background.default
             }
         },
-        row: {
+        tablerow: {
+            height: "55px",
             "& > *": {
                 borderBottom: "unset"
             }
@@ -147,31 +147,25 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
 
     return (
         <React.Fragment>
-            <TableRow onClick={toggleOpen} className={classes.row}>
+            <TableRow onClick={toggleOpen} className={classes.tablerow}>
                 <TableCell className={classes.cell}>
-                    <Grid
-                        container
-                        wrap="nowrap"
-                        className={classes.containerGrid}
-                    >
-                        <AlignedRankDisplay rank={index + 1}>
-                            <WithRealm realmName={guild.realm}>
-                                <Typography className={classes.name}>
-                                    <Link
-                                        component={RouterLink}
-                                        style={{
-                                            color: guild.f
-                                                ? factionColors.horde
-                                                : factionColors.alliance
-                                        }}
-                                        to={`/guild/${guild.name}?realm=${guild.realm}`}
-                                    >
-                                        {guild.name}
-                                    </Link>
-                                </Typography>
-                            </WithRealm>
-                        </AlignedRankDisplay>
-                    </Grid>
+                    <AlignedRankDisplay rank={index + 1}>
+                        <WithRealm realmName={guild.realm}>
+                            <Typography className={classes.name}>
+                                <Link
+                                    component={RouterLink}
+                                    style={{
+                                        color: guild.f
+                                            ? factionColors.horde
+                                            : factionColors.alliance
+                                    }}
+                                    to={`/guild/${guild.name}?realm=${guild.realm}`}
+                                >
+                                    {guild.name}
+                                </Link>
+                            </Typography>
+                        </WithRealm>
+                    </AlignedRankDisplay>
                 </TableCell>
                 <TableCell className={classes.cell}>
                     {convertFightLength(

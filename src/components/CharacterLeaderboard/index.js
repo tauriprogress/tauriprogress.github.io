@@ -48,11 +48,11 @@ function styles(theme) {
         firstCellName: {
             paddingLeft: theme.spacing(10)
         },
-        containerGrid: {
-            height: "40px"
-        },
         tableHead: {
             height: "58px"
+        },
+        tableRow: {
+            height: "55px"
         }
     };
 }
@@ -160,6 +160,9 @@ function CharacterLeaderboard({ classes, theme }) {
                                                         <TableRow
                                                             key={index}
                                                             hover
+                                                            className={
+                                                                classes.tableRow
+                                                            }
                                                         >
                                                             <TableCell
                                                                 className={
