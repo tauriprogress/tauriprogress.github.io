@@ -4,9 +4,3 @@ export function setRaidFilter(filterOptions) {
         payload: filterOptions
     };
 }
-
-export function resetRaidFilter() {
-    return {
-        type: "RAID_FILTER_RESET"
-    };
-}

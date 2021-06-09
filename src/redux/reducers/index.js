@@ -6,7 +6,6 @@ import navigationReducer from "./navigationReducer";
 import guildListReducer from "./guildListReducer";
 import guildReducer from "./guildReducer";
 import characterReducer from "./characterReducer";
-import charLadderReducer from "./charLadderReducer";
 import additionalInfoReducer from "./additionalInfoReducer";
 import fightLogReducer from "./fightLogReducer";
 import themesReducer from "./themesReducer";
@@ -22,7 +21,6 @@ export default combineReducers({
     guildList: guildListReducer,
     guild: guildReducer,
     character: characterReducer,
-    charLadder: charLadderReducer,
     additionalInfo: additionalInfoReducer,
     fightLog: fightLogReducer,
     themes: themesReducer,

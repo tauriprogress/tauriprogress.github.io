@@ -51,8 +51,6 @@ function raidReducer(state = defaultState, action, raids) {
                     [action.payload.filterName]: action.payload.value
                 }
             };
-        case "RAID_FILTER_RESET":
-            return { ...state, filter: defaultState.filter };
         default:
             return state;
     }
