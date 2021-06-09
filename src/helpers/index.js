@@ -306,10 +306,6 @@ export function validRealmGroup(realmGroup) {
     return realmGroup === "tauri" || realmGroup === "crystalsong";
 }
 
-export function getRealmFromLocation(location) {
-    return new URLSearchParams(location.search).get("realm");
-}
-
 export function capitalize(string) {
     const capitalized = string.charAt(0).toUpperCase() + string.slice(1);
 

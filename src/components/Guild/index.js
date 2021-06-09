@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import queryString from "query-string";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -18,11 +19,9 @@ import SelectRealm from "../SelectRealm";
 
 import { fetchGuild } from "../../redux/actions";
 
-import { getRealmFromLocation } from "../../helpers";
-
 function Guild({ match, location }) {
     const guildName = match.params.guildName;
-    const realm = getRealmFromLocation(location);
+    const realm = queryString.parse(location.search).realm;
 
     const { loading, loaded, error } = useSelector(state => ({
         loading: state.guild.loading,

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import queryString from "query-string";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -19,7 +20,7 @@ import ErrorMessage from "../ErrorMessage";
 
 import { fetchCharacterData } from "../../redux/actions";
 
-import { getRealmFromLocation, capitalize } from "../../helpers";
+import { capitalize } from "../../helpers";
 
 function styles() {
     return {
@@ -30,7 +31,7 @@ function styles() {
 
 function Character({ classes, match, location }) {
     const characterName = match.params.characterName;
-    const realm = getRealmFromLocation(location);
+    const realm = queryString.parse(location.search).realm;
     const { loading, error } = useSelector(state => state.character.data);
     const dispatch = useDispatch();
 

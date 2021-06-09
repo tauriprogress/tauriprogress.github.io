@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import queryString from "query-string";
 
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +15,6 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
 import { fetchFightLog } from "../../redux/actions";
-import { getRealmFromLocation } from "../../helpers";
 
 function FightLog({ match }) {
     const location = useLocation();
@@ -23,7 +23,7 @@ function FightLog({ match }) {
     const dispatch = useDispatch();
 
     const logId = match.params.logId;
-    const realm = getRealmFromLocation(location);
+    const realm = queryString.parse(location.search).realm;
 
     useEffect(() => {
         dispatch(fetchFightLog({ logId, realm }));

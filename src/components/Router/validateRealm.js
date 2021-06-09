@@ -1,12 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
+import queryString from "query-string";
 
-import {
-    validRealm,
-    realmOfRealmGroup,
-    getRealmFromLocation
-} from "../../helpers";
+import { validRealm, realmOfRealmGroup } from "../../helpers";
 
 import { changeEnvironmentRealmGroup } from "../../redux/actions";
 
@@ -19,7 +16,7 @@ function validateRealm() {
                     realms: state.environment.realms,
                     realmGroup: state.environment.realmGroup
                 }));
-                const currentRealm = getRealmFromLocation(location);
+                const currentRealm = queryString.parse(location.search).realm;
                 const dispatch = useDispatch();
 
                 if (validRealm(currentRealm)) {
