@@ -282,6 +282,10 @@ export function colorWeight(current, max) {
     return Math.floor(percent / 20) * 20;
 }
 
+export function validRealmGroup(realmGroup) {
+    return realmGroup === "tauri" || realmGroup === "crystalsong";
+}
+
 export function validRealm(realm) {
     for (let currentRealmName in shortRealms) {
         if (currentRealmName === realm) {
@@ -292,6 +296,31 @@ export function validRealm(realm) {
     return false;
 }
 
+export function validClass(classId, realmGroup) {
+    return !!constants[realmGroup].characterClassNames[classId];
+}
+
+export function validSpec(specId, realmGroup) {
+    return !!constants[realmGroup].specs[specId];
+}
+
+export function validDifficulty(difficulty, realmGroup) {
+    for (const raid of constants[realmGroup].currentContent.raids) {
+        if (raid.difficulties.includes(difficulty)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function validRole(role) {
+    return role === "damage" || role === "heal" || role === "tank";
+}
+
+export function validFaction(faction) {
+    return faction === 0 || faction === 1;
+}
+
 export function realmOfRealmGroup(realm, realmsOfGroup) {
     for (let key in realmsOfGroup) {
         if (realmsOfGroup[key] === realm) {
@@ -300,10 +329,6 @@ export function realmOfRealmGroup(realm, realmsOfGroup) {
     }
 
     return false;
-}
-
-export function validRealmGroup(realmGroup) {
-    return realmGroup === "tauri" || realmGroup === "crystalsong";
 }
 
 export function capitalize(string) {
