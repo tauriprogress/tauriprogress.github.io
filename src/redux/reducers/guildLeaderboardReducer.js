@@ -1,19 +1,23 @@
 import constants from "tauriprogress-constants";
-import { getDefaultDifficulty } from "../../helpers";
+import {
+    getDefaultDifficulty,
+    readFiltersFromUrl,
+    readTabFromUrl
+} from "../../helpers";
 const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
-const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 const defaultState = {
-    filter: {
-        raid: constants[defaultRealmGroup].currentContent.name,
-        difficulty: defaultDifficulty,
-        faction: "",
-        realm: ""
-    },
+    filter: readFiltersFromUrl(defaultRealmGroup, [
+        "raid",
+        "difficulty",
+        "faction",
+        "realm"
+    ]),
     data: null,
     error: null,
     loading: false,
-    realmGroup: defaultRealmGroup
+    realmGroup: defaultRealmGroup,
+    selectedTab: readTabFromUrl(0, 1)
 };
 
 function guildsReducer(state = defaultState, action) {
@@ -28,6 +32,10 @@ function guildsReducer(state = defaultState, action) {
                     realm: ""
                 }
             };
+
+        case "GUILD_LEADERBOARD_SELECT_TAB":
+            return { ...state, selectedTab: action.payload };
+
         case "GUILD_LEADERBOARD_FILTER_SET":
             return {
                 ...state,

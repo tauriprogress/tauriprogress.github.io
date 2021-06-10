@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
-import { guildLeaderboardFetch } from "../../redux/actions";
+import {
+    guildLeaderboardFetch,
+    selectGuildLeaderboardTab
+} from "../../redux/actions";
 import { Link as RouterLink } from "react-router-dom";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -31,7 +34,11 @@ import LogLink from "../LogLink";
 import InfoIcon from "../InfoIcon";
 
 import { filterGuilds } from "./helpers";
-import { convertFightLength, dateTextHours } from "./../../helpers";
+import {
+    convertFightLength,
+    dateTextHours,
+    replaceUrlSearchQuery
+} from "./../../helpers";
 
 function styles(theme) {
     return {
@@ -77,17 +84,20 @@ function styles(theme) {
 function GuildLeaderboard({ theme, classes }) {
     const { factionColors } = theme.palette;
 
-    const { data, loading, error, realmGroup, filter } = useSelector(state => ({
-        ...state.guildLeaderboard,
-        realmGroup: state.environment.realmGroup
-    }));
+    const { data, loading, error, realmGroup, filter, selectedTab } =
+        useSelector(state => ({
+            ...state.guildLeaderboard,
+            realmGroup: state.environment.realmGroup
+        }));
     const dispatch = useDispatch();
 
-    const [tab, setTab] = useState("fullClear");
+    const selectedTabName = selectedTab === 0 ? "fullClear" : "fastestKills";
 
     useEffect(() => {
         dispatch(guildLeaderboardFetch(realmGroup));
     }, [realmGroup, dispatch]);
+
+    replaceUrlSearchQuery({ ...filter, tab: selectedTab });
 
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>
@@ -96,9 +106,14 @@ function GuildLeaderboard({ theme, classes }) {
             {!loading && !error && data && (
                 <section>
                     <GuildLeaderboardFilter />
-                    <Tabs value={tab} onChange={(e, value) => setTab(value)}>
-                        <Tab label="FULL CLEAR" value={"fullClear"} />
-                        <Tab label="BEST KILLS" value={"fastestKills"} />
+                    <Tabs
+                        value={selectedTab}
+                        onChange={(e, value) =>
+                            dispatch(selectGuildLeaderboardTab(value))
+                        }
+                    >
+                        <Tab label="FULL CLEAR" value={0} />
+                        <Tab label="BEST KILLS" value={1} />
                     </Tabs>
                     <OverflowScroll>
                         <Table>
@@ -113,19 +128,21 @@ function GuildLeaderboard({ theme, classes }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody className={classes.tableBody}>
-                                {filterGuilds(filter, tab, data).map(
-                                    (guild, index) => (
-                                        <Row
-                                            classes={classes}
-                                            guild={guild}
-                                            index={index}
-                                            factionColors={factionColors}
-                                            filter={filter}
-                                            tab={tab}
-                                            key={`${guild.name}${tab}`}
-                                        />
-                                    )
-                                )}
+                                {filterGuilds(
+                                    filter,
+                                    selectedTabName,
+                                    data
+                                ).map((guild, index) => (
+                                    <Row
+                                        classes={classes}
+                                        guild={guild}
+                                        index={index}
+                                        factionColors={factionColors}
+                                        filter={filter}
+                                        tab={selectedTabName}
+                                        key={`${guild.name}${selectedTabName}`}
+                                    />
+                                ))}
                             </TableBody>
                         </Table>
                     </OverflowScroll>
