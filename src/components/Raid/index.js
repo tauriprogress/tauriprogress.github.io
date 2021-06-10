@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import queryString from "query-string";
 
 import Page from "../Page";
 import RaidSummary from "../RaidSummary";
 import RaidBoss from "../RaidBoss";
 
 import RaidFilter from "../RaidFilter";
+
+import { replaceUrlSearchQuery } from "../../helpers";
 
 function Raid({ match }) {
     const selectedTab = useSelector(state => state.raidBoss.selectedTab);
@@ -20,15 +21,7 @@ function Raid({ match }) {
         Component = RaidBoss;
     }
 
-    const searchQuery = queryString.stringify(filter);
-
-    if (searchQuery !== window.location.search) {
-        window.history.replaceState(
-            window.history.state,
-            document.title,
-            `${window.location.origin}${window.location.pathname}?${searchQuery}`
-        );
-    }
+    replaceUrlSearchQuery(filter);
 
     return (
         <Page title={`${title} | Tauri Progress`}>

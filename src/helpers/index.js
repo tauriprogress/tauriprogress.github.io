@@ -1,6 +1,8 @@
+import queryString from "query-string";
 import constants, {
     shortRealms,
-    characterRaceNames
+    characterRaceNames,
+    characterSpecToClass
 } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
@@ -377,4 +379,50 @@ export function raidNameToId(raidName) {
     }
 
     return false;
+}
+
+export function replaceUrlSearchQuery(queries) {
+    const searchQuery = queryString.stringify(queries);
+
+    if (searchQuery !== window.location.search) {
+        window.history.replaceState(
+            window.history.state,
+            document.title,
+            `${window.location.origin}${window.location.pathname}?${searchQuery}`
+        );
+    }
+}
+
+export function readFiltersFromUrl(realmGroup) {
+    const defaultDifficulty = getDefaultDifficulty(realmGroup);
+
+    const filterFromUrl = queryString.parse(window.location.search);
+
+    return {
+        difficulty: validDifficulty(
+            Number(filterFromUrl.difficulty),
+            realmGroup
+        )
+            ? Number(filterFromUrl.difficulty)
+            : defaultDifficulty,
+        faction:
+            filterFromUrl.faction !== "" &&
+            validFaction(Number(filterFromUrl.faction))
+                ? Number(filterFromUrl.faction)
+                : "",
+        class: validClass(filterFromUrl.class, realmGroup)
+            ? filterFromUrl.class
+            : "",
+        spec:
+            validClass(filterFromUrl.class, realmGroup) &&
+            validSpec(filterFromUrl.spec, realmGroup) &&
+            characterSpecToClass[filterFromUrl.spec] ===
+                Number(filterFromUrl.class)
+                ? filterFromUrl.spec
+                : "",
+        role: validRole(filterFromUrl.role) ? filterFromUrl.role : "",
+        realm: validRealm(filterFromUrl.realm, realmGroup)
+            ? filterFromUrl.realm
+            : ""
+    };
 }
