@@ -1,10 +1,19 @@
+import queryString from "query-string";
+const filterFromUrl = queryString.parse(window.location.search);
+
+const selectedTab = filterFromUrl.tab
+    ? Number(filterFromUrl.tab) >= 0 && Number(filterFromUrl.tab) <= 3
+        ? Number(filterFromUrl.tab)
+        : 0
+    : 0;
+
 const defaultState = {
     data: null,
     error: null,
     loading: false,
     raidId: null,
     bossName: null,
-    selectedTab: 0
+    selectedTab: selectedTab
 };
 
 function raidBossReducer(state = defaultState, action) {
