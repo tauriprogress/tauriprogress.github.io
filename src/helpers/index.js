@@ -315,6 +315,16 @@ export function validDifficulty(difficulty, realmGroup) {
     return false;
 }
 
+export function validRaidName(raidName, realmGroup) {
+    for (let raid of constants[realmGroup].currentContent.raids) {
+        if (raid.name === raidName) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export function validRole(role) {
     return role === "damage" || role === "heal" || role === "tank";
 }
@@ -393,38 +403,98 @@ export function replaceUrlSearchQuery(queries) {
     }
 }
 
-export function readFiltersFromUrl(realmGroup) {
+export function readFiltersFromUrl(realmGroup, filterNames) {
+    let filter = {};
     const defaultDifficulty = getDefaultDifficulty(realmGroup);
 
     const filterFromUrl = queryString.parse(window.location.search);
 
-    return {
-        difficulty: validDifficulty(
-            Number(filterFromUrl.difficulty),
-            realmGroup
-        )
-            ? Number(filterFromUrl.difficulty)
-            : defaultDifficulty,
-        faction:
-            filterFromUrl.faction !== "" &&
-            validFaction(Number(filterFromUrl.faction))
-                ? Number(filterFromUrl.faction)
-                : "",
-        class: validClass(filterFromUrl.class, realmGroup)
-            ? filterFromUrl.class
-            : "",
-        spec:
-            validClass(filterFromUrl.class, realmGroup) &&
-            validSpec(filterFromUrl.spec, realmGroup) &&
-            characterSpecToClass[filterFromUrl.spec] ===
-                Number(filterFromUrl.class)
-                ? filterFromUrl.spec
-                : "",
-        role: validRole(filterFromUrl.role) ? filterFromUrl.role : "",
-        realm: validRealm(filterFromUrl.realm, realmGroup)
-            ? filterFromUrl.realm
-            : ""
-    };
+    for (let filterName of filterNames) {
+        switch (filterName) {
+            case "raid":
+                filter = {
+                    ...filter,
+                    raid: validRaidName(filterFromUrl.raid, realmGroup)
+                        ? filterFromUrl.raid
+                        : constants[realmGroup].currentContent.name
+                };
+
+                break;
+
+            case "difficulty":
+                filter = {
+                    ...filter,
+                    difficulty: validDifficulty(
+                        Number(filterFromUrl.difficulty),
+                        realmGroup
+                    )
+                        ? Number(filterFromUrl.difficulty)
+                        : defaultDifficulty
+                };
+
+                break;
+
+            case "faction":
+                filter = {
+                    ...filter,
+                    faction:
+                        filterFromUrl.faction !== "" &&
+                        validFaction(Number(filterFromUrl.faction))
+                            ? Number(filterFromUrl.faction)
+                            : ""
+                };
+
+                break;
+
+            case "class":
+                filter = {
+                    ...filter,
+                    class: validClass(filterFromUrl.class, realmGroup)
+                        ? filterFromUrl.class
+                        : ""
+                };
+
+                break;
+
+            case "spec":
+                filter = {
+                    ...filter,
+                    spec:
+                        validClass(filterFromUrl.class, realmGroup) &&
+                        validSpec(filterFromUrl.spec, realmGroup) &&
+                        characterSpecToClass[filterFromUrl.spec] ===
+                            Number(filterFromUrl.class)
+                            ? filterFromUrl.spec
+                            : ""
+                };
+
+                break;
+
+            case "role":
+                filter = {
+                    ...filter,
+                    role: validRole(filterFromUrl.role)
+                        ? filterFromUrl.role
+                        : ""
+                };
+
+                break;
+
+            case "realm":
+                filter = {
+                    ...filter,
+                    realm: validRealm(filterFromUrl.realm, realmGroup)
+                        ? filterFromUrl.realm
+                        : ""
+                };
+
+                break;
+            default:
+                continue;
+        }
+    }
+
+    return filter;
 }
 
 export function readTabFromUrl(lowest, highest) {
@@ -436,4 +506,10 @@ export function readTabFromUrl(lowest, highest) {
             ? Number(filterFromUrl.tab)
             : lowest
         : lowest;
+}
+
+export function getRealmGroupOfLocalStorage() {
+    return validRealmGroup(localStorage.getItem("realmGroup"))
+        ? localStorage.getItem("realmGroup")
+        : "tauri";
 }

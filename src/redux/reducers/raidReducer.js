@@ -1,18 +1,23 @@
 import {
     getDefaultDifficulty,
-    validRealmGroup,
+    getRealmGroupOfLocalStorage,
     readFiltersFromUrl
 } from "../../helpers";
 
-const defaultRealmGroup = validRealmGroup(localStorage.getItem("realmGroup"))
-    ? localStorage.getItem("realmGroup")
-    : "tauri";
+const defaultRealmGroup = getRealmGroupOfLocalStorage();
 
 const defaultState = {
     selected: 0,
     error: null,
     loading: false,
-    filter: readFiltersFromUrl(defaultRealmGroup)
+    filter: readFiltersFromUrl(defaultRealmGroup, [
+        "difficulty",
+        "class",
+        "spec",
+        "faction",
+        "realm",
+        "role"
+    ])
 };
 
 function raidReducer(state = defaultState, action, raids) {
