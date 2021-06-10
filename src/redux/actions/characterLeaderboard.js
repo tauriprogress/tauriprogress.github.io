@@ -5,6 +5,13 @@ export function setCharacterLeaderboardFilter(payload) {
     };
 }
 
+export function selectCharacterLeaderboardTab(payload) {
+    return {
+        type: "CHARACTER_LEADERBOARD_SELECT_TAB",
+        payload
+    };
+}
+
 export function setCharacterLeaderboardLoading(payload) {
     return {
         type: "CHARACTER_LEADERBOARD_LOADING_SET",

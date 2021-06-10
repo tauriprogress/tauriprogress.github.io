@@ -26,7 +26,10 @@ import CharacterLeaderboardFilter from "./CharacterLeaderboardFilter";
 
 import CharacterName from "../CharacterName";
 
-import { fetchCharacterLeaderboardData } from "../../redux/actions";
+import {
+    fetchCharacterLeaderboardData,
+    selectCharacterLeaderboardTab
+} from "../../redux/actions";
 
 import { filterChars } from "./helpers";
 
@@ -34,7 +37,8 @@ import {
     raidNameToId,
     getSpecImg,
     shortRealmToFull,
-    classImg
+    classImg,
+    replaceUrlSearchQuery
 } from "../../helpers";
 
 function styles(theme) {
@@ -62,13 +66,14 @@ function CharacterLeaderboard({ classes, theme }) {
 
     const dispatch = useDispatch();
 
-    const { data, filter, specs, characterClassNames } = useSelector(state => ({
-        ...state.characterLeaderboard,
-        specs: state.environment.specs,
-        characterClassNames: state.environment.characterClassNames
-    }));
+    const { data, filter, specs, characterClassNames, selectedTab } =
+        useSelector(state => ({
+            ...state.characterLeaderboard,
+            specs: state.environment.specs,
+            characterClassNames: state.environment.characterClassNames
+        }));
 
-    const [combatMetric, selectCombatMetric] = useState("dps");
+    const combatMetric = selectedTab === 0 ? "dps" : "hps";
     const [page, setPage] = useState(0);
 
     useEffect(() => {
@@ -104,17 +109,21 @@ function CharacterLeaderboard({ classes, theme }) {
         error = data[dataId].error;
     }
 
+    replaceUrlSearchQuery({ ...filter, tab: selectedTab });
+
     return (
         <Page title={`Character Leaderboard | Tauri Progress`}>
             <section>
                 <CharacterLeaderboardFilter />
 
                 <Tabs
-                    value={combatMetric}
-                    onChange={(e, value) => selectCombatMetric(value)}
+                    value={selectedTab}
+                    onChange={(e, value) =>
+                        dispatch(selectCharacterLeaderboardTab(value))
+                    }
                 >
-                    <Tab label="Dps" value={"dps"} />
-                    <Tab label="Hps" value={"hps"} />
+                    <Tab label="Dps" value={0} />
+                    <Tab label="Hps" value={1} />
                 </Tabs>
 
                 {data[dataId] && (
