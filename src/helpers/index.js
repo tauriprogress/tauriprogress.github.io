@@ -426,3 +426,14 @@ export function readFiltersFromUrl(realmGroup) {
             : ""
     };
 }
+
+export function readTabFromUrl(lowest, highest) {
+    const filterFromUrl = queryString.parse(window.location.search);
+
+    return filterFromUrl.tab
+        ? Number(filterFromUrl.tab) >= lowest &&
+          Number(filterFromUrl.tab) <= highest
+            ? Number(filterFromUrl.tab)
+            : lowest
+        : lowest;
+}
