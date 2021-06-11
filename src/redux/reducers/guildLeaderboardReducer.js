@@ -4,15 +4,24 @@ import {
     readFiltersFromUrl,
     readTabFromUrl
 } from "../../helpers";
+
 const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
+const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 const defaultState = {
-    filter: readFiltersFromUrl(defaultRealmGroup, [
-        "raid",
-        "difficulty",
-        "faction",
-        "realm"
-    ]),
+    filter: new RegExp(/^\/leaderboard\/guild.*/).test(window.location.pathname)
+        ? readFiltersFromUrl(defaultRealmGroup, [
+              "raid",
+              "difficulty",
+              "faction",
+              "realm"
+          ])
+        : {
+              raid: constants[defaultRealmGroup].currentContent.name,
+              difficulty: defaultDifficulty,
+              faction: "",
+              realm: ""
+          },
     data: null,
     error: null,
     loading: false,
