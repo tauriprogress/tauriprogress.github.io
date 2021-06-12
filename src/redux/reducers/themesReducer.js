@@ -61,6 +61,14 @@ const defaultTheme = {
     }
 };
 const overrides = {
+    MuiCssBaseline: {
+        "@global": {
+            "*": {
+                scrollbarWidth: "thin"
+            },
+            "*::-webkit-scrollbar": {}
+        }
+    },
     MuiButton: {
         root: {
             borderRadius: "0px"
@@ -360,6 +368,17 @@ const defaultState = {
                 paper: {
                     backgroundColor: lightBackgroundDefault
                 }
+            },
+            MuiCssBaseline: {
+                "@global": {
+                    ...overrides.MuiCssBaseline["@global"],
+                    "*::-webkit-scrollbar": {
+                        width: "8px"
+                    },
+                    "*::-webkit-scrollbar-thumb": {
+                        background: "#cdcdcd"
+                    }
+                }
             }
         }
     }),
@@ -406,6 +425,17 @@ const defaultState = {
             MuiDialog: {
                 paper: {
                     backgroundColor: darkBackgroundDefault
+                }
+            },
+            MuiCssBaseline: {
+                "@global": {
+                    ...overrides.MuiCssBaseline["@global"],
+                    "*::-webkit-scrollbar": {
+                        width: "8px"
+                    },
+                    "*::-webkit-scrollbar-thumb": {
+                        background: "#727272"
+                    }
                 }
             }
         }
