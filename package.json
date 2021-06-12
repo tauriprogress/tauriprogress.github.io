@@ -14,7 +14,7 @@
         "react-scripts": "^4.0.3",
         "redux": "^4.1.0",
         "redux-saga": "^1.1.3",
-        "tauriprogress-constants": "^4.0.5",
+        "tauriprogress-constants": "^4.0.7",
         "typeface-roboto": "1.1.13"
     },
     "scripts": {
