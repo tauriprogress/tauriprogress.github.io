@@ -94,7 +94,9 @@ function NavItems({ classes }) {
                                             ? mopIcon
                                             : wotlkIcon
                                     }
-                                    alt="expansion"
+                                    alt={`Expansion ${
+                                        realmGroup === "tauri" ? "MOP" : "WOTLK"
+                                    }`}
                                     className={classes.expansionLogo}
                                 />
                             </Link>

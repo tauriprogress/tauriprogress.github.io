@@ -23,7 +23,8 @@ function styles(theme) {
         title: {
             color: theme.palette.primary.contrastText,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center"
+            backgroundPosition: "center",
+            backgroundColor: theme.palette.primary.main
         },
         nestedNavItem: {
             padding: theme.spacing(0.5),

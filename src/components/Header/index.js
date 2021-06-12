@@ -92,7 +92,7 @@ function Header({ classes }) {
                                         >
                                             <img
                                                 src={discordIcon}
-                                                alt="discord"
+                                                alt="Discord"
                                                 className={classes.discordLogo}
                                             />
                                             Discord
