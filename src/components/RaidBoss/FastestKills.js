@@ -11,14 +11,14 @@ import TableRow from "@material-ui/core/TableRow";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import LogLink from "../LogLink";
-import DateTooltip from "../DateTooltip";
 import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
 import InfoIcon from "../InfoIcon";
 
-import { convertFightLength, dateTextHours } from "../../helpers";
+import { convertFightLength, dateTextHours, days } from "../../helpers";
 
 import DisplayDate from "../DisplayDate";
 
@@ -111,12 +111,14 @@ function FastestKills({ data, theme }) {
                                     </TableCell>
 
                                     <TableCell>
-                                        <DateTooltip date={date}>
-                                            <DisplayDate
-                                                date={date}
-                                                align="right"
-                                            />
-                                        </DateTooltip>
+                                        <Tooltip title={days[date.getDay()]}>
+                                            <span>
+                                                <DisplayDate
+                                                    date={date}
+                                                    align="right"
+                                                />
+                                            </span>
+                                        </Tooltip>
                                     </TableCell>
                                     <TableCell>{dateTextHours(date)}</TableCell>
                                 </TableRow>
