@@ -6,6 +6,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 
 function styles(theme) {
+    const isDark = theme.palette.type === "dark";
+
+    const textColor = isDark
+        ? theme.palette.text.primary
+        : theme.baseColors.light;
+    const borderTop = isDark ? "black" : "white";
     return {
         container: {
             height: "30px",
@@ -20,7 +26,7 @@ function styles(theme) {
             lineHeight: "30px",
             padding: `0 ${theme.spacing(1)}px`,
             textShadow: "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
-            color: theme.baseColors.light,
+            color: textColor,
             fontWeight: "bold"
         },
         item: {
@@ -48,7 +54,7 @@ function styles(theme) {
                 content: "''",
                 background:
                     "linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)",
-                borderTop: "1px solid white",
+                borderTop: `1px solid ${borderTop}`,
                 zIndex: "-2"
             }
         }

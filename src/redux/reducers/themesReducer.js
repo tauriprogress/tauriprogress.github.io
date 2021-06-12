@@ -16,7 +16,7 @@ import {
     orange
 } from "@material-ui/core/colors";
 
-const primary = "#1d2124";
+const primary = "#111111";
 const secondary = deepOrange[500];
 
 const light = "#f9f9f9";
@@ -26,11 +26,11 @@ const lightBackgroundLighter = "#fefefe";
 const lightBackgroundDarker = "#d5d5d5";
 const lightPSecondary = deepOrange[900];
 
-const dark = "#1a1c1d";
-const darkAccent = "#17191a";
+const dark = "#181818";
+const darkAccent = "#1a1a1a";
 const darkBackgroundDefault = dark;
-const darkBackgroundLighter = "#222526";
-const darkBackgroundDarker = "#151617";
+const darkBackgroundLighter = "#212121";
+const darkBackgroundDarker = "#121212";
 const darkPSecondary = deepOrange[300];
 
 const defaultTheme = {
@@ -315,7 +315,7 @@ const darkPalette = {
         100: "#BF360C"
     },
     text: {
-        primary: "#ededed"
+        primary: "#dedede"
     },
     type: "dark"
 };
