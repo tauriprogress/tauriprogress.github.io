@@ -80,6 +80,10 @@ function SearchGuild({ classes, history }) {
                             />
                         )}
                         onChange={(e, guild) => setGuild(guild)}
+                        getOptionSelected={(option, value) =>
+                            option.name === value.name &&
+                            option.realm === value.realm
+                        }
                     />
                 </Grid>
                 <Grid item>
