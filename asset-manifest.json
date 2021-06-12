@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.js": "/static/js/main.85d6d342.chunk.js",
-    "main.js.map": "/static/js/main.85d6d342.chunk.js.map",
+    "main.js": "/static/js/main.d5881d11.chunk.js",
+    "main.js.map": "/static/js/main.d5881d11.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.87c6fb1f.js",
     "runtime-main.js.map": "/static/js/runtime-main.87c6fb1f.js.map",
     "static/css/2.1ca50200.chunk.css": "/static/css/2.1ca50200.chunk.css",
-    "static/js/2.4aa3393a.chunk.js": "/static/js/2.4aa3393a.chunk.js",
-    "static/js/2.4aa3393a.chunk.js.map": "/static/js/2.4aa3393a.chunk.js.map",
+    "static/js/2.afab3da5.chunk.js": "/static/js/2.afab3da5.chunk.js",
+    "static/js/2.afab3da5.chunk.js.map": "/static/js/2.afab3da5.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.1ca50200.chunk.css.map": "/static/css/2.1ca50200.chunk.css.map",
-    "static/js/2.4aa3393a.chunk.js.LICENSE.txt": "/static/js/2.4aa3393a.chunk.js.LICENSE.txt",
+    "static/js/2.afab3da5.chunk.js.LICENSE.txt": "/static/js/2.afab3da5.chunk.js.LICENSE.txt",
     "static/media/Healer.6757cb53.svg": "/static/media/Healer.6757cb53.svg",
     "static/media/Melee.530f1c3d.svg": "/static/media/Melee.530f1c3d.svg",
     "static/media/Ranged.8c8fa6c4.svg": "/static/media/Ranged.8c8fa6c4.svg",
@@ -32,7 +32,7 @@
   "entrypoints": [
     "static/js/runtime-main.87c6fb1f.js",
     "static/css/2.1ca50200.chunk.css",
-    "static/js/2.4aa3393a.chunk.js",
-    "static/js/main.85d6d342.chunk.js"
+    "static/js/2.afab3da5.chunk.js",
+    "static/js/main.d5881d11.chunk.js"
   ]
 }
