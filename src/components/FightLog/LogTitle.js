@@ -1,10 +1,9 @@
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 
-import Link from "@material-ui/core/Link";
+import Link from "../Link";
 import Grid from "@material-ui/core/Grid";
 
 import DisplayDate from "../DisplayDate";
@@ -53,7 +52,6 @@ function LogTitle({ data, theme }) {
             label: "Guild",
             value: data.guildid ? (
                 <Link
-                    component={RouterLink}
                     to={`/guild/${data.guilddata.name}?realm=${data.realm}`}
                     style={{
                         color: data.guilddata.faction ? horde : alliance
@@ -70,7 +68,6 @@ function LogTitle({ data, theme }) {
             value: (
                 <Link
                     color="inherit"
-                    component={RouterLink}
                     to={`/raid/${data.mapentry.name}/${data.encounter_data.encounter_name}`}
                 >
                     {data.encounter_data.encounter_name}

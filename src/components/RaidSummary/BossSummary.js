@@ -1,15 +1,14 @@
 import React from "react";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
-import { Link as RouterLink } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
 
 import WithRealm from "../WithRealm";
 import LogLink from "../LogLink";
 import Avatar from "../Avatar";
+import Link from "../Link";
 
 import { applyFilter } from "./helpers";
 
@@ -97,7 +96,6 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 style={{
                                                     color: "inherit"
                                                 }}
-                                                component={RouterLink}
                                                 to={`/guild/${log.guild.name}?realm=${log.realm}`}
                                             >
                                                 {log.guild.name}
@@ -142,7 +140,6 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 style={{
                                                     color: "inherit"
                                                 }}
-                                                component={RouterLink}
                                                 to={`/guild/${log.guild.name}?realm=${log.realm}`}
                                             >
                                                 {log.guild.name}
@@ -213,7 +210,6 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                     }
                                                 />
                                                 <Link
-                                                    component={RouterLink}
                                                     to={`/character/${
                                                         character.name
                                                     }?realm=${shortRealmToFull(

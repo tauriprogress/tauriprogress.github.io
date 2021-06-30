@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Link from "@material-ui/core/Link";
 import ListItemText from "@material-ui/core/ListItemText";
+
+import Link from "../Link";
 
 import { raidImg } from "../../helpers";
 
@@ -55,7 +55,6 @@ function RaidBossList({ raid, classes }) {
                 <List disablePadding>
                     <Link
                         color="inherit"
-                        component={RouterLink}
                         to={`/raid/${raid.name}`}
                         onClick={() =>
                             window.innerWidth < navBreakpoint &&
@@ -78,7 +77,6 @@ function RaidBossList({ raid, classes }) {
                             <Link
                                 key={boss.name}
                                 color="inherit"
-                                component={RouterLink}
                                 to={linkTo}
                                 onClick={() =>
                                     window.innerWidth < navBreakpoint &&

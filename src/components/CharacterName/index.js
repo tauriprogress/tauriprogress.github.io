@@ -3,8 +3,8 @@ import React from "react";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
-import Link from "@material-ui/core/Link";
+import Link from "../Link";
+import { Link as RegularLink } from "@material-ui/core";
 
 import Avatar from "../Avatar";
 
@@ -49,7 +49,6 @@ function CharacterName({
             />
             {!linkTo ? (
                 <Link
-                    component={RouterLink}
                     to={`/character/${character.name}?realm=${realmName}`}
                     style={{
                         color: theme.palette.classColors[character.class].text
@@ -59,7 +58,7 @@ function CharacterName({
                     {character.name}
                 </Link>
             ) : (
-                <Link
+                <RegularLink
                     href={linkTo}
                     style={{
                         color: theme.palette.classColors[character.class].text
@@ -67,7 +66,7 @@ function CharacterName({
                     {...rest}
                 >
                     {character.name}
-                </Link>
+                </RegularLink>
             )}
         </React.Fragment>
     );

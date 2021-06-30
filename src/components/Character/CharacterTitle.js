@@ -3,14 +3,12 @@ import { useSelector } from "react-redux";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
 
-import { Link as RouterLink } from "react-router-dom";
-
-import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 
 import CharacterName from "../CharacterName";
 import Avatar from "../Avatar";
+import Link from "../Link";
 
 import { talentTreeToSpec, getFactionImg } from "../../helpers";
 
@@ -85,7 +83,6 @@ function CharacterTitle({ classes, theme }) {
             </Typography>
             <Typography variant="button" className={classes.guildName}>
                 <Link
-                    component={RouterLink}
                     color="inherit"
                     to={`/guild/${data.guildName}?realm=${data.realm}`}
                     style={{

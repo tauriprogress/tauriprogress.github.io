@@ -1,14 +1,11 @@
 import React from "react";
 
-import { Link as RouterLink } from "react-router-dom";
-
 import { withTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -17,6 +14,7 @@ import LogLink from "../LogLink";
 import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
 import InfoIcon from "../InfoIcon";
+import Link from "../Link";
 
 import { convertFightLength, dateTextHours, days } from "../../helpers";
 
@@ -70,9 +68,6 @@ function FastestKills({ data, theme }) {
                                                     >
                                                         <Typography>
                                                             <Link
-                                                                component={
-                                                                    RouterLink
-                                                                }
                                                                 style={{
                                                                     color: log
                                                                         .guild.f

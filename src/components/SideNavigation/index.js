@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import { Link as RouterLink } from "react-router-dom";
-
 import Collapse from "@material-ui/core/Collapse";
 import Drawer from "@material-ui/core/Drawer";
-import Link from "@material-ui/core/Link";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -21,6 +18,7 @@ import ListIcon from "@material-ui/icons/List";
 import SearchGuild from "../SearchGuild";
 import SearchCharacter from "../SearchCharacter";
 import RaidBossList from "./RaidBossList";
+import Link from "../Link";
 
 import { toggleNavigation } from "../../redux/actions";
 
@@ -118,7 +116,7 @@ function Navigation({ classes = {} }) {
     return (
         <nav className={classes.container}>
             <List>
-                <Link component={RouterLink} to={`/`} onClick={toggleNav}>
+                <Link to={`/`} onClick={toggleNav}>
                     <ListItem button>
                         <ListItemIcon>
                             <HomeIcon />
@@ -135,20 +133,12 @@ function Navigation({ classes = {} }) {
                     {leaderboardOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={leaderboardOpen} timeout="auto" unmountOnExit>
-                    <Link
-                        component={RouterLink}
-                        onClick={toggleNav}
-                        to={`/leaderboard/character`}
-                    >
+                    <Link onClick={toggleNav} to={`/leaderboard/character`}>
                         <ListItem button className={classes.nestedNavItem}>
                             <ListItemText primary="Character" />
                         </ListItem>
                     </Link>
-                    <Link
-                        component={RouterLink}
-                        onClick={toggleNav}
-                        to={`/leaderboard/guild`}
-                    >
+                    <Link onClick={toggleNav} to={`/leaderboard/guild`}>
                         <ListItem button className={classes.nestedNavItem}>
                             <ListItemText primary="Guild" />
                         </ListItem>

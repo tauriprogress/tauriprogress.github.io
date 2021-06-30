@@ -6,7 +6,6 @@ import {
     guildLeaderboardFetch,
     selectGuildLeaderboardTab
 } from "../../redux/actions";
-import { Link as RouterLink } from "react-router-dom";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -15,7 +14,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import WithRealm from "../WithRealm";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -29,6 +27,7 @@ import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
 import DisplayDate from "../DisplayDate";
 import OverflowScroll from "../OverflowScroll";
 import AlignedRankDisplay from "../AlignedRankDisplay";
+import Link from "../Link";
 
 import LogLink from "../LogLink";
 import InfoIcon from "../InfoIcon";
@@ -170,7 +169,6 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
                         <WithRealm realmName={guild.realm}>
                             <Typography className={classes.name}>
                                 <Link
-                                    component={RouterLink}
                                     style={{
                                         color: guild.f
                                             ? factionColors.horde
