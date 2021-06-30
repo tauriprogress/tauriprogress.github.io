@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useLocation, Redirect } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import Raid from "../Raid";
 import Guild from "../Guild";
@@ -15,54 +15,59 @@ import NotFound from "../NotFound";
 function RouteSwitch() {
     const location = useLocation();
     const background = location.state && location.state.background;
+
     return (
         <React.Fragment>
             <Switch location={background || location}>
                 <Route exact path="/" render={() => <GuildList />} />
                 <Route
                     exact
-                    path="/raid/:raidName/:bossName?"
+                    path={[
+                        "/raid/:raidName/:bossName?",
+                        "/seasonal/raid/:raidName/:bossName?"
+                    ]}
                     component={Raid}
                 />
-                <Route exact path="/guild/:guildName" component={Guild} />
                 <Route
                     exact
-                    path="/character/:characterName"
+                    path={["/guild/:guildName", "/seasonal/guild/:guildName"]}
+                    component={Guild}
+                />
+                <Route
+                    exact
+                    path={[
+                        "/character/:characterName",
+                        "/seasonal/character/:characterName"
+                    ]}
                     component={Character}
                 />
-                <Route exact path="/log/:logId" component={FightLog} />
                 <Route
                     exact
-                    path="/leaderboard"
-                    component={() => <Redirect to={"/leaderboard/character"} />}
+                    path={["/log/:logId", "/seasonal/log/:logId"]}
+                    component={FightLog}
                 />
                 <Route
                     exact
-                    path="/leaderboard/character"
+                    path={[
+                        "/leaderboard/character",
+                        "/seasonal/leaderboard/character"
+                    ]}
                     component={CharacterLeaderboard}
                 />
 
                 <Route
                     exact
-                    path="/leaderboard/guild"
+                    path={["/leaderboard/guild", "/seasonal/leaderboard/guild"]}
                     component={GuildLeaderboard}
-                />
-
-                <Route
-                    path="/player"
-                    component={() => (
-                        <Redirect
-                            to={`${location.pathname.replace(
-                                "player",
-                                "character"
-                            )}${location.search}`}
-                        />
-                    )}
                 />
                 <Route component={NotFound} />
             </Switch>
             {background && (
-                <Route exact path="/log/:logId" component={ModalFightLog} />
+                <Route
+                    exact
+                    path={["/log/:logId", "/seasonal/log/:logId"]}
+                    component={ModalFightLog}
+                />
             )}
         </React.Fragment>
     );
