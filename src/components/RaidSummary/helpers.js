@@ -1,6 +1,7 @@
 import { capitalize } from "../../helpers";
 
 export function applyFilter(bossData, filter, specs) {
+    if (!bossData[filter.difficulty]) return bossData[filter.difficulty];
     let boss = JSON.parse(JSON.stringify(bossData[filter.difficulty]));
 
     for (const property of ["firstKills", "fastestKills"]) {
