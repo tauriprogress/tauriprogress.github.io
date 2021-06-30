@@ -513,3 +513,8 @@ export function getRealmGroupOfLocalStorage() {
         ? localStorage.getItem("realmGroup")
         : "tauri";
 }
+
+export function pushToHistory(history, path) {
+    let isSeasonal = !!window.location.pathname.match(/^\/seasonal/i);
+    history.push(isSeasonal ? `/seasonal${path}` : path);
+}

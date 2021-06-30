@@ -14,6 +14,7 @@ import { guildsFetch } from "../../redux/actions";
 import { toggleNavigation } from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+import { pushToHistory } from "../../helpers";
 
 function styles() {
     return {
@@ -45,7 +46,8 @@ function SearchGuild({ classes, history }) {
             if (window.innerWidth < navBreakpoint) {
                 dispatch(toggleNavigation(false));
             }
-            history.push(`/guild/${guild.name}?realm=${guild.realm}`);
+
+            pushToHistory(history, `/guild/${guild.name}?realm=${guild.realm}`);
         }
     }
 
