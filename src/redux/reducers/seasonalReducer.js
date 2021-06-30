@@ -40,8 +40,6 @@ const defaultState = {
     nextStartTime: nextStartTime
 };
 
-console.log(defaultState);
-
 function seasonalReducer(state = defaultState, action) {
     switch (action.type) {
         default:
