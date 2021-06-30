@@ -12,6 +12,7 @@ import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
 import characterLeaderboardReducer from "./characterLeaderboardReducer";
 import guildLeaderboardReducer from "./guildLeaderboardReducer";
+import seasonalReducer from "./seasonalReducer";
 
 export default combineReducers({
     raid: raidReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
     themes: themesReducer,
     environment: environmentReducer,
     characterLeaderboard: characterLeaderboardReducer,
-    guildLeaderboard: guildLeaderboardReducer
+    guildLeaderboard: guildLeaderboardReducer,
+    seasonal: seasonalReducer
 });
