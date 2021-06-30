@@ -19,7 +19,11 @@ function RouteSwitch() {
     return (
         <React.Fragment>
             <Switch location={background || location}>
-                <Route exact path="/" render={() => <GuildList />} />
+                <Route
+                    exact
+                    path={["/", "/seasonal"]}
+                    render={() => <GuildList />}
+                />
                 <Route
                     exact
                     path={[
