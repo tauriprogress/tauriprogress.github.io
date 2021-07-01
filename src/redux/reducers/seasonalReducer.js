@@ -6,7 +6,7 @@ const currentTime = new Date().getTime();
 const defaultRealmGroup = getRealmGroupOfLocalStorage();
 
 const seasons = constants[defaultRealmGroup].seasons;
-console.log(seasons);
+
 const hasSeasonal = !!(seasons.length > 0);
 
 let isSeasonRunning = false;
