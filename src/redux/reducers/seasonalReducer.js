@@ -6,7 +6,7 @@ const currentTime = new Date().getTime();
 const defaultRealmGroup = getRealmGroupOfLocalStorage();
 
 const seasons = constants[defaultRealmGroup].seasons;
-
+console.log(seasons);
 const hasSeasonal = !!(seasons.length > 0);
 
 let isSeasonRunning = false;
@@ -14,6 +14,7 @@ let seasonName = undefined;
 let startTime = false;
 let finishTime = false;
 let nextStartTime = false;
+let nextSeasonName = undefined;
 
 for (const season of seasons) {
     const currentStartTime = new Date(season.start).getTime();
@@ -27,6 +28,7 @@ for (const season of seasons) {
 
     if (!nextStartTime && currentTime < currentStartTime) {
         nextStartTime = currentStartTime;
+        nextSeasonName = season.name;
     }
 }
 
@@ -37,7 +39,8 @@ const defaultState = {
     seasonName: seasonName,
     startTime: startTime,
     finishTime: finishTime,
-    nextStartTime: nextStartTime
+    nextStartTime: nextStartTime,
+    nextSeasonName: nextSeasonName
 };
 
 function seasonalReducer(state = defaultState, action) {

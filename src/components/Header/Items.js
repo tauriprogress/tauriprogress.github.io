@@ -47,7 +47,12 @@ function styles(theme) {
 
 function NavItems({ classes }) {
     const dispatch = useDispatch();
-    const realmGroup = useSelector(state => state.environment.realmGroup);
+    const { realmGroup, hasSeasonal, seasonName, nextSeasonName } = useSelector(
+        state => ({
+            ...state.seasonal,
+            realmGroup: state.environment.realmGroup
+        })
+    );
 
     return (
         <Grid container className={classes.stretchHeight}>
@@ -104,6 +109,15 @@ function NavItems({ classes }) {
                     </Typography>
                 </div>
             </Grid>
+            {hasSeasonal && (seasonName || nextSeasonName) && (
+                <Grid item className={classes.verticalCenter}>
+                    <div>
+                        <Typography className={classes.textItem}>
+                            {seasonName || nextSeasonName}
+                        </Typography>
+                    </div>
+                </Grid>
+            )}
         </Grid>
     );
 }
