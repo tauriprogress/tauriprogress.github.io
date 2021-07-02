@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
 
 import {
     toggleNavigation,
@@ -41,18 +42,61 @@ function styles(theme) {
         expansionLogo: {
             height: "35px",
             marginLeft: "10px"
+        },
+        seasonButton: {
+            padding: 10,
+            marginLeft: "10px",
+            height: "100%",
+            fontSize: `${18 / 16}rem`,
+            position: "relative",
+            "&:hover span": {
+                "-webkit-text-fill-color": "white"
+            }
+        },
+        seasonButtonText: {
+            color: theme.palette.text.disabled
+        },
+        seasonButtonTextActive: {
+            background:
+                "-webkit-linear-gradient(top,#efd100,#e2a233 19%,#f0c328 30%,#fff1a3 43%,#ffe13e 50%,#fff 51%,#fff)",
+            backgroundClip: "border-box",
+            "-webkit-background-clip": "text",
+            "-webkit-text-fill-color": "transparent",
+            color: "#f8b700",
+            position: "relative",
+            "&:after": {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                height: "100%",
+                width: "100%",
+                content: "attr(data-text)",
+                zIndex: -1,
+                "-webkit-background-clip": "background",
+                textShadow:
+                    "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000"
+            }
         }
     };
 }
 
 function NavItems({ classes }) {
     const dispatch = useDispatch();
-    const { realmGroup, hasSeasonal, seasonName, nextSeasonName } = useSelector(
-        state => ({
+    const { realmGroup, hasSeasonal, seasonName, nextSeasonName, isSeasonal } =
+        useSelector(state => ({
             ...state.seasonal,
             realmGroup: state.environment.realmGroup
-        })
-    );
+        }));
+
+    function seasonalSwitch() {
+        if (hasSeasonal) {
+            if (isSeasonal) {
+                window.location.href = window.location.origin;
+            } else {
+                window.location.href = window.location.origin + "/seasonal/";
+            }
+        }
+    }
 
     return (
         <Grid container className={classes.stretchHeight}>
@@ -111,11 +155,22 @@ function NavItems({ classes }) {
             </Grid>
             {hasSeasonal && (seasonName || nextSeasonName) && (
                 <Grid item className={classes.verticalCenter}>
-                    <div>
-                        <Typography className={classes.textItem}>
+                    <Button
+                        className={classes.seasonButton}
+                        onClick={seasonalSwitch}
+                    >
+                        <span
+                            className={
+                                isSeasonal
+                                    ? classes.seasonButtonTextActive
+                                    : classes.seasonButtonText
+                            }
+                            data-text={seasonName || nextSeasonName}
+                            style={{}}
+                        >
                             {seasonName || nextSeasonName}
-                        </Typography>
-                    </div>
+                        </span>
+                    </Button>
                 </Grid>
             )}
         </Grid>
