@@ -47,6 +47,14 @@ function getSeasonalDefaultState() {
 
 const defaultState = getSeasonalDefaultState();
 
+if (!defaultState.hasSeasonal && defaultState.isSeasonal) {
+    window.history.replaceState(
+        window.history.state,
+        document.title,
+        window.location.origin
+    );
+}
+
 function seasonalReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGE_REALMGROUP":
