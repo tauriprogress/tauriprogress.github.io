@@ -515,6 +515,9 @@ export function getRealmGroupOfLocalStorage() {
 }
 
 export function pushToHistory(history, path) {
-    let isSeasonal = !!window.location.pathname.match(/^\/seasonal/i);
-    history.push(isSeasonal ? `/seasonal${path}` : path);
+    history.push(isUrlSeasonal() ? `/seasonal${path}` : path);
+}
+
+export function isUrlSeasonal() {
+    return new RegExp(/^\/seasonal/).test(window.location.pathname);
 }

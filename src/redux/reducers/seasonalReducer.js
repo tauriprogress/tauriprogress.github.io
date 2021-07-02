@@ -1,5 +1,5 @@
 import constants from "tauriprogress-constants";
-import { getRealmGroupOfLocalStorage } from "../../helpers";
+import { getRealmGroupOfLocalStorage, isUrlSeasonal } from "../../helpers";
 
 function getSeasonalDefaultState() {
     const currentTime = new Date().getTime();
@@ -34,7 +34,7 @@ function getSeasonalDefaultState() {
     }
 
     return {
-        isSeasonal: !!new RegExp(/^\/seasonal/).test(window.location.pathname),
+        isSeasonal: hasSeasonal && isUrlSeasonal(),
         hasSeasonal: hasSeasonal,
         isSeasonRunning: isSeasonRunning,
         seasonName: seasonName,
@@ -47,7 +47,7 @@ function getSeasonalDefaultState() {
 
 const defaultState = getSeasonalDefaultState();
 
-if (!defaultState.hasSeasonal && defaultState.isSeasonal) {
+if (!defaultState.hasSeasonal && isUrlSeasonal()) {
     window.history.replaceState(
         window.history.state,
         document.title,
