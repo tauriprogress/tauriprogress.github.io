@@ -4,6 +4,7 @@ import {
     setCharacterLeaderboardError,
     fillCharacterLeaderboard
 } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl, dataId) {
     return await fetch(`${serverUrl}/leaderboard/character`, {
@@ -28,7 +29,7 @@ function* fetchCharacterLeaderboard({ payload }) {
 
         yield put(setCharacterLeaderboardLoading(dataId));
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, dataId);
 
         if (!response.success) {

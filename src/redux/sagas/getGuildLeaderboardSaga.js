@@ -4,6 +4,7 @@ import {
     guildLeaderboardLoad,
     guildLeaderboardFill
 } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/leaderboard/guild`).then(res =>
@@ -27,7 +28,7 @@ function* fetchGuildLeaderboard({ payload }) {
         }
         yield put(guildLeaderboardLoad());
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
 
         const response = yield call(getData, serverUrl);
         if (!response.success) {

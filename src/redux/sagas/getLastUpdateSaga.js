@@ -1,9 +1,10 @@
-import { put, call, takeLatest, select } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import {
     additionalInfoLoading,
     additionalInfoFill,
     additionalInfoSetError
 } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/lastupdated`).then(res => res.json());
@@ -13,7 +14,7 @@ function* fetchLastUpdated() {
     try {
         yield put(additionalInfoLoading());
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl);
 
         if (!response.success) {

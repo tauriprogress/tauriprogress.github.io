@@ -4,6 +4,7 @@ import {
     setRaidSummaryError,
     fillRaidSummary
 } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl, raidId) {
     return await fetch(`${serverUrl}/getraidsummary`, {
@@ -29,7 +30,7 @@ function* fetchRaidSummary({ payload: raidId }) {
             })
         );
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, raidId);
 
         if (!response.success) {

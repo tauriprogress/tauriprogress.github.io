@@ -1,5 +1,6 @@
 import { put, call, takeLatest, select } from "redux-saga/effects";
 import { setRaidBossLoading, fillRaidBoss, setRaidBossError } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl, raidId, bossName) {
     return await fetch(`${serverUrl}/getboss`, {
@@ -23,7 +24,7 @@ function* fetchRaidBoss({ payload }) {
 
         yield put(setRaidBossLoading({ raidId, bossName }));
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, raidId, bossName);
 
         if (!response.success) {

@@ -1,5 +1,6 @@
-import { put, call, takeLatest, select } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import { setFightLogLoading, fillFightLog, setFightLogError } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl, logId, realm) {
     return await fetch(`${serverUrl}/getlog`, {
@@ -20,7 +21,7 @@ function* fetchLog({ payload }) {
 
         yield put(setFightLogLoading());
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, logId, realm);
 
         if (!response.success) {

@@ -4,6 +4,7 @@ import {
     setCharacterItemsError,
     fillCharacterItems
 } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl, ids, realm) {
     return await fetch(`${serverUrl}/getitems`, {
@@ -34,7 +35,7 @@ function* fetchCharacterItems({ payload }) {
 
         yield put(setCharacterItemsLoading(true));
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, filteredIds, realm);
 
         if (!response.success) {

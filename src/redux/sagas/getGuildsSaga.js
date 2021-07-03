@@ -1,5 +1,6 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import { guildsSetError, guildsLoad, guildsFill } from "../actions";
+import { getServerUrl } from "./helpers";
 
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/getguildlist`).then(res => res.json());
@@ -21,7 +22,7 @@ function* fetchGuilds({ payload }) {
         }
         yield put(guildsLoad());
 
-        const serverUrl = yield select(state => state.environment.urls.server);
+        const serverUrl = yield getServerUrl();
 
         const response = yield call(getData, serverUrl);
         if (!response.success) {
