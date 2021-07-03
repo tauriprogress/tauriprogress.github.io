@@ -98,8 +98,7 @@ function CharacterProgression({ classes }) {
                         className={classes.tab}
                         style={{
                             backgroundImage: `url("${raidImg(raid.image)}")`,
-                            backgroundSize:
-                                realmGroup !== "tauri" ? "cover" : "default"
+                            backgroundSize: "cover"
                         }}
                         onClick={() => selectRaid(raid.name)}
                     />
