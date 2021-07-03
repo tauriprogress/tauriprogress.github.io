@@ -45,7 +45,7 @@ function getSeasonalDefaultState() {
     };
 }
 
-const defaultState = getSeasonalDefaultState();
+export const defaultState = getSeasonalDefaultState();
 
 if (!defaultState.hasSeasonal && isUrlSeasonal()) {
     window.history.replaceState(

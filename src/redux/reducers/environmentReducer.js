@@ -1,6 +1,8 @@
 import constants from "tauriprogress-constants";
 import { validRealmGroup } from "../../helpers";
 
+import { defaultState as seasonalState } from "./seasonalReducer";
+
 const devEnv = process.env.NODE_ENV === "development" ? true : false;
 const realmGroupInLocalStorage = localStorage.getItem("realmGroup");
 const defaultRealmGroup = validRealmGroup(realmGroupInLocalStorage)
@@ -22,6 +24,10 @@ const defaultState = {
     ...constants[defaultRealmGroup],
     realmGroup: defaultRealmGroup
 };
+
+if (seasonalState.isSeasonal) {
+    defaultState.currentContent.raids = [defaultState.currentContent.raids[0]];
+}
 
 function environmentReducer(state = defaultState, action) {
     switch (action.type) {
