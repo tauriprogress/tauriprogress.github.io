@@ -6,7 +6,7 @@ import Guild from "../Guild";
 import Character from "../Character";
 import FightLog from "../FightLog";
 import ModalFightLog from "../FightLog/Modal";
-import GuildList from "../GuildList";
+import Home from "../Home";
 import CharacterLeaderboard from "../CharacterLeaderboard";
 import GuildLeaderboard from "../GuildLeaderboard";
 
@@ -22,7 +22,7 @@ function RouteSwitch() {
                 <Route
                     exact
                     path={["/", "/seasonal"]}
-                    render={() => <GuildList />}
+                    render={() => <Home />}
                 />
                 <Route
                     exact
