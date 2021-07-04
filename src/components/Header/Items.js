@@ -50,7 +50,10 @@ function styles(theme) {
             fontSize: `${18 / 16}rem`,
             position: "relative",
             "&:hover span": {
-                "-webkit-text-fill-color": "white"
+                "-webkit-text-fill-color": theme.palette.text.primary,
+                "&:after": {
+                    textShadow: "none"
+                }
             }
         },
         seasonButtonText: {
