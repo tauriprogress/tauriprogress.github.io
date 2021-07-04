@@ -25,13 +25,17 @@ function SeasonalCountdown({ classes }) {
         nextStartTime - new Date().getTime()
     );
 
+    const isMounted = React.useRef(true);
+
     useEffect(() => {
-        if (timeLeft > 0) {
-            setTimeout(
-                () => setTimeLeft(nextStartTime - new Date().getTime()),
-                1000
-            );
-        }
+        isMounted.current = true;
+        setTimeout(() => {
+            if (isMounted.current) {
+                setTimeLeft(nextStartTime - new Date().getTime());
+            }
+        }, 1000);
+
+        return () => (isMounted.current = false);
     }, [nextStartTime, timeLeft]);
 
     return (
