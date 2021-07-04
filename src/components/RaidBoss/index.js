@@ -63,18 +63,16 @@ function RaidBoss({ match }) {
         <React.Fragment>
             <Typography variant="h4" align="center">
                 {`${bossName} ${difficultyNames[difficulty]}`}
-                {boss.killCount && (
-                    <Typography variant="caption" color="textSecondary">
-                        {" "}
-                        <span
-                            style={{
-                                whiteSpace: "nowrap"
-                            }}
-                        >
-                            {boss.killCount} Kills
-                        </span>
-                    </Typography>
-                )}
+                <Typography variant="caption" color="textSecondary">
+                    {" "}
+                    <span
+                        style={{
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        {boss.killCount} Kills
+                    </span>
+                </Typography>
             </Typography>
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
