@@ -6,12 +6,15 @@ import { withStyles } from "@material-ui/core/styles";
 
 function styles() {
     return {
-        text: {
+        countdown: {
             fontSize: `${30 / 16}rem`,
-            textAlign: "center"
+            textAlign: "center",
+            marginBottom: "20px"
         },
         container: {
-            paddingTop: "50px"
+            paddingTop: "50px",
+            margin: "auto",
+            maxWidth: "500px"
         }
     };
 }
@@ -40,7 +43,7 @@ function SeasonalCountdown({ classes }) {
 
     return (
         <section className={classes.container}>
-            <Typography className={classes.text}>
+            <Typography className={classes.countdown}>
                 {timeLeft < 1 ? (
                     "Season Started"
                 ) : (
@@ -48,6 +51,15 @@ function SeasonalCountdown({ classes }) {
                         {nextSeasonName} <br /> {convertFightLength(timeLeft)}
                     </span>
                 )}
+            </Typography>
+            <Typography>
+                A season starts on the first Wednesday of the month, and ends 3
+                months later on the last Wednesday of the month. There is a week
+                break between seasons. All data of the previous season is wiped
+                for a fresh start.
+            </Typography>
+            <Typography>
+                If you have suggestions, discuss on discord.
             </Typography>
         </section>
     );
