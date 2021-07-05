@@ -28,18 +28,19 @@ function SeasonalCountdown({ classes }) {
         nextStartTime - new Date().getTime()
     );
 
-    const isMounted = React.useRef(true);
+    const timerId = React.useRef(undefined);
 
     useEffect(() => {
-        isMounted.current = true;
-        setTimeout(() => {
-            if (isMounted.current) {
-                setTimeLeft(nextStartTime - new Date().getTime());
-            }
+        timerId.current = setInterval(() => {
+            setTimeLeft(nextStartTime - new Date().getTime());
         }, 1000);
 
-        return () => (isMounted.current = false);
-    }, [nextStartTime, timeLeft]);
+        return () => clearInterval(timerId.current);
+    }, [nextStartTime]);
+
+    if (timeLeft < 0) {
+        clearInterval(timerId.current);
+    }
 
     return (
         <section className={classes.container}>
