@@ -13,7 +13,6 @@ import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import DateTooltip from "../DateTooltip";
@@ -122,7 +121,7 @@ function GuildList({ theme, classes }) {
     }, [realmGroup, dispatch]);
 
     return (
-        <Page title={"Tauri Progress"}>
+        <React.Fragment>
             {loading && <Loading className={classes.loader} />}
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (
@@ -459,7 +458,7 @@ function GuildList({ theme, classes }) {
                     </OverflowScroll>
                 </React.Fragment>
             )}
-        </Page>
+        </React.Fragment>
     );
 }
 

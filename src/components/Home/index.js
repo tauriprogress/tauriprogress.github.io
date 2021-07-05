@@ -3,15 +3,22 @@ import { useSelector } from "react-redux";
 
 import GuildList from "../GuildList";
 import SeasonalCountdown from "../SeasonalCountdown";
+import Page from "../Page";
 
 function Home() {
     const { isSeasonal, isSeasonRunning } = useSelector(
         state => state.seasonal
     );
-    if (isSeasonal && !isSeasonRunning) {
-        return <SeasonalCountdown />;
-    }
-    return <GuildList />;
+
+    return (
+        <Page>
+            {isSeasonal && !isSeasonRunning ? (
+                <SeasonalCountdown />
+            ) : (
+                <GuildList />
+            )}
+        </Page>
+    );
 }
 
 export default Home;
