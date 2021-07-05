@@ -1,7 +1,7 @@
 import { raidNameToId } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -38,7 +38,7 @@ function RaidBoss({ match }) {
             filter: state.raid.filter,
             difficultyNames: state.environment.difficultyNames
         };
-    });
+    }, shallowEqual);
     const boss =
         match.params.bossName === bossName
             ? data && data[difficulty]

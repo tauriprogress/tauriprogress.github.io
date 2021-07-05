@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -23,12 +23,16 @@ function styles(theme) {
 }
 
 function ItemTooltip({ classes, children, id, ids, realm }) {
-    const { loading, error, item, iconUrl } = useSelector(state => ({
-        item: state.character.items.data[id],
-        loading: state.character.items.loading,
-        error: state.character.items.error,
-        iconUrl: state.environment.urls.icon
-    }));
+    const { loading, error, item, iconUrl } = useSelector(
+        state => ({
+            item: state.character.items.data[id],
+            loading: state.character.items.loading,
+            error: state.character.items.error,
+            iconUrl: state.environment.urls.icon
+        }),
+        shallowEqual
+    );
+
     const dispatch = useDispatch();
 
     async function onOpen() {
@@ -38,25 +42,27 @@ function ItemTooltip({ classes, children, id, ids, realm }) {
     }
 
     return (
-        <Tooltip
-            onOpen={onOpen}
-            classes={{
-                tooltip: classes.tooltip
-            }}
-            placement={"left"}
-            title={
-                <React.Fragment>
-                    {loading && "Loading..."}
-                    {error && error}
+        <React.Fragment>
+            <Tooltip
+                onOpen={onOpen}
+                classes={{
+                    tooltip: classes.tooltip
+                }}
+                placement={"left"}
+                title={
+                    <React.Fragment>
+                        {loading && "Loading..."}
+                        {error && error}
 
-                    {!loading && !error && item && (
-                        <ItemTooltipText item={item} iconUrl={iconUrl} />
-                    )}
-                </React.Fragment>
-            }
-        >
-            {children}
-        </Tooltip>
+                        {!loading && !error && item && (
+                            <ItemTooltipText item={item} iconUrl={iconUrl} />
+                        )}
+                    </React.Fragment>
+                }
+            >
+                {children}
+            </Tooltip>
+        </React.Fragment>
     );
 }
 

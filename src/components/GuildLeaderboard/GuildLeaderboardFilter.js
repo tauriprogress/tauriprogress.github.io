@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
@@ -24,30 +24,25 @@ function styles(theme) {
 }
 
 function GuildLeaderboardFilter({ classes, theme }) {
-    const {
-        filter,
-        realms,
-        difficultyNames,
-        difficulties,
-        raids
-    } = useSelector(state => ({
-        filter: state.guildLeaderboard.filter,
-        realms: getRealmNames(state.environment.realms),
-        difficultyNames: state.environment.difficultyNames,
-        difficulties: state.environment.currentContent.raids.reduce(
-            (acc, raid) => {
-                for (const difficulty of raid.difficulties) {
-                    if (!acc.includes(difficulty)) {
-                        acc.push(difficulty);
-                    }
-                }
-                return acc;
-            },
-            []
-        ),
-        raids: state.environment.currentContent.raids
-    }));
+    const { filter, realms, difficultyNames, raids } = useSelector(
+        state => ({
+            filter: state.guildLeaderboard.filter,
+            realms: state.environment.realms,
+            difficultyNames: state.environment.difficultyNames,
+            raids: state.environment.currentContent.raids
+        }),
+        shallowEqual
+    );
 
+    const realmNames = getRealmNames(realms);
+    const difficulties = raids.reduce((acc, raid) => {
+        for (const difficulty of raid.difficulties) {
+            if (!acc.includes(difficulty)) {
+                acc.push(difficulty);
+            }
+        }
+        return acc;
+    }, []);
     const dispatch = useDispatch();
 
     const {
@@ -55,7 +50,7 @@ function GuildLeaderboardFilter({ classes, theme }) {
     } = theme;
 
     let realmOptions = [];
-    for (let realm of realms) {
+    for (let realm of realmNames) {
         realmOptions.push({
             value: realm,
             name: realm

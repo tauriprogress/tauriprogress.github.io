@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
 import {
@@ -84,10 +84,13 @@ function GuildLeaderboard({ theme, classes }) {
     const { factionColors } = theme.palette;
 
     const { data, loading, error, realmGroup, filter, selectedTab } =
-        useSelector(state => ({
-            ...state.guildLeaderboard,
-            realmGroup: state.environment.realmGroup
-        }));
+        useSelector(
+            state => ({
+                ...state.guildLeaderboard,
+                realmGroup: state.environment.realmGroup
+            }),
+            shallowEqual
+        );
     const dispatch = useDispatch();
 
     const selectedTabName = selectedTab === 0 ? "fullClear" : "fastestKills";

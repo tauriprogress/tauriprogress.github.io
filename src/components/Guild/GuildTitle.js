@@ -2,7 +2,7 @@ import React from "react";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
 
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -28,12 +28,15 @@ function styles(theme) {
 }
 
 function GuildTitle({ classes, theme }) {
-    const { name, faction, membersCount, realm } = useSelector(state => ({
-        name: state.guild.data.name,
-        faction: state.guild.data.f,
-        membersCount: state.guild.data.members.length,
-        realm: state.guild.data.realm
-    }));
+    const { name, faction, membersCount, realm } = useSelector(
+        state => ({
+            name: state.guild.data.name,
+            faction: state.guild.data.f,
+            membersCount: state.guild.data.members.length,
+            realm: state.guild.data.realm
+        }),
+        shallowEqual
+    );
 
     const emblem = getFactionImg(faction);
 

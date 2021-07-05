@@ -1,6 +1,6 @@
 import { characterClassToSpec } from "tauriprogress-constants";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
@@ -64,11 +64,14 @@ function RaidChart({
     variant = "dps"
 }) {
     const { classColors } = theme.palette;
-    const { raids, specs, characterClassNames } = useSelector(state => ({
-        raids: state.environment.currentContent.raids,
-        specs: state.environment.specs,
-        characterClassNames: state.environment.characterClassNames
-    }));
+    const { raids, specs, characterClassNames } = useSelector(
+        state => ({
+            raids: state.environment.currentContent.raids,
+            specs: state.environment.specs,
+            characterClassNames: state.environment.characterClassNames
+        }),
+        shallowEqual
+    );
 
     const [spec, setSpec] = useState("noSpec");
 

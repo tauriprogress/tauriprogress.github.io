@@ -18,11 +18,7 @@ function styles(theme) {
 }
 
 function CharacterStats({ classes }) {
-    const { data } = useSelector(state => {
-        return {
-            data: state.character.data.data
-        };
-    });
+    const data = useSelector(state => state.character.data.data);
 
     const general = [
         { label: "Achievements", value: data && data.pts },

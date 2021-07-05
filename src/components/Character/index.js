@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import queryString from "query-string";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -32,7 +32,15 @@ function styles() {
 function Character({ classes, match, location }) {
     const characterName = match.params.characterName;
     const realm = queryString.parse(location.search).realm;
-    const { loading, error } = useSelector(state => state.character.data);
+
+    const { loading, error } = useSelector(
+        state => ({
+            loading: state.character.data.loading,
+            error: state.character.data.error
+        }),
+        shallowEqual
+    );
+
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -92,13 +92,17 @@ function GuildList({ theme, classes }) {
         totalBosses,
         difficulties,
         realmGroup
-    } = useSelector(state => ({
-        ...state.guildList,
-        difficultyNames: state.environment.difficultyNames,
-        totalBosses: state.environment.currentContent.totalBosses,
-        difficulties: state.environment.currentContent.raids[0].difficulties,
-        realmGroup: state.environment.realmGroup
-    }));
+    } = useSelector(
+        state => ({
+            ...state.guildList,
+            difficultyNames: state.environment.difficultyNames,
+            totalBosses: state.environment.currentContent.totalBosses,
+            difficulties:
+                state.environment.currentContent.raids[0].difficulties,
+            realmGroup: state.environment.realmGroup
+        }),
+        shallowEqual
+    );
 
     const timeBoundary = guildActivityBoundary();
 

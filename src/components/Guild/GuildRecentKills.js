@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TitledContainer from "../TitledContainer";
 import RecentKills from "../RecentKills";
 
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 function styles(theme) {
     return {
@@ -22,10 +22,13 @@ function styles(theme) {
 }
 
 function GuildLastestKills({ classes }) {
-    const { recentKills, realm } = useSelector(state => ({
-        recentKills: state.guild.data.progression.recentKills,
-        realm: state.guild.data.realm
-    }));
+    const { recentKills, realm } = useSelector(
+        state => ({
+            recentKills: state.guild.data.progression.recentKills,
+            realm: state.guild.data.realm
+        }),
+        shallowEqual
+    );
 
     return (
         <TitledContainer title="Recent Kills" className={classes.container}>

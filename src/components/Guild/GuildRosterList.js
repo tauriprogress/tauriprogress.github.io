@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -41,11 +41,14 @@ function styles(theme) {
 
 function GuildRosterList({ classes, theme, members, classInfo }) {
     const rowsPerPage = 10;
-    const { realm, characterClassNames, ranks } = useSelector(state => ({
-        realm: state.guild.data.realm,
-        characterClassNames: state.environment.characterClassNames,
-        ranks: state.guild.data.ranks
-    }));
+    const { realm, characterClassNames, ranks } = useSelector(
+        state => ({
+            realm: state.guild.data.realm,
+            characterClassNames: state.environment.characterClassNames,
+            ranks: state.guild.data.ranks
+        }),
+        shallowEqual
+    );
 
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState({

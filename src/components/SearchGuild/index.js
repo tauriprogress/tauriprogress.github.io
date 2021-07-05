@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
@@ -25,17 +25,19 @@ function styles() {
 }
 
 function SearchGuild({ classes, history }) {
-    const { guilds, realmGroup } = useSelector(state => {
+    const { guildList, realmGroup } = useSelector(state => {
         return {
-            guilds: state.guildList.data
-                ? state.guildList.data.map(guild => ({
-                      name: guild.name,
-                      realm: guild.realm
-                  }))
-                : [],
+            guildList: state.guildList.data,
             realmGroup: state.environment.realmGroup
         };
-    });
+    }, shallowEqual);
+
+    const guilds = guildList
+        ? guildList.map(guild => ({
+              name: guild.name,
+              realm: guild.realm
+          }))
+        : [];
 
     const [guild, setGuild] = useState("");
 

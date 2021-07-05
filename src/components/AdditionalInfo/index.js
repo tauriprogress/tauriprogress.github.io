@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -38,12 +38,16 @@ function AdditionalInfo({ classes }) {
 
     const { lastUpdated, isUpdating, loading, error, realmGroup } = useSelector(
         state => ({
-            ...state.additionalInfo,
+            lastUpdated: state.additionalInfo.lastUpdated,
+            isUpdating: state.additionalInfo.isUpdating,
+            loading: state.additionalInfo.loading,
+            error: state.additionalInfo.error,
             realmGroup:
                 Object.keys(state.environment.realms).length > 1
                     ? "tauri"
                     : "crystalsong"
-        })
+        }),
+        shallowEqual
     );
 
     const dispatch = useDispatch();

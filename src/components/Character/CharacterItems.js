@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
 
@@ -44,15 +44,22 @@ function styles(theme) {
 }
 
 function CharacterItems({ classes, theme }) {
-    const { data, iconUrl } = useSelector(state => ({
-        data: state.character.data.data,
-        iconUrl: state.environment.urls.icon
-    }));
-    if (!data) {
+    const { characterItems, iconUrl, realm } = useSelector(
+        state => ({
+            characterItems:
+                !!state.character.data.data &&
+                state.character.data.data.characterItems,
+            realm:
+                !!state.character.data.data && state.character.data.data.realm,
+            iconUrl: state.environment.urls.icon
+        }),
+        shallowEqual
+    );
+    if (!characterItems) {
         return <div />;
     }
 
-    const ids = data.characterItems.reduce(
+    const ids = characterItems.reduce(
         (acc, curr) => (curr.guid ? [...acc, curr.guid] : acc),
         []
     );
@@ -60,13 +67,13 @@ function CharacterItems({ classes, theme }) {
     return (
         <TitledContainer title="Items">
             <List>
-                {data.characterItems.map(
+                {characterItems.map(
                     item =>
                         item.name && (
                             <React.Fragment key={item.guid}>
                                 <CharacterItemTooltip
                                     id={item.guid}
-                                    realm={data.realm}
+                                    realm={realm}
                                     ids={ids}
                                 >
                                     <ListItem>
@@ -105,11 +112,10 @@ function CharacterItems({ classes, theme }) {
                                                             classes.itemName
                                                         }
                                                         style={{
-                                                            color:
-                                                                theme.palette
-                                                                    .qualityColors[
-                                                                    item.rarity
-                                                                ]
+                                                            color: theme.palette
+                                                                .qualityColors[
+                                                                item.rarity
+                                                            ]
                                                         }}
                                                     >
                                                         {item.name}

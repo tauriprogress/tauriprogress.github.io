@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import queryString from "query-string";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import validateRealm from "../Router/validateRealm";
 
@@ -23,11 +23,14 @@ function Guild({ match, location }) {
     const guildName = match.params.guildName;
     const realm = queryString.parse(location.search).realm;
 
-    const { loading, loaded, error } = useSelector(state => ({
-        loading: state.guild.loading,
-        loaded: state.guild.data ? true : false,
-        error: state.guild.error
-    }));
+    const { loading, loaded, error } = useSelector(
+        state => ({
+            loading: state.guild.loading,
+            loaded: !!state.guild.data,
+            error: state.guild.error
+        }),
+        shallowEqual
+    );
 
     const dispatch = useDispatch();
 

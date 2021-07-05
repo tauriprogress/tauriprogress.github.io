@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 
@@ -17,10 +17,14 @@ function GuildListFilter({ theme, filter, setFilter }) {
         useSelector(state => state.environment.realms)
     );
 
-    const { difficulties, difficultyNames } = useSelector(state => ({
-        difficulties: state.environment.currentContent.raids[0].difficulties,
-        difficultyNames: state.environment.difficultyNames
-    }));
+    const { difficulties, difficultyNames } = useSelector(
+        state => ({
+            difficulties:
+                state.environment.currentContent.raids[0].difficulties,
+            difficultyNames: state.environment.difficultyNames
+        }),
+        shallowEqual
+    );
 
     return (
         <FilterContainer>

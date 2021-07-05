@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -14,12 +14,15 @@ import { Typography } from "@material-ui/core";
 import OverflowScroll from "../OverflowScroll";
 
 function GuildBoss() {
-    const { filter, data, difficultyNames } = useSelector(state => ({
-        filter: state.guild.progressionFilter,
-        data: state.guild.data.progression,
-        raids: state.environment.currentContent.raids,
-        difficultyNames: state.environment.difficultyNames
-    }));
+    const { filter, data, difficultyNames } = useSelector(
+        state => ({
+            filter: state.guild.progressionFilter,
+            data: state.guild.data.progression,
+            raids: state.environment.currentContent.raids,
+            difficultyNames: state.environment.difficultyNames
+        }),
+        shallowEqual
+    );
 
     const difficulty = filter.difficulty;
 

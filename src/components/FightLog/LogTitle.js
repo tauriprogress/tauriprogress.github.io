@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 
@@ -30,10 +30,13 @@ function LogTitle({ data, theme }) {
         tank: 0
     };
 
-    const { specs, difficultyNames } = useSelector(state => ({
-        specs: state.environment.specs,
-        difficultyNames: state.environment.difficultyNames
-    }));
+    const { specs, difficultyNames } = useSelector(
+        state => ({
+            specs: state.environment.specs,
+            difficultyNames: state.environment.difficultyNames
+        }),
+        shallowEqual
+    );
 
     for (let member of data.members) {
         let role = specs[member.spec].role;

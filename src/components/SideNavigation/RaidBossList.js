@@ -99,4 +99,4 @@ function RaidBossList({ raid, classes }) {
     );
 }
 
-export default withStyles(styles)(RaidBossList);
+export default withStyles(styles)(React.memo(RaidBossList));

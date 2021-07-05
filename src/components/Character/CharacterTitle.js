@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { withStyles, withTheme } from "@material-ui/core/styles";
 
@@ -48,7 +48,8 @@ function CharacterTitle({ classes, theme }) {
             armoryUrl: state.environment.urls.armory,
             characterClassNames: state.environment.characterClassNames,
             specs: state.environment.specs
-        })
+        }),
+        shallowEqual
     );
 
     if (!data) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -56,7 +56,7 @@ function CharacterProgression({ classes }) {
             currentContentName: state.environment.currentContent.name,
             realmGroup: state.environment.realmGroup
         };
-    });
+    }, shallowEqual);
 
     const difficulties = []
         .concat(getDifficulties(raids, currentContentName))
@@ -104,7 +104,6 @@ function CharacterProgression({ classes }) {
                     />
                 ))}
             </Tabs>
-
             <Container>
                 {loading && <Loading />}
                 {!loading && error && <ErrorMessage message={error} />}

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { characterSpecToClass } from "tauriprogress-constants";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
@@ -31,25 +31,28 @@ function RaidFilter({ classes, theme }) {
         specs,
         characterClassNames,
         difficultyNames,
-        difficulties
-    } = useSelector(state => ({
-        filter: state.raid.filter,
-        realms: getRealmNames(state.environment.realms),
-        specs: state.environment.specs,
-        characterClassNames: state.environment.characterClassNames,
-        difficultyNames: state.environment.difficultyNames,
-        difficulties: state.environment.currentContent.raids.reduce(
-            (acc, raid) => {
-                for (const difficulty of raid.difficulties) {
-                    if (!acc.includes(difficulty)) {
-                        acc.push(difficulty);
-                    }
-                }
-                return acc;
-            },
-            []
-        )
-    }));
+        raids
+    } = useSelector(
+        state => ({
+            filter: state.raid.filter,
+            realms: state.environment.realms,
+            specs: state.environment.specs,
+            characterClassNames: state.environment.characterClassNames,
+            difficultyNames: state.environment.difficultyNames,
+            raids: state.environment.currentContent.raids
+        }),
+        shallowEqual
+    );
+
+    const realmNames = getRealmNames(realms);
+    const difficulties = raids.reduce((acc, raid) => {
+        for (const difficulty of raid.difficulties) {
+            if (!acc.includes(difficulty)) {
+                acc.push(difficulty);
+            }
+        }
+        return acc;
+    }, []);
     const dispatch = useDispatch();
 
     const {
@@ -85,7 +88,7 @@ function RaidFilter({ classes, theme }) {
     }
 
     let realmOptions = [];
-    for (let realm of realms) {
+    for (let realm of realmNames) {
         realmOptions.push({
             value: realm,
             name: realm

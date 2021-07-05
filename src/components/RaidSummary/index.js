@@ -1,6 +1,6 @@
 import { raidNameToId } from "tauriprogress-constants";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import Container from "@material-ui/core/Container";
 
@@ -28,19 +28,24 @@ function styles(theme) {
 function RaidSummary({ classes, match }) {
     const raidName = match.params.raidName;
 
-    const { loading, error, data, raid, filter, specs } = useSelector(state => {
-        return {
-            ...state.raidSummary,
-            raid: state.environment.currentContent.raids.reduce((acc, raid) => {
-                if (raid.id === state.raidSummary.raidId) {
-                    acc = raid;
-                }
-                return acc;
-            }, null),
-            filter: state.raid.filter,
-            specs: state.environment.specs
-        };
-    });
+    const { loading, error, data, raids, filter, specs, raidId } = useSelector(
+        state => {
+            return {
+                ...state.raidSummary,
+                raids: state.environment.currentContent.raids,
+                filter: state.raid.filter,
+                specs: state.environment.specs
+            };
+        },
+        shallowEqual
+    );
+
+    const raid = raids.reduce((acc, raid) => {
+        if (raid.id === raidId) {
+            acc = raid;
+        }
+        return acc;
+    }, null);
 
     const dispatch = useDispatch();
     useEffect(() => {

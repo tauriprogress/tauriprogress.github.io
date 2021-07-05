@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -22,10 +22,13 @@ function styles(theme) {
 }
 
 function CharacterRecentKills({ classes }) {
-    const { loading, error, data, realm } = useSelector(state => ({
-        ...state.character.recentKills,
-        realm: state.character.realm
-    }));
+    const { loading, error, data, realm } = useSelector(
+        state => ({
+            ...state.character.recentKills,
+            realm: state.character.realm
+        }),
+        shallowEqual
+    );
 
     const logs = data ? data.logs : [];
 

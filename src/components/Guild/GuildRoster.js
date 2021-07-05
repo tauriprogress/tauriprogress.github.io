@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -23,10 +23,13 @@ function styles(theme) {
 }
 
 function GuildRoster({ classes }) {
-    const { members, characterClassNames } = useSelector(state => ({
-        members: state.guild.data.members,
-        characterClassNames: state.environment.characterClassNames
-    }));
+    const { members, characterClassNames } = useSelector(
+        state => ({
+            members: state.guild.data.members,
+            characterClassNames: state.environment.characterClassNames
+        }),
+        shallowEqual
+    );
 
     const totalChars = members.length;
     let countClasses = {};

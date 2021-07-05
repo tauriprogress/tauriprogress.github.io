@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
@@ -67,11 +67,14 @@ function CharacterLeaderboard({ classes, theme }) {
     const dispatch = useDispatch();
 
     const { data, filter, specs, characterClassNames, selectedTab } =
-        useSelector(state => ({
-            ...state.characterLeaderboard,
-            specs: state.environment.specs,
-            characterClassNames: state.environment.characterClassNames
-        }));
+        useSelector(
+            state => ({
+                ...state.characterLeaderboard,
+                specs: state.environment.specs,
+                characterClassNames: state.environment.characterClassNames
+            }),
+            shallowEqual
+        );
 
     const combatMetric = selectedTab === 0 ? "dps" : "hps";
     const [page, setPage] = useState(0);

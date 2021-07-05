@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -9,18 +9,17 @@ import GuildRaidSummary from "./GuildRaidSummary";
 import { getNestedObjectValue } from "../../helpers";
 
 function GuildProgSummary() {
-    const {
-        progression,
-        raids,
-        difficultyNames,
-        completionDifficulties
-    } = useSelector(state => ({
-        progression: state.guild.data.progression,
-        raids: state.environment.currentContent.raids,
-        difficultyNames: state.environment.difficultyNames,
-        completionDifficulties:
-            state.environment.currentContent.completionDifficulties
-    }));
+    const { progression, raids, difficultyNames, completionDifficulties } =
+        useSelector(
+            state => ({
+                progression: state.guild.data.progression,
+                raids: state.environment.currentContent.raids,
+                difficultyNames: state.environment.difficultyNames,
+                completionDifficulties:
+                    state.environment.currentContent.completionDifficulties
+            }),
+            shallowEqual
+        );
 
     let data = [];
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -86,10 +86,16 @@ function styles(theme) {
 function NavItems({ classes }) {
     const dispatch = useDispatch();
     const { realmGroup, hasSeasonal, seasonName, nextSeasonName, isSeasonal } =
-        useSelector(state => ({
-            ...state.seasonal,
-            realmGroup: state.environment.realmGroup
-        }));
+        useSelector(
+            state => ({
+                realmGroup: state.environment.realmGroup,
+                hasSeasonal: state.seasonal.hasSeasonal,
+                seasonName: state.seasonal.seasonName,
+                nextSeasonName: state.seasonal.nextSeasonName,
+                isSeasonal: state.seasonal.isSeasonal
+            }),
+            shallowEqual
+        );
 
     function seasonalSwitch() {
         if (hasSeasonal) {
