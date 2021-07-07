@@ -20,10 +20,12 @@ if (devEnv) {
     }
 }
 
-const defaultState = {
-    ...constants[defaultRealmGroup],
-    realmGroup: defaultRealmGroup
-};
+const defaultState = JSON.parse(
+    JSON.stringify({
+        ...constants[defaultRealmGroup],
+        realmGroup: defaultRealmGroup
+    })
+);
 
 if (seasonalState.isSeasonal) {
     defaultState.currentContent.raids = [defaultState.currentContent.raids[0]];
