@@ -14,11 +14,15 @@ import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
+import { isSameLog } from "./helpers";
+
 import { fetchFightLog } from "../../redux/actions";
 
 function FightLog({ match }) {
     const location = useLocation();
-    const { loading, error, data } = useSelector(state => state.fightLog);
+    const loading = useSelector(state => state.fightLog.loading);
+    const error = useSelector(state => state.fightLog.error);
+    const data = useSelector(state => state.fightLog.data);
 
     const dispatch = useDispatch();
 
@@ -26,8 +30,9 @@ function FightLog({ match }) {
     const realm = queryString.parse(location.search).realm;
 
     useEffect(() => {
-        dispatch(fetchFightLog({ logId, realm }));
-    }, [logId, realm, dispatch]);
+        if (!isSameLog(logId, realm, data))
+            dispatch(fetchFightLog({ logId, realm }));
+    }, [logId, realm, dispatch, data]);
 
     return (
         <Page
@@ -42,7 +47,7 @@ function FightLog({ match }) {
 
                 {error && <ErrorMessage message={error} />}
 
-                {!loading && !error && data && (
+                {!loading && !error && !!data && isSameLog(logId, realm, data) && (
                     <Container>
                         <LogTitle data={data} />
                         <LogMembers data={data} />
