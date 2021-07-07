@@ -71,106 +71,16 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                 justify="center"
                 alignItems="center"
             >
-                <Grid className={classes.gridItem} item xs>
-                    <Typography variant="subtitle2" align="center">
-                        Fastest kills
-                    </Typography>
-                    <ul className={classes.list}>
-                        {boss &&
-                            boss.fastestKills.map(log => (
-                                <li key={log.id}>
-                                    <WithRealm realmName={log.realm}>
-                                        <p
-                                            className={classes.listText}
-                                            style={{
-                                                color: log.guild
-                                                    ? factionColors[
-                                                          log.guild.f
-                                                              ? "horde"
-                                                              : "alliance"
-                                                      ]
-                                                    : ""
-                                            }}
-                                        >
-                                            {log.guild ? (
-                                                <Link
-                                                    style={{
-                                                        color: "inherit"
-                                                    }}
-                                                    to={`/guild/${log.guild.name}?realm=${log.realm}`}
-                                                >
-                                                    {log.guild.name}
-                                                </Link>
-                                            ) : (
-                                                "Random"
-                                            )}
-                                        </p>
-                                    </WithRealm>
-
-                                    <p className={classes.listText}>
-                                        <LogLink
-                                            logId={log.id}
-                                            realm={log.realm}
-                                        >
-                                            {convertFightLength(
-                                                log.fightLength
-                                            )}
-                                        </LogLink>
-                                    </p>
-                                </li>
-                            ))}
-                    </ul>
-                </Grid>
-                <Grid className={classes.gridItem} item xs>
-                    <Typography variant="subtitle2" align="center">
-                        First kills
-                    </Typography>
-                    <ul className={classes.list}>
-                        {boss &&
-                            boss.firstKills.map(log => (
-                                <li key={log.id}>
-                                    <WithRealm realmName={log.realm}>
-                                        <p
-                                            className={classes.listText}
-                                            style={{
-                                                color: log.guild
-                                                    ? factionColors[
-                                                          log.guild.f
-                                                              ? "horde"
-                                                              : "alliance"
-                                                      ]
-                                                    : ""
-                                            }}
-                                        >
-                                            {log.guild ? (
-                                                <Link
-                                                    style={{
-                                                        color: "inherit"
-                                                    }}
-                                                    to={`/guild/${log.guild.name}?realm=${log.realm}`}
-                                                >
-                                                    {log.guild.name}
-                                                </Link>
-                                            ) : (
-                                                "Random"
-                                            )}
-                                        </p>
-                                    </WithRealm>
-
-                                    <p className={classes.listText}>
-                                        <LogLink
-                                            logId={log.id}
-                                            realm={log.realm}
-                                        >
-                                            {dateToString(
-                                                new Date(log.date * 1000)
-                                            )}
-                                        </LogLink>
-                                    </p>
-                                </li>
-                            ))}
-                    </ul>
-                </Grid>
+                <FastestKills
+                    classes={classes}
+                    kills={boss && boss.fastestKills}
+                    factionColors={factionColors}
+                />
+                <FirstKills
+                    classes={classes}
+                    kills={boss && boss.firstKills}
+                    factionColors={factionColors}
+                />
             </Grid>
             <Divider />
 
@@ -247,4 +157,129 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
     );
 }
 
+const FastestKills = React.memo(({ classes, kills, factionColors }) => {
+    return (
+        <Grid className={classes.gridItem} item xs>
+            <Typography variant="subtitle2" align="center">
+                Fastest kills
+            </Typography>
+            <ul className={classes.list}>
+                {kills &&
+                    kills.map(log => (
+                        <li key={log.id}>
+                            <WithRealm realmName={log.realm}>
+                                <p
+                                    className={classes.listText}
+                                    style={{
+                                        color: log.guild
+                                            ? factionColors[
+                                                  log.guild.f
+                                                      ? "horde"
+                                                      : "alliance"
+                                              ]
+                                            : ""
+                                    }}
+                                >
+                                    {log.guild ? (
+                                        <Link
+                                            style={{
+                                                color: "inherit"
+                                            }}
+                                            to={`/guild/${log.guild.name}?realm=${log.realm}`}
+                                        >
+                                            {log.guild.name}
+                                        </Link>
+                                    ) : (
+                                        "Random"
+                                    )}
+                                </p>
+                            </WithRealm>
+
+                            <p className={classes.listText}>
+                                <LogLink logId={log.id} realm={log.realm}>
+                                    {convertFightLength(log.fightLength)}
+                                </LogLink>
+                            </p>
+                        </li>
+                    ))}
+            </ul>
+        </Grid>
+    );
+}, compareKills);
+
+const FirstKills = React.memo(({ classes, kills, factionColors }) => {
+    return (
+        <Grid className={classes.gridItem} item xs>
+            <Typography variant="subtitle2" align="center">
+                First kills
+            </Typography>
+            <ul className={classes.list}>
+                {kills &&
+                    kills.map(log => (
+                        <li key={log.id}>
+                            <WithRealm realmName={log.realm}>
+                                <p
+                                    className={classes.listText}
+                                    style={{
+                                        color: log.guild
+                                            ? factionColors[
+                                                  log.guild.f
+                                                      ? "horde"
+                                                      : "alliance"
+                                              ]
+                                            : ""
+                                    }}
+                                >
+                                    {log.guild ? (
+                                        <Link
+                                            style={{
+                                                color: "inherit"
+                                            }}
+                                            to={`/guild/${log.guild.name}?realm=${log.realm}`}
+                                        >
+                                            {log.guild.name}
+                                        </Link>
+                                    ) : (
+                                        "Random"
+                                    )}
+                                </p>
+                            </WithRealm>
+
+                            <p className={classes.listText}>
+                                <LogLink logId={log.id} realm={log.realm}>
+                                    {dateToString(new Date(log.date * 1000))}
+                                </LogLink>
+                            </p>
+                        </li>
+                    ))}
+            </ul>
+        </Grid>
+    );
+}, compareKills);
+
+function compareKills(prevProps, nextProps) {
+    if (prevProps.kills === nextProps.kills) {
+        return true;
+    } else if (
+        prevProps.kills &&
+        nextProps.kills &&
+        prevProps.kills.length === nextProps.kills.length
+    ) {
+        let counter = 0;
+        for (let i = 0; i < prevProps.kills.length; i++) {
+            if (
+                prevProps.kills[i].id === nextProps.kills[i].id &&
+                prevProps.kills[i].realm === nextProps.kills[i].realm
+            ) {
+                counter++;
+            }
+        }
+
+        if (counter === prevProps.kills.length) {
+            return true;
+        }
+    }
+
+    return false;
+}
 export default withStyles(styles)(withTheme(BossSummary));
