@@ -283,4 +283,9 @@ function BestKillsDetails({ logs, classes, guild }) {
     ));
 }
 
-export default withStyles(styles)(withTheme(GuildLeaderboard));
+export default React.memo(
+    withStyles(styles)(withTheme(GuildLeaderboard)),
+    (prevProps, nextProps) => {
+        return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+    }
+);

@@ -31,4 +31,6 @@ function Raid({ match }) {
     );
 }
 
-export default Raid;
+export default React.memo(Raid, (prevProps, nextProps) => {
+    return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+});
