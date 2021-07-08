@@ -83,7 +83,7 @@ function GuildRosterChart({
                 <Grid
                     container
                     wrap="nowrap"
-                    justify="space-between"
+                    justifyContent="space-between"
                     direction="column"
                 >
                     {classInfo.map(charClass => (

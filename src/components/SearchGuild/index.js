@@ -93,7 +93,7 @@ function SearchGuild({ classes, history }) {
                 <Grid item>
                     <Grid
                         container
-                        justify="flex-end"
+                        justifyContent="flex-end"
                         style={{
                             display: "flex",
                             marginTop: "8px"

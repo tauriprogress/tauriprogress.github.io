@@ -65,7 +65,7 @@ function Character({ classes, match, location }) {
                         <Grid
                             container
                             className={classes.gridContainer}
-                            justify="space-around"
+                            justifyContent="space-around"
                         >
                             <Grid item>
                                 <CharacterStats />

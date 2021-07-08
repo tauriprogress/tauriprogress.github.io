@@ -33,7 +33,7 @@ function GuildBossKillsDays({ classes }) {
                 <Typography variant="h5" className={classes.title}>
                     Boss kills
                 </Typography>
-                <Grid container justify={"space-around"}>
+                <Grid container justifyContent="space-around">
                     <Grid item>
                         <GuildBossKillsChart
                             data={raidDays.recent}

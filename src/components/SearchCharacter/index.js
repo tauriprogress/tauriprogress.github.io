@@ -107,7 +107,7 @@ function SearchCharacter({ classes, history }) {
             <Grid item>
                 <Grid
                     container
-                    justify="flex-end"
+                    justifyContent="flex-end"
                     className={classes.searchCharacterButtonContainer}
                 >
                     <Button

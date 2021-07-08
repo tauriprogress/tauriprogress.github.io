@@ -137,7 +137,7 @@ function CharacterLadder({
                     nextIconButtonProps={{
                         "aria-label": "Next Page"
                     }}
-                    onChangePage={(e, page) => setPage(page)}
+                    onPageChange={(e, page) => setPage(page)}
                 />
             )}
         </React.Fragment>

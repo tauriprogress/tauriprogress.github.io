@@ -100,7 +100,7 @@ function PerfChartRow({
                     }%)`
                 }}
             >
-                <Grid container wrap="nowrap" justify="space-between">
+                <Grid container wrap="nowrap" justifyContent="space-between">
                     <Grid item className={classes.item}>
                         <Typography
                             className={`${classes.typography} ${classes.perfName}`}

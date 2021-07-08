@@ -53,7 +53,7 @@ function CollapseableFilterContainer({
                 onClick={() => setOpen(!open)}
                 className={classes.button}
             >
-                <Grid container justify={"center"}>
+                <Grid container justifyContent="center">
                     <Grid item>
                         <Typography color="inherit" variant="button">
                             Filters

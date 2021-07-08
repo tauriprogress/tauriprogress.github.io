@@ -95,7 +95,7 @@ function Header({ classes }) {
             <header>
                 <Grid
                     container
-                    justify="space-between"
+                    justifyContent="space-between"
                     wrap="nowrap"
                     alignContent="center"
                     className={classes.stretchHeight}

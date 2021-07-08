@@ -96,7 +96,7 @@ function RaidChart({
     return (
         <PerfChartContainer className={classes.container}>
             <PerfChartTitle>
-                <Grid container wrap="nowrap" justify="space-between">
+                <Grid container wrap="nowrap" justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h5">
                             {variant === "dps" ? "Damage" : "Heal"}

@@ -295,7 +295,7 @@ function CharacterLeaderboard({ classes, theme }) {
                                         nextIconButtonProps={{
                                             "aria-label": "Next Page"
                                         }}
-                                        onChangePage={(e, page) =>
+                                        onPageChange={(e, page) =>
                                             setPage(page)
                                         }
                                     />

@@ -150,7 +150,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                     <Grid
                         className={classes.title}
                         container
-                        justify={"space-between"}
+                        justifyContent="space-between"
                         wrap={"nowrap"}
                         style={{
                             background: `linear-gradient(to left, rgba(0, 0, 0, 0.7) ${

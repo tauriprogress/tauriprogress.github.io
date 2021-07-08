@@ -1,6 +1,6 @@
 import "typeface-roboto";
 
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import {
     brown,
     pink,
@@ -331,7 +331,7 @@ const darkPalette = {
 const defaultState = {
     type: localStorage.getItem("themeType") || "light",
 
-    light: createMuiTheme({
+    light: createTheme({
         ...defaultTheme,
         palette: lightPalette,
         overrides: {
@@ -382,7 +382,7 @@ const defaultState = {
             }
         }
     }),
-    dark: createMuiTheme({
+    dark: createTheme({
         ...defaultTheme,
         palette: darkPalette,
         overrides: {

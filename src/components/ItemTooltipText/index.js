@@ -79,7 +79,7 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
             <Typography className={`${classes.text} ${classes.textWhite}`}>
                 {item.item_equip}
             </Typography>
-            <Grid container justify={"space-between"}>
+            <Grid container justifyContent="space-between">
                 <Grid item>
                     <Typography
                         className={`${classes.text} ${classes.textWhite}`}
@@ -104,7 +104,7 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
 
             {item.BaseMaxDamage > 0 && (
                 <React.Fragment>
-                    <Grid container justify={"space-between"}>
+                    <Grid container justifyContent="space-between">
                         <Grid item>
                             <Typography
                                 className={`${classes.text} ${classes.textWhite}`}

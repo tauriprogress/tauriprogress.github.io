@@ -112,7 +112,7 @@ function CharacterProgression({ classes }) {
                     data &&
                     data[selectedRaid] &&
                     data[selectedRaid][difficulty] && (
-                        <Grid container justify="space-around">
+                        <Grid container justifyContent="space-around">
                             <Grid item>
                                 <RaidChart
                                     raidName={selectedRaid}

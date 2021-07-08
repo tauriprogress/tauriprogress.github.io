@@ -68,7 +68,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
             <Grid
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
             >
                 <FastestKills
@@ -84,7 +84,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
             </Grid>
             <Divider />
 
-            <Grid container direction="row" justify="center">
+            <Grid container direction="row" justifyContent="center">
                 {["dps", "hps"].map(combatMetric =>
                     boss && boss[`best${capitalize(combatMetric)}`].length ? (
                         <Grid

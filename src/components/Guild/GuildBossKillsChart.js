@@ -83,7 +83,7 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
                     </Tooltip>
                 )}
             </Typography>
-            <Grid container wrap="nowrap" justify="center">
+            <Grid container wrap="nowrap" justifyContent="center">
                 <Grid item className={classes.labelColumn}>
                     <Grid container direction="column">
                         {hours.map(hour => (

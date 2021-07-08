@@ -50,7 +50,11 @@ function GuildRoster({ classes }) {
     }
 
     return (
-        <Grid container justify="space-around" className={classes.container}>
+        <Grid
+            container
+            justifyContent="space-around"
+            className={classes.container}
+        >
             <Grid item>
                 <GuildRosterChart
                     classInfo={classInfo}
