@@ -75,7 +75,7 @@ export const GUILD_LEADERBOARD_ROUTE = {
     }
 };
 
-/* this should always be at the bottom of the routes array*/
+/* this should always be at the bottom of the routes array */
 export const NOT_FOUND_ROUTE = {
     name: "NOT FOUND",
     path: ["/"],
@@ -84,6 +84,7 @@ export const NOT_FOUND_ROUTE = {
     isCurrentRoute: () => undefined
 };
 
+/* routes are matched based on order */
 const ROUTES = [
     HOME_ROUTE,
     RAID_ROUTE,
