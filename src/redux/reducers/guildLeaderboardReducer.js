@@ -5,11 +5,13 @@ import {
     readTabFromUrl
 } from "../../helpers";
 
+import { GUILD_LEADERBOARD_ROUTE } from "../../routes";
+
 const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 const defaultState = {
-    filter: new RegExp(/^\/leaderboard\/guild.*/).test(window.location.pathname)
+    filter: GUILD_LEADERBOARD_ROUTE.isCurrentRoute()
         ? readFiltersFromUrl(defaultRealmGroup, [
               "raid",
               "difficulty",

@@ -4,6 +4,8 @@ import {
     readFiltersFromUrl
 } from "../../helpers";
 
+import { RAID_ROUTE } from "../../routes";
+
 const defaultRealmGroup = getRealmGroupOfLocalStorage();
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
@@ -11,7 +13,7 @@ const defaultState = {
     selected: 0,
     error: null,
     loading: false,
-    filter: new RegExp(/^\/raid\/.*/).test(window.location.pathname)
+    filter: RAID_ROUTE.isCurrentRoute()
         ? readFiltersFromUrl(defaultRealmGroup, [
               "difficulty",
               "class",
