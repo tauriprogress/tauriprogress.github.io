@@ -1,10 +1,9 @@
-const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
-
 const defaultState = {
     data: null,
     error: null,
     loading: false,
-    realmGroup: defaultRealmGroup
+    loadedRealmGroup: null,
+    loadingRealmGroup: null
 };
 
 function guildsReducer(state = defaultState, action) {
@@ -13,14 +12,27 @@ function guildsReducer(state = defaultState, action) {
             if (!action.payload) {
                 action.payload = "Unkown error.";
             }
-            return { ...state, error: action.payload, loading: false };
+            return {
+                ...state,
+                error: action.payload,
+                loading: false,
+                loadedRealmGroup: null,
+                loadingRealmGroup: null
+            };
         case "GUILDS_LOAD":
-            return { ...state, loading: true, error: null };
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                loadedRealmGroup: null,
+                loadingRealmGroup: action.payload
+            };
         case "GUILDS_FILL":
             return {
                 ...state,
                 data: applyGuildRanks(action.payload.guilds),
-                realmGroup: action.payload.realmGroup,
+                loadedRealmGroup: action.payload.requestedRealmGroup,
+                loadingRealmGroup: null,
                 loading: false,
                 error: null
             };
