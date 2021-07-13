@@ -50,7 +50,8 @@ function characterLeaderboardReducer(state = defaultState, action) {
                     faction: "",
                     realm: "",
                     role: ""
-                }
+                },
+                data: {}
             };
         case "CHARACTER_LEADERBOARD_SELECT_TAB":
             return { ...state, selectedTab: action.payload };

@@ -37,6 +37,9 @@ function raidReducer(state = defaultState, action, raids) {
         case "ENVIRONMENT_CHANGED":
             return {
                 ...state,
+                selected: 0,
+                error: null,
+                loading: false,
                 filter: {
                     difficulty: getDefaultDifficulty(action.payload),
                     class: "",

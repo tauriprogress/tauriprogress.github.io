@@ -7,6 +7,8 @@ const defaultState = {
 
 function raidSummaryReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return defaultState;
         case "RAIDSUMMARY_LOADING":
             return {
                 ...state,

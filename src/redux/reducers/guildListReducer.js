@@ -1,13 +1,13 @@
 const defaultState = {
     data: null,
     error: null,
-    loading: false,
-    loadedRealmGroup: null,
-    loadingRealmGroup: null
+    loading: false
 };
 
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return defaultState;
         case "GUILDS_SET_ERROR":
             if (!action.payload) {
                 action.payload = "Unkown error.";
@@ -15,24 +15,18 @@ function guildsReducer(state = defaultState, action) {
             return {
                 ...state,
                 error: action.payload,
-                loading: false,
-                loadedRealmGroup: null,
-                loadingRealmGroup: null
+                loading: false
             };
         case "GUILDS_LOAD":
             return {
                 ...state,
                 loading: true,
-                error: null,
-                loadedRealmGroup: null,
-                loadingRealmGroup: action.payload
+                error: null
             };
         case "GUILDS_FILL":
             return {
                 ...state,
                 data: applyGuildRanks(action.payload.guilds),
-                loadedRealmGroup: action.payload.requestedRealmGroup,
-                loadingRealmGroup: null,
                 loading: false,
                 error: null
             };

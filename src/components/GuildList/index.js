@@ -91,7 +91,8 @@ function GuildList({ theme, classes }) {
         difficultyNames,
         totalBosses,
         difficulties,
-        realmGroup
+        realmGroup,
+        isSeasonal
     } = useSelector(
         state => ({
             ...state.guildList,
@@ -99,7 +100,8 @@ function GuildList({ theme, classes }) {
             totalBosses: state.environment.currentContent.totalBosses,
             difficulties:
                 state.environment.currentContent.raids[0].difficulties,
-            realmGroup: state.environment.realmGroup
+            realmGroup: state.environment.realmGroup,
+            isSeasonal: state.environment.seasonal.isSeasonal
         }),
         shallowEqual
     );
@@ -122,7 +124,8 @@ function GuildList({ theme, classes }) {
 
     useEffect(() => {
         dispatch(guildsFetch(realmGroup));
-    }, [realmGroup, dispatch]);
+        console.log("dispatched guildlist");
+    }, [isSeasonal, realmGroup, dispatch]);
 
     return (
         <React.Fragment>

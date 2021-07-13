@@ -7,5 +7,8 @@ function* commitEnvironmentChange() {
 }
 
 export default function* environmentSaga() {
-    yield takeEvery(["ENVIRONMENT_CHANGE_REALMGROUP"], commitEnvironmentChange);
+    yield takeEvery(
+        ["ENVIRONMENT_CHANGE_REALMGROUP", "ENVIRONMENT_CHANGE_SEASON"],
+        commitEnvironmentChange
+    );
 }

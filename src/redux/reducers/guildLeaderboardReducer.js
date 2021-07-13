@@ -41,7 +41,8 @@ function guildsReducer(state = defaultState, action) {
                     difficulty: getDefaultDifficulty(action.payload),
                     faction: "",
                     realm: ""
-                }
+                },
+                data: null
             };
 
         case "GUILD_LEADERBOARD_SELECT_TAB":

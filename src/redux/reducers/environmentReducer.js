@@ -66,6 +66,18 @@ function getSeasonalDefaultState() {
     };
 }
 
+function getConstantsDefaultState(realmGroup, isSeasonal) {
+    return {
+        ...constants[realmGroup],
+        currentContent: {
+            ...constants[realmGroup].currentContent,
+            raids: isSeasonal
+                ? [constants[realmGroup].currentContent.raids[0]]
+                : constants[realmGroup].currentContent.raids
+        }
+    };
+}
+
 const seasonalState = getSeasonalDefaultState();
 
 if (!seasonalState.hasSeasonal && isUrlSeasonal()) {
@@ -78,15 +90,14 @@ if (!seasonalState.hasSeasonal && isUrlSeasonal()) {
 
 const defaultState = JSON.parse(
     JSON.stringify({
-        ...constants[defaultRealmGroup],
+        ...getConstantsDefaultState(
+            defaultRealmGroup,
+            seasonalState.isSeasonal
+        ),
         realmGroup: defaultRealmGroup,
         seasonal: seasonalState
     })
 );
-
-if (seasonalState.isSeasonal) {
-    defaultState.currentContent.raids = [defaultState.currentContent.raids[0]];
-}
 
 function environmentReducer(state = defaultState, action) {
     switch (action.type) {
@@ -100,6 +111,17 @@ function environmentReducer(state = defaultState, action) {
                 ...constants[realmGroup],
                 realmGroup: realmGroup,
                 seasonal: getSeasonalDefaultState()
+            };
+
+        case "ENVIRONMENT_CHANGE_SEASON":
+            const seasonalState = getSeasonalDefaultState();
+            return {
+                ...state,
+                ...getConstantsDefaultState(
+                    state.realmGroup,
+                    seasonalState.isSeasonal
+                ),
+                seasonal: seasonalState
             };
         default:
             return state;

@@ -11,6 +11,15 @@ const defaultState = {
 
 function raidBossReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return {
+                ...state,
+                data: null,
+                error: null,
+                loading: false,
+                raidId: null,
+                bossName: null
+            };
         case "RAIDBOSS_SELECT_TAB":
             return {
                 ...state,

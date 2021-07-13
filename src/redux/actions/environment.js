@@ -5,6 +5,13 @@ export function changeEnvironmentRealmGroup(payload) {
     };
 }
 
+export function changeEnvironmentSeason(payload) {
+    return {
+        type: "ENVIRONMENT_CHANGE_SEASON",
+        payload
+    };
+}
+
 export function environmentChanged(payload) {
     return {
         type: "ENVIRONMENT_CHANGED",

@@ -25,10 +25,11 @@ function styles() {
 }
 
 function SearchGuild({ classes, history }) {
-    const { guildList, realmGroup } = useSelector(state => {
+    const { guildList, realmGroup, isSeasonal } = useSelector(state => {
         return {
             guildList: state.guildList.data,
-            realmGroup: state.environment.realmGroup
+            realmGroup: state.environment.realmGroup,
+            isSeasonal: state.environment.seasonal.isSeasonal
         };
     }, shallowEqual);
 
@@ -39,7 +40,7 @@ function SearchGuild({ classes, history }) {
           }))
         : [];
 
-    const [guild, setGuild] = useState("");
+    const [guild, setGuild] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -54,8 +55,9 @@ function SearchGuild({ classes, history }) {
     }
 
     useEffect(() => {
+        setGuild(null);
         dispatch(guildsFetch(realmGroup));
-    }, [realmGroup, dispatch]);
+    }, [isSeasonal, realmGroup, dispatch]);
 
     return (
         <form
