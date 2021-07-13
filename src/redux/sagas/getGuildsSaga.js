@@ -1,4 +1,4 @@
-import { put, call, takeEvery, select } from "redux-saga/effects";
+import { put, call, select, fork, take, cancel } from "redux-saga/effects";
 import { guildsSetError, guildsLoad, guildsFill } from "../actions";
 import { getServerUrl } from "./helpers";
 
@@ -8,21 +8,6 @@ async function getData(serverUrl) {
 
 function* fetchGuilds({ payload: requestedRealmGroup }) {
     try {
-        const { requested, loadedRealmGroup, loading, loadingRealmGroup } =
-            yield select(state => ({
-                requested: !!state.guildList.data,
-                loadedRealmGroup: state.guildList.loadedRealmGroup,
-                loading: state.guildList.loading,
-                loadingRealmGroup: state.guildList.loadingRealmGroup
-            }));
-
-        if (
-            (requested && loadedRealmGroup === requestedRealmGroup) ||
-            (loading && loadingRealmGroup === requestedRealmGroup)
-        ) {
-            return;
-        }
-
         yield put(guildsLoad(requestedRealmGroup));
 
         const serverUrl = yield getServerUrl();
@@ -32,34 +17,38 @@ function* fetchGuilds({ payload: requestedRealmGroup }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            const currentLoadingRealmGroup = yield select(
-                state => state.guildList.loadingRealmGroup
+            yield put(
+                guildsFill({
+                    guilds: response.response
+                })
             );
-            if (currentLoadingRealmGroup === requestedRealmGroup) {
-                yield put(
-                    guildsFill({
-                        guilds: response.response,
-                        requestedRealmGroup: requestedRealmGroup
-                    })
-                );
-            }
         }
     } catch (err) {
-        const { currentLoadingRealmGroup, currentLoadedRealmGroup } =
-            yield select(state => ({
-                currentLoadingRealmGroup: state.guildList.loadingRealmGroup,
-                currentLoadedRealmGroup: state.guildList.loadedRealmGroup
-            }));
-
-        if (
-            currentLoadingRealmGroup === requestedRealmGroup ||
-            currentLoadedRealmGroup === requestedRealmGroup
-        ) {
-            yield put(guildsSetError(err.message));
-        }
+        yield put(guildsSetError(err.message));
     }
 }
 
 export default function* getGuildsSaga() {
-    yield takeEvery("GUILDS_FETCH", fetchGuilds);
+    yield fork(function* () {
+        let lastGuildListRequest;
+
+        while (true) {
+            const action = yield take("GUILDS_FETCH");
+
+            const { requested, loading } = yield select(state => ({
+                requested: !!state.guildList.data,
+                loading: state.guildList.loading
+            }));
+
+            if (requested || loading) {
+                continue;
+            }
+
+            if (lastGuildListRequest) {
+                yield cancel(lastGuildListRequest);
+            }
+
+            lastGuildListRequest = yield fork(fetchGuilds, action);
+        }
+    });
 }

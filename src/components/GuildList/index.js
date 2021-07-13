@@ -124,7 +124,6 @@ function GuildList({ theme, classes }) {
 
     useEffect(() => {
         dispatch(guildsFetch(realmGroup));
-        console.log("dispatched guildlist");
     }, [isSeasonal, realmGroup, dispatch]);
 
     return (
