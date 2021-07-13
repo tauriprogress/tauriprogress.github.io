@@ -21,7 +21,7 @@ function styles() {
 
 function SeasonalCountdown({ classes }) {
     const { nextSeasonName, nextStartTime = 0 } = useSelector(
-        state => state.seasonal
+        state => state.environment.seasonal
     );
 
     const [timeLeft, setTimeLeft] = useState(

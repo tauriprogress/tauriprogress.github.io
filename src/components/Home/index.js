@@ -7,7 +7,7 @@ import Page from "../Page";
 
 function Home() {
     const { isSeasonal, isSeasonRunning } = useSelector(
-        state => state.seasonal
+        state => state.environment.seasonal
     );
 
     return (

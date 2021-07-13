@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import seasonalReducer from "./seasonalReducer";
 import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
@@ -27,6 +26,5 @@ export default combineReducers({
     themes: themesReducer,
     environment: environmentReducer,
     characterLeaderboard: characterLeaderboardReducer,
-    guildLeaderboard: guildLeaderboardReducer,
-    seasonal: seasonalReducer
+    guildLeaderboard: guildLeaderboardReducer
 });

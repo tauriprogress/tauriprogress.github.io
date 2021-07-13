@@ -89,10 +89,10 @@ function NavItems({ classes }) {
         useSelector(
             state => ({
                 realmGroup: state.environment.realmGroup,
-                hasSeasonal: state.seasonal.hasSeasonal,
-                seasonName: state.seasonal.seasonName,
-                nextSeasonName: state.seasonal.nextSeasonName,
-                isSeasonal: state.seasonal.isSeasonal
+                hasSeasonal: state.environment.seasonal.hasSeasonal,
+                seasonName: state.environment.seasonal.seasonName,
+                nextSeasonName: state.environment.seasonal.nextSeasonName,
+                isSeasonal: state.environment.seasonal.isSeasonal
             }),
             shallowEqual
         );
