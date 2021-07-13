@@ -26,7 +26,7 @@ const defaultState = {
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGE_REALMGROUP":
+        case "ENVIRONMENT_CHANGED":
             raids = constants[action.payload].currentContent.raids;
             return {
                 ...state,

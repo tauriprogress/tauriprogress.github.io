@@ -34,7 +34,7 @@ const defaultState = {
 
 function raidReducer(state = defaultState, action, raids) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGE_REALMGROUP":
+        case "ENVIRONMENT_CHANGED":
             return {
                 ...state,
                 filter: {

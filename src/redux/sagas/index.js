@@ -11,6 +11,7 @@ import getCharacterProgressionSaga from "./getCharacterProgressionSaga";
 import getCharacterItemsSaga from "./getCharacterItemsSaga";
 import getCharacterLeaderboardSaga from "./getCharacterLeaderboardSaga";
 import getGuildLeaderboardSaga from "./getGuildLeaderboardSaga";
+import environmentSaga from "./environmentSaga";
 
 function* sagas() {
     yield all([
@@ -25,7 +26,8 @@ function* sagas() {
         getCharacterProgressionSaga(),
         getCharacterItemsSaga(),
         getCharacterLeaderboardSaga(),
-        getGuildLeaderboardSaga()
+        getGuildLeaderboardSaga(),
+        environmentSaga()
     ]);
 }
 

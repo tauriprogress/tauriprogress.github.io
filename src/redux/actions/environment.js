@@ -4,3 +4,10 @@ export function changeEnvironmentRealmGroup(payload) {
         payload
     };
 }
+
+export function environmentChanged(payload) {
+    return {
+        type: "ENVIRONMENT_CHANGED",
+        payload
+    };
+}

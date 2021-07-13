@@ -6,7 +6,7 @@ const defaultState = {
 
 function fightLogReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGE_REALMGROUP":
+        case "ENVIRONMENT_CHANGED":
             return {
                 data: null,
                 error: null,

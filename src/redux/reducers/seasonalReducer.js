@@ -57,7 +57,7 @@ if (!defaultState.hasSeasonal && isUrlSeasonal()) {
 
 function seasonalReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGE_REALMGROUP":
+        case "ENVIRONMENT_CHANGED":
             return getSeasonalDefaultState();
         default:
             return state;
