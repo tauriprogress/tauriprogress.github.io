@@ -32,3 +32,5 @@ export function setRaidBossTab(tab) {
         payload: tab
     };
 }
+
+export * from "./killCount";

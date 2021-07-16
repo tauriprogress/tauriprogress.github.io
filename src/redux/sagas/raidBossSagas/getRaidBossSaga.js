@@ -1,6 +1,10 @@
 import { put, call, takeLatest, select } from "redux-saga/effects";
-import { setRaidBossLoading, fillRaidBoss, setRaidBossError } from "../actions";
-import { getServerUrl } from "./helpers";
+import {
+    setRaidBossLoading,
+    fillRaidBoss,
+    setRaidBossError
+} from "../../actions";
+import { getServerUrl } from "../helpers";
 
 async function getData(serverUrl, raidId, bossName) {
     return await fetch(`${serverUrl}/getboss`, {
@@ -37,6 +41,6 @@ function* fetchRaidBoss({ payload }) {
     }
 }
 
-export default function* getRaidSaga() {
+export default function* getRaidBossSaga() {
     yield takeLatest("RAIDBOSS_FETCH", fetchRaidBoss);
 }

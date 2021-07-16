@@ -521,3 +521,7 @@ export function pushToHistory(history, path) {
 export function isUrlSeasonal() {
     return new RegExp(/^\/seasonal/).test(window.location.pathname);
 }
+
+export function getDataSpecificationString(specifications) {
+    return `${specifications.raidId} ${specifications.bossName} ${specifications.difficulty} ${specifications.realm} ${specifications.faction} ${specifications.class} ${specifications.spec} ${specifications.role} ${specifications.page} ${specifications.pageSize}`;
+}

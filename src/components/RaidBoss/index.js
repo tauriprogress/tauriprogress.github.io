@@ -5,11 +5,11 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
+import RaidBossTitle from "./RaidBossTitle";
 import FastestKills from "./FastestKills";
 import RecentKills from "./RecentKills";
 import CharacterLadder from "../CharacterLadder";
@@ -22,23 +22,17 @@ import {
 } from "../../redux/actions";
 
 function RaidBoss({ match }) {
-    const {
-        selectedTab,
-        loading,
-        data,
-        error,
-        bossName,
-        difficulty,
-        filter,
-        difficultyNames
-    } = useSelector(state => {
-        return {
-            ...state.raidBoss,
-            difficulty: state.raid.filter.difficulty,
-            filter: state.raid.filter,
-            difficultyNames: state.environment.difficultyNames
-        };
-    }, shallowEqual);
+    const bossName = match.params.bossName;
+    const raidId = raidNameToId[match.params.raidName];
+
+    const { selectedTab, loading, data, error, difficulty, filter } =
+        useSelector(state => {
+            return {
+                ...state.raidBoss,
+                difficulty: state.raid.filter.difficulty,
+                filter: state.raid.filter
+            };
+        }, shallowEqual);
     const boss =
         match.params.bossName === bossName
             ? data && data[difficulty]
@@ -50,30 +44,22 @@ function RaidBoss({ match }) {
     useEffect(() => {
         dispatch(
             fetchRaidBoss({
-                raidId: raidNameToId[match.params.raidName],
-                bossName: match.params.bossName
+                raidId: raidId,
+                bossName: bossName
             })
         );
 
-        dispatch(setSelectedNavigationItem(match.params.bossName));
+        dispatch(setSelectedNavigationItem(bossName));
         return () => dispatch(setSelectedNavigationItem(null));
-    }, [match.params.bossName, match.params.raidName, dispatch]);
+    }, [bossName, raidId, dispatch]);
 
     return (
         <React.Fragment>
-            <Typography variant="h4" align="center">
-                {`${bossName} ${difficultyNames[difficulty]}`}
-                <Typography variant="caption" color="textSecondary">
-                    {" "}
-                    <span
-                        style={{
-                            whiteSpace: "nowrap"
-                        }}
-                    >
-                        {boss.killCount} Kills
-                    </span>
-                </Typography>
-            </Typography>
+            <RaidBossTitle
+                raidId={raidId}
+                bossName={bossName}
+                difficulty={difficulty}
+            />
             {loading && <Loading />}
             {error && <ErrorMessage message={error} />}
             {!loading && !error && data && (

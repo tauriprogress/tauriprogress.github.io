@@ -1,4 +1,4 @@
-import { readTabFromUrl } from "../../helpers";
+import { readTabFromUrl } from "../../../helpers";
 
 const defaultState = {
     data: null,
@@ -6,7 +6,11 @@ const defaultState = {
     loading: false,
     raidId: null,
     bossName: null,
-    selectedTab: readTabFromUrl(0, 3)
+    selectedTab: readTabFromUrl(0, 3),
+    killCount: {
+        count: 0,
+        dataSpecificationString: ""
+    }
 };
 
 function raidBossReducer(state = defaultState, action) {
@@ -46,6 +50,15 @@ function raidBossReducer(state = defaultState, action) {
                 action.payload = "Unkown error.";
             }
             return { ...state, error: action.payload, loading: false };
+        case "RAIDBOSS_KILLCOUNT_FILL":
+            return {
+                ...state,
+                killCount: {
+                    count: action.payload.killCount,
+                    dataSpecificationString:
+                        action.payload.dataSpecificationString
+                }
+            };
         default:
             return state;
     }
