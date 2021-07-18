@@ -103,7 +103,11 @@ function RaidBoss({ match }) {
                                     );
                                 case 3:
                                     return (
-                                        <RecentKills data={boss.recentKills} />
+                                        <RecentKills
+                                            raidId={raidId}
+                                            bossName={bossName}
+                                            difficulty={difficulty}
+                                        />
                                     );
                                 default:
                                     return 0;

@@ -10,6 +10,12 @@ const defaultState = {
     killCount: {
         count: 0,
         dataSpecificationString: ""
+    },
+    recentKills: {
+        data: null,
+        loading: false,
+        error: null,
+        dataSpecificationString: ""
     }
 };
 
@@ -57,6 +63,40 @@ function raidBossReducer(state = defaultState, action) {
                     count: action.payload.killCount,
                     dataSpecificationString:
                         action.payload.dataSpecificationString
+                }
+            };
+
+        case "RAIDBOSS_RECENTKILLS_FILL":
+            return {
+                ...state,
+                recentKills: {
+                    ...state.recentKills,
+                    error: null,
+                    loading: false,
+                    data: action.payload.recentKills,
+                    dataSpecificationString:
+                        action.payload.dataSpecificationString
+                }
+            };
+        case "RAIDBOSS_RECENTKILLS_LOADING":
+            return {
+                ...state,
+                recentKills: {
+                    ...state.recentKills,
+                    error: null,
+                    loading: true,
+                    data: null
+                }
+            };
+        case "RAIDBOSS_RECENTKILLS_SET_ERROR":
+            return {
+                ...state,
+                recentKills: {
+                    ...state.recentKills,
+                    error: action.payload,
+                    loading: false,
+                    data: null,
+                    dataSpecificationString: ""
                 }
             };
         default:

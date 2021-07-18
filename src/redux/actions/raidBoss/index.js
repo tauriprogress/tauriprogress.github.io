@@ -34,3 +34,4 @@ export function setRaidBossTab(tab) {
 }
 
 export * from "./killCount";
+export * from "./recentKills";
