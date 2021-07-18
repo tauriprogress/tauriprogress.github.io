@@ -9,21 +9,16 @@ export function* getServerUrl() {
     });
 }
 
-export function* takeLatestIfTrue(
-    actionName,
-    generatorFunctionCondition,
-    saga
-) {
-    return yield fork(function* () {
+export function takeLatestIfTrue(actionName, generatorFunctionCondition, saga) {
+    return fork(function* () {
         let lastSaga;
 
         while (true) {
             const action = yield take(actionName);
 
-            if (yield generatorFunctionCondition()) {
+            if (!(yield generatorFunctionCondition(action))) {
                 continue;
             }
-
             if (lastSaga) {
                 yield cancel(lastSaga);
             }
