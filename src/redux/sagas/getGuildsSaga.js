@@ -1,6 +1,6 @@
-import { put, call, select, fork, take, cancel } from "redux-saga/effects";
+import { put, call, select } from "redux-saga/effects";
 import { guildsSetError, guildsLoad, guildsFill } from "../actions";
-import { getServerUrl } from "./helpers";
+import { getServerUrl, takeLatestIfTrue } from "./helpers";
 
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/getguildlist`).then(res => res.json());
@@ -28,27 +28,15 @@ function* fetchGuilds({ payload: requestedRealmGroup }) {
     }
 }
 
+function* conditionToFetch() {
+    const { requested, loading } = yield select(state => ({
+        requested: !!state.guildList.data,
+        loading: state.guildList.loading
+    }));
+
+    return requested || loading;
+}
+
 export default function* getGuildsSaga() {
-    yield fork(function* () {
-        let lastGuildListRequest;
-
-        while (true) {
-            const action = yield take("GUILDS_FETCH");
-
-            const { requested, loading } = yield select(state => ({
-                requested: !!state.guildList.data,
-                loading: state.guildList.loading
-            }));
-
-            if (requested || loading) {
-                continue;
-            }
-
-            if (lastGuildListRequest) {
-                yield cancel(lastGuildListRequest);
-            }
-
-            lastGuildListRequest = yield fork(fetchGuilds, action);
-        }
-    });
+    yield takeLatestIfTrue("GUILDS_FETCH", conditionToFetch, fetchGuilds);
 }
