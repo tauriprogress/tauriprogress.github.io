@@ -16,6 +16,12 @@ const defaultState = {
         loading: false,
         error: null,
         dataSpecificationString: ""
+    },
+    fastestKills: {
+        data: null,
+        loading: false,
+        error: null,
+        dataSpecificationString: ""
     }
 };
 
@@ -93,6 +99,40 @@ function raidBossReducer(state = defaultState, action) {
                 ...state,
                 recentKills: {
                     ...state.recentKills,
+                    error: action.payload,
+                    loading: false,
+                    data: null,
+                    dataSpecificationString: ""
+                }
+            };
+
+        case "RAIDBOSS_FASTESTKILLS_FILL":
+            return {
+                ...state,
+                fastestKills: {
+                    ...state.fastestKills,
+                    error: null,
+                    loading: false,
+                    data: action.payload.fastestKills,
+                    dataSpecificationString:
+                        action.payload.dataSpecificationString
+                }
+            };
+        case "RAIDBOSS_FASTESTKILLS_LOADING":
+            return {
+                ...state,
+                fastestKills: {
+                    ...state.fastestKills,
+                    error: null,
+                    loading: true,
+                    data: null
+                }
+            };
+        case "RAIDBOSS_FASTESTKILLS_SET_ERROR":
+            return {
+                ...state,
+                fastestKills: {
+                    ...state.fastestKills,
                     error: action.payload,
                     loading: false,
                     data: null,

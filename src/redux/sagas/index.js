@@ -5,6 +5,7 @@ import getRaidSummarySaga from "./getRaidSummarySaga";
 import getRaidBossSaga from "./raidBossSagas/getRaidBossSaga";
 import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
 import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSaga";
+import getRaidBossFastestKillsSaga from "./raidBossSagas/getRaidBossFastestKillsSaga";
 
 import getLogSaga from "./getLogSaga";
 import getGuildSaga from "./getGuildSaga";
@@ -24,6 +25,7 @@ function* sagas() {
         getRaidBossSaga(),
         getRaidBossKillCountSaga(),
         getRaidBossRecentKillsSaga(),
+        getRaidBossFastestKillsSaga(),
         getLogSaga(),
         getGuildSaga(),
         getCharacterDataSaga(),

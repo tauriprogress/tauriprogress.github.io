@@ -98,7 +98,9 @@ function RaidBoss({ match }) {
                                 case 2:
                                     return (
                                         <FastestKills
-                                            data={boss.fastestKills}
+                                            raidId={raidId}
+                                            bossName={bossName}
+                                            difficulty={difficulty}
                                         />
                                     );
                                 case 3:

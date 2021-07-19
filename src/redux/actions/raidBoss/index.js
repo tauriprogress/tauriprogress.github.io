@@ -35,3 +35,4 @@ export function setRaidBossTab(tab) {
 
 export * from "./killCount";
 export * from "./recentKills";
+export * from "./fastestKills";
