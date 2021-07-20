@@ -1,6 +1,7 @@
 import { shortRealmToFull } from "../../helpers";
 
 export function filterChars(filter, chars, specs) {
+    if (!Object.keys(filter).length) return chars;
     if (!chars) return chars;
     return chars.filter(char => {
         if (filter.class !== "" && char.class !== Number(filter.class)) {
