@@ -2,10 +2,10 @@ import { all } from "redux-saga/effects";
 import getGuildsSaga from "./getGuildsSaga";
 import getLastUpdateSaga from "./getLastUpdateSaga";
 import getRaidSummarySaga from "./getRaidSummarySaga";
-import getRaidBossSaga from "./raidBossSagas/getRaidBossSaga";
 import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
 import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSaga";
 import getRaidBossFastestKillsSaga from "./raidBossSagas/getRaidBossFastestKillsSaga";
+import getRaidBossCharactersSaga from "./raidBossSagas/getRaidBossCharactersSaga";
 
 import getLogSaga from "./getLogSaga";
 import getGuildSaga from "./getGuildSaga";
@@ -22,10 +22,10 @@ function* sagas() {
         getLastUpdateSaga(),
         getGuildsSaga(),
         getRaidSummarySaga(),
-        getRaidBossSaga(),
         getRaidBossKillCountSaga(),
         getRaidBossRecentKillsSaga(),
         getRaidBossFastestKillsSaga(),
+        getRaidBossCharactersSaga(),
         getLogSaga(),
         getGuildSaga(),
         getCharacterDataSaga(),

@@ -40,17 +40,39 @@ function CharacterLadder({
     classes,
     type,
     data,
-    rowsPerPage = 30
+    page: propsPage,
+    pageSize = 30,
+    onPageChange,
+    itemCount,
+    sliced
 }) {
     const specs = useSelector(state => state.environment.specs);
 
-    const [page, setPage] = useState(0);
+    const [localPage, setPage] = useState(0);
+
+    let page = typeof propsPage !== "undefined" ? propsPage : localPage;
 
     useEffect(() => {
         setPage(0);
     }, [type, data, filter]);
 
     let filteredData = filterChars(filter, data, specs);
+    const filteredDataLength = filteredData.length;
+
+    if (!sliced) {
+        filteredData = filteredData.slice(
+            page * pageSize,
+            (page + 1) * pageSize
+        );
+    }
+
+    function changePage(e, page) {
+        if (onPageChange) {
+            onPageChange(e, page);
+        } else {
+            setPage(page);
+        }
+    }
 
     return (
         <React.Fragment>
@@ -71,65 +93,60 @@ function CharacterLadder({
                 </TableHead>
                 <TableBody>
                     {filteredData &&
-                        filteredData
-                            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                            .map((char, index) => {
-                                const date = new Date(char.date * 1000);
-                                const realmName = shortRealmToFull(char.realm);
-                                return (
-                                    <TableRow key={index} hover>
-                                        <TableCell className={classes.cell}>
-                                            <Typography color="inherit">
-                                                <span className={classes.bold}>
-                                                    {index +
-                                                        1 +
-                                                        page * rowsPerPage}
-                                                    .{" "}
-                                                </span>
+                        filteredData.map((char, index) => {
+                            const date = new Date(char.date * 1000);
+                            const realmName = shortRealmToFull(char.realm);
+                            return (
+                                <TableRow key={index} hover>
+                                    <TableCell className={classes.cell}>
+                                        <Typography color="inherit">
+                                            <span className={classes.bold}>
+                                                {index + 1 + page * pageSize}.{" "}
+                                            </span>
 
-                                                <CharacterName
-                                                    character={char}
-                                                    realmName={realmName}
-                                                />
-                                            </Typography>
-                                        </TableCell>
+                                            <CharacterName
+                                                character={char}
+                                                realmName={realmName}
+                                            />
+                                        </Typography>
+                                    </TableCell>
 
-                                        <TableCell
-                                            className={`${classes.bold} ${classes.cell}`}
+                                    <TableCell
+                                        className={`${classes.bold} ${classes.cell}`}
+                                    >
+                                        <LogLink
+                                            logId={char.logId}
+                                            realm={realmName}
                                         >
-                                            <LogLink
-                                                logId={char.logId}
-                                                realm={realmName}
-                                            >
-                                                {new Intl.NumberFormat().format(
-                                                    Math.round(char[type])
-                                                )}
-                                            </LogLink>
-                                        </TableCell>
+                                            {new Intl.NumberFormat().format(
+                                                Math.round(char[type])
+                                            )}
+                                        </LogLink>
+                                    </TableCell>
 
-                                        <TableCell className={classes.cell}>
-                                            {char.ilvl}
-                                        </TableCell>
+                                    <TableCell className={classes.cell}>
+                                        {char.ilvl}
+                                    </TableCell>
 
-                                        <TableCell className={classes.cell}>
-                                            <DateTooltip date={date}>
-                                                <DisplayDate
-                                                    date={date}
-                                                    align="right"
-                                                />
-                                            </DateTooltip>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                                    <TableCell className={classes.cell}>
+                                        <DateTooltip date={date}>
+                                            <DisplayDate
+                                                date={date}
+                                                align="right"
+                                            />
+                                        </DateTooltip>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                 </TableBody>
             </Table>
             {filteredData && (
                 <TablePagination
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={filteredData.length}
-                    rowsPerPage={rowsPerPage}
+                    count={itemCount || filteredDataLength}
+                    rowsPerPage={pageSize}
                     page={page}
                     backIconButtonProps={{
                         "aria-label": "Previous Page"
@@ -137,7 +154,7 @@ function CharacterLadder({
                     nextIconButtonProps={{
                         "aria-label": "Next Page"
                     }}
-                    onPageChange={(e, page) => setPage(page)}
+                    onPageChange={changePage}
                 />
             )}
         </React.Fragment>

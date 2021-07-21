@@ -14,7 +14,10 @@ import Link from "../Link";
 
 import { raidImg } from "../../helpers";
 
-import { toggleNavigation } from "../../redux/actions";
+import {
+    toggleNavigation,
+    setSelectedNavigationItem
+} from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/reducers/navigationReducer";
 
@@ -78,10 +81,15 @@ function RaidBossList({ raid, classes }) {
                                 key={boss.name}
                                 color="inherit"
                                 to={linkTo}
-                                onClick={() =>
-                                    window.innerWidth < navBreakpoint &&
-                                    dispatch(toggleNavigation(false))
-                                }
+                                onClick={() => {
+                                    if (window.innerWidth < navBreakpoint) {
+                                        dispatch(toggleNavigation(false));
+                                    }
+
+                                    dispatch(
+                                        setSelectedNavigationItem(boss.name)
+                                    );
+                                }}
                             >
                                 <ListItem
                                     button

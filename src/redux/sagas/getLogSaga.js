@@ -9,7 +9,7 @@ async function getData(serverUrl, logId, realm) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            logId: logId,
+            logId: Number(logId),
             realm: realm
         })
     }).then(res => res.json());
