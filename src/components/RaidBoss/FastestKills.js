@@ -23,7 +23,10 @@ import DisplayDate from "../DisplayDate";
 
 import { convertFightLength, dateTextHours, days } from "../../helpers";
 
-import { fetchRaidBossFastestKills } from "../../redux/actions";
+import {
+    fetchRaidBossFastestKills,
+    fetchRaidBossKillCount
+} from "../../redux/actions";
 
 function FastestKills({ theme, raidId, bossName, difficulty }) {
     const {
@@ -53,6 +56,13 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
                                 raidId,
                                 bossName,
                                 difficulty
+                            })
+                        ) &&
+                        dispatch(
+                            fetchRaidBossKillCount({
+                                raidId,
+                                bossName,
+                                difficulty: difficulty
                             })
                         )
                     }

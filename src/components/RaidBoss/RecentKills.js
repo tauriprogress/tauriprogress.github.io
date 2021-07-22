@@ -22,7 +22,10 @@ import Loading from "../Loading";
 import { convertFightLength, dateTextHours, days } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
-import { fetchRaidBossRecentKills } from "../../redux/actions";
+import {
+    fetchRaidBossRecentKills,
+    fetchRaidBossKillCount
+} from "../../redux/actions";
 
 function RecentKills({ theme, raidId, bossName, difficulty }) {
     const {
@@ -51,6 +54,13 @@ function RecentKills({ theme, raidId, bossName, difficulty }) {
                                 raidId,
                                 bossName,
                                 difficulty
+                            })
+                        ) &&
+                        dispatch(
+                            fetchRaidBossKillCount({
+                                raidId,
+                                bossName,
+                                difficulty: difficulty
                             })
                         )
                     }

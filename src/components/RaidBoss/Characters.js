@@ -7,7 +7,11 @@ import Loading from "../Loading";
 
 import CharacterLadder from "../CharacterLadder";
 
-import { fetchRaidBossCharacters, setRaidBossPage } from "../../redux/actions";
+import {
+    fetchRaidBossCharacters,
+    setRaidBossPage,
+    fetchRaidBossKillCount
+} from "../../redux/actions";
 
 function Characters({ raidId, bossName, combatMetric }) {
     const { loading, data, error, filter, page, dataSpecificationString } =
@@ -55,6 +59,13 @@ function Characters({ raidId, bossName, combatMetric }) {
                                 filters: filter,
                                 page,
                                 pageSize
+                            })
+                        ) &&
+                        dispatch(
+                            fetchRaidBossKillCount({
+                                raidId,
+                                bossName,
+                                difficulty: filter.difficulty
                             })
                         )
                     }
