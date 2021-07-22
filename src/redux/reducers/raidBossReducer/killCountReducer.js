@@ -13,7 +13,11 @@ function killCountReducer(state = defaultState, action) {
                 count: action.payload.killCount,
                 dataSpecificationString: action.payload.dataSpecificationString
             };
-
+        case "RAIDBOSS_KILLCOUNT_FETCH":
+            return {
+                ...state,
+                count: 0
+            };
         default:
             return state;
     }
