@@ -25,6 +25,7 @@ const lightBackgroundDefault = light;
 const lightBackgroundLighter = "#fefefe";
 const lightBackgroundDarker = "#d5d5d5";
 const lightPSecondary = deepOrange[900];
+const lightWarning = yellow[700];
 
 const dark = "#181818";
 const darkAccent = "#1a1a1a";
@@ -32,6 +33,7 @@ const darkBackgroundDefault = dark;
 const darkBackgroundLighter = "#212121";
 const darkBackgroundDarker = "#121212";
 const darkPSecondary = deepOrange[300];
+const darkWarning = yellow[700];
 
 const defaultTheme = {
     typography: {
@@ -154,7 +156,8 @@ const lightPalette = {
         accent: lightAccent,
         lighter: lightBackgroundLighter,
         darker: lightBackgroundDarker,
-        tooltip: lightAccent
+        tooltip: lightAccent,
+        warning: lightWarning
     },
     classColors: {
         1: {
@@ -248,7 +251,8 @@ const darkPalette = {
         accent: darkAccent,
         lighter: darkBackgroundLighter,
         darker: darkBackgroundDarker,
-        tooltip: darkAccent
+        tooltip: darkAccent,
+        warning: darkWarning
     },
     classColors: {
         1: {

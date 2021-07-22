@@ -6,6 +6,8 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
+import { Button } from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 function styles(theme) {
     return {
@@ -24,11 +26,19 @@ function styles(theme) {
         },
         icon: {
             marginRight: "4px"
+        },
+        refresh: {
+            marginTop: "20px",
+            fontSize: `${16 / 16}rem`,
+            backgroundColor: theme.palette.background.warning,
+            "&:hover": {
+                backgroundColor: theme.palette.background.warning
+            }
         }
     };
 }
 
-function ErrorMessage({ message, classes }) {
+function ErrorMessage({ message, classes, refresh }) {
     return (
         <Container className={classes.container}>
             <SnackbarContent
@@ -44,6 +54,18 @@ function ErrorMessage({ message, classes }) {
                     </Grid>
                 }
             />
+            {refresh && (
+                <Button
+                    className={classes.refresh}
+                    size="large"
+                    fullWidth
+                    variant="contained"
+                    onClick={refresh}
+                >
+                    <RefreshIcon fontSize="large" />
+                    Refresh
+                </Button>
+            )}
         </Container>
     );
 }
