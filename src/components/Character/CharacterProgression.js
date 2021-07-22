@@ -106,7 +106,14 @@ function CharacterProgression({ classes }) {
             </Tabs>
             <Container>
                 {loading && <Loading />}
-                {!loading && error && <ErrorMessage message={error} />}
+                {!loading && error && (
+                    <ErrorMessage
+                        message={error}
+                        refresh={() =>
+                            dispatch(fetchCharacterProgression(selectedRaid))
+                        }
+                    />
+                )}
                 {!loading &&
                     !error &&
                     data &&

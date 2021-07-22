@@ -45,7 +45,14 @@ function FightLog({ match }) {
             <section>
                 {loading && <Loading />}
 
-                {error && <ErrorMessage message={error} />}
+                {error && (
+                    <ErrorMessage
+                        message={error}
+                        refresh={() =>
+                            dispatch(fetchFightLog({ logId, realm }))
+                        }
+                    />
+                )}
 
                 {!loading && !error && !!data && isSameLog(logId, realm, data) && (
                     <Container>

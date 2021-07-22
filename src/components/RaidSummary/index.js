@@ -50,7 +50,6 @@ function RaidSummary({ classes, match }) {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchRaidSummary(raidNameToId[raidName]));
-        dispatch(setSelectedNavigationItem(raidName));
 
         return () => dispatch(setSelectedNavigationItem(null));
     }, [raidName, dispatch]);
@@ -58,7 +57,14 @@ function RaidSummary({ classes, match }) {
     return (
         <div>
             {loading && <Loading />}
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() =>
+                        dispatch(fetchRaidSummary(raidNameToId[raidName]))
+                    }
+                />
+            )}
             {!raid && (
                 <ErrorMessage message={`${raidName} is not a valid raid.`} />
             )}

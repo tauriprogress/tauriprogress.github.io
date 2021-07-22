@@ -129,7 +129,12 @@ function GuildList({ theme, classes }) {
     return (
         <React.Fragment>
             {loading && <Loading className={classes.loader} />}
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() => dispatch(guildsFetch(realmGroup))}
+                />
+            )}
             {!loading && !error && data && (
                 <React.Fragment>
                     <GuildListFilter filter={filter} setFilter={setFilter} />

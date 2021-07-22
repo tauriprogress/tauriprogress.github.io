@@ -133,7 +133,18 @@ function CharacterLeaderboard({ classes, theme }) {
                     <React.Fragment>
                         {data[dataId].loading && <Loading />}
 
-                        {error && <ErrorMessage message={error} />}
+                        {error && (
+                            <ErrorMessage
+                                message={error}
+                                refresh={() =>
+                                    dispatch(
+                                        fetchCharacterLeaderboardData({
+                                            dataId
+                                        })
+                                    )
+                                }
+                            />
+                        )}
 
                         {!loading && !error && filteredData && (
                             <React.Fragment>

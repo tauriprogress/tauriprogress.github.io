@@ -54,7 +54,17 @@ function Character({ classes, match, location }) {
             <section>
                 {error ? (
                     <React.Fragment>
-                        <ErrorMessage message={error} />
+                        <ErrorMessage
+                            message={error}
+                            refresh={() =>
+                                dispatch(
+                                    fetchCharacterData({
+                                        characterName: characterName,
+                                        realm
+                                    })
+                                )
+                            }
+                        />
                         {error === "character not found" && <SelectRealm />}
                     </React.Fragment>
                 ) : loading ? (

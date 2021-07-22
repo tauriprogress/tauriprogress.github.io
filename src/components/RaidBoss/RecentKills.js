@@ -42,7 +42,20 @@ function RecentKills({ theme, raidId, bossName, difficulty }) {
     return (
         <div className="overflowScroll">
             {loading && <Loading />}
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() =>
+                        dispatch(
+                            fetchRaidBossRecentKills({
+                                raidId,
+                                bossName,
+                                difficulty
+                            })
+                        )
+                    }
+                />
+            )}
             {!loading && !error && data && (
                 <Table>
                     <TableHead className="tableHead">

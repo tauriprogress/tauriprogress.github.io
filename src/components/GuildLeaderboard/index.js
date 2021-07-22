@@ -104,7 +104,12 @@ function GuildLeaderboard({ theme, classes }) {
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>
             {loading && <Loading />}
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() => dispatch(guildLeaderboardFetch(realmGroup))}
+                />
+            )}
             {!loading && !error && data && (
                 <section>
                     <GuildLeaderboardFilter />

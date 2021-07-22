@@ -44,7 +44,20 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
     return (
         <OverflowScroll>
             {loading && <Loading />}
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() =>
+                        dispatch(
+                            fetchRaidBossFastestKills({
+                                raidId,
+                                bossName,
+                                difficulty
+                            })
+                        )
+                    }
+                />
+            )}
             {!loading && !error && data && (
                 <Table>
                     <TableHead className="tableHead">

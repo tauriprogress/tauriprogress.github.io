@@ -51,7 +51,23 @@ function Characters({ raidId, bossName, combatMetric }) {
     return (
         <React.Fragment>
             {loading && <Loading />}
-            {error && <ErrorMessage message={error} />}
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() =>
+                        dispatch(
+                            fetchRaidBossCharacters({
+                                raidId,
+                                bossName,
+                                combatMetric,
+                                filters: filter,
+                                page,
+                                pageSize
+                            })
+                        )
+                    }
+                />
+            )}
             {!loading &&
                 !error &&
                 data &&

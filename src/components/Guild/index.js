@@ -44,7 +44,17 @@ function Guild({ match, location }) {
 
                 {error && (
                     <React.Fragment>
-                        <ErrorMessage message={error} />
+                        <ErrorMessage
+                            message={error}
+                            refresh={() =>
+                                dispatch(
+                                    fetchGuild({
+                                        guildName: guildName,
+                                        realm: realm
+                                    })
+                                )
+                            }
+                        />
                         {error === "guild not found" && <SelectRealm />}
                     </React.Fragment>
                 )}
