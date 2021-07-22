@@ -10,7 +10,7 @@ import RaidFilter from "../RaidFilter";
 import { replaceUrlSearchQuery } from "../../helpers";
 
 function Raid({ match }) {
-    const selectedTab = useSelector(state => state.raidBoss.selectedTab);
+    const selectedTab = useSelector(state => state.raidBoss.tab.selectedTab);
     let filter = useSelector(state => state.raid.filter);
     let title = match.params.raidName;
     let Component = RaidSummary;
