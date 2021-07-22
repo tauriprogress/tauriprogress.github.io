@@ -7,6 +7,8 @@ const defaultState = {
 
 function recentKillsReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return defaultState;
         case "RAIDBOSS_RECENTKILLS_FILL":
             return {
                 ...state,

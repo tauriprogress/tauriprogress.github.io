@@ -4,6 +4,8 @@ const defaultState = {
 
 function pageReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return defaultState;
         case "RAIDBOSS_PAGE_SELECT":
             return {
                 ...state,
@@ -17,11 +19,6 @@ function pageReducer(state = defaultState, action) {
             };
 
         case "RAID_FILTER_SET":
-            return {
-                ...state,
-                currentPage: 0
-            };
-        case "ENVIRONMENT_CHANGED":
             return {
                 ...state,
                 currentPage: 0

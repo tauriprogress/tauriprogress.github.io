@@ -6,6 +6,8 @@ const defaultState = {
 
 function tabReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return defaultState;
         case "RAIDBOSS_TAB_SELECT":
             return {
                 ...state,

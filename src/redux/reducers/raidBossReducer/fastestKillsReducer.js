@@ -7,6 +7,8 @@ const defaultState = {
 
 function fastestKillsReducer(state = defaultState, action) {
     switch (action.type) {
+        case "ENVIRONMENT_CHANGED":
+            return defaultState;
         case "RAIDBOSS_FASTESTKILLS_FILL":
             return {
                 ...state,
