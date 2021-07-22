@@ -33,8 +33,10 @@ function RaidBoss({ match }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(setSelectedNavigationItem(bossName));
+
         return () => dispatch(setSelectedNavigationItem(null));
-    }, [dispatch]);
+    }, [bossName, dispatch]);
 
     return (
         <React.Fragment>

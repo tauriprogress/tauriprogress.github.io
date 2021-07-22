@@ -50,6 +50,7 @@ function RaidSummary({ classes, match }) {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchRaidSummary(raidNameToId[raidName]));
+        dispatch(setSelectedNavigationItem(raidName));
 
         return () => dispatch(setSelectedNavigationItem(null));
     }, [raidName, dispatch]);

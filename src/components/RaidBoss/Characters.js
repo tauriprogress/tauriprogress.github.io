@@ -7,11 +7,7 @@ import Loading from "../Loading";
 
 import CharacterLadder from "../CharacterLadder";
 
-import {
-    fetchRaidBossCharacters,
-    setRaidBossPage,
-    setSelectedNavigationItem
-} from "../../redux/actions";
+import { fetchRaidBossCharacters, setRaidBossPage } from "../../redux/actions";
 
 function Characters({ raidId, bossName, combatMetric }) {
     const { loading, data, error, filter, page, dataSpecificationString } =
@@ -43,10 +39,6 @@ function Characters({ raidId, bossName, combatMetric }) {
             })
         );
     }, [raidId, bossName, combatMetric, filter, page, pageSize, dispatch]);
-
-    useEffect(() => {
-        return () => dispatch(setSelectedNavigationItem(null));
-    }, [dispatch]);
 
     return (
         <React.Fragment>
