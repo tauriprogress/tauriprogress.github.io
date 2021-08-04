@@ -71,9 +71,7 @@ function* conditionToFetch({ payload }) {
         state => state.raidBoss.recentKills.dataSpecificationString
     );
 
-    const loading = yield select(state => state.raidBoss.recentKills.loading);
-
-    return dataSpecificationString !== oldDataSpecificationString && !loading;
+    return dataSpecificationString !== oldDataSpecificationString;
 }
 
 export default function* getRaidBossRecentKillsSaga() {

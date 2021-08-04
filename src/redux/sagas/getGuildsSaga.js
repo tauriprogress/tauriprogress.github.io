@@ -34,7 +34,7 @@ function* conditionToFetch() {
         loading: state.guildList.loading
     }));
 
-    return !requested || !loading;
+    return !requested && !loading;
 }
 
 export default function* getGuildsSaga() {

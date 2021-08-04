@@ -71,9 +71,7 @@ function* conditionToFetch({ payload }) {
         state => state.raidBoss.fastestKills.dataSpecificationString
     );
 
-    const loading = yield select(state => state.raidBoss.fastestKills.loading);
-
-    return dataSpecificationString !== oldDataSpecificationString && !loading;
+    return dataSpecificationString !== oldDataSpecificationString;
 }
 
 export default function* getRaidBossFastestKillsSaga() {
