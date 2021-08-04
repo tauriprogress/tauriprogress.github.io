@@ -74,4 +74,8 @@ function Guild({ match, location }) {
     );
 }
 
-export default validateRealm()(Guild);
+export default validateRealm()(
+    React.memo(Guild, (prevProps, nextProps) => {
+        return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+    })
+);

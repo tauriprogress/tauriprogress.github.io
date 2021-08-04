@@ -98,4 +98,10 @@ function Character({ classes, match, location }) {
     );
 }
 
-export default withStyles(styles)(validateRealm()(Character));
+export default withStyles(styles)(
+    validateRealm()(
+        React.memo(Character, (prevProps, nextProps) => {
+            return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+        })
+    )
+);
