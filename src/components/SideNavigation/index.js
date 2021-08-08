@@ -95,7 +95,6 @@ function NavigationContainer({ classes }) {
 }
 
 function Navigation({ classes = {} }) {
-    const raids = useSelector(state => state.environment.currentContent.raids);
     const [searchOpen, setSearchOpen] = React.useState(false);
     const [leaderboardOpen, setLeaderboardOpen] = React.useState(false);
 
@@ -164,12 +163,16 @@ function Navigation({ classes = {} }) {
                     </List>
                 </Collapse>
 
-                {raids.map(raid => (
-                    <RaidBossList raid={raid} key={raid.name} />
-                ))}
+                <DisplayRaidLists />
             </List>
         </nav>
     );
+}
+
+function DisplayRaidLists() {
+    const raids = useSelector(state => state.environment.currentContent.raids);
+
+    return raids.map(raid => <RaidBossList raid={raid} key={raid.name} />);
 }
 
 export default withStyles(styles)(NavigationContainer);

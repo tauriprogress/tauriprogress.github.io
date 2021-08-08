@@ -71,3 +71,4 @@ export * from "./navigation";
 export * from "./environment";
 export * from "./characterLeaderboard";
 export * from "./guildLeaderboard";
+export * from "./history";

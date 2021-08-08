@@ -1,8 +1,9 @@
 import React from "react";
 
+import { goBack } from "connected-react-router";
+
 import Fab from "@material-ui/core/Fab";
 import CloseIcon from "@material-ui/icons/Close";
-import { useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 
 import Modal from "@material-ui/core/Modal";
@@ -10,6 +11,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Card from "@material-ui/core/Card";
 
 import FightLog from "./";
+import { useDispatch } from "react-redux";
 
 function styles(theme) {
     return {
@@ -40,11 +42,11 @@ function styles(theme) {
 }
 
 function FightLogWithModal({ match, classes }) {
-    const history = useHistory();
+    const dispatch = useDispatch();
 
     function close(e) {
         e.stopPropagation();
-        history.goBack();
+        dispatch(goBack());
     }
 
     return (

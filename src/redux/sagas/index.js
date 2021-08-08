@@ -16,9 +16,11 @@ import getCharacterItemsSaga from "./getCharacterItemsSaga";
 import getCharacterLeaderboardSaga from "./getCharacterLeaderboardSaga";
 import getGuildLeaderboardSaga from "./getGuildLeaderboardSaga";
 import environmentSaga from "./environmentSaga";
+import historySaga from "./historySaga";
 
 function* sagas() {
     yield all([
+        historySaga(),
         getLastUpdateSaga(),
         getGuildsSaga(),
         getRaidSummarySaga(),

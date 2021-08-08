@@ -28,7 +28,8 @@ import CharacterName from "../CharacterName";
 
 import {
     fetchCharacterLeaderboardData,
-    selectCharacterLeaderboardTab
+    selectCharacterLeaderboardTab,
+    replaceHistory
 } from "../../redux/actions";
 
 import { filterChars } from "./helpers";
@@ -37,8 +38,7 @@ import {
     raidNameToId,
     getSpecImg,
     shortRealmToFull,
-    classImg,
-    replaceUrlSearchQuery
+    classImg
 } from "../../helpers";
 
 function styles(theme) {
@@ -99,6 +99,10 @@ function CharacterLeaderboard({ classes, theme }) {
         );
     }, [dataId, dispatch]);
 
+    useEffect(() => {
+        dispatch(replaceHistory({ ...filter, tab: selectedTab }));
+    }, [filter, selectedTab, dispatch]);
+
     if (!data[dataId]) {
         filteredData = null;
     } else {
@@ -111,8 +115,6 @@ function CharacterLeaderboard({ classes, theme }) {
         loading = data[dataId].loading;
         error = data[dataId].error;
     }
-
-    replaceUrlSearchQuery({ ...filter, tab: selectedTab });
 
     return (
         <Page title={`Character Leaderboard | Tauri Progress`}>
@@ -320,4 +322,4 @@ function CharacterLeaderboard({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(CharacterLeaderboard));
+export default withStyles(styles)(withTheme(React.memo(CharacterLeaderboard)));

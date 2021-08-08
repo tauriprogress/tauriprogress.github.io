@@ -12,9 +12,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
-import { getRealmNames, pushToHistory } from "../../helpers";
+import { getRealmNames } from "../../helpers";
 
-import { toggleNavigation } from "../../redux/actions";
+import { toggleNavigation, pushToHistory } from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/reducers/navigationReducer";
 
@@ -60,7 +60,8 @@ function SearchCharacter({ classes, history }) {
             if (window.innerWidth < navBreakpoint) {
                 dispatch(toggleNavigation(false));
             }
-            pushToHistory(history, `/character/${character}?realm=${realm}`);
+
+            dispatch(pushToHistory(`/character/${character}?realm=${realm}`));
         }
     }
 

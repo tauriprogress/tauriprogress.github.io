@@ -25,9 +25,7 @@ function styles(theme) {
     };
 }
 
-function RaidSummary({ classes, match }) {
-    const raidName = match.params.raidName;
-
+function RaidSummary({ classes, raidName }) {
     const { loading, error, data, raids, filter, specs, raidId } = useSelector(
         state => {
             return {
@@ -95,4 +93,4 @@ function RaidSummary({ classes, match }) {
     );
 }
 
-export default withStyles(styles)(RaidSummary);
+export default withStyles(styles)(React.memo(RaidSummary));

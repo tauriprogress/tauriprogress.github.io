@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Page from "../Page";
 import RaidSummary from "../RaidSummary";
@@ -7,26 +7,37 @@ import RaidBoss from "../RaidBoss";
 
 import RaidFilter from "../RaidFilter";
 
-import { replaceUrlSearchQuery } from "../../helpers";
+import { replaceHistory } from "../../redux/actions";
 
 function Raid({ match }) {
     const selectedTab = useSelector(state => state.raidBoss.tab.selectedTab);
     let filter = useSelector(state => state.raid.filter);
-    let title = match.params.raidName;
+
+    const dispatch = useDispatch();
+
+    const raidName = match.params.raidName;
+    const bossName = match.params.bossName;
+
+    let title = raidName;
     let Component = RaidSummary;
 
-    if (match.params.bossName) {
-        filter = { ...filter, tab: selectedTab };
-        title = match.params.bossName;
+    useEffect(() => {
+        if (bossName) {
+            dispatch(replaceHistory({ ...filter, tab: selectedTab }));
+        } else {
+            dispatch(replaceHistory({ ...filter }));
+        }
+    }, [filter, selectedTab, bossName, dispatch]);
+
+    if (bossName) {
+        title = bossName;
         Component = RaidBoss;
     }
-
-    replaceUrlSearchQuery(filter);
 
     return (
         <Page title={`${title} | Tauri Progress`}>
             <RaidFilter />
-            <Component match={match} />
+            <Component raidName={raidName} bossName={bossName} />
         </Page>
     );
 }

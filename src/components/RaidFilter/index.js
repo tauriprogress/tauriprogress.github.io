@@ -215,4 +215,4 @@ function RaidFilter({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(RaidFilter));
+export default withStyles(styles)(withTheme(React.memo(RaidFilter)));

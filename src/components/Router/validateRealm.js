@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import queryString from "query-string";
 
 import { validRealm, realmOfRealmGroup } from "../../helpers";
@@ -11,7 +11,8 @@ function validateRealm() {
     return Component => {
         const ValidateRealm = React.forwardRef(
             ({ innerRef, ...otherprops }, ref) => {
-                const location = useLocation();
+                const location = useSelector(state => state.router.location);
+
                 const { realms, realmGroup } = useSelector(
                     state => ({
                         realms: state.environment.realms,

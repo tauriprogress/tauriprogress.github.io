@@ -4,7 +4,8 @@ import { withTheme, withStyles } from "@material-ui/core/styles";
 
 import {
     guildLeaderboardFetch,
-    selectGuildLeaderboardTab
+    selectGuildLeaderboardTab,
+    replaceHistory
 } from "../../redux/actions";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -33,11 +34,7 @@ import LogLink from "../LogLink";
 import InfoIcon from "../InfoIcon";
 
 import { filterGuilds } from "./helpers";
-import {
-    convertFightLength,
-    dateTextHours,
-    replaceUrlSearchQuery
-} from "./../../helpers";
+import { convertFightLength, dateTextHours } from "./../../helpers";
 
 function styles(theme) {
     return {
@@ -99,7 +96,9 @@ function GuildLeaderboard({ theme, classes }) {
         dispatch(guildLeaderboardFetch(realmGroup));
     }, [realmGroup, dispatch]);
 
-    replaceUrlSearchQuery({ ...filter, tab: selectedTab });
+    useEffect(() => {
+        dispatch(replaceHistory({ ...filter, tab: selectedTab }));
+    }, [filter, selectedTab, dispatch]);
 
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>

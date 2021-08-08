@@ -1,16 +1,17 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-
+import { ConnectedRouter } from "connected-react-router";
 import RouteSwitch from "./RouteSwitch";
 import AppContainer from "../AppContainer";
 
+import { history } from "../../redux";
+
 function Router() {
     return (
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
             <AppContainer>
                 <RouteSwitch />
             </AppContainer>
-        </BrowserRouter>
+        </ConnectedRouter>
     );
 }
 

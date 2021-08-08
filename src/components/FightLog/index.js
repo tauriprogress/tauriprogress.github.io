@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import queryString from "query-string";
 
-import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import validateRealm from "../Router/validateRealm";
@@ -18,8 +17,7 @@ import { isSameLog } from "./helpers";
 
 import { fetchFightLog } from "../../redux/actions";
 
-function FightLog({ match }) {
-    const location = useLocation();
+function FightLog({ match, location }) {
     const loading = useSelector(state => state.fightLog.loading);
     const error = useSelector(state => state.fightLog.error);
     const data = useSelector(state => state.fightLog.data);

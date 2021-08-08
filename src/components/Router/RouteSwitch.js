@@ -1,12 +1,14 @@
 import React from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 
 import ModalFightLog from "../FightLog/Modal";
 
 import ROUTES from "../../routes";
 
 function RouteSwitch() {
-    const location = useLocation();
+    const location = useSelector(state => state.router.location);
+
     const background = location.state && location.state.background;
 
     return (

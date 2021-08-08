@@ -52,23 +52,29 @@ export const LOG_ROUTE = {
     isCurrentRoute: () => logRegExp.test(window.location.pathname)
 };
 
+function CharacterLeaderboardWrapper() {
+    return <CharacterLeaderboard />;
+}
 const characterLeaderboardRegExp = new RegExp(
     /^(\/seasonal)?\/leaderboard\/character(\/)?.*/
 );
 export const CHARACTER_LEADERBOARD_ROUTE = {
     name: "CHARACTER LEADERBOARD",
     path: ["/leaderboard/character", "/seasonal/leaderboard/character"],
-    component: CharacterLeaderboard,
+    component: CharacterLeaderboardWrapper,
     exact: true,
     isCurrentRoute: () =>
         characterLeaderboardRegExp.test(window.location.pathname)
 };
 
+function GuildLeaderboardWrapper() {
+    return <GuildLeaderboard />;
+}
 const guildLeaderboardRegExp = new RegExp(/^\/leaderboard\/guild(\/)?.*/);
 export const GUILD_LEADERBOARD_ROUTE = {
     name: "GUILD LEADERBOARD",
     path: ["/leaderboard/guild", "/seasonal/leaderboard/guild"],
-    component: GuildLeaderboard,
+    component: GuildLeaderboardWrapper,
     exact: true,
     isCurrentRoute: () => {
         return guildLeaderboardRegExp.test(window.location.pathname);

@@ -15,7 +15,7 @@ import OverflowScroll from "../OverflowScroll";
 
 import { setRaidBossTab, setSelectedNavigationItem } from "../../redux/actions";
 
-function RaidBoss({ match }) {
+function RaidBoss({ raidName, bossName }) {
     const { selectedTab, difficulty } = useSelector(state => {
         return {
             ...state.raidBoss.characters,
@@ -26,8 +26,7 @@ function RaidBoss({ match }) {
         };
     }, shallowEqual);
 
-    const bossName = match.params.bossName;
-    const raidId = raidNameToId[match.params.raidName];
+    const raidId = raidNameToId[raidName];
     const combatMetric = selectedTab === 0 ? "dps" : "hps";
 
     const dispatch = useDispatch();

@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
 import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
@@ -13,18 +14,22 @@ import environmentReducer from "./environmentReducer";
 import characterLeaderboardReducer from "./characterLeaderboardReducer";
 import guildLeaderboardReducer from "./guildLeaderboardReducer";
 
-export default combineReducers({
-    raid: raidReducer,
-    raidSummary: raidSummaryReducer,
-    raidBoss: raidBossReducer,
-    navigation: navigationReducer,
-    guildList: guildListReducer,
-    guild: guildReducer,
-    character: characterReducer,
-    additionalInfo: additionalInfoReducer,
-    fightLog: fightLogReducer,
-    themes: themesReducer,
-    environment: environmentReducer,
-    characterLeaderboard: characterLeaderboardReducer,
-    guildLeaderboard: guildLeaderboardReducer
-});
+const createRootReducer = history =>
+    combineReducers({
+        router: connectRouter(history),
+        raid: raidReducer,
+        raidSummary: raidSummaryReducer,
+        raidBoss: raidBossReducer,
+        navigation: navigationReducer,
+        guildList: guildListReducer,
+        guild: guildReducer,
+        character: characterReducer,
+        additionalInfo: additionalInfoReducer,
+        fightLog: fightLogReducer,
+        themes: themesReducer,
+        environment: environmentReducer,
+        characterLeaderboard: characterLeaderboardReducer,
+        guildLeaderboard: guildLeaderboardReducer
+    });
+
+export default createRootReducer;

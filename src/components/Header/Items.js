@@ -1,7 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+
+import { push } from "connected-react-router";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -85,7 +87,6 @@ function styles(theme) {
 }
 
 function NavItems({ classes }) {
-    const history = useHistory();
     const dispatch = useDispatch();
     const { realmGroup, hasSeasonal, seasonName, nextSeasonName, isSeasonal } =
         useSelector(
@@ -102,10 +103,10 @@ function NavItems({ classes }) {
     function seasonalSwitch() {
         if (hasSeasonal) {
             if (isSeasonal) {
-                history.push("/");
+                dispatch(push("/"));
                 dispatch(changeEnvironmentSeason());
             } else {
-                history.push("/seasonal/");
+                dispatch(push("/seasonal/"));
                 dispatch(changeEnvironmentSeason());
             }
         }

@@ -1,10 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-import { useLocation } from "react-router-dom";
 import Link from "../Link";
 
 function LogLink({ children, logId, realm, ...rest }) {
-    const location = useLocation();
+    const location = useSelector(state => state.router.location);
+
     return (
         <Link
             color="inherit"

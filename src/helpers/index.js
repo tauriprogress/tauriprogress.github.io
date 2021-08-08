@@ -391,18 +391,6 @@ export function raidNameToId(raidName) {
     return false;
 }
 
-export function replaceUrlSearchQuery(queries) {
-    const searchQuery = queryString.stringify(queries);
-
-    if (searchQuery !== window.location.search) {
-        window.history.replaceState(
-            window.history.state,
-            document.title,
-            `${window.location.origin}${window.location.pathname}?${searchQuery}`
-        );
-    }
-}
-
 export function readFiltersFromUrl(realmGroup, filterNames) {
     let filter = {};
     const defaultDifficulty = getDefaultDifficulty(realmGroup);
@@ -514,12 +502,16 @@ export function getRealmGroupOfLocalStorage() {
         : "tauri";
 }
 
-export function pushToHistory(history, path) {
-    history.push(isUrlSeasonal() ? `/seasonal${path}` : path);
-}
-
 export function isUrlSeasonal() {
     return new RegExp(/^\/seasonal/).test(window.location.pathname);
+}
+
+export function isPathSeasonal(pathname) {
+    return new RegExp(/^\/seasonal/).test(pathname);
+}
+
+export function getSearchQueryString(queries) {
+    return queryString.stringify(queries);
 }
 
 export function getDataSpecificationString(specifications) {

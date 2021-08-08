@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import queryString from "query-string";
 
@@ -20,7 +20,8 @@ function styles() {
 }
 
 function SelectRealm({ classes }) {
-    const location = useLocation();
+    const location = useSelector(state => state.router.location);
+
     let realmName = queryString.parse(location.search).realm;
     let realms = getRealmNames(useSelector(state => state.environment.realms));
 
