@@ -517,3 +517,8 @@ export function getSearchQueryString(queries) {
 export function getDataSpecificationString(specifications) {
     return `${specifications.raidId} ${specifications.bossName} ${specifications.difficulty} ${specifications.combatMetric} ${specifications.realm} ${specifications.faction} ${specifications.class} ${specifications.spec} ${specifications.role} ${specifications.page} ${specifications.pageSize}`;
 }
+
+export function getRealmGroupFromLocalStorage() {
+    const realmGroup = localStorage.getItem("realmGroup");
+    return validRealmGroup(realmGroup) ? realmGroup : "tauri";
+}

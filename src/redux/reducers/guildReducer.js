@@ -1,6 +1,9 @@
 import constants from "tauriprogress-constants";
-import { getDefaultDifficulty } from "../../helpers";
-const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
+import {
+    getDefaultDifficulty,
+    getRealmGroupFromLocalStorage
+} from "../../helpers";
+const defaultRealmGroup = getRealmGroupFromLocalStorage();
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 let raids = constants[defaultRealmGroup].currentContent.raids;
