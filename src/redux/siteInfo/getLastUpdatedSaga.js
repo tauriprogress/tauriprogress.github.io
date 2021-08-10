@@ -1,10 +1,12 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import {
-    additionalInfoLoading,
-    additionalInfoFill,
-    additionalInfoSetError
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    SITE_INFO_LAST_UPDATED_FETCH,
+    siteInfoSetLoading,
+    siteInfoFill,
+    siteInfoSetError
+} from "./actions";
+
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/lastupdated`).then(res => res.json());
@@ -12,7 +14,7 @@ async function getData(serverUrl) {
 
 function* fetchLastUpdated() {
     try {
-        yield put(additionalInfoLoading());
+        yield put(siteInfoSetLoading(true));
 
         const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl);
@@ -20,13 +22,13 @@ function* fetchLastUpdated() {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(additionalInfoFill(response.response));
+            yield put(siteInfoFill(response.response));
         }
     } catch (err) {
-        yield put(additionalInfoSetError(err.message));
+        yield put(siteInfoSetError(err.message));
     }
 }
 
-export default function* getLastUpdateSaga() {
-    yield takeLatest("LAST_UPDATED_FETCH", fetchLastUpdated);
+export default function* getLastUpdatedSaga() {
+    yield takeLatest(SITE_INFO_LAST_UPDATED_FETCH, fetchLastUpdated);
 }

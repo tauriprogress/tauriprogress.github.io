@@ -1,6 +1,6 @@
 import { all } from "redux-saga/effects";
 import getGuildsSaga from "./getGuildsSaga";
-import getLastUpdateSaga from "./getLastUpdateSaga";
+import getLastUpdatedSaga from "../siteInfo/getLastUpdatedSaga";
 import getRaidSummarySaga from "./getRaidSummarySaga";
 import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
 import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSaga";
@@ -21,7 +21,7 @@ import historySaga from "./historySaga";
 function* sagas() {
     yield all([
         historySaga(),
-        getLastUpdateSaga(),
+        getLastUpdatedSaga(),
         getGuildsSaga(),
         getRaidSummarySaga(),
         getRaidBossKillCountSaga(),

@@ -13,7 +13,13 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import DisplayDate from "../DisplayDate";
 
-import { lastUpdatedFetch } from "../../redux/actions";
+import { siteInfoFetchLastUpdated } from "../../redux/actions";
+import {
+    siteInfoLastUpdatedSelector,
+    siteInfoLoadingSelector,
+    siteInfoErrorSelector,
+    siteInfoIsUpdatingSelector
+} from "../../redux/selectors";
 
 import { convertMinutes } from "../../helpers";
 
@@ -33,19 +39,16 @@ function styles(theme) {
     };
 }
 
-function AdditionalInfo({ classes }) {
+function SiteInfo({ classes }) {
     const [isOpen, setOpen] = useState(false);
 
-    const { lastUpdated, isUpdating, loading, error, realmGroup } = useSelector(
+    const { lastUpdated, loading, error, isUpdating, realmGroup } = useSelector(
         state => ({
-            lastUpdated: state.additionalInfo.lastUpdated,
-            isUpdating: state.additionalInfo.isUpdating,
-            loading: state.additionalInfo.loading,
-            error: state.additionalInfo.error,
-            realmGroup:
-                Object.keys(state.environment.realms).length > 1
-                    ? "tauri"
-                    : "crystalsong"
+            lastUpdated: siteInfoLastUpdatedSelector(state),
+            loading: siteInfoLoadingSelector(state),
+            error: siteInfoErrorSelector(state),
+            isUpdating: siteInfoIsUpdatingSelector(state),
+            realmGroup: state.environment.realmGroup
         }),
         shallowEqual
     );
@@ -53,7 +56,7 @@ function AdditionalInfo({ classes }) {
     const dispatch = useDispatch();
     useEffect(() => {
         if (isOpen) {
-            dispatch(lastUpdatedFetch());
+            dispatch(siteInfoFetchLastUpdated());
         }
     }, [isOpen, dispatch]);
 
@@ -172,4 +175,4 @@ function AdditionalInfo({ classes }) {
     );
 }
 
-export default withStyles(styles)(AdditionalInfo);
+export default withStyles(styles)(SiteInfo);

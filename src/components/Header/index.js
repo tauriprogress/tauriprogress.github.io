@@ -12,7 +12,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Brightness from "@material-ui/icons/Brightness4";
 
 import Items from "./Items";
-import AdditionalInfo from "../AdditionalInfo";
+import SiteInfo from "../SiteInfo";
 
 import discordIcon from "../../assets/social/discord.svg";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -149,7 +149,7 @@ function Header({ classes }) {
                                             color="inherit"
                                             className={classes.iconButton}
                                         >
-                                            <AdditionalInfo />
+                                            <SiteInfo />
                                         </IconButton>
                                     </Typography>
                                 </div>
@@ -226,7 +226,7 @@ function Header({ classes }) {
                                     >
                                         <Typography>
                                             <IconButton color="inherit">
-                                                <AdditionalInfo />
+                                                <SiteInfo />
                                             </IconButton>
                                         </Typography>
                                     </Grid>

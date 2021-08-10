@@ -7,16 +7,17 @@ import navigationReducer from "./navigationReducer";
 import guildListReducer from "./guildListReducer";
 import guildReducer from "./guildReducer";
 import characterReducer from "./characterReducer";
-import additionalInfoReducer from "./additionalInfoReducer";
 import fightLogReducer from "./fightLogReducer";
 import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
 import characterLeaderboardReducer from "./characterLeaderboardReducer";
 import guildLeaderboardReducer from "./guildLeaderboardReducer";
+import siteInfoReducer from "../siteInfo/reducer";
 
 const createRootReducer = history =>
     combineReducers({
         router: connectRouter(history),
+        siteInfo: siteInfoReducer,
         raid: raidReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
@@ -24,7 +25,6 @@ const createRootReducer = history =>
         guildList: guildListReducer,
         guild: guildReducer,
         character: characterReducer,
-        additionalInfo: additionalInfoReducer,
         fightLog: fightLogReducer,
         themes: themesReducer,
         environment: environmentReducer,

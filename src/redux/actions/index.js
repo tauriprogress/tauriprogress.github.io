@@ -1,31 +1,3 @@
-export function lastUpdatedFetch(payload) {
-    return {
-        type: "LAST_UPDATED_FETCH",
-        payload
-    };
-}
-
-export function additionalInfoLoading(payload) {
-    return {
-        type: "ADDITIONAL_INFO_LOADING",
-        payload
-    };
-}
-
-export function additionalInfoFill(payload) {
-    return {
-        type: "ADDITIONAL_INFO_FILL",
-        payload
-    };
-}
-
-export function additionalInfoSetError(payload) {
-    return {
-        type: "ADDITIONAL_INFO_SET_ERROR",
-        payload
-    };
-}
-
 export function themeToggle(payload) {
     return {
         type: "THEME_TOGGLE",
