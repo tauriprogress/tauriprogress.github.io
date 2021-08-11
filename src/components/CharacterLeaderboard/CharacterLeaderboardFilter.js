@@ -15,6 +15,7 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 import { getRealmNames } from "../../helpers";
 
 import { setCharacterLeaderboardFilter } from "../../redux/actions";
+import { characterLeaderboardFilterSelector } from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -34,7 +35,7 @@ function CharacterLeaderboardFilter({ classes, theme }) {
         raids
     } = useSelector(
         state => ({
-            filter: state.characterLeaderboard.filter,
+            filter: characterLeaderboardFilterSelector(state),
             realms: state.environment.realms,
             specs: state.environment.specs,
             characterClassNames: state.environment.characterClassNames,

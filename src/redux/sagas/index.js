@@ -1,6 +1,8 @@
 import { all } from "redux-saga/effects";
-import getGuildsSaga from "./getGuildsSaga";
 import getLastUpdatedSaga from "../siteInfo/getLastUpdatedSaga";
+import getCharacterLeaderboardSaga from "../characterLeaderboard/getCharacterLeaderboardSaga";
+
+import getGuildsSaga from "./getGuildsSaga";
 import getRaidSummarySaga from "./getRaidSummarySaga";
 import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
 import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSaga";
@@ -13,7 +15,6 @@ import getCharacterDataSaga from "./getCharacterDataSaga";
 import getCharacterRecentKillsSaga from "./getCharacterRecentKillsSaga";
 import getCharacterProgressionSaga from "./getCharacterProgressionSaga";
 import getCharacterItemsSaga from "./getCharacterItemsSaga";
-import getCharacterLeaderboardSaga from "./getCharacterLeaderboardSaga";
 import getGuildLeaderboardSaga from "./getGuildLeaderboardSaga";
 import environmentSaga from "./environmentSaga";
 import historySaga from "./historySaga";
@@ -22,6 +23,8 @@ function* sagas() {
     yield all([
         historySaga(),
         getLastUpdatedSaga(),
+        getCharacterLeaderboardSaga(),
+
         getGuildsSaga(),
         getRaidSummarySaga(),
         getRaidBossKillCountSaga(),
@@ -34,7 +37,6 @@ function* sagas() {
         getCharacterRecentKillsSaga(),
         getCharacterProgressionSaga(),
         getCharacterItemsSaga(),
-        getCharacterLeaderboardSaga(),
         getGuildLeaderboardSaga(),
         environmentSaga()
     ]);

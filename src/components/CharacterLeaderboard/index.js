@@ -27,10 +27,15 @@ import CharacterLeaderboardFilter from "./CharacterLeaderboardFilter";
 import CharacterName from "../CharacterName";
 
 import {
-    fetchCharacterLeaderboardData,
-    selectCharacterLeaderboardTab,
+    characterLeaderboardFetchData,
+    characterLeaderboardSetTab,
     replaceHistory
 } from "../../redux/actions";
+import {
+    characterLeaderboardTabSelector,
+    characterLeaderboardDataSelector,
+    characterLeaderboardFilterSelector
+} from "../../redux/selectors";
 
 import { filterChars } from "./helpers";
 
@@ -62,59 +67,50 @@ function styles(theme) {
 }
 
 function CharacterLeaderboard({ classes, theme }) {
-    const rowsPerPage = 30;
-
     const dispatch = useDispatch();
 
-    const { data, filter, specs, characterClassNames, selectedTab } =
-        useSelector(
-            state => ({
-                ...state.characterLeaderboard,
-                specs: state.environment.specs,
-                characterClassNames: state.environment.characterClassNames
-            }),
-            shallowEqual
-        );
+    const { filter, selectedTab } = useSelector(
+        state => ({
+            filter: characterLeaderboardFilterSelector(state),
+            selectedTab: characterLeaderboardTabSelector(state)
+        }),
+        shallowEqual
+    );
+
+    const rowsPerPage = 30;
 
     const combatMetric = selectedTab === 0 ? "dps" : "hps";
+
+    const dataId = `${raidNameToId(filter.raid)}${
+        filter.spec ? filter.spec : filter.role
+    }${combatMetric}`;
+
+    const { data, specs, characterClassNames } = useSelector(
+        state => ({
+            data: characterLeaderboardDataSelector(state, dataId),
+            specs: state.environment.specs,
+            characterClassNames: state.environment.characterClassNames
+        }),
+        shallowEqual
+    );
+
     const [page, setPage] = useState(0);
 
     useEffect(() => {
         setPage(0);
     }, [combatMetric, data, filter]);
 
-    const dataId = `${raidNameToId(filter.raid)}${
-        filter.spec ? filter.spec : filter.role
-    }${combatMetric}`;
-
-    let filteredData = [];
-    let loading = false;
-    let error = null;
-
     useEffect(() => {
-        dispatch(
-            fetchCharacterLeaderboardData({
-                dataId
-            })
-        );
+        dispatch(characterLeaderboardFetchData(dataId));
     }, [dataId, dispatch]);
 
     useEffect(() => {
         dispatch(replaceHistory({ ...filter, tab: selectedTab }));
     }, [filter, selectedTab, dispatch]);
 
-    if (!data[dataId]) {
-        filteredData = null;
-    } else {
-        filteredData = filterChars(
-            filter,
-            data[dataId][filter.difficulty],
-            specs
-        );
-
-        loading = data[dataId].loading;
-        error = data[dataId].error;
-    }
+    const characters = data
+        ? filterChars(filter, data[filter.difficulty], specs)
+        : undefined;
 
     return (
         <Page title={`Character Leaderboard | Tauri Progress`}>
@@ -124,23 +120,23 @@ function CharacterLeaderboard({ classes, theme }) {
                 <Tabs
                     value={selectedTab}
                     onChange={(e, value) =>
-                        dispatch(selectCharacterLeaderboardTab(value))
+                        dispatch(characterLeaderboardSetTab(value))
                     }
                 >
                     <Tab label="Dps" value={0} />
                     <Tab label="Hps" value={1} />
                 </Tabs>
 
-                {data[dataId] && (
+                {data && (
                     <React.Fragment>
-                        {data[dataId].loading && <Loading />}
+                        {data.loading && <Loading />}
 
-                        {error && (
+                        {data.error && (
                             <ErrorMessage
-                                message={error}
+                                message={data.error}
                                 refresh={() =>
                                     dispatch(
-                                        fetchCharacterLeaderboardData({
+                                        characterLeaderboardFetchData({
                                             dataId
                                         })
                                     )
@@ -148,7 +144,7 @@ function CharacterLeaderboard({ classes, theme }) {
                             />
                         )}
 
-                        {!loading && !error && filteredData && (
+                        {!data.loading && !data.error && characters && (
                             <React.Fragment>
                                 <OverflowScroll>
                                     <Table>
@@ -171,7 +167,7 @@ function CharacterLeaderboard({ classes, theme }) {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {filteredData
+                                            {characters
                                                 .slice(
                                                     page * rowsPerPage,
                                                     (page + 1) * rowsPerPage
@@ -295,11 +291,11 @@ function CharacterLeaderboard({ classes, theme }) {
                                     </Table>
                                 </OverflowScroll>
 
-                                {filteredData && (
+                                {characters && (
                                     <TablePagination
                                         rowsPerPageOptions={[]}
                                         component="div"
-                                        count={filteredData.length}
+                                        count={characters.length}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
                                         backIconButtonProps={{

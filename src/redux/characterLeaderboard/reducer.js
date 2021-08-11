@@ -1,3 +1,10 @@
+import {
+    CHARACTER_LEADERBOARD_LOADING_SET,
+    CHARACTER_LEADERBOARD_DATA_FILL,
+    CHARACTER_LEADERBOARD_ERROR_SET,
+    CHARACTER_LEADERBOARD_FILTER_SET,
+    CHARACTER_LEADERBOARD_TAB_SET
+} from "./actions";
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
@@ -53,29 +60,33 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 },
                 data: {}
             };
-        case "CHARACTER_LEADERBOARD_SELECT_TAB":
-            return { ...state, selectedTab: action.payload };
-        case "CHARACTER_LEADERBOARD_FILTER_SET":
-            if (action.payload.filterName === "class") {
-                return {
-                    ...state,
-                    filter: {
-                        ...state.filter,
-                        [action.payload.filterName]: action.payload.value,
-                        spec: ""
-                    }
-                };
-            }
 
+        case CHARACTER_LEADERBOARD_LOADING_SET:
             return {
                 ...state,
-                filter: {
-                    ...state.filter,
-                    [action.payload.filterName]: action.payload.value
+                data: {
+                    ...state.data,
+                    [action.payload]: {
+                        ...state.data[action.payload],
+                        error: null,
+                        loading: true
+                    }
                 }
             };
-
-        case "CHARACTER_LEADERBOARD_ERROR_SET":
+        case CHARACTER_LEADERBOARD_DATA_FILL:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    [action.payload.dataId]: {
+                        ...state.data[action.payload.dataId],
+                        loading: false,
+                        error: null,
+                        ...action.payload.data
+                    }
+                }
+            };
+        case CHARACTER_LEADERBOARD_ERROR_SET:
             if (!action.payload.error) {
                 action.payload.error = "Unkown error.";
             }
@@ -90,31 +101,26 @@ function characterLeaderboardReducer(state = defaultState, action) {
                     }
                 }
             };
-        case "CHARACTER_LEADERBOARD_LOADING_SET":
+        case CHARACTER_LEADERBOARD_FILTER_SET:
+            if (action.payload.filterName === "class") {
+                return {
+                    ...state,
+                    filter: {
+                        ...state.filter,
+                        [action.payload.filterName]: action.payload.value,
+                        spec: ""
+                    }
+                };
+            }
             return {
                 ...state,
-                data: {
-                    ...state.data,
-                    [action.payload]: {
-                        ...state.data[action.payload],
-                        error: null,
-                        loading: true
-                    }
+                filter: {
+                    ...state.filter,
+                    [action.payload.filterName]: action.payload.value
                 }
             };
-        case "CHARACTER_LEADERBOARD_DATA_FILL":
-            return {
-                ...state,
-                data: {
-                    ...state.data,
-                    [action.payload.dataId]: {
-                        ...state.data[action.payload.dataId],
-                        loading: false,
-                        error: null,
-                        ...action.payload.data
-                    }
-                }
-            };
+        case CHARACTER_LEADERBOARD_TAB_SET:
+            return { ...state, selectedTab: action.payload };
 
         default:
             return state;

@@ -1,10 +1,12 @@
+import { CHARACTER_LEADERBOARD_DATA_FETCH } from "./actions";
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    setCharacterLeaderboardLoading,
-    setCharacterLeaderboardError,
-    fillCharacterLeaderboard
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    characterLeaderboardSetLoading,
+    characterLeaderboardSetError,
+    characterLeaderboardFill
+} from "./actions";
+import { characterLeaderboardDataExistsSelector } from "./selectors";
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, dataId) {
     return await fetch(`${serverUrl}/leaderboard/character`, {
@@ -19,30 +21,32 @@ async function getData(serverUrl, dataId) {
 }
 
 function* fetchCharacterLeaderboard({ payload }) {
-    const { dataId } = payload;
     try {
         const dataExists = yield select(state =>
-            state.characterLeaderboard.data[dataId] ? true : false
+            characterLeaderboardDataExistsSelector(state, payload)
         );
 
         if (dataExists) return;
 
-        yield put(setCharacterLeaderboardLoading(dataId));
+        yield put(characterLeaderboardSetLoading(payload));
 
         const serverUrl = yield getServerUrl();
-        const response = yield call(getData, serverUrl, dataId);
+        const response = yield call(getData, serverUrl, payload);
 
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
             yield put(
-                fillCharacterLeaderboard({ dataId, data: response.response })
+                characterLeaderboardFill({
+                    dataId: payload,
+                    data: response.response
+                })
             );
         }
     } catch (err) {
         yield put(
-            setCharacterLeaderboardError({
-                dataId: dataId,
+            characterLeaderboardSetError({
+                dataId: payload,
                 error: err.message
             })
         );
@@ -51,7 +55,7 @@ function* fetchCharacterLeaderboard({ payload }) {
 
 export default function* getLeaderboardDataSaga() {
     yield takeEvery(
-        "CHARACTER_LEADERBOARD_DATA_FETCH",
+        CHARACTER_LEADERBOARD_DATA_FETCH,
         fetchCharacterLeaderboard
     );
 }
