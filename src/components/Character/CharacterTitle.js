@@ -11,6 +11,7 @@ import Avatar from "../Avatar";
 import Link from "../Link";
 
 import { talentTreeToSpec, getFactionImg } from "../../helpers";
+import { characterDataSelector } from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -44,7 +45,7 @@ function styles(theme) {
 function CharacterTitle({ classes, theme }) {
     const { data, armoryUrl, characterClassNames, specs } = useSelector(
         state => ({
-            data: state.character.data.data,
+            data: characterDataSelector(state),
             armoryUrl: state.environment.urls.armory,
             characterClassNames: state.environment.characterClassNames,
             specs: state.environment.specs

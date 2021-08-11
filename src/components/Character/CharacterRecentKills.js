@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -8,6 +8,12 @@ import Typography from "@material-ui/core/Typography";
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 import RecentKills from "../RecentKills";
+import { characterRecentKillsFetch } from "../../redux/actions";
+import {
+    characterNameSelector,
+    characterRealmSelector,
+    characterRecentKillsEntireSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -22,10 +28,12 @@ function styles(theme) {
 }
 
 function CharacterRecentKills({ classes }) {
-    const { loading, error, data, realm } = useSelector(
+    const dispatch = useDispatch();
+    const { loading, error, data, realm, characterName } = useSelector(
         state => ({
-            ...state.character.recentKills,
-            realm: state.character.realm
+            ...characterRecentKillsEntireSelector(state),
+            realm: characterRealmSelector(state),
+            characterName: characterNameSelector(state)
         }),
         shallowEqual
     );
@@ -44,7 +52,19 @@ function CharacterRecentKills({ classes }) {
                     if (loading) {
                         return <Loading />;
                     } else if (error) {
-                        return <ErrorMessage message={error} />;
+                        return (
+                            <ErrorMessage
+                                message={error}
+                                refresh={() =>
+                                    dispatch(
+                                        characterRecentKillsFetch({
+                                            characterName,
+                                            realm
+                                        })
+                                    )
+                                }
+                            />
+                        );
                     } else if (!logs.length) {
                         return <Typography>No data</Typography>;
                     } else {

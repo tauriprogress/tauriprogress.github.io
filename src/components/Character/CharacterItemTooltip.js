@@ -8,7 +8,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import ItemTooltipText from "../ItemTooltipText";
 
-import { fetchCharacterItems } from "../../redux/actions";
+import { characterItemsFetch } from "../../redux/actions";
+import {
+    characterItemsItemSelector,
+    characterItemsLoadingSelector,
+    characteritemsErrorSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -25,9 +30,9 @@ function styles(theme) {
 function ItemTooltip({ classes, children, id, ids, realm }) {
     const { loading, error, item, iconUrl } = useSelector(
         state => ({
-            item: state.character.items.data[id],
-            loading: state.character.items.loading,
-            error: state.character.items.error,
+            item: characterItemsItemSelector(state, id),
+            loading: characterItemsLoadingSelector(state),
+            error: characteritemsErrorSelector(state),
             iconUrl: state.environment.urls.icon
         }),
         shallowEqual
@@ -37,7 +42,7 @@ function ItemTooltip({ classes, children, id, ids, realm }) {
 
     async function onOpen() {
         if (!item) {
-            dispatch(fetchCharacterItems({ ids, realm }));
+            dispatch(characterItemsFetch({ ids, realm }));
         }
     }
 

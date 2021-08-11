@@ -18,9 +18,13 @@ import CharacterItems from "./CharacterItems";
 import SelectRealm from "../SelectRealm";
 import ErrorMessage from "../ErrorMessage";
 
-import { fetchCharacterData } from "../../redux/actions";
+import { characterDataFetch } from "../../redux/actions";
 
 import { capitalize } from "../../helpers";
+import {
+    characterDataErrorSelector,
+    characterDataLoadingSelector
+} from "../../redux/selectors";
 
 function styles() {
     return {
@@ -35,8 +39,8 @@ function Character({ classes, match, location }) {
 
     const { loading, error } = useSelector(
         state => ({
-            loading: state.character.data.loading,
-            error: state.character.data.error
+            loading: characterDataLoadingSelector(state),
+            error: characterDataErrorSelector(state)
         }),
         shallowEqual
     );
@@ -44,7 +48,7 @@ function Character({ classes, match, location }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchCharacterData({ characterName: characterName, realm }));
+        dispatch(characterDataFetch({ characterName: characterName, realm }));
     }, [characterName, realm, dispatch]);
 
     return (
@@ -60,7 +64,7 @@ function Character({ classes, match, location }) {
                                 error !== "Character not found."
                                     ? () =>
                                           dispatch(
-                                              fetchCharacterData({
+                                              characterDataFetch({
                                                   characterName: characterName,
                                                   realm
                                               })

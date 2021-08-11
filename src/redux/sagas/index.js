@@ -1,6 +1,10 @@
 import { all } from "redux-saga/effects";
 import getLastUpdatedSaga from "../siteInfo/getLastUpdatedSaga";
 import getCharacterLeaderboardSaga from "../characterLeaderboard/getCharacterLeaderboardSaga";
+import getCharacterDataSaga from "../character/getCharacterDataSaga";
+import getCharacterRecentKillsSaga from "../character/getCharacterRecentKillsSaga";
+import getCharacterProgressionSaga from "../character/getCharacterProgressionSaga";
+import getCharacterItemsSaga from "../character/getCharacterItemsSaga";
 
 import getGuildsSaga from "./getGuildsSaga";
 import getRaidSummarySaga from "./getRaidSummarySaga";
@@ -11,10 +15,6 @@ import getRaidBossCharactersSaga from "./raidBossSagas/getRaidBossCharactersSaga
 
 import getLogSaga from "./getLogSaga";
 import getGuildSaga from "./getGuildSaga";
-import getCharacterDataSaga from "./getCharacterDataSaga";
-import getCharacterRecentKillsSaga from "./getCharacterRecentKillsSaga";
-import getCharacterProgressionSaga from "./getCharacterProgressionSaga";
-import getCharacterItemsSaga from "./getCharacterItemsSaga";
 import getGuildLeaderboardSaga from "./getGuildLeaderboardSaga";
 import environmentSaga from "./environmentSaga";
 import historySaga from "./historySaga";
@@ -24,6 +24,10 @@ function* sagas() {
         historySaga(),
         getLastUpdatedSaga(),
         getCharacterLeaderboardSaga(),
+        getCharacterDataSaga(),
+        getCharacterRecentKillsSaga(),
+        getCharacterProgressionSaga(),
+        getCharacterItemsSaga(),
 
         getGuildsSaga(),
         getRaidSummarySaga(),
@@ -33,10 +37,6 @@ function* sagas() {
         getRaidBossCharactersSaga(),
         getLogSaga(),
         getGuildSaga(),
-        getCharacterDataSaga(),
-        getCharacterRecentKillsSaga(),
-        getCharacterProgressionSaga(),
-        getCharacterItemsSaga(),
         getGuildLeaderboardSaga(),
         environmentSaga()
     ]);

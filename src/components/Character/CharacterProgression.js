@@ -17,9 +17,15 @@ import { displayHealing, getDifficulties } from "./helpers";
 import { raidImg, getDefaultDifficulty } from "../../helpers";
 
 import {
-    fetchCharacterProgression,
-    selectCharacterProgressionRaid
+    characterProgressionFetch,
+    characterProgressionSetRaid
 } from "../../redux/actions";
+import {
+    characterClassSelector,
+    characterNameSelector,
+    characterRealmSelector,
+    characterProgressionEntireSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -46,12 +52,10 @@ function CharacterProgression({ classes }) {
         realmGroup
     } = useSelector(state => {
         return {
-            ...state.character.progression,
-            characterName:
-                state.character.data.data && state.character.data.data.name,
-            realm: state.character.data.data && state.character.data.data.realm,
-            characterClass:
-                state.character.data.data && state.character.data.data.class,
+            ...characterProgressionEntireSelector(state),
+            characterName: characterNameSelector(state),
+            realm: characterRealmSelector(state),
+            characterClass: characterClassSelector(state),
             raids: state.environment.currentContent.raids,
             currentContentName: state.environment.currentContent.name,
             realmGroup: state.environment.realmGroup
@@ -68,15 +72,15 @@ function CharacterProgression({ classes }) {
     const dispatch = useDispatch();
 
     function selectRaid(raidName) {
-        dispatch(selectCharacterProgressionRaid(raidName));
+        dispatch(characterProgressionSetRaid(raidName));
     }
 
     useEffect(() => {
-        dispatch(selectCharacterProgressionRaid(currentContentName));
+        dispatch(characterProgressionSetRaid(currentContentName));
     }, [currentContentName, dispatch]);
 
     useEffect(() => {
-        dispatch(fetchCharacterProgression(selectedRaid));
+        dispatch(characterProgressionFetch(selectedRaid));
     }, [selectedRaid, dispatch]);
 
     return (
@@ -110,7 +114,7 @@ function CharacterProgression({ classes }) {
                     <ErrorMessage
                         message={error}
                         refresh={() =>
-                            dispatch(fetchCharacterProgression(selectedRaid))
+                            dispatch(characterProgressionFetch(selectedRaid))
                         }
                     />
                 )}

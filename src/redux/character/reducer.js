@@ -1,3 +1,19 @@
+import {
+    CHARACTER_DATA_LOADING_SET,
+    CHARACTER_DATA_FILL,
+    CHARACTER_DATA_ERROR_SET,
+    CHARACTER_PROGRESSION_RAID_SET,
+    CHARACTER_PROGRESSION_LOADING_SET,
+    CHARACTER_PROGRESSION_FILL,
+    CHARACTER_PROGRESSION_ERROR_SET,
+    CHARACTER_RECENTKILLS_LOADING_SET,
+    CHARACTER_RECENTKILLS_FILL,
+    CHARACTER_RECENTKILLS_ERROR_SET,
+    CHARACTER_ITEMS_LOADING_SET,
+    CHARACTER_ITEMS_FILL,
+    CHARACTER_ITEMS_ERROR_SET
+} from "./actions";
+
 import constants from "tauriprogress-constants";
 
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
@@ -39,28 +55,14 @@ function characterReducer(state = defaultState, action) {
                 }
             };
 
-        case "CHARACTER_DATA_SET_ERROR":
-            if (!action.payload) {
-                action.payload = "Unkown error.";
-            }
-            return {
-                ...state,
-                data: {
-                    ...state.data,
-                    error: action.payload,
-                    loading: false
-                }
-            };
-
-        case "CHARACTER_DATA_LOADING":
+        case CHARACTER_DATA_LOADING_SET:
             return {
                 ...state,
                 data: { ...state.data, loading: true, error: null },
                 characterName: action.payload.characterName,
                 realm: action.payload.realm
             };
-
-        case "CHARACTER_DATA_FILL":
+        case CHARACTER_DATA_FILL:
             return {
                 ...state,
                 data: {
@@ -75,27 +77,19 @@ function characterReducer(state = defaultState, action) {
                 items: { ...defaultState.items }
             };
 
-        case "CHARACTER_PROGRESSION_SELECT_RAID": {
+        case CHARACTER_DATA_ERROR_SET:
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
             return {
                 ...state,
-                progression: {
-                    ...state.progression,
-                    selectedRaid: action.payload
-                }
-            };
-        }
-
-        case "CHARACTER_PROGRESSION_SET_ERROR":
-            return {
-                ...state,
-                progression: {
-                    ...state.progression,
+                data: {
+                    ...state.data,
                     error: action.payload,
                     loading: false
                 }
             };
-
-        case "CHARACTER_PROGRESSION_LOADING":
+        case CHARACTER_PROGRESSION_LOADING_SET:
             return {
                 ...state,
                 progression: {
@@ -105,7 +99,17 @@ function characterReducer(state = defaultState, action) {
                 }
             };
 
-        case "CHARACTER_PROGRESSION_FILL":
+        case CHARACTER_PROGRESSION_RAID_SET: {
+            return {
+                ...state,
+                progression: {
+                    ...state.progression,
+                    selectedRaid: action.payload
+                }
+            };
+        }
+
+        case CHARACTER_PROGRESSION_FILL:
             return {
                 ...state,
                 progression: {
@@ -116,7 +120,17 @@ function characterReducer(state = defaultState, action) {
                 }
             };
 
-        case "CHARACTER_RECENTKILLS_LOADING":
+        case CHARACTER_PROGRESSION_ERROR_SET:
+            return {
+                ...state,
+                progression: {
+                    ...state.progression,
+                    error: action.payload,
+                    loading: false
+                }
+            };
+
+        case CHARACTER_RECENTKILLS_LOADING_SET:
             return {
                 ...state,
                 recentKills: {
@@ -125,17 +139,7 @@ function characterReducer(state = defaultState, action) {
                 }
             };
 
-        case "CHARACTER_RECENTKILLS_SET_ERROR":
-            return {
-                ...state,
-                recentKills: {
-                    ...state.recentKills,
-                    loading: false,
-                    error: action.payload
-                }
-            };
-
-        case "CHARACTER_RECENTKILLS_FILL":
+        case CHARACTER_RECENTKILLS_FILL:
             return {
                 ...state,
                 recentKills: {
@@ -153,7 +157,17 @@ function characterReducer(state = defaultState, action) {
                 }
             };
 
-        case "CHARACTER_ITEMS_LOADING":
+        case CHARACTER_RECENTKILLS_ERROR_SET:
+            return {
+                ...state,
+                recentKills: {
+                    ...state.recentKills,
+                    loading: false,
+                    error: action.payload
+                }
+            };
+
+        case CHARACTER_ITEMS_LOADING_SET:
             return {
                 ...state,
                 items: {
@@ -163,17 +177,7 @@ function characterReducer(state = defaultState, action) {
                 }
             };
 
-        case "CHARACTER_ITEMS_SET_ERROR":
-            return {
-                ...state,
-                items: {
-                    ...state.items,
-                    loading: false,
-                    error: action.payload
-                }
-            };
-
-        case "CHARACTER_ITEMS_FILL":
+        case CHARACTER_ITEMS_FILL:
             let data = { ...state.items.data, ...action.payload };
 
             let sets = {};
@@ -274,6 +278,15 @@ function characterReducer(state = defaultState, action) {
                     ...state.items,
                     loading: false,
                     data: data
+                }
+            };
+        case CHARACTER_ITEMS_ERROR_SET:
+            return {
+                ...state,
+                items: {
+                    ...state.items,
+                    loading: false,
+                    error: action.payload
                 }
             };
 

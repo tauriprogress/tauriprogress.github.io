@@ -1,10 +1,15 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    setCharacterItemsLoading,
-    setCharacterItemsError,
-    fillCharacterItems
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    characterItemsSetLoading,
+    characterItemsSetError,
+    characterItemsFill,
+    CHARACTER_ITEMS_FETCH
+} from "./actions";
+import {
+    characterItemsLoadingSelector,
+    characterItemsSelector
+} from "./selectors";
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, ids, realm) {
     return await fetch(`${serverUrl}/getitems`, {
@@ -23,17 +28,17 @@ function* fetchCharacterItems({ payload }) {
     try {
         const { ids, realm } = payload;
 
-        const loading = yield select(state => state.character.items.loading);
+        const loading = yield select(characterItemsLoadingSelector);
 
         if (loading) {
             return;
         }
 
-        const currentItems = yield select(state => state.character.items.data);
+        const currentItems = yield select(characterItemsSelector);
 
         const filteredIds = ids.filter(guid => !currentItems[guid]);
 
-        yield put(setCharacterItemsLoading(true));
+        yield put(characterItemsSetLoading(true));
 
         const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, filteredIds, realm);
@@ -41,13 +46,13 @@ function* fetchCharacterItems({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillCharacterItems(response.response));
+            yield put(characterItemsFill(response.response));
         }
     } catch (err) {
-        yield put(setCharacterItemsError(err.message));
+        yield put(characterItemsSetError(err.message));
     }
 }
 
 export default function* getCharacterItemsSaga() {
-    yield takeEvery("CHARACTER_ITEMS_FETCH", fetchCharacterItems);
+    yield takeEvery(CHARACTER_ITEMS_FETCH, fetchCharacterItems);
 }

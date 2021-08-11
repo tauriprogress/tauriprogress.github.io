@@ -5,6 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 
 import MetaDataList from "../MetaDataList";
 
+import { characterDataSelector } from "../../redux/selectors";
+
 function styles(theme) {
     return {
         container: {
@@ -18,7 +20,7 @@ function styles(theme) {
 }
 
 function CharacterStats({ classes }) {
-    const data = useSelector(state => state.character.data.data);
+    const data = useSelector(characterDataSelector);
 
     const general = [
         { label: "Achievements", value: data && data.pts },

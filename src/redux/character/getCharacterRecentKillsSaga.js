@@ -1,10 +1,13 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    setCharacterRecentKillsLoading,
-    fillCharacterRecentKills,
-    setCharacterRecentKillsError
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    characterRecentKillsSetLoading,
+    characterRecentKillsFill,
+    characterRecentKillsSetError,
+    CHARACTER_DATA_FETCH,
+    CHARACTER_RECENTKILLS_FETCH
+} from "./actions";
+import { characterRecentKillsLoadingSelector } from "./selectors";
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, characterName, realm) {
     return await fetch(`${serverUrl}/characterrecentkills`, {
@@ -24,15 +27,13 @@ function* fetchRecentKillsOfCharacter({ payload }) {
     try {
         const { characterName, realm } = payload;
 
-        const loading = yield select(
-            state => state.character.recentKills.loading
-        );
+        const loading = yield select(characterRecentKillsLoadingSelector);
 
         if (loading) {
             return;
         }
 
-        yield put(setCharacterRecentKillsLoading(true));
+        yield put(characterRecentKillsSetLoading(true));
 
         const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, characterName, realm);
@@ -40,13 +41,16 @@ function* fetchRecentKillsOfCharacter({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillCharacterRecentKills(response.response));
+            yield put(characterRecentKillsFill(response.response));
         }
     } catch (err) {
-        yield put(setCharacterRecentKillsError(err.message));
+        yield put(characterRecentKillsSetError(err.message));
     }
 }
 
 export default function* getCharacterRecentKillsSaga() {
-    yield takeEvery("CHARACTER_DATA_FETCH", fetchRecentKillsOfCharacter);
+    yield takeEvery(
+        [CHARACTER_DATA_FETCH, CHARACTER_RECENTKILLS_FETCH],
+        fetchRecentKillsOfCharacter
+    );
 }

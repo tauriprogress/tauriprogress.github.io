@@ -1,10 +1,18 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    setCharacterProgressionLoading,
-    fillCharacterProgression,
-    setCharacterProgressionError
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    characterProgressionSetLoading,
+    characterProgressionFill,
+    characterProgressionSetError,
+    CHARACTER_PROGRESSION_FETCH
+} from "./actions";
+import {
+    characterNameSelector,
+    characterRealmSelector,
+    characterClassSelector,
+    characterProgressionRaidDataExists,
+    characterProgressionLoadingSelector
+} from "./selectors";
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(
     serverUrl,
@@ -32,37 +40,29 @@ function* fetchCharacterProgression({ payload: raidName }) {
         const { characterName, realm, characterClass, raidDataExists } =
             yield select(state => {
                 return {
-                    characterName:
-                        state.character.data.data &&
-                        state.character.data.data.name,
-                    realm:
-                        state.character.data.data &&
-                        state.character.data.data.realm,
-                    characterClass:
-                        state.character.data.data &&
-                        state.character.data.data.class,
-                    raidDataExists:
-                        state.character.progression.data &&
-                        state.character.progression.data[raidName] &&
-                        true
+                    characterName: characterNameSelector(state),
+                    realm: characterRealmSelector(state),
+                    characterClass: characterClassSelector(state),
+                    raidDataExists: characterProgressionRaidDataExists(
+                        state,
+                        raidName
+                    )
                 };
             });
 
-        const loading = yield select(
-            state => state.character.progression.loading
-        );
+        const loading = yield select(characterProgressionLoadingSelector);
 
         if (
             !raidName ||
+            loading ||
+            raidDataExists ||
             !characterName ||
             !realm ||
-            !characterClass ||
-            loading ||
-            raidDataExists
+            !characterClass
         )
             return;
 
-        yield put(setCharacterProgressionLoading());
+        yield put(characterProgressionSetLoading());
 
         const serverUrl = yield getServerUrl();
         const response = yield call(
@@ -77,13 +77,13 @@ function* fetchCharacterProgression({ payload: raidName }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillCharacterProgression(response.response));
+            yield put(characterProgressionFill(response.response));
         }
     } catch (err) {
-        yield put(setCharacterProgressionError(err.message));
+        yield put(characterProgressionSetError(err.message));
     }
 }
 
 export default function* getCharacterProgressionSaga() {
-    yield takeEvery("CHARACTER_PROGRESSION_FETCH", fetchCharacterProgression);
+    yield takeEvery(CHARACTER_PROGRESSION_FETCH, fetchCharacterProgression);
 }

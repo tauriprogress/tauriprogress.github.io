@@ -12,6 +12,10 @@ import Divider from "@material-ui/core/Divider";
 
 import CharacterItemTooltip from "./CharacterItemTooltip";
 import TitledContainer from "../TitledContainer";
+import {
+    characterRealmSelector,
+    characterDataIncompleteItemsSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -46,11 +50,8 @@ function styles(theme) {
 function CharacterItems({ classes, theme }) {
     const { characterItems, iconUrl, realm } = useSelector(
         state => ({
-            characterItems:
-                !!state.character.data.data &&
-                state.character.data.data.characterItems,
-            realm:
-                !!state.character.data.data && state.character.data.data.realm,
+            characterItems: characterDataIncompleteItemsSelector(state),
+            realm: characterRealmSelector(state),
             iconUrl: state.environment.urls.icon
         }),
         shallowEqual

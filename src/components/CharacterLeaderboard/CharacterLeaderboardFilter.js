@@ -14,7 +14,7 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 
 import { getRealmNames } from "../../helpers";
 
-import { setCharacterLeaderboardFilter } from "../../redux/actions";
+import { characterLeaderboardSetFilter } from "../../redux/actions";
 import { characterLeaderboardFilterSelector } from "../../redux/selectors";
 
 function styles(theme) {
@@ -211,7 +211,7 @@ function CharacterLeaderboardFilter({ classes, theme }) {
                         value={filter[select.name]}
                         onChange={e =>
                             dispatch(
-                                setCharacterLeaderboardFilter({
+                                characterLeaderboardSetFilter({
                                     filterName: select.name,
                                     value: e.target.value
                                 })

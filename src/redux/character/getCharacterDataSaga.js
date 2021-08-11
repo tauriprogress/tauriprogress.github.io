@@ -1,10 +1,12 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
-    setCharacterDataLoading,
-    fillCharacterData,
-    setCharacterDataError
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    characterDataSetLoading,
+    characterDataFill,
+    characterDataSetError,
+    CHARACTER_DATA_FETCH
+} from "./actions";
+import { characterDataLoadingSelector } from "./selectors";
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, characterName, realm) {
     return await fetch(`${serverUrl}/getcharacter`, {
@@ -23,14 +25,14 @@ function* fetchCharacter({ payload }) {
     try {
         const { characterName, realm } = payload;
 
-        const loading = yield select(state => state.character.data.loading);
+        const loading = yield select(characterDataLoadingSelector);
 
         if (loading) {
             return;
         }
 
         yield put(
-            setCharacterDataLoading({
+            characterDataSetLoading({
                 characterName,
                 realm
             })
@@ -42,13 +44,13 @@ function* fetchCharacter({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillCharacterData(response.response));
+            yield put(characterDataFill(response.response));
         }
     } catch (err) {
-        yield put(setCharacterDataError(err.message));
+        yield put(characterDataSetError(err.message));
     }
 }
 
 export default function* getCharacterDataSaga() {
-    yield takeEvery("CHARACTER_DATA_FETCH", fetchCharacter);
+    yield takeEvery(CHARACTER_DATA_FETCH, fetchCharacter);
 }
