@@ -13,7 +13,8 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 
 import { getRealmNames } from "../../helpers";
 
-import { setGuildLeaderboardFilter } from "../../redux/actions";
+import { guildLeaderboardSetFilter } from "../../redux/actions";
+import { guildLeaderboardFilterSelector } from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -26,7 +27,7 @@ function styles(theme) {
 function GuildLeaderboardFilter({ classes, theme }) {
     const { filter, realms, difficultyNames, raids } = useSelector(
         state => ({
-            filter: state.guildLeaderboard.filter,
+            filter: guildLeaderboardFilterSelector(state),
             realms: state.environment.realms,
             difficultyNames: state.environment.difficultyNames,
             raids: state.environment.currentContent.raids
@@ -124,7 +125,7 @@ function GuildLeaderboardFilter({ classes, theme }) {
                         value={filter[select.name]}
                         onChange={e =>
                             dispatch(
-                                setGuildLeaderboardFilter({
+                                guildLeaderboardSetFilter({
                                     filterName: select.name,
                                     value: e.target.value
                                 })

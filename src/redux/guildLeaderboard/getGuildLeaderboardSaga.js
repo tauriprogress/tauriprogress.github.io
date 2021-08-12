@@ -1,10 +1,16 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
 import {
+    GUILD_LEADERBOARD_FETCH,
+    guildLeaderboardSetLoading,
     guildLeaderboardSetError,
-    guildLeaderboardLoad,
     guildLeaderboardFill
-} from "../actions";
-import { getServerUrl } from "./helpers";
+} from "./actions";
+import {
+    guildLeaderboardDataExistsSelector,
+    guildLeaderboardRealmGroupSelector,
+    guildLeaderboardLoadingSelector
+} from "./selectors";
+import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/leaderboard/guild`).then(res =>
@@ -15,9 +21,9 @@ async function getData(serverUrl) {
 function* fetchGuildLeaderboard({ payload }) {
     try {
         const { requested, realmGroup, loading } = yield select(state => ({
-            requested: !!state.guildLeaderboard.data,
-            realmGroup: state.guildLeaderboard.realmGroup,
-            loading: state.guildLeaderboard.loading
+            requested: guildLeaderboardDataExistsSelector(state),
+            realmGroup: guildLeaderboardRealmGroupSelector(state),
+            loading: guildLeaderboardLoadingSelector(state)
         }));
 
         if (
@@ -26,7 +32,7 @@ function* fetchGuildLeaderboard({ payload }) {
         ) {
             return;
         }
-        yield put(guildLeaderboardLoad());
+        yield put(guildLeaderboardSetLoading());
 
         const serverUrl = yield getServerUrl();
 
@@ -47,5 +53,5 @@ function* fetchGuildLeaderboard({ payload }) {
 }
 
 export default function* getGuildsSaga() {
-    yield takeEvery("GUILD_LEADERBOARD_FETCH", fetchGuildLeaderboard);
+    yield takeEvery(GUILD_LEADERBOARD_FETCH, fetchGuildLeaderboard);
 }

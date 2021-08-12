@@ -5,6 +5,7 @@ import siteInfoReducer from "../siteInfo/reducer";
 import characterLeaderboardReducer from "../characterLeaderboard/reducer";
 import characterReducer from "../character/reducer";
 import logReducer from "../log/reducer";
+import guildLeaderboardReducer from "../guildLeaderboard/reducer";
 
 import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
@@ -14,7 +15,6 @@ import guildListReducer from "./guildListReducer";
 import guildReducer from "./guildReducer";
 import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
-import guildLeaderboardReducer from "./guildLeaderboardReducer";
 
 const createRootReducer = history =>
     combineReducers({
@@ -23,6 +23,7 @@ const createRootReducer = history =>
         characterLeaderboard: characterLeaderboardReducer,
         character: characterReducer,
         log: logReducer,
+        guildLeaderboard: guildLeaderboardReducer,
         raid: raidReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
@@ -30,8 +31,7 @@ const createRootReducer = history =>
         guildList: guildListReducer,
         guild: guildReducer,
         themes: themesReducer,
-        environment: environmentReducer,
-        guildLeaderboard: guildLeaderboardReducer
+        environment: environmentReducer
     });
 
 export default createRootReducer;

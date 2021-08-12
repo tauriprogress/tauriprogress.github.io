@@ -1,3 +1,10 @@
+import {
+    GUILD_LEADERBOARD_LOADING_SET,
+    GUILD_LEADERBOARD_FILL,
+    GUILD_LEADERBOARD_ERROR_SET,
+    GUILD_LEADERBOARD_FILTER_SET,
+    GUILD_LEADERBOARD_TAB_SET
+} from "./actions";
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
@@ -45,26 +52,9 @@ function guildsReducer(state = defaultState, action) {
                 data: null
             };
 
-        case "GUILD_LEADERBOARD_SELECT_TAB":
-            return { ...state, selectedTab: action.payload };
-
-        case "GUILD_LEADERBOARD_FILTER_SET":
-            return {
-                ...state,
-                filter: {
-                    ...state.filter,
-                    [action.payload.filterName]: action.payload.value
-                }
-            };
-
-        case "GUILD_LEADERBOARD_SET_ERROR":
-            if (!action.payload) {
-                action.payload = "Unkown error.";
-            }
-            return { ...state, error: action.payload, loading: false };
-        case "GUILD_LEADERBOARD_LOAD":
+        case GUILD_LEADERBOARD_LOADING_SET:
             return { ...state, loading: true, error: null };
-        case "GUILD_LEADERBOARD_FILL":
+        case GUILD_LEADERBOARD_FILL:
             return {
                 ...state,
                 data: action.payload.data,
@@ -72,6 +62,23 @@ function guildsReducer(state = defaultState, action) {
                 loading: false,
                 error: null
             };
+
+        case GUILD_LEADERBOARD_ERROR_SET:
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
+            return { ...state, error: action.payload, loading: false };
+        case GUILD_LEADERBOARD_FILTER_SET:
+            return {
+                ...state,
+                filter: {
+                    ...state.filter,
+                    [action.payload.filterName]: action.payload.value
+                }
+            };
+        case GUILD_LEADERBOARD_TAB_SET:
+            return { ...state, selectedTab: action.payload };
+
         default:
             return state;
     }

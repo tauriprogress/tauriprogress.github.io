@@ -39,5 +39,4 @@ export * from "./raidBoss";
 export * from "./guild";
 export * from "./navigation";
 export * from "./environment";
-export * from "./guildLeaderboard";
 export * from "./history";

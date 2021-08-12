@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 
-import {
-    guildLeaderboardFetch,
-    selectGuildLeaderboardTab,
-    replaceHistory
-} from "../../redux/actions";
-
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Table from "@material-ui/core/Table";
@@ -35,6 +29,14 @@ import InfoIcon from "../InfoIcon";
 
 import { filterGuilds } from "./helpers";
 import { convertFightLength, dateTextHours } from "./../../helpers";
+
+import {
+    guildLeaderboardFetch,
+    guildLeaderboardSetTab,
+    replaceHistory
+} from "../../redux/actions";
+
+import { guildLeaderboardEntireSelector } from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -83,7 +85,7 @@ function GuildLeaderboard({ theme, classes }) {
     const { data, loading, error, realmGroup, filter, selectedTab } =
         useSelector(
             state => ({
-                ...state.guildLeaderboard,
+                ...guildLeaderboardEntireSelector(state),
                 realmGroup: state.environment.realmGroup
             }),
             shallowEqual
@@ -115,7 +117,7 @@ function GuildLeaderboard({ theme, classes }) {
                     <Tabs
                         value={selectedTab}
                         onChange={(e, value) =>
-                            dispatch(selectGuildLeaderboardTab(value))
+                            dispatch(guildLeaderboardSetTab(value))
                         }
                     >
                         <Tab label="FULL CLEAR" value={0} />
