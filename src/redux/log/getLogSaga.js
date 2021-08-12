@@ -1,6 +1,6 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { setFightLogLoading, fillFightLog, setFightLogError } from "../actions";
-import { getServerUrl } from "./helpers";
+import { getServerUrl } from "../sagas/helpers";
+import { logSetLoading, logSetError, logFill, LOG_FETCH } from "./actions";
 
 async function getData(serverUrl, logId, realm) {
     return await fetch(`${serverUrl}/getlog`, {
@@ -19,7 +19,7 @@ function* fetchLog({ payload }) {
     try {
         const { logId, realm } = payload;
 
-        yield put(setFightLogLoading());
+        yield put(logSetLoading());
 
         const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, logId, realm);
@@ -27,13 +27,13 @@ function* fetchLog({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillFightLog(response.response));
+            yield put(logFill(response.response));
         }
     } catch (err) {
-        yield put(setFightLogError(err.message));
+        yield put(logSetError(err.message));
     }
 }
 
 export default function* getLogSaga() {
-    yield takeLatest("FIGHTLOG_FETCH", fetchLog);
+    yield takeLatest(LOG_FETCH, fetchLog);
 }

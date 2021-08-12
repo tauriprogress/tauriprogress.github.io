@@ -1,7 +1,7 @@
 import Raid from "../components/Raid";
 import Guild from "../components/Guild";
 import Character from "../components/Character";
-import FightLog from "../components/FightLog";
+import Log from "../components/Log";
 import Home from "../components/Home";
 import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
@@ -47,7 +47,7 @@ const logRegExp = new RegExp(/^(\/seasonal)?\/log(\/)?.*/);
 export const LOG_ROUTE = {
     name: "LOG",
     path: ["/log/:logId", "/seasonal/log/:logId"],
-    component: FightLog,
+    component: Log,
     exact: true,
     isCurrentRoute: () => logRegExp.test(window.location.pathname)
 };

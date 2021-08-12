@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 
-import ModalFightLog from "../FightLog/Modal";
+import LogModal from "../Log/Modal";
 
 import ROUTES from "../../routes";
 
@@ -27,7 +27,7 @@ function RouteSwitch() {
                 <Route
                     exact
                     path={["/log/:logId", "/seasonal/log/:logId"]}
-                    component={ModalFightLog}
+                    component={LogModal}
                 />
             )}
         </React.Fragment>

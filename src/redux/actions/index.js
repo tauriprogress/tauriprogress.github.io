@@ -36,7 +36,6 @@ export function guildsSetError(payload) {
 export * from "./raid";
 export * from "./raidSummary";
 export * from "./raidBoss";
-export * from "./fightLog";
 export * from "./guild";
 export * from "./navigation";
 export * from "./environment";

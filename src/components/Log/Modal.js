@@ -10,7 +10,7 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Card from "@material-ui/core/Card";
 
-import FightLog from "./";
+import Log from "./index";
 import { useDispatch } from "react-redux";
 
 function styles(theme) {
@@ -41,7 +41,7 @@ function styles(theme) {
     };
 }
 
-function FightLogWithModal({ match, classes }) {
+function LogModal({ match, classes }) {
     const dispatch = useDispatch();
 
     function close(e) {
@@ -65,11 +65,11 @@ function FightLogWithModal({ match, classes }) {
                     <CloseIcon />
                 </Fab>
                 <div className={classes.logContainer}>
-                    <FightLog match={match} />
+                    <Log match={match} />
                 </div>
             </Card>
         </Modal>
     );
 }
 
-export default withStyles(styles)(FightLogWithModal);
+export default withStyles(styles)(LogModal);
