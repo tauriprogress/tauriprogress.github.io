@@ -52,7 +52,7 @@ export function characterProgressionEntireSelector(state) {
     return state.character.progression;
 }
 
-export function characterProgressionRaidDataExists(state, raidName) {
+export function characterProgressionRaidDataExistsSelector(state, raidName) {
     return !!(
         state.character.progression.data &&
         state.character.progression.data[raidName]

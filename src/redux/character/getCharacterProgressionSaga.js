@@ -9,7 +9,7 @@ import {
     characterNameSelector,
     characterRealmSelector,
     characterClassSelector,
-    characterProgressionRaidDataExists,
+    characterProgressionRaidDataExistsSelector,
     characterProgressionLoadingSelector
 } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
@@ -43,7 +43,7 @@ function* fetchCharacterProgression({ payload: raidName }) {
                     characterName: characterNameSelector(state),
                     realm: characterRealmSelector(state),
                     characterClass: characterClassSelector(state),
-                    raidDataExists: characterProgressionRaidDataExists(
+                    raidDataExists: characterProgressionRaidDataExistsSelector(
                         state,
                         raidName
                     )
