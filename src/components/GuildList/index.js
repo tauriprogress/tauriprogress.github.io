@@ -24,10 +24,11 @@ import DisplayDate from "../DisplayDate";
 import AlignedRankDisplay from "../AlignedRankDisplay";
 import Link from "../Link";
 
-import { guildsFetch } from "../../redux/actions";
-
 import { filterGuildList } from "./helpers";
 import { dateToString, guildActivityBoundary } from "../../helpers";
+
+import { guildListFetch } from "../../redux/actions";
+import { guildListEntireSelector } from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -95,7 +96,7 @@ function GuildList({ theme, classes }) {
         isSeasonal
     } = useSelector(
         state => ({
-            ...state.guildList,
+            ...guildListEntireSelector(state),
             difficultyNames: state.environment.difficultyNames,
             totalBosses: state.environment.currentContent.totalBosses,
             difficulties:
@@ -123,7 +124,7 @@ function GuildList({ theme, classes }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(guildsFetch(realmGroup));
+        dispatch(guildListFetch(realmGroup));
     }, [isSeasonal, realmGroup, dispatch]);
 
     return (
@@ -132,7 +133,7 @@ function GuildList({ theme, classes }) {
             {error && (
                 <ErrorMessage
                     message={error}
-                    refresh={() => dispatch(guildsFetch(realmGroup))}
+                    refresh={() => dispatch(guildListFetch(realmGroup))}
                 />
             )}
             {!loading && !error && data && (

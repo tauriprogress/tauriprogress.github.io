@@ -9,11 +9,12 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { guildsFetch } from "../../redux/actions";
+import { guildListFetch } from "../../redux/actions";
 
 import { toggleNavigation, pushToHistory } from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+import { guildListDataSelector } from "../../redux/selectors";
 
 function styles() {
     return {
@@ -23,10 +24,10 @@ function styles() {
     };
 }
 
-function SearchGuild({ classes, history }) {
+function SearchGuild({ classes }) {
     const { guildList, realmGroup, isSeasonal } = useSelector(state => {
         return {
-            guildList: state.guildList.data,
+            guildList: guildListDataSelector(state),
             realmGroup: state.environment.realmGroup,
             isSeasonal: state.environment.seasonal.isSeasonal
         };
@@ -57,7 +58,7 @@ function SearchGuild({ classes, history }) {
 
     useEffect(() => {
         setGuild(null);
-        dispatch(guildsFetch(realmGroup));
+        dispatch(guildListFetch(realmGroup));
     }, [isSeasonal, realmGroup, dispatch]);
 
     return (

@@ -6,12 +6,12 @@ import characterLeaderboardReducer from "../characterLeaderboard/reducer";
 import characterReducer from "../character/reducer";
 import logReducer from "../log/reducer";
 import guildLeaderboardReducer from "../guildLeaderboard/reducer";
+import guildListReducer from "../guildList/reducer";
 
 import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
 import navigationReducer from "./navigationReducer";
-import guildListReducer from "./guildListReducer";
 import guildReducer from "./guildReducer";
 import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
@@ -24,11 +24,12 @@ const createRootReducer = history =>
         character: characterReducer,
         log: logReducer,
         guildLeaderboard: guildLeaderboardReducer,
+        guildList: guildListReducer,
+
         raid: raidReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
         navigation: navigationReducer,
-        guildList: guildListReducer,
         guild: guildReducer,
         themes: themesReducer,
         environment: environmentReducer

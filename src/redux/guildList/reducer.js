@@ -1,3 +1,9 @@
+import {
+    GUILD_LIST_LOADING_SET,
+    GUILD_LIST_FILL,
+    GUILD_LIST_ERROR_SET
+} from "./actions";
+
 const defaultState = {
     data: null,
     error: null,
@@ -8,7 +14,21 @@ function guildsReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGED":
             return defaultState;
-        case "GUILDS_SET_ERROR":
+        case GUILD_LIST_LOADING_SET:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            };
+
+        case GUILD_LIST_FILL:
+            return {
+                ...state,
+                data: applyGuildRanks(action.payload.guilds),
+                loading: false,
+                error: null
+            };
+        case GUILD_LIST_ERROR_SET:
             if (!action.payload) {
                 action.payload = "Unkown error.";
             }
@@ -17,19 +37,7 @@ function guildsReducer(state = defaultState, action) {
                 error: action.payload,
                 loading: false
             };
-        case "GUILDS_LOAD":
-            return {
-                ...state,
-                loading: true,
-                error: null
-            };
-        case "GUILDS_FILL":
-            return {
-                ...state,
-                data: applyGuildRanks(action.payload.guilds),
-                loading: false,
-                error: null
-            };
+
         default:
             return state;
     }
