@@ -13,11 +13,16 @@ import { Typography } from "@material-ui/core";
 
 import OverflowScroll from "../OverflowScroll";
 
+import {
+    guildProgressionFilterSelector,
+    guildProgressionSelector
+} from "../../redux/guild/selectors";
+
 function GuildBoss() {
     const { filter, data, difficultyNames } = useSelector(
         state => ({
-            filter: state.guild.progressionFilter,
-            data: state.guild.data.progression,
+            filter: guildProgressionFilterSelector(state),
+            data: guildProgressionSelector(state),
             raids: state.environment.currentContent.raids,
             difficultyNames: state.environment.difficultyNames
         }),

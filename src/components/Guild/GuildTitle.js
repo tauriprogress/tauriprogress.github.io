@@ -10,6 +10,13 @@ import Link from "@material-ui/core/Link";
 
 import { getFactionImg } from "../../helpers";
 
+import {
+    guildNameSelector,
+    guildFactionSelector,
+    guildMembersCountSelector,
+    guildRealmSelector
+} from "../../redux/guild/selectors";
+
 function styles(theme) {
     return {
         container: {
@@ -30,10 +37,10 @@ function styles(theme) {
 function GuildTitle({ classes, theme }) {
     const { name, faction, membersCount, realm } = useSelector(
         state => ({
-            name: state.guild.data.name,
-            faction: state.guild.data.f,
-            membersCount: state.guild.data.members.length,
-            realm: state.guild.data.realm
+            name: guildNameSelector(state),
+            faction: guildFactionSelector(state),
+            membersCount: guildMembersCountSelector(state),
+            realm: guildRealmSelector(state)
         }),
         shallowEqual
     );

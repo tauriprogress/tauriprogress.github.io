@@ -8,6 +8,7 @@ import getCharacterItemsSaga from "../character/getCharacterItemsSaga";
 import getLogSaga from "../log/getLogSaga";
 import getGuildLeaderboardSaga from "../guildLeaderboard/getGuildLeaderboardSaga";
 import getGuildListSaga from "../guildList/getGuildListSaga";
+import getGuildSaga from "../guild/getGuildSaga";
 
 import getRaidSummarySaga from "./getRaidSummarySaga";
 import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
@@ -15,7 +16,6 @@ import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSa
 import getRaidBossFastestKillsSaga from "./raidBossSagas/getRaidBossFastestKillsSaga";
 import getRaidBossCharactersSaga from "./raidBossSagas/getRaidBossCharactersSaga";
 
-import getGuildSaga from "./getGuildSaga";
 import environmentSaga from "./environmentSaga";
 import historySaga from "./historySaga";
 

@@ -16,8 +16,10 @@ import InfoIcon from "../InfoIcon";
 
 import { convertFightLength } from "../../helpers";
 
+import { guildRealmSelector } from "../../redux/guild/selectors";
+
 function GuildFastestKills({ data }) {
-    const realm = useSelector(state => state.guild.realm);
+    const realm = useSelector(guildRealmSelector);
     return (
         <OverflowScroll>
             <Table>

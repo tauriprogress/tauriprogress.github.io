@@ -1,6 +1,17 @@
 import { put, call, takeEvery, select } from "redux-saga/effects";
-import { setGuildLoading, fillGuild, setGuildError } from "../actions";
-import { getServerUrl } from "./helpers";
+import { getServerUrl } from "../sagas/helpers";
+
+import {
+    GUILD_FETCH,
+    guildFill,
+    guildSetLoading,
+    guildSetError
+} from "./actions";
+import {
+    guildLoadingSelector,
+    guildOldGuildNameSelector,
+    guildOldRealmSelector
+} from "./selectors";
 
 async function getData(serverUrl, guildName, realm) {
     return await fetch(`${serverUrl}/getguild`, {
@@ -19,16 +30,16 @@ function* fetchGuild({ payload }) {
     try {
         const { guildName, realm } = payload;
 
-        const loading = yield select(state => state.guild.loading);
-        const oldGuildName = yield select(state => state.guild.guildName);
-        const oldRealm = yield select(state => state.guild.realm);
+        const loading = yield select(guildLoadingSelector);
+        const oldGuildName = yield select(guildOldGuildNameSelector);
+        const oldRealm = yield select(guildOldRealmSelector);
 
         if (loading && guildName === oldGuildName && realm === oldRealm) {
             return;
         }
 
         yield put(
-            setGuildLoading({
+            guildSetLoading({
                 guildName,
                 realm
             })
@@ -44,13 +55,13 @@ function* fetchGuild({ payload }) {
                 state => state.environment.currentContent.raids
             );
 
-            yield put(fillGuild({ ...response.response, raids: raids }));
+            yield put(guildFill({ ...response.response, raids: raids }));
         }
     } catch (err) {
-        yield put(setGuildError(err.message));
+        yield put(guildSetError(err.message));
     }
 }
 
 export default function* getGuildSaga() {
-    yield takeEvery("GUILD_FETCH", fetchGuild);
+    yield takeEvery(GUILD_FETCH, fetchGuild);
 }

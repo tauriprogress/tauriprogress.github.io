@@ -1,3 +1,11 @@
+import {
+    GUILD_LOADING_SET,
+    GUILD_FILL,
+    GUILD_ERROR_SET,
+    GUILD_PROGRESSION_BOSS_SELECT,
+    GUILD_PROGRESSION_RAID_SELECT,
+    GUILD_PROGRESSION_FILTER_SET
+} from "./actions";
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
@@ -46,68 +54,7 @@ function guildReducer(state = defaultState, action) {
                 }
             };
 
-        case "GUILD_PROGRESSION_SELECT_BOSS": {
-            return {
-                ...state,
-                progression: {
-                    ...state.progression,
-                    selectedBossName: action.payload
-                }
-            };
-        }
-
-        case "GUILD_PROGRESSION_SELECT_RAID": {
-            return {
-                ...state,
-                progression: {
-                    ...state.progression,
-                    selectedRaidName: action.payload
-                }
-            };
-        }
-
-        case "GUILD_PROGRESSION_SET_FILTER": {
-            if (action.payload.filterName === "raid") {
-                return {
-                    ...state,
-                    progressionFilter: {
-                        ...state.progressionFilter,
-                        [action.payload.filterName]: action.payload.value,
-                        boss: raids.reduce((acc, curr) => {
-                            if (curr.name === action.payload.value) {
-                                acc = curr.bosses[0].name;
-                            }
-                            return acc;
-                        }, "")
-                    }
-                };
-            }
-            if (action.payload.filterName === "class") {
-                return {
-                    ...state,
-                    progressionFilter: {
-                        ...state.progressionFilter,
-                        [action.payload.filterName]: action.payload.value,
-                        spec: ""
-                    }
-                };
-            }
-
-            return {
-                ...state,
-                progressionFilter: {
-                    ...state.progressionFilter,
-                    [action.payload.filterName]: action.payload.value
-                }
-            };
-        }
-
-        case "GUILD_SET_ERROR":
-            if (!action.payload) {
-                action.payload = "Unkown error.";
-            }
-            return { ...state, error: action.payload, loading: false };
-        case "GUILD_SET_LOADING":
+        case GUILD_LOADING_SET:
             return {
                 ...state,
                 loading: true,
@@ -115,7 +62,8 @@ function guildReducer(state = defaultState, action) {
                 guildName: action.payload.guildName,
                 realm: action.payload.realm
             };
-        case "GUILD_FILL":
+
+        case GUILD_FILL:
             let progression = action.payload.progression;
 
             for (let raid of action.payload.raids) {
@@ -185,6 +133,67 @@ function guildReducer(state = defaultState, action) {
                 loading: false,
                 error: null
             };
+        case GUILD_ERROR_SET:
+            if (!action.payload) {
+                action.payload = "Unkown error.";
+            }
+            return { ...state, error: action.payload, loading: false };
+        case GUILD_PROGRESSION_BOSS_SELECT: {
+            return {
+                ...state,
+                progression: {
+                    ...state.progression,
+                    selectedBossName: action.payload
+                }
+            };
+        }
+
+        case GUILD_PROGRESSION_RAID_SELECT: {
+            return {
+                ...state,
+                progression: {
+                    ...state.progression,
+                    selectedRaidName: action.payload
+                }
+            };
+        }
+
+        case GUILD_PROGRESSION_FILTER_SET: {
+            if (action.payload.filterName === "raid") {
+                return {
+                    ...state,
+                    progressionFilter: {
+                        ...state.progressionFilter,
+                        [action.payload.filterName]: action.payload.value,
+                        boss: raids.reduce((acc, curr) => {
+                            if (curr.name === action.payload.value) {
+                                acc = curr.bosses[0].name;
+                            }
+                            return acc;
+                        }, "")
+                    }
+                };
+            }
+            if (action.payload.filterName === "class") {
+                return {
+                    ...state,
+                    progressionFilter: {
+                        ...state.progressionFilter,
+                        [action.payload.filterName]: action.payload.value,
+                        spec: ""
+                    }
+                };
+            }
+
+            return {
+                ...state,
+                progressionFilter: {
+                    ...state.progressionFilter,
+                    [action.payload.filterName]: action.payload.value
+                }
+            };
+        }
+
         default:
             return state;
     }

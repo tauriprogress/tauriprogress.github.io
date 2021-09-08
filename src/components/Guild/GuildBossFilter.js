@@ -14,7 +14,9 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 
 import { getRealmNames } from "../../helpers";
 
-import { setGuildProgressionFilter } from "../../redux/actions";
+import { guildProgressionSetFilter } from "../../redux/actions";
+
+import { guildProgressionFilterSelector } from "../../redux/guild/selectors";
 
 function styles(theme) {
     return {
@@ -34,7 +36,7 @@ function GuildProgressionFilter({ classes, theme }) {
         raids
     } = useSelector(
         state => ({
-            filter: state.guild.progressionFilter,
+            filter: guildProgressionFilterSelector(state),
             realms: state.environment.realms,
             specs: state.environment.specs,
             characterClassNames: state.environment.characterClassNames,
@@ -186,7 +188,7 @@ function GuildProgressionFilter({ classes, theme }) {
                         value={filter[select.name]}
                         onChange={e =>
                             dispatch(
-                                setGuildProgressionFilter({
+                                guildProgressionSetFilter({
                                     filterName: select.name,
                                     value: e.target.value
                                 })

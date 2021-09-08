@@ -8,11 +8,13 @@ import GuildRaidSummary from "./GuildRaidSummary";
 
 import { getNestedObjectValue } from "../../helpers";
 
+import { guildProgressionSelector } from "../../redux/guild/selectors";
+
 function GuildProgSummary() {
     const { progression, raids, difficultyNames, completionDifficulties } =
         useSelector(
             state => ({
-                progression: state.guild.data.progression,
+                progression: guildProgressionSelector(state),
                 raids: state.environment.currentContent.raids,
                 difficultyNames: state.environment.difficultyNames,
                 completionDifficulties:

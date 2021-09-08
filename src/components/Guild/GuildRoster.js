@@ -10,6 +10,8 @@ import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
 import GuildLatestKills from "./GuildRecentKills";
 
+import { guildMembersSelector } from "../../redux/guild/selectors";
+
 function styles(theme) {
     return {
         gridItemFlex: {
@@ -25,7 +27,7 @@ function styles(theme) {
 function GuildRoster({ classes }) {
     const { members, characterClassNames } = useSelector(
         state => ({
-            members: state.guild.data.members,
+            members: guildMembersSelector(state),
             characterClassNames: state.environment.characterClassNames
         }),
         shallowEqual

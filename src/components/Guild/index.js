@@ -17,7 +17,13 @@ import GuildProgression from "./GuildProgression";
 import AsideContainer from "../AsideContainer";
 import SelectRealm from "../SelectRealm";
 
-import { fetchGuild } from "../../redux/actions";
+import { guildFetch } from "../../redux/actions";
+
+import {
+    guildLoadingSelector,
+    guildDataExistsSelector,
+    guildErrorSelector
+} from "../../redux/guild/selectors";
 
 function Guild({ match, location }) {
     const guildName = match.params.guildName;
@@ -25,9 +31,9 @@ function Guild({ match, location }) {
 
     const { loading, loaded, error } = useSelector(
         state => ({
-            loading: state.guild.loading,
-            loaded: !!state.guild.data,
-            error: state.guild.error
+            loading: guildLoadingSelector(state),
+            loaded: guildDataExistsSelector(state),
+            error: guildErrorSelector(state)
         }),
         shallowEqual
     );
@@ -35,7 +41,7 @@ function Guild({ match, location }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchGuild({ guildName: guildName, realm: realm }));
+        dispatch(guildFetch({ guildName: guildName, realm: realm }));
     }, [guildName, realm, dispatch]);
     return (
         <Page title={`${match.params.guildName} | Tauri Progress`}>
@@ -48,7 +54,7 @@ function Guild({ match, location }) {
                             message={error}
                             refresh={() =>
                                 dispatch(
-                                    fetchGuild({
+                                    guildFetch({
                                         guildName: guildName,
                                         realm: realm
                                     })

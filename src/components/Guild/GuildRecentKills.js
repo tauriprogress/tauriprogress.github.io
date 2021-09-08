@@ -7,6 +7,11 @@ import RecentKills from "../RecentKills";
 
 import { shallowEqual, useSelector } from "react-redux";
 
+import {
+    guildProgressionRecentKillsSelector,
+    guildRealmSelector
+} from "../../redux/guild/selectors";
+
 function styles(theme) {
     return {
         container: {
@@ -24,8 +29,8 @@ function styles(theme) {
 function GuildLastestKills({ classes }) {
     const { recentKills, realm } = useSelector(
         state => ({
-            recentKills: state.guild.data.progression.recentKills,
-            realm: state.guild.data.realm
+            recentKills: guildProgressionRecentKillsSelector(state),
+            realm: guildRealmSelector(state)
         }),
         shallowEqual
     );

@@ -9,6 +9,8 @@ import Grid from "@material-ui/core/Grid";
 
 import GuildBossKillsChart from "./GuildBossKillsChart";
 
+import { guildRaidDaysSelector } from "../../redux/guild/selectors";
+
 function styles(theme) {
     return {
         container: {
@@ -25,7 +27,7 @@ function styles(theme) {
 }
 
 function GuildBossKillsDays({ classes }) {
-    const raidDays = useSelector(state => state.guild.data.raidDays);
+    const raidDays = useSelector(guildRaidDaysSelector);
 
     return (
         <section className={classes.container}>
