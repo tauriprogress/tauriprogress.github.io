@@ -20,9 +20,11 @@ import SearchCharacter from "../SearchCharacter";
 import RaidBossList from "./RaidBossList";
 import Link from "../Link";
 
-import { toggleNavigation } from "../../redux/actions";
+import { navigationToggle } from "../../redux/actions";
 
-import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+import { navigationOpenSelector } from "../../redux/selectors";
+
+import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { headerHeight } from "../Header";
 
@@ -60,7 +62,7 @@ function styles(theme) {
 }
 
 function NavigationContainer({ classes }) {
-    const open = useSelector(state => state.navigation.open);
+    const open = useSelector(navigationOpenSelector);
 
     const dispatch = useDispatch();
 
@@ -79,7 +81,7 @@ function NavigationContainer({ classes }) {
             {window.innerWidth < navBreakpoint && (
                 <Drawer
                     open={open}
-                    onClose={() => dispatch(toggleNavigation(false))}
+                    onClose={() => dispatch(navigationToggle(false))}
                     anchor="left"
                 >
                     <Navigation
@@ -109,7 +111,7 @@ function Navigation({ classes = {} }) {
     };
 
     function toggleNav() {
-        window.innerWidth < navBreakpoint && dispatch(toggleNavigation(false));
+        window.innerWidth < navBreakpoint && dispatch(navigationToggle(false));
     }
 
     return (

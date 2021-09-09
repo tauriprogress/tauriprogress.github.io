@@ -11,9 +11,10 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { guildListFetch } from "../../redux/actions";
 
-import { toggleNavigation, pushToHistory } from "../../redux/actions";
+import { navigationToggle, pushToHistory } from "../../redux/actions";
 
-import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+import { navBreakpoint } from "../../redux/navigation/reducer";
+
 import { guildListDataSelector } from "../../redux/selectors";
 
 function styles() {
@@ -47,7 +48,7 @@ function SearchGuild({ classes }) {
     function submit() {
         if (guild) {
             if (window.innerWidth < navBreakpoint) {
-                dispatch(toggleNavigation(false));
+                dispatch(navigationToggle(false));
             }
 
             dispatch(

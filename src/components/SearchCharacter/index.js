@@ -14,9 +14,9 @@ import Grid from "@material-ui/core/Grid";
 
 import { getRealmNames } from "../../helpers";
 
-import { toggleNavigation, pushToHistory } from "../../redux/actions";
+import { navigationToggle, pushToHistory } from "../../redux/actions";
 
-import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+import { navBreakpoint } from "../../redux/navigation/reducer";
 
 function styles() {
     return {
@@ -58,7 +58,7 @@ function SearchCharacter({ classes, history }) {
     function submit() {
         if (character) {
             if (window.innerWidth < navBreakpoint) {
-                dispatch(toggleNavigation(false));
+                dispatch(navigationToggle(false));
             }
 
             dispatch(pushToHistory(`/character/${character}?realm=${realm}`));

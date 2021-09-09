@@ -8,11 +8,11 @@ import logReducer from "../log/reducer";
 import guildLeaderboardReducer from "../guildLeaderboard/reducer";
 import guildListReducer from "../guildList/reducer";
 import guildReducer from "../guild/reducer";
+import navigationReducer from "../navigation/reducer";
 
 import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
-import navigationReducer from "./navigationReducer";
 import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
 
@@ -26,11 +26,11 @@ const createRootReducer = history =>
         guildLeaderboard: guildLeaderboardReducer,
         guildList: guildListReducer,
         guild: guildReducer,
+        navigation: navigationReducer,
 
         raid: raidReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
-        navigation: navigationReducer,
         themes: themesReducer,
         environment: environmentReducer
     });

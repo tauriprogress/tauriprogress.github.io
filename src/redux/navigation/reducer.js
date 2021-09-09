@@ -1,12 +1,14 @@
+import { NAVIGATION_TOGGLE, NAVIGATION_ITEM_SET } from "./actions";
+
 export const navBreakpoint = 1000;
 const defaultState = {
     open: window.innerWidth < navBreakpoint ? false : true,
-    selected: null
+    item: null
 };
 
 function navigationReducer(state = defaultState, action) {
     switch (action.type) {
-        case "NAVIGATION_TOGGLE":
+        case NAVIGATION_TOGGLE:
             return {
                 ...state,
                 open:
@@ -17,10 +19,10 @@ function navigationReducer(state = defaultState, action) {
                         : true
             };
 
-        case "NAVIGATION_SET_SELECTED":
+        case NAVIGATION_ITEM_SET:
             return {
                 ...state,
-                selected: action.payload
+                item: action.payload
             };
         default:
             return state;

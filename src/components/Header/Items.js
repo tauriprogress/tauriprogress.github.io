@@ -16,7 +16,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
 
 import {
-    toggleNavigation,
+    navigationToggle,
     changeEnvironmentRealmGroup,
     changeEnvironmentSeason
 } from "../../redux/actions";
@@ -120,7 +120,7 @@ function NavItems({ classes }) {
                         <IconButton
                             color="inherit"
                             className={classes.iconButton}
-                            onClick={() => dispatch(toggleNavigation())}
+                            onClick={() => dispatch(navigationToggle())}
                         >
                             <MenuIcon fontSize="large" />
                         </IconButton>

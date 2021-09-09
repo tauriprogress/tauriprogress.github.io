@@ -13,7 +13,7 @@ import Characters from "./Characters";
 
 import OverflowScroll from "../OverflowScroll";
 
-import { setRaidBossTab, setSelectedNavigationItem } from "../../redux/actions";
+import { setRaidBossTab, navigationSetItem } from "../../redux/actions";
 
 function RaidBoss({ raidName, bossName }) {
     const { selectedTab, difficulty } = useSelector(state => {
@@ -32,9 +32,9 @@ function RaidBoss({ raidName, bossName }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setSelectedNavigationItem(bossName));
+        dispatch(navigationSetItem(bossName));
 
-        return () => dispatch(setSelectedNavigationItem(null));
+        return () => dispatch(navigationSetItem(null));
     }, [bossName, dispatch]);
 
     return (

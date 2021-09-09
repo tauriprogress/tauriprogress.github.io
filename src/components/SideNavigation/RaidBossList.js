@@ -14,9 +14,11 @@ import Link from "../Link";
 
 import { raidImg } from "../../helpers";
 
-import { toggleNavigation } from "../../redux/actions";
+import { navigationToggle } from "../../redux/actions";
 
-import { navBreakpoint } from "../../redux/reducers/navigationReducer";
+import { navBreakpoint } from "../../redux/navigation/reducer";
+
+import { navigationItemSelector } from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -35,7 +37,7 @@ function styles(theme) {
 
 function RaidBossList({ raid, classes }) {
     const [open, setOpen] = useState(true);
-    const selected = useSelector(state => state.navigation.selected);
+    const selected = useSelector(navigationItemSelector);
     const dispatch = useDispatch();
 
     return (
@@ -58,7 +60,7 @@ function RaidBossList({ raid, classes }) {
                         to={`/raid/${raid.name}`}
                         onClick={() => {
                             if (window.innerWidth < navBreakpoint) {
-                                dispatch(toggleNavigation(false));
+                                dispatch(navigationToggle(false));
                             }
                         }}
                     >
@@ -81,7 +83,7 @@ function RaidBossList({ raid, classes }) {
                                 to={linkTo}
                                 onClick={() => {
                                     if (window.innerWidth < navBreakpoint) {
-                                        dispatch(toggleNavigation(false));
+                                        dispatch(navigationToggle(false));
                                     }
                                 }}
                             >
