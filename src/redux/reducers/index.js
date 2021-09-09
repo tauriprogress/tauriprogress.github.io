@@ -9,11 +9,11 @@ import guildLeaderboardReducer from "../guildLeaderboard/reducer";
 import guildListReducer from "../guildList/reducer";
 import guildReducer from "../guild/reducer";
 import navigationReducer from "../navigation/reducer";
+import themesReducer from "../themes/reducer";
 
 import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
-import themesReducer from "./themesReducer";
 import environmentReducer from "./environmentReducer";
 
 const createRootReducer = history =>
@@ -27,11 +27,11 @@ const createRootReducer = history =>
         guildList: guildListReducer,
         guild: guildReducer,
         navigation: navigationReducer,
+        themes: themesReducer,
 
         raid: raidReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
-        themes: themesReducer,
         environment: environmentReducer
     });
 

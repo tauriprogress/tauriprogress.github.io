@@ -8,3 +8,4 @@ export * from "./guildLeaderboard/actions";
 export * from "./guildList/actions";
 export * from "./guild/actions";
 export * from "./navigation/actions";
+export * from "./themes/actions";

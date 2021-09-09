@@ -16,6 +16,8 @@ import {
     orange
 } from "@material-ui/core/colors";
 
+import { THEME_TOGGLE } from "./actions";
+
 const primary = "#111111";
 const secondary = deepOrange[500];
 
@@ -448,7 +450,7 @@ const defaultState = {
 
 function themesReducer(state = defaultState, action) {
     switch (action.type) {
-        case "THEME_TOGGLE":
+        case THEME_TOGGLE:
             const type = state.type === "light" ? "dark" : "light";
             localStorage.setItem("themeType", type);
             return {

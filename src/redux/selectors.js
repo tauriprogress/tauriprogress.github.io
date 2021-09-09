@@ -6,3 +6,4 @@ export * from "./log/selectors";
 export * from "./guildList/selectors";
 export * from "./guild/selectors";
 export * from "./navigation/selectors";
+export * from "./themes/selectors";
