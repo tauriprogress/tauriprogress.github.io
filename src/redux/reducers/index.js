@@ -10,8 +10,8 @@ import guildListReducer from "../guildList/reducer";
 import guildReducer from "../guild/reducer";
 import navigationReducer from "../navigation/reducer";
 import themesReducer from "../themes/reducer";
+import raidFilterReducer from "../raidFilter/reducer";
 
-import raidReducer from "./raidReducer";
 import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
 import environmentReducer from "./environmentReducer";
@@ -28,8 +28,8 @@ const createRootReducer = history =>
         guild: guildReducer,
         navigation: navigationReducer,
         themes: themesReducer,
+        raidFilter: raidFilterReducer,
 
-        raid: raidReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
         environment: environmentReducer

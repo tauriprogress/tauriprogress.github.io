@@ -12,6 +12,8 @@ import BossSummary from "./BossSummary";
 
 import { fetchRaidSummary, navigationSetItem } from "../../redux/actions";
 
+import { raidFilterSelector } from "../../redux/selectors";
+
 function styles(theme) {
     return {
         container: {
@@ -28,7 +30,7 @@ function RaidSummary({ classes, raidName }) {
             return {
                 ...state.raidSummary,
                 raids: state.environment.currentContent.raids,
-                filter: state.raid.filter,
+                filter: raidFilterSelector(state),
                 specs: state.environment.specs
             };
         },

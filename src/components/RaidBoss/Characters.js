@@ -13,12 +13,14 @@ import {
     fetchRaidBossKillCount
 } from "../../redux/actions";
 
+import { raidFilterSelector } from "../../redux/selectors";
+
 function Characters({ raidId, bossName, combatMetric }) {
     const { loading, data, error, filter, page, dataSpecificationString } =
         useSelector(state => {
             return {
                 ...state.raidBoss.characters,
-                filter: state.raid.filter,
+                filter: raidFilterSelector(state),
                 page: state.raidBoss.page.currentPage
             };
         }, shallowEqual);

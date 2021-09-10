@@ -16,6 +16,8 @@ import { getRealmNames } from "../../helpers";
 
 import { setRaidFilter } from "../../redux/actions";
 
+import { raidFilterSelector } from "../../redux/selectors";
+
 function styles(theme) {
     return {
         capitalize: {
@@ -34,7 +36,7 @@ function RaidFilter({ classes, theme }) {
         raids
     } = useSelector(
         state => ({
-            filter: state.raid.filter,
+            filter: raidFilterSelector(state),
             realms: state.environment.realms,
             specs: state.environment.specs,
             characterClassNames: state.environment.characterClassNames,

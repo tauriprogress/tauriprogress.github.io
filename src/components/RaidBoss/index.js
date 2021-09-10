@@ -15,14 +15,13 @@ import OverflowScroll from "../OverflowScroll";
 
 import { setRaidBossTab, navigationSetItem } from "../../redux/actions";
 
+import { raidFilterDifficultySelector } from "../../redux/selectors";
+
 function RaidBoss({ raidName, bossName }) {
     const { selectedTab, difficulty } = useSelector(state => {
         return {
-            ...state.raidBoss.characters,
             selectedTab: state.raidBoss.tab.selectedTab,
-            difficulty: state.raid.filter.difficulty,
-            filter: state.raid.filter,
-            page: state.raidBoss.page.currentPage
+            difficulty: raidFilterDifficultySelector(state)
         };
     }, shallowEqual);
 

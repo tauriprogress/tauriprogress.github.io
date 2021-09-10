@@ -1,6 +1,8 @@
+export const RAIDFILTER_SET = "RAIDFILTER_SET";
+
 export function setRaidFilter(filterOptions) {
     return {
-        type: "RAID_FILTER_SET",
+        type: RAIDFILTER_SET,
         payload: filterOptions
     };
 }
