@@ -9,8 +9,8 @@ import getLogSaga from "../log/getLogSaga";
 import getGuildLeaderboardSaga from "../guildLeaderboard/getGuildLeaderboardSaga";
 import getGuildListSaga from "../guildList/getGuildListSaga";
 import getGuildSaga from "../guild/getGuildSaga";
+import getRaidSummarySaga from "../raidSummary/getRaidSummarySaga";
 
-import getRaidSummarySaga from "./getRaidSummarySaga";
 import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
 import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSaga";
 import getRaidBossFastestKillsSaga from "./raidBossSagas/getRaidBossFastestKillsSaga";
@@ -31,8 +31,8 @@ function* sagas() {
         getLogSaga(),
         getGuildLeaderboardSaga(),
         getGuildListSaga(),
-
         getRaidSummarySaga(),
+
         getRaidBossKillCountSaga(),
         getRaidBossRecentKillsSaga(),
         getRaidBossFastestKillsSaga(),

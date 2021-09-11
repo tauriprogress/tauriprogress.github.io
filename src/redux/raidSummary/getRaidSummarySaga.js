@@ -1,10 +1,15 @@
 import { put, call, takeLatest, select } from "redux-saga/effects";
+
 import {
-    setRaidSummaryLoading,
-    setRaidSummaryError,
-    fillRaidSummary
-} from "../actions";
-import { getServerUrl } from "./helpers";
+    RAIDSUMMARY_FETCH,
+    raidSummarySetLoading,
+    raidSummaryFill,
+    raidSummarySetError
+} from "./actions";
+
+import { getServerUrl } from "../sagas/helpers";
+
+import { raidSummaryRaidIdSelector } from "./selectors";
 
 async function getData(serverUrl, raidId) {
     return await fetch(`${serverUrl}/getraidsummary`, {
@@ -20,11 +25,11 @@ async function getData(serverUrl, raidId) {
 
 function* fetchRaidSummary({ payload: raidId }) {
     try {
-        const oldRaidId = yield select(state => state.raidSummary.raidId);
+        const oldRaidId = yield select(raidSummaryRaidIdSelector);
         if (raidId === oldRaidId) return;
 
         yield put(
-            setRaidSummaryLoading({
+            raidSummarySetLoading({
                 raidId: raidId,
                 loading: true
             })
@@ -36,13 +41,13 @@ function* fetchRaidSummary({ payload: raidId }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(fillRaidSummary(response.response));
+            yield put(raidSummaryFill(response.response));
         }
     } catch (err) {
-        yield put(setRaidSummaryError(err.message));
+        yield put(raidSummarySetError(err.message));
     }
 }
 
 export default function* getRaidSummarySaga() {
-    yield takeLatest("RAIDSUMMARY_FETCH", fetchRaidSummary);
+    yield takeLatest(RAIDSUMMARY_FETCH, fetchRaidSummary);
 }

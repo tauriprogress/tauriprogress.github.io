@@ -11,8 +11,8 @@ import guildReducer from "../guild/reducer";
 import navigationReducer from "../navigation/reducer";
 import themesReducer from "../themes/reducer";
 import raidFilterReducer from "../raidFilter/reducer";
+import raidSummaryReducer from "../raidSummary/reducer";
 
-import raidSummaryReducer from "./raidSummaryReducer";
 import raidBossReducer from "./raidBossReducer";
 import environmentReducer from "./environmentReducer";
 
@@ -29,8 +29,8 @@ const createRootReducer = history =>
         navigation: navigationReducer,
         themes: themesReducer,
         raidFilter: raidFilterReducer,
-
         raidSummary: raidSummaryReducer,
+
         raidBoss: raidBossReducer,
         environment: environmentReducer
     });

@@ -10,9 +10,12 @@ import Loading from "../Loading";
 
 import BossSummary from "./BossSummary";
 
-import { fetchRaidSummary, navigationSetItem } from "../../redux/actions";
+import { raidSummaryFetch, navigationSetItem } from "../../redux/actions";
 
-import { raidFilterSelector } from "../../redux/selectors";
+import {
+    raidFilterSelector,
+    raidSummaryEntireSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -28,7 +31,7 @@ function RaidSummary({ classes, raidName }) {
     const { loading, error, data, raids, filter, specs, raidId } = useSelector(
         state => {
             return {
-                ...state.raidSummary,
+                ...raidSummaryEntireSelector(state),
                 raids: state.environment.currentContent.raids,
                 filter: raidFilterSelector(state),
                 specs: state.environment.specs
@@ -46,7 +49,7 @@ function RaidSummary({ classes, raidName }) {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchRaidSummary(raidNameToId[raidName]));
+        dispatch(raidSummaryFetch(raidNameToId[raidName]));
         dispatch(navigationSetItem(raidName));
 
         return () => dispatch(navigationSetItem(null));
@@ -59,7 +62,7 @@ function RaidSummary({ classes, raidName }) {
                 <ErrorMessage
                     message={error}
                     refresh={() =>
-                        dispatch(fetchRaidSummary(raidNameToId[raidName]))
+                        dispatch(raidSummaryFetch(raidNameToId[raidName]))
                     }
                 />
             )}
