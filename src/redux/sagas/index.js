@@ -10,11 +10,10 @@ import getGuildLeaderboardSaga from "../guildLeaderboard/getGuildLeaderboardSaga
 import getGuildListSaga from "../guildList/getGuildListSaga";
 import getGuildSaga from "../guild/getGuildSaga";
 import getRaidSummarySaga from "../raidSummary/getRaidSummarySaga";
-
-import getRaidBossKillCountSaga from "./raidBossSagas/getRaidBossKillCountSaga";
-import getRaidBossRecentKillsSaga from "./raidBossSagas/getRaidBossRecentKillsSaga";
-import getRaidBossFastestKillsSaga from "./raidBossSagas/getRaidBossFastestKillsSaga";
-import getRaidBossCharactersSaga from "./raidBossSagas/getRaidBossCharactersSaga";
+import getRaidBossKillCountSaga from "../raidBoss/sagas/getRaidBossKillCountSaga";
+import getRaidBossRecentKillsSaga from "../raidBoss/sagas/getRaidBossRecentKillsSaga";
+import getRaidBossFastestKillsSaga from "../raidBoss/sagas/getRaidBossFastestKillsSaga";
+import getRaidBossCharactersSaga from "../raidBoss/sagas/getRaidBossCharactersSaga";
 
 import environmentSaga from "./environmentSaga";
 import historySaga from "./historySaga";
@@ -31,13 +30,13 @@ function* sagas() {
         getLogSaga(),
         getGuildLeaderboardSaga(),
         getGuildListSaga(),
+        getGuildSaga(),
         getRaidSummarySaga(),
-
         getRaidBossKillCountSaga(),
         getRaidBossRecentKillsSaga(),
         getRaidBossFastestKillsSaga(),
         getRaidBossCharactersSaga(),
-        getGuildSaga(),
+
         environmentSaga()
     ]);
 }

@@ -1,3 +1,10 @@
+import { RAIDBOSS_PAGE_SET } from "../actions";
+import {
+    RAIDFILTER_SET,
+    NAVIGATION_ITEM_SET,
+    RAIDBOSS_TAB_SET
+} from "../../actions";
+
 const defaultState = {
     currentPage: 0
 };
@@ -6,24 +13,24 @@ function pageReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGED":
             return defaultState;
-        case "RAIDBOSS_PAGE_SELECT":
+        case RAIDBOSS_PAGE_SET:
             return {
                 ...state,
                 currentPage: action.payload
             };
 
-        case "RAIDBOSS_TAB_SELECT":
+        case RAIDBOSS_TAB_SET:
             return {
                 ...state,
                 currentPage: 0
             };
 
-        case "RAID_FILTER_SET":
+        case RAIDFILTER_SET:
             return {
                 ...state,
                 currentPage: 0
             };
-        case "NAVIGATION_SET_SELECTED":
+        case NAVIGATION_ITEM_SET:
             return {
                 ...state,
                 currentPage: 0

@@ -8,10 +8,13 @@ import RaidBoss from "../RaidBoss";
 import RaidFilter from "../RaidFilter";
 
 import { replaceHistory } from "../../redux/actions";
-import { raidFilterSelector } from "../../redux/selectors";
+import {
+    raidFilterSelector,
+    raidBossTabSelectedTabSelector
+} from "../../redux/selectors";
 
 function Raid({ match }) {
-    const selectedTab = useSelector(state => state.raidBoss.tab.selectedTab);
+    const selectedTab = useSelector(raidBossTabSelectedTabSelector);
     let filter = useSelector(raidFilterSelector);
 
     const dispatch = useDispatch();

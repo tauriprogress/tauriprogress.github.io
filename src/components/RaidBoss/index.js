@@ -13,14 +13,17 @@ import Characters from "./Characters";
 
 import OverflowScroll from "../OverflowScroll";
 
-import { setRaidBossTab, navigationSetItem } from "../../redux/actions";
+import { raidBossSetTab, navigationSetItem } from "../../redux/actions";
 
-import { raidFilterDifficultySelector } from "../../redux/selectors";
+import {
+    raidFilterDifficultySelector,
+    raidBossTabSelectedTabSelector
+} from "../../redux/selectors";
 
 function RaidBoss({ raidName, bossName }) {
     const { selectedTab, difficulty } = useSelector(state => {
         return {
-            selectedTab: state.raidBoss.tab.selectedTab,
+            selectedTab: raidBossTabSelectedTabSelector(state),
             difficulty: raidFilterDifficultySelector(state)
         };
     }, shallowEqual);
@@ -45,7 +48,7 @@ function RaidBoss({ raidName, bossName }) {
             />
             <Tabs
                 value={selectedTab}
-                onChange={(e, value) => dispatch(setRaidBossTab(value))}
+                onChange={(e, value) => dispatch(raidBossSetTab(value))}
                 variant="scrollable"
                 scrollButtons="on"
             >

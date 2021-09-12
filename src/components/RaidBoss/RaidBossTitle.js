@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Typography from "@material-ui/core/Typography";
 
-import { fetchRaidBossKillCount } from "../../redux/actions";
+import { raidBossKillCountFetch } from "../../redux/actions";
+import { raidBossKillCountCountSelector } from "../../redux/selectors";
 
 function RaidBossTitle({ raidId, bossName, difficulty }) {
-    const killCount = useSelector(state => state.raidBoss.killCount.count);
+    const killCount = useSelector(raidBossKillCountCountSelector);
     const difficultyNames = useSelector(
         state => state.environment.difficultyNames
     );
@@ -14,7 +15,7 @@ function RaidBossTitle({ raidId, bossName, difficulty }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchRaidBossKillCount({ raidId, bossName, difficulty }));
+        dispatch(raidBossKillCountFetch({ raidId, bossName, difficulty }));
     }, [raidId, bossName, difficulty, dispatch]);
 
     return (

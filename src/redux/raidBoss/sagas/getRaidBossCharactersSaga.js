@@ -1,12 +1,14 @@
 import { put, call, select } from "redux-saga/effects";
-import { fillRaidBossCharacters } from "../../actions";
-import { getServerUrl, takeLatestIfTrue } from "../helpers";
+import { raidBossCharactersFill } from "../../actions";
+import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 import { getDataSpecificationString } from "../../../helpers";
 import { cleanFilters } from "./helpers";
 import {
-    setRaidBossCharactersError,
-    setRaidBossCharactersLoading
-} from "../../actions/raidBoss/characters";
+    RAIDBOSS_CHARACTERS_FETCH,
+    raidBossCharactersSetLoading,
+    raidBossCharactersSetError
+} from "../actions/characters";
+import { raidBossCharactersDataSpecificationStringSelector } from "../selectors";
 
 async function getData(
     serverUrl,
@@ -35,7 +37,7 @@ async function getData(
 
 function* fetchRaidBossCharacters({ payload }) {
     try {
-        yield put(setRaidBossCharactersLoading());
+        yield put(raidBossCharactersSetLoading());
 
         const { raidId, bossName, filters, combatMetric, page, pageSize } =
             payload;
@@ -65,7 +67,7 @@ function* fetchRaidBossCharacters({ payload }) {
             throw new Error(response.errorstring);
         } else {
             yield put(
-                fillRaidBossCharacters({
+                raidBossCharactersFill({
                     characters: response.response.characters,
                     itemCount: response.response.itemCount,
                     dataSpecificationString: dataSpecificationString
@@ -73,7 +75,7 @@ function* fetchRaidBossCharacters({ payload }) {
             );
         }
     } catch (err) {
-        yield put(setRaidBossCharactersError(err.message));
+        yield put(raidBossCharactersSetError(err.message));
     }
 }
 
@@ -89,7 +91,7 @@ function* conditionToFetch({ payload }) {
         pageSize
     });
     const oldDataSpecificationString = yield select(
-        state => state.raidBoss.characters.dataSpecificationString
+        raidBossCharactersDataSpecificationStringSelector
     );
 
     return dataSpecificationString !== oldDataSpecificationString;
@@ -97,7 +99,7 @@ function* conditionToFetch({ payload }) {
 
 export default function* getRaidBossCharacters() {
     yield takeLatestIfTrue(
-        "RAIDBOSS_CHARACTERS_FETCH",
+        RAIDBOSS_CHARACTERS_FETCH,
         conditionToFetch,
         fetchRaidBossCharacters
     );

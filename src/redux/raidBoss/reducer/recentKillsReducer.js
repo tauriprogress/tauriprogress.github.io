@@ -1,3 +1,9 @@
+import {
+    RAIDBOSS_RECENTKILLS_LOADING_SET,
+    RAIDBOSS_RECENTKILLS_FILL,
+    RAIDBOSS_RECENTKILLS_ERROR_SET
+} from "../actions";
+
 const defaultState = {
     data: null,
     loading: false,
@@ -5,26 +11,28 @@ const defaultState = {
     dataSpecificationString: ""
 };
 
-function fastestKillsReducer(state = defaultState, action) {
+function recentKillsReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGED":
             return defaultState;
-        case "RAIDBOSS_FASTESTKILLS_FILL":
-            return {
-                ...state,
-                error: null,
-                loading: false,
-                data: action.payload.fastestKills,
-                dataSpecificationString: action.payload.dataSpecificationString
-            };
-        case "RAIDBOSS_FASTESTKILLS_LOADING":
+
+        case RAIDBOSS_RECENTKILLS_LOADING_SET:
             return {
                 ...state,
                 error: null,
                 loading: true,
                 data: null
             };
-        case "RAIDBOSS_FASTESTKILLS_SET_ERROR":
+        case RAIDBOSS_RECENTKILLS_FILL:
+            return {
+                ...state,
+                error: null,
+                loading: false,
+                data: action.payload.recentKills,
+                dataSpecificationString: action.payload.dataSpecificationString
+            };
+
+        case RAIDBOSS_RECENTKILLS_ERROR_SET:
             return {
                 ...state,
                 error: action.payload,
@@ -38,4 +46,4 @@ function fastestKillsReducer(state = defaultState, action) {
     }
 }
 
-export default fastestKillsReducer;
+export default recentKillsReducer;

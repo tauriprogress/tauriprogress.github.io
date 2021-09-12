@@ -23,10 +23,11 @@ import { convertFightLength, dateTextHours, days } from "../../helpers";
 import DisplayDate from "../DisplayDate";
 
 import {
-    fetchRaidBossRecentKills,
-    fetchRaidBossKillCount
+    raidBossRecentKillsFetch,
+    raidBossKillCountFetch
 } from "../../redux/actions";
 
+import { raidBossRecentKillsEntireSelector } from "../../redux/selectors";
 function RecentKills({ theme, raidId, bossName, difficulty }) {
     const {
         palette: {
@@ -35,11 +36,11 @@ function RecentKills({ theme, raidId, bossName, difficulty }) {
     } = theme;
     const dispatch = useDispatch();
     const { loading, error, data } = useSelector(
-        state => state.raidBoss.recentKills
+        raidBossRecentKillsEntireSelector
     );
 
     useEffect(() => {
-        dispatch(fetchRaidBossRecentKills({ raidId, bossName, difficulty }));
+        dispatch(raidBossRecentKillsFetch({ raidId, bossName, difficulty }));
     }, [raidId, bossName, difficulty, dispatch]);
 
     return (
@@ -50,14 +51,14 @@ function RecentKills({ theme, raidId, bossName, difficulty }) {
                     message={error}
                     refresh={() =>
                         dispatch(
-                            fetchRaidBossRecentKills({
+                            raidBossRecentKillsFetch({
                                 raidId,
                                 bossName,
                                 difficulty
                             })
                         ) &&
                         dispatch(
-                            fetchRaidBossKillCount({
+                            raidBossKillCountFetch({
                                 raidId,
                                 bossName,
                                 difficulty: difficulty

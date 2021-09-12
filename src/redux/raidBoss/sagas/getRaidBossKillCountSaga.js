@@ -1,8 +1,9 @@
 import { put, call, select } from "redux-saga/effects";
-import { fillRaidBossKillCount } from "../../actions";
-import { getServerUrl } from "../helpers";
+import { raidBossKillCountFill } from "../../actions";
 import { getDataSpecificationString } from "../../../helpers";
-import { takeLatestIfTrue } from "../helpers";
+import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
+import { RAIDBOSS_KILLCOUNT_FETCH } from "../actions";
+import { raidBossKillCountDataSpecificationStringSelector } from "../selectors";
 
 async function getData(serverUrl, raidId, bossName, difficulty) {
     return await fetch(`${serverUrl}/getboss/killCount`, {
@@ -41,7 +42,7 @@ function* fetchRaidBossKillCount({ payload }) {
             throw new Error(response.errorstring);
         } else {
             yield put(
-                fillRaidBossKillCount({
+                raidBossKillCountFill({
                     killCount: response.response.killCount,
                     dataSpecificationString: dataSpecificationString
                 })
@@ -61,7 +62,7 @@ function* conditionToFetch({ payload }) {
         difficulty
     });
     const oldDataSpecificationString = yield select(
-        state => state.raidBoss.killCount.dataSpecificationString
+        raidBossKillCountDataSpecificationStringSelector
     );
 
     return dataSpecificationString !== oldDataSpecificationString;
@@ -69,7 +70,7 @@ function* conditionToFetch({ payload }) {
 
 export default function* getRaidBossKillCountSaga() {
     yield takeLatestIfTrue(
-        "RAIDBOSS_KILLCOUNT_FETCH",
+        RAIDBOSS_KILLCOUNT_FETCH,
         conditionToFetch,
         fetchRaidBossKillCount
     );

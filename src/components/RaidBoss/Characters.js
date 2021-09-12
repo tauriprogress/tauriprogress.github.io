@@ -1,41 +1,41 @@
 import React, { useEffect } from "react";
-
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-
-import ErrorMessage from "../ErrorMessage";
-import Loading from "../Loading";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+    raidBossKillCountFetch,
+    raidBossCharactersFetch,
+    raidBossPageSet
+} from "../../redux/actions";
+import {
+    raidFilterSelector,
+    raidBossCharactersEntireSelector,
+    raidBossPageCurrentPageSelector
+} from "../../redux/selectors";
 
 import CharacterLadder from "../CharacterLadder";
-
-import {
-    fetchRaidBossCharacters,
-    setRaidBossPage,
-    fetchRaidBossKillCount
-} from "../../redux/actions";
-
-import { raidFilterSelector } from "../../redux/selectors";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 
 function Characters({ raidId, bossName, combatMetric }) {
     const { loading, data, error, filter, page, dataSpecificationString } =
         useSelector(state => {
             return {
-                ...state.raidBoss.characters,
+                ...raidBossCharactersEntireSelector(state),
                 filter: raidFilterSelector(state),
-                page: state.raidBoss.page.currentPage
+                page: raidBossPageCurrentPageSelector(state)
             };
         }, shallowEqual);
 
     const pageSize = 30;
 
     function changePage(e, newPage) {
-        dispatch(setRaidBossPage(newPage));
+        dispatch(raidBossPageSet(newPage));
     }
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(
-            fetchRaidBossCharacters({
+            raidBossCharactersFetch({
                 raidId,
                 bossName,
                 combatMetric,
@@ -54,7 +54,7 @@ function Characters({ raidId, bossName, combatMetric }) {
                     message={error}
                     refresh={() =>
                         dispatch(
-                            fetchRaidBossCharacters({
+                            raidBossCharactersFetch({
                                 raidId,
                                 bossName,
                                 combatMetric,
@@ -64,7 +64,7 @@ function Characters({ raidId, bossName, combatMetric }) {
                             })
                         ) &&
                         dispatch(
-                            fetchRaidBossKillCount({
+                            raidBossKillCountFetch({
                                 raidId,
                                 bossName,
                                 difficulty: filter.difficulty

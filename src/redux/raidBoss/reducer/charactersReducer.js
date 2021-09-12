@@ -1,3 +1,9 @@
+import {
+    RAIDBOSS_CHARACTERS_LOADING_SET,
+    RAIDBOSS_CHARACTERS_FILL,
+    RAIDBOSS_CHARACTERS_ERROR_SET
+} from "../actions";
+
 const defaultState = {
     data: null,
     loading: false,
@@ -9,7 +15,16 @@ function charactersReducer(state = defaultState, action) {
     switch (action.type) {
         case "ENVIRONMENT_CHANGED":
             return defaultState;
-        case "RAIDBOSS_CHARACTERS_FILL":
+
+        case RAIDBOSS_CHARACTERS_LOADING_SET:
+            return {
+                ...state,
+                error: null,
+                loading: true,
+                data: null
+            };
+
+        case RAIDBOSS_CHARACTERS_FILL:
             return {
                 ...state,
                 error: null,
@@ -20,14 +35,7 @@ function charactersReducer(state = defaultState, action) {
                 },
                 dataSpecificationString: action.payload.dataSpecificationString
             };
-        case "RAIDBOSS_CHARACTERS_LOADING":
-            return {
-                ...state,
-                error: null,
-                loading: true,
-                data: null
-            };
-        case "RAIDBOSS_CHARACTERS_SET_ERROR":
+        case RAIDBOSS_CHARACTERS_ERROR_SET:
             return {
                 ...state,
                 error: action.payload,

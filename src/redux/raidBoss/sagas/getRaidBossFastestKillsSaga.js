@@ -1,16 +1,18 @@
 import { put, call, select } from "redux-saga/effects";
-import { getServerUrl } from "../helpers";
 import { getDataSpecificationString } from "../../../helpers";
-import { takeLatestIfTrue } from "../helpers";
+import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 
 import {
-    fillRaidBossRecentKills,
-    setRaidBossRecentKillsLoading,
-    setRaidBossRecentKillsError
+    RAIDBOSS_FASTESTKILLS_FETCH,
+    raidBossFastestKillsSetLoading,
+    raidBossFastestKillsFill,
+    raidBossFastestKillsSetError
 } from "../../actions";
 
+import { raidBossFastestKillsDataSpecificationStringSelector } from "../../selectors";
+
 async function getData(serverUrl, raidId, bossName, difficulty) {
-    return await fetch(`${serverUrl}/getboss/recentKills`, {
+    return await fetch(`${serverUrl}/getboss/fastestKills`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -23,9 +25,9 @@ async function getData(serverUrl, raidId, bossName, difficulty) {
     }).then(res => res.json());
 }
 
-function* fetchRaidBossRecentKills({ payload }) {
+function* fetchRaidBossFastestKills({ payload }) {
     try {
-        yield put(setRaidBossRecentKillsLoading());
+        yield put(raidBossFastestKillsSetLoading());
 
         const { raidId, bossName, difficulty } = payload;
 
@@ -48,14 +50,14 @@ function* fetchRaidBossRecentKills({ payload }) {
             throw new Error(response.errorstring);
         } else {
             yield put(
-                fillRaidBossRecentKills({
-                    recentKills: response.response.recentKills,
+                raidBossFastestKillsFill({
+                    fastestKills: response.response.fastestKills,
                     dataSpecificationString: dataSpecificationString
                 })
             );
         }
     } catch (err) {
-        yield put(setRaidBossRecentKillsError(err.message));
+        yield put(raidBossFastestKillsSetError(err.message));
     }
 }
 
@@ -68,16 +70,16 @@ function* conditionToFetch({ payload }) {
         difficulty
     });
     const oldDataSpecificationString = yield select(
-        state => state.raidBoss.recentKills.dataSpecificationString
+        raidBossFastestKillsDataSpecificationStringSelector
     );
 
     return dataSpecificationString !== oldDataSpecificationString;
 }
 
-export default function* getRaidBossRecentKillsSaga() {
+export default function* getRaidBossFastestKillsSaga() {
     yield takeLatestIfTrue(
-        "RAIDBOSS_RECENTKILLS_FETCH",
+        RAIDBOSS_FASTESTKILLS_FETCH,
         conditionToFetch,
-        fetchRaidBossRecentKills
+        fetchRaidBossFastestKills
     );
 }

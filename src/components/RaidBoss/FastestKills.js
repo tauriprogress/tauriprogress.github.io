@@ -24,9 +24,11 @@ import DisplayDate from "../DisplayDate";
 import { convertFightLength, dateTextHours, days } from "../../helpers";
 
 import {
-    fetchRaidBossFastestKills,
-    fetchRaidBossKillCount
+    raidBossFastestKillsFetch,
+    raidBossKillCountFetch
 } from "../../redux/actions";
+
+import { raidBossFastestKillsEntireSelector } from "../../redux/selectors";
 
 function FastestKills({ theme, raidId, bossName, difficulty }) {
     const {
@@ -37,11 +39,11 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
 
     const dispatch = useDispatch();
     const { loading, error, data } = useSelector(
-        state => state.raidBoss.fastestKills
+        raidBossFastestKillsEntireSelector
     );
 
     useEffect(() => {
-        dispatch(fetchRaidBossFastestKills({ raidId, bossName, difficulty }));
+        dispatch(raidBossFastestKillsFetch({ raidId, bossName, difficulty }));
     }, [raidId, bossName, difficulty, dispatch]);
 
     return (
@@ -52,14 +54,14 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
                     message={error}
                     refresh={() =>
                         dispatch(
-                            fetchRaidBossFastestKills({
+                            raidBossFastestKillsFetch({
                                 raidId,
                                 bossName,
                                 difficulty
                             })
                         ) &&
                         dispatch(
-                            fetchRaidBossKillCount({
+                            raidBossKillCountFetch({
                                 raidId,
                                 bossName,
                                 difficulty: difficulty
