@@ -15,16 +15,18 @@ import OverflowScroll from "../OverflowScroll";
 
 import {
     guildProgressionFilterSelector,
-    guildProgressionSelector
-} from "../../redux/guild/selectors";
+    guildProgressionSelector,
+    environmentDifficultyNamesSelector,
+    environmentRaidsSelector
+} from "../../redux/selectors";
 
 function GuildBoss() {
     const { filter, data, difficultyNames } = useSelector(
         state => ({
             filter: guildProgressionFilterSelector(state),
             data: guildProgressionSelector(state),
-            raids: state.environment.currentContent.raids,
-            difficultyNames: state.environment.difficultyNames
+            raids: environmentRaidsSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state)
         }),
         shallowEqual
     );

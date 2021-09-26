@@ -14,7 +14,7 @@ import raidFilterReducer from "../raidFilter/reducer";
 import raidSummaryReducer from "../raidSummary/reducer";
 import raidBossReducer from "../raidBoss/reducer";
 
-import environmentReducer from "./environmentReducer";
+import environmentReducer from "../environment/reducer";
 
 const createRootReducer = history =>
     combineReducers({

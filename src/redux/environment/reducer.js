@@ -4,6 +4,10 @@ import {
     isUrlSeasonal,
     getRealmGroupFromLocalStorage
 } from "../../helpers";
+import {
+    ENVIRONMENT_REALMGROUP_SET,
+    ENVIRONMENT_SEASON_TOGGLE
+} from "./actions";
 
 const devEnv = process.env.NODE_ENV === "development" ? true : false;
 const defaultRealmGroup = getRealmGroupFromLocalStorage();
@@ -98,7 +102,7 @@ const defaultState = JSON.parse(
 
 function environmentReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGE_REALMGROUP":
+        case ENVIRONMENT_REALMGROUP_SET:
             const realmGroup = action.payload;
 
             localStorage.setItem("realmGroup", realmGroup);
@@ -110,7 +114,7 @@ function environmentReducer(state = defaultState, action) {
                 seasonal: getSeasonalDefaultState()
             };
 
-        case "ENVIRONMENT_CHANGE_SEASON":
+        case ENVIRONMENT_SEASON_TOGGLE:
             const seasonalState = getSeasonalDefaultState();
             return {
                 ...state,

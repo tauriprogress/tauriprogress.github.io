@@ -2,7 +2,8 @@ import { RAIDBOSS_PAGE_SET } from "../actions";
 import {
     RAIDFILTER_SET,
     NAVIGATION_ITEM_SET,
-    RAIDBOSS_TAB_SET
+    RAIDBOSS_TAB_SET,
+    ENVIRONMENT_CHANGED
 } from "../../actions";
 
 const defaultState = {
@@ -11,7 +12,7 @@ const defaultState = {
 
 function pageReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return defaultState;
         case RAIDBOSS_PAGE_SET:
             return {

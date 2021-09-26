@@ -17,9 +17,17 @@ import Button from "@material-ui/core/Button";
 
 import {
     navigationToggle,
-    changeEnvironmentRealmGroup,
-    changeEnvironmentSeason
+    environmentSetRealmGroup,
+    environmentToggleSeason
 } from "../../redux/actions";
+
+import {
+    environmentIsSeasonalSelector,
+    environmentNextSeasonNameSelector,
+    environmentSeasonNameSelector,
+    environmentRealmGroupSelector,
+    environmentHasSeasonalSelector
+} from "../../redux/selectors";
 
 import wotlkIcon from "../../assets/expansionIcon/wotlk.png";
 import mopIcon from "../../assets/expansionIcon/mop.png";
@@ -91,11 +99,11 @@ function NavItems({ classes }) {
     const { realmGroup, hasSeasonal, seasonName, nextSeasonName, isSeasonal } =
         useSelector(
             state => ({
-                realmGroup: state.environment.realmGroup,
-                hasSeasonal: state.environment.seasonal.hasSeasonal,
-                seasonName: state.environment.seasonal.seasonName,
-                nextSeasonName: state.environment.seasonal.nextSeasonName,
-                isSeasonal: state.environment.seasonal.isSeasonal
+                realmGroup: environmentRealmGroupSelector(state),
+                hasSeasonal: environmentHasSeasonalSelector(state),
+                seasonName: environmentSeasonNameSelector(state),
+                nextSeasonName: environmentNextSeasonNameSelector(state),
+                isSeasonal: environmentIsSeasonalSelector(state)
             }),
             shallowEqual
         );
@@ -104,10 +112,10 @@ function NavItems({ classes }) {
         if (hasSeasonal) {
             if (isSeasonal) {
                 dispatch(push("/"));
-                dispatch(changeEnvironmentSeason());
+                dispatch(environmentToggleSeason());
             } else {
                 dispatch(push("/seasonal/"));
-                dispatch(changeEnvironmentSeason());
+                dispatch(environmentToggleSeason());
             }
         }
     }
@@ -143,7 +151,7 @@ function NavItems({ classes }) {
                                 to={`/`}
                                 onClick={() =>
                                     dispatch(
-                                        changeEnvironmentRealmGroup(
+                                        environmentSetRealmGroup(
                                             realmGroup === "tauri"
                                                 ? "crystalsong"
                                                 : "tauri"

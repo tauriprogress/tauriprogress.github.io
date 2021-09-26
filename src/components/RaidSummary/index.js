@@ -14,7 +14,9 @@ import { raidSummaryFetch, navigationSetItem } from "../../redux/actions";
 
 import {
     raidFilterSelector,
-    raidSummaryEntireSelector
+    raidSummaryEntireSelector,
+    environmentRaidsSelector,
+    environmentCharacterSpecsSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -32,9 +34,9 @@ function RaidSummary({ classes, raidName }) {
         state => {
             return {
                 ...raidSummaryEntireSelector(state),
-                raids: state.environment.currentContent.raids,
+                raids: environmentRaidsSelector(state),
                 filter: raidFilterSelector(state),
-                specs: state.environment.specs
+                specs: environmentCharacterSpecsSelector(state)
             };
         },
         shallowEqual

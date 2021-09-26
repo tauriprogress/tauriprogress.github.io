@@ -34,7 +34,9 @@ import {
 import {
     characterLeaderboardTabSelector,
     characterLeaderboardDataSelector,
-    characterLeaderboardFilterSelector
+    characterLeaderboardFilterSelector,
+    environmentCharacterSpecsSelector,
+    environmentCharacterClassNamesSelector
 } from "../../redux/selectors";
 
 import { filterChars } from "./helpers";
@@ -88,8 +90,8 @@ function CharacterLeaderboard({ classes, theme }) {
     const { data, specs, characterClassNames } = useSelector(
         state => ({
             data: characterLeaderboardDataSelector(state, dataId),
-            specs: state.environment.specs,
-            characterClassNames: state.environment.characterClassNames
+            specs: environmentCharacterSpecsSelector(state),
+            characterClassNames: environmentCharacterClassNamesSelector(state)
         }),
         shallowEqual
     );

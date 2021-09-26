@@ -16,7 +16,14 @@ import { getRealmNames } from "../../helpers";
 
 import { guildProgressionSetFilter } from "../../redux/actions";
 
-import { guildProgressionFilterSelector } from "../../redux/guild/selectors";
+import {
+    guildProgressionFilterSelector,
+    environmentRealmsSelector,
+    environmentCharacterSpecsSelector,
+    environmentCharacterClassNamesSelector,
+    environmentDifficultyNamesSelector,
+    environmentRaidsSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -37,11 +44,11 @@ function GuildProgressionFilter({ classes, theme }) {
     } = useSelector(
         state => ({
             filter: guildProgressionFilterSelector(state),
-            realms: state.environment.realms,
-            specs: state.environment.specs,
-            characterClassNames: state.environment.characterClassNames,
-            difficultyNames: state.environment.difficultyNames,
-            raids: state.environment.currentContent.raids
+            realms: environmentRealmsSelector(state),
+            specs: environmentCharacterSpecsSelector(state),
+            characterClassNames: environmentCharacterClassNamesSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state),
+            raids: environmentRaidsSelector(state)
         }),
         shallowEqual
     );

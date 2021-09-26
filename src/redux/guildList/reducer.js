@@ -3,6 +3,7 @@ import {
     GUILD_LIST_FILL,
     GUILD_LIST_ERROR_SET
 } from "./actions";
+import { ENVIRONMENT_CHANGED } from "../actions";
 
 const defaultState = {
     data: null,
@@ -12,7 +13,7 @@ const defaultState = {
 
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return defaultState;
         case GUILD_LIST_LOADING_SET:
             return {

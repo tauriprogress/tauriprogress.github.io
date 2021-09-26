@@ -15,7 +15,14 @@ import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterCo
 import { getRealmNames } from "../../helpers";
 
 import { characterLeaderboardSetFilter } from "../../redux/actions";
-import { characterLeaderboardFilterSelector } from "../../redux/selectors";
+import {
+    characterLeaderboardFilterSelector,
+    environmentCharacterSpecsSelector,
+    environmentRealmsSelector,
+    environmentCharacterClassNamesSelector,
+    environmentDifficultyNamesSelector,
+    environmentRaidsSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -36,11 +43,11 @@ function CharacterLeaderboardFilter({ classes, theme }) {
     } = useSelector(
         state => ({
             filter: characterLeaderboardFilterSelector(state),
-            realms: state.environment.realms,
-            specs: state.environment.specs,
-            characterClassNames: state.environment.characterClassNames,
-            difficultyNames: state.environment.difficultyNames,
-            raids: state.environment.currentContent.raids
+            realms: environmentRealmsSelector(state),
+            specs: environmentCharacterSpecsSelector(state),
+            characterClassNames: environmentCharacterClassNamesSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state),
+            raids: environmentRaidsSelector(state)
         }),
         shallowEqual
     );

@@ -16,7 +16,14 @@ import { getRealmNames } from "../../helpers";
 
 import { setRaidFilter } from "../../redux/actions";
 
-import { raidFilterSelector } from "../../redux/selectors";
+import {
+    raidFilterSelector,
+    environmentDifficultyNamesSelector,
+    environmentRealmsSelector,
+    environmentCharacterSpecsSelector,
+    environmentCharacterClassNamesSelector,
+    environmentRaidsSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -37,11 +44,11 @@ function RaidFilter({ classes, theme }) {
     } = useSelector(
         state => ({
             filter: raidFilterSelector(state),
-            realms: state.environment.realms,
-            specs: state.environment.specs,
-            characterClassNames: state.environment.characterClassNames,
-            difficultyNames: state.environment.difficultyNames,
-            raids: state.environment.currentContent.raids
+            realms: environmentRealmsSelector(state),
+            specs: environmentCharacterSpecsSelector(state),
+            characterClassNames: environmentCharacterClassNamesSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state),
+            raids: environmentRaidsSelector(state)
         }),
         shallowEqual
     );

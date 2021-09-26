@@ -5,6 +5,8 @@ import {
     CHARACTER_LEADERBOARD_FILTER_SET,
     CHARACTER_LEADERBOARD_TAB_SET
 } from "./actions";
+import { ENVIRONMENT_CHANGED } from "../actions";
+
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
@@ -46,7 +48,7 @@ const defaultState = {
 
 function characterLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return {
                 ...state,
                 filter: {

@@ -24,7 +24,10 @@ import {
     characterClassSelector,
     characterNameSelector,
     characterRealmSelector,
-    characterProgressionEntireSelector
+    characterProgressionEntireSelector,
+    environmentRaidsSelector,
+    environmentCurrentRaidNameSelector,
+    environmentRealmGroupSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -56,9 +59,9 @@ function CharacterProgression({ classes }) {
             characterName: characterNameSelector(state),
             realm: characterRealmSelector(state),
             characterClass: characterClassSelector(state),
-            raids: state.environment.currentContent.raids,
-            currentContentName: state.environment.currentContent.name,
-            realmGroup: state.environment.realmGroup
+            raids: environmentRaidsSelector(state),
+            currentContentName: environmentCurrentRaidNameSelector(state),
+            realmGroup: environmentRealmGroupSelector(state)
         };
     }, shallowEqual);
 

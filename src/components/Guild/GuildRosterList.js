@@ -25,8 +25,9 @@ import { filterMembers } from "./helpers";
 import { classImg } from "../../helpers";
 import {
     guildRealmSelector,
-    guildRanksSelector
-} from "../../redux/guild/selectors";
+    guildRanksSelector,
+    environmentCharacterClassNamesSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -48,7 +49,7 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
     const { realm, characterClassNames, ranks } = useSelector(
         state => ({
             realm: guildRealmSelector(state),
-            characterClassNames: state.environment.characterClassNames,
+            characterClassNames: environmentCharacterClassNamesSelector(state),
             ranks: guildRanksSelector(state)
         }),
         shallowEqual

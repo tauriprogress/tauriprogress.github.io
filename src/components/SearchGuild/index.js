@@ -15,7 +15,11 @@ import { navigationToggle, pushToHistory } from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
-import { guildListDataSelector } from "../../redux/selectors";
+import {
+    guildListDataSelector,
+    environmentRealmGroupSelector,
+    environmentIsSeasonalSelector
+} from "../../redux/selectors";
 
 function styles() {
     return {
@@ -29,8 +33,8 @@ function SearchGuild({ classes }) {
     const { guildList, realmGroup, isSeasonal } = useSelector(state => {
         return {
             guildList: guildListDataSelector(state),
-            realmGroup: state.environment.realmGroup,
-            isSeasonal: state.environment.seasonal.isSeasonal
+            realmGroup: environmentRealmGroupSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
         };
     }, shallowEqual);
 

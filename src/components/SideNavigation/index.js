@@ -22,7 +22,10 @@ import Link from "../Link";
 
 import { navigationToggle } from "../../redux/actions";
 
-import { navigationOpenSelector } from "../../redux/selectors";
+import {
+    navigationOpenSelector,
+    environmentRaidsSelector
+} from "../../redux/selectors";
 
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
@@ -172,7 +175,7 @@ function Navigation({ classes = {} }) {
 }
 
 function DisplayRaidLists() {
-    const raids = useSelector(state => state.environment.currentContent.raids);
+    const raids = useSelector(environmentRaidsSelector);
 
     return raids.map(raid => <RaidBossList raid={raid} key={raid.name} />);
 }

@@ -12,16 +12,19 @@ import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
 
 import { getRealmNames } from "../../helpers";
 
+import {
+    environmentDifficultyNamesSelector,
+    environmentDifficultiesSelector,
+    environmentRealmsSelector
+} from "../../redux/selectors";
+
 function GuildListFilter({ theme, filter, setFilter }) {
-    const realms = getRealmNames(
-        useSelector(state => state.environment.realms)
-    );
+    const realms = getRealmNames(useSelector(environmentRealmsSelector));
 
     const { difficulties, difficultyNames } = useSelector(
         state => ({
-            difficulties:
-                state.environment.currentContent.raids[0].difficulties,
-            difficultyNames: state.environment.difficultyNames
+            difficulties: environmentDifficultiesSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state)
         }),
         shallowEqual
     );

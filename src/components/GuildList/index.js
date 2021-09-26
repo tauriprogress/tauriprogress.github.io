@@ -28,7 +28,14 @@ import { filterGuildList } from "./helpers";
 import { dateToString, guildActivityBoundary } from "../../helpers";
 
 import { guildListFetch } from "../../redux/actions";
-import { guildListEntireSelector } from "../../redux/selectors";
+import {
+    guildListEntireSelector,
+    environmentDifficultyNamesSelector,
+    environmentTotalBossesSelector,
+    environmentDifficultiesSelector,
+    environmentRealmGroupSelector,
+    environmentIsSeasonalSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -97,12 +104,11 @@ function GuildList({ theme, classes }) {
     } = useSelector(
         state => ({
             ...guildListEntireSelector(state),
-            difficultyNames: state.environment.difficultyNames,
-            totalBosses: state.environment.currentContent.totalBosses,
-            difficulties:
-                state.environment.currentContent.raids[0].difficulties,
-            realmGroup: state.environment.realmGroup,
-            isSeasonal: state.environment.seasonal.isSeasonal
+            difficultyNames: environmentDifficultyNamesSelector(state),
+            totalBosses: environmentTotalBossesSelector(state),
+            difficulties: environmentDifficultiesSelector(state),
+            realmGroup: environmentRealmGroupSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
         }),
         shallowEqual
     );

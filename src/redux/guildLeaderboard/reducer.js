@@ -5,6 +5,8 @@ import {
     GUILD_LEADERBOARD_FILTER_SET,
     GUILD_LEADERBOARD_TAB_SET
 } from "./actions";
+import { ENVIRONMENT_CHANGED } from "../actions";
+
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
@@ -40,7 +42,7 @@ const defaultState = {
 
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return {
                 ...state,
                 filter: {

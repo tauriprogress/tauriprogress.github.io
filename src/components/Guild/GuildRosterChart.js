@@ -12,6 +12,8 @@ import TitledContainer from "../TitledContainer";
 
 import { classImg } from "../../helpers";
 
+import { environmentCharacterClassNamesSelector } from "../../redux/selectors";
+
 function styles(theme) {
     return {
         container: {
@@ -72,7 +74,7 @@ function GuildRosterChart({
     maxClassCount
 }) {
     const characterClassNames = useSelector(
-        state => state.environment.characterClassNames
+        environmentCharacterClassNamesSelector
     );
     return (
         <TitledContainer

@@ -4,6 +4,8 @@ import { convertFightLength } from "../../helpers";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
+import { environmentEntireSeasonalSelector } from "../../redux/selectors";
+
 function styles() {
     return {
         countdown: {
@@ -21,7 +23,7 @@ function styles() {
 
 function SeasonalCountdown({ classes }) {
     const { nextSeasonName, nextStartTime = 0 } = useSelector(
-        state => state.environment.seasonal
+        environmentEntireSeasonalSelector
     );
 
     const [timeLeft, setTimeLeft] = useState(

@@ -3,6 +3,7 @@ import {
     RAIDBOSS_CHARACTERS_FILL,
     RAIDBOSS_CHARACTERS_ERROR_SET
 } from "../actions";
+import { ENVIRONMENT_CHANGED } from "../../actions";
 
 const defaultState = {
     data: null,
@@ -13,7 +14,7 @@ const defaultState = {
 
 function charactersReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return defaultState;
 
         case RAIDBOSS_CHARACTERS_LOADING_SET:

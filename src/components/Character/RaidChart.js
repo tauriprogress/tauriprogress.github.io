@@ -17,6 +17,12 @@ import LogLink from "../LogLink";
 import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
 
 import {
+    environmentRaidsSelector,
+    environmentCharacterSpecsSelector,
+    environmentCharacterClassNamesSelector
+} from "../../redux/selectors";
+
+import {
     getSpecImg,
     classImg,
     shortNumber,
@@ -66,9 +72,9 @@ function RaidChart({
     const { classColors } = theme.palette;
     const { raids, specs, characterClassNames } = useSelector(
         state => ({
-            raids: state.environment.currentContent.raids,
-            specs: state.environment.specs,
-            characterClassNames: state.environment.characterClassNames
+            raids: environmentRaidsSelector(state),
+            specs: environmentCharacterSpecsSelector(state),
+            characterClassNames: environmentCharacterClassNamesSelector(state)
         }),
         shallowEqual
     );

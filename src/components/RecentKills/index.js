@@ -13,6 +13,8 @@ import LogLink from "../LogLink";
 
 import { categorizedLogDates } from "../../helpers";
 
+import { environmentDifficultyNamesSelector } from "../../redux/selectors";
+
 function styles(theme) {
     return {
         listItem: {
@@ -27,9 +29,7 @@ function styles(theme) {
 
 function RecentKills({ classes, logs, realm, children, ...rest }) {
     const logDates = categorizedLogDates(logs);
-    const difficultyNames = useSelector(
-        state => state.environment.difficultyNames
-    );
+    const difficultyNames = useSelector(environmentDifficultyNamesSelector);
     return (
         <List {...rest} component="div" disablePadding>
             {children}

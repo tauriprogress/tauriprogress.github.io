@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
+import { environmentDifficultyNamesSelector } from "../../redux/selectors";
+
 function DifficultyTabs({ options, selected, onChange }) {
-    const difficultyNames = useSelector(
-        state => state.environment.difficultyNames
-    );
+    const difficultyNames = useSelector(environmentDifficultyNamesSelector);
 
     return (
         <Tabs

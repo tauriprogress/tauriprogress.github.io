@@ -6,6 +6,8 @@ import {
     GUILD_PROGRESSION_RAID_SELECT,
     GUILD_PROGRESSION_FILTER_SET
 } from "./actions";
+import { ENVIRONMENT_CHANGED } from "../actions";
+
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
@@ -37,7 +39,7 @@ const defaultState = {
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             raids = constants[action.payload].currentContent.raids;
             return {
                 ...state,

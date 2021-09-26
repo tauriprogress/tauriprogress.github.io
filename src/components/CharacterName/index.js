@@ -9,7 +9,7 @@ import { Link as RegularLink } from "@material-ui/core";
 import Avatar from "../Avatar";
 
 import { getSpecImg, getRaceImg, getRaceName } from "../../helpers";
-
+import { environmentCharacterSpecsSelector } from "../../redux/selectors";
 function styles(theme) {
     return {
         margin: {
@@ -30,7 +30,7 @@ function CharacterName({
     linkTo,
     ...rest
 }) {
-    const specs = useSelector(state => state.environment.specs);
+    const specs = useSelector(environmentCharacterSpecsSelector);
 
     return (
         <React.Fragment>

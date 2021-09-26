@@ -3,6 +3,7 @@ import {
     RAIDBOSS_RECENTKILLS_FILL,
     RAIDBOSS_RECENTKILLS_ERROR_SET
 } from "../actions";
+import { ENVIRONMENT_CHANGED } from "../../actions";
 
 const defaultState = {
     data: null,
@@ -13,7 +14,7 @@ const defaultState = {
 
 function recentKillsReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return defaultState;
 
         case RAIDBOSS_RECENTKILLS_LOADING_SET:

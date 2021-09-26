@@ -1,4 +1,5 @@
 import { RAIDFILTER_SET } from "./actions";
+import { ENVIRONMENT_CHANGED } from "../actions";
 
 import {
     getDefaultDifficulty,
@@ -31,7 +32,7 @@ const defaultState = RAID_ROUTE.isCurrentRoute()
 
 function raidFilterReducer(state = defaultState, action, raids) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return {
                 difficulty: getDefaultDifficulty(action.payload),
                 class: "",

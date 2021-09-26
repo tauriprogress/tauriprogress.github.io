@@ -14,13 +14,12 @@ import getRaidBossKillCountSaga from "../raidBoss/sagas/getRaidBossKillCountSaga
 import getRaidBossRecentKillsSaga from "../raidBoss/sagas/getRaidBossRecentKillsSaga";
 import getRaidBossFastestKillsSaga from "../raidBoss/sagas/getRaidBossFastestKillsSaga";
 import getRaidBossCharactersSaga from "../raidBoss/sagas/getRaidBossCharactersSaga";
+import environmentSaga from "../environment/environmentSaga";
 
-import environmentSaga from "./environmentSaga";
 import historySaga from "./historySaga";
 
 function* sagas() {
     yield all([
-        historySaga(),
         getLastUpdatedSaga(),
         getCharacterLeaderboardSaga(),
         getCharacterDataSaga(),
@@ -36,8 +35,9 @@ function* sagas() {
         getRaidBossRecentKillsSaga(),
         getRaidBossFastestKillsSaga(),
         getRaidBossCharactersSaga(),
+        environmentSaga(),
 
-        environmentSaga()
+        historySaga()
     ]);
 }
 

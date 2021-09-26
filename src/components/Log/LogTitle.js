@@ -16,6 +16,11 @@ import meleeIcon from "../../assets/roles/Melee.svg";
 
 import { convertFightLength } from "../../helpers";
 
+import {
+    environmentCharacterSpecsSelector,
+    environmentDifficultyNamesSelector
+} from "../../redux/selectors";
+
 function LogTitle({ data, theme }) {
     const {
         palette: {
@@ -32,8 +37,8 @@ function LogTitle({ data, theme }) {
 
     const { specs, difficultyNames } = useSelector(
         state => ({
-            specs: state.environment.specs,
-            difficultyNames: state.environment.difficultyNames
+            specs: environmentCharacterSpecsSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state)
         }),
         shallowEqual
     );

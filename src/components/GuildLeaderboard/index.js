@@ -36,7 +36,10 @@ import {
     replaceHistory
 } from "../../redux/actions";
 
-import { guildLeaderboardEntireSelector } from "../../redux/selectors";
+import {
+    guildLeaderboardEntireSelector,
+    environmentRealmGroupSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -86,7 +89,7 @@ function GuildLeaderboard({ theme, classes }) {
         useSelector(
             state => ({
                 ...guildLeaderboardEntireSelector(state),
-                realmGroup: state.environment.realmGroup
+                realmGroup: environmentRealmGroupSelector(state)
             }),
             shallowEqual
         );

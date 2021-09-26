@@ -5,9 +5,11 @@ import GuildList from "../GuildList";
 import SeasonalCountdown from "../SeasonalCountdown";
 import Page from "../Page";
 
+import { environmentEntireSeasonalSelector } from "../../redux/selectors";
+
 function Home() {
     const { isSeasonal, isSeasonRunning } = useSelector(
-        state => state.environment.seasonal
+        environmentEntireSeasonalSelector
     );
 
     return (

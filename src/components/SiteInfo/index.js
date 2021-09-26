@@ -18,7 +18,8 @@ import {
     siteInfoLastUpdatedSelector,
     siteInfoLoadingSelector,
     siteInfoErrorSelector,
-    siteInfoIsUpdatingSelector
+    siteInfoIsUpdatingSelector,
+    environmentRealmGroupSelector
 } from "../../redux/selectors";
 
 import { convertMinutes } from "../../helpers";
@@ -48,7 +49,7 @@ function SiteInfo({ classes }) {
             loading: siteInfoLoadingSelector(state),
             error: siteInfoErrorSelector(state),
             isUpdating: siteInfoIsUpdatingSelector(state),
-            realmGroup: state.environment.realmGroup
+            realmGroup: environmentRealmGroupSelector(state)
         }),
         shallowEqual
     );

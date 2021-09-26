@@ -14,7 +14,8 @@ import CharacterItemTooltip from "./CharacterItemTooltip";
 import TitledContainer from "../TitledContainer";
 import {
     characterRealmSelector,
-    characterDataIncompleteItemsSelector
+    characterDataIncompleteItemsSelector,
+    environmentIconUrlSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -52,7 +53,7 @@ function CharacterItems({ classes, theme }) {
         state => ({
             characterItems: characterDataIncompleteItemsSelector(state),
             realm: characterRealmSelector(state),
-            iconUrl: state.environment.urls.icon
+            iconUrl: environmentIconUrlSelector(state)
         }),
         shallowEqual
     );

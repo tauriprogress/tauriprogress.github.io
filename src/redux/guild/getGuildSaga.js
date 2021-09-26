@@ -10,8 +10,9 @@ import {
 import {
     guildLoadingSelector,
     guildOldGuildNameSelector,
-    guildOldRealmSelector
-} from "./selectors";
+    guildOldRealmSelector,
+    environmentRaidsSelector
+} from "../../redux/selectors";
 
 async function getData(serverUrl, guildName, realm) {
     return await fetch(`${serverUrl}/getguild`, {
@@ -51,9 +52,7 @@ function* fetchGuild({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            const raids = yield select(
-                state => state.environment.currentContent.raids
-            );
+            const raids = yield select(environmentRaidsSelector);
 
             yield put(guildFill({ ...response.response, raids: raids }));
         }

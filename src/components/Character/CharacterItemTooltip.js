@@ -12,7 +12,8 @@ import { characterItemsFetch } from "../../redux/actions";
 import {
     characterItemsItemSelector,
     characterItemsLoadingSelector,
-    characteritemsErrorSelector
+    characteritemsErrorSelector,
+    environmentIconUrlSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -33,7 +34,7 @@ function ItemTooltip({ classes, children, id, ids, realm }) {
             item: characterItemsItemSelector(state, id),
             loading: characterItemsLoadingSelector(state),
             error: characteritemsErrorSelector(state),
-            iconUrl: state.environment.urls.icon
+            iconUrl: environmentIconUrlSelector(state)
         }),
         shallowEqual
     );

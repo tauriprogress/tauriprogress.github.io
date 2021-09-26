@@ -18,6 +18,8 @@ import { navigationToggle, pushToHistory } from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
+import { environmentRealmsSelector } from "../../redux/selectors";
+
 function styles() {
     return {
         container: {
@@ -39,7 +41,7 @@ function styles() {
 
 function SearchCharacter({ classes, history }) {
     const [character, setCharacter] = useState("");
-    const realmNames = useSelector(state => state.environment.realms);
+    const realmNames = useSelector(environmentRealmsSelector);
     const realms = getRealmNames(realmNames);
     const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
     const dispatch = useDispatch();

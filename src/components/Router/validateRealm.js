@@ -5,7 +5,12 @@ import queryString from "query-string";
 
 import { validRealm, realmOfRealmGroup } from "../../helpers";
 
-import { changeEnvironmentRealmGroup } from "../../redux/actions";
+import { environmentSetRealmGroup } from "../../redux/actions";
+
+import {
+    environmentRealmsSelector,
+    environmentRealmGroupSelector
+} from "../../redux/selectors";
 
 function validateRealm() {
     return Component => {
@@ -15,8 +20,8 @@ function validateRealm() {
 
                 const { realms, realmGroup } = useSelector(
                     state => ({
-                        realms: state.environment.realms,
-                        realmGroup: state.environment.realmGroup
+                        realms: environmentRealmsSelector(state),
+                        realmGroup: environmentRealmGroupSelector(state)
                     }),
                     shallowEqual
                 );
@@ -26,7 +31,7 @@ function validateRealm() {
                 if (validRealm(currentRealm)) {
                     if (!realmOfRealmGroup(currentRealm, realms)) {
                         dispatch(
-                            changeEnvironmentRealmGroup(
+                            environmentSetRealmGroup(
                                 realmGroup === "tauri" ? "crystalsong" : "tauri"
                             )
                         );

@@ -13,6 +13,7 @@ import {
     CHARACTER_ITEMS_FILL,
     CHARACTER_ITEMS_ERROR_SET
 } from "./actions";
+import { ENVIRONMENT_CHANGED } from "../actions";
 
 import constants from "tauriprogress-constants";
 
@@ -46,7 +47,7 @@ const defaultState = {
 
 function characterReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ENVIRONMENT_CHANGED":
+        case ENVIRONMENT_CHANGED:
             return {
                 ...state,
                 progression: {

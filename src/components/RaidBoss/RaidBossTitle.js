@@ -6,11 +6,11 @@ import Typography from "@material-ui/core/Typography";
 import { raidBossKillCountFetch } from "../../redux/actions";
 import { raidBossKillCountCountSelector } from "../../redux/selectors";
 
+import { environmentDifficultyNamesSelector } from "../../redux/selectors";
+
 function RaidBossTitle({ raidId, bossName, difficulty }) {
     const killCount = useSelector(raidBossKillCountCountSelector);
-    const difficultyNames = useSelector(
-        state => state.environment.difficultyNames
-    );
+    const difficultyNames = useSelector(environmentDifficultyNamesSelector);
 
     const dispatch = useDispatch();
 

@@ -10,7 +10,10 @@ import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
 import GuildLatestKills from "./GuildRecentKills";
 
-import { guildMembersSelector } from "../../redux/guild/selectors";
+import {
+    guildMembersSelector,
+    environmentCharacterClassNamesSelector
+} from "../../redux/selectors";
 
 function styles(theme) {
     return {
@@ -28,7 +31,7 @@ function GuildRoster({ classes }) {
     const { members, characterClassNames } = useSelector(
         state => ({
             members: guildMembersSelector(state),
-            characterClassNames: state.environment.characterClassNames
+            characterClassNames: environmentCharacterClassNamesSelector(state)
         }),
         shallowEqual
     );

@@ -20,7 +20,7 @@ import CharacterName from "../CharacterName";
 
 import { shortRealmToFull } from "../../helpers";
 import { filterChars } from "./helpers";
-
+import { environmentCharacterSpecsSelector } from "../../redux/selectors";
 function styles(theme) {
     return {
         uppercase: {
@@ -46,7 +46,7 @@ function CharacterLadder({
     itemCount,
     sliced
 }) {
-    const specs = useSelector(state => state.environment.specs);
+    const specs = useSelector(environmentCharacterSpecsSelector);
 
     const [localPage, setPage] = useState(0);
 

@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Link as MaterialLink } from "@material-ui/core";
 
+import { environmentIsSeasonalSelector } from "../../redux/selectors";
+
 function Link({ to, children, ...rest }) {
-    const isSeasonal = useSelector(
-        state => state.environment.seasonal.isSeasonal
-    );
+    const isSeasonal = useSelector(environmentIsSeasonalSelector);
     const goTo = !isSeasonal
         ? to
         : typeof to === "string"

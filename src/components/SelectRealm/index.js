@@ -11,6 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 
+import { environmentRealmsSelector } from "../../redux/selectors";
+
 function styles() {
     return {
         gridItem: {
@@ -23,7 +25,7 @@ function SelectRealm({ classes }) {
     const location = useSelector(state => state.router.location);
 
     let realmName = queryString.parse(location.search).realm;
-    let realms = getRealmNames(useSelector(state => state.environment.realms));
+    let realms = getRealmNames(useSelector(environmentRealmsSelector));
 
     return (
         <Grid direction="column" alignItems="center" container>
