@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -27,7 +27,10 @@ import {
     raidBossKillCountFetch
 } from "../../redux/actions";
 
-import { raidBossRecentKillsEntireSelector } from "../../redux/selectors";
+import {
+    raidBossRecentKillsEntireSelector,
+    environmentIsSeasonalSelector
+} from "../../redux/selectors";
 function RecentKills({ theme, raidId, bossName, difficulty }) {
     const {
         palette: {
@@ -35,13 +38,16 @@ function RecentKills({ theme, raidId, bossName, difficulty }) {
         }
     } = theme;
     const dispatch = useDispatch();
-    const { loading, error, data } = useSelector(
-        raidBossRecentKillsEntireSelector
-    );
+    const { loading, error, data, isSeasonal } = useSelector(state => {
+        return {
+            ...raidBossRecentKillsEntireSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
+        };
+    }, shallowEqual);
 
     useEffect(() => {
         dispatch(raidBossRecentKillsFetch({ raidId, bossName, difficulty }));
-    }, [raidId, bossName, difficulty, dispatch]);
+    }, [raidId, bossName, difficulty, isSeasonal, dispatch]);
 
     return (
         <div className="overflowScroll">

@@ -6,7 +6,10 @@ import {
     GUILD_PROGRESSION_RAID_SELECT,
     GUILD_PROGRESSION_FILTER_SET
 } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
+import {
+    ENVIRONMENT_REALMGROUP_CHANGED,
+    ENVIRONMENT_SEASONAL_CHANGED
+} from "../actions";
 
 import constants from "tauriprogress-constants";
 import {
@@ -39,15 +42,22 @@ const defaultState = {
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
-            raids = constants[action.payload].currentContent.raids;
+        case ENVIRONMENT_REALMGROUP_CHANGED:
+        case ENVIRONMENT_SEASONAL_CHANGED:
+            raids = constants[action.payload.realmGroup].currentContent.raids;
             return {
                 ...state,
+                data: null,
+                error: null,
+                loading: false,
+                guildName: null,
+                realm: null,
                 progressionFilter: {
-                    raid: constants[action.payload].currentContent.name,
-                    boss: constants[action.payload].currentContent.raids[0]
-                        .bosses[0].name,
-                    difficulty: getDefaultDifficulty(action.payload),
+                    raid: constants[action.payload.realmGroup].currentContent
+                        .name,
+                    boss: constants[action.payload.realmGroup].currentContent
+                        .raids[0].bosses[0].name,
+                    difficulty: getDefaultDifficulty(action.payload.realmGroup),
                     class: "",
                     spec: "",
                     role: "",

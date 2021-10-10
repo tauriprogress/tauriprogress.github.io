@@ -6,17 +6,21 @@ import Typography from "@material-ui/core/Typography";
 import { raidBossKillCountFetch } from "../../redux/actions";
 import { raidBossKillCountCountSelector } from "../../redux/selectors";
 
-import { environmentDifficultyNamesSelector } from "../../redux/selectors";
+import {
+    environmentDifficultyNamesSelector,
+    environmentIsSeasonalSelector
+} from "../../redux/selectors";
 
 function RaidBossTitle({ raidId, bossName, difficulty }) {
     const killCount = useSelector(raidBossKillCountCountSelector);
     const difficultyNames = useSelector(environmentDifficultyNamesSelector);
+    const isSeasonal = useSelector(environmentIsSeasonalSelector);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(raidBossKillCountFetch({ raidId, bossName, difficulty }));
-    }, [raidId, bossName, difficulty, dispatch]);
+    }, [raidId, bossName, difficulty, isSeasonal, dispatch]);
 
     return (
         <Typography variant="h4" align="center">

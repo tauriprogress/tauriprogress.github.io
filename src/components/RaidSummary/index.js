@@ -16,7 +16,8 @@ import {
     raidFilterSelector,
     raidSummaryEntireSelector,
     environmentRaidsSelector,
-    environmentCharacterSpecsSelector
+    environmentCharacterSpecsSelector,
+    environmentIsSeasonalSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -30,17 +31,16 @@ function styles(theme) {
 }
 
 function RaidSummary({ classes, raidName }) {
-    const { loading, error, data, raids, filter, specs, raidId } = useSelector(
-        state => {
+    const { loading, error, data, raids, filter, specs, raidId, isSeasonal } =
+        useSelector(state => {
             return {
                 ...raidSummaryEntireSelector(state),
                 raids: environmentRaidsSelector(state),
                 filter: raidFilterSelector(state),
-                specs: environmentCharacterSpecsSelector(state)
+                specs: environmentCharacterSpecsSelector(state),
+                isSeasonal: environmentIsSeasonalSelector(state)
             };
-        },
-        shallowEqual
-    );
+        }, shallowEqual);
 
     const raid = raids.reduce((acc, raid) => {
         if (raid.id === raidId) {
@@ -55,7 +55,7 @@ function RaidSummary({ classes, raidName }) {
         dispatch(navigationSetItem(raidName));
 
         return () => dispatch(navigationSetItem(null));
-    }, [raidName, dispatch]);
+    }, [raidName, isSeasonal, dispatch]);
 
     return (
         <div>

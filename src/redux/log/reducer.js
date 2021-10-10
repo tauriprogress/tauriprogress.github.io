@@ -1,5 +1,8 @@
 import { LOG_LOADING_SET, LOG_FILL, LOG_ERROR_SET } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
+import {
+    ENVIRONMENT_REALMGROUP_CHANGED,
+    ENVIRONMENT_SEASONAL_CHANGED
+} from "../actions";
 
 const defaultState = {
     data: null,
@@ -9,7 +12,8 @@ const defaultState = {
 
 function logReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
+        case ENVIRONMENT_SEASONAL_CHANGED:
             return {
                 data: null,
                 error: null,

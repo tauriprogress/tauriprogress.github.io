@@ -325,6 +325,24 @@ export function validRaidName(raidName, realmGroup) {
     return false;
 }
 
+export function validRaidNameOfEnv(raidName, realmGroup, isSeasonal) {
+    if (isSeasonal) {
+        if (constants[realmGroup].currentContent.raids[0].name === raidName) {
+            return true;
+        }
+
+        return false;
+    }
+
+    for (let raid of constants[realmGroup].currentContent.raids) {
+        if (raid.name === raidName) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export function validRole(role) {
     return role === "damage" || role === "heal" || role === "tank";
 }
@@ -377,6 +395,10 @@ export function getDefaultDifficulty(realmGroup) {
         },
         realmGroup !== "tauri" ? 0 : 10
     );
+}
+
+export function getDefaultRaidName(realmGroup) {
+    return constants[realmGroup].currentContent.raids[0].name;
 }
 
 export function raidNameToId(raidName) {

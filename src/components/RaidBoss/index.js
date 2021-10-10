@@ -38,7 +38,6 @@ function RaidBoss({ raidName, bossName }) {
 
         return () => dispatch(navigationSetItem(null));
     }, [bossName, dispatch]);
-
     return (
         <React.Fragment>
             <RaidBossTitle

@@ -28,15 +28,15 @@ import CharacterName from "../CharacterName";
 
 import {
     characterLeaderboardFetchData,
-    characterLeaderboardSetTab,
-    replaceHistory
+    characterLeaderboardSetTab
 } from "../../redux/actions";
 import {
     characterLeaderboardTabSelector,
     characterLeaderboardDataSelector,
     characterLeaderboardFilterSelector,
     environmentCharacterSpecsSelector,
-    environmentCharacterClassNamesSelector
+    environmentCharacterClassNamesSelector,
+    environmentIsSeasonalSelector
 } from "../../redux/selectors";
 
 import { filterChars } from "./helpers";
@@ -87,11 +87,12 @@ function CharacterLeaderboard({ classes, theme }) {
         filter.spec ? filter.spec : filter.role
     }${combatMetric}`;
 
-    const { data, specs, characterClassNames } = useSelector(
+    const { data, specs, characterClassNames, isSeasonal } = useSelector(
         state => ({
             data: characterLeaderboardDataSelector(state, dataId),
             specs: environmentCharacterSpecsSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state)
+            characterClassNames: environmentCharacterClassNamesSelector(state),
+            isSeasonal: environmentIsSeasonalSelector
         }),
         shallowEqual
     );
@@ -104,11 +105,7 @@ function CharacterLeaderboard({ classes, theme }) {
 
     useEffect(() => {
         dispatch(characterLeaderboardFetchData(dataId));
-    }, [dataId, dispatch]);
-
-    useEffect(() => {
-        dispatch(replaceHistory({ ...filter, tab: selectedTab }));
-    }, [filter, selectedTab, dispatch]);
+    }, [dataId, data, isSeasonal, dispatch]);
 
     const characters = data
         ? filterChars(filter, data[filter.difficulty], specs)

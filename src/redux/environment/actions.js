@@ -1,6 +1,7 @@
 export const ENVIRONMENT_REALMGROUP_SET = "ENVIRONMENT_REALMGROUP_SET";
 export const ENVIRONMENT_SEASON_TOGGLE = "ENVIRONMENT_SEASON_TOGGLE";
-export const ENVIRONMENT_CHANGED = "ENVIRONMENT_CHANGED";
+export const ENVIRONMENT_REALMGROUP_CHANGED = "ENVIRONMENT_REALMGROUP_CHANGED";
+export const ENVIRONMENT_SEASONAL_CHANGED = "ENVIRONMENT_SEASONAL_CHANGED";
 
 export function environmentSetRealmGroup(payload) {
     return {
@@ -16,9 +17,16 @@ export function environmentToggleSeason(payload) {
     };
 }
 
-export function environmentChanged(payload) {
+export function environmentRealmGroupChanged(payload) {
     return {
-        type: ENVIRONMENT_CHANGED,
+        type: ENVIRONMENT_REALMGROUP_CHANGED,
+        payload
+    };
+}
+
+export function environmentSeasonalChanged(payload) {
+    return {
+        type: ENVIRONMENT_SEASONAL_CHANGED,
         payload
     };
 }

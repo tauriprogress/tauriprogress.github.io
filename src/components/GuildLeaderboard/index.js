@@ -32,13 +32,13 @@ import { convertFightLength, dateTextHours } from "./../../helpers";
 
 import {
     guildLeaderboardFetch,
-    guildLeaderboardSetTab,
-    replaceHistory
+    guildLeaderboardSetTab
 } from "../../redux/actions";
 
 import {
     guildLeaderboardEntireSelector,
-    environmentRealmGroupSelector
+    environmentRealmGroupSelector,
+    environmentIsSeasonalSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -85,47 +85,53 @@ function styles(theme) {
 function GuildLeaderboard({ theme, classes }) {
     const { factionColors } = theme.palette;
 
-    const { data, loading, error, realmGroup, filter, selectedTab } =
-        useSelector(
-            state => ({
-                ...guildLeaderboardEntireSelector(state),
-                realmGroup: environmentRealmGroupSelector(state)
-            }),
-            shallowEqual
-        );
+    const {
+        data,
+        loading,
+        error,
+        realmGroup,
+        filter,
+        selectedTab,
+        isSeasonal
+    } = useSelector(
+        state => ({
+            ...guildLeaderboardEntireSelector(state),
+            realmGroup: environmentRealmGroupSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
+        }),
+        shallowEqual
+    );
     const dispatch = useDispatch();
 
     const selectedTabName = selectedTab === 0 ? "fullClear" : "fastestKills";
 
     useEffect(() => {
         dispatch(guildLeaderboardFetch(realmGroup));
-    }, [realmGroup, dispatch]);
-
-    useEffect(() => {
-        dispatch(replaceHistory({ ...filter, tab: selectedTab }));
-    }, [filter, selectedTab, dispatch]);
+    }, [realmGroup, isSeasonal, dispatch]);
 
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>
-            {loading && <Loading />}
-            {error && (
-                <ErrorMessage
-                    message={error}
-                    refresh={() => dispatch(guildLeaderboardFetch(realmGroup))}
-                />
-            )}
-            {!loading && !error && data && (
-                <section>
-                    <GuildLeaderboardFilter />
-                    <Tabs
-                        value={selectedTab}
-                        onChange={(e, value) =>
-                            dispatch(guildLeaderboardSetTab(value))
+            <section>
+                <GuildLeaderboardFilter />
+                <Tabs
+                    value={selectedTab}
+                    onChange={(e, value) =>
+                        dispatch(guildLeaderboardSetTab(value))
+                    }
+                >
+                    <Tab label="FULL CLEAR" value={0} />
+                    <Tab label="BEST KILLS" value={1} />
+                </Tabs>
+                {loading && <Loading />}
+                {error && (
+                    <ErrorMessage
+                        message={error}
+                        refresh={() =>
+                            dispatch(guildLeaderboardFetch(realmGroup))
                         }
-                    >
-                        <Tab label="FULL CLEAR" value={0} />
-                        <Tab label="BEST KILLS" value={1} />
-                    </Tabs>
+                    />
+                )}
+                {!loading && !error && data && (
                     <OverflowScroll>
                         <Table>
                             <TableHead className={classes.tableHead}>
@@ -157,8 +163,8 @@ function GuildLeaderboard({ theme, classes }) {
                             </TableBody>
                         </Table>
                     </OverflowScroll>
-                </section>
-            )}
+                )}
+            </section>
         </Page>
     );
 }

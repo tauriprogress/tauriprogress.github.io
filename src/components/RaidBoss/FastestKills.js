@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -28,7 +28,10 @@ import {
     raidBossKillCountFetch
 } from "../../redux/actions";
 
-import { raidBossFastestKillsEntireSelector } from "../../redux/selectors";
+import {
+    environmentIsSeasonalSelector,
+    raidBossFastestKillsEntireSelector
+} from "../../redux/selectors";
 
 function FastestKills({ theme, raidId, bossName, difficulty }) {
     const {
@@ -38,13 +41,17 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
     } = theme;
 
     const dispatch = useDispatch();
-    const { loading, error, data } = useSelector(
-        raidBossFastestKillsEntireSelector
-    );
+
+    const { loading, error, data, isSeasonal } = useSelector(state => {
+        return {
+            ...raidBossFastestKillsEntireSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
+        };
+    }, shallowEqual);
 
     useEffect(() => {
         dispatch(raidBossFastestKillsFetch({ raidId, bossName, difficulty }));
-    }, [raidId, bossName, difficulty, dispatch]);
+    }, [raidId, bossName, difficulty, isSeasonal, dispatch]);
 
     return (
         <OverflowScroll>

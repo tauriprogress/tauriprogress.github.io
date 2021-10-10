@@ -5,13 +5,18 @@ import {
     GUILD_LEADERBOARD_FILTER_SET,
     GUILD_LEADERBOARD_TAB_SET
 } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
+import {
+    ENVIRONMENT_REALMGROUP_CHANGED,
+    ENVIRONMENT_SEASONAL_CHANGED
+} from "../actions";
 
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
+    getDefaultRaidName,
     readFiltersFromUrl,
-    readTabFromUrl
+    readTabFromUrl,
+    validRaidNameOfEnv
 } from "../../helpers";
 
 import { GUILD_LEADERBOARD_ROUTE } from "../../routes";
@@ -40,20 +45,35 @@ const defaultState = {
     selectedTab: readTabFromUrl(0, 1)
 };
 
-function guildsReducer(state = defaultState, action) {
+function guildLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
                 ...state,
                 filter: {
-                    raid: constants[action.payload].currentContent.name,
-                    difficulty: getDefaultDifficulty(action.payload),
+                    raid: constants[action.payload.realmGroup].currentContent
+                        .name,
+                    difficulty: getDefaultDifficulty(action.payload.realmGroup),
                     faction: "",
                     realm: ""
                 },
                 data: null
             };
-
+        case ENVIRONMENT_SEASONAL_CHANGED:
+            return {
+                ...state,
+                filter: {
+                    ...state.filter,
+                    raid: validRaidNameOfEnv(
+                        state.filter.raid,
+                        action.payload.realmGroup,
+                        action.payload.isSeasonal
+                    )
+                        ? state.filter.raid
+                        : getDefaultRaidName(action.payload.realmGroup)
+                },
+                data: null
+            };
         case GUILD_LEADERBOARD_LOADING_SET:
             return { ...state, loading: true, error: null };
         case GUILD_LEADERBOARD_FILL:
@@ -86,4 +106,4 @@ function guildsReducer(state = defaultState, action) {
     }
 }
 
-export default guildsReducer;
+export default guildLeaderboardReducer;

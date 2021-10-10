@@ -12,7 +12,7 @@ function LogLink({ children, logId, realm, ...rest }) {
             to={{
                 pathname: `/log/${logId}`,
                 search: `?realm=${realm}`,
-                state: { background: location }
+                state: { ...location.state, background: location }
             }}
             {...rest}
         >

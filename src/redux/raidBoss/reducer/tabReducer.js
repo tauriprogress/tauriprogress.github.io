@@ -1,5 +1,5 @@
 import { RAIDBOSS_TAB_SET } from "../actions";
-import { ENVIRONMENT_CHANGED } from "../../actions";
+import { ENVIRONMENT_REALMGROUP_CHANGED } from "../../actions";
 import { readTabFromUrl } from "../../../helpers";
 
 const defaultState = {
@@ -8,7 +8,7 @@ const defaultState = {
 
 function tabReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
             return defaultState;
         case RAIDBOSS_TAB_SET:
             return {

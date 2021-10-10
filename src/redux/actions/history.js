@@ -1,12 +1,8 @@
+export const HISTORY_PUSH = "HISTORY_PUSH";
+
 export function pushToHistory(payload) {
     return {
-        type: "HISTORY_PUSH",
-        payload
-    };
-}
-export function replaceHistory(payload) {
-    return {
-        type: "HISTORY_REPLACE",
+        type: HISTORY_PUSH,
         payload
     };
 }

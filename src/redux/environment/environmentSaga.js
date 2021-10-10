@@ -1,14 +1,25 @@
 import { put, takeEvery, select } from "redux-saga/effects";
-import { environmentChanged } from "./actions";
+import {
+    environmentRealmGroupChanged,
+    environmentSeasonalChanged
+} from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_SET,
     ENVIRONMENT_SEASON_TOGGLE
 } from "./actions";
-import { environmentRealmGroupSelector } from "../../redux/selectors";
+import {
+    environmentRealmGroupSelector,
+    environmentIsSeasonalSelector
+} from "../../redux/selectors";
 
-function* commitEnvironmentChange() {
+function* commitEnvironmentChange({ type }) {
     const realmGroup = yield select(environmentRealmGroupSelector);
-    yield put(environmentChanged(realmGroup));
+    const isSeasonal = yield select(environmentIsSeasonalSelector);
+    if (type === ENVIRONMENT_REALMGROUP_SET) {
+        yield put(environmentRealmGroupChanged({ realmGroup, isSeasonal }));
+    } else {
+        yield put(environmentSeasonalChanged({ realmGroup, isSeasonal }));
+    }
 }
 
 export default function* environmentSaga() {

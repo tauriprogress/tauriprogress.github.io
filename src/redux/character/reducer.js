@@ -13,7 +13,10 @@ import {
     CHARACTER_ITEMS_FILL,
     CHARACTER_ITEMS_ERROR_SET
 } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
+import {
+    ENVIRONMENT_REALMGROUP_CHANGED,
+    ENVIRONMENT_SEASONAL_CHANGED
+} from "../actions";
 
 import constants from "tauriprogress-constants";
 
@@ -47,12 +50,14 @@ const defaultState = {
 
 function characterReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
+        case ENVIRONMENT_SEASONAL_CHANGED:
             return {
-                ...state,
+                ...defaultState,
                 progression: {
-                    ...state.progression,
-                    selectedRaid: constants[action.payload].currentContent.name
+                    ...defaultState.progression,
+                    selectedRaid:
+                        constants[action.payload.realmGroup].currentContent.name
                 }
             };
 

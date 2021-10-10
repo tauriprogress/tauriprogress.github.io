@@ -22,7 +22,8 @@ export const RAID_ROUTE = {
     path: ["/raid/:raidName/:bossName?", "/seasonal/raid/:raidName/:bossName?"],
     component: Raid,
     exact: true,
-    isCurrentRoute: () => raidRegExp.test(window.location.pathname)
+    isCurrentRoute: route =>
+        raidRegExp.test(route ? route : window.location.pathname)
 };
 
 const guildRegExp = new RegExp(/^(\/seasonal)?\/guild(\/)?.*/);
@@ -63,21 +64,27 @@ export const CHARACTER_LEADERBOARD_ROUTE = {
     path: ["/leaderboard/character", "/seasonal/leaderboard/character"],
     component: CharacterLeaderboardWrapper,
     exact: true,
-    isCurrentRoute: () =>
-        characterLeaderboardRegExp.test(window.location.pathname)
+    isCurrentRoute: route =>
+        characterLeaderboardRegExp.test(
+            route ? route : window.location.pathname
+        )
 };
 
 function GuildLeaderboardWrapper() {
     return <GuildLeaderboard />;
 }
-const guildLeaderboardRegExp = new RegExp(/^\/leaderboard\/guild(\/)?.*/);
+const guildLeaderboardRegExp = new RegExp(
+    /^(\/seasonal)?\/leaderboard\/guild(\/)?.*/
+);
 export const GUILD_LEADERBOARD_ROUTE = {
     name: "GUILD LEADERBOARD",
     path: ["/leaderboard/guild", "/seasonal/leaderboard/guild"],
     component: GuildLeaderboardWrapper,
     exact: true,
-    isCurrentRoute: () => {
-        return guildLeaderboardRegExp.test(window.location.pathname);
+    isCurrentRoute: route => {
+        return guildLeaderboardRegExp.test(
+            route ? route : window.location.pathname
+        );
     }
 };
 

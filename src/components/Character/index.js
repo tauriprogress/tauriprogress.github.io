@@ -23,7 +23,8 @@ import { characterDataFetch } from "../../redux/actions";
 import { capitalize } from "../../helpers";
 import {
     characterDataErrorSelector,
-    characterDataLoadingSelector
+    characterDataLoadingSelector,
+    environmentIsSeasonalSelector
 } from "../../redux/selectors";
 
 function styles() {
@@ -37,10 +38,11 @@ function Character({ classes, match, location }) {
     const characterName = match.params.characterName;
     const realm = queryString.parse(location.search).realm;
 
-    const { loading, error } = useSelector(
+    const { loading, error, isSeasonal } = useSelector(
         state => ({
             loading: characterDataLoadingSelector(state),
-            error: characterDataErrorSelector(state)
+            error: characterDataErrorSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
         }),
         shallowEqual
     );
@@ -49,7 +51,7 @@ function Character({ classes, match, location }) {
 
     useEffect(() => {
         dispatch(characterDataFetch({ characterName: characterName, realm }));
-    }, [characterName, realm, dispatch]);
+    }, [characterName, realm, isSeasonal, dispatch]);
 
     return (
         <Page

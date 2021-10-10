@@ -3,7 +3,10 @@ import {
     RAIDSUMMARY_FILL,
     RAIDSUMMARY_ERROR_SET
 } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
+import {
+    ENVIRONMENT_REALMGROUP_CHANGED,
+    ENVIRONMENT_SEASONAL_CHANGED
+} from "../actions";
 
 const defaultState = {
     raidId: undefined,
@@ -14,7 +17,8 @@ const defaultState = {
 
 function raidSummaryReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
+        case ENVIRONMENT_SEASONAL_CHANGED:
             return defaultState;
         case RAIDSUMMARY_LOADING_SET:
             return {

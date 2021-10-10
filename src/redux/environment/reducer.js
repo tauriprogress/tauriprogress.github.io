@@ -23,7 +23,7 @@ if (devEnv) {
     }
 }
 
-function getSeasonalDefaultState() {
+function getSeasonalDefaultState(isSeasonal) {
     const currentTime = new Date().getTime();
 
     const defaultRealmGroup = getRealmGroupOfLocalStorage();
@@ -56,7 +56,10 @@ function getSeasonalDefaultState() {
     }
 
     return {
-        isSeasonal: hasSeasonal && isUrlSeasonal(),
+        isSeasonal:
+            hasSeasonal && isSeasonal !== undefined
+                ? isSeasonal
+                : isUrlSeasonal(),
         hasSeasonal: hasSeasonal,
         isSeasonRunning: isSeasonRunning,
         seasonName: seasonName,
@@ -115,7 +118,9 @@ function environmentReducer(state = defaultState, action) {
             };
 
         case ENVIRONMENT_SEASON_TOGGLE:
-            const seasonalState = getSeasonalDefaultState();
+            const seasonalState = getSeasonalDefaultState(
+                !state.seasonal.isSeasonal
+            );
             return {
                 ...state,
                 ...getConstantsDefaultState(

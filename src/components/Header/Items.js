@@ -3,8 +3,6 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { push } from "connected-react-router";
-
 import { withStyles } from "@material-ui/core/styles";
 
 import Link from "@material-ui/core/Link";
@@ -110,13 +108,7 @@ function NavItems({ classes }) {
 
     function seasonalSwitch() {
         if (hasSeasonal) {
-            if (isSeasonal) {
-                dispatch(push("/"));
-                dispatch(environmentToggleSeason());
-            } else {
-                dispatch(push("/seasonal/"));
-                dispatch(environmentToggleSeason());
-            }
+            dispatch(environmentToggleSeason());
         }
     }
 

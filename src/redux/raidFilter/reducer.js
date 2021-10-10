@@ -1,6 +1,5 @@
 import { RAIDFILTER_SET } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
-
+import { ENVIRONMENT_REALMGROUP_CHANGED } from "../actions";
 import {
     getDefaultDifficulty,
     getRealmGroupOfLocalStorage,
@@ -32,9 +31,9 @@ const defaultState = RAID_ROUTE.isCurrentRoute()
 
 function raidFilterReducer(state = defaultState, action, raids) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
-                difficulty: getDefaultDifficulty(action.payload),
+                difficulty: getDefaultDifficulty(action.payload.realmGroup),
                 class: "",
                 spec: "",
                 role: "",

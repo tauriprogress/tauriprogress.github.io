@@ -5,14 +5,19 @@ import {
     CHARACTER_LEADERBOARD_FILTER_SET,
     CHARACTER_LEADERBOARD_TAB_SET
 } from "./actions";
-import { ENVIRONMENT_CHANGED } from "../actions";
+import {
+    ENVIRONMENT_REALMGROUP_CHANGED,
+    ENVIRONMENT_SEASONAL_CHANGED
+} from "../actions";
 
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
+    getDefaultRaidName,
     getRealmGroupOfLocalStorage,
     readFiltersFromUrl,
-    readTabFromUrl
+    readTabFromUrl,
+    validRaidNameOfEnv
 } from "../../helpers";
 
 import { CHARACTER_LEADERBOARD_ROUTE } from "../../routes";
@@ -48,12 +53,13 @@ const defaultState = {
 
 function characterLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_CHANGED:
+        case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
                 ...state,
                 filter: {
-                    raid: constants[action.payload].currentContent.name,
-                    difficulty: getDefaultDifficulty(action.payload),
+                    raid: constants[action.payload.realmGroup].currentContent
+                        .name,
+                    difficulty: getDefaultDifficulty(action.payload.realmGroup),
                     class: "",
                     spec: "",
                     faction: "",
@@ -63,6 +69,21 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 data: {}
             };
 
+        case ENVIRONMENT_SEASONAL_CHANGED:
+            return {
+                ...state,
+                filter: {
+                    ...state.filter,
+                    raid: validRaidNameOfEnv(
+                        state.filter.raid,
+                        action.payload.realmGroup,
+                        action.payload.isSeasonal
+                    )
+                        ? state.filter.raid
+                        : getDefaultRaidName(action.payload.realmGroup)
+                },
+                data: {}
+            };
         case CHARACTER_LEADERBOARD_LOADING_SET:
             return {
                 ...state,

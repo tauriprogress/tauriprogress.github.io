@@ -17,3 +17,7 @@ export function guildLeaderboardLoadingSelector(state) {
 export function guildLeaderboardFilterSelector(state) {
     return state.guildLeaderboard.filter;
 }
+
+export function guildLeaderboardSelectedTabSelector(state) {
+    return state.guildLeaderboard.selectedTab;
+}

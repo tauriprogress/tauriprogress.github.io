@@ -8,7 +8,8 @@ import {
 import {
     raidFilterSelector,
     raidBossCharactersEntireSelector,
-    raidBossPageCurrentPageSelector
+    raidBossPageCurrentPageSelector,
+    environmentIsSeasonalSelector
 } from "../../redux/selectors";
 
 import CharacterLadder from "../CharacterLadder";
@@ -16,14 +17,22 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
 function Characters({ raidId, bossName, combatMetric }) {
-    const { loading, data, error, filter, page, dataSpecificationString } =
-        useSelector(state => {
-            return {
-                ...raidBossCharactersEntireSelector(state),
-                filter: raidFilterSelector(state),
-                page: raidBossPageCurrentPageSelector(state)
-            };
-        }, shallowEqual);
+    const {
+        loading,
+        data,
+        error,
+        filter,
+        page,
+        dataSpecificationString,
+        isSeasonal
+    } = useSelector(state => {
+        return {
+            ...raidBossCharactersEntireSelector(state),
+            filter: raidFilterSelector(state),
+            page: raidBossPageCurrentPageSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
+        };
+    }, shallowEqual);
 
     const pageSize = 30;
 
@@ -44,7 +53,16 @@ function Characters({ raidId, bossName, combatMetric }) {
                 pageSize
             })
         );
-    }, [raidId, bossName, combatMetric, filter, page, pageSize, dispatch]);
+    }, [
+        raidId,
+        bossName,
+        combatMetric,
+        filter,
+        page,
+        pageSize,
+        isSeasonal,
+        dispatch
+    ]);
 
     return (
         <React.Fragment>
