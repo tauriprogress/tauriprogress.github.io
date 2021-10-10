@@ -1,6 +1,8 @@
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, select, call, takeLatest } from "redux-saga/effects";
+import { isSameLog } from "../../components/Log/helpers";
 import { getServerUrl } from "../sagas/helpers";
 import { logSetLoading, logSetError, logFill, LOG_FETCH } from "./actions";
+import { logDataSelector } from "./selectors";
 
 async function getData(serverUrl, logId, realm) {
     return await fetch(`${serverUrl}/getlog`, {
@@ -18,6 +20,10 @@ async function getData(serverUrl, logId, realm) {
 function* fetchLog({ payload }) {
     try {
         const { logId, realm } = payload;
+
+        if (isSameLog(logId, realm, yield select(logDataSelector))) {
+            return;
+        }
 
         yield put(logSetLoading());
 

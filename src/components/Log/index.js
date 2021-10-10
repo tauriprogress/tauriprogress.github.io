@@ -11,8 +11,6 @@ import LogMembers from "./LogMembers";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
-import { isSameLog } from "./helpers";
-
 import { logFetch } from "../../redux/actions";
 import { logEntireDataSelector } from "../../redux/log/selectors";
 
@@ -25,9 +23,8 @@ function Log({ match, location }) {
     const realm = location.query.realm;
 
     useEffect(() => {
-        if (!isSameLog(logId, realm, data))
-            dispatch(logFetch({ logId, realm }));
-    }, [logId, realm, dispatch, data]);
+        dispatch(logFetch({ logId, realm }));
+    }, [logId, realm, dispatch]);
 
     return (
         <section>
@@ -40,7 +37,7 @@ function Log({ match, location }) {
                 />
             )}
 
-            {!loading && !error && !!data && isSameLog(logId, realm, data) && (
+            {!loading && !error && !!data && (
                 <Container>
                     <LogTitle data={data} />
                     <LogMembers data={data} />
