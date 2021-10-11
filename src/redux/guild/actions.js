@@ -1,4 +1,4 @@
-export const GUILD_FETCH = "GUILD_LIST_FETCH";
+export const GUILD_FETCH = "GUILD_FETCH";
 export const GUILD_LOADING_SET = "GUILD_LOADING_SET";
 export const GUILD_FILL = "GUILD_FILL";
 export const GUILD_ERROR_SET = "GUILD_ERROR_SET";
