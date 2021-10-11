@@ -18,9 +18,12 @@ import {
     ENVIRONMENT_SEASONAL_CHANGED
 } from "../actions";
 
-import constants from "tauriprogress-constants";
-
-import { getSocketInfo, gemColorsToSockets } from "../../helpers";
+import {
+    getSocketInfo,
+    gemColorsToSockets,
+    validRaidNameOfEnv,
+    getDefaultRaidName
+} from "../../helpers";
 
 const defaultState = {
     characterName: null,
@@ -51,16 +54,29 @@ const defaultState = {
 function characterReducer(state = defaultState, action) {
     switch (action.type) {
         case ENVIRONMENT_REALMGROUP_CHANGED:
-        case ENVIRONMENT_SEASONAL_CHANGED:
             return {
                 ...defaultState,
                 progression: {
                     ...defaultState.progression,
-                    selectedRaid:
-                        constants[action.payload.realmGroup].currentContent.name
+                    selectedRaid: getDefaultRaidName(action.payload.realmGroup)
                 }
             };
-
+        case ENVIRONMENT_SEASONAL_CHANGED:
+            return {
+                ...state,
+                progression: {
+                    loading: false,
+                    error: null,
+                    data: undefined,
+                    selectedRaid: validRaidNameOfEnv(
+                        state.progression.selectedRaid,
+                        action.payload.realmGroup,
+                        action.payload.isSeasonal
+                    )
+                        ? state.progression.selectedRaid
+                        : getDefaultRaidName(action.payload.realmGroup)
+                }
+            };
         case CHARACTER_DATA_LOADING_SET:
             return {
                 ...state,

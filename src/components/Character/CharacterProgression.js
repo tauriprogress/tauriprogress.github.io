@@ -27,7 +27,8 @@ import {
     characterProgressionEntireSelector,
     environmentRaidsSelector,
     environmentCurrentRaidNameSelector,
-    environmentRealmGroupSelector
+    environmentRealmGroupSelector,
+    environmentIsSeasonalSelector
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -52,7 +53,10 @@ function CharacterProgression({ classes }) {
         characterClass,
         raids,
         currentContentName,
-        realmGroup
+        realmGroup,
+        isSeasonal,
+        characterName,
+        realm
     } = useSelector(state => {
         return {
             ...characterProgressionEntireSelector(state),
@@ -61,7 +65,8 @@ function CharacterProgression({ classes }) {
             characterClass: characterClassSelector(state),
             raids: environmentRaidsSelector(state),
             currentContentName: environmentCurrentRaidNameSelector(state),
-            realmGroup: environmentRealmGroupSelector(state)
+            realmGroup: environmentRealmGroupSelector(state),
+            isSeasonal: environmentIsSeasonalSelector(state)
         };
     }, shallowEqual);
 
@@ -80,11 +85,11 @@ function CharacterProgression({ classes }) {
 
     useEffect(() => {
         dispatch(characterProgressionSetRaid(currentContentName));
-    }, [currentContentName, dispatch]);
+    }, [currentContentName, characterName, realm, dispatch]);
 
     useEffect(() => {
         dispatch(characterProgressionFetch(selectedRaid));
-    }, [selectedRaid, dispatch]);
+    }, [selectedRaid, isSeasonal, dispatch]);
 
     return (
         <Container className={classes.container}>

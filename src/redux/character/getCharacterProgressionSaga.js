@@ -37,20 +37,24 @@ async function getData(
 
 function* fetchCharacterProgression({ payload: raidName }) {
     try {
-        const { characterName, realm, characterClass, raidDataExists } =
-            yield select(state => {
-                return {
-                    characterName: characterNameSelector(state),
-                    realm: characterRealmSelector(state),
-                    characterClass: characterClassSelector(state),
-                    raidDataExists: characterProgressionRaidDataExistsSelector(
-                        state,
-                        raidName
-                    )
-                };
-            });
-
-        const loading = yield select(characterProgressionLoadingSelector);
+        const {
+            characterName,
+            realm,
+            characterClass,
+            raidDataExists,
+            loading
+        } = yield select(state => {
+            return {
+                characterName: characterNameSelector(state),
+                realm: characterRealmSelector(state),
+                characterClass: characterClassSelector(state),
+                raidDataExists: characterProgressionRaidDataExistsSelector(
+                    state,
+                    raidName
+                ),
+                loading: characterProgressionLoadingSelector(state)
+            };
+        });
 
         if (
             !raidName ||
