@@ -4,7 +4,8 @@ import {
     NAVIGATION_ITEM_SET,
     RAIDBOSS_TAB_SET,
     ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED
+    ENVIRONMENT_SEASONAL_CHANGED,
+    ENVIRONMENT_SET
 } from "../../actions";
 
 const defaultState = {
@@ -13,6 +14,7 @@ const defaultState = {
 
 function pageReducer(state = defaultState, action) {
     switch (action.type) {
+        case ENVIRONMENT_SET:
         case ENVIRONMENT_REALMGROUP_CHANGED:
         case ENVIRONMENT_SEASONAL_CHANGED:
             return defaultState;

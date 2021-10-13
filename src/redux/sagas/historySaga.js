@@ -22,7 +22,9 @@ import {
 } from "../selectors";
 
 function* handeHistoryAction({ type, payload }) {
-    const { pathname, search } = yield select(state => state.router.location);
+    const { pathname, search, state } = yield select(
+        state => state.router.location
+    );
     const startOfNewPathName = isPathSeasonal(pathname) ? `/seasonal` : "";
 
     switch (type) {
@@ -36,7 +38,8 @@ function* handeHistoryAction({ type, payload }) {
                     `?${getSearchQueryString({
                         ...(yield select(raidFilterSelector)),
                         tab: yield select(raidBossTabSelectedTabSelector)
-                    })}`
+                    })}`,
+                    state
                 )
             );
             break;
@@ -48,7 +51,8 @@ function* handeHistoryAction({ type, payload }) {
                     `?${getSearchQueryString({
                         ...(yield select(characterLeaderboardFilterSelector)),
                         tab: yield select(characterLeaderboardTabSelector)
-                    })}`
+                    })}`,
+                    state
                 )
             );
             break;
@@ -59,7 +63,8 @@ function* handeHistoryAction({ type, payload }) {
                     `?${getSearchQueryString({
                         ...(yield select(guildLeaderboardFilterSelector)),
                         tab: yield select(guildLeaderboardSelectedTabSelector)
-                    })}`
+                    })}`,
+                    state
                 )
             );
             break;

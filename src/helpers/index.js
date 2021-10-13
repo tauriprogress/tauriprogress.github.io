@@ -413,11 +413,13 @@ export function raidNameToId(raidName) {
     return false;
 }
 
-export function readFiltersFromUrl(realmGroup, filterNames) {
+export function readFiltersFromUrl(realmGroup, filterNames, location) {
     let filter = {};
     const defaultDifficulty = getDefaultDifficulty(realmGroup);
 
-    const filterFromUrl = queryString.parse(window.location.search);
+    const filterFromUrl = queryString.parse(
+        location ? location.search : window.location.search
+    );
 
     for (let filterName of filterNames) {
         switch (filterName) {
@@ -507,8 +509,10 @@ export function readFiltersFromUrl(realmGroup, filterNames) {
     return filter;
 }
 
-export function readTabFromUrl(lowest, highest) {
-    const filterFromUrl = queryString.parse(window.location.search);
+export function readTabFromUrl(lowest, highest, location) {
+    const filterFromUrl = queryString.parse(
+        location ? location.search : window.location.search
+    );
 
     return filterFromUrl.tab
         ? Number(filterFromUrl.tab) >= lowest &&

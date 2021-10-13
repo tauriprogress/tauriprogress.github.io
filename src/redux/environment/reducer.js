@@ -6,7 +6,8 @@ import {
 } from "../../helpers";
 import {
     ENVIRONMENT_REALMGROUP_SET,
-    ENVIRONMENT_SEASON_TOGGLE
+    ENVIRONMENT_SEASON_TOGGLE,
+    ENVIRONMENT_SET
 } from "./actions";
 
 const devEnv = process.env.NODE_ENV === "development" ? true : false;
@@ -54,12 +55,8 @@ function getSeasonalDefaultState(isSeasonal) {
             nextSeasonName = season.name;
         }
     }
-
     return {
-        isSeasonal:
-            hasSeasonal && isSeasonal !== undefined
-                ? isSeasonal
-                : isUrlSeasonal(),
+        isSeasonal: isSeasonal !== undefined ? isSeasonal : isUrlSeasonal(),
         hasSeasonal: hasSeasonal,
         isSeasonRunning: isSeasonRunning,
         seasonName: seasonName,
@@ -109,18 +106,18 @@ function environmentReducer(state = defaultState, action) {
             const realmGroup = action.payload;
 
             localStorage.setItem("realmGroup", realmGroup);
-
             return {
                 ...state,
                 ...constants[realmGroup],
                 realmGroup: realmGroup,
-                seasonal: getSeasonalDefaultState()
+                seasonal: getSeasonalDefaultState(false)
             };
 
         case ENVIRONMENT_SEASON_TOGGLE:
             const seasonalState = getSeasonalDefaultState(
                 !state.seasonal.isSeasonal
             );
+
             return {
                 ...state,
                 ...getConstantsDefaultState(
@@ -128,6 +125,17 @@ function environmentReducer(state = defaultState, action) {
                     seasonalState.isSeasonal
                 ),
                 seasonal: seasonalState
+            };
+        case ENVIRONMENT_SET:
+            localStorage.setItem("realmGroup", action.payload.realmGroup);
+            return {
+                ...state,
+                ...getConstantsDefaultState(
+                    action.payload.realmGroup,
+                    action.payload.isSeasonal
+                ),
+                realmGroup: action.payload.realmGroup,
+                seasonal: getSeasonalDefaultState(action.payload.isSeasonal)
             };
         default:
             return state;

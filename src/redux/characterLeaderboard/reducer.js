@@ -7,7 +7,8 @@ import {
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED
+    ENVIRONMENT_SEASONAL_CHANGED,
+    ENVIRONMENT_SET
 } from "../actions";
 
 import constants from "tauriprogress-constants";
@@ -53,6 +54,24 @@ const defaultState = {
 
 function characterLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
+        case ENVIRONMENT_SET:
+            return {
+                ...state,
+                filter: readFiltersFromUrl(
+                    action.payload.realmGroup,
+                    [
+                        "raid",
+                        "difficulty",
+                        "class",
+                        "spec",
+                        "faction",
+                        "realm",
+                        "role"
+                    ],
+                    action.payload.location
+                ),
+                data: {}
+            };
         case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
                 ...state,

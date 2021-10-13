@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 
 import createRootReducer from "./reducer";
@@ -15,12 +15,10 @@ function configureStore(preloadedState) {
     const store = createStore(
         createRootReducer(history),
         preloadedState,
-        compose(
-            applyMiddleware(
-                routerMiddleware(history),
-                sagaMiddleware,
-                updateHistoryStateMiddleware(history)
-            )
+        applyMiddleware(
+            updateHistoryStateMiddleware(history),
+            routerMiddleware(history),
+            sagaMiddleware
         )
     );
 

@@ -15,7 +15,8 @@ import {
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED
+    ENVIRONMENT_SEASONAL_CHANGED,
+    ENVIRONMENT_SET
 } from "../actions";
 
 import {
@@ -61,6 +62,7 @@ function characterReducer(state = defaultState, action) {
                     selectedRaid: getDefaultRaidName(action.payload.realmGroup)
                 }
             };
+        case ENVIRONMENT_SET:
         case ENVIRONMENT_SEASONAL_CHANGED:
             return {
                 ...state,

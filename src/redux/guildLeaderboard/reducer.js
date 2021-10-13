@@ -7,7 +7,8 @@ import {
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED
+    ENVIRONMENT_SEASONAL_CHANGED,
+    ENVIRONMENT_SET
 } from "../actions";
 
 import constants from "tauriprogress-constants";
@@ -16,12 +17,13 @@ import {
     getDefaultRaidName,
     readFiltersFromUrl,
     readTabFromUrl,
-    validRaidNameOfEnv
+    validRaidNameOfEnv,
+    getRealmGroupOfLocalStorage
 } from "../../helpers";
 
 import { GUILD_LEADERBOARD_ROUTE } from "../../routes";
 
-const defaultRealmGroup = localStorage.getItem("realmGroup") || "tauri";
+const defaultRealmGroup = getRealmGroupOfLocalStorage();
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 const defaultState = {
@@ -47,6 +49,16 @@ const defaultState = {
 
 function guildLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
+        case ENVIRONMENT_SET:
+            return {
+                ...state,
+                filter: readFiltersFromUrl(
+                    action.payload.realmGroup,
+                    ["raid", "difficulty", "faction", "realm"],
+                    action.payload.location
+                ),
+                data: null
+            };
         case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
                 ...state,

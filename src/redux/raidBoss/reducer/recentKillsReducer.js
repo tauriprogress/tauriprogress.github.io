@@ -5,7 +5,8 @@ import {
 } from "../actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED
+    ENVIRONMENT_SEASONAL_CHANGED,
+    ENVIRONMENT_SET
 } from "../../actions";
 
 const defaultState = {
@@ -17,6 +18,7 @@ const defaultState = {
 
 function recentKillsReducer(state = defaultState, action) {
     switch (action.type) {
+        case ENVIRONMENT_SET:
         case ENVIRONMENT_REALMGROUP_CHANGED:
         case ENVIRONMENT_SEASONAL_CHANGED:
             return defaultState;
