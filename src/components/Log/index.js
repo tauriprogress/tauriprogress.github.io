@@ -20,7 +20,7 @@ function Log({ match, location }) {
     const dispatch = useDispatch();
 
     const logId = match.params.logId;
-    const realm = location.query.realm;
+    const realm = unescape(location.query.realm);
 
     useEffect(() => {
         dispatch(logFetch({ logId, realm }));
