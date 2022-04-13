@@ -31,62 +31,62 @@ import { guildListFetch } from "../../redux/actions";
 import {
     guildListEntireSelector,
     environmentDifficultyNamesSelector,
-    environmentTotalBossesSelector,
+    environmentBossCountSelector,
     environmentDifficultiesSelector,
     environmentRealmGroupSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         cell: {
-            padding: theme.spacing(1)
+            padding: theme.spacing(1),
         },
         rank: {
             "& p": {
-                fontSize: `${18 / 16}rem`
-            }
+                fontSize: `${18 / 16}rem`,
+            },
         },
         name: {
             fontSize: `${18 / 16}rem`,
-            lineHeight: `${20 / 16}rem`
+            lineHeight: `${20 / 16}rem`,
         },
         tableHead: {
             paddingTop: "0px",
-            paddingLeft: theme.spacing(10)
+            paddingLeft: theme.spacing(10),
         },
         progression: {
             fontWeight: "bold",
             fontSize: `${20 / 16}rem`,
             display: "inline-block",
-            minWidth: "64px"
+            minWidth: "64px",
         },
         secondaryText: {
             color: theme.palette.text.secondary,
             fontSize: `${11 / 16}rem`,
-            lineHeight: `${11 / 16}rem`
+            lineHeight: `${11 / 16}rem`,
         },
         overallProgression: {
             fontSize: `${18 / 16}rem`,
-            lineHeight: `${20 / 16}rem`
+            lineHeight: `${20 / 16}rem`,
         },
         inactive: {
             color: theme.palette.error.light,
             fontSize: `${10 / 16}rem`,
             marginRight: "1px",
             textAlign: "left",
-            fontWeight: "bold"
+            fontWeight: "bold",
         },
         active: {
             color: theme.palette.progStateColors.defeated,
             fontSize: `${10 / 16}rem`,
             marginRight: "1px",
             textAlign: "left",
-            fontWeight: "bold"
+            fontWeight: "bold",
         },
         loader: {
-            width: "100vw"
-        }
+            width: "100vw",
+        },
     };
 }
 
@@ -97,18 +97,18 @@ function GuildList({ theme, classes }) {
         loading,
         error,
         difficultyNames,
-        totalBosses,
+        bossCount,
         difficulties,
         realmGroup,
-        isSeasonal
+        isSeasonal,
     } = useSelector(
-        state => ({
+        (state) => ({
             ...guildListEntireSelector(state),
             difficultyNames: environmentDifficultyNamesSelector(state),
-            totalBosses: environmentTotalBossesSelector(state),
+            bossCount: environmentBossCountSelector(state),
             difficulties: environmentDifficultiesSelector(state),
             realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state)
+            isSeasonal: environmentIsSeasonalSelector(state),
         }),
         shallowEqual
     );
@@ -119,7 +119,7 @@ function GuildList({ theme, classes }) {
         realm: "",
         f: "",
         difficulty: "",
-        activity: ""
+        activity: "",
     });
 
     const [showActivity, setShowActivity] = useState(false);
@@ -163,7 +163,7 @@ function GuildList({ theme, classes }) {
                                                     onChange={toggleActivity}
                                                     inputProps={{
                                                         "aria-label":
-                                                            "primary checkbox"
+                                                            "primary checkbox",
                                                     }}
                                                     color="secondary"
                                                 />
@@ -197,7 +197,7 @@ function GuildList({ theme, classes }) {
                                                     guild.progression.completion
                                                         .difficulties[
                                                         difficulty
-                                                    ].bossesDefeated
+                                                    ].bossesDefeated,
                                             };
                                         }
 
@@ -231,7 +231,7 @@ function GuildList({ theme, classes }) {
                                                                     style={{
                                                                         color: guild.f
                                                                             ? factionColors.horde
-                                                                            : factionColors.alliance
+                                                                            : factionColors.alliance,
                                                                     }}
                                                                     to={`/guild/${guild.name}?realm=${guild.realm}`}
                                                                 >
@@ -251,7 +251,7 @@ function GuildList({ theme, classes }) {
                                                         direction="column"
                                                     >
                                                         {difficulties.map(
-                                                            difficulty => (
+                                                            (difficulty) => (
                                                                 <Grid
                                                                     item
                                                                     key={`${guild.name} ${difficulty}`}
@@ -298,7 +298,9 @@ function GuildList({ theme, classes }) {
                                                                                     ]
                                                                                         .date
                                                                                 }
-                                                                                wrap={children => (
+                                                                                wrap={(
+                                                                                    children
+                                                                                ) => (
                                                                                     <Tooltip
                                                                                         title={dateToString(
                                                                                             progress[
@@ -325,7 +327,7 @@ function GuildList({ theme, classes }) {
 
                                                                                     /
                                                                                     {
-                                                                                        totalBosses
+                                                                                        bossCount
                                                                                     }{" "}
                                                                                     {
                                                                                         difficultyNames[
@@ -342,7 +344,7 @@ function GuildList({ theme, classes }) {
                                                                             >
                                                                                 0/
                                                                                 {
-                                                                                    totalBosses
+                                                                                    bossCount
                                                                                 }{" "}
                                                                                 {
                                                                                     difficultyNames[
@@ -425,7 +427,7 @@ function GuildList({ theme, classes }) {
                                                                                         .difficulty
                                                                                 ]
                                                                                     .date &&
-                                                                                progStateColors.defeated
+                                                                                progStateColors.defeated,
                                                                         }}
                                                                     >
                                                                         {
@@ -441,7 +443,7 @@ function GuildList({ theme, classes }) {
                                                                         style={{
                                                                             color:
                                                                                 firstKill &&
-                                                                                progStateColors.defeated
+                                                                                progStateColors.defeated,
                                                                         }}
                                                                     >
                                                                         {
@@ -459,9 +461,7 @@ function GuildList({ theme, classes }) {
                                                                     }
                                                                 >
                                                                     /{" "}
-                                                                    {
-                                                                        totalBosses
-                                                                    }
+                                                                    {bossCount}
                                                                 </span>
                                                             </span>
                                                         </React.Fragment>

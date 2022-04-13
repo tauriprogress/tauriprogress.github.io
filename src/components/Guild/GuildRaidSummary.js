@@ -18,49 +18,49 @@ import { raidImg } from "../../helpers";
 function styles(theme) {
     return {
         defeated: {
-            color: theme.palette.progStateColors.defeated
+            color: theme.palette.progStateColors.defeated,
         },
         alive: {
-            color: theme.palette.progStateColors.alive
+            color: theme.palette.progStateColors.alive,
         },
         container: {
             margin: `0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
             width: "260px",
-            borderRadius: "4px"
+            borderRadius: "4px",
         },
         tableCell: {
-            padding: theme.spacing(0.3)
+            padding: theme.spacing(0.3),
         },
         tableText: {
-            fontSize: `${11 / 16}rem`
+            fontSize: `${11 / 16}rem`,
         },
         titleContainer: {
             backgroundColor: theme.palette.primary.main,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",
-            color: theme.baseColors.light
+            color: theme.baseColors.light,
         },
         title: {
             padding: theme.spacing(2),
             "& p": {
-                cursor: "default"
-            }
+                cursor: "default",
+            },
         },
         tableColumnTitle: {
             fontSize: `${13 / 16}rem`,
-            fontWeight: "bold"
+            fontWeight: "bold",
         },
         tooltip: {
             backgroundColor: theme.palette.background.tooltip,
-            padding: 0
+            padding: 0,
         },
         paper: {
             background: "transparent",
-            padding: theme.spacing(1)
+            padding: theme.spacing(1),
         },
         table: {
-            width: "220px"
-        }
+            width: "220px",
+        },
     };
 }
 
@@ -69,7 +69,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
         <Card className={classes.container}>
             <Tooltip
                 classes={{
-                    tooltip: classes.tooltip
+                    tooltip: classes.tooltip,
                 }}
                 title={
                     <Paper className={classes.paper} elevation={5}>
@@ -77,7 +77,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                             <TableHead>
                                 <TableRow>
                                     <TableCell className={classes.tableCell} />
-                                    {data.difficulties.map(difficulty => (
+                                    {data.difficulties.map((difficulty) => (
                                         <TableCell
                                             key={difficulty}
                                             className={classes.tableCell}
@@ -93,7 +93,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.bosses.map(boss => (
+                                {data.bosses.map((boss) => (
                                     <TableRow key={boss.name}>
                                         <TableCell
                                             className={classes.tableCell}
@@ -104,7 +104,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                                                 {boss.name}
                                             </Typography>
                                         </TableCell>
-                                        {data.difficulties.map(difficulty => (
+                                        {data.difficulties.map((difficulty) => (
                                             <TableCell
                                                 key={difficulty}
                                                 className={classes.tableCell}
@@ -143,7 +143,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
             >
                 <div
                     style={{
-                        backgroundImage: `url("${raidImg(data.image)}")`
+                        backgroundImage: `url("${raidImg(data.image)}")`,
                     }}
                     className={classes.titleContainer}
                 >
@@ -155,11 +155,11 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                         style={{
                             background: `linear-gradient(to left, rgba(0, 0, 0, 0.7) ${
                                 100 -
-                                (data.defeatedBosses / data.totalBosses) * 100
+                                (data.defeatedBosses / data.bossCount) * 100
                             }%, rgba(0,0,0,0) ${
                                 100 -
-                                (data.defeatedBosses / data.totalBosses) * 100
-                            }%)`
+                                (data.defeatedBosses / data.bossCount) * 100
+                            }%)`,
                         }}
                     >
                         <Grid item>
@@ -167,7 +167,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                         </Grid>
                         <Grid item>
                             <Typography>
-                                {`${data.defeatedBosses}/${data.totalBosses}`}
+                                {`${data.defeatedBosses}/${data.bossCount}`}
                             </Typography>
                         </Grid>
                     </Grid>

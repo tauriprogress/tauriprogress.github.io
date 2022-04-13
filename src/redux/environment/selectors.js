@@ -42,8 +42,8 @@ export function environmentDifficultiesSelector(state) {
     return state.environment.currentContent.raids[0].difficulties;
 }
 
-export function environmentTotalBossesSelector(state) {
-    return state.environment.currentContent.totalBosses;
+export function environmentBossCountSelector(state) {
+    return state.environment.currentContent.bossCount;
 }
 
 export function environmentIsSeasonalSelector(state) {

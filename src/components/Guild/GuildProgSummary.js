@@ -12,18 +12,18 @@ import {
     guildProgressionSelector,
     environmentRaidsSelector,
     environmentDifficultyNamesSelector,
-    environmentCompletionDifficultiesSelector
+    environmentCompletionDifficultiesSelector,
 } from "../../redux/selectors";
 
 function GuildProgSummary() {
     const { progression, raids, difficultyNames, completionDifficulties } =
         useSelector(
-            state => ({
+            (state) => ({
                 progression: guildProgressionSelector(state),
                 raids: environmentRaidsSelector(state),
                 difficultyNames: environmentDifficultyNamesSelector(state),
                 completionDifficulties:
-                    environmentCompletionDifficultiesSelector(state)
+                    environmentCompletionDifficultiesSelector(state),
             }),
             shallowEqual
         );
@@ -32,20 +32,20 @@ function GuildProgSummary() {
 
     for (let raid of raids) {
         const difficulties = raid.difficulties;
-        const bossNames = raid.bosses.map(boss => boss.name);
+        const bossNames = raid.bosses.map((boss) => boss.name);
 
         let raidData = {
             name: raid.name,
-            totalBosses: bossNames.length,
+            bossCount: bossNames.length,
             defeatedBosses: 0,
             bosses: [],
             image: raid.image,
-            difficulties: difficulties
+            difficulties: difficulties,
         };
 
         for (let bossName of bossNames) {
             let bossData = {
-                name: bossName
+                name: bossName,
             };
             let defeated = false;
             for (let difficulty of difficulties) {
@@ -54,7 +54,7 @@ function GuildProgSummary() {
                     raid.name,
                     difficulty,
                     bossName,
-                    "firstKill"
+                    "firstKill",
                 ];
 
                 const kill = getNestedObjectValue(progression, categorization);
@@ -78,7 +78,7 @@ function GuildProgSummary() {
 
     return (
         <Grid container justifyContent="center">
-            {data.map(raidData => (
+            {data.map((raidData) => (
                 <Grid item key={raidData.name}>
                     <GuildRaidSummary
                         data={raidData}
