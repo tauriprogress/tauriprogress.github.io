@@ -19,7 +19,7 @@ import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
 import {
     environmentRaidsSelector,
     environmentCharacterSpecsSelector,
-    environmentCharacterClassNamesSelector
+    environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
 
 import {
@@ -27,37 +27,37 @@ import {
     classImg,
     shortNumber,
     shortRealmToFull,
-    capitalize
+    capitalize,
 } from "../../helpers";
 
 function styles(theme) {
     return {
         container: {
             marginTop: "3px",
-            width: "280px"
+            width: "280px",
         },
         specIcon: {
             maxWidth: "100%",
-            maxHeight: "100%"
+            maxHeight: "100%",
         },
         iconTabContainer: {
-            minHeight: "25px !important"
+            minHeight: "25px !important",
         },
         iconTab: {
             width: "25px",
             height: "25px",
             minWidth: "25px !important",
             minHeight: "25px !important",
-            padding: "0px"
+            padding: "0px",
         },
         listItem: {
-            padding: "0px"
+            padding: "0px",
         },
         link: {
             "&:hover *": {
-                color: `${theme.palette.secondary.main} !important`
-            }
-        }
+                color: `${theme.palette.secondary.main} !important`,
+            },
+        },
     };
 }
 
@@ -67,19 +67,20 @@ function RaidChart({
     raidName,
     classes,
     theme,
-    variant = "dps"
+    variant = "dps",
 }) {
     const { classColors } = theme.palette;
     const { raids, specs, characterClassNames } = useSelector(
-        state => ({
+        (state) => ({
             raids: environmentRaidsSelector(state),
             specs: environmentCharacterSpecsSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state)
+            characterClassNames: environmentCharacterClassNamesSelector(state),
         }),
         shallowEqual
     );
 
-    const [spec, setSpec] = useState("noSpec");
+    const [spec, setSpec] = useState("all");
+    const totalKey = spec === "all" ? "class" : spec;
 
     const raidBosses = raids.reduce((acc, curr) => {
         if (curr.name === raidName) {
@@ -117,7 +118,7 @@ function RaidChart({
                         >
                             <Tab
                                 className={classes.iconTab}
-                                value="noSpec"
+                                value="all"
                                 icon={
                                     <Tooltip title="All specs">
                                         <SelectAll
@@ -146,7 +147,7 @@ function RaidChart({
                                 }
                             />
 
-                            {iconSpecs.map(specInfo => (
+                            {iconSpecs.map((specInfo) => (
                                 <Tab
                                     key={specInfo.id}
                                     value={specInfo.id}
@@ -167,27 +168,28 @@ function RaidChart({
                 </Grid>
             </PerfChartTitle>
 
-            {data.total[spec] && data.total[spec][variant] ? (
+            {data.total[totalKey] && data.total[totalKey][variant] ? (
                 <PerfChartRow
                     Icon={<IconTotal />}
                     iconTitle={`Total ${variant} devided by the number of bosses`}
-                    title={`Average ${capitalize(variant)}`}
-                    perfValue={shortNumber(data.total[spec][variant][variant])}
-                    perfPercent={data.total[spec][variant].topPercent || 0}
+                    title={`${capitalize(variant)} Score`}
+                    perfValue={Math.round(data.total[totalKey][variant])}
+                    perfPercent={(data.total[totalKey][variant] / 6969) * 100}
+                    displayPercent={false}
                     color={"#48698c"}
                 />
             ) : (
                 <PerfChartRow
                     Icon={<IconMissing />}
                     iconTitle={"no spec"}
-                    title={`Average ${capitalize(variant)}`}
+                    title={`${capitalize(variant)} Score`}
                     perfValue={shortNumber(0)}
-                    perfPercent={0}
+                    displayPercent={false}
                     color={"#48698c"}
                 />
             )}
 
-            {raidBosses.map(boss => {
+            {raidBosses.map((boss) => {
                 const currentBoss = data[boss.name][spec];
                 const characterData = currentBoss[variant];
 
@@ -195,7 +197,7 @@ function RaidChart({
 
                 if (characterData.rank) {
                     switch (spec) {
-                        case "noSpec":
+                        case "all":
                             rank = characterData.rank;
                             break;
                         case "class":
@@ -229,7 +231,7 @@ function RaidChart({
                                     perfValue={shortNumber(
                                         characterData[variant]
                                     )}
-                                    perfPercent={characterData.topPercent}
+                                    perfPercent={characterData.performance}
                                     color={
                                         classColors[characterData.class]
                                             .background

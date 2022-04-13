@@ -16,29 +16,29 @@ function styles(theme) {
         container: {
             height: "30px",
             minWidth: "260px",
-            maxWidth: "100%"
+            maxWidth: "100%",
         },
         icon: {
             width: "30px",
-            height: "30px"
+            height: "30px",
         },
         typography: {
             lineHeight: "30px",
             padding: `0 ${theme.spacing(1)}px`,
             textShadow: "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
             color: textColor,
-            fontWeight: "bold"
+            fontWeight: "bold",
         },
         item: {
-            overflow: "hidden"
+            overflow: "hidden",
         },
         perfName: {
             whiteSpace: "nowrap",
             overflow: "hidden",
-            textOverflow: "ellipsis"
+            textOverflow: "ellipsis",
         },
         perfValue: {
-            textAlign: "right"
+            textAlign: "right",
         },
         bar: {
             flex: 1,
@@ -55,9 +55,9 @@ function styles(theme) {
                 background:
                     "linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)",
                 borderTop: `1px solid ${borderTop}`,
-                zIndex: "-2"
-            }
-        }
+                zIndex: "-2",
+            },
+        },
     };
 }
 
@@ -70,7 +70,8 @@ function PerfChartRow({
     perfPercent,
     color,
     theme,
-    rank = ""
+    rank = "",
+    displayPercent = true,
 }) {
     return (
         <Grid container className={classes.container} wrap="nowrap">
@@ -78,13 +79,13 @@ function PerfChartRow({
                 item
                 className={classes.item}
                 style={{
-                    minWidth: "30px"
+                    minWidth: "30px",
                 }}
             >
                 <Tooltip title={iconTitle}>
                     {React.cloneElement(Icon, {
                         className: classes.icon,
-                        alt: iconTitle
+                        alt: iconTitle,
                     })}
                 </Tooltip>
             </Grid>
@@ -97,7 +98,7 @@ function PerfChartRow({
                         perfPercent || 0
                     }%, ${theme.palette.background.accent} ${
                         perfPercent || 0
-                    }%)`
+                    }%)`,
                 }}
             >
                 <Grid container wrap="nowrap" justifyContent="space-between">
@@ -112,13 +113,16 @@ function PerfChartRow({
                         item
                         style={{
                             width: "125px",
-                            minWidth: "125px"
+                            minWidth: "125px",
                         }}
                     >
                         <Typography
                             className={`${classes.typography} ${classes.perfValue}`}
                         >
-                            {perfValue} ({perfPercent.toFixed(1)} %)
+                            {perfValue}{" "}
+                            {displayPercent && (
+                                <span>({perfPercent.toFixed(1)} %)</span>
+                            )}
                         </Typography>
                     </Grid>
                 </Grid>
