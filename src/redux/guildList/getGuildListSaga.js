@@ -4,15 +4,15 @@ import {
     GUILD_LIST_FETCH,
     guildListSetLoading,
     guildListFill,
-    guildListSetError
+    guildListSetError,
 } from "./actions";
 import {
     guildListDataExistsSelector,
-    guildListLoadingSelector
+    guildListLoadingSelector,
 } from "./selectors";
 
 async function getData(serverUrl) {
-    return await fetch(`${serverUrl}/getguildlist`).then(res => res.json());
+    return await fetch(`${serverUrl}/guildlist`).then((res) => res.json());
 }
 
 function* fetchGuildList({ payload: requestedRealmGroup }) {
@@ -28,7 +28,7 @@ function* fetchGuildList({ payload: requestedRealmGroup }) {
         } else {
             yield put(
                 guildListFill({
-                    guilds: response.response
+                    guilds: response.response,
                 })
             );
         }
@@ -38,9 +38,9 @@ function* fetchGuildList({ payload: requestedRealmGroup }) {
 }
 
 function* conditionToFetch() {
-    const { requested, loading } = yield select(state => ({
+    const { requested, loading } = yield select((state) => ({
         requested: guildListDataExistsSelector(state),
-        loading: guildListLoadingSelector(state)
+        loading: guildListLoadingSelector(state),
     }));
 
     return !requested && !loading;
