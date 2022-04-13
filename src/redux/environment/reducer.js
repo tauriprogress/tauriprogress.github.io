@@ -1,14 +1,16 @@
-import constants from "tauriprogress-constants";
+import * as cons from "tauriprogress-constants";
 import {
     getRealmGroupOfLocalStorage,
     isUrlSeasonal,
-    getRealmGroupFromLocalStorage
+    getRealmGroupFromLocalStorage,
 } from "../../helpers";
 import {
     ENVIRONMENT_REALMGROUP_SET,
     ENVIRONMENT_SEASON_TOGGLE,
-    ENVIRONMENT_SET
+    ENVIRONMENT_SET,
 } from "./actions";
+
+let constants = JSON.parse(JSON.stringify(cons));
 
 const devEnv = process.env.NODE_ENV === "development" ? true : false;
 const defaultRealmGroup = getRealmGroupFromLocalStorage();
@@ -63,7 +65,7 @@ function getSeasonalDefaultState(isSeasonal) {
         startTime: startTime,
         finishTime: finishTime,
         nextStartTime: nextStartTime,
-        nextSeasonName: nextSeasonName
+        nextSeasonName: nextSeasonName,
     };
 }
 
@@ -74,8 +76,8 @@ function getConstantsDefaultState(realmGroup, isSeasonal) {
             ...constants[realmGroup].currentContent,
             raids: isSeasonal
                 ? [constants[realmGroup].currentContent.raids[0]]
-                : constants[realmGroup].currentContent.raids
-        }
+                : constants[realmGroup].currentContent.raids,
+        },
     };
 }
 
@@ -96,7 +98,7 @@ const defaultState = JSON.parse(
             seasonalState.isSeasonal
         ),
         realmGroup: defaultRealmGroup,
-        seasonal: seasonalState
+        seasonal: seasonalState,
     })
 );
 
@@ -110,7 +112,7 @@ function environmentReducer(state = defaultState, action) {
                 ...state,
                 ...constants[realmGroup],
                 realmGroup: realmGroup,
-                seasonal: getSeasonalDefaultState(false)
+                seasonal: getSeasonalDefaultState(false),
             };
 
         case ENVIRONMENT_SEASON_TOGGLE:
@@ -124,7 +126,7 @@ function environmentReducer(state = defaultState, action) {
                     state.realmGroup,
                     seasonalState.isSeasonal
                 ),
-                seasonal: seasonalState
+                seasonal: seasonalState,
             };
         case ENVIRONMENT_SET:
             localStorage.setItem("realmGroup", action.payload.realmGroup);
@@ -135,7 +137,7 @@ function environmentReducer(state = defaultState, action) {
                     action.payload.isSeasonal
                 ),
                 realmGroup: action.payload.realmGroup,
-                seasonal: getSeasonalDefaultState(action.payload.isSeasonal)
+                seasonal: getSeasonalDefaultState(action.payload.isSeasonal),
             };
         default:
             return state;
