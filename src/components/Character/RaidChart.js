@@ -1,4 +1,4 @@
-import { characterClassToSpec } from "tauriprogress-constants";
+import { characterClassSpecs } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
@@ -91,7 +91,7 @@ function RaidChart({
 
     let iconSpecs = [];
 
-    for (let charSpec of characterClassToSpec[characterClass]) {
+    for (let charSpec of characterClassSpecs[characterClass]) {
         if (
             specs[charSpec] &&
             specs[charSpec][`is${variant === "dps" ? "Dps" : "Healer"}`]
