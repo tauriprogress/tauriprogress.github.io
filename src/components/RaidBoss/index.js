@@ -1,4 +1,4 @@
-import { raidNameToId } from "tauriprogress-constants";
+import { raidNameId } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -17,18 +17,18 @@ import { raidBossSetTab, navigationSetItem } from "../../redux/actions";
 
 import {
     raidFilterDifficultySelector,
-    raidBossTabSelectedTabSelector
+    raidBossTabSelectedTabSelector,
 } from "../../redux/selectors";
 
 function RaidBoss({ raidName, bossName }) {
-    const { selectedTab, difficulty } = useSelector(state => {
+    const { selectedTab, difficulty } = useSelector((state) => {
         return {
             selectedTab: raidBossTabSelectedTabSelector(state),
-            difficulty: raidFilterDifficultySelector(state)
+            difficulty: raidFilterDifficultySelector(state),
         };
     }, shallowEqual);
 
-    const raidId = raidNameToId[raidName];
+    const raidId = raidNameId[raidName];
     const combatMetric = selectedTab === 0 ? "dps" : "hps";
 
     const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { raidNameToId } from "tauriprogress-constants";
+import { raidNameId } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
@@ -17,7 +17,7 @@ import {
     raidSummaryEntireSelector,
     environmentRaidsSelector,
     environmentCharacterSpecsSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -25,20 +25,20 @@ function styles(theme) {
         container: {
             display: "flex",
             flexWrap: "wrap",
-            justifyContent: "center"
-        }
+            justifyContent: "center",
+        },
     };
 }
 
 function RaidSummary({ classes, raidName }) {
     const { loading, error, data, raids, filter, specs, raidId, isSeasonal } =
-        useSelector(state => {
+        useSelector((state) => {
             return {
                 ...raidSummaryEntireSelector(state),
                 raids: environmentRaidsSelector(state),
                 filter: raidFilterSelector(state),
                 specs: environmentCharacterSpecsSelector(state),
-                isSeasonal: environmentIsSeasonalSelector(state)
+                isSeasonal: environmentIsSeasonalSelector(state),
             };
         }, shallowEqual);
 
@@ -51,7 +51,7 @@ function RaidSummary({ classes, raidName }) {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(raidSummaryFetch(raidNameToId[raidName]));
+        dispatch(raidSummaryFetch(raidNameId[raidName]));
         dispatch(navigationSetItem(raidName));
 
         return () => dispatch(navigationSetItem(null));
@@ -64,7 +64,7 @@ function RaidSummary({ classes, raidName }) {
                 <ErrorMessage
                     message={error}
                     refresh={() =>
-                        dispatch(raidSummaryFetch(raidNameToId[raidName]))
+                        dispatch(raidSummaryFetch(raidNameId[raidName]))
                     }
                 />
             )}
@@ -73,7 +73,7 @@ function RaidSummary({ classes, raidName }) {
             )}
             {!error && !loading && raid && data && (
                 <Container className={classes.container}>
-                    {raid.bosses.map(boss => {
+                    {raid.bosses.map((boss) => {
                         let bossData = {};
                         for (const difficulty in boss.difficultyIds) {
                             bossData[difficulty] =
