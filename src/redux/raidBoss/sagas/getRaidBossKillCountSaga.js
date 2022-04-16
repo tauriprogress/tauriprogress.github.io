@@ -1,40 +1,49 @@
 import { put, call, select } from "redux-saga/effects";
 import { raidBossKillCountFill } from "../../actions";
-import { getDataSpecificationString } from "../../../helpers";
+import {
+    getDataSpecificationString,
+    getIngameBossIdFromBossName,
+} from "../../../helpers";
 import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 import { RAIDBOSS_KILLCOUNT_FETCH } from "../actions";
 import { raidBossKillCountDataSpecificationStringSelector } from "../selectors";
+import { environmentRealmGroupSelector } from "../../selectors";
 
-async function getData(serverUrl, raidId, bossName, difficulty) {
+async function getData(serverUrl, ingameBossId, difficulty) {
     return await fetch(`${serverUrl}/getboss/killCount`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            raidId: raidId,
-            bossName: bossName,
-            difficulty: difficulty
-        })
-    }).then(res => res.json());
+            ingameBossId: ingameBossId,
+            difficulty: difficulty,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchRaidBossKillCount({ payload }) {
     try {
         const { raidId, bossName, difficulty } = payload;
+        const realmGroup = yield select(environmentRealmGroupSelector);
+        const ingameBossId = getIngameBossIdFromBossName(
+            bossName,
+            difficulty,
+            realmGroup
+        );
+        if (!ingameBossId) throw new Error("Invalid boss name.");
 
         const dataSpecificationString = getDataSpecificationString({
             raidId,
             bossName,
-            difficulty
+            difficulty,
         });
 
         const serverUrl = yield getServerUrl();
         const response = yield call(
             getData,
             serverUrl,
-            raidId,
-            bossName,
+            ingameBossId,
             difficulty
         );
 
@@ -44,7 +53,7 @@ function* fetchRaidBossKillCount({ payload }) {
             yield put(
                 raidBossKillCountFill({
                     killCount: response.response.killCount,
-                    dataSpecificationString: dataSpecificationString
+                    dataSpecificationString: dataSpecificationString,
                 })
             );
         }
@@ -59,7 +68,7 @@ function* conditionToFetch({ payload }) {
     const dataSpecificationString = getDataSpecificationString({
         raidId,
         bossName,
-        difficulty
+        difficulty,
     });
     const oldDataSpecificationString = yield select(
         raidBossKillCountDataSpecificationStringSelector
