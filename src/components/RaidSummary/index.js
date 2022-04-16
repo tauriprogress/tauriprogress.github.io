@@ -41,7 +41,6 @@ function RaidSummary({ classes, raidName }) {
                 isSeasonal: environmentIsSeasonalSelector(state),
             };
         }, shallowEqual);
-
     const raid = raids.reduce((acc, raid) => {
         if (raid.id === raidId) {
             acc = raid;
@@ -75,10 +74,10 @@ function RaidSummary({ classes, raidName }) {
                 <Container className={classes.container}>
                     {raid.bosses.map((boss) => {
                         let bossData = {};
-                        for (const difficulty in boss.difficultyIds) {
+                        for (const difficulty in boss.bossIdOfDifficulty) {
                             bossData[difficulty] =
                                 data[
-                                    `${boss.difficultyIds[difficulty]} ${difficulty}`
+                                    `${boss.bossIdOfDifficulty[difficulty]} ${difficulty}`
                                 ];
                         }
                         return (

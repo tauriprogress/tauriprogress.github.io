@@ -18,7 +18,7 @@ import {
     getSpecImg,
     shortNumber,
     capitalize,
-    shortRealmToFull
+    shortRealmToFull,
 } from "../../helpers";
 
 function styles(theme) {
@@ -26,36 +26,36 @@ function styles(theme) {
         container: {
             width: "280px",
             margin: theme.spacing(2),
-            padding: theme.spacing(1)
+            padding: theme.spacing(1),
         },
         list: {
             listStyle: "none",
             padding: 0,
             "& li": {
-                marginBottom: "5px"
-            }
+                marginBottom: "5px",
+            },
         },
         listText: {
-            margin: 0
+            margin: 0,
         },
         uppercase: {
-            textTransform: "uppercase"
+            textTransform: "uppercase",
         },
         textOverflow: {
             whiteSpace: "nowrap",
             overflow: "hidden",
-            textOverflow: "ellipsis"
+            textOverflow: "ellipsis",
         },
         gridItem: {
-            maxWidth: "50%"
-        }
+            maxWidth: "50%",
+        },
     };
 }
 
 function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
     const boss = applyFilter(data, filter, specs);
     const {
-        palette: { classColors, factionColors }
+        palette: { classColors, factionColors },
     } = theme;
 
     return (
@@ -85,7 +85,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
             <Divider />
 
             <Grid container direction="row" justifyContent="center">
-                {["dps", "hps"].map(combatMetric =>
+                {["dps", "hps"].map((combatMetric) =>
                     boss && boss[`best${capitalize(combatMetric)}`].length ? (
                         <Grid
                             key={combatMetric}
@@ -102,7 +102,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                             </Typography>
                             <ul className={classes.list}>
                                 {boss[`best${capitalize(combatMetric)}`].map(
-                                    character => (
+                                    (character) => (
                                         <li
                                             key={`${character._id} ${character.f}`}
                                         >
@@ -138,7 +138,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                     style={{
                                                         color: classColors[
                                                             character.class
-                                                        ].text
+                                                        ].text,
                                                     }}
                                                 >
                                                     {character.name}
@@ -165,7 +165,7 @@ const FastestKills = React.memo(({ classes, kills, factionColors }) => {
             </Typography>
             <ul className={classes.list}>
                 {kills &&
-                    kills.map(log => (
+                    kills.map((log) => (
                         <li key={log.id}>
                             <WithRealm realmName={log.realm}>
                                 <p
@@ -177,13 +177,13 @@ const FastestKills = React.memo(({ classes, kills, factionColors }) => {
                                                       ? "horde"
                                                       : "alliance"
                                               ]
-                                            : ""
+                                            : "",
                                     }}
                                 >
                                     {log.guild ? (
                                         <Link
                                             style={{
-                                                color: "inherit"
+                                                color: "inherit",
                                             }}
                                             to={`/guild/${log.guild.name}?realm=${log.realm}`}
                                         >
@@ -215,7 +215,7 @@ const FirstKills = React.memo(({ classes, kills, factionColors }) => {
             </Typography>
             <ul className={classes.list}>
                 {kills &&
-                    kills.map(log => (
+                    kills.map((log) => (
                         <li key={log.id}>
                             <WithRealm realmName={log.realm}>
                                 <p
@@ -227,13 +227,13 @@ const FirstKills = React.memo(({ classes, kills, factionColors }) => {
                                                       ? "horde"
                                                       : "alliance"
                                               ]
-                                            : ""
+                                            : "",
                                     }}
                                 >
                                     {log.guild ? (
                                         <Link
                                             style={{
-                                                color: "inherit"
+                                                color: "inherit",
                                             }}
                                             to={`/guild/${log.guild.name}?realm=${log.realm}`}
                                         >
