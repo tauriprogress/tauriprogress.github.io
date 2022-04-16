@@ -18,7 +18,6 @@ import {
     getSpecImg,
     shortNumber,
     capitalize,
-    shortRealmToFull,
 } from "../../helpers";
 
 function styles(theme) {
@@ -111,9 +110,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                             >
                                                 <LogLink
                                                     logId={character.logId}
-                                                    realm={shortRealmToFull(
-                                                        character.realm
-                                                    )}
+                                                    realm={character.realm}
                                                 >
                                                     {shortNumber(
                                                         character[combatMetric]
@@ -130,11 +127,7 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                     }
                                                 />
                                                 <Link
-                                                    to={`/character/${
-                                                        character.name
-                                                    }?realm=${shortRealmToFull(
-                                                        character.realm
-                                                    )}`}
+                                                    to={`/character/${character.name}?realm=${character.realm}`}
                                                     style={{
                                                         color: classColors[
                                                             character.class
