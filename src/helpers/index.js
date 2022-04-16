@@ -2,7 +2,7 @@ import queryString from "query-string";
 import constants, {
     shortRealms,
     characterRaceNames,
-    characterSpecToClass
+    characterSpecToClass,
 } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
@@ -16,20 +16,20 @@ export function getRealmNames(realms) {
 const socketInfo = {
     1: {
         icon: 1,
-        desc: "Meta Socket"
+        desc: "Meta Socket",
     },
     2: {
         icon: 2,
-        desc: "Red Socket"
+        desc: "Red Socket",
     },
     4: {
         icon: 4,
-        desc: "Yellow Socket"
+        desc: "Yellow Socket",
     },
     8: {
         icon: 8,
-        desc: "Blue Socket"
-    }
+        desc: "Blue Socket",
+    },
 };
 
 export const gemColorsToSockets = {
@@ -40,7 +40,7 @@ export const gemColorsToSockets = {
     14: { matches: { 0: true, 8: true, 4: true, 2: true } },
     12: { matches: { 0: true, 8: true, 4: true } },
     10: { matches: { 0: true, 8: true, 2: true } },
-    6: { matches: { 0: true, 4: true, 2: true } }
+    6: { matches: { 0: true, 4: true, 2: true } },
 };
 
 export const days = {
@@ -50,7 +50,7 @@ export const days = {
     3: "Wednesday",
     4: "Thursday",
     5: "Friday",
-    6: "Saturday"
+    6: "Saturday",
 };
 
 export const hours = new Array(24).fill(0).map((value, index) => {
@@ -81,14 +81,14 @@ export function categorizedLogDates(logs) {
         if (!dates[dateText])
             dates[dateText] = {
                 text: dateText,
-                kills: []
+                kills: [],
             };
 
         dates[dateText].kills.push({
             ...log,
             dateText: dateToString(logDate),
             dateDay: days[logDate.getDay()],
-            dateHours: dateTextHours(logDate)
+            dateHours: dateTextHours(logDate),
         });
     }
 
@@ -257,12 +257,12 @@ export function getSocketInfo(type) {
         return {
             ...socketInfo[type],
             icon: require(`../assets/tooltip/${socketInfo[type].icon}.png`)
-                .default
+                .default,
         };
     }
 
     return {
-        icon: false
+        icon: false,
     };
 }
 
@@ -428,7 +428,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                     ...filter,
                     raid: validRaidName(filterFromUrl.raid, realmGroup)
                         ? filterFromUrl.raid
-                        : constants[realmGroup].currentContent.name
+                        : constants[realmGroup].currentContent.name,
                 };
 
                 break;
@@ -441,7 +441,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                         realmGroup
                     )
                         ? Number(filterFromUrl.difficulty)
-                        : defaultDifficulty
+                        : defaultDifficulty,
                 };
 
                 break;
@@ -453,7 +453,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                         filterFromUrl.faction !== "" &&
                         validFaction(Number(filterFromUrl.faction))
                             ? Number(filterFromUrl.faction)
-                            : ""
+                            : "",
                 };
 
                 break;
@@ -463,7 +463,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                     ...filter,
                     class: validClass(filterFromUrl.class, realmGroup)
                         ? filterFromUrl.class
-                        : ""
+                        : "",
                 };
 
                 break;
@@ -477,7 +477,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                         characterSpecToClass[filterFromUrl.spec] ===
                             Number(filterFromUrl.class)
                             ? filterFromUrl.spec
-                            : ""
+                            : "",
                 };
 
                 break;
@@ -487,7 +487,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                     ...filter,
                     role: validRole(filterFromUrl.role)
                         ? filterFromUrl.role
-                        : ""
+                        : "",
                 };
 
                 break;
@@ -497,7 +497,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                     ...filter,
                     realm: validRealm(filterFromUrl.realm, realmGroup)
                         ? filterFromUrl.realm
-                        : ""
+                        : "",
                 };
 
                 break;
@@ -547,4 +547,16 @@ export function getDataSpecificationString(specifications) {
 export function getRealmGroupFromLocalStorage() {
     const realmGroup = localStorage.getItem("realmGroup");
     return validRealmGroup(realmGroup) ? realmGroup : "tauri";
+}
+
+export function getIngameBossIdFromBossName(bossName, difficulty, realmGroup) {
+    for (const raid of constants[realmGroup].currentContent.raids) {
+        for (const boss of raid.bosses) {
+            if (boss.name === bossName && boss.bossIdOfDifficulty[difficulty]) {
+                return boss.bossIdOfDifficulty[difficulty];
+            }
+        }
+    }
+
+    return false;
 }
