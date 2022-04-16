@@ -1,28 +1,33 @@
 import { put, call, select } from "redux-saga/effects";
-import { getDataSpecificationString } from "../../../helpers";
+import {
+    getDataSpecificationString,
+    getIngameBossIdFromBossName,
+} from "../../../helpers";
 import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 
 import {
     RAIDBOSS_FASTESTKILLS_FETCH,
     raidBossFastestKillsSetLoading,
     raidBossFastestKillsFill,
-    raidBossFastestKillsSetError
+    raidBossFastestKillsSetError,
 } from "../../actions";
 
-import { raidBossFastestKillsDataSpecificationStringSelector } from "../../selectors";
+import {
+    raidBossFastestKillsDataSpecificationStringSelector,
+    environmentRealmGroupSelector,
+} from "../../selectors";
 
-async function getData(serverUrl, raidId, bossName, difficulty) {
+async function getData(serverUrl, ingameBossId, difficulty) {
     return await fetch(`${serverUrl}/getboss/fastestKills`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            raidId: raidId,
-            bossName: bossName,
-            difficulty: difficulty
-        })
-    }).then(res => res.json());
+            ingameBossId: ingameBossId,
+            difficulty: difficulty,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchRaidBossFastestKills({ payload }) {
@@ -30,19 +35,27 @@ function* fetchRaidBossFastestKills({ payload }) {
         yield put(raidBossFastestKillsSetLoading());
 
         const { raidId, bossName, difficulty } = payload;
+        const realmGroup = yield select(environmentRealmGroupSelector);
+        console.log(realmGroup, bossName, difficulty);
+        const ingameBossId = getIngameBossIdFromBossName(
+            bossName,
+            difficulty,
+            realmGroup
+        );
+        console.log(ingameBossId);
+        if (!ingameBossId) throw new Error("Invalid boss name.");
 
         const dataSpecificationString = getDataSpecificationString({
             raidId,
             bossName,
-            difficulty
+            difficulty,
         });
 
         const serverUrl = yield getServerUrl();
         const response = yield call(
             getData,
             serverUrl,
-            raidId,
-            bossName,
+            ingameBossId,
             difficulty
         );
 
@@ -52,7 +65,7 @@ function* fetchRaidBossFastestKills({ payload }) {
             yield put(
                 raidBossFastestKillsFill({
                     fastestKills: response.response.fastestKills,
-                    dataSpecificationString: dataSpecificationString
+                    dataSpecificationString: dataSpecificationString,
                 })
             );
         }
@@ -67,7 +80,7 @@ function* conditionToFetch({ payload }) {
     const dataSpecificationString = getDataSpecificationString({
         raidId,
         bossName,
-        difficulty
+        difficulty,
     });
     const oldDataSpecificationString = yield select(
         raidBossFastestKillsDataSpecificationStringSelector
