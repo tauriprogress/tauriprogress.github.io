@@ -4,8 +4,8 @@ import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 import {
     getDataSpecificationString,
     getIngameBossIdFromBossName,
+    cleanFilters,
 } from "../../../helpers";
-import { cleanFilters } from "./helpers";
 import {
     RAIDBOSS_CHARACTERS_FETCH,
     raidBossCharactersSetLoading,

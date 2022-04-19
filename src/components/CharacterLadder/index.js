@@ -18,20 +18,19 @@ import DisplayDate from "../DisplayDate";
 import InfoIcon from "../InfoIcon";
 import CharacterName from "../CharacterName";
 
-import { shortRealmToFull } from "../../helpers";
 import { filterChars } from "./helpers";
 import { environmentCharacterSpecsSelector } from "../../redux/selectors";
 function styles(theme) {
     return {
         uppercase: {
-            textTransform: "uppercase"
+            textTransform: "uppercase",
         },
         bold: {
-            fontWeight: "bold"
+            fontWeight: "bold",
         },
         cell: {
-            padding: theme.spacing(1)
-        }
+            padding: theme.spacing(1),
+        },
     };
 }
 
@@ -44,7 +43,7 @@ function CharacterLadder({
     pageSize = 30,
     onPageChange,
     itemCount,
-    sliced
+    sliced,
 }) {
     const specs = useSelector(environmentCharacterSpecsSelector);
 
@@ -95,7 +94,6 @@ function CharacterLadder({
                     {filteredData &&
                         filteredData.map((char, index) => {
                             const date = new Date(char.date * 1000);
-                            const realmName = shortRealmToFull(char.realm);
                             return (
                                 <TableRow key={index} hover>
                                     <TableCell className={classes.cell}>
@@ -106,7 +104,7 @@ function CharacterLadder({
 
                                             <CharacterName
                                                 character={char}
-                                                realmName={realmName}
+                                                realmName={char.realm}
                                             />
                                         </Typography>
                                     </TableCell>
@@ -116,7 +114,7 @@ function CharacterLadder({
                                     >
                                         <LogLink
                                             logId={char.logId}
-                                            realm={realmName}
+                                            realm={char.realm}
                                         >
                                             {new Intl.NumberFormat().format(
                                                 Math.round(char[type])
@@ -149,10 +147,10 @@ function CharacterLadder({
                     rowsPerPage={pageSize}
                     page={page}
                     backIconButtonProps={{
-                        "aria-label": "Previous Page"
+                        "aria-label": "Previous Page",
                     }}
                     nextIconButtonProps={{
-                        "aria-label": "Next Page"
+                        "aria-label": "Next Page",
                     }}
                     onPageChange={changePage}
                 />
