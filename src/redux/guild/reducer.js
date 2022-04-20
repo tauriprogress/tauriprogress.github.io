@@ -4,17 +4,17 @@ import {
     GUILD_ERROR_SET,
     GUILD_PROGRESSION_BOSS_SELECT,
     GUILD_PROGRESSION_RAID_SELECT,
-    GUILD_PROGRESSION_FILTER_SET
+    GUILD_PROGRESSION_FILTER_SET,
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED
+    ENVIRONMENT_SEASONAL_CHANGED,
 } from "../actions";
 
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
-    getRealmGroupFromLocalStorage
+    getRealmGroupFromLocalStorage,
 } from "../../helpers";
 const defaultRealmGroup = getRealmGroupFromLocalStorage();
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
@@ -32,12 +32,7 @@ const defaultState = {
         boss: constants[defaultRealmGroup].currentContent.raids[0].bosses[0]
             .name,
         difficulty: defaultDifficulty,
-        class: "",
-        spec: "",
-        role: "",
-        faction: "",
-        realm: ""
-    }
+    },
 };
 
 function guildReducer(state = defaultState, action) {
@@ -58,12 +53,7 @@ function guildReducer(state = defaultState, action) {
                     boss: constants[action.payload.realmGroup].currentContent
                         .raids[0].bosses[0].name,
                     difficulty: getDefaultDifficulty(action.payload.realmGroup),
-                    class: "",
-                    spec: "",
-                    role: "",
-                    faction: "",
-                    realm: ""
-                }
+                },
             };
 
         case GUILD_LOADING_SET:
@@ -72,7 +62,7 @@ function guildReducer(state = defaultState, action) {
                 loading: true,
                 error: null,
                 guildName: action.payload.guildName,
-                realm: action.payload.realm
+                realm: action.payload.realm,
             };
 
         case GUILD_FILL:
@@ -138,12 +128,12 @@ function guildReducer(state = defaultState, action) {
                 ...state,
                 data: {
                     ...action.payload,
-                    progression: progression
+                    progression: progression,
                 },
                 guildName: action.payload.guildName,
                 realm: action.payload.realm,
                 loading: false,
-                error: null
+                error: null,
             };
         case GUILD_ERROR_SET:
             if (!action.payload) {
@@ -155,8 +145,8 @@ function guildReducer(state = defaultState, action) {
                 ...state,
                 progression: {
                     ...state.progression,
-                    selectedBossName: action.payload
-                }
+                    selectedBossName: action.payload,
+                },
             };
         }
 
@@ -165,8 +155,8 @@ function guildReducer(state = defaultState, action) {
                 ...state,
                 progression: {
                     ...state.progression,
-                    selectedRaidName: action.payload
-                }
+                    selectedRaidName: action.payload,
+                },
             };
         }
 
@@ -182,18 +172,8 @@ function guildReducer(state = defaultState, action) {
                                 acc = curr.bosses[0].name;
                             }
                             return acc;
-                        }, "")
-                    }
-                };
-            }
-            if (action.payload.filterName === "class") {
-                return {
-                    ...state,
-                    progressionFilter: {
-                        ...state.progressionFilter,
-                        [action.payload.filterName]: action.payload.value,
-                        spec: ""
-                    }
+                        }, ""),
+                    },
                 };
             }
 
@@ -201,8 +181,8 @@ function guildReducer(state = defaultState, action) {
                 ...state,
                 progressionFilter: {
                     ...state.progressionFilter,
-                    [action.payload.filterName]: action.payload.value
-                }
+                    [action.payload.filterName]: action.payload.value,
+                },
             };
         }
 

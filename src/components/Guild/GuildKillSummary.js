@@ -3,7 +3,7 @@ import React from "react";
 import GuildBossFilter from "./GuildBossFilter";
 import GuildBoss from "./GuildBoss";
 
-function GuildProgression() {
+function GuildKillSummary() {
     return (
         <React.Fragment>
             <GuildBossFilter />
@@ -12,4 +12,4 @@ function GuildProgression() {
     );
 }
 
-export default GuildProgression;
+export default GuildKillSummary;

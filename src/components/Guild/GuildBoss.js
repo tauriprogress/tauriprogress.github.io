@@ -5,8 +5,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import CharacterLadder from "../CharacterLadder";
-import GuildFastestKills from "./GuildFastestKills";
+import GuildKillLogs from "./GuildKillLogs";
 
 import { getNestedObjectValue } from "../../helpers";
 import { Typography } from "@material-ui/core";
@@ -17,16 +16,16 @@ import {
     guildProgressionFilterSelector,
     guildProgressionSelector,
     environmentDifficultyNamesSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 function GuildBoss() {
     const { filter, data, difficultyNames } = useSelector(
-        state => ({
+        (state) => ({
             filter: guildProgressionFilterSelector(state),
             data: guildProgressionSelector(state),
             raids: environmentRaidsSelector(state),
-            difficultyNames: environmentDifficultyNamesSelector(state)
+            difficultyNames: environmentDifficultyNamesSelector(state),
         }),
         shallowEqual
     );
@@ -39,14 +38,14 @@ function GuildBoss() {
         "raids",
         filter.raid,
         difficulty,
-        filter.boss
+        filter.boss,
     ]);
 
     if (!boss) {
         boss = {
             dps: [],
             hps: [],
-            fastestKills: []
+            fastestKills: [],
         };
     }
 
@@ -66,42 +65,28 @@ function GuildBoss() {
                         onChange={(e, tab) => selectTab(tab)}
                         indicatorColor="secondary"
                     >
-                        <Tab label="Dps" className="tab" />
-                        <Tab label="Hps" className="tab" />
                         <Tab label="Fastest Kills" className="tab" />
+                        <Tab label="Latest Kills" className="tab" />
+                        <Tab label="First Kills" className="tab" />
                     </Tabs>
                     <OverflowScroll>
                         {(() => {
                             switch (tab) {
                                 case 0:
+                                    return (
+                                        <GuildKillLogs
+                                            data={boss.fastestKills}
+                                        />
+                                    );
                                 case 1:
                                     return (
-                                        <CharacterLadder
-                                            data={
-                                                tab === 0
-                                                    ? Object.values(
-                                                          boss.dps
-                                                      ).sort(
-                                                          (a, b) =>
-                                                              b.dps - a.dps
-                                                      )
-                                                    : Object.values(
-                                                          boss.hps
-                                                      ).sort(
-                                                          (a, b) =>
-                                                              b.hps - a.hps
-                                                      )
-                                            }
-                                            type={tab === 0 ? "dps" : "hps"}
-                                            rowsPerPage={15}
-                                            filter={filter}
+                                        <GuildKillLogs
+                                            data={boss.latestKills}
                                         />
                                     );
                                 case 2:
                                     return (
-                                        <GuildFastestKills
-                                            data={boss.fastestKills}
-                                        />
+                                        <GuildKillLogs data={boss.firstKills} />
                                     );
                                 default:
                                     return null;

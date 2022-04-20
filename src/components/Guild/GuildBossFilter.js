@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
-import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterContainer";
+import FilterContainer from "../FilterContainer/FilterContainer";
 
 import { getRealmNames } from "../../helpers";
 
@@ -22,14 +22,14 @@ import {
     environmentCharacterSpecsSelector,
     environmentCharacterClassNamesSelector,
     environmentDifficultyNamesSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         capitalize: {
-            textTransform: "capitalize"
-        }
+            textTransform: "capitalize",
+        },
     };
 }
 
@@ -40,15 +40,15 @@ function GuildProgressionFilter({ classes, theme }) {
         specs,
         characterClassNames,
         difficultyNames,
-        raids
+        raids,
     } = useSelector(
-        state => ({
+        (state) => ({
             filter: guildProgressionFilterSelector(state),
             realms: environmentRealmsSelector(state),
             specs: environmentCharacterSpecsSelector(state),
             characterClassNames: environmentCharacterClassNamesSelector(state),
             difficultyNames: environmentDifficultyNamesSelector(state),
-            raids: environmentRaidsSelector(state)
+            raids: environmentRaidsSelector(state),
         }),
         shallowEqual
     );
@@ -67,7 +67,7 @@ function GuildProgressionFilter({ classes, theme }) {
     const dispatch = useDispatch();
 
     const {
-        palette: { classColors }
+        palette: { classColors },
     } = theme;
 
     let specOptions = [];
@@ -81,8 +81,8 @@ function GuildProgressionFilter({ classes, theme }) {
                     value: specId,
                     name: specs[specId].label,
                     style: {
-                        color: classColors[filter.class].text
-                    }
+                        color: classColors[filter.class].text,
+                    },
                 });
             }
         }
@@ -94,8 +94,8 @@ function GuildProgressionFilter({ classes, theme }) {
             value: classId,
             name: characterClassNames[classId],
             style: {
-                color: classColors[classId].text
-            }
+                color: classColors[classId].text,
+            },
         });
     }
 
@@ -103,16 +103,16 @@ function GuildProgressionFilter({ classes, theme }) {
     for (let realm of realmNames) {
         realmOptions.push({
             value: realm,
-            name: realm
+            name: realm,
         });
     }
     let selects = [
         {
             name: "raid",
-            options: raids.map(raid => ({
+            options: raids.map((raid) => ({
                 value: raid.name,
-                name: raid.name
-            }))
+                name: raid.name,
+            })),
         },
         {
             name: "boss",
@@ -122,70 +122,23 @@ function GuildProgressionFilter({ classes, theme }) {
                         curr.name === filter.raid ? curr.bosses : acc,
                     []
                 )
-                .map(boss => ({
+                .map((boss) => ({
                     value: boss.name,
-                    name: boss.name
-                }))
+                    name: boss.name,
+                })),
         },
         {
             name: "difficulty",
-            options: difficulties.map(difficulty => ({
+            options: difficulties.map((difficulty) => ({
                 value: difficulty,
-                name: difficultyNames[difficulty]
-            }))
+                name: difficultyNames[difficulty],
+            })),
         },
-        {
-            name: "class",
-            style: {
-                color: classColor
-            },
-            options: [
-                {
-                    value: "",
-                    name: "all"
-                },
-                ...classOptions
-            ]
-        },
-        {
-            name: "spec",
-            style: {
-                color: classColor
-            },
-            options: [
-                {
-                    value: "",
-                    name: "all"
-                },
-                ...specOptions
-            ]
-        },
-        {
-            name: "role",
-            options: [
-                {
-                    value: "",
-                    name: "all"
-                },
-                {
-                    value: "damage",
-                    name: "damage"
-                },
-                {
-                    value: "heal",
-                    name: "heal"
-                },
-                {
-                    value: "tank",
-                    name: "tank"
-                }
-            ]
-        }
     ];
 
     return (
-        <CollapseableFilterContainer defaultState={true}>
-            {selects.map(select => (
+        <FilterContainer defaultState={true}>
+            {selects.map((select) => (
                 <FormControl key={select.name}>
                     <InputLabel htmlFor="class" className={classes.capitalize}>
                         {select.name}
@@ -193,21 +146,21 @@ function GuildProgressionFilter({ classes, theme }) {
                     <Select
                         style={select.style}
                         value={filter[select.name]}
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch(
                                 guildProgressionSetFilter({
                                     filterName: select.name,
-                                    value: e.target.value
+                                    value: e.target.value,
                                 })
                             )
                         }
                         inputProps={{
                             name: select.name,
-                            id: select.name
+                            id: select.name,
                         }}
                         className={classes.capitalize}
                     >
-                        {select.options.map(option => (
+                        {select.options.map((option) => (
                             <MenuItem
                                 key={option.name}
                                 value={option.value}
@@ -220,7 +173,7 @@ function GuildProgressionFilter({ classes, theme }) {
                     </Select>
                 </FormControl>
             ))}
-        </CollapseableFilterContainer>
+        </FilterContainer>
     );
 }
 

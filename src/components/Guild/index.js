@@ -13,7 +13,7 @@ import GuildTitle from "./GuildTitle";
 import GuildProgSummary from "./GuildProgSummary";
 import GuildRoster from "./GuildRoster";
 import GuildBossKillsDays from "./GuildBossKillsDays";
-import GuildProgression from "./GuildProgression";
+import GuildKillSummary from "./GuildKillSummary";
 import AsideContainer from "../AsideContainer";
 import SelectRealm from "../SelectRealm";
 
@@ -22,7 +22,7 @@ import { guildFetch } from "../../redux/actions";
 import {
     guildLoadingSelector,
     guildDataExistsSelector,
-    guildErrorSelector
+    guildErrorSelector,
 } from "../../redux/guild/selectors";
 import { environmentIsSeasonalSelector } from "../../redux/selectors";
 
@@ -31,11 +31,11 @@ function Guild({ match, location }) {
     const realm = queryString.parse(location.search).realm;
 
     const { loading, loaded, error, isSeasonal } = useSelector(
-        state => ({
+        (state) => ({
             loading: guildLoadingSelector(state),
             loaded: guildDataExistsSelector(state),
             error: guildErrorSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state)
+            isSeasonal: environmentIsSeasonalSelector(state),
         }),
         shallowEqual
     );
@@ -59,7 +59,7 @@ function Guild({ match, location }) {
                                 dispatch(
                                     guildFetch({
                                         guildName: guildName,
-                                        realm: realm
+                                        realm: realm,
                                     })
                                 )
                             }
@@ -73,8 +73,9 @@ function Guild({ match, location }) {
                         <AsideContainer AsideComponent={GuildTitle}>
                             <GuildProgSummary />
                         </AsideContainer>
+
                         <GuildRoster />
-                        <GuildProgression />
+                        <GuildKillSummary />
                         <GuildBossKillsDays />
                     </React.Fragment>
                 )}

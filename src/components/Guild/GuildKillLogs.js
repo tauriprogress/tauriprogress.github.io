@@ -12,20 +12,19 @@ import LogLink from "../LogLink";
 import DateTooltip from "../DateTooltip";
 import OverflowScroll from "../OverflowScroll";
 import DisplayDate from "../DisplayDate";
-import InfoIcon from "../InfoIcon";
 
 import { convertFightLength } from "../../helpers";
 
 import { guildRealmSelector } from "../../redux/guild/selectors";
 
-function GuildFastestKills({ data }) {
+function GuildKillLogs({ data }) {
     const realm = useSelector(guildRealmSelector);
     return (
         <OverflowScroll>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Rank</TableCell>
+                        <TableCell>ID</TableCell>
                         <TableCell>Time</TableCell>
                         <TableCell>Date</TableCell>
                     </TableRow>
@@ -37,18 +36,15 @@ function GuildFastestKills({ data }) {
                             <TableRow key={log.id}>
                                 <TableCell>
                                     <Typography style={{ fontWeight: "bold" }}>
-                                        {index + 1}.
+                                        <LogLink logId={log.id} realm={realm}>
+                                            {log.id}
+                                        </LogLink>
                                     </Typography>
                                 </TableCell>
 
                                 <TableCell>
                                     <Typography style={{ fontWeight: "bold" }}>
-                                        <LogLink logId={log.id} realm={realm}>
-                                            <InfoIcon />
-                                            {convertFightLength(
-                                                log.fightLength
-                                            )}
-                                        </LogLink>
+                                        {convertFightLength(log.fightLength)}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
@@ -65,4 +61,4 @@ function GuildFastestKills({ data }) {
     );
 }
 
-export default GuildFastestKills;
+export default GuildKillLogs;
