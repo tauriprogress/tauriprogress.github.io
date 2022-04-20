@@ -12,26 +12,26 @@ import GuildLatestKills from "./GuildRecentKills";
 
 import {
     guildMembersSelector,
-    environmentCharacterClassNamesSelector
+    environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         gridItemFlex: {
-            flex: 1
+            flex: 1,
         },
         container: {
             margin: `${theme.spacing(2)}px 0`,
-            padding: `${theme.spacing(2)}px 0`
-        }
+            padding: `${theme.spacing(2)}px 0`,
+        },
     };
 }
 
 function GuildRoster({ classes }) {
     const { members, characterClassNames } = useSelector(
-        state => ({
+        (state) => ({
             members: guildMembersSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state)
+            characterClassNames: environmentCharacterClassNamesSelector(state),
         }),
         shallowEqual
     );

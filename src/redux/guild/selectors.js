@@ -18,8 +18,8 @@ export function guildRealmSelector(state) {
     return state.guild.data.realm;
 }
 
-export function guildProgressionRecentKillsSelector(state) {
-    return state.guild.data.progression.recentKills;
+export function guildProgressionLatestKillsSelector(state) {
+    return state.guild.data.progression.latestKills;
 }
 
 export function guildMembersSelector(state) {

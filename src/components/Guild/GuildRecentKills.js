@@ -8,8 +8,8 @@ import RecentKills from "../RecentKills";
 import { shallowEqual, useSelector } from "react-redux";
 
 import {
-    guildProgressionRecentKillsSelector,
-    guildRealmSelector
+    guildProgressionLatestKillsSelector,
+    guildRealmSelector,
 } from "../../redux/guild/selectors";
 
 function styles(theme) {
@@ -17,20 +17,20 @@ function styles(theme) {
         container: {
             display: "flex",
             flexDirection: "column",
-            height: "480px"
+            height: "480px",
         },
         recentKills: {
             flex: 1,
-            overflowY: "scroll"
-        }
+            overflowY: "scroll",
+        },
     };
 }
 
 function GuildLastestKills({ classes }) {
     const { recentKills, realm } = useSelector(
-        state => ({
-            recentKills: guildProgressionRecentKillsSelector(state),
-            realm: guildRealmSelector(state)
+        (state) => ({
+            recentKills: guildProgressionLatestKillsSelector(state),
+            realm: guildRealmSelector(state),
         }),
         shallowEqual
     );
