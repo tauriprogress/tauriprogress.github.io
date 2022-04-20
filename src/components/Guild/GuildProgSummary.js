@@ -54,14 +54,17 @@ function GuildProgSummary() {
                     raid.name,
                     difficulty,
                     bossName,
-                    "firstKill",
+                    "firstKills",
                 ];
 
-                const kill = getNestedObjectValue(progression, categorization);
+                const kills = getNestedObjectValue(progression, categorization);
 
-                bossData[difficulty] = kill;
-
-                if (kill && completionDifficulties.includes(difficulty)) {
+                if (
+                    kills &&
+                    kills[0] &&
+                    completionDifficulties.includes(difficulty)
+                ) {
+                    bossData[difficulty] = kills[0];
                     defeated = true;
                 }
             }
