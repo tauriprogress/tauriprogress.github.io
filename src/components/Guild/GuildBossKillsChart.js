@@ -13,7 +13,7 @@ import {
     days as dayLabels,
     hours as hourLabels,
     shiftDays,
-    colorWeight
+    colorWeight,
 } from "../../helpers";
 
 const hours = new Array(12).fill(0).map((value, index) => index * 2);
@@ -25,41 +25,41 @@ function styles(theme) {
             width: "280px",
             padding: theme.spacing(1),
             margin: `${theme.spacing(1)}px 0`,
-            backgroundColor: theme.palette.background.darker
+            backgroundColor: theme.palette.background.darker,
         },
         title: {
             fontSize: `${16 / 16}rem`,
             margin: `${theme.spacing(1)}px 0`,
-            paddingLeft: theme.spacing(1)
+            paddingLeft: theme.spacing(1),
         },
         column: {
-            flex: 1
+            flex: 1,
         },
         labelColumn: {
-            width: "40px"
+            width: "40px",
         },
         tile: {
             height: "14px",
-            margin: "1px"
+            margin: "1px",
         },
         labelTile: {
             height: "28px",
-            margin: "2px 0"
+            margin: "2px 0",
         },
         hoursLabel: {
             lineHeight: 1,
             textAlign: "right",
             paddingRight: "2px",
-            fontSize: `${12 / 16}rem`
+            fontSize: `${12 / 16}rem`,
         },
         day: {
             margin: `0 0 ${theme.spacing(1)}px`,
             lineHeight: 1,
-            textAlign: "center"
+            textAlign: "center",
         },
         icon: {
-            transform: "translate(0, 2px)"
-        }
+            transform: "translate(0, 2px)",
+        },
     };
 }
 
@@ -74,7 +74,7 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
             <Typography className={classes.title}>
                 {title} boss kills{" "}
                 {title === "Recent" && (
-                    <Tooltip title={"Recent is the last 2 weeks"}>
+                    <Tooltip title={"Bosses killed in the last 2 weeks"}>
                         <Help
                             color="disabled"
                             fontSize="small"
@@ -86,7 +86,7 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
             <Grid container wrap="nowrap" justifyContent="center">
                 <Grid item className={classes.labelColumn}>
                     <Grid container direction="column">
-                        {hours.map(hour => (
+                        {hours.map((hour) => (
                             <Grid item key={hour} className={classes.labelTile}>
                                 <Typography className={classes.hoursLabel}>
                                     {hourLabels[hour]}
@@ -95,7 +95,7 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
                         ))}
                     </Grid>
                 </Grid>
-                {days.map(day => (
+                {days.map((day) => (
                     <Grid item className={classes.column} key={day}>
                         <Grid container direction="column">
                             {data[day].map((killCount, index) => (
@@ -112,7 +112,7 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
                                             backgroundColor:
                                                 theme.palette.weightColors[
                                                     colorWeight(killCount, max)
-                                                ]
+                                                ],
                                         }}
                                     />
                                 </Tooltip>

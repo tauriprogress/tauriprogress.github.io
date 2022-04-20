@@ -14,15 +14,15 @@ import { guildRaidDaysSelector } from "../../redux/guild/selectors";
 function styles(theme) {
     return {
         container: {
-            padding: `${theme.spacing(2)}px 0 ${theme.spacing(4)}px`
+            padding: `${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
         },
         contentContainer: {
             maxWidth: "1000px",
-            margin: "auto"
+            margin: "auto",
         },
         title: {
-            margin: theme.spacing(2)
-        }
+            margin: theme.spacing(2),
+        },
     };
 }
 
@@ -32,13 +32,10 @@ function GuildBossKillsDays({ classes }) {
     return (
         <section className={classes.container}>
             <div className={classes.contentContainer}>
-                <Typography variant="h5" className={classes.title}>
-                    Boss kills
-                </Typography>
                 <Grid container justifyContent="space-around">
                     <Grid item>
                         <GuildBossKillsChart
-                            data={raidDays.recent}
+                            data={raidDays.latest}
                             title={"Recent"}
                         />
                     </Grid>
