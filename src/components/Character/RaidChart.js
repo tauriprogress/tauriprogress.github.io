@@ -80,7 +80,6 @@ function RaidChart({
     );
 
     const [spec, setSpec] = useState("all");
-    const totalKey = spec === "all" ? "class" : spec;
 
     const raidBosses = raids.reduce((acc, curr) => {
         if (curr.name === raidName) {
@@ -168,13 +167,13 @@ function RaidChart({
                 </Grid>
             </PerfChartTitle>
 
-            {data.total[totalKey] && data.total[totalKey][variant] ? (
+            {data.total[spec] && data.total[spec][variant] ? (
                 <PerfChartRow
                     Icon={<IconTotal />}
                     iconTitle={`Total ${variant} devided by the number of bosses`}
                     title={`${capitalize(variant)} Score`}
-                    perfValue={Math.round(data.total[totalKey][variant])}
-                    perfPercent={(data.total[totalKey][variant] / 6969) * 100}
+                    perfValue={Math.round(data.total[spec][variant])}
+                    perfPercent={(data.total[spec][variant] / 6969) * 100}
                     displayPercent={false}
                     color={"#48698c"}
                 />
