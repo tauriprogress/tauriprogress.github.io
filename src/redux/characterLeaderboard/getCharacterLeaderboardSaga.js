@@ -1,34 +1,33 @@
 import { CHARACTER_LEADERBOARD_DATA_FETCH } from "./actions";
-import { put, call, takeEvery, select } from "redux-saga/effects";
+import { put, call, takeEvery } from "redux-saga/effects";
 import {
     characterLeaderboardSetLoading,
     characterLeaderboardSetError,
-    characterLeaderboardFill
+    characterLeaderboardFill,
 } from "./actions";
-import { characterLeaderboardDataExistsSelector } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
-async function getData(serverUrl, dataId) {
+import { cleanFilters } from "../../helpers";
+
+async function getData(serverUrl, { combatMetric, filters, page, pageSize }) {
     return await fetch(`${serverUrl}/leaderboard/character`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            dataId: dataId
-        })
-    }).then(res => res.json());
+            combatMetric: combatMetric,
+            raidName: filters.raid,
+            page: page,
+            pageSize: pageSize,
+            filters: cleanFilters(filters),
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchCharacterLeaderboard({ payload }) {
     try {
-        const dataExists = yield select(state =>
-            characterLeaderboardDataExistsSelector(state, payload)
-        );
-
-        if (dataExists) return;
-
-        yield put(characterLeaderboardSetLoading(payload));
+        yield put(characterLeaderboardSetLoading());
 
         const serverUrl = yield getServerUrl();
         const response = yield call(getData, serverUrl, payload);
@@ -36,20 +35,10 @@ function* fetchCharacterLeaderboard({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(
-                characterLeaderboardFill({
-                    dataId: payload,
-                    data: response.response
-                })
-            );
+            yield put(characterLeaderboardFill(response.response));
         }
     } catch (err) {
-        yield put(
-            characterLeaderboardSetError({
-                dataId: payload,
-                error: err.message
-            })
-        );
+        yield put(characterLeaderboardSetError(err.message));
     }
 }
 

@@ -17,21 +17,21 @@ function styles(theme) {
         titleContainer: {
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center"
+            alignItems: "center",
         },
         button: {
             "&:hover": {
-                cursor: "pointer"
-            }
+                cursor: "pointer",
+            },
         },
         question: {
             marginTop: "30px",
             fontStyle: "italic",
-            fontWeight: "bold"
+            fontWeight: "bold",
         },
         example: {
-            fontWeight: "bold"
-        }
+            fontWeight: "bold",
+        },
     };
 }
 
@@ -66,58 +66,43 @@ function PerformanceExplanation({ classes }) {
         <div>
             <Tooltip title={"Click for details"}>
                 <span onClick={handleClickOpen} className={classes.button}>
-                    Performance <InfoIcon />
+                    Score <InfoIcon />
                 </span>
             </Tooltip>
 
             <Dialog onClose={handleClose} open={open}>
                 <DialogTitle onClose={handleClose} classes={classes}>
-                    Performance
+                    Score
                 </DialogTitle>
                 <DialogContent dividers>
                     <Typography gutterBottom className={classes.question}>
-                        What is performance based on?
+                        How is the score calculated?
                     </Typography>
                     <Typography gutterBottom>
-                        Character performance calculation is made in 2 stages.
+                        On each boss comparing the character's dps/hps to the
+                        best dps/hps of the boss, adding them together, then
+                        taking the average of it. This value is then used to
+                        calculate the score based on an arbitrary max score of
+                        6969. To derive the character's score, multiply the max
+                        score with the performance.
                     </Typography>
                     <Typography gutterBottom>
-                        First stage: on each boss comparing the character's
-                        dps/hps to the best dps/hps of the boss, adding them
-                        together, then taking the average of it.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Second stage: Getting the best character overall
-                        performance and comparing it to every other character
-                        overall performance.
-                    </Typography>
-                    <Typography gutterBottom>
-                        <span className={classes.example}>
-                            First stage Example:
-                        </span>{" "}
+                        <span className={classes.example}>Example:</span>{" "}
                         current character dps of boss / best character dps of
                         boss = relative performance
                         <br />
-                        1. boss: 10 dps / 100 dps = 10% performance
+                        1. boss: 10 dps / 100 dps = 10%
                         <br />
-                        2. boss: 160 dps / 200 dps = 80% performance
+                        2. boss: 160 dps / 200 dps = 80%
                         <br />
-                        3. boss: 300 dps / 1000 dps = 30% performance
+                        3. boss: 300 dps / 1000 dps = 30%
                         <br />
-                        4. boss: 0 dps / 1000 dps = 0% performance
+                        4. boss: 0 dps / 1000 dps = 0%
                         <br />
                         Overall performance: ( 10 + 80 + 30 + 0 ) / 4 = 30%
-                        performance
-                    </Typography>
-                    <Typography gutterBottom>
-                        <span className={classes.example}>
-                            Second Stage Example:
-                        </span>{" "}
-                        Extending on the first example, let's say the best
-                        character did 87%, and the current character did 30%.
                         <br />
-                        The current becomes 30/87 = 34,5% performance, <br />{" "}
-                        the best character becomes 87/87 = 100% performance.
+                        Score: 6969 * 0.3 = 2090.7 (This value is floored to
+                        2090 for display)
                     </Typography>
                     <Typography gutterBottom>
                         In this example there are only 4 bosses in the instance

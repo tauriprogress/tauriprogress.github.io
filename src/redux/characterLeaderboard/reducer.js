@@ -3,12 +3,13 @@ import {
     CHARACTER_LEADERBOARD_DATA_FILL,
     CHARACTER_LEADERBOARD_ERROR_SET,
     CHARACTER_LEADERBOARD_FILTER_SET,
-    CHARACTER_LEADERBOARD_TAB_SET
+    CHARACTER_LEADERBOARD_TAB_SET,
+    CHARACTER_LEADERBOARD_PAGE_SET,
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
     ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
+    ENVIRONMENT_SET,
 } from "../actions";
 
 import constants from "tauriprogress-constants";
@@ -18,7 +19,7 @@ import {
     getRealmGroupOfLocalStorage,
     readFiltersFromUrl,
     readTabFromUrl,
-    validRaidNameOfEnv
+    validRaidNameOfEnv,
 } from "../../helpers";
 
 import { CHARACTER_LEADERBOARD_ROUTE } from "../../routes";
@@ -32,24 +33,22 @@ const defaultState = {
               "raid",
               "difficulty",
               "class",
-              "spec",
               "faction",
               "realm",
-              "role"
           ])
         : {
               raid: constants[defaultRealmGroup].currentContent.name,
               difficulty: defaultDifficulty,
               class: "",
-              spec: "",
               faction: "",
               realm: "",
-              role: ""
           },
     loading: false,
     error: null,
-    data: {},
-    selectedTab: readTabFromUrl(0, 1)
+    data: undefined,
+    selectedTab: readTabFromUrl(0, 1),
+    itemCount: 0,
+    page: 0,
 };
 
 function characterLeaderboardReducer(state = defaultState, action) {
@@ -59,18 +58,13 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 ...state,
                 filter: readFiltersFromUrl(
                     action.payload.realmGroup,
-                    [
-                        "raid",
-                        "difficulty",
-                        "class",
-                        "spec",
-                        "faction",
-                        "realm",
-                        "role"
-                    ],
+                    ["raid", "difficulty", "class", "faction", "realm"],
                     action.payload.location
                 ),
-                data: {}
+                data: undefined,
+                loading: false,
+                error: null,
+                page: 0,
             };
         case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
@@ -80,12 +74,13 @@ function characterLeaderboardReducer(state = defaultState, action) {
                         .name,
                     difficulty: getDefaultDifficulty(action.payload.realmGroup),
                     class: "",
-                    spec: "",
                     faction: "",
                     realm: "",
-                    role: ""
                 },
-                data: {}
+                data: undefined,
+                loading: false,
+                error: null,
+                page: 0,
             };
 
         case ENVIRONMENT_SEASONAL_CHANGED:
@@ -99,34 +94,27 @@ function characterLeaderboardReducer(state = defaultState, action) {
                         action.payload.isSeasonal
                     )
                         ? state.filter.raid
-                        : getDefaultRaidName(action.payload.realmGroup)
+                        : getDefaultRaidName(action.payload.realmGroup),
                 },
-                data: {}
+                data: undefined,
+                loading: false,
+                error: null,
+                page: 0,
             };
         case CHARACTER_LEADERBOARD_LOADING_SET:
             return {
                 ...state,
-                data: {
-                    ...state.data,
-                    [action.payload]: {
-                        ...state.data[action.payload],
-                        error: null,
-                        loading: true
-                    }
-                }
+                loading: true,
+                error: null,
+                data: undefined,
             };
         case CHARACTER_LEADERBOARD_DATA_FILL:
             return {
                 ...state,
-                data: {
-                    ...state.data,
-                    [action.payload.dataId]: {
-                        ...state.data[action.payload.dataId],
-                        loading: false,
-                        error: null,
-                        ...action.payload.data
-                    }
-                }
+                loading: false,
+                error: null,
+                data: action.payload.characters,
+                itemCount: action.payload.itemCount || 0,
             };
         case CHARACTER_LEADERBOARD_ERROR_SET:
             if (!action.payload.error) {
@@ -134,35 +122,23 @@ function characterLeaderboardReducer(state = defaultState, action) {
             }
             return {
                 ...state,
-                data: {
-                    ...state.data,
-                    [action.payload.dataId]: {
-                        ...state.data[action.payload.dataId],
-                        error: action.payload.error,
-                        loading: false
-                    }
-                }
+                error: action.payload,
+                data: undefined,
             };
         case CHARACTER_LEADERBOARD_FILTER_SET:
-            if (action.payload.filterName === "class") {
-                return {
-                    ...state,
-                    filter: {
-                        ...state.filter,
-                        [action.payload.filterName]: action.payload.value,
-                        spec: ""
-                    }
-                };
-            }
             return {
                 ...state,
                 filter: {
                     ...state.filter,
-                    [action.payload.filterName]: action.payload.value
-                }
+                    [action.payload.filterName]: action.payload.value,
+                },
+                page: 0,
             };
         case CHARACTER_LEADERBOARD_TAB_SET:
-            return { ...state, selectedTab: action.payload };
+            return { ...state, selectedTab: action.payload, page: 0 };
+
+        case CHARACTER_LEADERBOARD_PAGE_SET:
+            return { ...state, page: action.payload };
 
         default:
             return state;

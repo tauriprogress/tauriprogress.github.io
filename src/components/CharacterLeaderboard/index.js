@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
@@ -28,43 +28,40 @@ import CharacterName from "../CharacterName";
 
 import {
     characterLeaderboardFetchData,
-    characterLeaderboardSetTab
+    characterLeaderboardSetTab,
+    characterLeaderboardSetPage,
 } from "../../redux/actions";
 import {
+    characterLeaderboardErrorSelector,
+    characterLeaderboardLoadingSelector,
     characterLeaderboardTabSelector,
     characterLeaderboardDataSelector,
     characterLeaderboardFilterSelector,
-    environmentCharacterSpecsSelector,
+    characterLeaderboardItemCountSelector,
+    characterLeaderboardPageSelector,
     environmentCharacterClassNamesSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
-import { filterChars } from "./helpers";
-
-import {
-    raidNameToId,
-    getSpecImg,
-    shortRealmToFull,
-    classImg
-} from "../../helpers";
+import { classImg } from "../../helpers";
 
 function styles(theme) {
     return {
         uppercase: {
-            textTransform: "uppercase"
+            textTransform: "uppercase",
         },
         cell: {
-            padding: theme.spacing(1)
+            padding: theme.spacing(1),
         },
         firstCellName: {
-            paddingLeft: theme.spacing(10)
+            paddingLeft: theme.spacing(10),
         },
         tableHead: {
-            height: "58px"
+            height: "58px",
         },
         tableRow: {
-            height: "55px"
-        }
+            height: "55px",
+        },
     };
 }
 
@@ -72,44 +69,48 @@ function CharacterLeaderboard({ classes, theme }) {
     const dispatch = useDispatch();
 
     const { filter, selectedTab } = useSelector(
-        state => ({
+        (state) => ({
             filter: characterLeaderboardFilterSelector(state),
-            selectedTab: characterLeaderboardTabSelector(state)
+            selectedTab: characterLeaderboardTabSelector(state),
         }),
         shallowEqual
     );
 
-    const rowsPerPage = 30;
+    const pageSize = 30;
 
     const combatMetric = selectedTab === 0 ? "dps" : "hps";
 
-    const dataId = `${raidNameToId(filter.raid)}${
-        filter.spec ? filter.spec : filter.role
-    }${combatMetric}`;
+    const {
+        loading,
+        error,
+        data,
+        characterClassNames,
+        isSeasonal,
+        itemCount,
+        page,
+    } = useSelector(
+        (state) => ({
+            loading: characterLeaderboardLoadingSelector(state),
+            error: characterLeaderboardErrorSelector(state),
 
-    const { data, specs, characterClassNames, isSeasonal } = useSelector(
-        state => ({
-            data: characterLeaderboardDataSelector(state, dataId),
-            specs: environmentCharacterSpecsSelector(state),
+            data: characterLeaderboardDataSelector(state),
+            itemCount: characterLeaderboardItemCountSelector(state),
             characterClassNames: environmentCharacterClassNamesSelector(state),
-            isSeasonal: environmentIsSeasonalSelector
+            isSeasonal: environmentIsSeasonalSelector,
+            page: characterLeaderboardPageSelector(state),
         }),
         shallowEqual
     );
-
-    const [page, setPage] = useState(0);
-
     useEffect(() => {
-        setPage(0);
-    }, [combatMetric, data, filter]);
-
-    useEffect(() => {
-        dispatch(characterLeaderboardFetchData(dataId));
-    }, [dataId, data, isSeasonal, dispatch]);
-
-    const characters = data
-        ? filterChars(filter, data[filter.difficulty], specs)
-        : undefined;
+        dispatch(
+            characterLeaderboardFetchData({
+                combatMetric,
+                filters: filter,
+                page,
+                pageSize,
+            })
+        );
+    }, [combatMetric, filter, page, pageSize, isSeasonal, dispatch]);
 
     return (
         <Page title={`Character Leaderboard | Tauri Progress`}>
@@ -126,190 +127,148 @@ function CharacterLeaderboard({ classes, theme }) {
                     <Tab label="Hps" value={1} />
                 </Tabs>
 
-                {data && (
+                {loading && <Loading />}
+
+                {error && (
+                    <ErrorMessage
+                        message={data.error}
+                        refresh={() =>
+                            dispatch(
+                                characterLeaderboardFetchData({
+                                    combatMetric,
+                                    filters: filter,
+                                    page,
+                                    pageSize,
+                                })
+                            )
+                        }
+                    />
+                )}
+
+                {!loading && !error && data && (
                     <React.Fragment>
-                        {data.loading && <Loading />}
-
-                        {data.error && (
-                            <ErrorMessage
-                                message={data.error}
-                                refresh={() =>
-                                    dispatch(
-                                        characterLeaderboardFetchData({
-                                            dataId
-                                        })
-                                    )
-                                }
-                            />
-                        )}
-
-                        {!data.loading && !data.error && characters && (
-                            <React.Fragment>
-                                <OverflowScroll>
-                                    <Table>
-                                        <TableHead
-                                            className={classes.tableHead}
+                        <OverflowScroll>
+                            <Table>
+                                <TableHead className={classes.tableHead}>
+                                    <TableRow>
+                                        <TableCell
+                                            className={classes.firstCellName}
                                         >
-                                            <TableRow>
+                                            Name
+                                        </TableCell>
+                                        <TableCell>
+                                            <PerformanceExplanation />
+                                        </TableCell>
+                                        <TableCell>Ilvl</TableCell>
+                                        <TableCell>Faction</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {data.map((char, index) => {
+                                        const realmName = char.realm;
+                                        return (
+                                            <TableRow
+                                                key={index}
+                                                hover
+                                                className={classes.tableRow}
+                                            >
                                                 <TableCell
-                                                    className={
-                                                        classes.firstCellName
-                                                    }
+                                                    className={classes.cell}
                                                 >
-                                                    Name
-                                                </TableCell>
-                                                <TableCell>
-                                                    <PerformanceExplanation />
-                                                </TableCell>
-                                                <TableCell>Ilvl</TableCell>
-                                                <TableCell>Faction</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {characters
-                                                .slice(
-                                                    page * rowsPerPage,
-                                                    (page + 1) * rowsPerPage
-                                                )
-                                                .map((char, index) => {
-                                                    const realmName =
-                                                        shortRealmToFull(
-                                                            char.realm
-                                                        );
-                                                    return (
-                                                        <TableRow
-                                                            key={index}
-                                                            hover
-                                                            className={
-                                                                classes.tableRow
+                                                    <AlignedRankDisplay
+                                                        rank={
+                                                            index +
+                                                            1 +
+                                                            page * pageSize
+                                                        }
+                                                    >
+                                                        <WithRealm
+                                                            realmName={
+                                                                realmName
                                                             }
                                                         >
-                                                            <TableCell
-                                                                className={
-                                                                    classes.cell
-                                                                }
-                                                            >
-                                                                <AlignedRankDisplay
-                                                                    rank={
-                                                                        index +
-                                                                        1 +
-                                                                        page *
-                                                                            rowsPerPage
+                                                            <Typography color="inherit">
+                                                                <CharacterName
+                                                                    character={
+                                                                        char
                                                                     }
-                                                                >
-                                                                    <WithRealm
-                                                                        realmName={
-                                                                            realmName
-                                                                        }
-                                                                    >
-                                                                        <Typography color="inherit">
-                                                                            <CharacterName
-                                                                                character={
-                                                                                    char
-                                                                                }
-                                                                                realmName={
-                                                                                    realmName
-                                                                                }
-                                                                                specIcon={
-                                                                                    filter.spec !==
-                                                                                    ""
-                                                                                        ? getSpecImg(
-                                                                                              specs[
-                                                                                                  char
-                                                                                                      .spec
-                                                                                              ]
-                                                                                                  .image
-                                                                                          )
-                                                                                        : classImg(
-                                                                                              char.class
-                                                                                          )
-                                                                                }
-                                                                                specIconTitle={
-                                                                                    filter.spec !==
-                                                                                    ""
-                                                                                        ? specs[
-                                                                                              char
-                                                                                                  .spec
-                                                                                          ]
-                                                                                              .label ||
-                                                                                          "No spec"
-                                                                                        : characterClassNames[
-                                                                                              char
-                                                                                                  .class
-                                                                                          ]
-                                                                                }
-                                                                            />
-                                                                        </Typography>
-                                                                    </WithRealm>
-                                                                </AlignedRankDisplay>
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={`${classes.bold} ${classes.cell}`}
-                                                            >
-                                                                {char.topPercent.toFixed(
-                                                                    1
-                                                                )}
-                                                                %
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={` ${classes.cell}`}
-                                                            >
-                                                                {char.ilvl}
-                                                            </TableCell>
-                                                            <TableCell
-                                                                className={`${classes.cell}`}
-                                                            >
-                                                                {!char.f ? (
-                                                                    <span
-                                                                        style={{
-                                                                            color: theme
-                                                                                .palette
-                                                                                .factionColors
-                                                                                .alliance
-                                                                        }}
-                                                                    >
-                                                                        Alliance
-                                                                    </span>
-                                                                ) : (
-                                                                    <span
-                                                                        style={{
-                                                                            color: theme
-                                                                                .palette
-                                                                                .factionColors
-                                                                                .horde
-                                                                        }}
-                                                                    >
-                                                                        Horde
-                                                                    </span>
-                                                                )}
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    );
-                                                })}
-                                        </TableBody>
-                                    </Table>
-                                </OverflowScroll>
+                                                                    realmName={
+                                                                        realmName
+                                                                    }
+                                                                    specIcon={classImg(
+                                                                        char.class
+                                                                    )}
+                                                                    specIconTitle={
+                                                                        characterClassNames[
+                                                                            char
+                                                                                .class
+                                                                        ]
+                                                                    }
+                                                                />
+                                                            </Typography>
+                                                        </WithRealm>
+                                                    </AlignedRankDisplay>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${classes.bold} ${classes.cell}`}
+                                                >
+                                                    {Math.floor(char.score)}
+                                                </TableCell>
+                                                <TableCell
+                                                    className={` ${classes.cell}`}
+                                                >
+                                                    {char.ilvl}
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${classes.cell}`}
+                                                >
+                                                    {!char.f ? (
+                                                        <span
+                                                            style={{
+                                                                color: theme
+                                                                    .palette
+                                                                    .factionColors
+                                                                    .alliance,
+                                                            }}
+                                                        >
+                                                            Alliance
+                                                        </span>
+                                                    ) : (
+                                                        <span
+                                                            style={{
+                                                                color: theme
+                                                                    .palette
+                                                                    .factionColors
+                                                                    .horde,
+                                                            }}
+                                                        >
+                                                            Horde
+                                                        </span>
+                                                    )}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </OverflowScroll>
 
-                                {characters && (
-                                    <TablePagination
-                                        rowsPerPageOptions={[]}
-                                        component="div"
-                                        count={characters.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        backIconButtonProps={{
-                                            "aria-label": "Previous Page"
-                                        }}
-                                        nextIconButtonProps={{
-                                            "aria-label": "Next Page"
-                                        }}
-                                        onPageChange={(e, page) =>
-                                            setPage(page)
-                                        }
-                                    />
-                                )}
-                            </React.Fragment>
-                        )}
+                        <TablePagination
+                            rowsPerPageOptions={[]}
+                            component="div"
+                            count={itemCount}
+                            rowsPerPage={pageSize}
+                            page={page}
+                            backIconButtonProps={{
+                                "aria-label": "Previous Page",
+                            }}
+                            nextIconButtonProps={{
+                                "aria-label": "Next Page",
+                            }}
+                            onPageChange={(e, page) =>
+                                dispatch(characterLeaderboardSetPage(page))
+                            }
+                        />
                     </React.Fragment>
                 )}
             </section>

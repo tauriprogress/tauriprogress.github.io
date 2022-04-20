@@ -9,45 +9,52 @@ export const CHARACTER_LEADERBOARD_ERROR_SET =
 export const CHARACTER_LEADERBOARD_FILTER_SET =
     "CHARACTER_LEADERBOARD_FILTER_SET";
 export const CHARACTER_LEADERBOARD_TAB_SET = "CHARACTER_LEADERBOARD_TAB_SET";
-
+export const CHARACTER_LEADERBOARD_PAGE_SET = "CHARACTER_LEADERBOARD_PAGE_SET";
 export function characterLeaderboardFetchData(payload) {
     return {
         type: CHARACTER_LEADERBOARD_DATA_FETCH,
-        payload
+        payload,
     };
 }
 
 export function characterLeaderboardSetLoading(payload) {
     return {
         type: CHARACTER_LEADERBOARD_LOADING_SET,
-        payload
+        payload,
     };
 }
 
 export function characterLeaderboardFill(payload) {
     return {
         type: CHARACTER_LEADERBOARD_DATA_FILL,
-        payload
+        payload,
     };
 }
 
 export function characterLeaderboardSetError(payload) {
     return {
         type: CHARACTER_LEADERBOARD_ERROR_SET,
-        payload
+        payload,
     };
 }
 
 export function characterLeaderboardSetFilter(payload) {
     return {
         type: CHARACTER_LEADERBOARD_FILTER_SET,
-        payload
+        payload,
     };
 }
 
 export function characterLeaderboardSetTab(payload) {
     return {
         type: CHARACTER_LEADERBOARD_TAB_SET,
-        payload
+        payload,
+    };
+}
+
+export function characterLeaderboardSetPage(payload) {
+    return {
+        type: CHARACTER_LEADERBOARD_PAGE_SET,
+        payload,
     };
 }

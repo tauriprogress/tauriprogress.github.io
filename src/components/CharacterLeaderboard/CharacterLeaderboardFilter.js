@@ -21,14 +21,14 @@ import {
     environmentRealmsSelector,
     environmentCharacterClassNamesSelector,
     environmentDifficultyNamesSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         capitalize: {
-            textTransform: "capitalize"
-        }
+            textTransform: "capitalize",
+        },
     };
 }
 
@@ -39,15 +39,15 @@ function CharacterLeaderboardFilter({ classes, theme }) {
         specs,
         characterClassNames,
         difficultyNames,
-        raids
+        raids,
     } = useSelector(
-        state => ({
+        (state) => ({
             filter: characterLeaderboardFilterSelector(state),
             realms: environmentRealmsSelector(state),
             specs: environmentCharacterSpecsSelector(state),
             characterClassNames: environmentCharacterClassNamesSelector(state),
             difficultyNames: environmentDifficultyNamesSelector(state),
-            raids: environmentRaidsSelector(state)
+            raids: environmentRaidsSelector(state),
         }),
         shallowEqual
     );
@@ -65,7 +65,7 @@ function CharacterLeaderboardFilter({ classes, theme }) {
     const dispatch = useDispatch();
 
     const {
-        palette: { classColors, factionColors }
+        palette: { classColors, factionColors },
     } = theme;
     let specOptions = [];
     const classColor = filter.class
@@ -78,8 +78,8 @@ function CharacterLeaderboardFilter({ classes, theme }) {
                     value: specId,
                     name: specs[specId].label,
                     style: {
-                        color: classColors[filter.class].text
-                    }
+                        color: classColors[filter.class].text,
+                    },
                 });
             }
         }
@@ -91,8 +91,8 @@ function CharacterLeaderboardFilter({ classes, theme }) {
             value: classId,
             name: characterClassNames[classId],
             style: {
-                color: classColors[classId].text
-            }
+                color: classColors[classId].text,
+            },
         });
     }
 
@@ -100,23 +100,23 @@ function CharacterLeaderboardFilter({ classes, theme }) {
     for (let realm of realmNames) {
         realmOptions.push({
             value: realm,
-            name: realm
+            name: realm,
         });
     }
     let selects = [
         {
             name: "raid",
-            options: raids.map(raid => ({
+            options: raids.map((raid) => ({
                 value: raid.name,
-                name: raid.name
-            }))
+                name: raid.name,
+            })),
         },
         {
             name: "difficulty",
-            options: difficulties.map(difficulty => ({
+            options: difficulties.map((difficulty) => ({
                 value: difficulty,
-                name: difficultyNames[difficulty]
-            }))
+                name: difficultyNames[difficulty],
+            })),
         },
         {
             name: "faction",
@@ -124,7 +124,7 @@ function CharacterLeaderboardFilter({ classes, theme }) {
                 color:
                     filter.faction === 0
                         ? factionColors.alliance
-                        : factionColors.horde
+                        : factionColors.horde,
             },
             options: [
                 { value: "", name: "all" },
@@ -132,65 +132,31 @@ function CharacterLeaderboardFilter({ classes, theme }) {
                     value: 0,
                     name: "alliance",
                     style: {
-                        color: factionColors.alliance
-                    }
+                        color: factionColors.alliance,
+                    },
                 },
                 {
                     value: 1,
                     name: "horde",
                     style: {
-                        color: factionColors.horde
-                    }
-                }
-            ]
+                        color: factionColors.horde,
+                    },
+                },
+            ],
         },
         {
             name: "class",
             style: {
-                color: classColor
+                color: classColor,
             },
             options: [
                 {
                     value: "",
-                    name: "all"
+                    name: "all",
                 },
-                ...classOptions
-            ]
+                ...classOptions,
+            ],
         },
-        {
-            name: "spec",
-            style: {
-                color: classColor
-            },
-            options: [
-                {
-                    value: "",
-                    name: "all"
-                },
-                ...specOptions
-            ]
-        },
-        {
-            name: "role",
-            options: [
-                {
-                    value: "",
-                    name: "all"
-                },
-                {
-                    value: "damage",
-                    name: "damage"
-                },
-                {
-                    value: "heal",
-                    name: "heal"
-                },
-                {
-                    value: "tank",
-                    name: "tank"
-                }
-            ]
-        }
     ];
 
     if (realmOptions.length > 1) {
@@ -199,16 +165,16 @@ function CharacterLeaderboardFilter({ classes, theme }) {
             options: [
                 {
                     value: "",
-                    name: "all"
+                    name: "all",
                 },
-                ...realmOptions
-            ]
+                ...realmOptions,
+            ],
         });
     }
 
     return (
         <CollapseableFilterContainer defaultState={true}>
-            {selects.map(select => (
+            {selects.map((select) => (
                 <FormControl key={select.name}>
                     <InputLabel htmlFor="class" className={classes.capitalize}>
                         {select.name}
@@ -216,21 +182,21 @@ function CharacterLeaderboardFilter({ classes, theme }) {
                     <Select
                         style={select.style}
                         value={filter[select.name]}
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch(
                                 characterLeaderboardSetFilter({
                                     filterName: select.name,
-                                    value: e.target.value
+                                    value: e.target.value,
                                 })
                             )
                         }
                         inputProps={{
                             name: select.name,
-                            id: select.name
+                            id: select.name,
                         }}
                         className={classes.capitalize}
                     >
-                        {select.options.map(option => (
+                        {select.options.map((option) => (
                             <MenuItem
                                 key={option.name}
                                 value={option.value}

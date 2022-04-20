@@ -1,9 +1,9 @@
-export function characterLeaderboardDataSelector(state, dataId) {
-    return state.characterLeaderboard.data[dataId];
+export function characterLeaderboardDataSelector(state) {
+    return state.characterLeaderboard.data;
 }
 
-export function characterLeaderboardDataExistsSelector(state, dataId) {
-    return !!state.characterLeaderboard.data[dataId];
+export function characterLeaderboardDataExistsSelector(state) {
+    return !!state.characterLeaderboard.data;
 }
 
 export function characterLeaderboardFilterSelector(state) {
@@ -12,4 +12,20 @@ export function characterLeaderboardFilterSelector(state) {
 
 export function characterLeaderboardTabSelector(state) {
     return state.characterLeaderboard.selectedTab;
+}
+
+export function characterLeaderboardErrorSelector(state) {
+    return state.characterLeaderboard.error;
+}
+
+export function characterLeaderboardLoadingSelector(state) {
+    return state.characterLeaderboard.loading;
+}
+
+export function characterLeaderboardItemCountSelector(state) {
+    return state.characterLeaderboard.itemCount;
+}
+
+export function characterLeaderboardPageSelector(state) {
+    return state.characterLeaderboard.page;
 }
