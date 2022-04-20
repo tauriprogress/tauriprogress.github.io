@@ -22,13 +22,7 @@ import {
     environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
 
-import {
-    getSpecImg,
-    classImg,
-    shortNumber,
-    shortRealmToFull,
-    capitalize,
-} from "../../helpers";
+import { getSpecImg, classImg, shortNumber, capitalize } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -212,7 +206,7 @@ function RaidChart({
                         {characterData[variant] ? (
                             <LogLink
                                 logId={characterData.logId}
-                                realm={shortRealmToFull(characterData.realm)}
+                                realm={characterData.realm}
                                 className={classes.link}
                             >
                                 <PerfChartRow
