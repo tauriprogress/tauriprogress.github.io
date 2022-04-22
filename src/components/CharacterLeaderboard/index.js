@@ -131,7 +131,7 @@ function CharacterLeaderboard({ classes, theme }) {
 
                 {error && (
                     <ErrorMessage
-                        message={data.error}
+                        message={error}
                         refresh={() =>
                             dispatch(
                                 characterLeaderboardFetchData({

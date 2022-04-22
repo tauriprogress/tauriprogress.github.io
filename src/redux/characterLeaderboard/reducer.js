@@ -117,12 +117,13 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 itemCount: action.payload.itemCount || 0,
             };
         case CHARACTER_LEADERBOARD_ERROR_SET:
-            if (!action.payload.error) {
-                action.payload.error = "Unkown error.";
+            if (!action.payload) {
+                action.payload = "Unkown error.";
             }
             return {
                 ...state,
                 error: action.payload,
+                loading: false,
                 data: undefined,
             };
         case CHARACTER_LEADERBOARD_FILTER_SET:
