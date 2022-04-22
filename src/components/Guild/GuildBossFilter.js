@@ -81,7 +81,7 @@ function GuildProgressionFilter({ classes, theme }) {
                     value: specId,
                     name: specs[specId].label,
                     style: {
-                        color: classColors[filter.class].text,
+                        color: classColor,
                     },
                 });
             }
