@@ -12,7 +12,6 @@ import Drawer from "@material-ui/core/Drawer";
 import Brightness from "@material-ui/icons/Brightness4";
 
 import Items from "./Items";
-import SiteInfo from "../SiteInfo";
 
 import discordIcon from "../../assets/social/discord.svg";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -31,29 +30,29 @@ function styles(theme) {
                 width: "100%",
                 position: "fixed",
                 zIndex: 1000,
-                backgroundColor: theme.palette.background.lighter
-            }
+                backgroundColor: theme.palette.background.lighter,
+            },
         },
         iconButton: {
             "&:hover": {
-                color: theme.palette.secondary.main
-            }
+                color: theme.palette.secondary.main,
+            },
         },
         stretchHeight: {
-            height: "100%"
+            height: "100%",
         },
         verticalCenter: {
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
         },
         textItem: {
             fontWeight: "500",
-            position: "relative"
+            position: "relative",
         },
         customLink: {
             color: "inherit",
             textDecoration: "none",
-            marginLeft: "26px"
+            marginLeft: "26px",
         },
         discordLogo: {
             position: "absolute",
@@ -61,29 +60,29 @@ function styles(theme) {
             width: "24px",
             height: "24px",
             marginRight: "4px",
-            transform: "translate(0, -2px)"
+            transform: "translate(0, -2px)",
         },
         rightNavExtended: {
             [`@media(max-width: ${rightNavBreakpoint})`]: {
-                display: "none"
-            }
+                display: "none",
+            },
         },
         rightNavCompact: {
             [`@media(min-width: ${rightNavBreakpoint})`]: {
-                display: "none"
-            }
+                display: "none",
+            },
         },
         moreHorizIcon: {
             width: "30px",
-            height: "30px"
+            height: "30px",
         },
         horizontalCenter: {
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
         },
         compactDiscord: {
-            margin: "30px 10px 10px"
-        }
+            margin: "30px 10px 10px",
+        },
     };
 }
 
@@ -138,18 +137,6 @@ function Header({ classes }) {
                                             }
                                         >
                                             <Brightness fontSize="large" />
-                                        </IconButton>
-                                    </Typography>
-                                </div>
-                            </Grid>
-                            <Grid item className={classes.verticalCenter}>
-                                <div>
-                                    <Typography>
-                                        <IconButton
-                                            color="inherit"
-                                            className={classes.iconButton}
-                                        >
-                                            <SiteInfo />
                                         </IconButton>
                                     </Typography>
                                 </div>
@@ -219,16 +206,6 @@ function Header({ classes }) {
                                         >
                                             <Brightness fontSize="large" />
                                         </IconButton>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        className={classes.horizontalCenter}
-                                    >
-                                        <Typography>
-                                            <IconButton color="inherit">
-                                                <SiteInfo />
-                                            </IconButton>
-                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Drawer>
