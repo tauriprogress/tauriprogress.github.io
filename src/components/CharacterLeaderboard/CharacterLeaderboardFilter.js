@@ -1,6 +1,6 @@
 import React from "react";
 
-import { characterSpecToClass } from "tauriprogress-constants";
+import { characterSpecClass } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
@@ -71,8 +71,8 @@ function CharacterLeaderboardFilter({ classes, theme }) {
     const classColor = filter.class
         ? classColors[filter.class].text
         : "inherit";
-    for (let specId in characterSpecToClass) {
-        if (characterSpecToClass[specId] === Number(filter.class)) {
+    for (let specId in characterSpecClass) {
+        if (characterSpecClass[specId] === Number(filter.class)) {
             if (specs[specId]) {
                 specOptions.push({
                     value: specId,

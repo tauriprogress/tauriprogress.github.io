@@ -1,6 +1,6 @@
 import React from "react";
 
-import { characterSpecToClass } from "tauriprogress-constants";
+import { characterSpecClass } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withTheme, withStyles } from "@material-ui/core/styles";
@@ -22,14 +22,14 @@ import {
     environmentRealmsSelector,
     environmentCharacterSpecsSelector,
     environmentCharacterClassNamesSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         capitalize: {
-            textTransform: "capitalize"
-        }
+            textTransform: "capitalize",
+        },
     };
 }
 
@@ -40,15 +40,15 @@ function RaidFilter({ classes, theme }) {
         specs,
         characterClassNames,
         difficultyNames,
-        raids
+        raids,
     } = useSelector(
-        state => ({
+        (state) => ({
             filter: raidFilterSelector(state),
             realms: environmentRealmsSelector(state),
             specs: environmentCharacterSpecsSelector(state),
             characterClassNames: environmentCharacterClassNamesSelector(state),
             difficultyNames: environmentDifficultyNamesSelector(state),
-            raids: environmentRaidsSelector(state)
+            raids: environmentRaidsSelector(state),
         }),
         shallowEqual
     );
@@ -65,21 +65,21 @@ function RaidFilter({ classes, theme }) {
     const dispatch = useDispatch();
 
     const {
-        palette: { classColors, factionColors }
+        palette: { classColors, factionColors },
     } = theme;
     let specOptions = [];
     const classColor = filter.class
         ? classColors[filter.class].text
         : "inherit";
-    for (let specId in characterSpecToClass) {
-        if (characterSpecToClass[specId] === Number(filter.class)) {
+    for (let specId in characterSpecClass) {
+        if (characterSpecClass[specId] === Number(filter.class)) {
             if (specs[specId]) {
                 specOptions.push({
                     value: specId,
                     name: specs[specId].label,
                     style: {
-                        color: classColors[filter.class].text
-                    }
+                        color: classColors[filter.class].text,
+                    },
                 });
             }
         }
@@ -91,8 +91,8 @@ function RaidFilter({ classes, theme }) {
             value: classId,
             name: characterClassNames[classId],
             style: {
-                color: classColors[classId].text
-            }
+                color: classColors[classId].text,
+            },
         });
     }
 
@@ -100,7 +100,7 @@ function RaidFilter({ classes, theme }) {
     for (let realm of realmNames) {
         realmOptions.push({
             value: realm,
-            name: realm
+            name: realm,
         });
     }
     let selects = [
@@ -110,76 +110,76 @@ function RaidFilter({ classes, theme }) {
                 color:
                     filter.faction === 0
                         ? factionColors.alliance
-                        : factionColors.horde
+                        : factionColors.horde,
             },
             options: [
                 {
                     value: 0,
                     name: "alliance",
                     style: {
-                        color: factionColors.alliance
-                    }
+                        color: factionColors.alliance,
+                    },
                 },
                 {
                     value: 1,
                     name: "horde",
                     style: {
-                        color: factionColors.horde
-                    }
-                }
-            ]
+                        color: factionColors.horde,
+                    },
+                },
+            ],
         },
         {
             name: "class",
             style: {
-                color: classColor
+                color: classColor,
             },
-            options: classOptions
+            options: classOptions,
         },
         {
             name: "spec",
             style: {
-                color: classColor
+                color: classColor,
             },
-            options: specOptions
+            options: specOptions,
         },
         {
             name: "role",
             options: [
                 {
                     value: "damage",
-                    name: "damage"
+                    name: "damage",
                 },
                 {
                     value: "heal",
-                    name: "heal"
+                    name: "heal",
                 },
                 {
                     value: "tank",
-                    name: "tank"
-                }
-            ]
-        }
+                    name: "tank",
+                },
+            ],
+        },
     ];
 
     if (realmOptions.length > 1) {
         selects.unshift({
             name: "realm",
-            options: realmOptions
+            options: realmOptions,
         });
     }
 
     selects.unshift({
         name: "difficulty",
-        options: difficulties.map(difficulty => ({
+        options: difficulties.map((difficulty) => ({
             value: difficulty,
-            name: difficultyNames[difficulty]
-        }))
+            name: difficultyNames[difficulty],
+        })),
     });
 
     return (
         <CollapseableFilterContainer defaultState={true}>
-            {selects.map(select => (
+            {selects.map((select) => (
                 <FormControl key={select.name}>
                     <InputLabel htmlFor="class" className={classes.capitalize}>
                         {select.name}
@@ -187,17 +187,17 @@ function RaidFilter({ classes, theme }) {
                     <Select
                         style={select.style}
                         value={filter[select.name]}
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch(
                                 setRaidFilter({
                                     filterName: select.name,
-                                    value: e.target.value
+                                    value: e.target.value,
                                 })
                             )
                         }
                         inputProps={{
                             name: select.name,
-                            id: select.name
+                            id: select.name,
                         }}
                         className={classes.capitalize}
                     >
@@ -207,7 +207,7 @@ function RaidFilter({ classes, theme }) {
                             </MenuItem>
                         )}
 
-                        {select.options.map(option => (
+                        {select.options.map((option) => (
                             <MenuItem
                                 key={option.name}
                                 value={option.value}

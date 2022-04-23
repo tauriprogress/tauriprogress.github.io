@@ -2,7 +2,7 @@ import queryString from "query-string";
 import constants, {
     shortRealms,
     characterRaceNames,
-    characterSpecToClass,
+    characterSpecClass,
 } from "tauriprogress-constants";
 
 export function getRealmNames(realms) {
@@ -474,7 +474,7 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
                     spec:
                         validClass(filterFromUrl.class, realmGroup) &&
                         validSpec(filterFromUrl.spec, realmGroup) &&
-                        characterSpecToClass[filterFromUrl.spec] ===
+                        characterSpecClass[filterFromUrl.spec] ===
                             Number(filterFromUrl.class)
                             ? filterFromUrl.spec
                             : "",
