@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import validateRealm from "../Router/validateRealm";
 
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 
 import LogTitle from "./LogTitle";
 import LogMembers from "./LogMembers";

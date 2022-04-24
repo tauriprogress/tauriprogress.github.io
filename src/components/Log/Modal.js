@@ -2,13 +2,13 @@ import React from "react";
 
 import { goBack } from "connected-react-router";
 
-import Fab from "@material-ui/core/Fab";
-import CloseIcon from "@material-ui/icons/Close";
-import { withStyles } from "@material-ui/core/styles";
+import Fab from "@mui/material/Fab";
+import CloseIcon from "@mui/icons-material/Close";
+import withStyles from '@mui/styles/withStyles';
 
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Card from "@material-ui/core/Card";
+import Modal from "@mui/material/Modal";
+import Backdrop from "@mui/material/Backdrop";
+import Card from "@mui/material/Card";
 
 import Log from "./index";
 import { useDispatch } from "react-redux";
@@ -21,7 +21,7 @@ function styles(theme) {
         card: {
             flex: 1,
             margin: theme.spacing(4),
-            padding: `${theme.spacing(1)}px 0`,
+            padding: `${theme.spacing(1)} 0`,
             position: "relative",
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
                 margin: 0

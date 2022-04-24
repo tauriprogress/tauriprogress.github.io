@@ -1,12 +1,13 @@
 import React from "react";
 
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
 
 import { getFactionImg } from "../../helpers";
 
@@ -20,13 +21,13 @@ import {
 function styles(theme) {
     return {
         container: {
-            padding: `0 ${theme.spacing(1)}px`,
+            padding: `0 ${theme.spacing(1)}`,
             marginBottom: theme.spacing(1),
             textAlign: "left"
         },
         emblem: {
             height: "70px",
-            margin: `0 ${theme.spacing(1)}px`
+            margin: `0 ${theme.spacing(1)}`
         },
         textNoWrap: {
             whiteSpace: "nowrap"

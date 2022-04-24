@@ -1,7 +1,7 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/styles";
-import Container from "@material-ui/core/Container";
+import { withStyles } from "@mui/styles";
+import Container from "@mui/material/Container";
 
 function styles(theme) {
     return {
@@ -11,7 +11,7 @@ function styles(theme) {
             justifyContent: "center",
             flexWrap: "wrap",
             "& .MuiFormControl-root": {
-                margin: `0 ${theme.spacing(1)}px`
+                margin: `0 ${theme.spacing(1)}`
             }
         }
     };

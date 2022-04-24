@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
 function styles(theme) {
     return {
@@ -20,7 +20,7 @@ function styles(theme) {
         },
         itemTwo: {
             flexGrow: 1,
-            margin: `0 ${theme.spacing(1)}px`,
+            margin: `0 ${theme.spacing(1)}`,
             overflow: "hidden"
         }
     };

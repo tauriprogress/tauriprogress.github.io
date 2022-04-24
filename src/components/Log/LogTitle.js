@@ -1,10 +1,10 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { withTheme } from "@material-ui/core/styles";
+import withTheme from '@mui/styles/withTheme';
 
 import Link from "../Link";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import DisplayDate from "../DisplayDate";
 import MetaDataList from "../MetaDataList";

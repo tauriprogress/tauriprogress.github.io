@@ -2,13 +2,14 @@ import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 import CharacterItemTooltip from "./CharacterItemTooltip";
 import TitledContainer from "../TitledContainer";
@@ -34,7 +35,7 @@ function styles(theme) {
             alignItems: "center",
             display: "flex",
             overflow: "hidden",
-            padding: `0 ${theme.spacing(0.5)}px`
+            padding: `0 ${theme.spacing(0.5)}`
         },
         itemName: {
             lineHeight: 1,

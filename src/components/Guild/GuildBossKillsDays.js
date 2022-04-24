@@ -2,9 +2,9 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import GuildBossKillsChart from "./GuildBossKillsChart";
 
@@ -13,7 +13,7 @@ import { guildRaidDaysSelector } from "../../redux/guild/selectors";
 function styles(theme) {
     return {
         container: {
-            padding: `${theme.spacing(2)}px 0 ${theme.spacing(4)}px`,
+            padding: `${theme.spacing(2)} 0 ${theme.spacing(4)}`,
         },
         contentContainer: {
             maxWidth: "1000px",

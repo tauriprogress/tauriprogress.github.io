@@ -1,13 +1,13 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
-import ErrorIcon from "@material-ui/icons/Error";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import { Button } from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import withStyles from '@mui/styles/withStyles';
+import ErrorIcon from "@mui/icons-material/Error";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import SnackbarContent from "@mui/material/SnackbarContent";
+import { Button } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 function styles(theme) {
     return {

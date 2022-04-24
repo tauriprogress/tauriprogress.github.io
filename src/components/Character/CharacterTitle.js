@@ -1,10 +1,11 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 
 import CharacterName from "../CharacterName";
 import Avatar from "../Avatar";

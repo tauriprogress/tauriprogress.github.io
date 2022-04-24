@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
-import { Link as MaterialLink } from "@material-ui/core";
+import { Link as MaterialLink } from "@mui/material";
 
 import { environmentIsSeasonalSelector } from "../../redux/selectors";
 

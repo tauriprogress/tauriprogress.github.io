@@ -1,13 +1,14 @@
 import React from "react";
 
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
 
-import Help from "@material-ui/icons/Help";
+import Help from "@mui/icons-material/Help";
 
 import {
     days as dayLabels,
@@ -24,12 +25,12 @@ function styles(theme) {
         container: {
             width: "280px",
             padding: theme.spacing(1),
-            margin: `${theme.spacing(1)}px 0`,
+            margin: `${theme.spacing(1)} 0`,
             backgroundColor: theme.palette.background.darker,
         },
         title: {
             fontSize: `${16 / 16}rem`,
-            margin: `${theme.spacing(1)}px 0`,
+            margin: `${theme.spacing(1)} 0`,
             paddingLeft: theme.spacing(1),
         },
         column: {
@@ -53,7 +54,7 @@ function styles(theme) {
             fontSize: `${12 / 16}rem`,
         },
         day: {
-            margin: `0 0 ${theme.spacing(1)}px`,
+            margin: `0 0 ${theme.spacing(1)}`,
             lineHeight: 1,
             textAlign: "center",
         },

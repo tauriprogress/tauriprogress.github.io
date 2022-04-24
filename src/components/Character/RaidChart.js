@@ -2,16 +2,17 @@ import { characterClassSpecs } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import withTheme from '@mui/styles/withTheme';
+import withStyles from '@mui/styles/withStyles';
 
-import Grid from "@material-ui/core/Grid";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import SelectAll from "@material-ui/icons/SelectAll";
-import IconMissing from "@material-ui/icons/NotInterested";
-import IconTotal from "@material-ui/icons/BarChart";
+import Grid from "@mui/material/Grid";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import SelectAll from "@mui/icons-material/SelectAll";
+import IconMissing from "@mui/icons-material/NotInterested";
+import IconTotal from "@mui/icons-material/BarChart";
 
 import LogLink from "../LogLink";
 import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";

@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import queryString from "query-string";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
 import validateRealm from "../Router/validateRealm";
 
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import Page from "../Page";
 import Loading from "../Loading";

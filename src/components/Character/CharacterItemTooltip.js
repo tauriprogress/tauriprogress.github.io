@@ -2,9 +2,9 @@ import React from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 
 import ItemTooltipText from "../ItemTooltipText";
 

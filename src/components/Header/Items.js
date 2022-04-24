@@ -3,15 +3,15 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import MenuIcon from "@material-ui/icons/Menu";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Button from "@material-ui/core/Button";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
 
 import {
     navigationToggle,
@@ -121,7 +121,7 @@ function NavItems({ classes }) {
                             color="inherit"
                             className={classes.iconButton}
                             onClick={() => dispatch(navigationToggle())}
-                        >
+                            size="large">
                             <MenuIcon fontSize="large" />
                         </IconButton>
                     </Typography>

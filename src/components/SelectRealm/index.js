@@ -1,15 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 import queryString from "query-string";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 import { getRealmNames } from "../../helpers";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 
 import { environmentRealmsSelector } from "../../redux/selectors";
 

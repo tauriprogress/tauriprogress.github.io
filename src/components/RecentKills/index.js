@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
 
 import CollapsableList from "../CollapseableList";
 import LogLink from "../LogLink";

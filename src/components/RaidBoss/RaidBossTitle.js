@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 import { raidBossKillCountFetch } from "../../redux/actions";
 import { raidBossKillCountCountSelector } from "../../redux/selectors";

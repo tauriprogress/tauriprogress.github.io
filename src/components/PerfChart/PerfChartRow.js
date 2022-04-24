@@ -1,12 +1,12 @@
 import React from "react";
-import { withStyles, withTheme } from "@material-ui/styles";
+import { withStyles, withTheme } from "@mui/styles";
 
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 function styles(theme) {
-    const isDark = theme.palette.type === "dark";
+    const isDark = theme.palette.mode === "dark";
 
     const textColor = isDark
         ? theme.palette.text.primary
@@ -24,7 +24,7 @@ function styles(theme) {
         },
         typography: {
             lineHeight: "30px",
-            padding: `0 ${theme.spacing(1)}px`,
+            padding: `0 ${theme.spacing(1)}`,
             textShadow: "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
             color: textColor,
             fontWeight: "bold",

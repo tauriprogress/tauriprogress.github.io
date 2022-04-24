@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@mui/styles";
 
-import Container from "@material-ui/core/Container";
-import Collapse from "@material-ui/core/Collapse";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
+import Container from "@mui/material/Container";
+import Collapse from "@mui/material/Collapse";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import Button from "@mui/material/Button";
 
 function styles(theme) {
     return {
@@ -18,7 +18,7 @@ function styles(theme) {
             justifyContent: "center",
             flexWrap: "wrap",
             "& .MuiFormControl-root": {
-                margin: `0 ${theme.spacing(1)}px`
+                margin: `0 ${theme.spacing(1)}`
             },
             paddingBottom: theme.spacing(2),
             paddingTop: "4px"

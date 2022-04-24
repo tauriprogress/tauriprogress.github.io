@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 import Avatar from "../Avatar";
 import TitledContainer from "../TitledContainer";
@@ -22,7 +23,7 @@ function styles(theme) {
             flexDirection: "column"
         },
         charContainer: {
-            margin: `0 ${theme.spacing(1)}px`,
+            margin: `0 ${theme.spacing(1)}`,
             padding: theme.spacing(1),
             flex: 1,
             display: "flex",

@@ -1,7 +1,7 @@
 import React from "react";
 
-import Avatar from "@material-ui/core/Avatar";
-import Tooltip from "@material-ui/core/Tooltip";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
 
 function CustomAvatar({ src, title, ...rest }) {
     return (

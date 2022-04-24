@@ -1,9 +1,9 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Container from "@material-ui/core/Container";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
 
 function styles(theme) {
     return {

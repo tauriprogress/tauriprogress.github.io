@@ -2,9 +2,9 @@ import { raidNameId } from "tauriprogress-constants";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import { dateTextHours } from "../../helpers";
 
 function DateTooltip({ date, children }) {

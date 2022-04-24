@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
@@ -18,7 +18,7 @@ import {
 function styles(theme) {
     return {
         container: {
-            padding: `${theme.spacing(4)}px ${theme.spacing(1)}px`
+            padding: `${theme.spacing(4)} ${theme.spacing(1)}`
         },
         recentKills: {
             maxWidth: "500px",

@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import { withTheme } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
+import withTheme from '@mui/styles/withTheme';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
 
 import LogLink from "../LogLink";
 import WithRealm from "../WithRealm";

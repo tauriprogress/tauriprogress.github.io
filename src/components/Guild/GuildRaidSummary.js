@@ -1,17 +1,17 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
 import { raidImg } from "../../helpers";
 
@@ -24,7 +24,7 @@ function styles(theme) {
             color: theme.palette.progStateColors.alive,
         },
         container: {
-            margin: `0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+            margin: `0 ${theme.spacing(1)} ${theme.spacing(1)}`,
             width: "260px",
             borderRadius: "4px",
         },

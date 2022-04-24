@@ -1,14 +1,14 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
+import withStyles from '@mui/styles/withStyles';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 
 import InfoIcon from "../InfoIcon";
 
@@ -44,7 +44,7 @@ function DialogTitle({ children, classes, onClose, ...other }) {
         >
             <Typography variant="h6">{children}</Typography>
             {onClose ? (
-                <IconButton aria-label="close" onClick={onClose}>
+                <IconButton aria-label="close" onClick={onClose} size="large">
                     <CloseIcon />
                 </IconButton>
             ) : null}

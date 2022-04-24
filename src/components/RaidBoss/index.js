@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import RaidBossTitle from "./RaidBossTitle";
 import FastestKills from "./FastestKills";
@@ -49,8 +49,8 @@ function RaidBoss({ raidName, bossName }) {
                 value={selectedTab}
                 onChange={(e, value) => dispatch(raidBossSetTab(value))}
                 variant="scrollable"
-                scrollButtons="on"
-            >
+                scrollButtons
+                allowScrollButtonsMobile>
                 <Tab label="Dps" />
                 <Tab label="Hps" />
                 <Tab label="Fastest" />

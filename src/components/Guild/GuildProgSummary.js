@@ -2,7 +2,7 @@ import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import GuildRaidSummary from "./GuildRaidSummary";
 

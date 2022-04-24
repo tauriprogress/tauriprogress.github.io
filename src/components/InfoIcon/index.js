@@ -1,5 +1,5 @@
 import React from "react";
-import Info from "@material-ui/icons/Info";
+import Info from "@mui/icons-material/Info";
 
 function InfoIcon() {
     return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { convertFightLength } from "../../helpers";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import Typography from "@mui/material/Typography";
+import withStyles from '@mui/styles/withStyles';
 
 import { environmentEntireSeasonalSelector } from "../../redux/selectors";
 

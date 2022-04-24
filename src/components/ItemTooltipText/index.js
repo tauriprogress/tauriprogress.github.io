@@ -1,10 +1,11 @@
 import { itemSlotNames } from "tauriprogress-constants";
 import React from "react";
 
-import { withStyles, withTheme } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 import { numberWithCommas } from "../../helpers";
 

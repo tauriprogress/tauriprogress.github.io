@@ -1,9 +1,9 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 function styles(theme) {
     return {
@@ -12,7 +12,7 @@ function styles(theme) {
             display: "flex",
             alignItems: "center",
             justifyContent: "right",
-            padding: `0 ${theme.spacing(3)}px 0 ${theme.spacing(2)}px`
+            padding: `0 ${theme.spacing(3)} 0 ${theme.spacing(2)}`
         }
     };
 }

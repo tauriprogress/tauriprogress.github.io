@@ -2,9 +2,9 @@ import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 
 import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
@@ -21,8 +21,8 @@ function styles(theme) {
             flex: 1,
         },
         container: {
-            margin: `${theme.spacing(2)}px 0`,
-            padding: `${theme.spacing(2)}px 0`,
+            margin: `${theme.spacing(2)} 0`,
+            padding: `${theme.spacing(2)} 0`,
         },
     };
 }

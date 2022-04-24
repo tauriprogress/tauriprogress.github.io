@@ -1,8 +1,8 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 function styles(theme) {
     return {
@@ -11,7 +11,7 @@ function styles(theme) {
             padding: theme.spacing(1)
         },
         container: {
-            margin: `0 ${theme.spacing(1)}px`,
+            margin: `0 ${theme.spacing(1)}`,
             minWidth: "260px",
             maxWidth: "260px"
         }

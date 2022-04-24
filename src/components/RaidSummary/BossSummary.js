@@ -1,9 +1,10 @@
 import React from "react";
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import withTheme from '@mui/styles/withTheme';
+import withStyles from '@mui/styles/withStyles';
 
-import Divider from "@material-ui/core/Divider";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 import WithRealm from "../WithRealm";
 import LogLink from "../LogLink";

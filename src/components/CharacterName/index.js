@@ -1,10 +1,11 @@
 import React from "react";
 
-import { withTheme, withStyles } from "@material-ui/core/styles";
+import withTheme from '@mui/styles/withTheme';
+import withStyles from '@mui/styles/withStyles';
 import { useSelector } from "react-redux";
 
 import Link from "../Link";
-import { Link as RegularLink } from "@material-ui/core";
+import { Link as RegularLink } from "@mui/material";
 
 import Avatar from "../Avatar";
 

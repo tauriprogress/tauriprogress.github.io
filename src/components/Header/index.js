@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@mui/material/IconButton";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
 
-import Brightness from "@material-ui/icons/Brightness4";
+import Brightness from "@mui/icons-material/Brightness4";
 
 import Items from "./Items";
 
 import discordIcon from "../../assets/social/discord.svg";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import { themeToggle } from "../../redux/actions";
 
@@ -135,7 +135,7 @@ function Header({ classes }) {
                                             onClick={() =>
                                                 dispatch(themeToggle())
                                             }
-                                        >
+                                            size="large">
                                             <Brightness fontSize="large" />
                                         </IconButton>
                                     </Typography>
@@ -150,7 +150,7 @@ function Header({ classes }) {
                                             color="inherit"
                                             className={classes.iconButton}
                                             onClick={() => setOpen(!open)}
-                                        >
+                                            size="large">
                                             <MoreHorizIcon
                                                 className={
                                                     classes.moreHorizIcon
@@ -203,7 +203,7 @@ function Header({ classes }) {
                                             onClick={() =>
                                                 dispatch(themeToggle())
                                             }
-                                        >
+                                            size="large">
                                             <Brightness fontSize="large" />
                                         </IconButton>
                                     </Grid>

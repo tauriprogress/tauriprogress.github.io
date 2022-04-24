@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
 import TitledContainer from "../TitledContainer";
 import RecentKills from "../RecentKills";

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { withRouter } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from '@mui/styles/withStyles';
 
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Autocomplete from '@mui/material/Autocomplete';
 
 import { guildListFetch } from "../../redux/actions";
 
@@ -93,7 +93,7 @@ function SearchGuild({ classes }) {
                             />
                         )}
                         onChange={(e, guild) => setGuild(guild)}
-                        getOptionSelected={(option, value) =>
+                        isOptionEqualToValue={(option, value) =>
                             option.name === value.name &&
                             option.realm === value.realm
                         }

@@ -1,6 +1,6 @@
 import "typeface-roboto";
 
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme, adaptV4Theme } from "@mui/material/styles";
 import {
     brown,
     pink,
@@ -14,7 +14,7 @@ import {
     teal,
     deepOrange,
     orange
-} from "@material-ui/core/colors";
+} from "@mui/material/colors";
 
 import { THEME_TOGGLE } from "./actions";
 
@@ -337,7 +337,7 @@ const darkPalette = {
 const defaultState = {
     type: localStorage.getItem("themeType") || "light",
 
-    light: createTheme({
+    light: createTheme(adaptV4Theme({
         ...defaultTheme,
         palette: lightPalette,
         overrides: {
@@ -387,8 +387,8 @@ const defaultState = {
                 }
             }
         }
-    }),
-    dark: createTheme({
+    })),
+    dark: createTheme(adaptV4Theme({
         ...defaultTheme,
         palette: darkPalette,
         overrides: {
@@ -445,7 +445,7 @@ const defaultState = {
                 }
             }
         }
-    })
+    }))
 };
 
 function themesReducer(state = defaultState, action) {

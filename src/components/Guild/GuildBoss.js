@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import GuildKillLogs from "./GuildKillLogs";
 
 import { getNestedObjectValue } from "../../helpers";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 import OverflowScroll from "../OverflowScroll";
 
