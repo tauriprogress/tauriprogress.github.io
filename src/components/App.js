@@ -6,13 +6,13 @@ import { CssBaseline } from "@mui/material";
 
 import Router from "./Router";
 
-import { themesSelector } from "../redux/selectors";
+import { themeSelector } from "../redux/selectors";
 
 function App() {
-    const themes = useSelector(themesSelector);
+    const theme = useSelector(themeSelector);
     return (
         <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes[themes.type]}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Router />
             </ThemeProvider>

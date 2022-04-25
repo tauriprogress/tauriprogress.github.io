@@ -1,3 +1,3 @@
-export function themesSelector(state) {
-    return state.themes;
+export function themeSelector(state) {
+    return state.themes[state.themes.type];
 }
