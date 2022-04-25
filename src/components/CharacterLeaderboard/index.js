@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
+import withStyles from "@mui/styles/withStyles";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -123,6 +123,8 @@ function CharacterLeaderboard({ classes, theme }) {
                     onChange={(e, value) =>
                         dispatch(characterLeaderboardSetTab(value))
                     }
+                    textColor="secondary"
+                    indicatorColor="secondary"
                 >
                     <Tab label="Dps" value={0} />
                     <Tab label="Hps" value={1} />

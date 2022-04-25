@@ -63,11 +63,12 @@ function GuildBoss() {
                     <Tabs
                         value={tab}
                         onChange={(e, tab) => selectTab(tab)}
+                        textColor="secondary"
                         indicatorColor="secondary"
                     >
-                        <Tab label="Fastest Kills" className="tab" />
-                        <Tab label="Latest Kills" className="tab" />
-                        <Tab label="First Kills" className="tab" />
+                        <Tab label="Fastest Kills" />
+                        <Tab label="Latest Kills" />
+                        <Tab label="First Kills" lassName="tab" />
                     </Tabs>
                     <OverflowScroll>
                         {(() => {

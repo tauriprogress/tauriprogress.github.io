@@ -2,8 +2,8 @@ import { characterClassSpecs } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
+import withStyles from "@mui/styles/withStyles";
 
 import Grid from "@mui/material/Grid";
 import Tabs from "@mui/material/Tabs";
@@ -108,6 +108,7 @@ function RaidChart({
                             value={spec}
                             onChange={(e, spec) => setSpec(spec)}
                             variant="fullWidth"
+                            indicatorColor="secondary"
                             className={classes.iconTabContainer}
                         >
                             <Tab

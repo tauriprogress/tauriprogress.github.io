@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -18,7 +18,7 @@ import { raidImg, getDefaultDifficulty } from "../../helpers";
 
 import {
     characterProgressionFetch,
-    characterProgressionSetRaid
+    characterProgressionSetRaid,
 } from "../../redux/actions";
 import {
     characterClassSelector,
@@ -28,19 +28,19 @@ import {
     environmentRaidsSelector,
     environmentCurrentRaidNameSelector,
     environmentRealmGroupSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         tab: {
-            color: theme.palette.primary.contrastText,
+            color: `${theme.palette.primary.contrastText} !important`,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center center"
+            backgroundPosition: "center center",
         },
         container: {
-            margin: "5px 0"
-        }
+            margin: "5px 0",
+        },
     };
 }
 
@@ -56,8 +56,8 @@ function CharacterProgression({ classes }) {
         realmGroup,
         isSeasonal,
         characterName,
-        realm
-    } = useSelector(state => {
+        realm,
+    } = useSelector((state) => {
         return {
             ...characterProgressionEntireSelector(state),
             characterName: characterNameSelector(state),
@@ -66,7 +66,7 @@ function CharacterProgression({ classes }) {
             raids: environmentRaidsSelector(state),
             currentContentName: environmentCurrentRaidNameSelector(state),
             realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state)
+            isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
@@ -101,8 +101,9 @@ function CharacterProgression({ classes }) {
             <Tabs
                 value={selectedRaid || currentContentName}
                 variant="fullWidth"
+                indicatorColor="secondary"
             >
-                {raids.map(raid => (
+                {raids.map((raid) => (
                     <Tab
                         value={raid.name}
                         key={raid.name}
@@ -110,7 +111,7 @@ function CharacterProgression({ classes }) {
                         className={classes.tab}
                         style={{
                             backgroundImage: `url("${raidImg(raid.image)}")`,
-                            backgroundSize: "cover"
+                            backgroundSize: "cover",
                         }}
                         onClick={() => selectRaid(raid.name)}
                     />

@@ -48,9 +48,12 @@ function RaidBoss({ raidName, bossName }) {
             <Tabs
                 value={selectedTab}
                 onChange={(e, value) => dispatch(raidBossSetTab(value))}
+                textColor="secondary"
+                indicatorColor="secondary"
                 variant="scrollable"
                 scrollButtons
-                allowScrollButtonsMobile>
+                allowScrollButtonsMobile
+            >
                 <Tab label="Dps" />
                 <Tab label="Hps" />
                 <Tab label="Fastest" />

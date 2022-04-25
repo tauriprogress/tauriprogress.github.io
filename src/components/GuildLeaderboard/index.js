@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
+import withStyles from "@mui/styles/withStyles";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -33,54 +33,54 @@ import { convertFightLength, dateTextHours } from "./../../helpers";
 
 import {
     guildLeaderboardFetch,
-    guildLeaderboardSetTab
+    guildLeaderboardSetTab,
 } from "../../redux/actions";
 
 import {
     guildLeaderboardEntireSelector,
     environmentRealmGroupSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         cell: {
-            padding: theme.spacing(1)
+            padding: theme.spacing(1),
         },
         firstCellName: {
-            paddingLeft: theme.spacing(10)
+            paddingLeft: theme.spacing(10),
         },
         tableBody: {
             "& > tr:nth-child(4n-1)": {
-                backgroundColor: theme.palette.background.default
-            }
+                backgroundColor: theme.palette.background.default,
+            },
         },
         tablerow: {
             height: "55px",
             "& > *": {
-                borderBottom: "unset"
-            }
+                borderBottom: "unset",
+            },
         },
         innerTable: {
             padding: 0,
             "& td": {
-                padding: theme.spacing(0.7)
+                padding: theme.spacing(0.7),
             },
-            borderTop: `1px solid ${theme.palette.secondary.main}`
+            borderTop: `1px solid ${theme.palette.secondary.main}`,
         },
 
         bossName: {
-            fontSize: `${14 / 16}rem`
+            fontSize: `${14 / 16}rem`,
         },
         differenceText: {
-            color: theme.palette.progStateColors.defeated
+            color: theme.palette.progStateColors.defeated,
         },
         containerGrid: {
-            height: "40px"
+            height: "40px",
         },
         tableHead: {
-            height: "58px"
-        }
+            height: "58px",
+        },
     };
 }
 function GuildLeaderboard({ theme, classes }) {
@@ -93,12 +93,12 @@ function GuildLeaderboard({ theme, classes }) {
         realmGroup,
         filter,
         selectedTab,
-        isSeasonal
+        isSeasonal,
     } = useSelector(
-        state => ({
+        (state) => ({
             ...guildLeaderboardEntireSelector(state),
             realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state)
+            isSeasonal: environmentIsSeasonalSelector(state),
         }),
         shallowEqual
     );
@@ -119,6 +119,8 @@ function GuildLeaderboard({ theme, classes }) {
                     onChange={(e, value) =>
                         dispatch(guildLeaderboardSetTab(value))
                     }
+                    textColor="secondary"
+                    indicatorColor="secondary"
                 >
                     <Tab label="FULL CLEAR" value={0} />
                     <Tab label="BEST KILLS" value={1} />
@@ -191,7 +193,7 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
                                     style={{
                                         color: guild.f
                                             ? factionColors.horde
-                                            : factionColors.alliance
+                                            : factionColors.alliance,
                                     }}
                                     to={`/guild/${guild.name}?realm=${guild.realm}`}
                                 >
@@ -215,7 +217,7 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
             <TableRow>
                 <TableCell
                     style={{
-                        padding: 0
+                        padding: 0,
                     }}
                     colSpan={3}
                 >
@@ -278,7 +280,7 @@ function FullClearDetails({ start, logs, classes, guild }) {
 }
 
 function BestKillsDetails({ logs, classes, guild }) {
-    return logs.map(log => (
+    return logs.map((log) => (
         <TableRow key={log.id}>
             <TableCell align={"right"} className={classes.differenceText}>
                 {convertFightLength(log.fightLength)}

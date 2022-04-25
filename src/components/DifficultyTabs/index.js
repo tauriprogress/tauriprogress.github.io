@@ -13,13 +13,11 @@ function DifficultyTabs({ options, selected, onChange }) {
         <Tabs
             onChange={onChange}
             value={selected}
-            variant="fullWidth"
-            style={{
-                width: `${80 * options.length}px`,
-                maxWidth: `calc(100vw)`
-            }}
+            variant="scrollable"
+            textColor="secondary"
+            indicatorColor="secondary"
         >
-            {options.map(difficulty => (
+            {options.map((difficulty) => (
                 <Tab
                     key={difficulty}
                     value={difficulty}
