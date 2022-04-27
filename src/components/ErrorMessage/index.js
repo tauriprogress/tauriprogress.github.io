@@ -1,73 +1,51 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
-import ErrorIcon from "@mui/icons-material/Error";
+import { styled } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import SnackbarContent from "@mui/material/SnackbarContent";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import { Button } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-function styles(theme) {
-    return {
-        container: {
-            paddingTop: theme.spacing(2),
-            paddingBottom: theme.spacing(2),
-            display: "block",
-            maxWidth: "280px !important",
-            margin: "0 auto"
-        },
-        message: {
-            backgroundColor: theme.palette.error.dark,
-            color: theme.palette.primary.contrastText,
-            maxWidth: "100%",
-            minWidth: "0"
-        },
-        icon: {
-            marginRight: "4px"
-        },
-        refresh: {
-            marginTop: "20px",
-            fontSize: `${16 / 16}rem`,
-            backgroundColor: theme.palette.background.warning,
-            "&:hover": {
-                backgroundColor: theme.palette.background.warning
-            }
-        }
-    };
-}
+const ErrorContainer = styled(Container)(({ theme }) => ({
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    display: "block",
+    maxWidth: "400px !important",
+    margin: "0 auto",
+}));
 
-function ErrorMessage({ message, classes, refresh }) {
+const RefreshButton = styled(Button)(({ theme }) => ({
+    marginTop: "20px",
+    fontSize: `${16 / 16}rem`,
+    backgroundColor: theme.palette.warning.light,
+    color: theme.palette.primary.main,
+    "&:hover": {
+        backgroundColor: theme.palette.warning.light,
+    },
+}));
+
+function ErrorMessage({ message, refresh }) {
     return (
-        <Container className={classes.container}>
-            <SnackbarContent
-                className={classes.message}
-                message={
-                    <Grid container wrap="nowrap">
-                        <Grid item>
-                            <ErrorIcon className={classes.icon} />
-                        </Grid>
-                        <Grid item>
-                            <Typography>{message}</Typography>
-                        </Grid>
-                    </Grid>
-                }
-            />
+        <ErrorContainer>
+            <Alert variant="filled" severity="error">
+                <AlertTitle>Error</AlertTitle>
+                <Typography>{message}</Typography>
+            </Alert>
             {refresh && (
-                <Button
-                    className={classes.refresh}
+                <RefreshButton
                     size="large"
-                    fullWidth
                     variant="contained"
                     onClick={refresh}
+                    fullWidth
                 >
                     <RefreshIcon fontSize="large" />
                     Refresh
-                </Button>
+                </RefreshButton>
             )}
-        </Container>
+        </ErrorContainer>
     );
 }
 
-export default withStyles(styles)(ErrorMessage);
+export default ErrorMessage;
