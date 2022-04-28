@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+import withTheme from "@mui/styles/withTheme";
 import { shallowEqual, useSelector } from "react-redux";
 
 import Table from "@mui/material/Table";
@@ -18,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 
-import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
+import FilterContainer from "../FilterContainer";
 import CharacterName from "../CharacterName";
 import OverflowScroll from "../OverflowScroll";
 
@@ -27,31 +26,26 @@ import { classImg } from "../../helpers";
 import {
     guildRealmSelector,
     guildRanksSelector,
-    environmentCharacterClassNamesSelector
+    environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        container: {
-            minHeight: "550px"
-        },
-        cell: {
-            padding: theme.spacing(1)
-        },
-        textField: {
-            width: "124px",
-            padding: "0px"
-        }
-    };
-}
+const Container = styled("div")({
+    minHeight: "550px",
+});
 
-function GuildRosterList({ classes, theme, members, classInfo }) {
+const NameTextField = styled(TextField)({
+    padding: "0px",
+    width: "120px",
+});
+
+function GuildRosterList({ theme, members, classInfo }) {
     const rowsPerPage = 10;
     const { realm, characterClassNames, ranks } = useSelector(
-        state => ({
+        (state) => ({
             realm: guildRealmSelector(state),
             characterClassNames: environmentCharacterClassNamesSelector(state),
-            ranks: guildRanksSelector(state)
+            ranks: guildRanksSelector(state),
         }),
         shallowEqual
     );
@@ -60,7 +54,7 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
     const [filter, setFilter] = useState({
         name: "",
         rankName: "",
-        class: ""
+        class: "",
     });
     const filteredMembers = filterMembers(members, filter);
 
@@ -72,75 +66,74 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
     }
 
     return (
-        <div className={classes.container}>
+        <Container>
             <FilterContainer>
-                <TextField
+                <NameTextField
                     id="name"
                     label="Name"
                     value={filter.name}
-                    onChange={e =>
+                    onChange={(e) =>
                         changeFilter({
                             ...filter,
-                            name: e.target.value
+                            name: e.target.value,
                         })
                     }
-                    className={classes.textField}
                 />
 
                 <FormControl>
-                    <InputLabel htmlFor="class">Class</InputLabel>
+                    <InputLabel>Class</InputLabel>
                     <Select
+                        label={"Class"}
                         value={filter.class}
-                        onChange={e =>
+                        onChange={(e) =>
                             changeFilter({
                                 ...filter,
-                                class: e.target.value
+                                class: e.target.value,
                             })
                         }
                         style={{
                             color:
                                 filter.class !== "" &&
-                                theme.palette.classColors[filter.class].text
+                                theme.palette.classColors[filter.class].text,
                         }}
                     >
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        {classInfo.map(charClass => (
+                        {classInfo.map((charClass) => (
                             <MenuItem
                                 key={charClass.classId}
                                 value={charClass.classId}
                                 style={{
                                     color: theme.palette.classColors[
                                         charClass.classId
-                                    ].text
+                                    ].text,
                                 }}
                             >
-                                <span>
-                                    {characterClassNames[charClass.classId]}
-                                </span>
+                                {characterClassNames[charClass.classId]}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
                 <FormControl>
-                    <InputLabel htmlFor="class">Rank</InputLabel>
+                    <InputLabel>Rank</InputLabel>
                     <Select
+                        label={"Rank"}
                         value={filter.rankName}
-                        onChange={e =>
+                        onChange={(e) =>
                             changeFilter({
                                 ...filter,
-                                rankName: e.target.value
+                                rankName: e.target.value,
                             })
                         }
                     >
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        {ranks.map(rank => (
+                        {ranks.map((rank) => (
                             <MenuItem key={rank} value={rank}>
-                                <span>{rank}</span>
+                                {rank}
                             </MenuItem>
                         ))}
                     </Select>
@@ -150,11 +143,9 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell className={classes.cell}>Name</TableCell>
-                            <TableCell className={classes.cell}>Rank</TableCell>
-                            <TableCell className={classes.cell}>
-                                Level
-                            </TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Rank</TableCell>
+                            <TableCell>Level</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -169,9 +160,9 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                                 );
                             })
                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                            .map(member => (
+                            .map((member) => (
                                 <TableRow key={member.name}>
-                                    <TableCell className={classes.cell}>
+                                    <TableCell>
                                         <Typography>
                                             <CharacterName
                                                 character={member}
@@ -187,12 +178,12 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                                             />
                                         </Typography>
                                     </TableCell>
-                                    <TableCell className={classes.cell}>
+                                    <TableCell>
                                         <Typography>
                                             {member.rankName}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell className={classes.cell}>
+                                    <TableCell>
                                         <Typography>{member.lvl}</Typography>
                                     </TableCell>
                                 </TableRow>
@@ -207,15 +198,15 @@ function GuildRosterList({ classes, theme, members, classInfo }) {
                 rowsPerPage={rowsPerPage}
                 page={page}
                 backIconButtonProps={{
-                    "aria-label": "Previous Page"
+                    "aria-label": "Previous Page",
                 }}
                 nextIconButtonProps={{
-                    "aria-label": "Next Page"
+                    "aria-label": "Next Page",
                 }}
                 onPageChange={(e, page) => setPage(page)}
             />
-        </div>
+        </Container>
     );
 }
 
-export default withStyles(styles)(withTheme(GuildRosterList));
+export default withTheme(GuildRosterList);
