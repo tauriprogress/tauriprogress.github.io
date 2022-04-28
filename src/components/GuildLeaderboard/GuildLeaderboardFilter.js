@@ -2,15 +2,12 @@ import React from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-
-import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterContainer";
 
 import { getRealmNames } from "../../helpers";
 
@@ -19,24 +16,18 @@ import {
     guildLeaderboardFilterSelector,
     environmentRealmsSelector,
     environmentDifficultyNamesSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        capitalize: {
-            textTransform: "capitalize"
-        }
-    };
-}
+import FilterContainer from "../FilterContainer/FilterContainer";
 
-function GuildLeaderboardFilter({ classes, theme }) {
+function GuildLeaderboardFilter({ theme }) {
     const { filter, realms, difficultyNames, raids } = useSelector(
-        state => ({
+        (state) => ({
             filter: guildLeaderboardFilterSelector(state),
             realms: environmentRealmsSelector(state),
             difficultyNames: environmentDifficultyNamesSelector(state),
-            raids: environmentRaidsSelector(state)
+            raids: environmentRaidsSelector(state),
         }),
         shallowEqual
     );
@@ -53,30 +44,30 @@ function GuildLeaderboardFilter({ classes, theme }) {
     const dispatch = useDispatch();
 
     const {
-        palette: { factionColors }
+        palette: { factionColors },
     } = theme;
 
     let realmOptions = [];
     for (let realm of realmNames) {
         realmOptions.push({
             value: realm,
-            name: realm
+            name: realm,
         });
     }
     let selects = [
         {
             name: "raid",
-            options: raids.map(raid => ({
+            options: raids.map((raid) => ({
                 value: raid.name,
-                name: raid.name
-            }))
+                name: raid.name,
+            })),
         },
         {
             name: "difficulty",
-            options: difficulties.map(difficulty => ({
+            options: difficulties.map((difficulty) => ({
                 value: difficulty,
-                name: difficultyNames[difficulty]
-            }))
+                name: difficultyNames[difficulty],
+            })),
         },
         {
             name: "faction",
@@ -84,7 +75,7 @@ function GuildLeaderboardFilter({ classes, theme }) {
                 color:
                     filter.faction === 0
                         ? factionColors.alliance
-                        : factionColors.horde
+                        : factionColors.horde,
             },
             options: [
                 { value: "", name: "all" },
@@ -92,18 +83,18 @@ function GuildLeaderboardFilter({ classes, theme }) {
                     value: 0,
                     name: "alliance",
                     style: {
-                        color: factionColors.alliance
-                    }
+                        color: factionColors.alliance,
+                    },
                 },
                 {
                     value: 1,
                     name: "horde",
                     style: {
-                        color: factionColors.horde
-                    }
-                }
-            ]
-        }
+                        color: factionColors.horde,
+                    },
+                },
+            ],
+        },
     ];
 
     if (realmOptions.length > 1) {
@@ -112,52 +103,49 @@ function GuildLeaderboardFilter({ classes, theme }) {
             options: [
                 {
                     value: "",
-                    name: "all"
+                    name: "all",
                 },
-                ...realmOptions
-            ]
+                ...realmOptions,
+            ],
         });
     }
 
     return (
-        <CollapseableFilterContainer defaultState={true}>
-            {selects.map(select => (
+        <FilterContainer>
+            {selects.map((select) => (
                 <FormControl key={select.name}>
-                    <InputLabel htmlFor="class" className={classes.capitalize}>
-                        {select.name}
-                    </InputLabel>
+                    <InputLabel>{select.name}</InputLabel>
                     <Select
+                        label={select.name}
                         style={select.style}
                         value={filter[select.name]}
-                        onChange={e =>
+                        onChange={(e) =>
                             dispatch(
                                 guildLeaderboardSetFilter({
                                     filterName: select.name,
-                                    value: e.target.value
+                                    value: e.target.value,
                                 })
                             )
                         }
                         inputProps={{
                             name: select.name,
-                            id: select.name
+                            id: select.name,
                         }}
-                        className={classes.capitalize}
                     >
-                        {select.options.map(option => (
+                        {select.options.map((option) => (
                             <MenuItem
                                 key={option.name}
                                 value={option.value}
                                 style={option.style}
-                                className={classes.capitalize}
                             >
-                                <span>{option.name}</span>
+                                {option.name}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
             ))}
-        </CollapseableFilterContainer>
+        </FilterContainer>
     );
 }
 
-export default withStyles(styles)(withTheme(GuildLeaderboardFilter));
+export default withTheme(GuildLeaderboardFilter);
