@@ -68,7 +68,7 @@ function GuildBoss() {
                     >
                         <Tab label="Fastest Kills" />
                         <Tab label="Latest Kills" />
-                        <Tab label="First Kills" lassName="tab" />
+                        <Tab label="First Kills" />
                     </Tabs>
                     <OverflowScroll>
                         {(() => {

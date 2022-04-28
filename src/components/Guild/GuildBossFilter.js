@@ -3,8 +3,8 @@ import React from "react";
 import { characterSpecClass } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
+import withStyles from "@mui/styles/withStyles";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -138,7 +138,7 @@ function GuildProgressionFilter({ classes, theme }) {
     ];
 
     return (
-        <FilterContainer defaultState={true}>
+        <FilterContainer>
             {selects.map((select) => (
                 <FormControl key={select.name}>
                     <InputLabel htmlFor="class" className={classes.capitalize}>
