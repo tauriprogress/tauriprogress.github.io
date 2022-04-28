@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-
-import { withRouter } from "react-router-dom";
-import withStyles from '@mui/styles/withStyles';
-
+import { styled } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from "@mui/material/Autocomplete";
+
+import WithRealm from "../WithRealm";
 
 import { guildListFetch } from "../../redux/actions";
 
@@ -18,30 +17,32 @@ import { navBreakpoint } from "../../redux/navigation/reducer";
 import {
     guildListDataSelector,
     environmentRealmGroupSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
+import { shortRealms } from "tauriprogress-constants";
 
-function styles() {
-    return {
-        container: {
-            width: "100%"
-        }
-    };
-}
+const Container = styled("form")({
+    width: "100%",
+});
 
-function SearchGuild({ classes }) {
-    const { guildList, realmGroup, isSeasonal } = useSelector(state => {
+const GridItem = styled(Grid)(({ theme }) => ({
+    width: "100%",
+    marginTop: theme.spacing(1),
+}));
+
+function SearchGuild() {
+    const { guildList, realmGroup, isSeasonal } = useSelector((state) => {
         return {
             guildList: guildListDataSelector(state),
             realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state)
+            isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
     const guilds = guildList
-        ? guildList.map(guild => ({
+        ? guildList.map((guild) => ({
               name: guild.name,
-              realm: guild.realm
+              realm: guild.realm,
           }))
         : [];
 
@@ -67,59 +68,55 @@ function SearchGuild({ classes }) {
     }, [isSeasonal, realmGroup, dispatch]);
 
     return (
-        <form
-            className={classes.container}
-            onSubmit={e => {
+        <Container
+            onSubmit={(e) => {
                 e.preventDefault();
                 submit();
             }}
         >
             <Grid container direction="column">
-                <Grid item>
+                <GridItem item>
                     <Autocomplete
                         options={guilds}
-                        autoHighlight
-                        getOptionLabel={guild => guild.name}
-                        renderOption={guild => <span>{guild.name}</span>}
-                        renderInput={params => (
+                        renderInput={(params) => (
                             <TextField
                                 {...params}
                                 label="Search guild"
                                 fullWidth
                                 inputProps={{
                                     ...params.inputProps,
-                                    autoComplete: "disabled"
+                                    autoComplete: "disabled",
                                 }}
                             />
                         )}
+                        getOptionLabel={(guild) => guild.name}
                         onChange={(e, guild) => setGuild(guild)}
                         isOptionEqualToValue={(option, value) =>
                             option.name === value.name &&
                             option.realm === value.realm
                         }
+                        renderOption={(props, guild) => (
+                            <li {...props} key={`${guild.name}${guild.realm}`}>
+                                <WithRealm realmName={guild.realm}>
+                                    {guild.name}
+                                </WithRealm>
+                            </li>
+                        )}
                     />
-                </Grid>
-                <Grid item>
-                    <Grid
-                        container
-                        justifyContent="flex-end"
-                        style={{
-                            display: "flex",
-                            marginTop: "8px"
-                        }}
+                </GridItem>
+                <GridItem item>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="secondary"
+                        onClick={submit}
                     >
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={submit}
-                        >
-                            Search guild
-                        </Button>
-                    </Grid>
-                </Grid>
+                        Search guild
+                    </Button>
+                </GridItem>
             </Grid>
-        </form>
+        </Container>
     );
 }
 
-export default withRouter(withStyles(styles)(SearchGuild));
+export default SearchGuild;
