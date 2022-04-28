@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { withRouter } from "react-router-dom";
-
-import withStyles from '@mui/styles/withStyles';
+import { styled } from "@mui/styles";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -20,26 +18,16 @@ import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { environmentRealmsSelector } from "../../redux/selectors";
 
-function styles() {
-    return {
-        container: {
-            marginTop: "16px",
-            width: "100%"
-        },
-        selectRealm: {
-            width: "100%"
-        },
-        realm: {
-            marginTop: "4px"
-        },
-        searchCharacterButtonContainer: {
-            display: "flex",
-            marginTop: "8px"
-        }
-    };
-}
+const SelectRealm = styled(Select)({
+    width: "100%",
+});
 
-function SearchCharacter({ classes, history }) {
+const GridItem = styled(Grid)(({ theme }) => ({
+    width: "100%",
+    marginTop: theme.spacing(1),
+}));
+
+function SearchCharacter() {
     const [character, setCharacter] = useState("");
     const realmNames = useSelector(environmentRealmsSelector);
     const realms = getRealmNames(realmNames);
@@ -48,7 +36,7 @@ function SearchCharacter({ classes, history }) {
 
     useEffect(() => {
         const realms = getRealmNames(realmNames);
-        setRealm(currentRealm => {
+        setRealm((currentRealm) => {
             if (realms[Object.keys(realms)[0]] !== currentRealm) {
                 return realms[Object.keys(realms)[0]];
             }
@@ -68,10 +56,10 @@ function SearchCharacter({ classes, history }) {
     }
 
     return (
-        <Grid container direction="column" className={classes.container}>
-            <Grid item>
+        <Grid container direction="column">
+            <GridItem item>
                 <form
-                    onSubmit={e => {
+                    onSubmit={(e) => {
                         e.preventDefault();
                         submit();
                     }}
@@ -81,49 +69,44 @@ function SearchCharacter({ classes, history }) {
                         label="Search character"
                         value={character}
                         fullWidth
-                        onChange={e => setCharacter(e.target.value)}
+                        onChange={(e) => setCharacter(e.target.value)}
                     />
                 </form>
-            </Grid>
+            </GridItem>
             {realms.length > 1 && (
-                <Grid item className={classes.realm}>
+                <GridItem item>
                     <FormControl fullWidth>
-                        <InputLabel htmlFor="realm">Realm</InputLabel>
-                        <Select
+                        <InputLabel>Realm</InputLabel>
+                        <SelectRealm
+                            label="Realm"
                             value={realm}
-                            onChange={e => setRealm(e.target.value)}
+                            onChange={(e) => setRealm(e.target.value)}
                             inputProps={{
                                 name: "realm",
-                                id: "realm"
+                                id: "realm",
                             }}
-                            classes={{ root: classes.selectRealm }}
                         >
-                            {realms.map(realmName => (
+                            {realms.map((realmName) => (
                                 <MenuItem key={realmName} value={realmName}>
                                     {realmName}
                                 </MenuItem>
                             ))}
-                        </Select>
+                        </SelectRealm>
                     </FormControl>
-                </Grid>
+                </GridItem>
             )}
-            <Grid item>
-                <Grid
-                    container
-                    justifyContent="flex-end"
-                    className={classes.searchCharacterButtonContainer}
+            <GridItem item>
+                <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    onClick={submit}
                 >
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={submit}
-                    >
-                        search character
-                    </Button>
-                </Grid>
-            </Grid>
+                    search character
+                </Button>
+            </GridItem>
         </Grid>
     );
 }
 
-export default withRouter(withStyles(styles)(SearchCharacter));
+export default SearchCharacter;
