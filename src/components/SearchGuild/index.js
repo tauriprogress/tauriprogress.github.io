@@ -19,7 +19,6 @@ import {
     environmentRealmGroupSelector,
     environmentIsSeasonalSelector,
 } from "../../redux/selectors";
-import { shortRealms } from "tauriprogress-constants";
 
 const Container = styled("form")({
     width: "100%",
