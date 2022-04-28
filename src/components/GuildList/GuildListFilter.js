@@ -1,30 +1,30 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
+import withTheme from "@mui/styles/withTheme";
 
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 
-import FilterContainer from "../FilterContainer/CollapseableFilterContainer";
+import FilterContainer from "../FilterContainer";
 
 import { getRealmNames } from "../../helpers";
 
 import {
     environmentDifficultyNamesSelector,
     environmentDifficultiesSelector,
-    environmentRealmsSelector
+    environmentRealmsSelector,
 } from "../../redux/selectors";
 
 function GuildListFilter({ theme, filter, setFilter }) {
     const realms = getRealmNames(useSelector(environmentRealmsSelector));
 
     const { difficulties, difficultyNames } = useSelector(
-        state => ({
+        (state) => ({
             difficulties: environmentDifficultiesSelector(state),
-            difficultyNames: environmentDifficultyNamesSelector(state)
+            difficultyNames: environmentDifficultyNamesSelector(state),
         }),
         shallowEqual
     );
@@ -33,22 +33,23 @@ function GuildListFilter({ theme, filter, setFilter }) {
         <FilterContainer>
             {realms.length > 1 && (
                 <FormControl>
-                    <InputLabel htmlFor="class">Realm</InputLabel>
+                    <InputLabel>Realm</InputLabel>
                     <Select
+                        label={"Realm"}
                         value={filter.realm}
-                        onChange={e =>
+                        onChange={(e) =>
                             setFilter({
                                 ...filter,
-                                realm: e.target.value
+                                realm: e.target.value,
                             })
                         }
                     >
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        {realms.map(realmName => (
+                        {realms.map((realmName) => (
                             <MenuItem key={realmName} value={realmName}>
-                                <span>{realmName}</span>
+                                {realmName}
                             </MenuItem>
                         ))}
                     </Select>
@@ -56,13 +57,14 @@ function GuildListFilter({ theme, filter, setFilter }) {
             )}
 
             <FormControl>
-                <InputLabel htmlFor="class">Faction</InputLabel>
+                <InputLabel>Faction</InputLabel>
                 <Select
+                    label={"Faction"}
                     value={filter.f}
-                    onChange={e =>
+                    onChange={(e) =>
                         setFilter({
                             ...filter,
-                            f: e.target.value
+                            f: e.target.value,
                         })
                     }
                 >
@@ -72,7 +74,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                     <MenuItem value={0}>
                         <span
                             style={{
-                                color: theme.palette.factionColors.alliance
+                                color: theme.palette.factionColors.alliance,
                             }}
                         >
                             Alliance
@@ -81,7 +83,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                     <MenuItem value={1}>
                         <span
                             style={{
-                                color: theme.palette.factionColors.horde
+                                color: theme.palette.factionColors.horde,
                             }}
                         >
                             Horde
@@ -90,49 +92,47 @@ function GuildListFilter({ theme, filter, setFilter }) {
                 </Select>
             </FormControl>
             <FormControl>
-                <InputLabel htmlFor="class">Difficulty</InputLabel>
+                <InputLabel>Difficulty</InputLabel>
                 <Select
+                    label={"Difficulty"}
                     value={filter.difficulty}
-                    onChange={e =>
+                    onChange={(e) =>
                         setFilter({
                             ...filter,
-                            difficulty: e.target.value
+                            difficulty: e.target.value,
                         })
                     }
                 >
                     <MenuItem value="">
                         <em>All</em>
                     </MenuItem>
-                    {difficulties.map(difficulty => (
+                    {difficulties.map((difficulty) => (
                         <MenuItem value={difficulty} key={difficulty}>
-                            <span>{difficultyNames[difficulty]}</span>
+                            {difficultyNames[difficulty]}
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
             <FormControl>
-                <InputLabel htmlFor="class">Activity</InputLabel>
+                <InputLabel>Activity</InputLabel>
                 <Select
+                    label={"Activity"}
                     value={filter.activity}
-                    onChange={e =>
+                    onChange={(e) =>
                         setFilter({
                             ...filter,
-                            activity: e.target.value
+                            activity: e.target.value,
                         })
                     }
                 >
                     <MenuItem value="">
                         <em>All</em>
                     </MenuItem>
-                    <MenuItem value={true}>
-                        <span>Active</span>
-                    </MenuItem>
-                    <MenuItem value={false}>
-                        <span>Inactive</span>
-                    </MenuItem>
-                    {difficulties.map(difficulty => (
+                    <MenuItem value={true}>Active</MenuItem>
+                    <MenuItem value={false}>Inactive</MenuItem>
+                    {difficulties.map((difficulty) => (
                         <MenuItem value={difficulty} key={difficulty}>
-                            <span>{difficultyNames[difficulty]}</span>
+                            {difficultyNames[difficulty]}
                         </MenuItem>
                     ))}
                 </Select>
