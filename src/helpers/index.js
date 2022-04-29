@@ -4,6 +4,7 @@ import constants, {
     characterRaceNames,
     characterSpecClass,
 } from "tauriprogress-constants";
+import { characterClassNames } from "tauriprogress-constants/build/tauri";
 
 export function getRealmNames(realms) {
     let realmNames = [];
@@ -300,6 +301,10 @@ export function validRealm(realm) {
 
 export function validClass(classId, realmGroup) {
     return !!constants[realmGroup].characterClassNames[classId];
+}
+
+export function isClassId(classId) {
+    return !!characterClassNames[classId];
 }
 
 export function validSpec(specId, realmGroup) {
