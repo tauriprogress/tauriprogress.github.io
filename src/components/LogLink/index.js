@@ -2,9 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import Link from "../Link";
+import { styled } from "@mui/system";
+
+const BoldLogLink = styled(LogLink)({
+    fontWeight: "bold",
+});
 
 function LogLink({ children, logId, realm, ...rest }) {
-    const location = useSelector(state => state.router.location);
+    const location = useSelector((state) => state.router.location);
 
     return (
         <Link
@@ -12,7 +17,7 @@ function LogLink({ children, logId, realm, ...rest }) {
             to={{
                 pathname: `/log/${logId}`,
                 search: `?realm=${realm}`,
-                state: { ...location.state, background: location }
+                state: { ...location.state, background: location },
             }}
             {...rest}
         >
@@ -21,4 +26,4 @@ function LogLink({ children, logId, realm, ...rest }) {
     );
 }
 
-export default LogLink;
+export default BoldLogLink;
