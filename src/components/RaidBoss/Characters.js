@@ -14,8 +14,6 @@ import {
 
 import CharacterLadder from "../CharacterLadder";
 import ErrorMessage from "../ErrorMessage";
-import LinearProgress from "@mui/material/LinearProgress";
-import ElevatedLinearProgress from "../ElevatedLinearProgress";
 
 import { getCombatMetricFromDataSpecificationString } from "./helpers";
 
