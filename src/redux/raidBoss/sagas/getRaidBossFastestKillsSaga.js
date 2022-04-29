@@ -36,13 +36,11 @@ function* fetchRaidBossFastestKills({ payload }) {
 
         const { raidId, bossName, difficulty } = payload;
         const realmGroup = yield select(environmentRealmGroupSelector);
-        console.log(realmGroup, bossName, difficulty);
         const ingameBossId = getIngameBossIdFromBossName(
             bossName,
             difficulty,
             realmGroup
         );
-        console.log(ingameBossId);
         if (!ingameBossId) throw new Error("Invalid boss name.");
 
         const dataSpecificationString = getDataSpecificationString({

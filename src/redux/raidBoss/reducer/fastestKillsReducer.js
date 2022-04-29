@@ -1,19 +1,19 @@
 import {
     RAIDBOSS_FASTESTKILLS_LOADING_SET,
     RAIDBOSS_FASTESTKILLS_FILL,
-    RAIDBOSS_FASTESTKILLS_ERROR_SET
+    RAIDBOSS_FASTESTKILLS_ERROR_SET,
 } from "../actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
     ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
+    ENVIRONMENT_SET,
 } from "../../actions";
 
 const defaultState = {
-    data: null,
+    data: undefined,
     loading: false,
-    error: null,
-    dataSpecificationString: ""
+    error: undefined,
+    dataSpecificationString: "",
 };
 
 function fastestKillsReducer(state = defaultState, action) {
@@ -26,25 +26,24 @@ function fastestKillsReducer(state = defaultState, action) {
         case RAIDBOSS_FASTESTKILLS_LOADING_SET:
             return {
                 ...state,
-                error: null,
+                error: undefined,
                 loading: true,
-                data: null
             };
         case RAIDBOSS_FASTESTKILLS_FILL:
             return {
                 ...state,
-                error: null,
+                error: undefined,
                 loading: false,
                 data: action.payload.fastestKills,
-                dataSpecificationString: action.payload.dataSpecificationString
+                dataSpecificationString: action.payload.dataSpecificationString,
             };
         case RAIDBOSS_FASTESTKILLS_ERROR_SET:
             return {
                 ...state,
                 error: action.payload,
                 loading: false,
-                data: null,
-                dataSpecificationString: ""
+                data: undefined,
+                dataSpecificationString: "",
             };
 
         default:
