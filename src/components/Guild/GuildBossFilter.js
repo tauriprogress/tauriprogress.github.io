@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 
-import FilterContainer from "../FilterContainer/FilterContainer";
+import FilterContainer from "../FilterContainer";
 
 import { getRealmNames } from "../../helpers";
 

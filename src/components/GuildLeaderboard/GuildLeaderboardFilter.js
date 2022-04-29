@@ -19,7 +19,7 @@ import {
     environmentRaidsSelector,
 } from "../../redux/selectors";
 
-import FilterContainer from "../FilterContainer/FilterContainer";
+import FilterContainer from "../FilterContainer";
 
 function GuildLeaderboardFilter({ theme }) {
     const { filter, realms, difficultyNames, raids } = useSelector(
