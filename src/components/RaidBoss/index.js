@@ -11,8 +11,6 @@ import FastestKills from "./FastestKills";
 import RecentKills from "./RecentKills";
 import Characters from "./Characters";
 
-import OverflowScroll from "../OverflowScroll";
-
 import { raidBossSetTab, navigationSetItem } from "../../redux/actions";
 
 import {
@@ -60,39 +58,37 @@ function RaidBoss({ raidName, bossName }) {
                 <Tab label="Latest" />
             </Tabs>
 
-            <OverflowScroll>
-                {(() => {
-                    switch (selectedTab) {
-                        case 0:
-                        case 1:
-                            return (
-                                <Characters
-                                    combatMetric={combatMetric}
-                                    raidId={raidId}
-                                    bossName={bossName}
-                                />
-                            );
-                        case 2:
-                            return (
-                                <FastestKills
-                                    raidId={raidId}
-                                    bossName={bossName}
-                                    difficulty={difficulty}
-                                />
-                            );
-                        case 3:
-                            return (
-                                <RecentKills
-                                    raidId={raidId}
-                                    bossName={bossName}
-                                    difficulty={difficulty}
-                                />
-                            );
-                        default:
-                            return 0;
-                    }
-                })()}
-            </OverflowScroll>
+            {(() => {
+                switch (selectedTab) {
+                    case 0:
+                    case 1:
+                        return (
+                            <Characters
+                                combatMetric={combatMetric}
+                                raidId={raidId}
+                                bossName={bossName}
+                            />
+                        );
+                    case 2:
+                        return (
+                            <FastestKills
+                                raidId={raidId}
+                                bossName={bossName}
+                                difficulty={difficulty}
+                            />
+                        );
+                    case 3:
+                        return (
+                            <RecentKills
+                                raidId={raidId}
+                                bossName={bossName}
+                                difficulty={difficulty}
+                            />
+                        );
+                    default:
+                        return 0;
+                }
+            })()}
         </React.Fragment>
     );
 }

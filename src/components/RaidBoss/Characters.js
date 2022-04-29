@@ -3,38 +3,42 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
     raidBossKillCountFetch,
     raidBossCharactersFetch,
-    raidBossPageSet
+    raidBossPageSet,
 } from "../../redux/actions";
 import {
     raidFilterSelector,
     raidBossCharactersEntireSelector,
     raidBossPageCurrentPageSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 import CharacterLadder from "../CharacterLadder";
 import ErrorMessage from "../ErrorMessage";
-import Loading from "../Loading";
+import LinearProgress from "@mui/material/LinearProgress";
+import ElevatedLinearProgress from "../ElevatedLinearProgress";
+
+import { getCombatMetricFromDataSpecificationString } from "./helpers";
 
 function Characters({ raidId, bossName, combatMetric }) {
     const {
         loading,
-        data,
+        characters,
+        itemCount,
         error,
         filter,
         page,
         dataSpecificationString,
-        isSeasonal
-    } = useSelector(state => {
+        isSeasonal,
+    } = useSelector((state) => {
         return {
             ...raidBossCharactersEntireSelector(state),
             filter: raidFilterSelector(state),
             page: raidBossPageCurrentPageSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state)
+            isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
-    const pageSize = 30;
+    const pageSize = 25;
 
     function changePage(e, newPage) {
         dispatch(raidBossPageSet(newPage));
@@ -50,7 +54,7 @@ function Characters({ raidId, bossName, combatMetric }) {
                 combatMetric,
                 filters: filter,
                 page,
-                pageSize
+                pageSize,
             })
         );
     }, [
@@ -61,12 +65,24 @@ function Characters({ raidId, bossName, combatMetric }) {
         page,
         pageSize,
         isSeasonal,
-        dispatch
+        dispatch,
     ]);
 
     return (
         <React.Fragment>
-            {loading && <Loading />}
+            <CharacterLadder
+                sliced={true}
+                data={characters}
+                combatMetric={getCombatMetricFromDataSpecificationString(
+                    dataSpecificationString,
+                    combatMetric
+                )}
+                page={page}
+                pageSize={pageSize}
+                onPageChange={changePage}
+                itemCount={itemCount}
+                loading={loading}
+            />
             {error && (
                 <ErrorMessage
                     message={error}
@@ -78,33 +94,19 @@ function Characters({ raidId, bossName, combatMetric }) {
                                 combatMetric,
                                 filters: filter,
                                 page,
-                                pageSize
+                                pageSize,
                             })
                         ) &&
                         dispatch(
                             raidBossKillCountFetch({
                                 raidId,
                                 bossName,
-                                difficulty: filter.difficulty
+                                difficulty: filter.difficulty,
                             })
                         )
                     }
                 />
             )}
-            {!loading &&
-                !error &&
-                data &&
-                dataSpecificationString.includes(combatMetric) && (
-                    <CharacterLadder
-                        sliced={true}
-                        data={data.characters}
-                        type={combatMetric}
-                        page={page}
-                        pageSize={pageSize}
-                        onPageChange={changePage}
-                        itemCount={data.itemCount}
-                    />
-                )}
         </React.Fragment>
     );
 }
