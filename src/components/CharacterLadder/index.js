@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { styled } from "@mui/system";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,41 +10,91 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import Box from "@mui/material/Box";
 
-import LogLink from "../LogLink";
-import DateTooltip from "../DateTooltip";
-import DisplayDate from "../DisplayDate";
+import CharacterList from "./CharacterList";
+
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+
 import InfoIcon from "../InfoIcon";
-import CharacterName from "../CharacterName";
 
 import { filterChars } from "./helpers";
 import { environmentCharacterSpecsSelector } from "../../redux/selectors";
-function styles(theme) {
-    return {
-        uppercase: {
-            textTransform: "uppercase",
-        },
-        bold: {
-            fontWeight: "bold",
-        },
-        cell: {
-            padding: theme.spacing(1),
-        },
+import OverflowScroll from "../OverflowScroll";
+import ElevatedLinearProgress from "../ElevatedLinearProgress";
+
+const UppercaseTableCell = styled(TableCell)({
+    textTransform: "uppercase",
+});
+
+function TablePaginationActions(props) {
+    const { count, page, rowsPerPage, onPageChange } = props;
+
+    const handleFirstPageButtonClick = (event) => {
+        onPageChange(event, 0);
     };
+
+    const handleBackButtonClick = (event) => {
+        onPageChange(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event) => {
+        onPageChange(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event) => {
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
+    return (
+        <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+            <IconButton
+                onClick={handleFirstPageButtonClick}
+                disabled={page === 0}
+                aria-label="first page"
+            >
+                <FirstPageIcon />
+            </IconButton>
+            <IconButton
+                onClick={handleBackButtonClick}
+                disabled={page === 0}
+                aria-label="previous page"
+            >
+                <KeyboardArrowLeft />
+            </IconButton>
+            <IconButton
+                onClick={handleNextButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="next page"
+            >
+                <KeyboardArrowRight />
+            </IconButton>
+            <IconButton
+                onClick={handleLastPageButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="last page"
+            >
+                <LastPageIcon />
+            </IconButton>
+        </Box>
+    );
 }
 
 function CharacterLadder({
     filter = {},
-    classes,
-    type,
-    data,
+    combatMetric,
+    data = [],
     page: propsPage,
-    pageSize = 30,
+    pageSize = 25,
     onPageChange,
     itemCount,
     sliced,
+    loading,
 }) {
     const specs = useSelector(environmentCharacterSpecsSelector);
 
@@ -54,7 +104,7 @@ function CharacterLadder({
 
     useEffect(() => {
         setPage(0);
-    }, [type, data, filter]);
+    }, [combatMetric, data, filter]);
 
     let filteredData = filterChars(filter, data, specs);
     const filteredDataLength = filteredData.length;
@@ -67,6 +117,7 @@ function CharacterLadder({
     }
 
     function changePage(e, page) {
+        window.scrollTo(0, 0);
         if (onPageChange) {
             onPageChange(e, page);
         } else {
@@ -76,88 +127,48 @@ function CharacterLadder({
 
     return (
         <React.Fragment>
-            <Table>
-                <TableHead className="tableHead">
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell className={classes.uppercase}>
-                            <Tooltip title={"Click for details"}>
-                                <span>
-                                    {type} <InfoIcon />
-                                </span>
-                            </Tooltip>
-                        </TableCell>
-                        <TableCell>Ilvl</TableCell>
-                        <TableCell>Date</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {filteredData &&
-                        filteredData.map((char, index) => {
-                            const date = new Date(char.date * 1000);
-                            return (
-                                <TableRow key={index} hover>
-                                    <TableCell className={classes.cell}>
-                                        <Typography color="inherit">
-                                            <span className={classes.bold}>
-                                                {index + 1 + page * pageSize}.{" "}
-                                            </span>
+            {loading && <ElevatedLinearProgress top="40px" />}
+            <OverflowScroll>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="right" padding="checkbox">
+                                Rank
+                            </TableCell>
+                            <TableCell>Character</TableCell>
+                            <UppercaseTableCell>
+                                <Tooltip
+                                    title={"Click on the number for details"}
+                                >
+                                    <span>
+                                        <InfoIcon /> {combatMetric}
+                                    </span>
+                                </Tooltip>
+                            </UppercaseTableCell>
+                            <TableCell>Item level</TableCell>
+                            <TableCell>Date</TableCell>
+                        </TableRow>
+                    </TableHead>
 
-                                            <CharacterName
-                                                character={char}
-                                                realmName={char.realm}
-                                            />
-                                        </Typography>
-                                    </TableCell>
-
-                                    <TableCell
-                                        className={`${classes.bold} ${classes.cell}`}
-                                    >
-                                        <LogLink
-                                            logId={char.logId}
-                                            realm={char.realm}
-                                        >
-                                            {new Intl.NumberFormat().format(
-                                                Math.round(char[type])
-                                            )}
-                                        </LogLink>
-                                    </TableCell>
-
-                                    <TableCell className={classes.cell}>
-                                        {char.ilvl}
-                                    </TableCell>
-
-                                    <TableCell className={classes.cell}>
-                                        <DateTooltip date={date}>
-                                            <DisplayDate
-                                                date={date}
-                                                align="right"
-                                            />
-                                        </DateTooltip>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                </TableBody>
-            </Table>
-            {filteredData && (
-                <TablePagination
-                    rowsPerPageOptions={[]}
-                    component="div"
-                    count={itemCount || filteredDataLength}
-                    rowsPerPage={pageSize}
-                    page={page}
-                    backIconButtonProps={{
-                        "aria-label": "Previous Page",
-                    }}
-                    nextIconButtonProps={{
-                        "aria-label": "Next Page",
-                    }}
-                    onPageChange={changePage}
-                />
-            )}
+                    <TableBody>
+                        <CharacterList
+                            data={filteredData}
+                            combatMetric={combatMetric}
+                        />
+                    </TableBody>
+                </Table>
+            </OverflowScroll>
+            <TablePagination
+                rowsPerPageOptions={[]}
+                component="div"
+                count={itemCount || filteredDataLength}
+                rowsPerPage={pageSize}
+                page={page}
+                onPageChange={changePage}
+                ActionsComponent={TablePaginationActions}
+            />
         </React.Fragment>
     );
 }
 
-export default withStyles(styles)(withTheme(CharacterLadder));
+export default withTheme(CharacterLadder);
