@@ -1,7 +1,6 @@
 import React from "react";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
 import { useSelector } from "react-redux";
 
 import Link from "../Link";
@@ -11,17 +10,9 @@ import Avatar from "../Avatar";
 
 import { getSpecImg, getRaceImg, getRaceName } from "../../helpers";
 import { environmentCharacterSpecsSelector } from "../../redux/selectors";
-function styles(theme) {
-    return {
-        margin: {
-            margin: "0 2px"
-        }
-    };
-}
 
 function CharacterName({
     theme,
-    classes,
     character,
     realmName,
     specIcon,
@@ -46,13 +37,13 @@ function CharacterName({
             <Avatar
                 src={getRaceImg(character.race)}
                 title={getRaceName(character.race)}
-                className={`${classes.margin} ${raceIconClass}`}
+                className={`${raceIconClass}`}
             />
             {!linkTo ? (
                 <Link
                     to={`/character/${character.name}?realm=${realmName}`}
                     style={{
-                        color: theme.palette.classColors[character.class].text
+                        color: theme.palette.classColors[character.class].text,
                     }}
                     {...rest}
                 >
@@ -62,7 +53,7 @@ function CharacterName({
                 <RegularLink
                     href={linkTo}
                     style={{
-                        color: theme.palette.classColors[character.class].text
+                        color: theme.palette.classColors[character.class].text,
                     }}
                     {...rest}
                 >
@@ -73,4 +64,4 @@ function CharacterName({
     );
 }
 
-export default withStyles(styles)(withTheme(CharacterName));
+export default withTheme(CharacterName);
