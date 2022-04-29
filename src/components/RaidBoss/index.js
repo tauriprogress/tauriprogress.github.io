@@ -7,16 +7,22 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 import RaidBossTitle from "./RaidBossTitle";
-import FastestKills from "./FastestKills";
-import RecentKills from "./RecentKills";
 import Characters from "./Characters";
 
-import { raidBossSetTab, navigationSetItem } from "../../redux/actions";
+import {
+    raidBossSetTab,
+    navigationSetItem,
+    raidBossFastestKillsFetch,
+    raidBossRecentKillsFetch,
+} from "../../redux/actions";
 
 import {
     raidFilterDifficultySelector,
     raidBossTabSelectedTabSelector,
+    raidBossFastestKillsEntireSelector,
+    raidBossRecentKillsEntireSelector,
 } from "../../redux/selectors";
+import RaidBossLogs from "./RaidBossLogs";
 
 function RaidBoss({ raidName, bossName }) {
     const { selectedTab, difficulty } = useSelector((state) => {
@@ -36,6 +42,15 @@ function RaidBoss({ raidName, bossName }) {
 
         return () => dispatch(navigationSetItem(null));
     }, [bossName, dispatch]);
+
+    const fetch =
+        selectedTab === 2
+            ? raidBossFastestKillsFetch
+            : raidBossRecentKillsFetch;
+    const selector =
+        selectedTab === 2
+            ? raidBossFastestKillsEntireSelector
+            : raidBossRecentKillsEntireSelector;
     return (
         <React.Fragment>
             <RaidBossTitle
@@ -70,19 +85,14 @@ function RaidBoss({ raidName, bossName }) {
                             />
                         );
                     case 2:
-                        return (
-                            <FastestKills
-                                raidId={raidId}
-                                bossName={bossName}
-                                difficulty={difficulty}
-                            />
-                        );
                     case 3:
                         return (
-                            <RecentKills
+                            <RaidBossLogs
                                 raidId={raidId}
                                 bossName={bossName}
                                 difficulty={difficulty}
+                                fetch={fetch}
+                                selector={selector}
                             />
                         );
                     default:

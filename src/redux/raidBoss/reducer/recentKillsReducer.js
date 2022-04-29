@@ -1,19 +1,19 @@
 import {
     RAIDBOSS_RECENTKILLS_LOADING_SET,
     RAIDBOSS_RECENTKILLS_FILL,
-    RAIDBOSS_RECENTKILLS_ERROR_SET
+    RAIDBOSS_RECENTKILLS_ERROR_SET,
 } from "../actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
     ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
+    ENVIRONMENT_SET,
 } from "../../actions";
 
 const defaultState = {
-    data: null,
+    data: undefined,
     loading: false,
-    error: null,
-    dataSpecificationString: ""
+    error: undefined,
+    dataSpecificationString: "",
 };
 
 function recentKillsReducer(state = defaultState, action) {
@@ -26,17 +26,16 @@ function recentKillsReducer(state = defaultState, action) {
         case RAIDBOSS_RECENTKILLS_LOADING_SET:
             return {
                 ...state,
-                error: null,
+                error: undefined,
                 loading: true,
-                data: null
             };
         case RAIDBOSS_RECENTKILLS_FILL:
             return {
                 ...state,
-                error: null,
+                error: undefined,
                 loading: false,
                 data: action.payload.recentKills,
-                dataSpecificationString: action.payload.dataSpecificationString
+                dataSpecificationString: action.payload.dataSpecificationString,
             };
 
         case RAIDBOSS_RECENTKILLS_ERROR_SET:
@@ -44,8 +43,8 @@ function recentKillsReducer(state = defaultState, action) {
                 ...state,
                 error: action.payload,
                 loading: false,
-                data: null,
-                dataSpecificationString: ""
+                data: undefined,
+                dataSpecificationString: "",
             };
 
         default:

@@ -26,15 +26,9 @@ import {
     getFactionImg,
 } from "../../helpers";
 
-import {
-    raidBossFastestKillsFetch,
-    raidBossKillCountFetch,
-} from "../../redux/actions";
+import { raidBossKillCountFetch } from "../../redux/actions";
 
-import {
-    environmentIsSeasonalSelector,
-    raidBossFastestKillsEntireSelector,
-} from "../../redux/selectors";
+import { environmentIsSeasonalSelector } from "../../redux/selectors";
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
 
 function GuildList({ data = [], factionColors }) {
@@ -87,7 +81,14 @@ function GuildList({ data = [], factionColors }) {
     });
 }
 
-function FastestKills({ theme, raidId, bossName, difficulty }) {
+function RaidBossLogs({
+    theme,
+    raidId,
+    bossName,
+    difficulty,
+    fetch,
+    selector,
+}) {
     const {
         palette: { factionColors },
     } = theme;
@@ -96,14 +97,14 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
 
     const { loading, error, data, isSeasonal } = useSelector((state) => {
         return {
-            ...raidBossFastestKillsEntireSelector(state),
+            ...selector(state),
             isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
     useEffect(() => {
-        dispatch(raidBossFastestKillsFetch({ raidId, bossName, difficulty }));
-    }, [raidId, bossName, difficulty, isSeasonal, dispatch]);
+        dispatch(fetch({ raidId, bossName, difficulty }));
+    }, [fetch, raidId, bossName, difficulty, isSeasonal, dispatch]);
 
     return (
         <OverflowScroll>
@@ -136,7 +137,7 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
                     message={error}
                     refresh={() =>
                         dispatch(
-                            raidBossFastestKillsFetch({
+                            fetch({
                                 raidId,
                                 bossName,
                                 difficulty,
@@ -156,4 +157,4 @@ function FastestKills({ theme, raidId, bossName, difficulty }) {
     );
 }
 
-export default withTheme(FastestKills);
+export default withTheme(RaidBossLogs);
