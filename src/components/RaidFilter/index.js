@@ -36,11 +36,6 @@ const IndentedMenuItem = styled(MenuItem)(({ theme }) => ({
     paddingLeft: theme.spacing(3),
 }));
 
-const SmallerAvatar = styled(Avatar)({
-    height: "18px",
-    width: "18px",
-});
-
 function RaidFilter({ theme }) {
     const {
         filter,
@@ -221,7 +216,10 @@ function RaidFilter({ theme }) {
                                     style={option.style}
                                 >
                                     {option.imageSrc && (
-                                        <SmallerAvatar src={option.imageSrc} />
+                                        <Avatar
+                                            variant="small"
+                                            src={option.imageSrc}
+                                        />
                                     )}
                                     {option.name}
                                 </Component>

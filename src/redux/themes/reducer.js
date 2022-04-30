@@ -54,9 +54,6 @@ const baseTheme = {
             },
         },
         MuiAvatar: {
-            defaultProps: {
-                variant: "rounded",
-            },
             styleOverrides: {
                 root: {
                     display: "inline-block",
@@ -65,8 +62,18 @@ const baseTheme = {
                     verticalAlign: "middle",
                     transform: "translateY(-1px)",
                     marginRight: "3px",
+                    borderRadius: "3px",
                 },
             },
+            variants: [
+                {
+                    props: { variant: "small" },
+                    style: {
+                        height: "18px",
+                        width: "18px",
+                    },
+                },
+            ],
         },
         MuiLink: {
             styleOverrides: {
