@@ -73,6 +73,11 @@ const baseTheme = {
                 },
             },
         },
+        MuiFormControl: {
+            defaultProps: {
+                size: "small",
+            },
+        },
         MuiSelect: {
             styleOverrides: {
                 root: {
@@ -88,11 +93,14 @@ const baseTheme = {
                 },
             },
         },
-        MuiFormControl: {
-            defaultProps: {
-                size: "small",
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    textTransform: "capitalize",
+                },
             },
         },
+
         MuiTableCell: {
             styleOverrides: {
                 sizeSmall: {
