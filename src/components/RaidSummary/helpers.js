@@ -1,4 +1,4 @@
-import { capitalize } from "../../helpers";
+import { capitalize, isClassId } from "../../helpers";
 
 export function applyFilter(bossData, filter, specs) {
     if (!bossData[filter.difficulty]) return bossData[filter.difficulty];
@@ -39,14 +39,20 @@ export function applyFilter(bossData, filter, specs) {
                 if (filter.faction !== "" && filter.faction !== Number(faction))
                     continue;
 
-                for (const classId in boss[property][realmName][faction]) {
-                    if (filter.class !== "" && filter.class !== classId)
+                for (const classIdStr in boss[property][realmName][faction]) {
+                    const classId = Number(classIdStr);
+                    if (
+                        filter.class !== "" &&
+                        isClassId(filter.class) &&
+                        filter.class !== classId
+                    )
                         continue;
 
-                    for (const specId in boss[property][realmName][faction][
+                    for (const specIdStr in boss[property][realmName][faction][
                         classId
                     ]) {
-                        if (filter.spec !== "" && filter.spec !== specId)
+                        const specId = Number(specIdStr);
+                        if (!isClassId(filter.class) && filter.class !== specId)
                             continue;
 
                         let characters =
@@ -54,7 +60,7 @@ export function applyFilter(bossData, filter, specs) {
                         if (filter.role) {
                             data = data.concat(
                                 characters.filter(
-                                    char =>
+                                    (char) =>
                                         specs[char.spec].role === filter.role
                                 )
                             );
