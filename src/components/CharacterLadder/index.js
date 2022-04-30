@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { styled } from "@mui/system";
 
 import withTheme from "@mui/styles/withTheme";
@@ -23,8 +22,6 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 
 import InfoIcon from "../InfoIcon";
 
-import { filterChars } from "./helpers";
-import { environmentCharacterSpecsSelector } from "../../redux/selectors";
 import OverflowScroll from "../OverflowScroll";
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
 
@@ -93,11 +90,8 @@ function CharacterLadder({
     pageSize = 25,
     onPageChange,
     itemCount,
-    sliced,
     loading,
 }) {
-    const specs = useSelector(environmentCharacterSpecsSelector);
-
     const [localPage, setPage] = useState(0);
 
     let page = typeof propsPage !== "undefined" ? propsPage : localPage;
@@ -105,16 +99,6 @@ function CharacterLadder({
     useEffect(() => {
         setPage(0);
     }, [combatMetric, data, filter]);
-
-    let filteredData = filterChars(filter, data, specs);
-    const filteredDataLength = filteredData.length;
-
-    if (!sliced) {
-        filteredData = filteredData.slice(
-            page * pageSize,
-            (page + 1) * pageSize
-        );
-    }
 
     function changePage(e, page) {
         window.scrollTo(0, 0);
@@ -152,7 +136,7 @@ function CharacterLadder({
 
                     <TableBody>
                         <CharacterList
-                            data={filteredData}
+                            data={data}
                             combatMetric={combatMetric}
                         />
                     </TableBody>
@@ -161,7 +145,7 @@ function CharacterLadder({
             <TablePagination
                 rowsPerPageOptions={[]}
                 component="div"
-                count={itemCount || filteredDataLength}
+                count={itemCount || 0}
                 rowsPerPage={pageSize}
                 page={page}
                 onPageChange={changePage}
