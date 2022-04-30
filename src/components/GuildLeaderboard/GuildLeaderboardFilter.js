@@ -8,8 +8,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
+import Avatar from "@mui/material/Avatar";
 
-import { getRealmNames } from "../../helpers";
+import { getFactionImg, getRealmNames } from "../../helpers";
 
 import { guildLeaderboardSetFilter } from "../../redux/actions";
 import {
@@ -56,13 +57,6 @@ function GuildLeaderboardFilter({ theme }) {
     }
     let selects = [
         {
-            name: "raid",
-            options: raids.map((raid) => ({
-                value: raid.name,
-                name: raid.name,
-            })),
-        },
-        {
             name: "difficulty",
             options: difficulties.map((difficulty) => ({
                 value: difficulty,
@@ -80,6 +74,7 @@ function GuildLeaderboardFilter({ theme }) {
             options: [
                 { value: "", name: "all" },
                 {
+                    imageSrc: getFactionImg(0),
                     value: 0,
                     name: "alliance",
                     style: {
@@ -87,6 +82,7 @@ function GuildLeaderboardFilter({ theme }) {
                     },
                 },
                 {
+                    imageSrc: getFactionImg(1),
                     value: 1,
                     name: "horde",
                     style: {
@@ -98,7 +94,7 @@ function GuildLeaderboardFilter({ theme }) {
     ];
 
     if (realmOptions.length > 1) {
-        selects.splice(2, 0, {
+        selects.push({
             name: "realm",
             options: [
                 {
@@ -107,6 +103,16 @@ function GuildLeaderboardFilter({ theme }) {
                 },
                 ...realmOptions,
             ],
+        });
+    }
+
+    if (raids.length > 1) {
+        selects.unshift({
+            name: "raid",
+            options: raids.map((raid) => ({
+                value: raid.name,
+                name: raid.name,
+            })),
         });
     }
 
@@ -138,6 +144,12 @@ function GuildLeaderboardFilter({ theme }) {
                                 value={option.value}
                                 style={option.style}
                             >
+                                {option.imageSrc && (
+                                    <Avatar
+                                        src={option.imageSrc}
+                                        variant="small"
+                                    />
+                                )}
                                 {option.name}
                             </MenuItem>
                         ))}
