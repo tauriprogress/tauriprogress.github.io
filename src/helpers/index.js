@@ -161,11 +161,11 @@ export function talentTreeToSpec(fullSpecName, specs) {
     return false;
 }
 
-export function classImg(classId) {
+export function getClassImg(classId) {
     return require(`../assets/classes/${classId}.jpg`).default;
 }
 
-export function raidImg(imageName) {
+export function getRaidImg(imageName) {
     return require(`../assets/raids/${imageName}`).default;
 }
 
@@ -180,6 +180,10 @@ export function getRaceImg(imageName) {
 export function getFactionImg(faction) {
     return require(`../assets/faction/${!faction ? "alliance" : "horde"}.png`)
         .default;
+}
+
+export function getRoleImg(role) {
+    return require(`../assets/roles/${role}.svg`).default;
 }
 
 export function getRaceName(race) {

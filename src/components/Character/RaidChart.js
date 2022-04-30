@@ -23,7 +23,12 @@ import {
     environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
 
-import { getSpecImg, classImg, shortNumber, capitalize } from "../../helpers";
+import {
+    getSpecImg,
+    getClassImg,
+    shortNumber,
+    capitalize,
+} from "../../helpers";
 
 function styles(theme) {
     return {
@@ -135,7 +140,7 @@ function RaidChart({
                                     >
                                         <img
                                             className={classes.specIcon}
-                                            src={classImg(characterClass)}
+                                            src={getClassImg(characterClass)}
                                             alt=""
                                         />
                                     </Tooltip>

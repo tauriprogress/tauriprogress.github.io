@@ -1,44 +1,42 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
+import withTheme from "@mui/styles/withTheme";
 
 import Link from "../Link";
 import Grid from "@mui/material/Grid";
 
 import DisplayDate from "../DisplayDate";
 import MetaDataList from "../MetaDataList";
-import RoleIcon from "./RoleIcon";
-import tankIcon from "../../assets/roles/Tank.svg";
-import healIcon from "../../assets/roles/Healer.svg";
-import rangedIcon from "../../assets/roles/Ranged.svg";
-import meleeIcon from "../../assets/roles/Melee.svg";
 
 import { convertFightLength } from "../../helpers";
 
 import {
     environmentCharacterSpecsSelector,
-    environmentDifficultyNamesSelector
+    environmentDifficultyNamesSelector,
 } from "../../redux/selectors";
+import { Avatar } from "@mui/material";
+
+import { getRoleImg } from "../../helpers";
 
 function LogTitle({ data, theme }) {
     const {
         palette: {
-            factionColors: { alliance, horde }
-        }
+            factionColors: { alliance, horde },
+        },
     } = theme;
 
     let countComposition = {
         heal: 0,
         melee: 0,
         ranged: 0,
-        tank: 0
+        tank: 0,
     };
 
     const { specs, difficultyNames } = useSelector(
-        state => ({
+        (state) => ({
             specs: environmentCharacterSpecsSelector(state),
-            difficultyNames: environmentDifficultyNamesSelector(state)
+            difficultyNames: environmentDifficultyNamesSelector(state),
         }),
         shallowEqual
     );
@@ -62,14 +60,14 @@ function LogTitle({ data, theme }) {
                 <Link
                     to={`/guild/${data.guilddata.name}?realm=${data.realm}`}
                     style={{
-                        color: data.guilddata.faction ? horde : alliance
+                        color: data.guilddata.faction ? horde : alliance,
                     }}
                 >
                     {data.guilddata.name}
                 </Link>
             ) : (
                 "Random"
-            )
+            ),
         },
         {
             label: "Boss",
@@ -80,15 +78,15 @@ function LogTitle({ data, theme }) {
                 >
                     {data.encounter_data.encounter_name}
                 </Link>
-            )
+            ),
         },
         {
             label: "Difficulty",
-            value: difficultyNames[data.difficulty]
+            value: difficultyNames[data.difficulty],
         },
         {
             label: "Time",
-            value: convertFightLength(data.fight_time)
+            value: convertFightLength(data.fight_time),
         },
         {
             label: "Date",
@@ -99,8 +97,8 @@ function LogTitle({ data, theme }) {
                         "0" + date.getMinutes()
                     ).slice(-2)}`}
                 </DisplayDate>
-            )
-        }
+            ),
+        },
     ];
 
     const total = [
@@ -114,7 +112,7 @@ function LogTitle({ data, theme }) {
                     ) /
                         (data.fight_time / 1000)
                 )
-            )
+            ),
         },
         {
             label: "Hps",
@@ -126,16 +124,16 @@ function LogTitle({ data, theme }) {
                     ) /
                         (data.fight_time / 1000)
                 )
-            )
+            ),
         },
         {
             label: "Damage taken",
             value: new Intl.NumberFormat().format(
                 data.members.reduce((acc, member) => acc + member.dmg_taken, 0)
-            )
+            ),
         },
         { label: "Deaths", value: data.deaths_fight },
-        { label: "Resurrects", value: data.resurrects_fight }
+        { label: "Resurrects", value: data.resurrects_fight },
     ];
 
     const composition = [
@@ -148,44 +146,44 @@ function LogTitle({ data, theme }) {
                         countComposition.ranged +
                         countComposition.melee}
                 </span>
-            )
+            ),
         },
         {
             label: "Tank",
             value: (
                 <span>
                     {countComposition.tank}
-                    <RoleIcon src={tankIcon} />
+                    <Avatar src={getRoleImg("Tank")} />
                 </span>
-            )
+            ),
         },
         {
             label: "Healer",
             value: (
                 <span>
                     {countComposition.heal}
-                    <RoleIcon src={healIcon} />
+                    <Avatar src={getRoleImg("Healer")} />
                 </span>
-            )
+            ),
         },
         {
             label: "Ranged",
             value: (
                 <span>
                     {countComposition.ranged}
-                    <RoleIcon src={rangedIcon} />
+                    <Avatar src={getRoleImg("Ranged")} />
                 </span>
-            )
+            ),
         },
         {
             label: "Melee",
             value: (
                 <span>
                     {countComposition.melee}
-                    <RoleIcon src={meleeIcon} />
+                    <Avatar src={getRoleImg("Melee")} />
                 </span>
-            )
-        }
+            ),
+        },
     ];
 
     return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -12,7 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import Link from "../Link";
 
-import { raidImg } from "../../helpers";
+import { getRaidImg } from "../../helpers";
 
 import { navigationToggle } from "../../redux/actions";
 
@@ -26,12 +26,12 @@ function styles(theme) {
             color: theme.palette.primary.contrastText,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
-            backgroundColor: theme.palette.primary.main
+            backgroundColor: theme.palette.primary.main,
         },
         nestedNavItem: {
             padding: theme.spacing(0.5),
-            paddingLeft: theme.spacing(5)
-        }
+            paddingLeft: theme.spacing(5),
+        },
     };
 }
 
@@ -46,7 +46,7 @@ function RaidBossList({ raid, classes }) {
                 className={classes.title}
                 onClick={() => setOpen(open ? false : true)}
                 style={{
-                    backgroundImage: `url("${raidImg(raid.image)}")`
+                    backgroundImage: `url("${getRaidImg(raid.image)}")`,
                 }}
                 button
             >
@@ -73,7 +73,7 @@ function RaidBossList({ raid, classes }) {
                             <ListItemText primary={"Summary"} />
                         </ListItem>
                     </Link>
-                    {raid.bosses.map(boss => {
+                    {raid.bosses.map((boss) => {
                         let linkTo = `/raid/${raid.name}/${boss.name}`;
 
                         return (

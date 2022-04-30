@@ -22,7 +22,7 @@ import CharacterName from "../CharacterName";
 import OverflowScroll from "../OverflowScroll";
 
 import { filterMembers } from "./helpers";
-import { classImg } from "../../helpers";
+import { getClassImg } from "../../helpers";
 import {
     guildRealmSelector,
     guildRanksSelector,
@@ -166,7 +166,7 @@ function GuildRosterList({ theme, members, classInfo }) {
                                         <Typography>
                                             <CharacterName
                                                 character={member}
-                                                specIcon={classImg(
+                                                specIcon={getClassImg(
                                                     member.class
                                                 )}
                                                 specIconTitle={

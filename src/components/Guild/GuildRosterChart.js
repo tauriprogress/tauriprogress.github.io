@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+import withStyles from "@mui/styles/withStyles";
+import withTheme from "@mui/styles/withTheme";
 
 import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import Avatar from "../Avatar";
 import TitledContainer from "../TitledContainer";
 
-import { classImg } from "../../helpers";
+import { getClassImg } from "../../helpers";
 
 import { environmentCharacterClassNamesSelector } from "../../redux/selectors";
 
@@ -20,17 +20,17 @@ function styles(theme) {
         container: {
             height: "480px",
             display: "flex",
-            flexDirection: "column"
+            flexDirection: "column",
         },
         charContainer: {
             margin: `0 ${theme.spacing(1)}`,
             padding: theme.spacing(1),
             flex: 1,
             display: "flex",
-            alignItems: "center"
+            alignItems: "center",
         },
         barContainer: {
-            flex: 1
+            flex: 1,
         },
         bar: {
             height: "38px",
@@ -44,7 +44,7 @@ function styles(theme) {
                 color: theme.baseColors.light,
                 textShadow:
                     "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
-                zIndex: 2
+                zIndex: 2,
             },
             "&:before": {
                 position: "absolute",
@@ -55,15 +55,15 @@ function styles(theme) {
                 width: "100%",
                 content: "''",
                 background:
-                    "linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)"
-            }
+                    "linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)",
+            },
         },
         classImg: {
             marginRight: theme.spacing(0.5),
             height: "30px",
             width: "30px",
-            transform: "translate(0, 3px)"
-        }
+            transform: "translate(0, 3px)",
+        },
     };
 }
 
@@ -72,7 +72,7 @@ function GuildRosterChart({
     theme,
     totalChars,
     classInfo,
-    maxClassCount
+    maxClassCount,
 }) {
     const characterClassNames = useSelector(
         environmentCharacterClassNamesSelector
@@ -89,13 +89,13 @@ function GuildRosterChart({
                     justifyContent="space-between"
                     direction="column"
                 >
-                    {classInfo.map(charClass => (
+                    {classInfo.map((charClass) => (
                         <Grid item key={charClass.classId}>
                             <Grid container wrap="nowrap">
                                 <Grid item>
                                     <Avatar
                                         className={classes.classImg}
-                                        src={classImg(charClass.classId)}
+                                        src={getClassImg(charClass.classId)}
                                         title={
                                             characterClassNames[
                                                 charClass.classId
@@ -126,7 +126,7 @@ function GuildRosterChart({
                                                 backgroundColor:
                                                     theme.palette.classColors[
                                                         charClass.classId
-                                                    ].background
+                                                    ].background,
                                             }}
                                         >
                                             <Typography>

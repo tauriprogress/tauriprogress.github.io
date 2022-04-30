@@ -1,6 +1,6 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
@@ -13,7 +13,7 @@ import TableCell from "@mui/material/TableCell";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
-import { raidImg } from "../../helpers";
+import { getRaidImg } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -143,7 +143,7 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
             >
                 <div
                     style={{
-                        backgroundImage: `url("${raidImg(data.image)}")`,
+                        backgroundImage: `url("${getRaidImg(data.image)}")`,
                     }}
                     className={classes.titleContainer}
                 >

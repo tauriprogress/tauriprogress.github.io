@@ -14,7 +14,7 @@ import DifficultyTabs from "../DifficultyTabs";
 import RaidChart from "./RaidChart";
 
 import { displayHealing, getDifficulties } from "./helpers";
-import { raidImg, getDefaultDifficulty } from "../../helpers";
+import { getRaidImg, getDefaultDifficulty } from "../../helpers";
 
 import {
     characterProgressionFetch,
@@ -110,7 +110,7 @@ function CharacterProgression({ classes }) {
                         label={raid.name}
                         className={classes.tab}
                         style={{
-                            backgroundImage: `url("${raidImg(raid.image)}")`,
+                            backgroundImage: `url("${getRaidImg(raid.image)}")`,
                             backgroundSize: "cover",
                         }}
                         onClick={() => selectRaid(raid.name)}

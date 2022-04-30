@@ -44,7 +44,7 @@ import {
     environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
-import { classImg } from "../../helpers";
+import { getClassImg } from "../../helpers";
 
 function styles(theme) {
     return {
@@ -198,7 +198,7 @@ function CharacterLeaderboard({ classes, theme }) {
                                                                     realmName={
                                                                         realmName
                                                                     }
-                                                                    specIcon={classImg(
+                                                                    specIcon={getClassImg(
                                                                         char.class
                                                                     )}
                                                                     specIconTitle={
