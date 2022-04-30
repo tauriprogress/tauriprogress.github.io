@@ -43,6 +43,10 @@ const baseTheme = {
     components: {
         MuiCssBaseline: {
             styleOverrides: {
+                body: {
+                    overflowY: "scroll !important",
+                    padding: "0px !important",
+                },
                 "*": {
                     scrollbarWidth: "thin",
                 },

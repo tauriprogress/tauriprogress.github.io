@@ -1,37 +1,33 @@
 import React from "react";
-import withStyles from '@mui/styles/withStyles';
-
-import Grid from "@mui/material/Grid";
 
 import Header from "../Header";
 import SideNavigation from "../SideNavigation";
 import OverflowScroll from "../OverflowScroll";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        container: {
-            width: "100%",
-            display: "flex"
-        },
-        content: {
-            flex: 1,
-            padding: theme.spacing(2)
-        }
-    };
-}
+const PageContentContainer = styled("div")({
+    width: "100%",
+    display: "flex",
+});
 
-function AppContainer({ classes, children }) {
+const FlexOverflowScroll = styled(OverflowScroll)(({ theme }) => ({
+    flex: 1,
+    padding: theme.spacing(1),
+    paddingTop: theme.spacing(2),
+}));
+
+function AppContainer({ children }) {
     return (
         <React.Fragment>
             <Header />
-            <Grid className={classes.container}>
+            <PageContentContainer>
                 <SideNavigation />
-                <OverflowScroll className={classes.content}>
+                <FlexOverflowScroll>
                     <main>{children}</main>
-                </OverflowScroll>
-            </Grid>
+                </FlexOverflowScroll>
+            </PageContentContainer>
         </React.Fragment>
     );
 }
 
-export default withStyles(styles)(AppContainer);
+export default AppContainer;
