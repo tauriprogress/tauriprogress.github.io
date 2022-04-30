@@ -2,7 +2,6 @@ import queryString from "query-string";
 import constants, {
     shortRealms,
     characterRaceNames,
-    characterSpecClass,
 } from "tauriprogress-constants";
 import { characterClassNames } from "tauriprogress-constants/build/tauri";
 
@@ -470,22 +469,10 @@ export function readFiltersFromUrl(realmGroup, filterNames, location) {
             case "class":
                 filter = {
                     ...filter,
-                    class: validClass(filterFromUrl.class, realmGroup)
-                        ? filterFromUrl.class
-                        : "",
-                };
-
-                break;
-
-            case "spec":
-                filter = {
-                    ...filter,
-                    spec:
-                        validClass(filterFromUrl.class, realmGroup) &&
-                        validSpec(filterFromUrl.spec, realmGroup) &&
-                        characterSpecClass[filterFromUrl.spec] ===
-                            Number(filterFromUrl.class)
-                            ? filterFromUrl.spec
+                    class:
+                        validClass(filterFromUrl.class, realmGroup) ||
+                        validSpec(filterFromUrl.class, realmGroup)
+                            ? Number(filterFromUrl.class)
                             : "",
                 };
 
@@ -550,7 +537,7 @@ export function getSearchQueryString(queries) {
 }
 
 export function getDataSpecificationString(specifications) {
-    return `${specifications.raidId} ${specifications.bossName} ${specifications.difficulty} ${specifications.combatMetric} ${specifications.realm} ${specifications.faction} ${specifications.class} ${specifications.spec} ${specifications.role} ${specifications.page} ${specifications.pageSize}`;
+    return `${specifications.raidId} ${specifications.bossName} ${specifications.difficulty} ${specifications.combatMetric} ${specifications.realm} ${specifications.faction} ${specifications.class} ${specifications.role} ${specifications.page} ${specifications.pageSize}`;
 }
 
 export function getRealmGroupFromLocalStorage() {
@@ -575,7 +562,9 @@ export function cleanFilters(filters) {
 
     for (let [key, value] of Object.entries(filters)) {
         if (value !== "") {
-            if (key === "class" || key === "spec" || key === "faction") {
+            if (key === "class" && !isClassId(value)) {
+                newFilters["spec"] = Number(value);
+            } else if (key === "class" || key === "faction") {
                 newFilters[key] = Number(value);
             } else {
                 newFilters[key] = value;
