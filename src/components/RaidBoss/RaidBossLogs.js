@@ -41,7 +41,7 @@ function GuildList({ data = [], factionColors }) {
                 </TableCell>
                 <TableCell>
                     {log.guild ? (
-                        <Typography>
+                        <Typography noWrap>
                             <Link
                                 style={{
                                     color: log.guild.f
