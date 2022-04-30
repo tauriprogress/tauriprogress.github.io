@@ -1,20 +1,23 @@
 import React from "react";
 
-import { characterSpecClass } from "tauriprogress-constants";
+import { characterClassSpecs } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 
-import CollapseableFilterContainer from "../FilterContainer/CollapseableFilterContainer";
-
-import { getRealmNames } from "../../helpers";
-
+import {
+    getRealmNames,
+    getClassImg,
+    getSpecImg,
+    getFactionImg,
+    getRoleImg,
+} from "../../helpers";
+import { getClassColor } from "./helpers";
 import { setRaidFilter } from "../../redux/actions";
 
 import {
@@ -25,16 +28,20 @@ import {
     environmentCharacterClassNamesSelector,
     environmentRaidsSelector,
 } from "../../redux/selectors";
+import FilterContainer from "../FilterContainer";
+import Avatar from "@mui/material/Avatar";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        capitalize: {
-            textTransform: "capitalize",
-        },
-    };
-}
+const IndentedMenuItem = styled(MenuItem)(({ theme }) => ({
+    paddingLeft: theme.spacing(3),
+}));
 
-function RaidFilter({ classes, theme }) {
+const SmallerAvatar = styled(Avatar)({
+    height: "18px",
+    width: "18px",
+});
+
+function RaidFilter({ theme }) {
     const {
         filter,
         realms,
@@ -68,33 +75,30 @@ function RaidFilter({ classes, theme }) {
     const {
         palette: { classColors, factionColors },
     } = theme;
-    let specOptions = [];
-    const classColor = filter.class
-        ? classColors[filter.class].text
-        : "inherit";
-    for (let specId in characterSpecClass) {
-        if (characterSpecClass[specId] === Number(filter.class)) {
-            if (specs[specId]) {
-                specOptions.push({
-                    value: specId,
-                    name: specs[specId].label,
-                    style: {
-                        color: classColors[filter.class].text,
-                    },
-                });
-            }
-        }
-    }
 
     let classOptions = [];
     for (let classId in characterClassNames) {
         classOptions.push({
-            value: classId,
+            imageSrc: getClassImg(Number(classId)),
+            divider: true,
+            value: Number(classId),
             name: characterClassNames[classId],
             style: {
                 color: classColors[classId].text,
             },
         });
+
+        for (const specId of characterClassSpecs[classId]) {
+            classOptions.push({
+                imageSrc: getSpecImg(specs[specId].image),
+                indented: true,
+                value: specId,
+                name: specs[specId].label,
+                style: {
+                    color: classColors[classId].text,
+                },
+            });
+        }
     }
 
     let realmOptions = [];
@@ -106,6 +110,33 @@ function RaidFilter({ classes, theme }) {
     }
     let selects = [
         {
+            name: "class",
+            style: {
+                color: getClassColor(filter.class, classColors),
+            },
+            options: classOptions,
+        },
+        {
+            name: "role",
+            options: [
+                {
+                    imageSrc: getRoleImg("Melee"),
+                    value: "damage",
+                    name: "damage",
+                },
+                {
+                    imageSrc: getRoleImg("Healer"),
+                    value: "heal",
+                    name: "heal",
+                },
+                {
+                    imageSrc: getRoleImg("Tank"),
+                    value: "tank",
+                    name: "tank",
+                },
+            ],
+        },
+        {
             name: "faction",
             style: {
                 color:
@@ -115,6 +146,7 @@ function RaidFilter({ classes, theme }) {
             },
             options: [
                 {
+                    imageSrc: getFactionImg(0),
                     value: 0,
                     name: "alliance",
                     style: {
@@ -122,6 +154,7 @@ function RaidFilter({ classes, theme }) {
                     },
                 },
                 {
+                    imageSrc: getFactionImg(1),
                     value: 1,
                     name: "horde",
                     style: {
@@ -130,45 +163,7 @@ function RaidFilter({ classes, theme }) {
                 },
             ],
         },
-        {
-            name: "class",
-            style: {
-                color: classColor,
-            },
-            options: classOptions,
-        },
-        {
-            name: "spec",
-            style: {
-                color: classColor,
-            },
-            options: specOptions,
-        },
-        {
-            name: "role",
-            options: [
-                {
-                    value: "damage",
-                    name: "damage",
-                },
-                {
-                    value: "heal",
-                    name: "heal",
-                },
-                {
-                    value: "tank",
-                    name: "tank",
-                },
-            ],
-        },
     ];
-
-    if (realmOptions.length > 1) {
-        selects.unshift({
-            name: "realm",
-            options: realmOptions,
-        });
-    }
 
     selects.unshift({
         name: "difficulty",
@@ -178,16 +173,22 @@ function RaidFilter({ classes, theme }) {
         })),
     });
 
+    if (realmOptions.length > 1) {
+        selects.push({
+            name: "realm",
+            options: realmOptions,
+        });
+    }
+
     return (
-        <CollapseableFilterContainer defaultState={true}>
+        <FilterContainer>
             {selects.map((select) => (
                 <FormControl key={select.name}>
-                    <InputLabel htmlFor="class" className={classes.capitalize}>
-                        {select.name}
-                    </InputLabel>
+                    <InputLabel>{select.name}</InputLabel>
                     <Select
                         style={select.style}
                         value={filter[select.name]}
+                        label={select.name}
                         onChange={(e) =>
                             dispatch(
                                 setRaidFilter({
@@ -200,7 +201,6 @@ function RaidFilter({ classes, theme }) {
                             name: select.name,
                             id: select.name,
                         }}
-                        className={classes.capitalize}
                     >
                         {select.name !== "difficulty" && (
                             <MenuItem value="">
@@ -208,21 +208,30 @@ function RaidFilter({ classes, theme }) {
                             </MenuItem>
                         )}
 
-                        {select.options.map((option) => (
-                            <MenuItem
-                                key={option.name}
-                                value={option.value}
-                                style={option.style}
-                                className={classes.capitalize}
-                            >
-                                <span>{option.name}</span>
-                            </MenuItem>
-                        ))}
+                        {select.options.map((option) => {
+                            const Component = option.indented
+                                ? IndentedMenuItem
+                                : MenuItem;
+
+                            return (
+                                <Component
+                                    divider={option.divider}
+                                    key={option.name}
+                                    value={option.value}
+                                    style={option.style}
+                                >
+                                    {option.imageSrc && (
+                                        <SmallerAvatar src={option.imageSrc} />
+                                    )}
+                                    {option.name}
+                                </Component>
+                            );
+                        })}
                     </Select>
                 </FormControl>
             ))}
-        </CollapseableFilterContainer>
+        </FilterContainer>
     );
 }
 
-export default withStyles(styles)(withTheme(React.memo(RaidFilter)));
+export default withTheme(React.memo(RaidFilter));
