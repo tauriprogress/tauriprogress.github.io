@@ -11,7 +11,7 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import FilterContainer from "../FilterContainer";
 
-import { getRealmNames } from "../../helpers";
+import { getClassImg, getFactionImg, getRealmNames } from "../../helpers";
 
 import { characterLeaderboardSetFilter } from "../../redux/actions";
 import {
@@ -22,6 +22,7 @@ import {
     environmentDifficultyNamesSelector,
     environmentRaidsSelector,
 } from "../../redux/selectors";
+import { Avatar } from "@mui/material";
 
 function CharacterLeaderboardFilter({ theme }) {
     const {
@@ -79,6 +80,7 @@ function CharacterLeaderboardFilter({ theme }) {
     let classOptions = [];
     for (let classId in characterClassNames) {
         classOptions.push({
+            imageSrc: getClassImg(classId),
             value: classId,
             name: characterClassNames[classId],
             style: {
@@ -96,44 +98,11 @@ function CharacterLeaderboardFilter({ theme }) {
     }
     let selects = [
         {
-            name: "raid",
-            options: raids.map((raid) => ({
-                value: raid.name,
-                name: raid.name,
-            })),
-        },
-        {
             name: "difficulty",
             options: difficulties.map((difficulty) => ({
                 value: difficulty,
                 name: difficultyNames[difficulty],
             })),
-        },
-        {
-            name: "faction",
-            style: {
-                color:
-                    filter.faction === 0
-                        ? factionColors.alliance
-                        : factionColors.horde,
-            },
-            options: [
-                { value: "", name: "all" },
-                {
-                    value: 0,
-                    name: "alliance",
-                    style: {
-                        color: factionColors.alliance,
-                    },
-                },
-                {
-                    value: 1,
-                    name: "horde",
-                    style: {
-                        color: factionColors.horde,
-                    },
-                },
-            ],
         },
         {
             name: "class",
@@ -148,10 +117,38 @@ function CharacterLeaderboardFilter({ theme }) {
                 ...classOptions,
             ],
         },
+        {
+            name: "faction",
+            style: {
+                color:
+                    filter.faction === 0
+                        ? factionColors.alliance
+                        : factionColors.horde,
+            },
+            options: [
+                { value: "", name: "all" },
+                {
+                    imageSrc: getFactionImg(0),
+                    value: 0,
+                    name: "alliance",
+                    style: {
+                        color: factionColors.alliance,
+                    },
+                },
+                {
+                    imageSrc: getFactionImg(1),
+                    value: 1,
+                    name: "horde",
+                    style: {
+                        color: factionColors.horde,
+                    },
+                },
+            ],
+        },
     ];
 
     if (realmOptions.length > 1) {
-        selects.splice(2, 0, {
+        selects.push({
             name: "realm",
             options: [
                 {
@@ -160,6 +157,15 @@ function CharacterLeaderboardFilter({ theme }) {
                 },
                 ...realmOptions,
             ],
+        });
+    }
+    if (raids.length > 1) {
+        selects.unshift({
+            name: "raid",
+            options: raids.map((raid) => ({
+                value: raid.name,
+                name: raid.name,
+            })),
         });
     }
 
@@ -191,6 +197,12 @@ function CharacterLeaderboardFilter({ theme }) {
                                 value={option.value}
                                 style={option.style}
                             >
+                                {option.imageSrc && (
+                                    <Avatar
+                                        src={option.imageSrc}
+                                        variant="small"
+                                    />
+                                )}
                                 {option.name}
                             </MenuItem>
                         ))}
