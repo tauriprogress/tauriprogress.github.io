@@ -47,8 +47,12 @@ const SuccessTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.success.main,
 }));
 
-const NoborderTableCell = styled(TableCell)(({ theme }) => ({
+const NoborderTableCell = styled(TableCell)({
     borderBottom: "none",
+});
+
+const SecondaryTextSpan = styled("span")(({ theme }) => ({
+    color: theme.palette.text.secondary,
 }));
 
 function GuildLeaderboard({ theme }) {
@@ -231,7 +235,9 @@ function InnerTableRows({ start, logs, guild, tab }) {
                 ) : (
                     <DisplayDate date={new Date(log.date * 1000)}>
                         {" "}
-                        {dateTextHours(new Date(log.date * 1000))}
+                        <SecondaryTextSpan>
+                            - {dateTextHours(new Date(log.date * 1000))}
+                        </SecondaryTextSpan>
                     </DisplayDate>
                 )}
             </TableCell>
