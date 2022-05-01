@@ -2,12 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import Typography from "@mui/material/Typography";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TablePagination from "@mui/material/TablePagination";
 import { getClassImg, getFactionImg } from "../../helpers";
 import { Avatar } from "@mui/material";
 import withTheme from "@mui/styles/withTheme";

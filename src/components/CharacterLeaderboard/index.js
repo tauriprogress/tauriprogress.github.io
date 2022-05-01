@@ -32,7 +32,6 @@ import {
     characterLeaderboardFilterSelector,
     characterLeaderboardItemCountSelector,
     characterLeaderboardPageSelector,
-    environmentCharacterClassNamesSelector,
     environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
