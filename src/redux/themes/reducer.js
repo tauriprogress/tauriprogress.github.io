@@ -120,6 +120,19 @@ const baseTheme = {
                 },
             },
         },
+
+        MuiTable: {
+            variants: [
+                {
+                    props: { variant: "inner" },
+                    style: {
+                        "& td": {
+                            padding: "6px",
+                        },
+                    },
+                },
+            ],
+        },
     },
     typography: {
         fontSize: (14 / 16) * 14,

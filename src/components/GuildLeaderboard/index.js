@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import withTheme from "@mui/styles/withTheme";
-import withStyles from "@mui/styles/withStyles";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -11,10 +10,9 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import WithRealm from "../WithRealm";
+import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
 
 import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
@@ -22,14 +20,16 @@ import Loading from "../Loading";
 import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
 import DisplayDate from "../DisplayDate";
 import OverflowScroll from "../OverflowScroll";
-import AlignedRankDisplay from "../AlignedRankDisplay";
 import Link from "../Link";
 
 import LogLink from "../LogLink";
-import InfoIcon from "../InfoIcon";
 
 import { filterGuilds } from "./helpers";
-import { convertFightLength, dateTextHours } from "./../../helpers";
+import {
+    convertFightLength,
+    dateTextHours,
+    getFactionImg,
+} from "./../../helpers";
 
 import {
     guildLeaderboardFetch,
@@ -41,49 +41,18 @@ import {
     environmentRealmGroupSelector,
     environmentIsSeasonalSelector,
 } from "../../redux/selectors";
+import { Avatar } from "@mui/material";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        cell: {
-            padding: theme.spacing(1),
-        },
-        firstCellName: {
-            paddingLeft: theme.spacing(10),
-        },
-        tableBody: {
-            "& > tr:nth-child(4n-1)": {
-                backgroundColor: theme.palette.background.default,
-            },
-        },
-        tablerow: {
-            height: "55px",
-            "& > *": {
-                borderBottom: "unset",
-            },
-        },
-        innerTable: {
-            padding: 0,
-            "& td": {
-                padding: theme.spacing(0.7),
-            },
-            borderTop: `1px solid ${theme.palette.secondary.main}`,
-        },
+const SuccessTableCell = styled(TableCell)(({ theme }) => ({
+    color: theme.palette.success.main,
+}));
 
-        bossName: {
-            fontSize: `${14 / 16}rem`,
-        },
-        differenceText: {
-            color: theme.palette.progStateColors.defeated,
-        },
-        containerGrid: {
-            height: "40px",
-        },
-        tableHead: {
-            height: "58px",
-        },
-    };
-}
-function GuildLeaderboard({ theme, classes }) {
+const NoborderTableCell = styled(TableCell)(({ theme }) => ({
+    borderBottom: "none",
+}));
+
+function GuildLeaderboard({ theme }) {
     const { factionColors } = theme.palette;
 
     const {
@@ -136,25 +105,23 @@ function GuildLeaderboard({ theme, classes }) {
                 )}
                 {!loading && !error && data && (
                     <OverflowScroll>
-                        <Table>
-                            <TableHead className={classes.tableHead}>
+                        <Table size="small">
+                            <TableHead>
                                 <TableRow>
-                                    <TableCell
-                                        className={classes.firstCellName}
-                                    >
-                                        Guild
+                                    <TableCell align="right" padding="checkbox">
+                                        Rank
                                     </TableCell>
+                                    <TableCell>Guild</TableCell>
                                     <TableCell colSpan={2}>Time</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody className={classes.tableBody}>
+                            <TableBody>
                                 {filterGuilds(
                                     filter,
                                     selectedTabName,
                                     data
                                 ).map((guild, index) => (
                                     <Row
-                                        classes={classes}
                                         guild={guild}
                                         index={index}
                                         factionColors={factionColors}
@@ -172,7 +139,7 @@ function GuildLeaderboard({ theme, classes }) {
     );
 }
 
-function Row({ classes, guild, index, factionColors, filter, tab }) {
+function Row({ guild, index, factionColors, filter, tab }) {
     const [open, setOpen] = useState(false);
 
     function toggleOpen() {
@@ -184,68 +151,55 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
 
     return (
         <React.Fragment>
-            <TableRow onClick={toggleOpen} className={classes.tablerow}>
-                <TableCell className={classes.cell}>
-                    <AlignedRankDisplay rank={index + 1}>
-                        <WithRealm realmName={guild.realm}>
-                            <Typography className={classes.name}>
-                                <Link
-                                    style={{
-                                        color: guild.f
-                                            ? factionColors.horde
-                                            : factionColors.alliance,
-                                    }}
-                                    to={`/guild/${guild.name}?realm=${guild.realm}`}
-                                >
-                                    {guild.name}
-                                </Link>
-                            </Typography>
-                        </WithRealm>
-                    </AlignedRankDisplay>
-                </TableCell>
-                <TableCell className={classes.cell}>
+            <TableRow onClick={toggleOpen}>
+                <NoborderTableCell align="right" padding="checkbox">
+                    <Typography>{index + 1}.</Typography>
+                </NoborderTableCell>
+                <NoborderTableCell>
+                    <Typography>
+                        <Link
+                            style={{
+                                color: guild.f
+                                    ? factionColors.horde
+                                    : factionColors.alliance,
+                            }}
+                            to={`/guild/${guild.name}?realm=${guild.realm}`}
+                        >
+                            {typeof guild.f === "number" && (
+                                <Avatar
+                                    src={getFactionImg(guild.f)}
+                                    component="span"
+                                />
+                            )}
+
+                            {guild.name}
+                        </Link>
+                    </Typography>
+                </NoborderTableCell>
+                <NoborderTableCell>
                     {convertFightLength(
                         guild.ranking[filter.raid][filter.difficulty][tab].time
                     )}
-                </TableCell>
-                <TableCell className={classes.cell}>
-                    <Typography>
-                        {open ? <ExpandLess /> : <ExpandMore />}
-                    </Typography>
-                </TableCell>
+                </NoborderTableCell>
+                <NoborderTableCell>
+                    {open ? <ExpandLess /> : <ExpandMore />}
+                </NoborderTableCell>
             </TableRow>
             <TableRow>
-                <TableCell
-                    style={{
-                        padding: 0,
-                    }}
-                    colSpan={3}
-                >
+                <TableCell style={{ padding: 0 }} colSpan={4}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Table className={classes.innerTable}>
+                        <Table variant="inner">
                             <TableBody>
-                                {tab === "fullClear" ? (
-                                    <FullClearDetails
-                                        start={start}
-                                        logs={
-                                            guild.ranking[filter.raid][
-                                                filter.difficulty
-                                            ][tab].logs
-                                        }
-                                        classes={classes}
-                                        guild={guild}
-                                    />
-                                ) : (
-                                    <BestKillsDetails
-                                        logs={
-                                            guild.ranking[filter.raid][
-                                                filter.difficulty
-                                            ][tab].logs
-                                        }
-                                        classes={classes}
-                                        guild={guild}
-                                    />
-                                )}
+                                <InnerTableRows
+                                    start={start}
+                                    logs={
+                                        guild.ranking[filter.raid][
+                                            filter.difficulty
+                                        ][tab].logs
+                                    }
+                                    guild={guild}
+                                    tab={tab}
+                                />
                             </TableBody>
                         </Table>
                     </Collapse>
@@ -255,54 +209,42 @@ function Row({ classes, guild, index, factionColors, filter, tab }) {
     );
 }
 
-function FullClearDetails({ start, logs, classes, guild }) {
+function InnerTableRows({ start, logs, guild, tab }) {
     return logs.map((log, index) => (
-        <TableRow key={log.id}>
-            <TableCell align={"right"}>
-                {convertFightLength(log.date * 1000 - start)}
+        <TableRow key={log.id} hover>
+            <TableCell align="right" padding="checkbox">
+                <Typography noWrap>{log.bossName}</Typography>
             </TableCell>
-            <TableCell align={"right"} className={classes.differenceText}>
-                +{" "}
-                {index === 0
-                    ? convertFightLength(log.fightLength)
-                    : convertFightLength(
-                          log.date * 1000 - logs[index - 1].date * 1000
-                      )}
-            </TableCell>
-            <TableCell className={classes.bossName} align={"right"}>
-                <LogLink logId={log.id} realm={guild.realm}>
-                    {log.bossName}
-                    <InfoIcon />
-                </LogLink>
-            </TableCell>
-        </TableRow>
-    ));
-}
 
-function BestKillsDetails({ logs, classes, guild }) {
-    return logs.map((log) => (
-        <TableRow key={log.id}>
-            <TableCell align={"right"} className={classes.differenceText}>
-                {convertFightLength(log.fightLength)}
-            </TableCell>
-            <TableCell align={"right"}>
-                <DisplayDate date={new Date(log.date * 1000)}>
-                    {" "}
-                    {dateTextHours(new Date(log.date * 1000))}
-                </DisplayDate>
-            </TableCell>
-            <TableCell className={classes.bossName} align={"right"}>
+            <SuccessTableCell>
                 <LogLink logId={log.id} realm={guild.realm}>
-                    {log.bossName}
-                    <InfoIcon />
+                    {tab === "fullClear"
+                        ? "+ " +
+                          (index === 0
+                              ? convertFightLength(log.fightLength)
+                              : convertFightLength(
+                                    log.date * 1000 -
+                                        logs[index - 1].date * 1000
+                                ))
+                        : convertFightLength(log.fightLength)}
                 </LogLink>
+            </SuccessTableCell>
+            <TableCell align="right">
+                {tab === "fullClear" ? (
+                    convertFightLength(log.date * 1000 - start)
+                ) : (
+                    <DisplayDate date={new Date(log.date * 1000)}>
+                        {" "}
+                        {dateTextHours(new Date(log.date * 1000))}
+                    </DisplayDate>
+                )}
             </TableCell>
         </TableRow>
     ));
 }
 
 export default React.memo(
-    withStyles(styles)(withTheme(GuildLeaderboard)),
+    withTheme(GuildLeaderboard),
     (prevProps, nextProps) => {
         return JSON.stringify(prevProps) === JSON.stringify(nextProps);
     }
