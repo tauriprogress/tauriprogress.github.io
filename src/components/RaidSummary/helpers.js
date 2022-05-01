@@ -52,7 +52,11 @@ export function applyFilter(bossData, filter, specs) {
                         classId
                     ]) {
                         const specId = Number(specIdStr);
-                        if (!isClassId(filter.class) && filter.class !== specId)
+                        if (
+                            filter.class !== "" &&
+                            !isClassId(filter.class) &&
+                            filter.class !== specId
+                        )
                             continue;
 
                         let characters =
