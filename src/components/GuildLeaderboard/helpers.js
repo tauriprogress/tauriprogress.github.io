@@ -1,7 +1,7 @@
 export function filterGuilds(filter, by, guilds) {
-    if (!guilds) return guilds;
+    if (!guilds) return [];
     return guilds
-        .filter(guild => {
+        .filter((guild) => {
             if (filter.faction !== "" && guild.f !== Number(filter.faction)) {
                 return false;
             }

@@ -16,13 +16,12 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import Page from "../Page";
 import ErrorMessage from "../ErrorMessage";
-import Loading from "../Loading";
 import GuildLeaderboardFilter from "./GuildLeaderboardFilter";
 import DisplayDate from "../DisplayDate";
 import OverflowScroll from "../OverflowScroll";
 import Link from "../Link";
-
 import LogLink from "../LogLink";
+import ElevatedLinearProgress from "../ElevatedLinearProgress";
 
 import { filterGuilds } from "./helpers";
 import {
@@ -94,33 +93,22 @@ function GuildLeaderboard({ theme }) {
                     <Tab label="FULL CLEAR" value={0} />
                     <Tab label="BEST KILLS" value={1} />
                 </Tabs>
-                {loading && <Loading />}
-                {error && (
-                    <ErrorMessage
-                        message={error}
-                        refresh={() =>
-                            dispatch(guildLeaderboardFetch(realmGroup))
-                        }
-                    />
-                )}
-                {!loading && !error && data && (
-                    <OverflowScroll>
-                        <Table size="small">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="right" padding="checkbox">
-                                        Rank
-                                    </TableCell>
-                                    <TableCell>Guild</TableCell>
-                                    <TableCell colSpan={2}>Time</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {filterGuilds(
-                                    filter,
-                                    selectedTabName,
-                                    data
-                                ).map((guild, index) => (
+                {loading && <ElevatedLinearProgress top="40px" />}
+
+                <OverflowScroll>
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="right" padding="checkbox">
+                                    Rank
+                                </TableCell>
+                                <TableCell>Guild</TableCell>
+                                <TableCell colSpan={2}>Time</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {filterGuilds(filter, selectedTabName, data).map(
+                                (guild, index) => (
                                     <Row
                                         guild={guild}
                                         index={index}
@@ -129,10 +117,18 @@ function GuildLeaderboard({ theme }) {
                                         tab={selectedTabName}
                                         key={`${guild.name}${selectedTabName}`}
                                     />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </OverflowScroll>
+                                )
+                            )}
+                        </TableBody>
+                    </Table>
+                </OverflowScroll>
+                {error && (
+                    <ErrorMessage
+                        message={error}
+                        refresh={() =>
+                            dispatch(guildLeaderboardFetch(realmGroup))
+                        }
+                    />
                 )}
             </section>
         </Page>

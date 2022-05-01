@@ -3,12 +3,12 @@ import {
     GUILD_LEADERBOARD_FILL,
     GUILD_LEADERBOARD_ERROR_SET,
     GUILD_LEADERBOARD_FILTER_SET,
-    GUILD_LEADERBOARD_TAB_SET
+    GUILD_LEADERBOARD_TAB_SET,
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
     ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
+    ENVIRONMENT_SET,
 } from "../actions";
 
 import constants from "tauriprogress-constants";
@@ -18,7 +18,7 @@ import {
     readFiltersFromUrl,
     readTabFromUrl,
     validRaidNameOfEnv,
-    getRealmGroupOfLocalStorage
+    getRealmGroupOfLocalStorage,
 } from "../../helpers";
 
 import { GUILD_LEADERBOARD_ROUTE } from "../../routes";
@@ -32,19 +32,19 @@ const defaultState = {
               "raid",
               "difficulty",
               "faction",
-              "realm"
+              "realm",
           ])
         : {
               raid: constants[defaultRealmGroup].currentContent.name,
               difficulty: defaultDifficulty,
               faction: "",
-              realm: ""
+              realm: "",
           },
-    data: null,
-    error: null,
+    data: undefined,
+    error: undefined,
     loading: false,
     realmGroup: defaultRealmGroup,
-    selectedTab: readTabFromUrl(0, 1)
+    selectedTab: readTabFromUrl(0, 1),
 };
 
 function guildLeaderboardReducer(state = defaultState, action) {
@@ -57,7 +57,7 @@ function guildLeaderboardReducer(state = defaultState, action) {
                     ["raid", "difficulty", "faction", "realm"],
                     action.payload.location
                 ),
-                data: null
+                data: undefined,
             };
         case ENVIRONMENT_REALMGROUP_CHANGED:
             return {
@@ -67,9 +67,9 @@ function guildLeaderboardReducer(state = defaultState, action) {
                         .name,
                     difficulty: getDefaultDifficulty(action.payload.realmGroup),
                     faction: "",
-                    realm: ""
+                    realm: "",
                 },
-                data: null
+                data: undefined,
             };
         case ENVIRONMENT_SEASONAL_CHANGED:
             return {
@@ -82,19 +82,19 @@ function guildLeaderboardReducer(state = defaultState, action) {
                         action.payload.isSeasonal
                     )
                         ? state.filter.raid
-                        : getDefaultRaidName(action.payload.realmGroup)
+                        : getDefaultRaidName(action.payload.realmGroup),
                 },
-                data: null
+                data: undefined,
             };
         case GUILD_LEADERBOARD_LOADING_SET:
-            return { ...state, loading: true, error: null };
+            return { ...state, loading: true, error: undefined };
         case GUILD_LEADERBOARD_FILL:
             return {
                 ...state,
                 data: action.payload.data,
                 realmGroup: action.payload.realmGroup,
                 loading: false,
-                error: null
+                error: undefined,
             };
 
         case GUILD_LEADERBOARD_ERROR_SET:
@@ -107,8 +107,8 @@ function guildLeaderboardReducer(state = defaultState, action) {
                 ...state,
                 filter: {
                     ...state.filter,
-                    [action.payload.filterName]: action.payload.value
-                }
+                    [action.payload.filterName]: action.payload.value,
+                },
             };
         case GUILD_LEADERBOARD_TAB_SET:
             return { ...state, selectedTab: action.payload };
