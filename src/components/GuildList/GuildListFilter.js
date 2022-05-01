@@ -10,13 +10,14 @@ import MenuItem from "@mui/material/MenuItem";
 
 import FilterContainer from "../FilterContainer";
 
-import { getRealmNames } from "../../helpers";
+import { getFactionImg, getRealmNames } from "../../helpers";
 
 import {
     environmentDifficultyNamesSelector,
     environmentDifficultiesSelector,
     environmentRealmsSelector,
 } from "../../redux/selectors";
+import { Avatar } from "@mui/material";
 
 function GuildListFilter({ theme, filter, setFilter }) {
     const realms = getRealmNames(useSelector(environmentRealmsSelector));
@@ -72,6 +73,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                         <em>All</em>
                     </MenuItem>
                     <MenuItem value={0}>
+                        <Avatar src={getFactionImg(0)} />
                         <span
                             style={{
                                 color: theme.palette.factionColors.alliance,
@@ -81,6 +83,7 @@ function GuildListFilter({ theme, filter, setFilter }) {
                         </span>
                     </MenuItem>
                     <MenuItem value={1}>
+                        <Avatar src={getFactionImg(1)} />
                         <span
                             style={{
                                 color: theme.palette.factionColors.horde,
