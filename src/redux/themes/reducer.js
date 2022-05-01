@@ -112,15 +112,6 @@ const baseTheme = {
             },
         },
 
-        MuiTableCell: {
-            styleOverrides: {
-                sizeSmall: {
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                },
-            },
-        },
-
         MuiTable: {
             variants: [
                 {
@@ -132,6 +123,32 @@ const baseTheme = {
                     },
                 },
             ],
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                sizeSmall: {
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                },
+            },
+        },
+
+        MuiListItemButton: {
+            styleOverrides: {
+                root: ({ ownerState, theme }) => ({
+                    ...(ownerState.selected && {
+                        borderLeft: `2px solid ${theme.palette.secondary.main}`,
+                        color: theme.palette.secondary.main,
+                    }),
+                }),
+            },
+        },
+        MuiListItemIcon: {
+            styleOverrides: {
+                root: {
+                    color: "inherit",
+                },
+            },
         },
     },
     typography: {

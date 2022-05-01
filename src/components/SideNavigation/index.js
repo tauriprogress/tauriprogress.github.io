@@ -1,17 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import withStyles from '@mui/styles/withStyles';
+import { styled } from "@mui/system";
 
 import Collapse from "@mui/material/Collapse";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import HomeIcon from "@mui/icons-material/Home";
+import Cookie from "@mui/icons-material/Cookie";
 import SearchIcon from "@mui/icons-material/Search";
 import ListIcon from "@mui/icons-material/List";
 
@@ -24,45 +25,49 @@ import { navigationToggle } from "../../redux/actions";
 
 import {
     navigationOpenSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { headerHeight } from "../Header";
 
-function styles(theme) {
-    const width = 240;
-    return {
-        aside: {
-            width: `${width}px`,
-            [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
-                display: "none"
-            }
-        },
-        container: {
-            position: "fixed",
-            width: `${width}px`,
-            height: `calc(100% - ${headerHeight})`,
-            overflowX: "hidden"
-        },
-        nav: {
-            height: "100%",
-            width: `${width + 17}px`,
-            overflowY: "scroll",
-            backgroundColor: theme.palette.background.lighter,
-            [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
-                width: `${width}px`
-            },
-            "& > ul": {
-                marginBottom: "20px"
-            }
-        },
-        nestedNavItem: {
-            paddingLeft: theme.spacing(5)
-        }
-    };
-}
+const width = 240;
+
+const Aside = styled("aside")({
+    width: `${width}px`,
+    [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
+        display: "none",
+    },
+});
+
+const NavContainer = styled("div")({
+    position: "fixed",
+    width: `${width}px`,
+    height: `calc(100% - ${headerHeight})`,
+    overflowX: "hidden",
+});
+
+const Nav = styled("nav")(({ theme }) => ({
+    height: "100%",
+    width: `${width + 17}px`,
+    overflowY: "scroll",
+    backgroundColor: theme.palette.background.lighter,
+    [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
+        width: `${width}px`,
+    },
+    "& > ul": {
+        marginBottom: "20px",
+    },
+}));
+
+const NestedListItem = styled(ListItem)(({ theme }) => ({
+    paddingLeft: theme.spacing(5),
+}));
+
+export const NestedListItemButton = styled(ListItemButton)(({ theme }) => ({
+    paddingLeft: theme.spacing(5),
+}));
 
 function NavigationContainer({ classes }) {
     const open = useSelector(navigationOpenSelector);
@@ -71,35 +76,25 @@ function NavigationContainer({ classes }) {
 
     return open ? (
         <React.Fragment>
-            <aside className={classes.aside}>
-                <div className={classes.container}>
-                    <Navigation
-                        classes={{
-                            container: classes.nav,
-                            nestedNavItem: classes.nestedNavItem
-                        }}
-                    />
-                </div>
-            </aside>
+            <Aside>
+                <NavContainer>
+                    <Navigation />
+                </NavContainer>
+            </Aside>
             {window.innerWidth < navBreakpoint && (
                 <Drawer
                     open={open}
                     onClose={() => dispatch(navigationToggle(false))}
                     anchor="left"
                 >
-                    <Navigation
-                        classes={{
-                            container: classes.nav,
-                            nestedNavItem: classes.nestedNavItem
-                        }}
-                    />
+                    <Navigation />
                 </Drawer>
             )}
         </React.Fragment>
     ) : null;
 }
 
-function Navigation({ classes = {} }) {
+function Navigation() {
     const [searchOpen, setSearchOpen] = React.useState(false);
     const [leaderboardOpen, setLeaderboardOpen] = React.useState(false);
 
@@ -118,66 +113,66 @@ function Navigation({ classes = {} }) {
     }
 
     return (
-        <nav className={classes.container}>
-            <List>
+        <Nav>
+            <List disablePadding>
                 <Link to={`/`} onClick={toggleNav}>
-                    <ListItem button>
+                    <ListItemButton>
                         <ListItemIcon>
-                            <HomeIcon />
+                            <Cookie />
                         </ListItemIcon>
-                        <ListItemText primary="Home" />
-                    </ListItem>
+                        <ListItemText primary="Guilds" />
+                    </ListItemButton>
                 </Link>
 
-                <ListItem button onClick={leaderboardClick}>
+                <ListItemButton onClick={leaderboardClick}>
                     <ListItemIcon>
                         <ListIcon />
                     </ListItemIcon>
                     <ListItemText primary="Leaderboard" />
                     {leaderboardOpen ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
+                </ListItemButton>
                 <Collapse in={leaderboardOpen} timeout="auto" unmountOnExit>
                     <Link onClick={toggleNav} to={`/leaderboard/character`}>
-                        <ListItem button className={classes.nestedNavItem}>
+                        <NestedListItemButton>
                             <ListItemText primary="Character" />
-                        </ListItem>
+                        </NestedListItemButton>
                     </Link>
                     <Link onClick={toggleNav} to={`/leaderboard/guild`}>
-                        <ListItem button className={classes.nestedNavItem}>
+                        <NestedListItemButton>
                             <ListItemText primary="Guild" />
-                        </ListItem>
+                        </NestedListItemButton>
                     </Link>
                 </Collapse>
 
-                <ListItem button onClick={searchClick}>
+                <ListItemButton onClick={searchClick}>
                     <ListItemIcon>
                         <SearchIcon />
                     </ListItemIcon>
                     <ListItemText primary="Search" />
                     {searchOpen ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
+                </ListItemButton>
 
                 <Collapse in={searchOpen} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem className={classes.nestedNavItem}>
+                        <NestedListItem>
                             <SearchGuild />
-                        </ListItem>
-                        <ListItem className={classes.nestedNavItem}>
+                        </NestedListItem>
+                        <NestedListItem>
                             <SearchCharacter />
-                        </ListItem>
+                        </NestedListItem>
                     </List>
                 </Collapse>
 
                 <DisplayRaidLists />
             </List>
-        </nav>
+        </Nav>
     );
 }
 
 function DisplayRaidLists() {
     const raids = useSelector(environmentRaidsSelector);
 
-    return raids.map(raid => <RaidBossList raid={raid} key={raid.name} />);
+    return raids.map((raid) => <RaidBossList raid={raid} key={raid.name} />);
 }
 
-export default withStyles(styles)(NavigationContainer);
+export default NavigationContainer;

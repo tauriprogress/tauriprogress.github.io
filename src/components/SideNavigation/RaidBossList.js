@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-import withStyles from "@mui/styles/withStyles";
+import { styled } from "@mui/system";
 
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -20,39 +20,35 @@ import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { navigationItemSelector } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        title: {
-            color: theme.palette.primary.contrastText,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundColor: theme.palette.primary.main,
-        },
-        nestedNavItem: {
-            padding: theme.spacing(0.5),
-            paddingLeft: theme.spacing(5),
-        },
-    };
-}
+const Title = styled(ListItemButton)(({ theme }) => ({
+    color: theme.palette.primary.contrastText,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundColor: theme.palette.primary.main,
+}));
 
-function RaidBossList({ raid, classes }) {
+const SmallNestedListItemButton = styled(ListItemButton)(({ theme }) => ({
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
+    paddingLeft: theme.spacing(5),
+}));
+
+function RaidBossList({ raid }) {
     const [open, setOpen] = useState(true);
     const selected = useSelector(navigationItemSelector);
     const dispatch = useDispatch();
 
     return (
         <React.Fragment>
-            <ListItem
-                className={classes.title}
+            <Title
                 onClick={() => setOpen(open ? false : true)}
                 style={{
                     backgroundImage: `url("${getRaidImg(raid.image)}")`,
                 }}
-                button
             >
                 <ListItemText primary={raid.name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
+            </Title>
             <Collapse in={open} timeout="auto">
                 <List disablePadding>
                     <Link
@@ -64,14 +60,12 @@ function RaidBossList({ raid, classes }) {
                             }
                         }}
                     >
-                        <ListItem
+                        <SmallNestedListItemButton
                             component="li"
-                            button
                             selected={selected === raid.name}
-                            className={classes.nestedNavItem}
                         >
                             <ListItemText primary={"Summary"} />
-                        </ListItem>
+                        </SmallNestedListItemButton>
                     </Link>
                     {raid.bosses.map((boss) => {
                         let linkTo = `/raid/${raid.name}/${boss.name}`;
@@ -82,18 +76,17 @@ function RaidBossList({ raid, classes }) {
                                 color="inherit"
                                 to={linkTo}
                                 onClick={() => {
+                                    window.scrollTo(0, 0);
                                     if (window.innerWidth < navBreakpoint) {
                                         dispatch(navigationToggle(false));
                                     }
                                 }}
                             >
-                                <ListItem
-                                    button
+                                <SmallNestedListItemButton
                                     selected={selected === boss.name}
-                                    className={classes.nestedNavItem}
                                 >
                                     <ListItemText primary={boss.name} />
-                                </ListItem>
+                                </SmallNestedListItemButton>
                             </Link>
                         );
                     })}
@@ -103,4 +96,4 @@ function RaidBossList({ raid, classes }) {
     );
 }
 
-export default withStyles(styles)(React.memo(RaidBossList));
+export default React.memo(RaidBossList);
