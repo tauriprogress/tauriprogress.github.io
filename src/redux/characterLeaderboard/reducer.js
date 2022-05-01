@@ -44,7 +44,7 @@ const defaultState = {
               realm: "",
           },
     loading: false,
-    error: null,
+    error: undefined,
     data: undefined,
     selectedTab: readTabFromUrl(0, 1),
     itemCount: 0,
@@ -63,7 +63,7 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 ),
                 data: undefined,
                 loading: false,
-                error: null,
+                error: undefined,
                 page: 0,
             };
         case ENVIRONMENT_REALMGROUP_CHANGED:
@@ -79,7 +79,7 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 },
                 data: undefined,
                 loading: false,
-                error: null,
+                error: undefined,
                 page: 0,
             };
 
@@ -98,22 +98,24 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 },
                 data: undefined,
                 loading: false,
-                error: null,
+                error: undefined,
                 page: 0,
             };
         case CHARACTER_LEADERBOARD_LOADING_SET:
             return {
                 ...state,
                 loading: true,
-                error: null,
-                data: undefined,
+                error: undefined,
             };
         case CHARACTER_LEADERBOARD_DATA_FILL:
             return {
                 ...state,
                 loading: false,
-                error: null,
-                data: action.payload.characters,
+                error: undefined,
+                data: action.payload.characters.map((character, index) => ({
+                    ...character,
+                    rank: index + 1 + state.page * 25,
+                })),
                 itemCount: action.payload.itemCount || 0,
             };
         case CHARACTER_LEADERBOARD_ERROR_SET:
@@ -125,6 +127,7 @@ function characterLeaderboardReducer(state = defaultState, action) {
                 error: action.payload,
                 loading: false,
                 data: undefined,
+                page: 0,
             };
         case CHARACTER_LEADERBOARD_FILTER_SET:
             return {

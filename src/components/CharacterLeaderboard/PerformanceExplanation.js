@@ -1,5 +1,5 @@
 import React from "react";
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogTitle from "@mui/material/DialogTitle";
@@ -66,7 +66,7 @@ function PerformanceExplanation({ classes }) {
         <div>
             <Tooltip title={"Click for details"}>
                 <span onClick={handleClickOpen} className={classes.button}>
-                    Score <InfoIcon />
+                    <InfoIcon /> Score
                 </span>
             </Tooltip>
 

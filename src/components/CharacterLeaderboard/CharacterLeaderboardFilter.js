@@ -213,4 +213,4 @@ function CharacterLeaderboardFilter({ theme }) {
     );
 }
 
-export default withTheme(CharacterLeaderboardFilter);
+export default React.memo(withTheme(CharacterLeaderboardFilter));
