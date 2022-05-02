@@ -150,6 +150,17 @@ const baseTheme = {
                 },
             },
         },
+
+        MuiIconButton: {
+            styleOverrides: {
+                root: {
+                    "& img": {
+                        height: "24px",
+                        width: "24px",
+                    },
+                },
+            },
+        },
     },
     typography: {
         fontSize: (14 / 16) * 14,

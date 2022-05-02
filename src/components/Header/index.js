@@ -1,223 +1,131 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-
 import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
+import Brightness from "@mui/icons-material/Brightness6";
 
-import Brightness from "@mui/icons-material/Brightness4";
-
-import Items from "./Items";
+import LeftNavItems from "./LeftNavItems";
 
 import discordIcon from "../../assets/social/discord.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import { themeToggle } from "../../redux/actions";
+import { styled } from "@mui/system";
 
 export const headerHeight = "55px";
 const rightNavBreakpoint = "500px";
 
-function styles(theme) {
-    return {
-        container: {
-            height: headerHeight,
-            "& header": {
-                height: headerHeight,
-                width: "100%",
-                position: "fixed",
-                zIndex: 1000,
-                backgroundColor: theme.palette.background.lighter,
-            },
-        },
-        iconButton: {
-            "&:hover": {
-                color: theme.palette.secondary.main,
-            },
-        },
-        stretchHeight: {
-            height: "100%",
-        },
-        verticalCenter: {
-            display: "flex",
-            alignItems: "center",
-        },
-        textItem: {
-            fontWeight: "500",
-            position: "relative",
-        },
-        customLink: {
-            color: "inherit",
-            textDecoration: "none",
-            marginLeft: "26px",
-        },
-        discordLogo: {
-            position: "absolute",
-            left: 0,
-            width: "24px",
-            height: "24px",
-            marginRight: "4px",
-            transform: "translate(0, -2px)",
-        },
-        rightNavExtended: {
-            [`@media(max-width: ${rightNavBreakpoint})`]: {
-                display: "none",
-            },
-        },
-        rightNavCompact: {
-            [`@media(min-width: ${rightNavBreakpoint})`]: {
-                display: "none",
-            },
-        },
-        moreHorizIcon: {
-            width: "30px",
-            height: "30px",
-        },
-        horizontalCenter: {
-            display: "flex",
-            justifyContent: "center",
-        },
-        compactDiscord: {
-            margin: "30px 10px 10px",
-        },
-    };
+const discordLink = "https://discordapp.com/invite/3RWayqd";
+
+const HeaderContainer = styled("div")({
+    height: headerHeight,
+});
+
+const HeaderElement = styled("header")(({ theme }) => ({
+    height: headerHeight,
+    width: "100%",
+    position: "fixed",
+    zIndex: 1000,
+    backgroundColor: theme.palette.background.lighter,
+}));
+
+export const TallGrid = styled(Grid)({
+    height: "100%",
+});
+
+const ExtendedNavGrid = styled(Grid)({
+    height: "100%",
+    [`@media(max-width: ${rightNavBreakpoint})`]: {
+        display: "none",
+    },
+});
+
+const CompactNavGrid = styled(Grid)({
+    [`@media(min-width: ${rightNavBreakpoint})`]: {
+        display: "none",
+    },
+});
+
+export const VeritcalCenterGrid = styled(Grid)({
+    display: "flex",
+    alignItems: "center",
+});
+
+function RightNavItems() {
+    const dispatch = useDispatch();
+    return (
+        <>
+            <VeritcalCenterGrid item>
+                <IconButton
+                    component="a"
+                    href={discordLink}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    style={{
+                        margin: "auto",
+                    }}
+                >
+                    <img src={discordIcon} alt="Discord" />
+                </IconButton>
+            </VeritcalCenterGrid>
+            <VeritcalCenterGrid item>
+                <IconButton
+                    color="inherit"
+                    onClick={() => dispatch(themeToggle())}
+                >
+                    <Brightness fontSize="large" />
+                </IconButton>
+            </VeritcalCenterGrid>
+        </>
+    );
 }
 
-function Header({ classes }) {
-    const dispatch = useDispatch();
+function Header() {
     const [open, setOpen] = useState(false);
     return (
-        <div className={classes.container}>
-            <header>
-                <Grid
+        <HeaderContainer>
+            <HeaderElement>
+                <TallGrid
                     container
                     justifyContent="space-between"
                     wrap="nowrap"
                     alignContent="center"
-                    className={classes.stretchHeight}
                 >
-                    <Grid item className={classes.stretchHeight}>
-                        <Items />
-                    </Grid>
+                    <TallGrid item>
+                        <LeftNavItems />
+                    </TallGrid>
                     <Grid item>
-                        <Grid
-                            container
-                            className={`${classes.rightNavExtended} ${classes.stretchHeight}`}
-                        >
-                            <Grid item className={classes.verticalCenter}>
-                                <div>
-                                    <Typography className={classes.textItem}>
-                                        <a
-                                            href="https://discordapp.com/invite/3RWayqd"
-                                            target="_blank"
-                                            rel="noreferrer noopener"
-                                            className={classes.customLink}
-                                        >
-                                            <img
-                                                src={discordIcon}
-                                                alt="Discord"
-                                                className={classes.discordLogo}
-                                            />
-                                            Discord
-                                        </a>
-                                    </Typography>
-                                </div>
-                            </Grid>
-                            <Grid item className={classes.verticalCenter}>
-                                <div>
-                                    <Typography>
-                                        <IconButton
-                                            color="inherit"
-                                            className={classes.iconButton}
-                                            onClick={() =>
-                                                dispatch(themeToggle())
-                                            }
-                                            size="large">
-                                            <Brightness fontSize="large" />
-                                        </IconButton>
-                                    </Typography>
-                                </div>
-                            </Grid>
-                        </Grid>
-                        <Grid container className={classes.rightNavCompact}>
-                            <Grid item className={classes.verticalCenter}>
-                                <div>
-                                    <Typography>
-                                        <IconButton
-                                            color="inherit"
-                                            className={classes.iconButton}
-                                            onClick={() => setOpen(!open)}
-                                            size="large">
-                                            <MoreHorizIcon
-                                                className={
-                                                    classes.moreHorizIcon
-                                                }
-                                            />
-                                        </IconButton>
-                                    </Typography>
-                                </div>
-                            </Grid>
+                        <ExtendedNavGrid container>
+                            <RightNavItems />
+                        </ExtendedNavGrid>
+                        <CompactNavGrid container>
+                            <VeritcalCenterGrid item>
+                                <IconButton
+                                    color="inherit"
+                                    onClick={() => setOpen(!open)}
+                                >
+                                    <MoreHorizIcon fontSize="large" />
+                                </IconButton>
+                            </VeritcalCenterGrid>
                             <Drawer
                                 open={open}
                                 onClose={() => setOpen(false)}
                                 anchor="right"
                             >
                                 <Grid container direction="column">
-                                    <Grid
-                                        item
-                                        className={`${classes.compactDiscord} ${classes.horizontalCenter} ${classes.verticalCenter}`}
-                                    >
-                                        <div>
-                                            <Typography
-                                                className={classes.textItem}
-                                            >
-                                                <a
-                                                    href="https://discordapp.com/invite/3RWayqd"
-                                                    target="_blank"
-                                                    rel="noreferrer noopener"
-                                                    className={
-                                                        classes.customLink
-                                                    }
-                                                >
-                                                    <img
-                                                        src={discordIcon}
-                                                        alt="Discord"
-                                                        className={
-                                                            classes.discordLogo
-                                                        }
-                                                    />
-                                                    Discord
-                                                </a>
-                                            </Typography>
-                                        </div>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        className={classes.horizontalCenter}
-                                    >
-                                        <IconButton
-                                            color="inherit"
-                                            onClick={() =>
-                                                dispatch(themeToggle())
-                                            }
-                                            size="large">
-                                            <Brightness fontSize="large" />
-                                        </IconButton>
-                                    </Grid>
+                                    <RightNavItems />
                                 </Grid>
                             </Drawer>
-                        </Grid>
+                        </CompactNavGrid>
                     </Grid>
-                </Grid>
+                </TallGrid>
                 <Divider />
-            </header>
-        </div>
+            </HeaderElement>
+        </HeaderContainer>
     );
 }
-/*
-;*/
 
-export default withStyles(styles)(Header);
+export default Header;
