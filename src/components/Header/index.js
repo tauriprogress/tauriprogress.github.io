@@ -44,6 +44,7 @@ const ExtendedNavGrid = styled(Grid)({
 });
 
 const CompactNavGrid = styled(Grid)({
+    height: "100%",
     [`@media(min-width: ${rightNavBreakpoint})`]: {
         display: "none",
     },
@@ -97,7 +98,7 @@ function Header() {
                     <TallGrid item>
                         <LeftNavItems />
                     </TallGrid>
-                    <Grid item>
+                    <TallGrid item>
                         <ExtendedNavGrid container>
                             <RightNavItems />
                         </ExtendedNavGrid>
@@ -120,7 +121,7 @@ function Header() {
                                 </Grid>
                             </Drawer>
                         </CompactNavGrid>
-                    </Grid>
+                    </TallGrid>
                 </TallGrid>
                 <Divider />
             </HeaderElement>
