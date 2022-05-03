@@ -149,7 +149,13 @@ const baseTheme = {
                 },
             },
         },
-
+        MuiTableRow: {
+            styleOverrides: {
+                root: {
+                    whiteSpace: "noWrap",
+                },
+            },
+        },
         MuiListItemButton: {
             styleOverrides: {
                 root: ({ ownerState, theme }) => ({
