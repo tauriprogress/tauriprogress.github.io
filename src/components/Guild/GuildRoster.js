@@ -18,9 +18,10 @@ const Container = styled(Grid)(({ theme }) => ({
     padding: `${theme.spacing(2)} 0`,
 }));
 
-const FlexGrid = styled(Grid)({
+const FlexGrid = styled(Grid)(({ theme }) => ({
     flex: 1,
-});
+    width: "100%",
+}));
 
 function GuildRoster() {
     const { members, characterClassNames } = useSelector(
