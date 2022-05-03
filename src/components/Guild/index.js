@@ -14,6 +14,7 @@ import GuildProgSummary from "./GuildProgSummary";
 import GuildRoster from "./GuildRoster";
 import GuildBossKillsDays from "./GuildBossKillsDays";
 import GuildKillSummary from "./GuildKillSummary";
+import GuildRecentKills from "./GuildRecentKills";
 import AsideContainer from "../AsideContainer";
 import SelectRealm from "../SelectRealm";
 
@@ -76,6 +77,7 @@ function Guild({ match, location }) {
 
                         <GuildRoster />
                         <GuildKillSummary />
+                        <GuildRecentKills />
                         <GuildBossKillsDays />
                     </React.Fragment>
                 )}
