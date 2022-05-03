@@ -70,7 +70,6 @@ function RaidFilter({ theme }) {
     const {
         palette: { classColors, factionColors },
     } = theme;
-
     let classOptions = [];
     for (let classId in characterClassNames) {
         classOptions.push({
@@ -84,6 +83,7 @@ function RaidFilter({ theme }) {
         });
 
         for (const specId of characterClassSpecs[classId]) {
+            if (!specs[specId]) continue;
             classOptions.push({
                 imageSrc: getSpecImg(specs[specId].image),
                 indented: true,
