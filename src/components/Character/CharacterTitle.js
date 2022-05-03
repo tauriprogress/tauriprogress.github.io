@@ -1,8 +1,8 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+import withStyles from "@mui/styles/withStyles";
+import withTheme from "@mui/styles/withTheme";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -16,45 +16,45 @@ import {
     characterDataSelector,
     environmentArmoryUrlSelector,
     environmentCharacterClassNamesSelector,
-    environmentCharacterSpecsSelector
+    environmentCharacterSpecsSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
     return {
         characterName: {
             paddingBottom: 0,
-            lineHeight: 1
+            lineHeight: 1,
         },
         guildName: {
             paddingTop: 0,
             paddingBottom: theme.spacing(1),
             display: "block",
-            lineHeight: 1
+            lineHeight: 1,
         },
         container: {
-            textAlign: "center"
+            textAlign: "center",
         },
         avatar: {
             width: "30px",
             height: "30px",
-            transform: "translate(0, 4px)",
-            marginRight: theme.spacing(0.4)
+            transform: "translate(0, -3px)",
+            marginRight: theme.spacing(0.4),
         },
         characterMetaData: {
             padding: 0,
             fontSize: `${12 / 16}rem`,
-            lineHeight: 1
-        }
+            lineHeight: 1,
+        },
     };
 }
 
 function CharacterTitle({ classes, theme }) {
     const { data, armoryUrl, characterClassNames, specs } = useSelector(
-        state => ({
+        (state) => ({
             data: characterDataSelector(state),
             armoryUrl: environmentArmoryUrlSelector(state),
             characterClassNames: environmentCharacterClassNamesSelector(state),
-            specs: environmentCharacterSpecsSelector(state)
+            specs: environmentCharacterSpecsSelector(state),
         }),
         shallowEqual
     );
@@ -63,7 +63,7 @@ function CharacterTitle({ classes, theme }) {
         return <div />;
     }
     const {
-        palette: { factionColors }
+        palette: { factionColors },
     } = theme;
     const fullSpecName = `${data["treeName_" + data.activeSpec]} ${
         characterClassNames[data.class]
@@ -77,7 +77,7 @@ function CharacterTitle({ classes, theme }) {
                         name: data.tname || data.name,
                         spec: talentTreeToSpec(fullSpecName, specs),
                         race: `${data.race},${data.gender}`,
-                        class: data.class
+                        class: data.class,
                     }}
                     specIconClass={classes.avatar}
                     raceIconClass={classes.avatar}
@@ -97,7 +97,7 @@ function CharacterTitle({ classes, theme }) {
                         color:
                             data.faction_string_class === "Alliance"
                                 ? factionColors.alliance
-                                : factionColors.horde
+                                : factionColors.horde,
                     }}
                 >
                     {data.guildName}
@@ -112,7 +112,7 @@ function CharacterTitle({ classes, theme }) {
                         color:
                             data.faction_string_class === "Alliance"
                                 ? factionColors.alliance
-                                : factionColors.horde
+                                : factionColors.horde,
                     }}
                 >
                     <Avatar
