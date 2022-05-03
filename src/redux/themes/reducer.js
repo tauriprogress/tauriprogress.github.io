@@ -122,6 +122,23 @@ const baseTheme = {
                         },
                     },
                 },
+                {
+                    props: { variant: "tooltip" },
+                    style: {
+                        width: "220px",
+                        "& p": {
+                            fontSize: `${11 / 16}rem`,
+                            whiteSpace: "nowrap",
+                        },
+                        "& td": {
+                            padding: "3px",
+                        },
+                        "& th td": {
+                            fontSize: `${13 / 16}rem`,
+                            fontWeight: "bold",
+                        },
+                    },
+                },
             ],
         },
         MuiTableCell: {

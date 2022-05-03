@@ -1,7 +1,5 @@
 import React from "react";
 
-import withStyles from "@mui/styles/withStyles";
-
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
@@ -14,78 +12,66 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 import { getRaidImg } from "../../helpers";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        defeated: {
-            color: theme.palette.progStateColors.defeated,
-        },
-        alive: {
-            color: theme.palette.progStateColors.alive,
-        },
-        container: {
-            margin: `0 ${theme.spacing(1)} ${theme.spacing(1)}`,
-            width: "260px",
-            borderRadius: "4px",
-        },
-        tableCell: {
-            padding: theme.spacing(0.3),
-        },
-        tableText: {
-            fontSize: `${11 / 16}rem`,
-        },
-        titleContainer: {
-            backgroundColor: theme.palette.primary.main,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center center",
-            color: theme.baseColors.light,
-        },
-        title: {
-            padding: theme.spacing(2),
-            "& p": {
-                cursor: "default",
-            },
-        },
-        tableColumnTitle: {
-            fontSize: `${13 / 16}rem`,
-            fontWeight: "bold",
-        },
-        tooltip: {
-            backgroundColor: theme.palette.background.tooltip,
-            padding: 0,
-        },
-        paper: {
-            background: "transparent",
-            padding: theme.spacing(1),
-        },
-        table: {
-            width: "220px",
-        },
-    };
-}
+const Container = styled(Card)(({ theme }) => ({
+    margin: `0 ${theme.spacing(1)} ${theme.spacing(1)}`,
+    width: "260px",
+    borderRadius: "4px",
+}));
 
-function GuildRaidSummary({ classes, data, difficultyNames }) {
+const TitleContainer = styled("div")(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    color: theme.baseColors.light,
+}));
+
+const Title = styled(Grid)(({ theme }) => ({
+    padding: theme.spacing(2),
+    "& p": {
+        cursor: "default",
+    },
+}));
+
+const Defeated = styled("span")(({ theme }) => ({
+    color: theme.palette.success.main,
+}));
+
+const Alive = styled("span")(({ theme }) => ({
+    color: theme.palette.error.main,
+}));
+
+const TooltipContentContainer = styled(Paper)(({ theme }) => ({
+    background: "transparent",
+    padding: theme.spacing(1),
+}));
+
+const FilledTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+    "& .MuiTooltip-tooltip": {
+        backgroundColor: theme.palette.background.tooltip,
+        padding: 0,
+    },
+}));
+
+function GuildRaidSummary({ data, difficultyNames }) {
     return (
-        <Card className={classes.container}>
-            <Tooltip
-                classes={{
-                    tooltip: classes.tooltip,
-                }}
+        <Container>
+            <FilledTooltip
                 title={
-                    <Paper className={classes.paper} elevation={5}>
-                        <Table className={classes.table}>
+                    <TooltipContentContainer elevation={5}>
+                        <Table variant="tooltip">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell className={classes.tableCell} />
+                                    <TableCell />
                                     {data.difficulties.map((difficulty) => (
                                         <TableCell
                                             key={difficulty}
-                                            className={classes.tableCell}
                                             align="center"
                                         >
-                                            <Typography
-                                                className={`${classes.tableText} ${classes.tableColumnTitle}`}
-                                            >
+                                            <Typography>
                                                 {difficultyNames[difficulty]}
                                             </Typography>
                                         </TableCell>
@@ -95,41 +81,18 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                             <TableBody>
                                 {data.bosses.map((boss) => (
                                     <TableRow key={boss.name}>
-                                        <TableCell
-                                            className={classes.tableCell}
-                                        >
-                                            <Typography
-                                                className={classes.tableText}
-                                            >
-                                                {boss.name}
-                                            </Typography>
+                                        <TableCell>
+                                            <Typography>{boss.name}</Typography>
                                         </TableCell>
                                         {data.difficulties.map((difficulty) => (
-                                            <TableCell
-                                                key={difficulty}
-                                                className={classes.tableCell}
-                                            >
-                                                <Typography
-                                                    className={
-                                                        classes.tableText
-                                                    }
-                                                >
+                                            <TableCell key={difficulty}>
+                                                <Typography>
                                                     {boss[difficulty] ? (
-                                                        <span
-                                                            className={
-                                                                classes.defeated
-                                                            }
-                                                        >
+                                                        <Defeated>
                                                             Defeated
-                                                        </span>
+                                                        </Defeated>
                                                     ) : (
-                                                        <span
-                                                            className={
-                                                                classes.alive
-                                                            }
-                                                        >
-                                                            Alive
-                                                        </span>
+                                                        <Alive>Alive</Alive>
                                                     )}
                                                 </Typography>
                                             </TableCell>
@@ -138,17 +101,15 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                                 ))}
                             </TableBody>
                         </Table>
-                    </Paper>
+                    </TooltipContentContainer>
                 }
             >
-                <div
+                <TitleContainer
                     style={{
                         backgroundImage: `url("${getRaidImg(data.image)}")`,
                     }}
-                    className={classes.titleContainer}
                 >
-                    <Grid
-                        className={classes.title}
+                    <Title
                         container
                         justifyContent="space-between"
                         wrap={"nowrap"}
@@ -170,11 +131,11 @@ function GuildRaidSummary({ classes, data, difficultyNames }) {
                                 {`${data.defeatedBosses}/${data.bossCount}`}
                             </Typography>
                         </Grid>
-                    </Grid>
-                </div>
-            </Tooltip>
-        </Card>
+                    </Title>
+                </TitleContainer>
+            </FilledTooltip>
+        </Container>
     );
 }
 
-export default withStyles(styles)(GuildRaidSummary);
+export default GuildRaidSummary;
