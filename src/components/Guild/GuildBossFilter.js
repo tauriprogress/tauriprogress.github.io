@@ -4,7 +4,6 @@ import { characterSpecClass } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import withTheme from "@mui/styles/withTheme";
-import withStyles from "@mui/styles/withStyles";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -26,15 +25,7 @@ import {
     environmentRaidsSelector,
 } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        capitalize: {
-            textTransform: "capitalize",
-        },
-    };
-}
-
-function GuildProgressionFilter({ classes, theme }) {
+function GuildProgressionFilter({ theme }) {
     const {
         filter,
         realms,
@@ -141,10 +132,9 @@ function GuildProgressionFilter({ classes, theme }) {
         <FilterContainer>
             {selects.map((select) => (
                 <FormControl key={select.name}>
-                    <InputLabel htmlFor="class" className={classes.capitalize}>
-                        {select.name}
-                    </InputLabel>
+                    <InputLabel>{select.name}</InputLabel>
                     <Select
+                        label={select.name}
                         style={select.style}
                         value={filter[select.name]}
                         onChange={(e) =>
@@ -159,14 +149,12 @@ function GuildProgressionFilter({ classes, theme }) {
                             name: select.name,
                             id: select.name,
                         }}
-                        className={classes.capitalize}
                     >
                         {select.options.map((option) => (
                             <MenuItem
                                 key={option.name}
                                 value={option.value}
                                 style={option.style}
-                                className={classes.capitalize}
                             >
                                 <span>{option.name}</span>
                             </MenuItem>
@@ -178,4 +166,4 @@ function GuildProgressionFilter({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(GuildProgressionFilter));
+export default withTheme(GuildProgressionFilter);
