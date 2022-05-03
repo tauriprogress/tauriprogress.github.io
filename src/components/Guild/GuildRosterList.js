@@ -140,12 +140,14 @@ function GuildRosterList({ theme, members, classInfo }) {
                 </FormControl>
             </FilterContainer>
             <OverflowScroll>
-                <Table>
+                <Table size="small">
                     <TableHead>
                         <TableRow>
+                            <TableCell align="right" padding="checkbox">
+                                Level
+                            </TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Rank</TableCell>
-                            <TableCell>Level</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -162,6 +164,9 @@ function GuildRosterList({ theme, members, classInfo }) {
                             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
                             .map((member) => (
                                 <TableRow key={member.name}>
+                                    <TableCell align="right" padding="checkbox">
+                                        {member.lvl}
+                                    </TableCell>
                                     <TableCell>
                                         <Typography>
                                             <CharacterName
@@ -182,9 +187,6 @@ function GuildRosterList({ theme, members, classInfo }) {
                                         <Typography>
                                             {member.rankName}
                                         </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography>{member.lvl}</Typography>
                                     </TableCell>
                                 </TableRow>
                             ))}

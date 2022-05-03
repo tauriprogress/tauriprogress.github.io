@@ -2,32 +2,27 @@ import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-
 import Grid from "@mui/material/Grid";
 
 import GuildRosterChart from "./GuildRosterChart";
 import GuildRosterList from "./GuildRosterList";
-import GuildLatestKills from "./GuildRecentKills";
 
 import {
     guildMembersSelector,
     environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        gridItemFlex: {
-            flex: 1,
-        },
-        container: {
-            margin: `${theme.spacing(2)} 0`,
-            padding: `${theme.spacing(2)} 0`,
-        },
-    };
-}
+const Container = styled(Grid)(({ theme }) => ({
+    margin: `${theme.spacing(2)} 0`,
+    padding: `${theme.spacing(2)} 0`,
+}));
 
-function GuildRoster({ classes }) {
+const FlexGrid = styled(Grid)({
+    flex: 1,
+});
+
+function GuildRoster() {
     const { members, characterClassNames } = useSelector(
         (state) => ({
             members: guildMembersSelector(state),
@@ -55,11 +50,10 @@ function GuildRoster({ classes }) {
     }
 
     return (
-        <Grid
-            container
-            justifyContent="space-around"
-            className={classes.container}
-        >
+        <Container container justifyContent="space-around">
+            <FlexGrid item>
+                <GuildRosterList members={members} classInfo={classInfo} />
+            </FlexGrid>
             <Grid item>
                 <GuildRosterChart
                     classInfo={classInfo}
@@ -67,14 +61,8 @@ function GuildRoster({ classes }) {
                     totalChars={totalChars}
                 />
             </Grid>
-            <Grid item className={classes.gridItemFlex}>
-                <GuildRosterList members={members} classInfo={classInfo} />
-            </Grid>
-            <Grid item>
-                <GuildLatestKills />
-            </Grid>
-        </Grid>
+        </Container>
     );
 }
 
-export default withStyles(styles)(GuildRoster);
+export default GuildRoster;

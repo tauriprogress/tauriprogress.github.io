@@ -1,10 +1,10 @@
 import { getNestedObjectValue } from "../../helpers";
 
 export function filterMembers(members, filter) {
-    if (!members) return members;
+    if (!members) return [];
     let regex = new RegExp(filter.name, "i");
 
-    return members.filter(member => {
+    return members.filter((member) => {
         if (filter.name !== "" && !regex.test(member.name)) {
             return false;
         }
@@ -45,7 +45,7 @@ export function selectDefaultDifficulty(progression, raidName, bossName) {
     for (let difficulty in progression[raidName]) {
         let boss = getNestedObjectValue(progression[raidName], [
             difficulty,
-            bossName
+            bossName,
         ]);
         if (boss) {
             if (killCount < boss.killCount) {
