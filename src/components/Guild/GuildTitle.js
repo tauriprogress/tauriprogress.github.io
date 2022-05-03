@@ -1,7 +1,6 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+import withTheme from "@mui/styles/withTheme";
 
 import { shallowEqual, useSelector } from "react-redux";
 
@@ -15,33 +14,32 @@ import {
     guildNameSelector,
     guildFactionSelector,
     guildMembersCountSelector,
-    guildRealmSelector
+    guildRealmSelector,
 } from "../../redux/guild/selectors";
+import { styled } from "@mui/system";
 
-function styles(theme) {
-    return {
-        container: {
-            padding: `0 ${theme.spacing(1)}`,
-            marginBottom: theme.spacing(1),
-            textAlign: "left"
-        },
-        emblem: {
-            height: "70px",
-            margin: `0 ${theme.spacing(1)}`
-        },
-        textNoWrap: {
-            whiteSpace: "nowrap"
-        }
-    };
-}
+const Container = styled(Grid)(({ theme }) => ({
+    padding: `0 ${theme.spacing(1)}`,
+    marginBottom: theme.spacing(1),
+    textAlign: "left",
+}));
 
-function GuildTitle({ classes, theme }) {
+const Emblem = styled("img")(({ theme }) => ({
+    height: "70px",
+    margin: `0 ${theme.spacing(1)}`,
+}));
+
+const NoWrap = styled("span")({
+    whiteSpace: "nowrap",
+});
+
+function GuildTitle({ theme }) {
     const { name, faction, membersCount, realm } = useSelector(
-        state => ({
+        (state) => ({
             name: guildNameSelector(state),
             faction: guildFactionSelector(state),
             membersCount: guildMembersCountSelector(state),
-            realm: guildRealmSelector(state)
+            realm: guildRealmSelector(state),
         }),
         shallowEqual
     );
@@ -49,20 +47,16 @@ function GuildTitle({ classes, theme }) {
     const emblem = getFactionImg(faction);
 
     const {
-        palette: { factionColors }
+        palette: { factionColors },
     } = theme;
 
     const factionColor =
         faction === 0 ? factionColors.alliance : factionColors.horde;
 
     return (
-        <Grid className={classes.container} container wrap="nowrap">
+        <Container container wrap="nowrap">
             <Grid item>
-                <img
-                    className={classes.emblem}
-                    src={emblem}
-                    alt="faction emblem"
-                />
+                <Emblem src={emblem} alt="faction emblem" />
             </Grid>
             <Grid item>
                 <Typography variant="h4">
@@ -71,23 +65,21 @@ function GuildTitle({ classes, theme }) {
                         href={`https://tauriwow.com/armory#guild-info.xml?r=${realm}&gn=${name}`}
                         rel="noopener noreferrer"
                         style={{
-                            color: factionColor
+                            color: factionColor,
                         }}
                     >
                         {name}
                     </Link>
                 </Typography>
-                <Typography color="textSecondary">
-                    <span className={classes.textNoWrap}>{realm}</span>
+                <Typography color="text.secondary">
+                    <NoWrap>{realm}</NoWrap>
                     <br />
                     {faction ? "Horde" : "Alliance"},{" "}
-                    <span className={classes.textNoWrap}>
-                        {membersCount} members
-                    </span>
+                    <NoWrap>{membersCount} members</NoWrap>
                 </Typography>
             </Grid>
-        </Grid>
+        </Container>
     );
 }
 
-export default withStyles(styles)(withTheme(GuildTitle));
+export default withTheme(GuildTitle);
