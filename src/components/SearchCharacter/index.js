@@ -31,19 +31,24 @@ function SearchCharacter() {
     const [character, setCharacter] = useState("");
     const realmNames = useSelector(environmentRealmsSelector);
     const realms = getRealmNames(realmNames);
-    const [realm, setRealm] = useState(realms[Object.keys(realms)[0]]);
     const dispatch = useDispatch();
+    const defaultRealmIndex = realms.length > 1 ? 1 : 0;
+    const [realm, setRealm] = useState(
+        realms[Object.keys(realms)[defaultRealmIndex]]
+    );
 
     useEffect(() => {
         const realms = getRealmNames(realmNames);
         setRealm((currentRealm) => {
-            if (realms[Object.keys(realms)[0]] !== currentRealm) {
-                return realms[Object.keys(realms)[0]];
+            if (
+                realms[Object.keys(realms)[defaultRealmIndex]] !== currentRealm
+            ) {
+                return realms[Object.keys(realms)[defaultRealmIndex]];
             }
 
             return currentRealm;
         });
-    }, [realmNames]);
+    }, [realmNames, defaultRealmIndex]);
 
     function submit() {
         if (character) {
@@ -73,7 +78,7 @@ function SearchCharacter() {
                     />
                 </form>
             </GridItem>
-            {realms.length > 1 && (
+            {realms.length > 1 && realms.includes(realm) && (
                 <GridItem item>
                     <FormControl fullWidth>
                         <InputLabel>Realm</InputLabel>
