@@ -15,3 +15,11 @@ export function isSameLog(logId, realm, log) {
         String(log.realm) === String(realm)
     );
 }
+
+export function isRegularLog(log) {
+    for (const member of log.members) {
+        if (!member.talents || !member.trinket_0 || !member.trinket_1)
+            return false;
+    }
+    return true;
+}

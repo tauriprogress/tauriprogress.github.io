@@ -6,6 +6,7 @@ import getCharacterRecentKillsSaga from "../character/getCharacterRecentKillsSag
 import getCharacterProgressionSaga from "../character/getCharacterProgressionSaga";
 import getCharacterItemsSaga from "../character/getCharacterItemsSaga";
 import getLogSaga from "../log/getLogSaga";
+import getLogLootSaga from "../log/getLogLootSaga";
 import getGuildLeaderboardSaga from "../guildLeaderboard/getGuildLeaderboardSaga";
 import getGuildListSaga from "../guildList/getGuildListSaga";
 import getGuildSaga from "../guild/getGuildSaga";
@@ -27,6 +28,7 @@ function* sagas() {
         getCharacterProgressionSaga(),
         getCharacterItemsSaga(),
         getLogSaga(),
+        getLogLootSaga(),
         getGuildLeaderboardSaga(),
         getGuildListSaga(),
         getGuildSaga(),
@@ -37,7 +39,7 @@ function* sagas() {
         getRaidBossCharactersSaga(),
         environmentSaga(),
 
-        historySaga()
+        historySaga(),
     ]);
 }
 

@@ -76,13 +76,14 @@ function LogTitle({ data, theme }) {
                     color="inherit"
                     to={`/raid/${data.mapentry.name}/${data.encounter_data.encounter_name}`}
                 >
-                    {data.encounter_data.encounter_name}
+                    {data.encounter_data.encounter_name}{" "}
+                    {difficultyNames[data.difficulty]}
                 </Link>
             ),
         },
         {
-            label: "Difficulty",
-            value: difficultyNames[data.difficulty],
+            label: "Wipes",
+            value: data.wipes,
         },
         {
             label: "Time",
@@ -153,7 +154,11 @@ function LogTitle({ data, theme }) {
             value: (
                 <span>
                     {countComposition.tank}
-                    <Avatar src={getRoleImg("Tank")} />
+                    <Avatar
+                        variant="tiny"
+                        component="span"
+                        src={getRoleImg("Tank")}
+                    />
                 </span>
             ),
         },
@@ -162,7 +167,11 @@ function LogTitle({ data, theme }) {
             value: (
                 <span>
                     {countComposition.heal}
-                    <Avatar src={getRoleImg("Healer")} />
+                    <Avatar
+                        variant="tiny"
+                        component="span"
+                        src={getRoleImg("Healer")}
+                    />
                 </span>
             ),
         },
@@ -171,7 +180,11 @@ function LogTitle({ data, theme }) {
             value: (
                 <span>
                     {countComposition.ranged}
-                    <Avatar src={getRoleImg("Ranged")} />
+                    <Avatar
+                        variant="tiny"
+                        component="span"
+                        src={getRoleImg("Ranged")}
+                    />
                 </span>
             ),
         },
@@ -180,7 +193,11 @@ function LogTitle({ data, theme }) {
             value: (
                 <span>
                     {countComposition.melee}
-                    <Avatar src={getRoleImg("Melee")} />
+                    <Avatar
+                        variant="tiny"
+                        component="span"
+                        src={getRoleImg("Melee")}
+                    />
                 </span>
             ),
         },

@@ -4,15 +4,18 @@ import { useSelector, useDispatch } from "react-redux";
 
 import validateRealm from "../Router/validateRealm";
 
-import Container from "@mui/material/Container";
-
 import LogTitle from "./LogTitle";
-import LogMembers from "./LogMembers";
+import LogBody from "./LogBody";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
 import { logFetch } from "../../redux/actions";
 import { logEntireDataSelector } from "../../redux/log/selectors";
+import { styled } from "@mui/system";
+
+const Container = styled("div")(({ theme }) => ({
+    padding: theme.spacing(1),
+}));
 
 function Log({ match, location }) {
     const { data, loading, error } = useSelector(logEntireDataSelector);
@@ -40,7 +43,7 @@ function Log({ match, location }) {
             {!loading && !error && !!data && (
                 <Container>
                     <LogTitle data={data} />
-                    <LogMembers data={data} />
+                    <LogBody data={data} realm={realm} />
                 </Container>
             )}
         </section>

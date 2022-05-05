@@ -73,3 +73,11 @@ export function environmentSeasonalUrlSelector(state) {
 export function environmentServerUrlSelector(state) {
     return state.environment.urls.server;
 }
+
+export function environmentShootUrlSelector(state) {
+    return state.environment.urls.shoot;
+}
+
+export function environmentTalentsSelector(state) {
+    return state.environment.talents;
+}

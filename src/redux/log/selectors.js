@@ -5,3 +5,7 @@ export function logEntireDataSelector(state) {
 export function logDataSelector(state) {
     return state.log.data;
 }
+
+export function logLootEntireSelector(state) {
+    return state.log.loot;
+}
