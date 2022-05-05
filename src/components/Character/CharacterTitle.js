@@ -37,7 +37,7 @@ function styles(theme) {
         avatar: {
             width: "30px",
             height: "30px",
-            transform: "translate(0, -3px)",
+            transform: "translate(0, -4px)",
             marginRight: theme.spacing(0.4),
         },
         characterMetaData: {
