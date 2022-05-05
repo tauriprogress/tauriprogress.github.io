@@ -29,6 +29,7 @@ import {
     environmentCharacterClassNamesSelector,
 } from "../../redux/selectors";
 import { styled } from "@mui/system";
+import { Avatar } from "@mui/material";
 
 const Container = styled("div")({
     minHeight: "550px",
@@ -110,6 +111,10 @@ function GuildRosterList({ theme, members, classInfo }) {
                                     ].text,
                                 }}
                             >
+                                <Avatar
+                                    src={getClassImg(charClass.classId)}
+                                    variant="small"
+                                />
                                 {characterClassNames[charClass.classId]}
                             </MenuItem>
                         ))}
