@@ -92,7 +92,7 @@ function styles(theme) {
 }
 
 function GuildList({ theme, classes }) {
-    const { factionColors, error: errColors } = theme.palette;
+    const { factionColors, success } = theme.palette;
     const {
         data,
         loading,
@@ -428,7 +428,7 @@ function GuildList({ theme, classes }) {
                                                                                         .difficulty
                                                                                 ]
                                                                                     .date &&
-                                                                                errColors.main,
+                                                                                success.main,
                                                                         }}
                                                                     >
                                                                         {
@@ -444,7 +444,7 @@ function GuildList({ theme, classes }) {
                                                                         style={{
                                                                             color:
                                                                                 firstKill &&
-                                                                                errColors.main,
+                                                                                success.main,
                                                                         }}
                                                                     >
                                                                         {
