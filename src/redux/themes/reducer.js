@@ -169,7 +169,7 @@ const baseTheme = {
             styleOverrides: {
                 root: ({ ownerState, theme }) => ({
                     ...(ownerState.selected && {
-                        borderLeft: `2px solid ${theme.palette.secondary.main}`,
+                        borderRight: `2px solid ${theme.palette.secondary.main}`,
                         color: theme.palette.secondary.main,
                     }),
                 }),

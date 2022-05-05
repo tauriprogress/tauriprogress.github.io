@@ -50,8 +50,12 @@ const NavContainer = styled("div")({
 
 const Nav = styled("nav")(({ theme }) => ({
     height: "100%",
-    width: `${width + 17}px`,
+    width: width,
     overflowY: "scroll",
+    scrollbarWidth: "none",
+    "&::-webkit-scrollbar": {
+        display: "none",
+    },
     backgroundColor: theme.palette.background.darker,
     [`@media only screen and (max-width: ${navBreakpoint}px)`]: {
         width: `${width}px`,
