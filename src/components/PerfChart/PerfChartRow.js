@@ -10,7 +10,7 @@ function styles(theme) {
 
     const textColor = isDark
         ? theme.palette.text.primary
-        : theme.baseColors.light;
+        : theme.palette.primary.contrastText;
     const borderTop = isDark ? "black" : "white";
     return {
         container: {

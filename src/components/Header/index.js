@@ -29,7 +29,7 @@ const HeaderElement = styled("header")(({ theme }) => ({
     width: "100%",
     position: "fixed",
     zIndex: 1000,
-    backgroundColor: theme.palette.background.lighter,
+    backgroundColor: theme.palette.background.darker,
 }));
 
 export const TallGrid = styled(Grid)({

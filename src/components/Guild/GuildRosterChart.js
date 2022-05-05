@@ -51,7 +51,7 @@ const ClassBar = styled("div")(({ theme }) => ({
         marginLeft: "auto",
         marginRight: theme.spacing(1),
         fontWeight: "bold",
-        color: theme.baseColors.light,
+        color: theme.palette.primary.contrastText,
         textShadow: "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
         zIndex: 2,
     },

@@ -1,6 +1,6 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
@@ -11,14 +11,14 @@ function styles(theme) {
     return {
         container: {
             width: "260px",
-            margin: "0 10px"
+            margin: "0 10px",
         },
         title: {
-            backgroundColor: theme.palette.background.darker
+            backgroundColor: theme.palette.background.dark,
         },
         bold: {
-            fontWeight: "bold"
-        }
+            fontWeight: "bold",
+        },
     };
 }
 

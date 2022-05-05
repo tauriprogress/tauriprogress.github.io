@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
+import withTheme from "@mui/styles/withTheme";
+import withStyles from "@mui/styles/withStyles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -79,7 +79,7 @@ function styles(theme) {
             fontWeight: "bold",
         },
         active: {
-            color: theme.palette.progStateColors.defeated,
+            color: theme.palette.error.main,
             fontSize: `${10 / 16}rem`,
             marginRight: "1px",
             textAlign: "left",
@@ -92,7 +92,7 @@ function styles(theme) {
 }
 
 function GuildList({ theme, classes }) {
-    const { factionColors, progStateColors } = theme.palette;
+    const { factionColors, error: errColors } = theme.palette;
     const {
         data,
         loading,
@@ -428,7 +428,7 @@ function GuildList({ theme, classes }) {
                                                                                         .difficulty
                                                                                 ]
                                                                                     .date &&
-                                                                                progStateColors.defeated,
+                                                                                errColors.main,
                                                                         }}
                                                                     >
                                                                         {
@@ -444,7 +444,7 @@ function GuildList({ theme, classes }) {
                                                                         style={{
                                                                             color:
                                                                                 firstKill &&
-                                                                                progStateColors.defeated,
+                                                                                errColors.main,
                                                                         }}
                                                                     >
                                                                         {

@@ -1,20 +1,20 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 
 import Typography from "@mui/material/Typography";
 
 function styles(theme) {
     return {
         title: {
-            backgroundColor: theme.palette.background.darker,
-            padding: theme.spacing(1)
+            backgroundColor: theme.palette.background.dark,
+            padding: theme.spacing(1),
         },
         container: {
             margin: `0 ${theme.spacing(1)}`,
             minWidth: "260px",
-            maxWidth: "260px"
-        }
+            maxWidth: "260px",
+        },
     };
 }
 

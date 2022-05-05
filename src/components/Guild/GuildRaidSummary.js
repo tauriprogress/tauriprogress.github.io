@@ -24,7 +24,7 @@ const TitleContainer = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center center",
-    color: theme.baseColors.light,
+    color: theme.palette.primary.contrastText,
 }));
 
 const Title = styled(Grid)(({ theme }) => ({

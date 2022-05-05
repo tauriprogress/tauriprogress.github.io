@@ -20,23 +20,20 @@ import {
 import { THEME_TOGGLE } from "./actions";
 
 const primary = "#111111";
-const secondary = deepOrange[500];
+const lightPSecondary = deepOrange[900];
+const darkPSecondary = deepOrange[300];
 
 const light = "#f9f9f9";
 const lightAccent = "#efefef";
-const lightBackgroundDefault = light;
-const lightBackgroundLighter = "#fefefe";
-const lightBackgroundDarker = "#d5d5d5";
-const lightPSecondary = deepOrange[900];
-const lightWarning = yellow[700];
+const lightBackgroundDefault = "#white";
+const lightBackgroundDarker = "#fff9f9";
+const lightBackgroundDark = "#d5d5d5";
 
-const dark = "#181818";
+const dark = "#1c1c1c";
 const darkAccent = "#1a1a1a";
-const darkBackgroundDefault = dark;
-const darkBackgroundLighter = "#212121";
-const darkBackgroundDarker = "#121212";
-const darkPSecondary = deepOrange[300];
-const darkWarning = yellow[700];
+const darkBackgroundDefault = "#212121";
+const darkBackgroundDark = "#121212";
+const darkBackgroundDarker = dark;
 
 const baseTheme = {
     palette: {},
@@ -98,6 +95,7 @@ const baseTheme = {
         MuiFormControl: {
             defaultProps: {
                 size: "small",
+                color: "secondary",
             },
         },
         MuiSelect: {
@@ -206,13 +204,6 @@ const baseTheme = {
             "sans-serif",
         ].join(","),
     },
-    baseColors: {
-        dark: primary,
-        darkAccent: darkAccent,
-        light: light,
-        lightAccent: lightAccent,
-        secondary: secondary,
-    },
     qualityColors: {
         5: "#ff8000",
         4: "#a335ee",
@@ -241,11 +232,10 @@ const lightTheme = createTheme(
                 },
                 background: {
                     default: lightBackgroundDefault,
-                    accent: lightAccent,
-                    lighter: lightBackgroundLighter,
                     darker: lightBackgroundDarker,
+                    dark: lightBackgroundDark,
+                    accent: lightAccent,
                     tooltip: lightAccent,
-                    warning: lightWarning,
                 },
                 classColors: {
                     1: {
@@ -297,10 +287,6 @@ const lightTheme = createTheme(
                     alliance: lightBlue[900],
                     horde: red[900],
                 },
-                progStateColors: {
-                    alive: red[900],
-                    defeated: green[900],
-                },
                 qualityColors: {
                     5: "#B35900",
                     4: "#a335ee",
@@ -328,7 +314,15 @@ const lightTheme = createTheme(
 const darkTheme = createTheme(
     deepmerge(
         {
-            components: {},
+            components: {
+                MuiTableCell: {
+                    styleOverrides: {
+                        root: {
+                            borderBottom: `1px solid ${"#373737"}`,
+                        },
+                    },
+                },
+            },
 
             palette: {
                 mode: "dark",
@@ -347,11 +341,10 @@ const darkTheme = createTheme(
                 },
                 background: {
                     default: darkBackgroundDefault,
-                    accent: darkAccent,
-                    lighter: darkBackgroundLighter,
                     darker: darkBackgroundDarker,
+                    dark: darkBackgroundDark,
+                    accent: darkAccent,
                     tooltip: darkAccent,
-                    warning: darkWarning,
                 },
                 classColors: {
                     1: {
@@ -379,7 +372,7 @@ const darkTheme = createTheme(
                         background: "#b71c1c",
                     },
                     7: {
-                        text: indigo[300],
+                        text: indigo[200],
                         background: "#0066CC",
                     },
                     8: {
@@ -391,7 +384,7 @@ const darkTheme = createTheme(
                         background: "#9482c9",
                     },
                     10: {
-                        text: teal[400],
+                        text: teal[300],
                         background: "#00b369",
                     },
                     11: {
@@ -402,10 +395,6 @@ const darkTheme = createTheme(
                 factionColors: {
                     alliance: lightBlue[400],
                     horde: red[300],
-                },
-                progStateColors: {
-                    alive: red[300],
-                    defeated: green[400],
                 },
                 qualityColors: {
                     5: "#ff8000",
