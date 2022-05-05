@@ -64,6 +64,9 @@ const baseTheme = {
                     marginRight: "3px",
                     borderRadius: "3px",
                 },
+                fallback: {
+                    display: "none",
+                },
             },
             variants: [
                 {

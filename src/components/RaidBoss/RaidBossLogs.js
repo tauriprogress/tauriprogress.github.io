@@ -58,7 +58,10 @@ function GuildList({ data = [], factionColors }) {
                             </Link>
                         </Typography>
                     ) : (
-                        <Typography>Random</Typography>
+                        <Typography>
+                            <Avatar src="" title={"Faction"} />
+                            Random
+                        </Typography>
                     )}
                 </TableCell>
 
