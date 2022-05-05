@@ -76,6 +76,14 @@ const baseTheme = {
                         width: "18px",
                     },
                 },
+                {
+                    props: { variant: "tiny" },
+                    style: {
+                        marginLeft: "3px",
+                        height: "15px",
+                        width: "15px",
+                    },
+                },
             ],
         },
         MuiLink: {
