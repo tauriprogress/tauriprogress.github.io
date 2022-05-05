@@ -40,6 +40,10 @@ const baseTheme = {
     components: {
         MuiCssBaseline: {
             styleOverrides: {
+                a: {
+                    color: "inherit",
+                    textDecoration: "none",
+                },
                 body: {
                     overflowY: "scroll !important",
                     padding: "0px !important",
