@@ -20,7 +20,6 @@ const Elevation = styled("div")(({ top }) => ({
     width: "100%",
     top: top,
     height: "10px",
-    zIndex: "100000",
 }));
 
 export default ElevatedLinearProgress;
