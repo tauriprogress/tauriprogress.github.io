@@ -42,7 +42,6 @@ function CharacterLadder({
     }, [combatMetric, data, filter]);
 
     function changePage(e, page) {
-        window.scrollTo(0, 0);
         if (onPageChange) {
             onPageChange(e, page);
         } else {

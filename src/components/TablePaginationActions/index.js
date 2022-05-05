@@ -9,18 +9,22 @@ function TablePaginationActions(props) {
     const { count, page, rowsPerPage, onPageChange } = props;
 
     const handleFirstPageButtonClick = (event) => {
+        window.scrollTo(0, 0);
         onPageChange(event, 0);
     };
 
     const handleBackButtonClick = (event) => {
+        window.scrollTo(0, 0);
         onPageChange(event, page - 1);
     };
 
     const handleNextButtonClick = (event) => {
+        window.scrollTo(0, 0);
         onPageChange(event, page + 1);
     };
 
     const handleLastPageButtonClick = (event) => {
+        window.scrollTo(0, 0);
         onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
 
