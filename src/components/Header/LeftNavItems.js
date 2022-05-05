@@ -38,8 +38,9 @@ const SeasonButton = styled(Button)(({ theme }) => ({
     height: "100%",
     fontSize: `${18 / 16}rem`,
     position: "relative",
+    color: theme.palette.secondary.main,
     "& :hover": {
-        color: theme.palette.text.primary,
+        color: theme.palette.secondary.main,
     },
 }));
 
