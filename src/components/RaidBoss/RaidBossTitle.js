@@ -8,7 +8,7 @@ import { raidBossKillCountCountSelector } from "../../redux/selectors";
 
 import {
     environmentDifficultyNamesSelector,
-    environmentIsSeasonalSelector
+    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function RaidBossTitle({ raidId, bossName, difficulty }) {
@@ -23,19 +23,25 @@ function RaidBossTitle({ raidId, bossName, difficulty }) {
     }, [raidId, bossName, difficulty, isSeasonal, dispatch]);
 
     return (
-        <Typography variant="h4" align="center">
-            {`${bossName} ${difficultyNames[difficulty]}`}
-            <Typography variant="caption" color="textSecondary">
-                {" "}
+        <React.Fragment>
+            <Typography variant="h4" align="center">
+                {`${bossName} ${difficultyNames[difficulty]}`}
+            </Typography>
+            <Typography
+                component="p"
+                variant="caption"
+                color="textSecondary"
+                align="center"
+            >
                 <span
                     style={{
-                        whiteSpace: "nowrap"
+                        whiteSpace: "nowrap",
                     }}
                 >
                     {killCount} Kills
                 </span>
             </Typography>
-        </Typography>
+        </React.Fragment>
     );
 }
 
