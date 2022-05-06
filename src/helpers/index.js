@@ -577,16 +577,26 @@ export function cleanFilters(filters) {
 
 export function talentsFromString(str, classId, talents) {
     let talentList = [];
-    const talentCode = /\d+/.exec(str)[0];
+    const talentCode = /\d.*/.exec(str)[0];
 
     for (let i = 0; i < talentCode.length; i++) {
-        talentList.push(
-            talents[classId].find(
-                (element) =>
-                    element.row === i &&
-                    element.column === Number(talentCode[i])
-            )
-        );
+        if (talentCode[i] === ".") {
+            talentList.push({
+                id: 0,
+                label: "Missing",
+                image: "",
+                row: 0,
+                column: 0,
+            });
+        } else {
+            talentList.push(
+                talents[classId].find(
+                    (element) =>
+                        element.row === i &&
+                        element.column === Number(talentCode[i])
+                )
+            );
+        }
     }
 
     return talentList;
