@@ -69,6 +69,7 @@ function CharacterLadder({
                                     </span>
                                 </Tooltip>
                             </UppercaseTableCell>
+                            <TableCell>Item level</TableCell>
 
                             <TableCell align="right">Talents</TableCell>
                             <TableCell>Trinkets</TableCell>

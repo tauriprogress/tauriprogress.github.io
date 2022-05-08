@@ -26,7 +26,6 @@ function CharacterList({ data = [], combatMetric = "dps", theme }) {
                 </TableCell>
                 <TableCell padding="checkbox">
                     <NoWrap>
-                        {char.ilvl}{" "}
                         <CharacterName
                             character={char}
                             realmName={char.realm}
@@ -39,6 +38,8 @@ function CharacterList({ data = [], combatMetric = "dps", theme }) {
                         {shortNumber(char[combatMetric])}
                     </LogLink>
                 </TableCell>
+
+                <TableCell>{char.ilvl}</TableCell>
 
                 <TableCell align="right">
                     {char.talents && <Talents char={char} />}

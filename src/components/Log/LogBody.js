@@ -226,6 +226,8 @@ function RegularCharaterList({ data }) {
                             HPS
                         </TableSortLabel>
                     </TableCell>
+                    <TableCell align="right">Item level</TableCell>
+
                     <TableCell align="right">Talents</TableCell>
                     <TableCell>Trinkets</TableCell>
                 </TableRow>
@@ -234,7 +236,6 @@ function RegularCharaterList({ data }) {
                 {sortMembers(data.members, sort).map((member) => (
                     <TableRow key={member.name}>
                         <TableCell padding="checkbox">
-                            {member.ilvl}{" "}
                             <CharacterName
                                 character={{
                                     ...member,
@@ -249,6 +250,8 @@ function RegularCharaterList({ data }) {
                         <TableCell padding="checkbox" align="right">
                             <BoldSpan>{shortNumber(member.hps)}</BoldSpan>
                         </TableCell>
+                        <TableCell align="right">{member.ilvl}</TableCell>
+
                         <TableCell align="right">
                             <Talents char={member} />
                         </TableCell>
