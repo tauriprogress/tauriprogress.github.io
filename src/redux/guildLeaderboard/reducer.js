@@ -18,12 +18,12 @@ import {
     readFiltersFromUrl,
     readTabFromUrl,
     validRaidNameOfEnv,
-    getRealmGroupOfLocalStorage,
+    getRealmGroupFromLocalStorage,
 } from "../../helpers";
 
 import { GUILD_LEADERBOARD_ROUTE } from "../../routes";
 
-const defaultRealmGroup = getRealmGroupOfLocalStorage();
+const defaultRealmGroup = getRealmGroupFromLocalStorage();
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 const defaultState = {

@@ -1,14 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
-
-import { TallGrid, VeritcalCenterGrid } from "./";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import { TallGrid, VeritcalCenterGrid, rightNavBreakpoint } from "./";
+import { push } from "connected-react-router";
 
 import {
     navigationToggle,
@@ -23,15 +24,10 @@ import {
     environmentRealmGroupSelector,
     environmentHasSeasonalSelector,
 } from "../../redux/selectors";
+import { getRealmGroupsMetaData, getExpansionImg } from "../../helpers";
 
-import wotlkIcon from "../../assets/expansionIcon/wotlk.png";
-import mopIcon from "../../assets/expansionIcon/mop.png";
 import { styled } from "@mui/system";
-
-const ExpansionIcon = styled("img")({
-    height: "32px !important",
-    width: "32px !important",
-});
+import { Avatar } from "@mui/material";
 
 const SeasonButton = styled(Button)(({ theme }) => ({
     padding: 10,
@@ -42,11 +38,25 @@ const SeasonButton = styled(Button)(({ theme }) => ({
     "& :hover": {
         color: theme.palette.secondary.main,
     },
+    [`@media(max-width: ${rightNavBreakpoint})`]: {
+        width: "30px !important",
+    },
 }));
 
 const DisabledSpan = styled("span")(({ theme }) => ({
     color: theme.palette.text.disabled,
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    maxWidth: "100%",
 }));
+
+const TextContainer = styled("span")({
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    maxWidth: "100%",
+});
 
 function LeftNavItems() {
     const dispatch = useDispatch();
@@ -69,7 +79,7 @@ function LeftNavItems() {
     }
 
     return (
-        <TallGrid container>
+        <TallGrid container wrap="nowrap">
             <VeritcalCenterGrid item>
                 <IconButton
                     color="inherit"
@@ -81,51 +91,42 @@ function LeftNavItems() {
             </VeritcalCenterGrid>
 
             <VeritcalCenterGrid item>
-                <Tooltip
-                    title={
-                        realmGroup === "tauri"
-                            ? "Switch to WOTLK"
-                            : "Switch to MOP"
-                    }
-                >
-                    <IconButton
-                        size="large"
-                        component={RouterLink}
-                        to={`/`}
-                        onClick={() =>
-                            dispatch(
-                                environmentSetRealmGroup(
-                                    realmGroup === "tauri"
-                                        ? "crystalsong"
-                                        : "tauri"
-                                )
-                            )
-                        }
+                <FormControl>
+                    <InputLabel>Server</InputLabel>
+                    <Select
+                        value={realmGroup}
+                        label={"Server"}
+                        onChange={(e) => {
+                            dispatch(push("/"));
+                            dispatch(environmentSetRealmGroup(e.target.value));
+                        }}
                     >
-                        <ExpansionIcon
-                            src={realmGroup === "tauri" ? mopIcon : wotlkIcon}
-                            alt={`Expansion ${
-                                realmGroup === "tauri" ? "MOP" : "WOTLK"
-                            }`}
-                        />
-                    </IconButton>
-                </Tooltip>
+                        {getRealmGroupsMetaData().map((realmGroupMetaData) => (
+                            <MenuItem
+                                value={realmGroupMetaData.label}
+                                key={realmGroupMetaData.label}
+                            >
+                                <Avatar
+                                    src={getExpansionImg(
+                                        realmGroupMetaData.expansion
+                                    )}
+                                />
+                                {realmGroupMetaData.label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </VeritcalCenterGrid>
             {hasSeasonal && (seasonName || nextSeasonName) && (
                 <VeritcalCenterGrid item>
                     <SeasonButton onClick={seasonalSwitch}>
                         {(() => {
                             const Component = isSeasonal
-                                ? "span"
+                                ? TextContainer
                                 : DisabledSpan;
+                            let name = seasonName || nextSeasonName;
 
-                            return (
-                                <Component
-                                    data-text={seasonName || nextSeasonName}
-                                >
-                                    {seasonName || nextSeasonName}
-                                </Component>
-                            );
+                            return <Component>{name}</Component>;
                         })()}
                     </SeasonButton>
                 </VeritcalCenterGrid>

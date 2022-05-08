@@ -16,7 +16,7 @@ import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
     getDefaultRaidName,
-    getRealmGroupOfLocalStorage,
+    getRealmGroupFromLocalStorage,
     readFiltersFromUrl,
     readTabFromUrl,
     validRaidNameOfEnv,
@@ -24,7 +24,7 @@ import {
 
 import { CHARACTER_LEADERBOARD_ROUTE } from "../../routes";
 
-const defaultRealmGroup = getRealmGroupOfLocalStorage();
+const defaultRealmGroup = getRealmGroupFromLocalStorage();
 const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 const defaultState = {

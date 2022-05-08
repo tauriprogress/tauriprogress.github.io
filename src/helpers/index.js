@@ -185,6 +185,10 @@ export function getRoleImg(role) {
     return require(`../assets/roles/${role}.svg`).default;
 }
 
+export function getExpansionImg(expansion) {
+    return require(`../assets/expansionIcon/${expansion}.png`).default;
+}
+
 export function getRaceName(race) {
     const [raceId, genderId] = race.split(",");
     return `${characterRaceNames[raceId]} ${
@@ -289,7 +293,7 @@ export function colorWeight(current, max) {
 }
 
 export function validRealmGroup(realmGroup) {
-    return realmGroup === "tauri" || realmGroup === "crystalsong";
+    return constants.realmGroups.includes(realmGroup);
 }
 
 export function validRealm(realm) {
@@ -390,19 +394,7 @@ export function shortRealmToFull(shortRealmName) {
 }
 
 export function getDefaultDifficulty(realmGroup) {
-    return constants[realmGroup].currentContent.raids.reduce(
-        (acc, raid) => {
-            for (const difficulty of raid.difficulties) {
-                if (
-                    realmGroup !== "tauri" ? difficulty > acc : difficulty < acc
-                ) {
-                    acc = difficulty;
-                }
-            }
-            return acc;
-        },
-        realmGroup !== "tauri" ? 0 : 10
-    );
+    return constants[realmGroup].defaultDifficulty;
 }
 
 export function getDefaultRaidName(realmGroup) {
@@ -410,7 +402,7 @@ export function getDefaultRaidName(realmGroup) {
 }
 
 export function raidNameToId(raidName) {
-    for (const realmGroup of ["tauri", "crystalsong"]) {
+    for (const realmGroup of constants.realmGroups) {
         for (const raid of constants[realmGroup].currentContent.raids) {
             if (raid.name === raidName) {
                 return raid.id;
@@ -518,12 +510,6 @@ export function readTabFromUrl(lowest, highest, location) {
         : lowest;
 }
 
-export function getRealmGroupOfLocalStorage() {
-    return validRealmGroup(localStorage.getItem("realmGroup"))
-        ? localStorage.getItem("realmGroup")
-        : "tauri";
-}
-
 export function isUrlSeasonal() {
     return new RegExp(/^\/seasonal/).test(window.location.pathname);
 }
@@ -600,4 +586,28 @@ export function talentsFromString(str, classId, talents) {
     }
 
     return talentList;
+}
+
+export function getRealmGroupsMetaData() {
+    let metaData = [];
+    for (const realmGroupName of constants.realmGroups) {
+        metaData.push({
+            label: realmGroupName,
+            expansion: constants[realmGroupName].expansion,
+        });
+    }
+
+    return metaData;
+}
+
+export function getRealmGroupOfRealm(realmName) {
+    for (const realmGroupName of constants.realmGroups) {
+        for (const realmNameOfGroup of constants[realmGroupName].realms) {
+            if (realmName === realmNameOfGroup) {
+                return realmGroupName;
+            }
+        }
+    }
+
+    return false;
 }

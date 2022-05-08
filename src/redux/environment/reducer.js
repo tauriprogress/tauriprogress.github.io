@@ -1,9 +1,5 @@
 import * as cons from "tauriprogress-constants";
-import {
-    getRealmGroupOfLocalStorage,
-    isUrlSeasonal,
-    getRealmGroupFromLocalStorage,
-} from "../../helpers";
+import { isUrlSeasonal, getRealmGroupFromLocalStorage } from "../../helpers";
 import {
     ENVIRONMENT_REALMGROUP_SET,
     ENVIRONMENT_SEASON_TOGGLE,
@@ -16,11 +12,24 @@ const devEnv = process.env.NODE_ENV === "development" ? true : false;
 const defaultRealmGroup = getRealmGroupFromLocalStorage();
 
 if (devEnv) {
-    for (const realmGroup of ["tauri", "crystalsong"]) {
-        constants[realmGroup].urls.server =
-            realmGroup === "tauri"
-                ? "http://localhost:3001"
-                : "http://localhost:3002";
+    for (const realmGroup of cons.realmGroups) {
+        let url;
+        switch (realmGroup) {
+            case "tauri":
+                url = "http://localhost:3001";
+                break;
+            case "crystalsong":
+                url = "http://localhost:3002";
+                break;
+            case "mistblade":
+                url = "http://localhost:3004";
+                break;
+            default:
+                url = "http://localhost:3001";
+                break;
+        }
+
+        constants[realmGroup].urls.server = url;
 
         constants[realmGroup].urls.seasonal = "http://localhost:3003";
     }
@@ -29,7 +38,7 @@ if (devEnv) {
 function getSeasonalDefaultState(isSeasonal) {
     const currentTime = new Date().getTime();
 
-    const defaultRealmGroup = getRealmGroupOfLocalStorage();
+    const defaultRealmGroup = getRealmGroupFromLocalStorage();
 
     const seasons = constants[defaultRealmGroup].seasons;
 
@@ -106,7 +115,6 @@ function environmentReducer(state = defaultState, action) {
     switch (action.type) {
         case ENVIRONMENT_REALMGROUP_SET:
             const realmGroup = action.payload;
-
             localStorage.setItem("realmGroup", realmGroup);
             return {
                 ...state,

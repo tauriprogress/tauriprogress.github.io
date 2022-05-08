@@ -7,34 +7,34 @@ export const ENVIRONMENT_SEASONAL_CHANGED = "ENVIRONMENT_SEASONAL_CHANGED";
 export function environmentSetEnvironment(payload) {
     return {
         type: ENVIRONMENT_SET,
-        payload
+        payload,
     };
 }
 
 export function environmentSetRealmGroup(payload) {
     return {
         type: ENVIRONMENT_REALMGROUP_SET,
-        payload
+        payload,
     };
 }
 
 export function environmentToggleSeason(payload) {
     return {
         type: ENVIRONMENT_SEASON_TOGGLE,
-        payload
+        payload,
     };
 }
 
 export function environmentRealmGroupChanged(payload) {
     return {
         type: ENVIRONMENT_REALMGROUP_CHANGED,
-        payload
+        payload,
     };
 }
 
 export function environmentSeasonalChanged(payload) {
     return {
         type: ENVIRONMENT_SEASONAL_CHANGED,
-        payload
+        payload,
     };
 }

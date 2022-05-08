@@ -16,7 +16,7 @@ import { themeToggle } from "../../redux/actions";
 import { styled } from "@mui/system";
 
 export const headerHeight = "55px";
-const rightNavBreakpoint = "500px";
+export const rightNavBreakpoint = "500px";
 
 const discordLink = "https://discordapp.com/invite/3RWayqd";
 
