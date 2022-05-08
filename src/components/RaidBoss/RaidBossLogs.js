@@ -30,7 +30,10 @@ import { raidBossKillCountFetch } from "../../redux/actions";
 
 import { environmentIsSeasonalSelector } from "../../redux/selectors";
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
-
+import { styled } from "@mui/system";
+const NoWrap = styled("span")({
+    whiteSpace: "nowrap",
+});
 function GuildList({ data = [], factionColors }) {
     return data.map((log, index) => {
         const date = new Date(log.date * 1000);
@@ -41,7 +44,7 @@ function GuildList({ data = [], factionColors }) {
                 </TableCell>
                 <TableCell>
                     {log.guild ? (
-                        <Typography noWrap>
+                        <NoWrap>
                             <Link
                                 style={{
                                     color: log.guild.f
@@ -56,12 +59,12 @@ function GuildList({ data = [], factionColors }) {
                                 />
                                 {log.guild.name}
                             </Link>
-                        </Typography>
+                        </NoWrap>
                     ) : (
-                        <Typography>
+                        <NoWrap>
                             <Avatar src="" title={"Faction"} />
                             Random
-                        </Typography>
+                        </NoWrap>
                     )}
                 </TableCell>
 
