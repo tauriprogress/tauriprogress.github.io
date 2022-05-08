@@ -27,6 +27,7 @@ import { Avatar } from "@mui/material";
 import ErrorMessage from "../ErrorMessage";
 import { logLootFetch } from "../../redux/actions";
 import Talents from "../Talents";
+import Trinket from "../Trinket";
 
 const tableColumns = [
     {
@@ -167,13 +168,6 @@ function DetailedCharacterList({ data }) {
 }
 
 function RegularCharaterList({ data }) {
-    const { shootUrl, iconUrl } = useSelector((state) => {
-        return {
-            shootUrl: environmentShootUrlSelector(state),
-            iconUrl: environmentIconUrlSelector(state),
-        };
-    }, shallowEqual);
-
     const [sort, setSort] = useState({
         by: "dps",
         direction: "desc",
@@ -262,13 +256,10 @@ function RegularCharaterList({ data }) {
                             {[0, 1].map((index) => {
                                 const item = member[`trinket_${index}`];
                                 return item ? (
-                                    <Avatar
+                                    <Trinket
+                                        id={item.entry}
+                                        icon={item.icon}
                                         key={item.entry}
-                                        component={"a"}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        href={`${shootUrl}/?item=${item.entry}`}
-                                        src={`${iconUrl}/medium/${item.icon}.png`}
                                     />
                                 ) : null;
                             })}
