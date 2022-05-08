@@ -59,7 +59,7 @@ function CharacterLadder({
                             <TableCell align="right" padding="checkbox">
                                 Rank
                             </TableCell>
-                            <TableCell>Character</TableCell>
+                            <TableCell padding="checkbox">Character</TableCell>
                             <UppercaseTableCell>
                                 <Tooltip
                                     title={"Click on the number for details"}
@@ -69,8 +69,10 @@ function CharacterLadder({
                                     </span>
                                 </Tooltip>
                             </UppercaseTableCell>
-                            <TableCell>Talents</TableCell>
+
+                            <TableCell align="right">Talents</TableCell>
                             <TableCell>Trinkets</TableCell>
+                            <TableCell>Faction</TableCell>
                         </TableRow>
                     </TableHead>
 

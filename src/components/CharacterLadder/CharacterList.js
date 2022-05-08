@@ -5,24 +5,26 @@ import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import LogLink from "../LogLink";
 import CharacterName from "../CharacterName";
-import { shortNumber } from "../../helpers";
+import { getFactionImg, shortNumber } from "../../helpers";
 
 import Talents from "../Talents";
 import { styled } from "@mui/system";
 import Trinket from "../Trinket";
+import { withTheme } from "@emotion/react";
+import { Avatar } from "@mui/material";
 
 const NoWrap = styled("span")({
     whiteSpace: "nowrap",
 });
 
-function CharacterList({ data = [], combatMetric = "dps" }) {
+function CharacterList({ data = [], combatMetric = "dps", theme }) {
     return data.map((char, index) => {
         return (
             <TableRow key={index} hover>
                 <TableCell padding="checkbox" align="right">
                     <Typography>{char.rank}.</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell padding="checkbox">
                     <NoWrap>
                         {char.ilvl}{" "}
                         <CharacterName
@@ -37,7 +39,10 @@ function CharacterList({ data = [], combatMetric = "dps" }) {
                         {shortNumber(char[combatMetric])}
                     </LogLink>
                 </TableCell>
-                <TableCell>{char.talents && <Talents char={char} />}</TableCell>
+
+                <TableCell align="right">
+                    {char.talents && <Talents char={char} />}
+                </TableCell>
 
                 <TableCell>
                     {char.trinkets &&
@@ -49,9 +54,29 @@ function CharacterList({ data = [], combatMetric = "dps" }) {
                             />
                         ))}
                 </TableCell>
+                <TableCell>
+                    <Avatar src={getFactionImg(char.f)} />{" "}
+                    {!char.f ? (
+                        <span
+                            style={{
+                                color: theme.palette.factionColors.alliance,
+                            }}
+                        >
+                            Alliance
+                        </span>
+                    ) : (
+                        <span
+                            style={{
+                                color: theme.palette.factionColors.horde,
+                            }}
+                        >
+                            Horde
+                        </span>
+                    )}
+                </TableCell>
             </TableRow>
         );
     });
 }
 
-export default React.memo(CharacterList);
+export default React.memo(withTheme(CharacterList));
