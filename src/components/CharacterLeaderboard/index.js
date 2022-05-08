@@ -101,7 +101,7 @@ function CharacterLeaderboard() {
                                 <TableCell padding="checkbox" align="right">
                                     Rank
                                 </TableCell>
-                                <TableCell>Name</TableCell>
+                                <TableCell padding="checkbox">Name</TableCell>
                                 <TableCell>
                                     <PerformanceExplanation />
                                 </TableCell>

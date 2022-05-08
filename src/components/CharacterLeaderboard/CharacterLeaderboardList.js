@@ -23,7 +23,7 @@ function CharacterLeaderboardList({ data = [], theme }) {
                 <TableCell align="right" padding="checkbox">
                     {char.rank}.
                 </TableCell>
-                <TableCell>
+                <TableCell padding="checkbox">
                     <Typography color="inherit">
                         <CharacterName
                             character={char}
