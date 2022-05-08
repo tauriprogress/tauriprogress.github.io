@@ -564,7 +564,6 @@ export function cleanFilters(filters) {
 export function talentsFromString(str, classId, talents) {
     let talentList = [];
     const talentCode = /\d.*/.exec(str)[0];
-
     for (let i = 0; i < talentCode.length; i++) {
         if (talentCode[i] === ".") {
             talentList.push({

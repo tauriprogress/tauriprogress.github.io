@@ -14,11 +14,10 @@ import CharacterName from "../CharacterName";
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
 
 import { sortMembers, isRegularLog } from "./helpers";
-import { shortNumber, talentsFromString } from "../../helpers";
+import { shortNumber } from "../../helpers";
 import { styled } from "@mui/system";
 import {
     environmentShootUrlSelector,
-    environmentTalentsSelector,
     environmentIconUrlSelector,
     logLootEntireSelector,
 } from "../../redux/selectors";
@@ -27,6 +26,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { Avatar } from "@mui/material";
 import ErrorMessage from "../ErrorMessage";
 import { logLootFetch } from "../../redux/actions";
+import Talents from "../Talents";
 
 const tableColumns = [
     {
@@ -167,9 +167,8 @@ function DetailedCharacterList({ data }) {
 }
 
 function RegularCharaterList({ data }) {
-    const { talents, shootUrl, iconUrl } = useSelector((state) => {
+    const { shootUrl, iconUrl } = useSelector((state) => {
         return {
-            talents: environmentTalentsSelector(state),
             shootUrl: environmentShootUrlSelector(state),
             iconUrl: environmentIconUrlSelector(state),
         };
@@ -257,20 +256,7 @@ function RegularCharaterList({ data }) {
                             <BoldSpan>{shortNumber(member.hps)}</BoldSpan>
                         </TableCell>
                         <TableCell align="right">
-                            {talentsFromString(
-                                member.talents,
-                                member.class,
-                                talents
-                            ).map((talent) => (
-                                <Avatar
-                                    key={talent.label}
-                                    component="a"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={`${shootUrl}/?spell=${talent.id}`}
-                                    src={`${iconUrl}/medium/${talent.image}`}
-                                />
-                            ))}
+                            <Talents char={member} />
                         </TableCell>
                         <TableCell>
                             {[0, 1].map((index) => {

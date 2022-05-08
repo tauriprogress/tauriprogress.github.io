@@ -9,6 +9,13 @@ import DisplayDate from "../DisplayDate";
 import CharacterName from "../CharacterName";
 import { shortNumber } from "../../helpers";
 
+import Talents from "../Talents";
+import { styled } from "@mui/system";
+
+const NoWrap = styled("span")({
+    whiteSpace: "nowrap",
+});
+
 function CharacterList({ data = [], combatMetric = "dps" }) {
     return data.map((char, index) => {
         const date = new Date(char.date * 1000);
@@ -18,12 +25,13 @@ function CharacterList({ data = [], combatMetric = "dps" }) {
                     <Typography>{char.rank}.</Typography>
                 </TableCell>
                 <TableCell>
-                    <Typography noWrap>
+                    <NoWrap>
+                        {char.ilvl}{" "}
                         <CharacterName
                             character={char}
                             realmName={char.realm}
                         />
-                    </Typography>
+                    </NoWrap>
                 </TableCell>
 
                 <TableCell>
@@ -31,8 +39,7 @@ function CharacterList({ data = [], combatMetric = "dps" }) {
                         {shortNumber(char[combatMetric])}
                     </LogLink>
                 </TableCell>
-
-                <TableCell>{char.ilvl}</TableCell>
+                <TableCell>{char.talents && <Talents char={char} />}</TableCell>
 
                 <TableCell>
                     <DateTooltip date={date}>

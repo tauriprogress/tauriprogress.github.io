@@ -69,7 +69,7 @@ function CharacterLadder({
                                     </span>
                                 </Tooltip>
                             </UppercaseTableCell>
-                            <TableCell>Item level</TableCell>
+                            <TableCell>Talents</TableCell>
                             <TableCell>Date</TableCell>
                         </TableRow>
                     </TableHead>
