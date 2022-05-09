@@ -39,23 +39,26 @@ const SeasonButton = styled(Button)(({ theme }) => ({
         color: theme.palette.secondary.main,
     },
     [`@media(max-width: ${rightNavBreakpoint})`]: {
-        width: "30px !important",
+        maxWidth: "30px !important",
     },
 }));
 
 const DisabledSpan = styled("span")(({ theme }) => ({
     color: theme.palette.text.disabled,
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
+    display: "flex",
     maxWidth: "100%",
 }));
 
-const TextContainer = styled("span")({
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    whiteSpace: "nowrap",
+const Span = styled("span")({
+    display: "flex",
     maxWidth: "100%",
+});
+
+const ButtonText = styled("span")({
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "200px",
+    whiteSpace: "pre",
 });
 
 function LeftNavItems() {
@@ -79,7 +82,7 @@ function LeftNavItems() {
     }
 
     return (
-        <TallGrid container wrap="nowrap">
+        <TallGrid container wrap="nowrap" style={{ maxWidth: "100%" }}>
             <VeritcalCenterGrid item>
                 <IconButton
                     color="inherit"
@@ -118,15 +121,21 @@ function LeftNavItems() {
                 </FormControl>
             </VeritcalCenterGrid>
             {hasSeasonal && (seasonName || nextSeasonName) && (
-                <VeritcalCenterGrid item>
+                <VeritcalCenterGrid item style={{ maxWidth: "100%" }}>
                     <SeasonButton onClick={seasonalSwitch}>
                         {(() => {
-                            const Component = isSeasonal
-                                ? TextContainer
-                                : DisabledSpan;
+                            const Component = isSeasonal ? Span : DisabledSpan;
                             let name = seasonName || nextSeasonName;
 
-                            return <Component>{name}</Component>;
+                            return (
+                                <Component>
+                                    {name.split(" ").map((text) => (
+                                        <ButtonText key={text}>
+                                            {text}{" "}
+                                        </ButtonText>
+                                    ))}
+                                </Component>
+                            );
                         })()}
                     </SeasonButton>
                 </VeritcalCenterGrid>
