@@ -5,6 +5,7 @@ import RaidSummary from "../RaidSummary";
 import RaidBoss from "../RaidBoss";
 
 import RaidFilter from "../RaidFilter";
+import validateRaid from "../Router/validateRaid";
 
 function Raid({ match }) {
     const raidName = match.params.raidName;
@@ -26,6 +27,8 @@ function Raid({ match }) {
     );
 }
 
-export default React.memo(Raid, (prevProps, nextProps) => {
-    return JSON.stringify(prevProps) === JSON.stringify(nextProps);
-});
+export default validateRaid()(
+    React.memo(Raid, (prevProps, nextProps) => {
+        return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+    })
+);

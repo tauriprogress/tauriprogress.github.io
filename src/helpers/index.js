@@ -327,6 +327,18 @@ export function validDifficulty(difficulty, realmGroup) {
     return false;
 }
 
+export function isRaidName(raidName) {
+    for (const realmGroup of constants.realmGroups) {
+        for (let raid of constants[realmGroup].currentContent.raids) {
+            if (raid.name === raidName) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 export function validRaidName(raidName, realmGroup) {
     for (let raid of constants[realmGroup].currentContent.raids) {
         if (raid.name === raidName) {
@@ -349,6 +361,18 @@ export function validRaidNameOfEnv(raidName, realmGroup, isSeasonal) {
     for (let raid of constants[realmGroup].currentContent.raids) {
         if (raid.name === raidName) {
             return true;
+        }
+    }
+
+    return false;
+}
+
+export function getRealmGroupOfRaidName(raidName) {
+    for (const realmGroup of constants.realmGroups) {
+        for (let raid of constants[realmGroup].currentContent.raids) {
+            if (raid.name === raidName) {
+                return realmGroup;
+            }
         }
     }
 
