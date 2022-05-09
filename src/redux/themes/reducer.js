@@ -110,6 +110,11 @@ const baseTheme = {
                 },
             },
         },
+        MuiTextField: {
+            defaultProps: {
+                color: "secondary",
+            },
+        },
         MuiMenuItem: {
             styleOverrides: {
                 root: {
