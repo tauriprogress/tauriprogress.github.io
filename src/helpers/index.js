@@ -30,6 +30,10 @@ const socketInfo = {
         icon: 8,
         desc: "Blue Socket",
     },
+    16: {
+        icon: "sha",
+        desc: "Sha socket",
+    },
 };
 
 export const gemColorsToSockets = {
@@ -37,6 +41,7 @@ export const gemColorsToSockets = {
     2: { matches: { 0: true, 2: true } },
     4: { matches: { 0: true, 4: true } },
     8: { matches: { 0: true, 8: true } },
+    16: { matches: { 16: true } },
     14: { matches: { 0: true, 8: true, 4: true, 2: true } },
     12: { matches: { 0: true, 8: true, 4: true } },
     10: { matches: { 0: true, 8: true, 2: true } },

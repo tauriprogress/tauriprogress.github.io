@@ -11,19 +11,19 @@ import {
     CHARACTER_RECENTKILLS_ERROR_SET,
     CHARACTER_ITEMS_LOADING_SET,
     CHARACTER_ITEMS_FILL,
-    CHARACTER_ITEMS_ERROR_SET
+    CHARACTER_ITEMS_ERROR_SET,
 } from "./actions";
 import {
     ENVIRONMENT_REALMGROUP_CHANGED,
     ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
+    ENVIRONMENT_SET,
 } from "../actions";
 
 import {
     getSocketInfo,
     gemColorsToSockets,
     validRaidNameOfEnv,
-    getDefaultRaidName
+    getDefaultRaidName,
 } from "../../helpers";
 
 const defaultState = {
@@ -32,24 +32,24 @@ const defaultState = {
     data: {
         loading: false,
         error: null,
-        data: undefined
+        data: undefined,
     },
     progression: {
         loading: false,
         error: null,
         data: undefined,
-        selectedRaid: null
+        selectedRaid: null,
     },
     recentKills: {
         loading: false,
         data: undefined,
-        error: null
+        error: null,
     },
     items: {
         loading: false,
         data: {},
-        error: null
-    }
+        error: null,
+    },
 };
 
 function characterReducer(state = defaultState, action) {
@@ -59,8 +59,8 @@ function characterReducer(state = defaultState, action) {
                 ...defaultState,
                 progression: {
                     ...defaultState.progression,
-                    selectedRaid: getDefaultRaidName(action.payload.realmGroup)
-                }
+                    selectedRaid: getDefaultRaidName(action.payload.realmGroup),
+                },
             };
         case ENVIRONMENT_SET:
         case ENVIRONMENT_SEASONAL_CHANGED:
@@ -76,15 +76,15 @@ function characterReducer(state = defaultState, action) {
                         action.payload.isSeasonal
                     )
                         ? state.progression.selectedRaid
-                        : getDefaultRaidName(action.payload.realmGroup)
-                }
+                        : getDefaultRaidName(action.payload.realmGroup),
+                },
             };
         case CHARACTER_DATA_LOADING_SET:
             return {
                 ...state,
                 data: { ...state.data, loading: true, error: null },
                 characterName: action.payload.characterName,
-                realm: action.payload.realm
+                realm: action.payload.realm,
             };
         case CHARACTER_DATA_FILL:
             return {
@@ -93,12 +93,12 @@ function characterReducer(state = defaultState, action) {
                     ...state.data,
                     data: action.payload,
                     loading: false,
-                    error: null
+                    error: null,
                 },
                 characterName: action.payload.name,
                 realm: action.payload.realm,
                 progression: { ...defaultState.progression },
-                items: { ...defaultState.items }
+                items: { ...defaultState.items },
             };
 
         case CHARACTER_DATA_ERROR_SET:
@@ -110,8 +110,8 @@ function characterReducer(state = defaultState, action) {
                 data: {
                     ...state.data,
                     error: action.payload,
-                    loading: false
-                }
+                    loading: false,
+                },
             };
         case CHARACTER_PROGRESSION_LOADING_SET:
             return {
@@ -119,8 +119,8 @@ function characterReducer(state = defaultState, action) {
                 progression: {
                     ...state.progression,
                     loading: true,
-                    error: null
-                }
+                    error: null,
+                },
             };
 
         case CHARACTER_PROGRESSION_RAID_SET: {
@@ -128,8 +128,8 @@ function characterReducer(state = defaultState, action) {
                 ...state,
                 progression: {
                     ...state.progression,
-                    selectedRaid: action.payload
-                }
+                    selectedRaid: action.payload,
+                },
             };
         }
 
@@ -140,8 +140,8 @@ function characterReducer(state = defaultState, action) {
                     ...state.progression,
                     data: { ...state.progression.data, ...action.payload },
                     loading: false,
-                    error: null
-                }
+                    error: null,
+                },
             };
 
         case CHARACTER_PROGRESSION_ERROR_SET:
@@ -150,8 +150,8 @@ function characterReducer(state = defaultState, action) {
                 progression: {
                     ...state.progression,
                     error: action.payload,
-                    loading: false
-                }
+                    loading: false,
+                },
             };
 
         case CHARACTER_RECENTKILLS_LOADING_SET:
@@ -159,8 +159,8 @@ function characterReducer(state = defaultState, action) {
                 ...state,
                 recentKills: {
                     ...state.recentKills,
-                    loading: action.payload
-                }
+                    loading: action.payload,
+                },
             };
 
         case CHARACTER_RECENTKILLS_FILL:
@@ -171,14 +171,14 @@ function characterReducer(state = defaultState, action) {
                     loading: false,
                     error: null,
                     data: {
-                        logs: action.payload.logs.map(log => ({
+                        logs: action.payload.logs.map((log) => ({
                             id: log.log_id,
                             date: log.killtime,
                             boss: log.encounter_data.encounter_name,
-                            difficulty: Number(log.difficulty)
-                        }))
-                    }
-                }
+                            difficulty: Number(log.difficulty),
+                        })),
+                    },
+                },
             };
 
         case CHARACTER_RECENTKILLS_ERROR_SET:
@@ -187,8 +187,8 @@ function characterReducer(state = defaultState, action) {
                 recentKills: {
                     ...state.recentKills,
                     loading: false,
-                    error: action.payload
-                }
+                    error: action.payload,
+                },
             };
 
         case CHARACTER_ITEMS_LOADING_SET:
@@ -197,8 +197,8 @@ function characterReducer(state = defaultState, action) {
                 items: {
                     ...state.items,
                     loading: action.payload,
-                    error: null
-                }
+                    error: null,
+                },
             };
 
         case CHARACTER_ITEMS_FILL:
@@ -219,7 +219,7 @@ function characterReducer(state = defaultState, action) {
                                 ? decodeURIComponent(item.SocketBonusDesc)
                                 : false,
                         bonusCompleted: true,
-                        sockets: []
+                        sockets: [],
                     };
 
                     for (let [index, socket] of item.Socket.entries()) {
@@ -234,10 +234,9 @@ function characterReducer(state = defaultState, action) {
                             item.socketInfo.sockets.push({
                                 ...getSocketInfo(socket.Color),
                                 color: socket.Color,
-                                gem: gem
+                                gem: gem,
                             });
                         }
-
                         if (!gem && socket.Color !== 0) {
                             item.socketInfo.bonusCompleted = false;
                         } else if (
@@ -260,8 +259,8 @@ function characterReducer(state = defaultState, action) {
                                 (a, b) => a.invType - b.invType
                             ),
                             effects: item.ItemSetInfo.base.Spells.filter(
-                                effect => effect.spell !== ""
-                            )
+                                (effect) => effect.spell !== ""
+                            ),
                         };
 
                     for (let i = 0; i < sets[setName].items.length; i++) {
@@ -274,7 +273,7 @@ function characterReducer(state = defaultState, action) {
                             sets[setName].items[i] = {
                                 equipped: true,
                                 guid: guid,
-                                name: data[guid].item_name
+                                name: data[guid].item_name,
                             };
 
                             sets[setName].equipCount += 1;
@@ -291,7 +290,7 @@ function characterReducer(state = defaultState, action) {
                 for (let item of set.items) {
                     data[item.guid] = {
                         ...data[item.guid],
-                        set
+                        set,
                     };
                 }
             }
@@ -301,8 +300,8 @@ function characterReducer(state = defaultState, action) {
                 items: {
                     ...state.items,
                     loading: false,
-                    data: data
-                }
+                    data: data,
+                },
             };
         case CHARACTER_ITEMS_ERROR_SET:
             return {
@@ -310,8 +309,8 @@ function characterReducer(state = defaultState, action) {
                 items: {
                     ...state.items,
                     loading: false,
-                    error: action.payload
-                }
+                    error: action.payload,
+                },
             };
 
         default:
