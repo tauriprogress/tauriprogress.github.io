@@ -25,9 +25,9 @@ function validateRaid() {
                 const isSeasonal = useSelector(environmentIsSeasonalSelector);
 
                 let regex = /\/raid\/[^/]*/;
-                let result = regex.exec(location.pathname)[0];
-                if (result) {
-                    const raidName = result.replace("/raid/", "");
+                let result = regex.exec(location.pathname);
+                if (result && result[0]) {
+                    const raidName = result[0].replace("/raid/", "");
                     if (
                         isRaidName(raidName) &&
                         !validRaidNameOfEnv(raidName, realmGroup, isSeasonal)
