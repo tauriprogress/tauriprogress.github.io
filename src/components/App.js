@@ -5,6 +5,7 @@ import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 
 import Router from "./Router";
+import ErrorBoundary from "./ErrorBoundary";
 
 import { themeSelector } from "../redux/selectors";
 
@@ -14,7 +15,9 @@ function App() {
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Router />
+                <ErrorBoundary>
+                    <Router />
+                </ErrorBoundary>
             </ThemeProvider>
         </StyledEngineProvider>
     );
