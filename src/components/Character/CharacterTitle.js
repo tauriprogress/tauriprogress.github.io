@@ -81,10 +81,14 @@ function CharacterTitle({ classes, theme }) {
                     }}
                     specIconClass={classes.avatar}
                     raceIconClass={classes.avatar}
-                    linkTo={`${armoryUrl}?${data.character_url_string.replace(
-                        "amp;",
-                        ""
-                    )}`}
+                    linkTo={
+                        armoryUrl
+                            ? `${armoryUrl}?${data.character_url_string.replace(
+                                  "amp;",
+                                  ""
+                              )}`
+                            : "nolink"
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                 />

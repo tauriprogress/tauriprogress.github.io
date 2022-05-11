@@ -17,6 +17,7 @@ import {
     guildRealmSelector,
 } from "../../redux/guild/selectors";
 import { styled } from "@mui/system";
+import { environmentArmoryUrlSelector } from "../../redux/selectors";
 
 const Container = styled(Grid)(({ theme }) => ({
     padding: `0 ${theme.spacing(1)}`,
@@ -34,12 +35,13 @@ const NoWrap = styled("span")({
 });
 
 function GuildTitle({ theme }) {
-    const { name, faction, membersCount, realm } = useSelector(
+    const { name, faction, membersCount, realm, armoryUrl } = useSelector(
         (state) => ({
             name: guildNameSelector(state),
             faction: guildFactionSelector(state),
             membersCount: guildMembersCountSelector(state),
             realm: guildRealmSelector(state),
+            armoryUrl: environmentArmoryUrlSelector(state),
         }),
         shallowEqual
     );
@@ -60,16 +62,26 @@ function GuildTitle({ theme }) {
             </Grid>
             <Grid item>
                 <Typography variant="h4">
-                    <Link
-                        target="_blank"
-                        href={`https://tauriwow.com/armory#guild-info.xml?r=${realm}&gn=${name}`}
-                        rel="noopener noreferrer"
-                        style={{
-                            color: factionColor,
-                        }}
-                    >
-                        {name}
-                    </Link>
+                    {armoryUrl ? (
+                        <Link
+                            target="_blank"
+                            href={`https://tauriwow.com/armory#guild-info.xml?r=${realm}&gn=${name}`}
+                            rel="noopener noreferrer"
+                            style={{
+                                color: factionColor,
+                            }}
+                        >
+                            {name}
+                        </Link>
+                    ) : (
+                        <span
+                            style={{
+                                color: factionColor,
+                            }}
+                        >
+                            {name}
+                        </span>
+                    )}
                 </Typography>
                 <Typography color="text.secondary">
                     <NoWrap>{realm}</NoWrap>

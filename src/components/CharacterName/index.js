@@ -39,27 +39,53 @@ function CharacterName({
                 title={getRaceName(character.race)}
                 className={`${raceIconClass}`}
             />
-            {!linkTo ? (
-                <Link
-                    to={`/character/${character.name}?realm=${realmName}`}
-                    style={{
-                        color: theme.palette.classColors[character.class].text,
-                    }}
-                    {...rest}
-                >
-                    {character.name}
-                </Link>
-            ) : (
-                <RegularLink
-                    href={linkTo}
-                    style={{
-                        color: theme.palette.classColors[character.class].text,
-                    }}
-                    {...rest}
-                >
-                    {character.name}
-                </RegularLink>
-            )}
+
+            {(() => {
+                switch (linkTo) {
+                    case undefined:
+                        return (
+                            <Link
+                                to={`/character/${character.name}?realm=${realmName}`}
+                                style={{
+                                    color: theme.palette.classColors[
+                                        character.class
+                                    ].text,
+                                }}
+                                {...rest}
+                            >
+                                {character.name}
+                            </Link>
+                        );
+                    case "nolink":
+                        return (
+                            <span
+                                style={{
+                                    color: theme.palette.classColors[
+                                        character.class
+                                    ].text,
+                                }}
+                                {...rest}
+                            >
+                                {character.name}
+                            </span>
+                        );
+
+                    default:
+                        return (
+                            <RegularLink
+                                href={linkTo}
+                                style={{
+                                    color: theme.palette.classColors[
+                                        character.class
+                                    ].text,
+                                }}
+                                {...rest}
+                            >
+                                {character.name}
+                            </RegularLink>
+                        );
+                }
+            })()}
         </React.Fragment>
     );
 }
