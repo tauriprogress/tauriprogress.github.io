@@ -9,7 +9,7 @@ import {
 let constants = JSON.parse(JSON.stringify(cons));
 
 const devEnv = process.env.NODE_ENV === "development" ? true : false;
-const defaultRealmGroup = getRealmGroupFromLocalStorage();
+let defaultRealmGroup = getRealmGroupFromLocalStorage();
 
 if (devEnv) {
     for (const realmGroup of cons.realmGroups) {
@@ -90,14 +90,28 @@ function getConstantsDefaultState(realmGroup, isSeasonal) {
     };
 }
 
-const seasonalState = getSeasonalDefaultState();
+let seasonalState = getSeasonalDefaultState();
 
 if (!seasonalState.hasSeasonal && isUrlSeasonal()) {
-    window.history.replaceState(
-        window.history.state,
-        document.title,
-        window.location.origin
-    );
+    let newRealmGroup = false;
+    for (const realmGroupName of constants.realmGroups) {
+        if (constants[realmGroupName].seasons.length) {
+            newRealmGroup = realmGroupName;
+            break;
+        }
+    }
+
+    if (newRealmGroup) {
+        localStorage.setItem("realmGroup", newRealmGroup);
+        defaultRealmGroup = newRealmGroup;
+        seasonalState = getSeasonalDefaultState();
+    } else {
+        window.history.replaceState(
+            window.history.state,
+            document.title,
+            window.location.origin
+        );
+    }
 }
 
 const defaultState = JSON.parse(
