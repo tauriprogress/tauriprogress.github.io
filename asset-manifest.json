@@ -5,11 +5,11 @@
     "runtime-main.js": "/static/js/runtime-main.8b5c5657.js",
     "runtime-main.js.map": "/static/js/runtime-main.8b5c5657.js.map",
     "static/css/2.1ca50200.chunk.css": "/static/css/2.1ca50200.chunk.css",
-    "static/js/2.87fdf126.chunk.js": "/static/js/2.87fdf126.chunk.js",
-    "static/js/2.87fdf126.chunk.js.map": "/static/js/2.87fdf126.chunk.js.map",
+    "static/js/2.0bd19125.chunk.js": "/static/js/2.0bd19125.chunk.js",
+    "static/js/2.0bd19125.chunk.js.map": "/static/js/2.0bd19125.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.1ca50200.chunk.css.map": "/static/css/2.1ca50200.chunk.css.map",
-    "static/js/2.87fdf126.chunk.js.LICENSE.txt": "/static/js/2.87fdf126.chunk.js.LICENSE.txt",
+    "static/js/2.0bd19125.chunk.js.LICENSE.txt": "/static/js/2.0bd19125.chunk.js.LICENSE.txt",
     "static/media/Healer.svg": "/static/media/Healer.126c8921.svg",
     "static/media/Melee.svg": "/static/media/Melee.38bd487f.svg",
     "static/media/Ranged.svg": "/static/media/Ranged.28036837.svg",
@@ -37,7 +37,7 @@
   "entrypoints": [
     "static/js/runtime-main.8b5c5657.js",
     "static/css/2.1ca50200.chunk.css",
-    "static/js/2.87fdf126.chunk.js",
+    "static/js/2.0bd19125.chunk.js",
     "static/js/main.d2c0ee93.chunk.js"
   ]
 }
