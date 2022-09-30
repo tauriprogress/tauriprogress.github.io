@@ -24,13 +24,17 @@ function CharacterName({
 }) {
     const specs = useSelector(environmentCharacterSpecsSelector);
 
+    const specImageName = character.spec
+        ? specs[character.spec].image
+        : "undefined";
+
+    const specTitle = character.spec ? specs[character.spec].label : "No spec";
+
     return (
         <React.Fragment>
             <Avatar
-                src={specIcon || getSpecImg(specs[character.spec].image)}
-                title={
-                    specIconTitle || specs[character.spec].label || "No spec"
-                }
+                src={specIcon || getSpecImg(specImageName)}
+                title={specIconTitle || specTitle}
                 className={specIconClass}
             />
 
