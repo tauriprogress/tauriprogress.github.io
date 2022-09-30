@@ -42,6 +42,7 @@ function LogTitle({ data, theme }) {
     );
 
     for (let member of data.members) {
+        if (!member.spec) continue;
         let role = specs[member.spec].role;
 
         if (role === "damage") {
