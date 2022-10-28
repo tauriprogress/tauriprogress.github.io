@@ -2,8 +2,8 @@ import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+import withStyles from "@mui/styles/withStyles";
+import withTheme from "@mui/styles/withTheme";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -16,7 +16,7 @@ import TitledContainer from "../TitledContainer";
 import {
     characterRealmSelector,
     characterDataIncompleteItemsSelector,
-    environmentIconUrlSelector
+    environmentIconUrlSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -29,32 +29,32 @@ function styles(theme) {
             border: "1px solid #333",
             backgroundSize: "123% 123%",
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center"
+            backgroundPosition: "center",
         },
         textContainer: {
             alignItems: "center",
             display: "flex",
             overflow: "hidden",
-            padding: `0 ${theme.spacing(0.5)}`
+            padding: `0 ${theme.spacing(0.5)}`,
         },
         itemName: {
             lineHeight: 1,
             whiteSpace: "nowrap",
             overflow: "hidden",
-            textOverflow: "ellipsis"
+            textOverflow: "ellipsis",
         },
         itemLevel: {
-            fontSize: `${12 / 16}rem`
-        }
+            fontSize: `${12 / 16}rem`,
+        },
     };
 }
 
 function CharacterItems({ classes, theme }) {
     const { characterItems, iconUrl, realm } = useSelector(
-        state => ({
+        (state) => ({
             characterItems: characterDataIncompleteItemsSelector(state),
             realm: characterRealmSelector(state),
-            iconUrl: environmentIconUrlSelector(state)
+            iconUrl: environmentIconUrlSelector(state),
         }),
         shallowEqual
     );
@@ -62,22 +62,16 @@ function CharacterItems({ classes, theme }) {
         return <div />;
     }
 
-    const ids = characterItems.reduce(
-        (acc, curr) => (curr.guid ? [...acc, curr.guid] : acc),
-        []
-    );
-
     return (
         <TitledContainer title="Items">
             <List>
                 {characterItems.map(
-                    item =>
+                    (item) =>
                         item.name && (
                             <React.Fragment key={item.guid}>
                                 <CharacterItemTooltip
-                                    id={item.guid}
+                                    itemMeta={item}
                                     realm={realm}
-                                    ids={ids}
                                 >
                                     <ListItem>
                                         <Grid container wrap="nowrap">
@@ -95,7 +89,7 @@ function CharacterItems({ classes, theme }) {
                                                             theme.palette
                                                                 .qualityColors[
                                                                 item.rarity
-                                                            ]
+                                                            ],
                                                     }}
                                                 />
                                             </Grid>
@@ -107,7 +101,7 @@ function CharacterItems({ classes, theme }) {
                                             >
                                                 <div
                                                     style={{
-                                                        overflow: "hidden"
+                                                        overflow: "hidden",
                                                     }}
                                                 >
                                                     <Typography
@@ -118,7 +112,7 @@ function CharacterItems({ classes, theme }) {
                                                             color: theme.palette
                                                                 .qualityColors[
                                                                 item.rarity
-                                                            ]
+                                                            ],
                                                         }}
                                                     >
                                                         {item.name}

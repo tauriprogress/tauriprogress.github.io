@@ -28,10 +28,10 @@ function styles(theme) {
     };
 }
 
-function ItemTooltip({ classes, children, id, ids, realm }) {
+function ItemTooltip({ classes, children, itemMeta, realm }) {
     const { loading, error, item, iconUrl } = useSelector(
         (state) => ({
-            item: characterItemsItemSelector(state, id),
+            item: characterItemsItemSelector(state, itemMeta.guid),
             loading: characterItemsLoadingSelector(state),
             error: characteritemsErrorSelector(state),
             iconUrl: environmentIconUrlSelector(state),
@@ -43,7 +43,19 @@ function ItemTooltip({ classes, children, id, ids, realm }) {
 
     async function onOpen() {
         if (!item) {
-            dispatch(characterItemsFetch({ ids, realm }));
+            dispatch(
+                characterItemsFetch({
+                    items: [
+                        {
+                            id: itemMeta.guid,
+                            pcs: itemMeta.queryParams
+                                ? itemMeta.queryParams.replace("pcs=", "")
+                                : undefined,
+                        },
+                    ],
+                    realm,
+                })
+            );
         }
     }
 

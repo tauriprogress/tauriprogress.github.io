@@ -1,8 +1,8 @@
 import { itemSlotNames } from "tauriprogress-constants";
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+import withStyles from "@mui/styles/withStyles";
+import withTheme from "@mui/styles/withTheme";
 
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -14,48 +14,65 @@ function styles(theme) {
         text: {
             fontSize: "inherit",
             lineHeight: 1,
-            margin: "2px 0"
+            margin: "2px 0",
         },
         textGreen: {
-            color: "#1EFF00"
+            color: "#1EFF00",
         },
         textYellow: {
-            color: "#FFD100"
+            color: "#FFD100",
         },
         textLightYellow: {
-            color: "#FFFF98"
+            color: "#FFFF98",
         },
         textWhite: {
-            color: "#FFFFFF"
+            color: "#FFFFFF",
         },
         textGrey: {
-            color: "#9d9d9d"
+            color: "#9d9d9d",
         },
         socketIcon: {
             width: "14px",
             height: "14px",
             transform: "translate(0, 3px)",
-            marginRight: "2px"
+            marginRight: "2px",
         },
         setItem: {
-            marginLeft: "4px"
+            marginLeft: "4px",
         },
         containerMarginTop: {
-            marginTop: "20px"
+            marginTop: "20px",
         },
         containerMargin: {
-            margin: "20px 0"
-        }
+            margin: "20px 0",
+        },
     };
 }
 
 function ItemTooltipText({ classes, theme, item, iconUrl }) {
+    if (item.ItemSetInfo.base) {
+        item.ItemSetInfo.base.equipped = item.ItemSetInfo.base.Items.reduce(
+            (acc, curr) => {
+                if (curr.have) {
+                    return acc + 1;
+                }
+
+                return acc;
+            },
+            0
+        );
+
+        item.ItemSetInfo.base.Spells = item.ItemSetInfo.base.Spells.filter(
+            (spell) => spell.threshold
+        );
+    }
+
     return (
         <React.Fragment>
             <Typography
                 className={classes.text}
                 style={{
-                    color: theme.qualityColors[item.Quality]
+                    color: theme.qualityColors[item.Quality],
                 }}
             >
                 {item.name}
@@ -137,7 +154,7 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                     </Typography>
                 </React.Fragment>
             )}
-            {item.ItemStat.map(stat =>
+            {item.ItemStat.map((stat) =>
                 stat.value ? (
                     <Typography
                         key={stat.type}
@@ -214,16 +231,16 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                 </Typography>
             )}
 
-            {item.ItemSetInfo.base && item.set && (
+            {item.ItemSetInfo.base && (
                 <div className={classes.containerMarginTop}>
                     <Typography
                         className={`${classes.text} ${classes.textYellow}`}
-                    >{`${item.ItemSetInfo.base.name}(${item.set.equipCount}/${item.set.items.length})`}</Typography>
-                    {item.set.items.map((setItem, index) => (
+                    >{`${item.ItemSetInfo.base.name}(${item.ItemSetInfo.base.equipped}/${item.ItemSetInfo.base.Items.length})`}</Typography>
+                    {item.ItemSetInfo.base.Items.map((setItem, index) => (
                         <Typography
                             key={index}
                             className={`${classes.text} ${classes.setItem} ${
-                                setItem.equipped
+                                setItem.have
                                     ? classes.textLightYellow
                                     : classes.textGrey
                             }`}
@@ -231,20 +248,23 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                             {setItem.name}
                         </Typography>
                     ))}
-                    {item.set.effects.length && (
+                    {item.ItemSetInfo.base.Spells.length && (
                         <div className={classes.containerMarginTop}>
-                            {item.set.effects.map((effect, index) => (
-                                <Typography
-                                    key={index}
-                                    className={`${classes.text} ${
-                                        effect.threshold <= item.set.equipCount
-                                            ? classes.textGreen
-                                            : classes.textGrey
-                                    }`}
-                                >
-                                    {`(${effect.threshold}) Set: ${effect.spell}`}
-                                </Typography>
-                            ))}
+                            {item.ItemSetInfo.base.Spells.map(
+                                (effect, index) => (
+                                    <Typography
+                                        key={index}
+                                        className={`${classes.text} ${
+                                            effect.threshold <=
+                                            item.ItemSetInfo.base.equipped
+                                                ? classes.textGreen
+                                                : classes.textGrey
+                                        }`}
+                                    >
+                                        {`(${effect.threshold}) Set: ${effect.spell}`}
+                                    </Typography>
+                                )
+                            )}
                         </div>
                     )}
                 </div>

@@ -3,30 +3,30 @@ import {
     characterItemsSetLoading,
     characterItemsSetError,
     characterItemsFill,
-    CHARACTER_ITEMS_FETCH
+    CHARACTER_ITEMS_FETCH,
 } from "./actions";
 import {
     characterItemsLoadingSelector,
-    characterItemsSelector
+    characterItemsSelector,
 } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
-async function getData(serverUrl, ids, realm) {
+async function getData(serverUrl, items, realm) {
     return await fetch(`${serverUrl}/getitems`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            ids: ids,
-            realm: realm
-        })
-    }).then(res => res.json());
+            items: items,
+            realm: realm,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchCharacterItems({ payload }) {
     try {
-        const { ids, realm } = payload;
+        const { items, realm } = payload;
 
         const loading = yield select(characterItemsLoadingSelector);
 
@@ -36,7 +36,7 @@ function* fetchCharacterItems({ payload }) {
 
         const currentItems = yield select(characterItemsSelector);
 
-        const filteredIds = ids.filter(guid => !currentItems[guid]);
+        const filteredIds = items.filter((item) => !currentItems[item.id]);
 
         yield put(characterItemsSetLoading(true));
 

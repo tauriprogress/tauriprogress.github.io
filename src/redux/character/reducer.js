@@ -204,8 +204,6 @@ function characterReducer(state = defaultState, action) {
         case CHARACTER_ITEMS_FILL:
             let data = { ...state.items.data, ...action.payload };
 
-            let sets = {};
-
             for (let guid in data) {
                 let item = data[guid];
                 /* Socket info of item */
@@ -243,52 +241,6 @@ function characterReducer(state = defaultState, action) {
                             item.socketInfo.bonusCompleted = false;
                         }
                     }
-                }
-                /* Count set items */
-                let itemSetInfo = item.ItemSetInfo;
-                if (itemSetInfo.base) {
-                    let setName = itemSetInfo.base.name;
-
-                    if (!sets[setName])
-                        sets[setName] = {
-                            equipCount: 0,
-                            items: item.ItemSetInfo.base.Items.sort(
-                                (a, b) => a.invType - b.invType
-                            ),
-                            effects: item.ItemSetInfo.base.Spells.filter(
-                                (effect) => effect.spell !== ""
-                            ),
-                        };
-
-                    for (let i = 0; i < sets[setName].items.length; i++) {
-                        let setItem = sets[setName].items[i];
-
-                        if (
-                            setItem.invType === item.InventoryType &&
-                            !setItem.equipped
-                        ) {
-                            sets[setName].items[i] = {
-                                equipped: true,
-                                guid: guid,
-                                name: data[guid].item_name,
-                            };
-
-                            sets[setName].equipCount += 1;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            /* For each sets extend related item data with set info */
-            for (let setName in sets) {
-                let set = sets[setName];
-
-                for (let item of set.items) {
-                    data[item.guid] = {
-                        ...data[item.guid],
-                        set,
-                    };
                 }
             }
 
