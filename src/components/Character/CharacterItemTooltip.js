@@ -66,7 +66,7 @@ function ItemTooltip({ classes, children, itemMeta, realm }) {
                 classes={{
                     tooltip: classes.tooltip,
                 }}
-                placement="top-end"
+                placement={window.innerWidth > 600 ? "left" : "bottom"}
                 title={
                     <React.Fragment>
                         {loading && "Loading..."}
