@@ -286,7 +286,7 @@ function Loot({ items, realm }) {
     useEffect(() => {
         dispatch(
             logLootFetch({
-                ids: items.map((item) => item.itemid),
+                items: items.map((item) => ({ id: item.itemid })),
                 realm,
             })
         );

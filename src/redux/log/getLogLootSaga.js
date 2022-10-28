@@ -8,14 +8,14 @@ import {
 } from "./actions";
 import { logLootEntireSelector } from "./selectors";
 
-async function getData(serverUrl, ids, realm) {
+async function getData(serverUrl, items, realm) {
     return await fetch(`${serverUrl}/getitems`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            ids: ids,
+            items: items,
             realm: realm,
             isEntry: true,
         }),
@@ -24,7 +24,7 @@ async function getData(serverUrl, ids, realm) {
 
 function* fetchLogLoot({ payload }) {
     try {
-        const { ids, realm } = payload;
+        const { items, realm } = payload;
 
         const { data } = yield select(logLootEntireSelector);
 
@@ -33,7 +33,7 @@ function* fetchLogLoot({ payload }) {
         yield put(logLootSetLoading());
 
         const serverUrl = yield getServerUrl();
-        const response = yield call(getData, serverUrl, ids, realm);
+        const response = yield call(getData, serverUrl, items, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);
