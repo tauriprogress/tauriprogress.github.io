@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import TablePagination from "@mui/material/TablePagination";
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
@@ -116,12 +118,16 @@ function GuildList({ theme, classes }) {
 
     const timeBoundary = guildActivityBoundary();
 
+    const rowsPerPage = 50;
+
     const [filter, setFilter] = useState({
         realm: "",
         f: "",
         difficulty: "",
         activity: "",
     });
+
+    const [page, setPage] = useState(0);
 
     const [showActivity, setShowActivity] = useState(false);
     function toggleActivity() {
@@ -134,6 +140,17 @@ function GuildList({ theme, classes }) {
         dispatch(guildListFetch(realmGroup));
     }, [isSeasonal, realmGroup, dispatch]);
 
+    const filteredData = filterGuildList(filter, data || []);
+
+    function changePage(e, page) {
+        setPage(page);
+    }
+
+    function changeFilter(filter) {
+        setFilter(filter);
+        setPage(0);
+    }
+
     return (
         <React.Fragment>
             {loading && <Loading className={classes.loader} />}
@@ -145,7 +162,7 @@ function GuildList({ theme, classes }) {
             )}
             {!loading && !error && data && (
                 <React.Fragment>
-                    <GuildListFilter filter={filter} setFilter={setFilter} />
+                    <GuildListFilter filter={filter} setFilter={changeFilter} />
                     <OverflowScroll>
                         <Table className={classes.table}>
                             <TableHead>
@@ -181,8 +198,12 @@ function GuildList({ theme, classes }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {filterGuildList(filter, data).map(
-                                    (guild, index) => {
+                                {filteredData
+                                    .slice(
+                                        page * rowsPerPage,
+                                        (page + 1) * rowsPerPage
+                                    )
+                                    .map((guild, index) => {
                                         let progress = {};
                                         for (let difficulty in guild.progression
                                             .completion.difficulties) {
@@ -215,7 +236,11 @@ function GuildList({ theme, classes }) {
                                                     className={classes.cell}
                                                 >
                                                     <AlignedRankDisplay
-                                                        rank={index + 1}
+                                                        rank={
+                                                            index +
+                                                            1 +
+                                                            page * rowsPerPage
+                                                        }
                                                         className={classes.rank}
                                                     >
                                                         <WithRealm
@@ -470,11 +495,19 @@ function GuildList({ theme, classes }) {
                                                 </TableCell>
                                             </TableRow>
                                         );
-                                    }
-                                )}
+                                    })}
                             </TableBody>
                         </Table>
                     </OverflowScroll>
+                    <TablePagination
+                        rowsPerPageOptions={[]}
+                        component="div"
+                        count={filteredData.length || 0}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={changePage}
+                        ActionsComponent={TablePaginationActions}
+                    />
                 </React.Fragment>
             )}
         </React.Fragment>
