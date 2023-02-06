@@ -1,3 +1,5 @@
+import * as constants from "tauriprogress-constants";
+
 import Raid from "../components/Raid";
 import Guild from "../components/Guild";
 import Character from "../components/Character";
@@ -7,85 +9,105 @@ import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
 import NotFound from "../components/NotFound";
 
-const homeRegExp = new RegExp(/^(\/seasonal)?(\/)?.*/);
+function getRealmgroupMatch() {
+    let matchString = "(";
+    for (let realmGroupname of constants.realmGroups) {
+        matchString += `\\/${realmGroupname}|`;
+    }
+
+    return matchString.slice(0, -1) + ")";
+}
+
+function createPaths(path) {
+    let paths = [];
+
+    for (let realmGroupname of constants.realmGroups) {
+        paths.push(`/${realmGroupname}${path}`);
+    }
+    return paths;
+}
+
+const homeRegExp = new RegExp(`^${getRealmgroupMatch()}(\/)?$`);
 export const HOME_ROUTE = {
     name: "HOME",
-    path: ["/", "/seasonal/"],
+    path: createPaths("/"),
     component: Home,
     exact: true,
-    isCurrentRoute: () => homeRegExp.test(window.location.pathname)
+    isCurrentRoute: () => homeRegExp.test(window.location.pathname),
 };
 
-const raidRegExp = new RegExp(/^(\/seasonal)?\/raid(\/)?.*/);
+const raidRegExp = new RegExp(`^${getRealmgroupMatch()}\/raid(\/)?.*$`);
 export const RAID_ROUTE = {
     name: "RAID",
-    path: ["/raid/:raidName/:bossName?", "/seasonal/raid/:raidName/:bossName?"],
+    path: createPaths("/raid/:raidName/:bossName?"),
     component: Raid,
     exact: true,
-    isCurrentRoute: route =>
-        raidRegExp.test(route ? route : window.location.pathname)
+    isCurrentRoute: (route) =>
+        raidRegExp.test(route ? route : window.location.pathname),
 };
 
-const guildRegExp = new RegExp(/^(\/seasonal)?\/guild(\/)?.*/);
+const guildRegExp = new RegExp(`^${getRealmgroupMatch()}\/guild(\/)?.*$`);
 export const GUILD_ROUTE = {
     name: "GUILD",
-    path: ["/guild/:guildName", "/seasonal/guild/:guildName"],
+    path: createPaths("/guild/:guildName"),
     component: Guild,
     exact: true,
-    isCurrentRoute: () => guildRegExp.test(window.location.pathname)
+    isCurrentRoute: () => guildRegExp.test(window.location.pathname),
 };
 
-const characterRegExp = new RegExp(/^(\/seasonal)?\/character(\/)?.*/);
+const characterRegExp = new RegExp(
+    `^${getRealmgroupMatch()}\/character(\/)?.*$`
+);
 export const CHARACTER_ROUTE = {
     name: "CHARACTER",
-    path: ["/character/:characterName", "/seasonal/character/:characterName"],
+    path: createPaths("/character/:characterName"),
     component: Character,
     exact: true,
-    isCurrentRoute: () => characterRegExp.test(window.location.pathname)
+    isCurrentRoute: () => characterRegExp.test(window.location.pathname),
 };
 
-const logRegExp = new RegExp(/^(\/seasonal)?\/log(\/)?.*/);
+const logRegExp = new RegExp(`^${getRealmgroupMatch()}\/log(\/)?.*$`);
 export const LOG_ROUTE = {
     name: "LOG",
-    path: ["/log/:logId", "/seasonal/log/:logId"],
+    path: createPaths("/log/:logId"),
     component: Log,
     exact: true,
-    isCurrentRoute: () => logRegExp.test(window.location.pathname)
+    isCurrentRoute: () => logRegExp.test(window.location.pathname),
 };
 
 function CharacterLeaderboardWrapper() {
     return <CharacterLeaderboard />;
 }
 const characterLeaderboardRegExp = new RegExp(
-    /^(\/seasonal)?\/leaderboard\/character(\/)?.*/
+    `^${getRealmgroupMatch()}\/leaderboard\/character(\/)?.*$`
 );
 export const CHARACTER_LEADERBOARD_ROUTE = {
     name: "CHARACTER LEADERBOARD",
-    path: ["/leaderboard/character", "/seasonal/leaderboard/character"],
+    path: createPaths("/leaderboard/character"),
     component: CharacterLeaderboardWrapper,
     exact: true,
-    isCurrentRoute: route =>
+    isCurrentRoute: (route) =>
         characterLeaderboardRegExp.test(
             route ? route : window.location.pathname
-        )
+        ),
 };
 
 function GuildLeaderboardWrapper() {
     return <GuildLeaderboard />;
 }
 const guildLeaderboardRegExp = new RegExp(
-    /^(\/seasonal)?\/leaderboard\/guild(\/)?.*/
+    `^${getRealmgroupMatch()}\/leaderboard\/guild(\/)?.*$`
 );
 export const GUILD_LEADERBOARD_ROUTE = {
     name: "GUILD LEADERBOARD",
-    path: ["/leaderboard/guild", "/seasonal/leaderboard/guild"],
+    path: createPaths("/leaderboard/guild"),
     component: GuildLeaderboardWrapper,
     exact: true,
-    isCurrentRoute: route => {
+    isCurrentRoute: (route) => {
         return guildLeaderboardRegExp.test(
             route ? route : window.location.pathname
         );
-    }
+    },
 };
 
 /* this should always be at the bottom of the routes array */
@@ -94,7 +116,7 @@ export const NOT_FOUND_ROUTE = {
     path: ["/"],
     component: NotFound,
     exact: false,
-    isCurrentRoute: () => undefined
+    isCurrentRoute: () => undefined,
 };
 
 /* routes are matched based on order */
@@ -106,7 +128,7 @@ const ROUTES = [
     LOG_ROUTE,
     CHARACTER_LEADERBOARD_ROUTE,
     GUILD_LEADERBOARD_ROUTE,
-    NOT_FOUND_ROUTE
+    NOT_FOUND_ROUTE,
 ];
 
 export default ROUTES;
