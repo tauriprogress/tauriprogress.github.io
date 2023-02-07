@@ -3,11 +3,7 @@ import {
     RAIDBOSS_FASTESTKILLS_FILL,
     RAIDBOSS_FASTESTKILLS_ERROR_SET,
 } from "../actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET,
-} from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 const defaultState = {
     data: undefined,
@@ -18,9 +14,7 @@ const defaultState = {
 
 function fastestKillsReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_SET:
-        case ENVIRONMENT_REALMGROUP_CHANGED:
-        case ENVIRONMENT_SEASONAL_CHANGED:
+        case REALM_GROUP_NAME_CHANGED:
             return defaultState;
 
         case RAIDBOSS_FASTESTKILLS_LOADING_SET:

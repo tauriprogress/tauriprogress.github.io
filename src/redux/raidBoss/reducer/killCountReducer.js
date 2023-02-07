@@ -1,32 +1,26 @@
 import { RAIDBOSS_KILLCOUNT_FETCH, RAIDBOSS_KILLCOUNT_FILL } from "../actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
-} from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 const defaultState = {
     count: 0,
-    dataSpecificationString: ""
+    dataSpecificationString: "",
 };
 
 function killCountReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_SET:
-        case ENVIRONMENT_REALMGROUP_CHANGED:
-        case ENVIRONMENT_SEASONAL_CHANGED:
+        case REALM_GROUP_NAME_CHANGED:
             return defaultState;
 
         case RAIDBOSS_KILLCOUNT_FETCH:
             return {
                 ...state,
-                count: 0
+                count: 0,
             };
         case RAIDBOSS_KILLCOUNT_FILL:
             return {
                 ...state,
                 count: action.payload.killCount,
-                dataSpecificationString: action.payload.dataSpecificationString
+                dataSpecificationString: action.payload.dataSpecificationString,
             };
 
         default:

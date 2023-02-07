@@ -1,31 +1,25 @@
 import {
     GUILD_LIST_LOADING_SET,
     GUILD_LIST_FILL,
-    GUILD_LIST_ERROR_SET
+    GUILD_LIST_ERROR_SET,
 } from "./actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET
-} from "../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 const defaultState = {
     data: null,
     error: null,
-    loading: false
+    loading: false,
 };
 
 function guildsReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_SET:
-        case ENVIRONMENT_REALMGROUP_CHANGED:
-        case ENVIRONMENT_SEASONAL_CHANGED:
+        case REALM_GROUP_NAME_CHANGED:
             return defaultState;
         case GUILD_LIST_LOADING_SET:
             return {
                 ...state,
                 loading: true,
-                error: null
+                error: null,
             };
 
         case GUILD_LIST_FILL:
@@ -33,7 +27,7 @@ function guildsReducer(state = defaultState, action) {
                 ...state,
                 data: applyGuildRanks(action.payload.guilds),
                 loading: false,
-                error: null
+                error: null,
             };
         case GUILD_LIST_ERROR_SET:
             if (!action.payload) {
@@ -42,7 +36,7 @@ function guildsReducer(state = defaultState, action) {
             return {
                 ...state,
                 error: action.payload,
-                loading: false
+                loading: false,
             };
 
         default:

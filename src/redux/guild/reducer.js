@@ -6,10 +6,7 @@ import {
     GUILD_PROGRESSION_RAID_SELECT,
     GUILD_PROGRESSION_FILTER_SET,
 } from "./actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-} from "../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 import constants from "tauriprogress-constants";
 import {
@@ -17,44 +14,30 @@ import {
     getRealmGroupFromLocalStorage,
 } from "../../helpers";
 const defaultRealmGroup = getRealmGroupFromLocalStorage();
-const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
 let raids = constants[defaultRealmGroup].currentContent.raids;
 
-const defaultState = {
-    data: null,
-    error: null,
-    loading: false,
-    guildName: null,
-    realm: null,
-    progressionFilter: {
-        raid: constants[defaultRealmGroup].currentContent.name,
-        boss: constants[defaultRealmGroup].currentContent.raids[0].bosses[0]
-            .name,
-        difficulty: defaultDifficulty,
-    },
-};
+function getDefaultState(realmGroup) {
+    return {
+        data: null,
+        error: null,
+        loading: false,
+        guildName: null,
+        realm: null,
+        progressionFilter: {
+            raid: constants[realmGroup].currentContent.name,
+            boss: constants[realmGroup].currentContent.raids[0].bosses[0].name,
+            difficulty: getDefaultDifficulty(realmGroup),
+        },
+    };
+}
+
+const defaultState = getDefaultState(defaultRealmGroup);
 
 function guildReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_REALMGROUP_CHANGED:
-        case ENVIRONMENT_SEASONAL_CHANGED:
-            raids = constants[action.payload.realmGroup].currentContent.raids;
-            return {
-                ...state,
-                data: null,
-                error: null,
-                loading: false,
-                guildName: null,
-                realm: null,
-                progressionFilter: {
-                    raid: constants[action.payload.realmGroup].currentContent
-                        .name,
-                    boss: constants[action.payload.realmGroup].currentContent
-                        .raids[0].bosses[0].name,
-                    difficulty: getDefaultDifficulty(action.payload.realmGroup),
-                },
-            };
+        case REALM_GROUP_NAME_CHANGED:
+            return getDefaultState(action.payload);
 
         case GUILD_LOADING_SET:
             return {

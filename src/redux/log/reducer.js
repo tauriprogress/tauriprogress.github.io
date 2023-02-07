@@ -6,11 +6,7 @@ import {
     LOG_LOOT_FILL,
     LOG_LOOT_ERROR_SET,
 } from "./actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET,
-} from "../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 const defaultLootState = {
     data: undefined,
@@ -27,9 +23,7 @@ const defaultState = {
 
 function logReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_SET:
-        case ENVIRONMENT_REALMGROUP_CHANGED:
-        case ENVIRONMENT_SEASONAL_CHANGED:
+        case REALM_GROUP_NAME_CHANGED:
             return {
                 data: undefined,
                 loading: false,

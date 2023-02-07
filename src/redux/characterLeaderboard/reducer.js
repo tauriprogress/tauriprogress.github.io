@@ -6,101 +6,53 @@ import {
     CHARACTER_LEADERBOARD_TAB_SET,
     CHARACTER_LEADERBOARD_PAGE_SET,
 } from "./actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET,
-} from "../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 import constants from "tauriprogress-constants";
 import {
     getDefaultDifficulty,
-    getDefaultRaidName,
     getRealmGroupFromLocalStorage,
     readFiltersFromUrl,
     readTabFromUrl,
-    validRaidNameOfEnv,
 } from "../../helpers";
 
 import { CHARACTER_LEADERBOARD_ROUTE } from "../../routes";
 
 const defaultRealmGroup = getRealmGroupFromLocalStorage();
-const defaultDifficulty = getDefaultDifficulty(defaultRealmGroup);
 
-const defaultState = {
-    filter: CHARACTER_LEADERBOARD_ROUTE.isCurrentRoute()
-        ? readFiltersFromUrl(defaultRealmGroup, [
-              "raid",
-              "difficulty",
-              "class",
-              "faction",
-              "realm",
-          ])
-        : {
-              raid: constants[defaultRealmGroup].currentContent.name,
-              difficulty: defaultDifficulty,
-              class: "",
-              faction: "",
-              realm: "",
-          },
-    loading: false,
-    error: undefined,
-    data: undefined,
-    selectedTab: readTabFromUrl(0, 1),
-    itemCount: 0,
-    page: 0,
-};
+function getDefaultState(realmGroup) {
+    return {
+        filter: CHARACTER_LEADERBOARD_ROUTE.isCurrentRoute()
+            ? readFiltersFromUrl(realmGroup, [
+                  "raid",
+                  "difficulty",
+                  "class",
+                  "faction",
+                  "realm",
+              ])
+            : {
+                  raid: constants[realmGroup].currentContent.name,
+                  difficulty: getDefaultDifficulty(realmGroup),
+                  class: "",
+                  faction: "",
+                  realm: "",
+              },
+        loading: false,
+        error: undefined,
+        data: undefined,
+        selectedTab: readTabFromUrl(0, 1),
+        itemCount: 0,
+        page: 0,
+    };
+}
+
+const defaultState = getDefaultState(defaultRealmGroup);
 
 function characterLeaderboardReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_SET:
-            return {
-                ...state,
-                filter: readFiltersFromUrl(
-                    action.payload.realmGroup,
-                    ["raid", "difficulty", "class", "faction", "realm"],
-                    action.payload.location
-                ),
-                data: undefined,
-                loading: false,
-                error: undefined,
-                page: 0,
-            };
-        case ENVIRONMENT_REALMGROUP_CHANGED:
-            return {
-                ...state,
-                filter: {
-                    raid: constants[action.payload.realmGroup].currentContent
-                        .name,
-                    difficulty: getDefaultDifficulty(action.payload.realmGroup),
-                    class: "",
-                    faction: "",
-                    realm: "",
-                },
-                data: undefined,
-                loading: false,
-                error: undefined,
-                page: 0,
-            };
+        case REALM_GROUP_NAME_CHANGED:
+            return getDefaultState(action.payload);
 
-        case ENVIRONMENT_SEASONAL_CHANGED:
-            return {
-                ...state,
-                filter: {
-                    ...state.filter,
-                    raid: validRaidNameOfEnv(
-                        state.filter.raid,
-                        action.payload.realmGroup,
-                        action.payload.isSeasonal
-                    )
-                        ? state.filter.raid
-                        : getDefaultRaidName(action.payload.realmGroup),
-                },
-                data: undefined,
-                loading: false,
-                error: undefined,
-                page: 0,
-            };
         case CHARACTER_LEADERBOARD_LOADING_SET:
             return {
                 ...state,

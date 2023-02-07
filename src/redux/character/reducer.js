@@ -13,16 +13,11 @@ import {
     CHARACTER_ITEMS_FILL,
     CHARACTER_ITEMS_ERROR_SET,
 } from "./actions";
-import {
-    ENVIRONMENT_REALMGROUP_CHANGED,
-    ENVIRONMENT_SEASONAL_CHANGED,
-    ENVIRONMENT_SET,
-} from "../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../../actions";
 
 import {
     getSocketInfo,
     gemColorsToSockets,
-    validRaidNameOfEnv,
     getDefaultRaidName,
 } from "../../helpers";
 
@@ -54,29 +49,12 @@ const defaultState = {
 
 function characterReducer(state = defaultState, action) {
     switch (action.type) {
-        case ENVIRONMENT_REALMGROUP_CHANGED:
+        case REALM_GROUP_NAME_CHANGED:
             return {
                 ...defaultState,
                 progression: {
                     ...defaultState.progression,
-                    selectedRaid: getDefaultRaidName(action.payload.realmGroup),
-                },
-            };
-        case ENVIRONMENT_SET:
-        case ENVIRONMENT_SEASONAL_CHANGED:
-            return {
-                ...state,
-                progression: {
-                    loading: false,
-                    error: null,
-                    data: undefined,
-                    selectedRaid: validRaidNameOfEnv(
-                        state.progression.selectedRaid,
-                        action.payload.realmGroup,
-                        action.payload.isSeasonal
-                    )
-                        ? state.progression.selectedRaid
-                        : getDefaultRaidName(action.payload.realmGroup),
+                    selectedRaid: getDefaultRaidName(action.payload),
                 },
             };
         case CHARACTER_DATA_LOADING_SET:
