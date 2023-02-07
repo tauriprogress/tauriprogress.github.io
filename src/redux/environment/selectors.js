@@ -1,83 +1,88 @@
-export function environmentIconUrlSelector(state) {
-    return state.environment.urls.icon;
+export function environmentIconUrlSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].urls.icon;
 }
 
-export function environmentRaidsSelector(state) {
-    return state.environment.currentContent.raids;
+export function environmentRaidsSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].currentContent.raids;
 }
 
-export function environmentCurrentRaidNameSelector(state) {
-    return state.environment.currentContent.name;
+export function environmentCurrentRaidNameSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].currentContent.name;
 }
 
-export function environmentRealmGroupSelector(state) {
-    return state.environment.realmGroup;
+export function environmentRealmGroupSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].realmGroup;
 }
 
-export function environmentArmoryUrlSelector(state) {
-    return state.environment.urls.armory;
+export function environmentArmoryUrlSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].urls.armory;
 }
 
-export function environmentCharacterClassNamesSelector(state) {
-    return state.environment.characterClassNames;
+export function environmentCharacterClassNamesSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].characterClassNames;
 }
 
-export function environmentCharacterSpecsSelector(state) {
-    return state.environment.specs;
+export function environmentCharacterSpecsSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].specs;
 }
 
-export function environmentRealmsSelector(state) {
-    return state.environment.realms;
+export function environmentRealmsSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].realms;
 }
 
-export function environmentDifficultyNamesSelector(state) {
-    return state.environment.difficultyNames;
+export function environmentDifficultyNamesSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].difficultyNames;
 }
 
-export function environmentCompletionDifficultiesSelector(state) {
-    return state.environment.currentContent.completionDifficulties;
+export function environmentCompletionDifficultiesSelector(
+    state,
+    realmGroupName
+) {
+    return state.environment[realmGroupName].currentContent
+        .completionDifficulties;
 }
 
-export function environmentDifficultiesSelector(state) {
-    return state.environment.currentContent.raids[0].difficulties;
+export function environmentDifficultiesSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].currentContent.raids[0]
+        .difficulties;
 }
 
-export function environmentBossCountSelector(state) {
-    return state.environment.currentContent.bossCount;
+export function environmentBossCountSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].currentContent.bossCount;
 }
 
-export function environmentIsSeasonalSelector(state) {
-    return state.environment.seasonal.isSeasonal;
+export function environmentIsSeasonalSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].seasonal.isSeasonal;
 }
 
-export function environmentHasSeasonalSelector(state) {
-    return state.environment.seasonal.hasSeasonal;
+export function environmentHasSeasonalSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].seasonal.hasSeasonal;
 }
 
-export function environmentSeasonNameSelector(state) {
-    return state.environment.seasonal.seasonName;
+export function environmentSeasonNameSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].seasonal.seasonName;
 }
 
-export function environmentNextSeasonNameSelector(state) {
-    return state.environment.seasonal.nextSeasonName;
+export function environmentNextSeasonNameSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].seasonal.nextSeasonName;
 }
 
-export function environmentEntireSeasonalSelector(state) {
-    return state.environment.seasonal;
+export function environmentEntireSeasonalSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].seasonal;
 }
 
-export function environmentSeasonalUrlSelector(state) {
-    return state.environment.urls.seasonal;
+export function environmentSeasonalUrlSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].urls.seasonal;
 }
 
-export function environmentServerUrlSelector(state) {
-    return state.environment.urls.server;
+export function environmentServerUrlSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].urls.server;
 }
 
-export function environmentShootUrlSelector(state) {
-    return state.environment.urls.shoot;
+export function environmentShootUrlSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].urls.shoot;
 }
 
-export function environmentTalentsSelector(state) {
-    return state.environment.talents;
+export function environmentTalentsSelector(state, realmGroupName) {
+    return state.environment[realmGroupName].talents;
 }
