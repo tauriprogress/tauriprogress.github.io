@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import { connectRouter } from "connected-react-router";
 
 import siteInfoReducer from "../siteInfo/reducer";
 import characterLeaderboardReducer from "../characterLeaderboard/reducer";
@@ -16,9 +15,8 @@ import raidBossReducer from "../raidBoss/reducer";
 
 import environmentReducer from "../environment/reducer";
 
-const createRootReducer = history =>
+const createRootReducer = () =>
     combineReducers({
-        router: connectRouter(history),
         siteInfo: siteInfoReducer,
         characterLeaderboard: characterLeaderboardReducer,
         character: characterReducer,
@@ -32,7 +30,7 @@ const createRootReducer = history =>
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
 
-        environment: environmentReducer
+        environment: environmentReducer,
     });
 
 export default createRootReducer;

@@ -1,4 +1,4 @@
-export * from "./actions/index";
+export * from "./history/actions";
 
 export * from "./siteInfo/actions";
 export * from "./characterLeaderboard/actions";

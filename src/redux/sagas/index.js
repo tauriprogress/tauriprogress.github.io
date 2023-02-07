@@ -17,7 +17,7 @@ import getRaidBossFastestKillsSaga from "../raidBoss/sagas/getRaidBossFastestKil
 import getRaidBossCharactersSaga from "../raidBoss/sagas/getRaidBossCharactersSaga";
 import environmentSaga from "../environment/environmentSaga";
 
-import historySaga from "./historySaga";
+import historySaga from "./history/historySaga";
 
 function* sagas() {
     yield all([

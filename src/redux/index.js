@@ -11,7 +11,7 @@ export const history = createBrowserHistory();
 
 function configureStore(preloadedState) {
     const store = createStore(
-        createRootReducer(history),
+        createRootReducer,
         preloadedState,
         applyMiddleware(sagaMiddleware)
     );
