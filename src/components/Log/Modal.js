@@ -1,22 +1,20 @@
 import React from "react";
 
-import { goBack } from "connected-react-router";
-
 import Fab from "@mui/material/Fab";
 import CloseIcon from "@mui/icons-material/Close";
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Card from "@mui/material/Card";
 
 import Log from "./index";
-import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function styles(theme) {
     return {
         modal: {
-            display: "flex"
+            display: "flex",
         },
         card: {
             flex: 1,
@@ -24,29 +22,29 @@ function styles(theme) {
             padding: `${theme.spacing(1)} 0`,
             position: "relative",
             [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                margin: 0
+                margin: 0,
             },
-            backgroundColor: theme.palette.background.default
+            backgroundColor: theme.palette.background.default,
         },
         logContainer: {
             overflowY: "scroll",
-            height: "100%"
+            height: "100%",
         },
         iconContainer: {
             position: "absolute",
             top: theme.spacing(2),
             right: theme.spacing(4),
-            zIndex: 10
-        }
+            zIndex: 10,
+        },
     };
 }
 
 function LogModal({ match, classes }) {
-    const dispatch = useDispatch();
+    const history = useHistory();
 
     function close(e) {
         e.stopPropagation();
-        dispatch(goBack());
+        history.goBack();
     }
 
     return (
