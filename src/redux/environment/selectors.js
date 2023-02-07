@@ -10,10 +10,6 @@ export function environmentCurrentRaidNameSelector(state, realmGroupName) {
     return state.environment[realmGroupName].currentContent.name;
 }
 
-export function environmentRealmGroupSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].realmGroup;
-}
-
 export function environmentArmoryUrlSelector(state, realmGroupName) {
     return state.environment[realmGroupName].urls.armory;
 }
@@ -49,30 +45,6 @@ export function environmentDifficultiesSelector(state, realmGroupName) {
 
 export function environmentBossCountSelector(state, realmGroupName) {
     return state.environment[realmGroupName].currentContent.bossCount;
-}
-
-export function environmentIsSeasonalSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].seasonal.isSeasonal;
-}
-
-export function environmentHasSeasonalSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].seasonal.hasSeasonal;
-}
-
-export function environmentSeasonNameSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].seasonal.seasonName;
-}
-
-export function environmentNextSeasonNameSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].seasonal.nextSeasonName;
-}
-
-export function environmentEntireSeasonalSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].seasonal;
-}
-
-export function environmentSeasonalUrlSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].urls.seasonal;
 }
 
 export function environmentServerUrlSelector(state, realmGroupName) {
