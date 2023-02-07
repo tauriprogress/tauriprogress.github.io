@@ -15,6 +15,7 @@ import { getRealmGroupsMetaData, getExpansionImg } from "../../helpers";
 
 import { Avatar } from "@mui/material";
 import { useHistory, useParams } from "react-router-dom";
+import { changeRealmGroupName } from "../../redux/realmGroupName/actions";
 
 function LeftNavItems() {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function LeftNavItems() {
 
     function changeRealmGroup(realmGroup) {
         history.push(`/${realmGroup}`);
-        localStorage.set("realmGroup", realmGroup);
+        dispatch(changeRealmGroupName(realmGroup));
     }
 
     return (
