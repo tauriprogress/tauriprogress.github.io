@@ -1,60 +1,86 @@
-export function environmentIconUrlSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].urls.icon;
+import { getRealmGroupFromLocalStorage } from "../../helpers";
+import { getCurrentRealmGroupName } from "../history/helpers";
+
+export function environmentIconUrlSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .urls.icon;
 }
 
-export function environmentRaidsSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].currentContent.raids;
+export function environmentRaidsSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .currentContent.raids;
 }
 
-export function environmentCurrentRaidNameSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].currentContent.name;
+export function environmentCurrentRaidNameSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .currentContent.name;
 }
 
-export function environmentArmoryUrlSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].urls.armory;
+export function environmentArmoryUrlSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .urls.armory;
 }
 
-export function environmentCharacterClassNamesSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].characterClassNames;
+export function environmentCharacterClassNamesSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .characterClassNames;
 }
 
-export function environmentCharacterSpecsSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].specs;
+export function environmentCharacterSpecsSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .specs;
 }
 
-export function environmentRealmsSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].realms;
+export function environmentRealmsSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .realms;
 }
 
-export function environmentDifficultyNamesSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].difficultyNames;
+export function environmentDifficultyNamesSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .difficultyNames;
 }
 
-export function environmentCompletionDifficultiesSelector(
-    state,
-    realmGroupName
-) {
-    return state.environment[realmGroupName].currentContent
-        .completionDifficulties;
+export function environmentCompletionDifficultiesSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .currentContent.completionDifficulties;
 }
 
-export function environmentDifficultiesSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].currentContent.raids[0]
-        .difficulties;
+export function environmentDifficultiesSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .currentContent.raids[0].difficulties;
 }
 
-export function environmentBossCountSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].currentContent.bossCount;
+export function environmentBossCountSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .currentContent.bossCount;
 }
 
-export function environmentServerUrlSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].urls.server;
+export function environmentServerUrlSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .urls.server;
 }
 
-export function environmentShootUrlSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].urls.shoot;
+export function environmentShootUrlSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .urls.shoot;
 }
 
-export function environmentTalentsSelector(state, realmGroupName) {
-    return state.environment[realmGroupName].talents;
+export function environmentTalentsSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .talents;
 }
