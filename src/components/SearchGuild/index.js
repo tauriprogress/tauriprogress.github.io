@@ -15,6 +15,7 @@ import { navigationToggle, pushToHistory } from "../../redux/actions";
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { guildListDataSelector } from "../../redux/selectors";
+import { useParams } from "react-router-dom";
 
 const Container = styled("form")({
     width: "100%",
@@ -27,6 +28,8 @@ const GridItem = styled(Grid)(({ theme }) => ({
 
 function SearchGuild() {
     const { guildList } = useSelector(guildListDataSelector);
+
+    const { realmGroupName } = useParams();
 
     const guilds = guildList
         ? guildList.map((guild) => ({
@@ -53,8 +56,8 @@ function SearchGuild() {
 
     useEffect(() => {
         setGuild(null);
-        dispatch(guildListFetch());
-    }, [dispatch]);
+        dispatch(guildListFetch(realmGroupName));
+    }, [realmGroupName, dispatch]);
 
     return (
         <Container

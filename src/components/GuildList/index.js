@@ -37,6 +37,7 @@ import {
     environmentBossCountSelector,
     environmentDifficultiesSelector,
 } from "../../redux/selectors";
+import { useParams } from "react-router-dom";
 
 function styles(theme) {
     return {
@@ -94,6 +95,8 @@ function styles(theme) {
 function GuildList({ theme, classes }) {
     const { factionColors, success } = theme.palette;
 
+    const { realmGroupName } = useParams();
+
     const { data, loading, error, difficultyNames, bossCount, difficulties } =
         useSelector(
             (state) => ({
@@ -126,8 +129,8 @@ function GuildList({ theme, classes }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(guildListFetch());
-    }, [dispatch]);
+        dispatch(guildListFetch(realmGroupName));
+    }, [realmGroupName, dispatch]);
 
     const filteredData = filterGuildList(filter, data || []);
 
@@ -146,7 +149,7 @@ function GuildList({ theme, classes }) {
             {error && (
                 <ErrorMessage
                     message={error}
-                    refresh={() => dispatch(guildListFetch())}
+                    refresh={() => dispatch(guildListFetch(realmGroupName))}
                 />
             )}
             {!loading && !error && data && (
