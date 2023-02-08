@@ -8,6 +8,7 @@ import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 import { RAIDBOSS_KILLCOUNT_FETCH } from "../actions";
 import { raidBossKillCountDataSpecificationStringSelector } from "../selectors";
 import { environmentRealmGroupSelector } from "../../selectors";
+import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
     return await fetch(`${serverUrl}/getboss/killCount`, {
@@ -25,11 +26,11 @@ async function getData(serverUrl, ingameBossId, difficulty) {
 function* fetchRaidBossKillCount({ payload }) {
     try {
         const { raidId, bossName, difficulty } = payload;
-        const realmGroup = yield select(environmentRealmGroupSelector);
+        const realmGroupName = getCurrentRealmGroupName();
         const ingameBossId = getIngameBossIdFromBossName(
             bossName,
             difficulty,
-            realmGroup
+            realmGroupName
         );
         if (!ingameBossId) throw new Error("Invalid boss name.");
 

@@ -16,6 +16,7 @@ import {
 } from "../../selectors";
 
 import { RAIDBOSS_RECENTKILLS_FETCH } from "../actions";
+import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
     return await fetch(`${serverUrl}/getboss/latestKills`, {
@@ -35,11 +36,11 @@ function* fetchRaidBossRecentKills({ payload }) {
         yield put(raidBossRecentKillsSetLoading());
 
         const { raidId, bossName, difficulty } = payload;
-        const realmGroup = yield select(environmentRealmGroupSelector);
+        const realmGroupName = getCurrentRealmGroupName();
         const ingameBossId = getIngameBossIdFromBossName(
             bossName,
             difficulty,
-            realmGroup
+            realmGroupName
         );
         if (!ingameBossId) throw new Error("Invalid boss name.");
 

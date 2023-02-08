@@ -5,26 +5,26 @@ import {
     GUILD_FETCH,
     guildFill,
     guildSetLoading,
-    guildSetError
+    guildSetError,
 } from "./actions";
 import {
     guildLoadingSelector,
     guildOldGuildNameSelector,
     guildOldRealmSelector,
-    environmentRaidsSelector
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 async function getData(serverUrl, guildName, realm) {
     return await fetch(`${serverUrl}/getguild`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             guildName: guildName,
-            realm: realm
-        })
-    }).then(res => res.json());
+            realm: realm,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchGuild({ payload }) {
@@ -42,7 +42,7 @@ function* fetchGuild({ payload }) {
         yield put(
             guildSetLoading({
                 guildName,
-                realm
+                realm,
             })
         );
 
@@ -52,7 +52,9 @@ function* fetchGuild({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            const raids = yield select(environmentRaidsSelector);
+            const raids = yield select((state) =>
+                environmentRaidsSelector(state)
+            );
 
             yield put(guildFill({ ...response.response, raids: raids }));
         }

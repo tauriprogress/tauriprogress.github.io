@@ -8,7 +8,7 @@ import {
     GUILD_LEADERBOARD_FILTER_SET,
     GUILD_LEADERBOARD_TAB_SET,
     HISTORY_PUSH,
-} from "./actions";
+} from "../actions";
 
 import {
     raidFilterSelector,
@@ -19,15 +19,11 @@ import {
     guildLeaderboardSelectedTabSelector,
 } from "../selectors";
 
-import { history } from "./historySaga";
-import { matchPath } from "react-router-dom";
+import { history } from "../";
+import { getCurrentRealmGroupName } from "./helpers";
 
 function* handeHistoryAction({ type, payload }) {
-    const realmGroupName = matchPath("/:realmGroupName", {
-        path: history.location.pathname,
-        exact: false,
-        strict: false,
-    }).params.realmGroupName;
+    const realmGroupName = getCurrentRealmGroupName();
 
     switch (type) {
         case HISTORY_PUSH:

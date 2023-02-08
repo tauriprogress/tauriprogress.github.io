@@ -16,6 +16,7 @@ import {
     raidBossFastestKillsDataSpecificationStringSelector,
     environmentRealmGroupSelector,
 } from "../../selectors";
+import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
     return await fetch(`${serverUrl}/getboss/fastestKills`, {
@@ -35,11 +36,11 @@ function* fetchRaidBossFastestKills({ payload }) {
         yield put(raidBossFastestKillsSetLoading());
 
         const { raidId, bossName, difficulty } = payload;
-        const realmGroup = yield select(environmentRealmGroupSelector);
+        const realmGroupName = getCurrentRealmGroupName();
         const ingameBossId = getIngameBossIdFromBossName(
             bossName,
             difficulty,
-            realmGroup
+            realmGroupName
         );
         if (!ingameBossId) throw new Error("Invalid boss name.");
 

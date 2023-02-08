@@ -13,6 +13,7 @@ import {
 } from "../actions/characters";
 import { raidBossCharactersDataSpecificationStringSelector } from "../selectors";
 import { environmentRealmGroupSelector } from "../../selectors";
+import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(
     serverUrl,
@@ -45,11 +46,12 @@ function* fetchRaidBossCharacters({ payload }) {
 
         const { raidId, bossName, filters, combatMetric, page, pageSize } =
             payload;
-        const realmGroup = yield select(environmentRealmGroupSelector);
+
+        const realmGroupName = getCurrentRealmGroupName();
         const ingameBossId = getIngameBossIdFromBossName(
             bossName,
             filters.difficulty,
-            realmGroup
+            realmGroupName
         );
         if (!ingameBossId) throw new Error("Invalid boss name.");
         const dataSpecificationString = getDataSpecificationString({
