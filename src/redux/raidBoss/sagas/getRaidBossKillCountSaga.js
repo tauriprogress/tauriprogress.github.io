@@ -7,7 +7,6 @@ import {
 import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
 import { RAIDBOSS_KILLCOUNT_FETCH } from "../actions";
 import { raidBossKillCountDataSpecificationStringSelector } from "../selectors";
-import { environmentRealmGroupSelector } from "../../selectors";
 import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(serverUrl, ingameBossId, difficulty) {

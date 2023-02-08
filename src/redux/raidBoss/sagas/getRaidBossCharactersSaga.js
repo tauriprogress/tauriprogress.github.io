@@ -12,7 +12,6 @@ import {
     raidBossCharactersSetError,
 } from "../actions/characters";
 import { raidBossCharactersDataSpecificationStringSelector } from "../selectors";
-import { environmentRealmGroupSelector } from "../../selectors";
 import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(

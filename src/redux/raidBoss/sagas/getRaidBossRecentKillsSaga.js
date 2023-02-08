@@ -10,10 +10,7 @@ import {
     raidBossRecentKillsFill,
     raidBossRecentKillsSetError,
 } from "../../actions";
-import {
-    raidBossRecentKillstDataSpecificationStringSelector,
-    environmentRealmGroupSelector,
-} from "../../selectors";
+import { raidBossRecentKillstDataSpecificationStringSelector } from "../../selectors";
 
 import { RAIDBOSS_RECENTKILLS_FETCH } from "../actions";
 import { getCurrentRealmGroupName } from "../../history/helpers";
