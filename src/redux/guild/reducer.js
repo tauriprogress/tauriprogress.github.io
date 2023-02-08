@@ -6,7 +6,7 @@ import {
     GUILD_PROGRESSION_RAID_SELECT,
     GUILD_PROGRESSION_FILTER_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 import constants from "tauriprogress-constants";
 import {

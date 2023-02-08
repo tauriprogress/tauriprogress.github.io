@@ -3,7 +3,7 @@ import {
     GUILD_LIST_FILL,
     GUILD_LIST_ERROR_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 const defaultState = {
     data: null,

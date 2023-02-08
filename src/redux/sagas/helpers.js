@@ -1,16 +1,9 @@
 import { fork, take, cancel, select } from "redux-saga/effects";
 
-import {
-    environmentIsSeasonalSelector,
-    environmentSeasonalUrlSelector,
-    environmentServerUrlSelector
-} from "../../redux/selectors";
+import { environmentServerUrlSelector } from "../../redux/selectors";
 
 export function* getServerUrl() {
-    return yield select(state => {
-        if (environmentIsSeasonalSelector(state)) {
-            return environmentSeasonalUrlSelector(state);
-        }
+    return yield select((state) => {
         return environmentServerUrlSelector(state);
     });
 }

@@ -13,7 +13,7 @@ import {
     CHARACTER_ITEMS_FILL,
     CHARACTER_ITEMS_ERROR_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 import {
     getSocketInfo,

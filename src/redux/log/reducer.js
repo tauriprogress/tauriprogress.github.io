@@ -6,7 +6,7 @@ import {
     LOG_LOOT_FILL,
     LOG_LOOT_ERROR_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 const defaultLootState = {
     data: undefined,

@@ -6,7 +6,7 @@ import {
     CHARACTER_LEADERBOARD_TAB_SET,
     CHARACTER_LEADERBOARD_PAGE_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 import constants from "tauriprogress-constants";
 import {

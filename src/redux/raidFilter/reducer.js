@@ -1,5 +1,5 @@
 import { RAIDFILTER_SET } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 import {
     getDefaultDifficulty,

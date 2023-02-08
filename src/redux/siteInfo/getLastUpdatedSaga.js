@@ -3,13 +3,13 @@ import {
     SITE_INFO_LAST_UPDATED_FETCH,
     siteInfoSetLoading,
     siteInfoFill,
-    siteInfoSetError
+    siteInfoSetError,
 } from "./actions";
 
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl) {
-    return await fetch(`${serverUrl}/lastupdated`).then(res => res.json());
+    return await fetch(`${serverUrl}/lastupdated`).then((res) => res.json());
 }
 
 function* fetchLastUpdated() {

@@ -5,7 +5,7 @@ import {
     GUILD_LEADERBOARD_FILTER_SET,
     GUILD_LEADERBOARD_TAB_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 import constants from "tauriprogress-constants";
 import {

@@ -3,7 +3,7 @@ import {
     RAIDSUMMARY_FILL,
     RAIDSUMMARY_ERROR_SET,
 } from "./actions";
-import { REALM_GROUP_NAME_CHANGED } from "../../actions";
+import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 const defaultState = {
     raidId: undefined,
