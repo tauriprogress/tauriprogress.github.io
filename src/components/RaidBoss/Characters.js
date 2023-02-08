@@ -78,7 +78,6 @@ function Characters({ raidId, bossName, combatMetric }) {
                             raidBossCharactersFetch({
                                 raidId,
                                 bossName,
-
                                 combatMetric,
                                 filters: filter,
                                 page,

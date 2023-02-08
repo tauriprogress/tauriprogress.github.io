@@ -1,4 +1,4 @@
-export const REALM_GROUP_NAME_CHANGED = "RAIDBOSS_CHARACTERS_FETCH";
+export const REALM_GROUP_NAME_CHANGED = "REALM_GROUP_NAME_CHANGED";
 
 export function changeRealmGroupName(payload) {
     localStorage.setItem("realmGroup", payload);
