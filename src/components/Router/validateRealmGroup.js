@@ -22,10 +22,10 @@ function ValidateRealmGroup({ children }) {
                 to={
                     location.pathname === "/"
                         ? `/${defaultRealmGroup}`
-                        : location.pathname.replace(
+                        : `${location.pathname.replace(
                               realmGroupName,
                               defaultRealmGroup
-                          )
+                          )}${location.search}`
                 }
             />
         );

@@ -24,10 +24,10 @@ export function validateRealm() {
                         getRealmGroupOfRealm(currentRealm);
                     return (
                         <Redirect
-                            to={location.pathname.replace(
+                            to={`${location.pathname.replace(
                                 realmGroupName,
                                 redirectToRealmGroup
-                            )}
+                            )}${location.search}`}
                         />
                     );
                 }
