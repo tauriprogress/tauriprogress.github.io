@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
@@ -19,16 +19,17 @@ function styles(theme) {
     return {
         listItem: {
             display: "block",
-            padding: 0
+            padding: 0,
         },
         bossName: {
-            fontWeight: "bold"
-        }
+            fontWeight: "bold",
+        },
     };
 }
 
 function RecentKills({ classes, logs, realm, children, ...rest }) {
     const logDates = categorizedLogDates(logs);
+
     const difficultyNames = useSelector(environmentDifficultyNamesSelector);
     return (
         <List {...rest} component="div" disablePadding>
@@ -51,7 +52,7 @@ function RecentKills({ classes, logs, realm, children, ...rest }) {
                             </Typography>
                         }
                     >
-                        {date.kills.map(log => (
+                        {date.kills.map((log) => (
                             <LogLink
                                 color="inherit"
                                 logId={log.id}

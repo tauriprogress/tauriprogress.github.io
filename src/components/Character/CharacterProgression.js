@@ -27,9 +27,8 @@ import {
     characterProgressionEntireSelector,
     environmentRaidsSelector,
     environmentCurrentRaidNameSelector,
-    environmentRealmGroupSelector,
-    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
+import { useParams } from "react-router-dom";
 
 function styles(theme) {
     return {
@@ -45,6 +44,7 @@ function styles(theme) {
 }
 
 function CharacterProgression({ classes }) {
+    const { realmGroupName } = useParams();
     const {
         loading,
         error,
@@ -53,8 +53,6 @@ function CharacterProgression({ classes }) {
         characterClass,
         raids,
         currentContentName,
-        realmGroup,
-        isSeasonal,
         characterName,
         realm,
     } = useSelector((state) => {
@@ -65,8 +63,6 @@ function CharacterProgression({ classes }) {
             characterClass: characterClassSelector(state),
             raids: environmentRaidsSelector(state),
             currentContentName: environmentCurrentRaidNameSelector(state),
-            realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
@@ -75,7 +71,7 @@ function CharacterProgression({ classes }) {
         .reverse();
 
     const [difficulty, setDifficulty] = useState(
-        getDefaultDifficulty(realmGroup)
+        getDefaultDifficulty(realmGroupName)
     );
     const dispatch = useDispatch();
 
@@ -89,7 +85,7 @@ function CharacterProgression({ classes }) {
 
     useEffect(() => {
         dispatch(characterProgressionFetch(selectedRaid));
-    }, [selectedRaid, isSeasonal, dispatch]);
+    }, [selectedRaid, dispatch]);
 
     return (
         <Container className={classes.container}>

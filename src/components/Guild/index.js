@@ -25,18 +25,16 @@ import {
     guildDataExistsSelector,
     guildErrorSelector,
 } from "../../redux/guild/selectors";
-import { environmentIsSeasonalSelector } from "../../redux/selectors";
 
 function Guild({ match, location }) {
     const guildName = match.params.guildName;
     const realm = queryString.parse(location.search).realm;
 
-    const { loading, loaded, error, isSeasonal } = useSelector(
+    const { loading, loaded, error } = useSelector(
         (state) => ({
             loading: guildLoadingSelector(state),
             loaded: guildDataExistsSelector(state),
             error: guildErrorSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
         }),
         shallowEqual
     );
@@ -45,7 +43,7 @@ function Guild({ match, location }) {
 
     useEffect(() => {
         dispatch(guildFetch({ guildName: guildName, realm: realm }));
-    }, [guildName, realm, isSeasonal, dispatch]);
+    }, [guildName, realm, dispatch]);
 
     return (
         <Page title={`${match.params.guildName} | Tauri Progress`}>

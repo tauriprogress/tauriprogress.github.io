@@ -4,7 +4,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import Container from "@mui/material/Container";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
@@ -17,7 +17,6 @@ import {
     raidSummaryEntireSelector,
     environmentRaidsSelector,
     environmentCharacterSpecsSelector,
-    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -31,16 +30,17 @@ function styles(theme) {
 }
 
 function RaidSummary({ classes, raidName }) {
-    const { loading, error, data, raids, filter, specs, raidId, isSeasonal } =
-        useSelector((state) => {
+    const { loading, error, data, raids, filter, specs, raidId } = useSelector(
+        (state) => {
             return {
                 ...raidSummaryEntireSelector(state),
-                raids: environmentRaidsSelector(state),
                 filter: raidFilterSelector(state),
+                raids: environmentRaidsSelector(state),
                 specs: environmentCharacterSpecsSelector(state),
-                isSeasonal: environmentIsSeasonalSelector(state),
             };
-        }, shallowEqual);
+        },
+        shallowEqual
+    );
     const raid = raids.reduce((acc, raid) => {
         if (raid.id === raidId) {
             acc = raid;
@@ -54,7 +54,7 @@ function RaidSummary({ classes, raidName }) {
         dispatch(navigationSetItem(raidName));
 
         return () => dispatch(navigationSetItem(null));
-    }, [raidName, isSeasonal, dispatch]);
+    }, [raidName, dispatch]);
 
     return (
         <div>

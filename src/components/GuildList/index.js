@@ -36,8 +36,6 @@ import {
     environmentDifficultyNamesSelector,
     environmentBossCountSelector,
     environmentDifficultiesSelector,
-    environmentRealmGroupSelector,
-    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 function styles(theme) {
@@ -95,26 +93,17 @@ function styles(theme) {
 
 function GuildList({ theme, classes }) {
     const { factionColors, success } = theme.palette;
-    const {
-        data,
-        loading,
-        error,
-        difficultyNames,
-        bossCount,
-        difficulties,
-        realmGroup,
-        isSeasonal,
-    } = useSelector(
-        (state) => ({
-            ...guildListEntireSelector(state),
-            difficultyNames: environmentDifficultyNamesSelector(state),
-            bossCount: environmentBossCountSelector(state),
-            difficulties: environmentDifficultiesSelector(state),
-            realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
-        }),
-        shallowEqual
-    );
+
+    const { data, loading, error, difficultyNames, bossCount, difficulties } =
+        useSelector(
+            (state) => ({
+                ...guildListEntireSelector(state),
+                difficultyNames: environmentDifficultyNamesSelector(state),
+                bossCount: environmentBossCountSelector(state),
+                difficulties: environmentDifficultiesSelector(state),
+            }),
+            shallowEqual
+        );
 
     const timeBoundary = guildActivityBoundary();
 
@@ -137,8 +126,8 @@ function GuildList({ theme, classes }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(guildListFetch(realmGroup));
-    }, [isSeasonal, realmGroup, dispatch]);
+        dispatch(guildListFetch());
+    }, [dispatch]);
 
     const filteredData = filterGuildList(filter, data || []);
 
@@ -157,7 +146,7 @@ function GuildList({ theme, classes }) {
             {error && (
                 <ErrorMessage
                     message={error}
-                    refresh={() => dispatch(guildListFetch(realmGroup))}
+                    refresh={() => dispatch(guildListFetch())}
                 />
             )}
             {!loading && !error && data && (

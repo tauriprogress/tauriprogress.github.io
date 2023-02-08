@@ -1,26 +1,33 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import Typography from "@mui/material/Typography";
 
 import { raidBossKillCountFetch } from "../../redux/actions";
 import { raidBossKillCountCountSelector } from "../../redux/selectors";
 
-import {
-    environmentDifficultyNamesSelector,
-    environmentIsSeasonalSelector,
-} from "../../redux/selectors";
+import { environmentDifficultyNamesSelector } from "../../redux/selectors";
 
 function RaidBossTitle({ raidId, bossName, difficulty }) {
-    const killCount = useSelector(raidBossKillCountCountSelector);
-    const difficultyNames = useSelector(environmentDifficultyNamesSelector);
-    const isSeasonal = useSelector(environmentIsSeasonalSelector);
+    const { killCount, difficultyNames } = useSelector(
+        (state) => ({
+            killCount: raidBossKillCountCountSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state),
+        }),
+        shallowEqual
+    );
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(raidBossKillCountFetch({ raidId, bossName, difficulty }));
-    }, [raidId, bossName, difficulty, isSeasonal, dispatch]);
+        dispatch(
+            raidBossKillCountFetch({
+                raidId,
+                bossName,
+                difficulty,
+            })
+        );
+    }, [raidId, bossName, difficulty, dispatch]);
 
     return (
         <React.Fragment>

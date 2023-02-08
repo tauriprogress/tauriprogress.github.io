@@ -32,7 +32,6 @@ import {
     characterLeaderboardFilterSelector,
     characterLeaderboardItemCountSelector,
     characterLeaderboardPageSelector,
-    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
@@ -59,7 +58,6 @@ function CharacterLeaderboard() {
 
             data: characterLeaderboardDataSelector(state),
             itemCount: characterLeaderboardItemCountSelector(state),
-            isSeasonal: environmentIsSeasonalSelector,
             page: characterLeaderboardPageSelector(state),
         }),
         shallowEqual

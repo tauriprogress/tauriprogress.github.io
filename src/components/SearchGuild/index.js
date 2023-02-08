@@ -14,11 +14,7 @@ import { navigationToggle, pushToHistory } from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
-import {
-    guildListDataSelector,
-    environmentRealmGroupSelector,
-    environmentIsSeasonalSelector,
-} from "../../redux/selectors";
+import { guildListDataSelector } from "../../redux/selectors";
 
 const Container = styled("form")({
     width: "100%",
@@ -30,13 +26,7 @@ const GridItem = styled(Grid)(({ theme }) => ({
 }));
 
 function SearchGuild() {
-    const { guildList, realmGroup, isSeasonal } = useSelector((state) => {
-        return {
-            guildList: guildListDataSelector(state),
-            realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
-        };
-    }, shallowEqual);
+    const { guildList } = useSelector(guildListDataSelector);
 
     const guilds = guildList
         ? guildList.map((guild) => ({
@@ -63,8 +53,8 @@ function SearchGuild() {
 
     useEffect(() => {
         setGuild(null);
-        dispatch(guildListFetch(realmGroup));
-    }, [isSeasonal, realmGroup, dispatch]);
+        dispatch(guildListFetch());
+    }, [dispatch]);
 
     return (
         <Container

@@ -35,11 +35,7 @@ import {
     guildLeaderboardSetTab,
 } from "../../redux/actions";
 
-import {
-    guildLeaderboardEntireSelector,
-    environmentRealmGroupSelector,
-    environmentIsSeasonalSelector,
-} from "../../redux/selectors";
+import { guildLeaderboardEntireSelector } from "../../redux/selectors";
 import { Avatar } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -58,19 +54,9 @@ const SecondaryTextSpan = styled("span")(({ theme }) => ({
 function GuildLeaderboard({ theme }) {
     const { factionColors } = theme.palette;
 
-    const {
-        data,
-        loading,
-        error,
-        realmGroup,
-        filter,
-        selectedTab,
-        isSeasonal,
-    } = useSelector(
+    const { data, loading, error, filter, selectedTab } = useSelector(
         (state) => ({
             ...guildLeaderboardEntireSelector(state),
-            realmGroup: environmentRealmGroupSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
         }),
         shallowEqual
     );
@@ -79,8 +65,8 @@ function GuildLeaderboard({ theme }) {
     const selectedTabName = selectedTab === 0 ? "fullClear" : "fastestKills";
 
     useEffect(() => {
-        dispatch(guildLeaderboardFetch(realmGroup));
-    }, [realmGroup, isSeasonal, dispatch]);
+        dispatch(guildLeaderboardFetch());
+    }, [dispatch]);
 
     return (
         <Page title={"Guild Leaderboard | Tauri Progress"}>
@@ -129,9 +115,7 @@ function GuildLeaderboard({ theme }) {
                 {error && (
                     <ErrorMessage
                         message={error}
-                        refresh={() =>
-                            dispatch(guildLeaderboardFetch(realmGroup))
-                        }
+                        refresh={() => dispatch(guildLeaderboardFetch())}
                     />
                 )}
             </section>

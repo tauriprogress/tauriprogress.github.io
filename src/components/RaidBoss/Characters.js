@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+
 import {
     raidBossKillCountFetch,
     raidBossCharactersFetch,
@@ -9,7 +10,6 @@ import {
     raidFilterSelector,
     raidBossCharactersEntireSelector,
     raidBossPageCurrentPageSelector,
-    environmentIsSeasonalSelector,
 } from "../../redux/selectors";
 
 import CharacterLadder from "../CharacterLadder";
@@ -26,13 +26,11 @@ function Characters({ raidId, bossName, combatMetric }) {
         filter,
         page,
         dataSpecificationString,
-        isSeasonal,
     } = useSelector((state) => {
         return {
             ...raidBossCharactersEntireSelector(state),
             filter: raidFilterSelector(state),
             page: raidBossPageCurrentPageSelector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
@@ -55,16 +53,7 @@ function Characters({ raidId, bossName, combatMetric }) {
                 pageSize,
             })
         );
-    }, [
-        raidId,
-        bossName,
-        combatMetric,
-        filter,
-        page,
-        pageSize,
-        isSeasonal,
-        dispatch,
-    ]);
+    }, [raidId, bossName, combatMetric, filter, page, pageSize, dispatch]);
 
     return (
         <React.Fragment>
@@ -89,6 +78,7 @@ function Characters({ raidId, bossName, combatMetric }) {
                             raidBossCharactersFetch({
                                 raidId,
                                 bossName,
+
                                 combatMetric,
                                 filters: filter,
                                 page,

@@ -28,7 +28,6 @@ import {
 
 import { raidBossKillCountFetch } from "../../redux/actions";
 
-import { environmentIsSeasonalSelector } from "../../redux/selectors";
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
 import { styled } from "@mui/system";
 const NoWrap = styled("span")({
@@ -101,16 +100,15 @@ function RaidBossLogs({
 
     const dispatch = useDispatch();
 
-    const { loading, error, data, isSeasonal } = useSelector((state) => {
+    const { loading, error, data } = useSelector((state) => {
         return {
             ...selector(state),
-            isSeasonal: environmentIsSeasonalSelector(state),
         };
     }, shallowEqual);
 
     useEffect(() => {
         dispatch(fetch({ raidId, bossName, difficulty }));
-    }, [fetch, raidId, bossName, difficulty, isSeasonal, dispatch]);
+    }, [fetch, raidId, bossName, difficulty, dispatch]);
 
     return (
         <OverflowScroll>
