@@ -1,12 +1,15 @@
 import React from "react";
 import RouteSwitch from "./RouteSwitch";
 import AppContainer from "../AppContainer";
+import { Router as BrowserRouter } from "react-router-dom";
+import { history } from "../../redux";
+import ValidateRealmGroup from "./validateRealmGroup";
 
 function Router() {
     return (
-        <AppContainer>
+        <BrowserRouter history={history}>
             <RouteSwitch />
-        </AppContainer>
+        </BrowserRouter>
     );
 }
 

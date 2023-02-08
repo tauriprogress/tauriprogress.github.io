@@ -1,40 +1,14 @@
 import React from "react";
-import {
-    Route,
-    Switch,
-    matchPath,
-    useLocation,
-    Redirect,
-} from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import LogModal from "../Log/Modal";
 
 import ROUTES from "../../routes";
-import { getRealmGroupFromLocalStorage, validRealmGroup } from "../../helpers";
 
 function RouteSwitch() {
     const location = useLocation();
 
     const background = location.state && location.state.background;
-
-    const realmGroupName = matchPath(location.pathname, {
-        path: "/:realmGroupName",
-        exact: false,
-        strict: false,
-    }).params.realmGroupName;
-
-    if (!validRealmGroup(realmGroupName)) {
-        const defaultRealmGroup = getRealmGroupFromLocalStorage();
-
-        return (
-            <Redirect
-                to={location.pathname.replace(
-                    realmGroupName,
-                    defaultRealmGroup
-                )}
-            />
-        );
-    }
 
     return (
         <React.Fragment>

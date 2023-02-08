@@ -9,6 +9,8 @@ import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
 import NotFound from "../components/NotFound";
 
+import routeWrapper from "../components/Router/routeWrapper";
+
 function getRealmgroupMatch() {
     let matchString = "(";
     for (let realmGroupname of constants.realmGroups) {
@@ -18,59 +20,48 @@ function getRealmgroupMatch() {
     return matchString.slice(0, -1) + ")";
 }
 
-function createPaths(path) {
-    let paths = [];
-
-    for (let realmGroupname of constants.realmGroups) {
-        paths.push(`/${realmGroupname}${path}`);
-    }
-    return paths;
-}
-
-const homeRegExp = new RegExp(`^${getRealmgroupMatch()}(\/)?$`);
+const homeRegExp = new RegExp(`^${getRealmgroupMatch()}(/)?$`);
 export const HOME_ROUTE = {
     name: "HOME",
-    path: createPaths("/"),
-    component: Home,
+    path: "/:realmGroupName",
+    component: routeWrapper(Home),
     exact: true,
     isCurrentRoute: () => homeRegExp.test(window.location.pathname),
 };
 
-const raidRegExp = new RegExp(`^${getRealmgroupMatch()}\/raid(\/)?.*$`);
+const raidRegExp = new RegExp(`^${getRealmgroupMatch()}/raid(/)?.*$`);
 export const RAID_ROUTE = {
     name: "RAID",
-    path: createPaths("/raid/:raidName/:bossName?"),
-    component: Raid,
+    path: "/:realmGroupName/raid/:raidName/:bossName?",
+    component: routeWrapper(Raid),
     exact: true,
     isCurrentRoute: (route) =>
         raidRegExp.test(route ? route : window.location.pathname),
 };
 
-const guildRegExp = new RegExp(`^${getRealmgroupMatch()}\/guild(\/)?.*$`);
+const guildRegExp = new RegExp(`^${getRealmgroupMatch()}/guild(/)?.*$`);
 export const GUILD_ROUTE = {
     name: "GUILD",
-    path: createPaths("/guild/:guildName"),
-    component: Guild,
+    path: "/:realmGroupName/guild/:guildName",
+    component: routeWrapper(Guild),
     exact: true,
     isCurrentRoute: () => guildRegExp.test(window.location.pathname),
 };
 
-const characterRegExp = new RegExp(
-    `^${getRealmgroupMatch()}\/character(\/)?.*$`
-);
+const characterRegExp = new RegExp(`^${getRealmgroupMatch()}/character(/)?.*$`);
 export const CHARACTER_ROUTE = {
     name: "CHARACTER",
-    path: createPaths("/character/:characterName"),
-    component: Character,
+    path: "/:realmGroupName/character/:characterName",
+    component: routeWrapper(Character),
     exact: true,
     isCurrentRoute: () => characterRegExp.test(window.location.pathname),
 };
 
-const logRegExp = new RegExp(`^${getRealmgroupMatch()}\/log(\/)?.*$`);
+const logRegExp = new RegExp(`^${getRealmgroupMatch()}/log(/)?.*$`);
 export const LOG_ROUTE = {
     name: "LOG",
-    path: createPaths("/log/:logId"),
-    component: Log,
+    path: "/:realmGroupName/log/:logId",
+    component: routeWrapper(Log),
     exact: true,
     isCurrentRoute: () => logRegExp.test(window.location.pathname),
 };
@@ -79,12 +70,12 @@ function CharacterLeaderboardWrapper() {
     return <CharacterLeaderboard />;
 }
 const characterLeaderboardRegExp = new RegExp(
-    `^${getRealmgroupMatch()}\/leaderboard\/character(\/)?.*$`
+    `^${getRealmgroupMatch()}/leaderboard/character(/)?.*$`
 );
 export const CHARACTER_LEADERBOARD_ROUTE = {
     name: "CHARACTER LEADERBOARD",
-    path: createPaths("/leaderboard/character"),
-    component: CharacterLeaderboardWrapper,
+    path: "/:realmGroupName/leaderboard/character",
+    component: routeWrapper(CharacterLeaderboardWrapper),
     exact: true,
     isCurrentRoute: (route) =>
         characterLeaderboardRegExp.test(
@@ -96,12 +87,12 @@ function GuildLeaderboardWrapper() {
     return <GuildLeaderboard />;
 }
 const guildLeaderboardRegExp = new RegExp(
-    `^${getRealmgroupMatch()}\/leaderboard\/guild(\/)?.*$`
+    `^${getRealmgroupMatch()}/leaderboard/guild(/)?.*$`
 );
 export const GUILD_LEADERBOARD_ROUTE = {
     name: "GUILD LEADERBOARD",
-    path: createPaths("/leaderboard/guild"),
-    component: GuildLeaderboardWrapper,
+    path: "/:realmGroupName/leaderboard/guild",
+    component: routeWrapper(GuildLeaderboardWrapper),
     exact: true,
     isCurrentRoute: (route) => {
         return guildLeaderboardRegExp.test(
@@ -114,7 +105,7 @@ export const GUILD_LEADERBOARD_ROUTE = {
 export const NOT_FOUND_ROUTE = {
     name: "NOT FOUND",
     path: ["/"],
-    component: NotFound,
+    component: routeWrapper(NotFound),
     exact: false,
     isCurrentRoute: () => undefined,
 };
