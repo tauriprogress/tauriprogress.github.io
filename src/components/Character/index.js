@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import queryString from "query-string";
 
-import withStyles from '@mui/styles/withStyles';
+import withStyles from "@mui/styles/withStyles";
 
-import validateRealm from "../Router/validateRealm";
+import { validateRealm } from "../Router/validateRealm";
 
 import Grid from "@mui/material/Grid";
 
@@ -23,13 +23,13 @@ import { characterDataFetch } from "../../redux/actions";
 import { capitalize } from "../../helpers";
 import {
     characterDataErrorSelector,
-    characterDataLoadingSelector
+    characterDataLoadingSelector,
 } from "../../redux/selectors";
 
 function styles() {
     return {
         gridContainer: { margin: "10px auto", maxWidth: "1300px" },
-        progContainer: { flex: 1, maxWidth: "650px" }
+        progContainer: { flex: 1, maxWidth: "650px" },
     };
 }
 
@@ -38,9 +38,9 @@ function Character({ classes, match, location }) {
     const realm = queryString.parse(location.search).realm;
 
     const { loading, error } = useSelector(
-        state => ({
+        (state) => ({
             loading: characterDataLoadingSelector(state),
-            error: characterDataErrorSelector(state)
+            error: characterDataErrorSelector(state),
         }),
         shallowEqual
     );
@@ -66,7 +66,7 @@ function Character({ classes, match, location }) {
                                           dispatch(
                                               characterDataFetch({
                                                   characterName: characterName,
-                                                  realm
+                                                  realm,
                                               })
                                           )
                                     : false

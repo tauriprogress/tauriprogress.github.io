@@ -3,7 +3,7 @@ import queryString from "query-string";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import validateRealm from "../Router/validateRealm";
+import { validateRealm } from "../Router/validateRealm";
 
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";

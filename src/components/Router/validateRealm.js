@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Redirect, useLocation, useParams } from "react-router-dom";
 import queryString from "query-string";
 
 import {
@@ -8,45 +8,37 @@ import {
     realmOfRealmGroup,
     getRealmGroupOfRealm,
 } from "../../helpers";
-
-import { environmentSetRealmGroup } from "../../redux/actions";
-
 import { environmentRealmsSelector } from "../../redux/selectors";
 
-function validateRealm() {
-    return (Component) => {
-        const ValidateRealm = React.forwardRef(
-            ({ innerRef, ...otherprops }, ref) => {
-                const location = useSelector((state) => state.router.location);
+export function validateRealm() {
+    return (Component) =>
+        React.forwardRef(({ innerRef, ...props }, ref) => {
+            const location = useLocation();
+            const realms = useSelector(environmentRealmsSelector);
+            const { realmGroupName } = useParams();
+            const currentRealm = queryString.parse(location.search).realm;
 
-                const realms = useSelector(environmentRealmsSelector);
-                const currentRealm = queryString.parse(location.search).realm;
-                const dispatch = useDispatch();
-
-                if (validRealm(currentRealm)) {
-                    if (!realmOfRealmGroup(currentRealm, realms)) {
-                        dispatch(
-                            environmentSetRealmGroup(
-                                getRealmGroupOfRealm(currentRealm)
-                            )
-                        );
-                    }
+            if (validRealm(currentRealm)) {
+                if (!realmOfRealmGroup(currentRealm, realms)) {
+                    const redirectToRealmGroup =
+                        getRealmGroupOfRealm(currentRealm);
                     return (
-                        <Component
-                            ref={innerRef || ref}
-                            location={location}
-                            {...otherprops}
+                        <Redirect
+                            to={location.pathname.replace(
+                                realmGroupName,
+                                redirectToRealmGroup
+                            )}
                         />
                     );
                 }
                 return (
-                    <Redirect to={`${location.pathname}?realm=${realms[0]}`} />
+                    <Component
+                        ref={innerRef || ref}
+                        location={location}
+                        {...props}
+                    />
                 );
             }
-        );
-
-        return ValidateRealm;
-    };
+            return <Redirect to={`${location.pathname}?realm=${realms[0]}`} />;
+        });
 }
-
-export default validateRealm;

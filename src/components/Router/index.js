@@ -1,9 +1,8 @@
 import React from "react";
 import RouteSwitch from "./RouteSwitch";
-import AppContainer from "../AppContainer";
 import { Router as BrowserRouter } from "react-router-dom";
 import { history } from "../../redux";
-import ValidateRealmGroup from "./validateRealmGroup";
+export * from "./validateRealm";
 
 function Router() {
     return (

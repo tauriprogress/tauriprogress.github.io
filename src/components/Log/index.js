@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import validateRealm from "../Router/validateRealm";
+import { validateRealm } from "../Router/validateRealm";
 
 import LogTitle from "./LogTitle";
 import LogBody from "./LogBody";
