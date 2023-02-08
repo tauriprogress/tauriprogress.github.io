@@ -27,7 +27,7 @@ const GridItem = styled(Grid)(({ theme }) => ({
 }));
 
 function SearchGuild() {
-    const { guildList } = useSelector(guildListDataSelector);
+    const guildList = useSelector(guildListDataSelector);
 
     const { realmGroupName } = useParams();
 
