@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
-import withStyles from '@mui/styles/withStyles';
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import withStyles from "@mui/styles/withStyles";
 import queryString from "query-string";
 
 import Button from "@mui/material/Button";
@@ -16,13 +16,13 @@ import { environmentRealmsSelector } from "../../redux/selectors";
 function styles() {
     return {
         gridItem: {
-            margin: "10px"
-        }
+            margin: "10px",
+        },
     };
 }
 
 function SelectRealm({ classes }) {
-    const location = useSelector(state => state.router.location);
+    const location = useLocation();
 
     let realmName = queryString.parse(location.search).realm;
     let realms = getRealmNames(useSelector(environmentRealmsSelector));
@@ -32,7 +32,7 @@ function SelectRealm({ classes }) {
             <Grid item className={classes.gridItem}>
                 <Typography>Current realm: {realmName}</Typography>
             </Grid>
-            {realms.map(realmName => (
+            {realms.map((realmName) => (
                 <Grid key={realmName} className={classes.gridItem} item>
                     <Link
                         component={RouterLink}

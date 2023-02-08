@@ -1,15 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 import Link from "../Link";
 import { styled } from "@mui/system";
+import { useLocation } from "react-router-dom";
 
 const BoldLogLink = styled(LogLink)({
     fontWeight: "bold",
 });
 
 function LogLink({ children, logId, realm, ...rest }) {
-    const location = useSelector((state) => state.router.location);
+    const location = useLocation();
 
     return (
         <Link

@@ -25,8 +25,10 @@ import {
     guildDataExistsSelector,
     guildErrorSelector,
 } from "../../redux/guild/selectors";
+import { useRouteMatch } from "react-router-dom";
 
-function Guild({ match, location }) {
+function Guild({ location }) {
+    const match = useRouteMatch();
     const guildName = match.params.guildName;
     const realm = queryString.parse(location.search).realm;
 
