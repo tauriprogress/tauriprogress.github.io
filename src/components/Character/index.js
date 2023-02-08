@@ -25,6 +25,7 @@ import {
     characterDataErrorSelector,
     characterDataLoadingSelector,
 } from "../../redux/selectors";
+import { useLocation, useRouteMatch } from "react-router-dom";
 
 function styles() {
     return {
@@ -33,7 +34,9 @@ function styles() {
     };
 }
 
-function Character({ classes, match, location }) {
+function Character({ classes }) {
+    const location = useLocation();
+    const match = useRouteMatch();
     const characterName = match.params.characterName;
     const realm = queryString.parse(location.search).realm;
 

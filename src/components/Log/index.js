@@ -12,12 +12,15 @@ import Loading from "../Loading";
 import { logFetch } from "../../redux/actions";
 import { logEntireDataSelector } from "../../redux/log/selectors";
 import { styled } from "@mui/system";
+import { useLocation, useRouteMatch } from "react-router-dom";
 
 const Container = styled("div")(({ theme }) => ({
     padding: theme.spacing(1),
 }));
 
-function Log({ match, location }) {
+function Log() {
+    const location = useLocation();
+    const match = useRouteMatch();
     const { data, loading, error } = useSelector(logEntireDataSelector);
 
     const dispatch = useDispatch();

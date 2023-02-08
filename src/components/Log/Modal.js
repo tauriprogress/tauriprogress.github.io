@@ -9,7 +9,7 @@ import Backdrop from "@mui/material/Backdrop";
 import Card from "@mui/material/Card";
 
 import Log from "./index";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 function styles(theme) {
     return {
@@ -39,7 +39,8 @@ function styles(theme) {
     };
 }
 
-function LogModal({ match, classes }) {
+function LogModal({ classes }) {
+    const match = useRouteMatch();
     const history = useHistory();
 
     function close(e) {

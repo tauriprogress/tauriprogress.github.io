@@ -5,8 +5,10 @@ import RaidSummary from "../RaidSummary";
 import RaidBoss from "../RaidBoss";
 
 import RaidFilter from "../RaidFilter";
+import { useRouteMatch } from "react-router-dom";
 
-function Raid({ match }) {
+function Raid() {
+    const match = useRouteMatch();
     const raidName = match.params.raidName;
     const bossName = match.params.bossName;
 
