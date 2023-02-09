@@ -1,22 +1,19 @@
-import { put, call, select } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import {
     getDataSpecificationString,
     getIngameBossIdFromBossName,
 } from "../../../helpers";
-import { takeLatestIfTrue, getServerUrl } from "../../sagas/helpers";
+import { getServerUrl, takeLatestIfTrue } from "../../sagas/helpers";
 
 import {
-    RAIDBOSS_FASTESTKILLS_FETCH,
-    raidBossFastestKillsSetLoading,
     raidBossFastestKillsFill,
     raidBossFastestKillsSetError,
+    raidBossFastestKillsSetLoading,
+    RAIDBOSS_FASTESTKILLS_FETCH,
 } from "../../actions";
 
-import {
-    raidBossFastestKillsDataSpecificationStringSelector,
-    environmentRealmGroupSelector,
-} from "../../selectors";
 import { getCurrentRealmGroupName } from "../../history/helpers";
+import { raidBossFastestKillsDataSpecificationStringSelector } from "../../selectors";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
     return await fetch(`${serverUrl}/getboss/fastestKills`, {
