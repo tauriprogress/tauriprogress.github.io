@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 
 import LogModal from "../Log/Modal";
+import AppContainer from "../AppContainer";
 
 import ROUTES from "../../routes";
 
@@ -11,7 +12,7 @@ function RouteSwitch() {
     const background = location.state && location.state.background;
 
     return (
-        <React.Fragment>
+        <AppContainer>
             <Switch location={background || location}>
                 {ROUTES.map((route) => (
                     <Route
@@ -29,7 +30,7 @@ function RouteSwitch() {
                     component={LogModal}
                 />
             )}
-        </React.Fragment>
+        </AppContainer>
     );
 }
 

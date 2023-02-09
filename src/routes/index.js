@@ -9,8 +9,6 @@ import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
 import NotFound from "../components/NotFound";
 
-import routeWrapper from "../components/Router/routeWrapper";
-
 function getRealmgroupMatch() {
     let matchString = "(";
     for (let realmGroupname of constants.realmGroups) {
@@ -24,7 +22,7 @@ const homeRegExp = new RegExp(`^${getRealmgroupMatch()}(/)?$`);
 export const HOME_ROUTE = {
     name: "HOME",
     path: "/:realmGroupName",
-    component: routeWrapper(Home),
+    component: Home,
     exact: true,
     isCurrentRoute: () => homeRegExp.test(window.location.pathname),
 };
@@ -33,7 +31,7 @@ const raidRegExp = new RegExp(`^${getRealmgroupMatch()}/raid(/)?.*$`);
 export const RAID_ROUTE = {
     name: "RAID",
     path: "/:realmGroupName/raid/:raidName/:bossName?",
-    component: routeWrapper(Raid),
+    component: Raid,
     exact: true,
     isCurrentRoute: (route) =>
         raidRegExp.test(route ? route : window.location.pathname),
@@ -43,7 +41,7 @@ const guildRegExp = new RegExp(`^${getRealmgroupMatch()}/guild(/)?.*$`);
 export const GUILD_ROUTE = {
     name: "GUILD",
     path: "/:realmGroupName/guild/:guildName",
-    component: routeWrapper(Guild),
+    component: Guild,
     exact: true,
     isCurrentRoute: () => guildRegExp.test(window.location.pathname),
 };
@@ -52,7 +50,7 @@ const characterRegExp = new RegExp(`^${getRealmgroupMatch()}/character(/)?.*$`);
 export const CHARACTER_ROUTE = {
     name: "CHARACTER",
     path: "/:realmGroupName/character/:characterName",
-    component: routeWrapper(Character),
+    component: Character,
     exact: true,
     isCurrentRoute: () => characterRegExp.test(window.location.pathname),
 };
@@ -61,7 +59,7 @@ const logRegExp = new RegExp(`^${getRealmgroupMatch()}/log(/)?.*$`);
 export const LOG_ROUTE = {
     name: "LOG",
     path: "/:realmGroupName/log/:logId",
-    component: routeWrapper(Log),
+    component: Log,
     exact: true,
     isCurrentRoute: () => logRegExp.test(window.location.pathname),
 };
@@ -75,7 +73,7 @@ const characterLeaderboardRegExp = new RegExp(
 export const CHARACTER_LEADERBOARD_ROUTE = {
     name: "CHARACTER LEADERBOARD",
     path: "/:realmGroupName/leaderboard/character",
-    component: routeWrapper(CharacterLeaderboardWrapper),
+    component: CharacterLeaderboardWrapper,
     exact: true,
     isCurrentRoute: (route) =>
         characterLeaderboardRegExp.test(
@@ -92,7 +90,7 @@ const guildLeaderboardRegExp = new RegExp(
 export const GUILD_LEADERBOARD_ROUTE = {
     name: "GUILD LEADERBOARD",
     path: "/:realmGroupName/leaderboard/guild",
-    component: routeWrapper(GuildLeaderboardWrapper),
+    component: GuildLeaderboardWrapper,
     exact: true,
     isCurrentRoute: (route) => {
         return guildLeaderboardRegExp.test(
@@ -105,7 +103,7 @@ export const GUILD_LEADERBOARD_ROUTE = {
 export const NOT_FOUND_ROUTE = {
     name: "NOT FOUND",
     path: ["/"],
-    component: routeWrapper(NotFound),
+    component: NotFound,
     exact: false,
     isCurrentRoute: () => undefined,
 };

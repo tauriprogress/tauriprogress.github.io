@@ -2,12 +2,14 @@ import React from "react";
 import RouteSwitch from "./RouteSwitch";
 import { Router as BrowserRouter } from "react-router-dom";
 import { history } from "../../redux";
-export * from "./validateRealm";
+import ValidateRealmGroup from "./validateRealmGroup";
 
 function Router() {
     return (
         <BrowserRouter history={history}>
-            <RouteSwitch />
+            <ValidateRealmGroup>
+                <RouteSwitch />
+            </ValidateRealmGroup>
         </BrowserRouter>
     );
 }
