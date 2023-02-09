@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 
-import LogModal from "../Log/Modal";
 import AppContainer from "../AppContainer";
 
 import ROUTES from "../../routes";
+import { LOG_MODAL_ROUTE } from "../../routes";
 
 function RouteSwitch() {
     const location = useLocation();
@@ -25,9 +25,9 @@ function RouteSwitch() {
             </Switch>
             {background && (
                 <Route
-                    exact
-                    path={["/log/:logId", "/seasonal/log/:logId"]}
-                    component={LogModal}
+                    exact={LOG_MODAL_ROUTE.exact}
+                    path={LOG_MODAL_ROUTE.path}
+                    component={LOG_MODAL_ROUTE.component}
                 />
             )}
         </AppContainer>

@@ -8,7 +8,7 @@ import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Card from "@mui/material/Card";
 
-import Log from "./index";
+import { Log } from "./index";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
 function styles(theme) {
@@ -39,7 +39,7 @@ function styles(theme) {
     };
 }
 
-function LogModal({ classes }) {
+function Component({ classes }) {
     const match = useRouteMatch();
     const history = useHistory();
 
@@ -71,4 +71,4 @@ function LogModal({ classes }) {
     );
 }
 
-export default withStyles(styles)(LogModal);
+export const LogModal = withStyles(styles)(Component);

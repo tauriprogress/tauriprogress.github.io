@@ -8,13 +8,13 @@ async function getData(serverUrl, logId, realm) {
     return await fetch(`${serverUrl}/getlog`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             logId: Number(logId),
-            realm: realm
-        })
-    }).then(res => res.json());
+            realm: realm,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchLog({ payload }) {

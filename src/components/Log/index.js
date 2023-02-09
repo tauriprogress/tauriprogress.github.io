@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import queryString from "query-string";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -18,7 +19,7 @@ const Container = styled("div")(({ theme }) => ({
     padding: theme.spacing(1),
 }));
 
-function Log() {
+export function Component() {
     const location = useLocation();
     const match = useRouteMatch();
     const { data, loading, error } = useSelector(logEntireDataSelector);
@@ -26,7 +27,7 @@ function Log() {
     const dispatch = useDispatch();
 
     const logId = match.params.logId;
-    const realm = unescape(location.query.realm);
+    const realm = decodeURI(queryString.parse(location.search).realm);
 
     useEffect(() => {
         dispatch(logFetch({ logId, realm }));
@@ -53,4 +54,4 @@ function Log() {
     );
 }
 
-export default validateRealm()(Log);
+export const Log = validateRealm()(Component);

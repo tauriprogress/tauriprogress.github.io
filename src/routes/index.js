@@ -3,11 +3,13 @@ import * as constants from "tauriprogress-constants";
 import Raid from "../components/Raid";
 import Guild from "../components/Guild";
 import Character from "../components/Character";
-import Log from "../components/Log";
 import Home from "../components/Home";
 import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
 import NotFound from "../components/NotFound";
+
+import { Log } from "../components/Log";
+import { LogModal } from "../components/Log/Modal";
 
 function getRealmgroupMatch() {
     let matchString = "(";
@@ -16,6 +18,12 @@ function getRealmgroupMatch() {
     }
 
     return matchString.slice(0, -1) + ")";
+}
+
+function pathWithRealmGroups(path) {
+    return constants.realmGroups.map(
+        (realmGroupName) => `/${realmGroupName}${path}`
+    );
 }
 
 const homeRegExp = new RegExp(`^${getRealmgroupMatch()}(/)?$`);
@@ -97,6 +105,13 @@ export const GUILD_LEADERBOARD_ROUTE = {
             route ? route : window.location.pathname
         );
     },
+};
+
+export const LOG_MODAL_ROUTE = {
+    name: "LOG",
+    path: pathWithRealmGroups("/log/:logId"),
+    component: LogModal,
+    exact: true,
 };
 
 /* this should always be at the bottom of the routes array */
