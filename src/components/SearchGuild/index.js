@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { styled } from "@mui/styles";
-import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import { styled } from "@mui/styles";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import WithRealm from "../WithRealm";
 
@@ -15,7 +15,7 @@ import { navigationToggle, pushToHistory } from "../../redux/actions";
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { guildListDataSelector } from "../../redux/selectors";
-import { useParams } from "react-router-dom";
+import { withRealmGroupName } from "../Router/withRealmGroupName";
 
 const Container = styled("form")({
     width: "100%",
@@ -26,10 +26,8 @@ const GridItem = styled(Grid)(({ theme }) => ({
     marginTop: theme.spacing(1),
 }));
 
-function SearchGuild() {
+function SearchGuild({ realmGroupName }) {
     const guildList = useSelector(guildListDataSelector);
-
-    const { realmGroupName } = useParams();
 
     const guilds = guildList
         ? guildList.map((guild) => ({
@@ -49,7 +47,9 @@ function SearchGuild() {
             }
 
             dispatch(
-                pushToHistory(`/guild/${guild.name}?realm=${guild.realm}`)
+                pushToHistory({
+                    path: `/guild/${guild.name}?realm=${guild.realm}`,
+                })
             );
         }
     }
@@ -111,4 +111,4 @@ function SearchGuild() {
     );
 }
 
-export default SearchGuild;
+export default withRealmGroupName(React.memo(SearchGuild));

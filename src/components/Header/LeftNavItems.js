@@ -9,21 +9,24 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import { TallGrid, VeritcalCenterGrid } from "./";
 
-import { navigationToggle } from "../../redux/actions";
+import { navigationToggle, pushToHistory } from "../../redux/actions";
 
 import { getRealmGroupsMetaData, getExpansionImg } from "../../helpers";
 
 import { Avatar } from "@mui/material";
-import { useHistory, useParams } from "react-router-dom";
 import { changeRealmGroupName } from "../../redux/realmGroupName/actions";
+import { withRealmGroupName } from "../Router/withRealmGroupName";
 
-function LeftNavItems() {
+function LeftNavItems({ realmGroupName }) {
     const dispatch = useDispatch();
-    const { realmGroupName } = useParams();
-    const history = useHistory();
 
     function changeRealmGroup(realmGroup) {
-        history.push(`/${realmGroup}`);
+        dispatch(
+            pushToHistory({
+                path: "/",
+                realmGroupName: realmGroup,
+            })
+        );
         dispatch(changeRealmGroupName(realmGroup));
     }
 
@@ -69,4 +72,4 @@ function LeftNavItems() {
     );
 }
 
-export default LeftNavItems;
+export default withRealmGroupName(React.memo(LeftNavItems));

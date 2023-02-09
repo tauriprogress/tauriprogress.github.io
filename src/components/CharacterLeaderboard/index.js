@@ -51,7 +51,7 @@ function CharacterLeaderboard() {
 
     const combatMetric = selectedTab === 0 ? "dps" : "hps";
 
-    const { loading, error, data, isSeasonal, itemCount, page } = useSelector(
+    const { loading, error, data, itemCount, page } = useSelector(
         (state) => ({
             loading: characterLeaderboardLoadingSelector(state),
             error: characterLeaderboardErrorSelector(state),
@@ -71,7 +71,7 @@ function CharacterLeaderboard() {
                 pageSize,
             })
         );
-    }, [combatMetric, filter, page, pageSize, isSeasonal, dispatch]);
+    }, [combatMetric, filter, page, pageSize, dispatch]);
 
     return (
         <Page title={`Character Leaderboard | Tauri Progress`}>

@@ -1,43 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
-import withTheme from "@mui/styles/withTheme";
-import withStyles from "@mui/styles/withStyles";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import TablePagination from "@mui/material/TablePagination";
-import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
+import withStyles from "@mui/styles/withStyles";
+import withTheme from "@mui/styles/withTheme";
 
-import ErrorMessage from "../ErrorMessage";
-import Loading from "../Loading";
+import AlignedRankDisplay from "../AlignedRankDisplay";
+import ConditionalWrapper from "../ConditionalWrapper";
 import DateTooltip from "../DateTooltip";
+import DisplayDate from "../DisplayDate";
+import ErrorMessage from "../ErrorMessage";
+import Link from "../Link";
+import Loading from "../Loading";
+import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
 import GuildListFilter from "./GuildListFilter";
-import ConditionalWrapper from "../ConditionalWrapper";
-import OverflowScroll from "../OverflowScroll";
-import DisplayDate from "../DisplayDate";
-import AlignedRankDisplay from "../AlignedRankDisplay";
-import Link from "../Link";
 
-import { filterGuildList } from "./helpers";
 import { dateToString, guildActivityBoundary } from "../../helpers";
+import { filterGuildList } from "./helpers";
 
 import { guildListFetch } from "../../redux/actions";
 import {
-    guildListEntireSelector,
-    environmentDifficultyNamesSelector,
     environmentBossCountSelector,
     environmentDifficultiesSelector,
+    environmentDifficultyNamesSelector,
+    guildListEntireSelector,
 } from "../../redux/selectors";
-import { useParams } from "react-router-dom";
+import { withRealmGroupName } from "../Router/withRealmGroupName";
 
 function styles(theme) {
     return {
@@ -92,10 +92,8 @@ function styles(theme) {
     };
 }
 
-function GuildList({ theme, classes }) {
+function GuildList({ theme, classes, realmGroupName }) {
     const { factionColors, success } = theme.palette;
-
-    const { realmGroupName } = useParams();
 
     const { data, loading, error, difficultyNames, bossCount, difficulties } =
         useSelector(
@@ -506,4 +504,6 @@ function GuildList({ theme, classes }) {
     );
 }
 
-export default withStyles(styles)(withTheme(GuildList));
+export default withRealmGroupName(
+    React.memo(withStyles(styles)(withTheme(GuildList)))
+);

@@ -28,7 +28,7 @@ import {
     environmentRaidsSelector,
     environmentCurrentRaidNameSelector,
 } from "../../redux/selectors";
-import { useParams } from "react-router-dom";
+import { withRealmGroupName } from "../Router/withRealmGroupName";
 
 function styles(theme) {
     return {
@@ -43,8 +43,7 @@ function styles(theme) {
     };
 }
 
-function CharacterProgression({ classes }) {
-    const { realmGroupName } = useParams();
+function CharacterProgression({ classes, realmGroupName }) {
     const {
         loading,
         error,
@@ -66,6 +65,8 @@ function CharacterProgression({ classes }) {
         };
     }, shallowEqual);
 
+    const dispatch = useDispatch();
+
     const difficulties = []
         .concat(getDifficulties(raids, currentContentName))
         .reverse();
@@ -73,7 +74,6 @@ function CharacterProgression({ classes }) {
     const [difficulty, setDifficulty] = useState(
         getDefaultDifficulty(realmGroupName)
     );
-    const dispatch = useDispatch();
 
     function selectRaid(raidName) {
         dispatch(characterProgressionSetRaid(raidName));
@@ -154,4 +154,6 @@ function CharacterProgression({ classes }) {
     );
 }
 
-export default withStyles(styles)(CharacterProgression);
+export default withRealmGroupName(
+    React.memo(withStyles(styles)(CharacterProgression))
+);
