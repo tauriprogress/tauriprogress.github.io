@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { characterSpecClass } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -13,7 +13,11 @@ import FilterContainer from "../FilterContainer";
 
 import { getClassImg, getFactionImg, getRealmNames } from "../../helpers";
 
-import { characterLeaderboardSetFilter } from "../../redux/actions";
+import {
+    characterLeaderboardSetFilter,
+    initFilterWithQuery,
+    closeFilterWithQuery,
+} from "../../redux/actions";
 import {
     characterLeaderboardFilterSelector,
     environmentCharacterSpecsSelector,
@@ -23,6 +27,8 @@ import {
     environmentRaidsSelector,
 } from "../../redux/selectors";
 import { Avatar } from "@mui/material";
+
+export const FILTER_TYPE_CHARACTER_LB = "FILTER_TYPE_CHARACTER_LB";
 
 function CharacterLeaderboardFilter({ theme }) {
     const {
@@ -55,6 +61,11 @@ function CharacterLeaderboardFilter({ theme }) {
     }, []);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(initFilterWithQuery(FILTER_TYPE_CHARACTER_LB));
+        return () => dispatch(closeFilterWithQuery());
+    }, [dispatch]);
 
     const {
         palette: { classColors, factionColors },

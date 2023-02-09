@@ -22,7 +22,7 @@ function Raid() {
 
     return (
         <Page title={`${title} | Tauri Progress`}>
-            <RaidFilter />
+            <RaidFilter queryInitDep={bossName} />
             <Component raidName={raidName} bossName={bossName} />
         </Page>
     );

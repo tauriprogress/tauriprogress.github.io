@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import withTheme from "@mui/styles/withTheme";
 
+import Avatar from "@mui/material/Avatar";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import Avatar from "@mui/material/Avatar";
 
 import { getFactionImg, getRealmNames } from "../../helpers";
 
-import { guildLeaderboardSetFilter } from "../../redux/actions";
 import {
-    guildLeaderboardFilterSelector,
-    environmentRealmsSelector,
+    closeFilterWithQuery,
+    guildLeaderboardSetFilter,
+    initFilterWithQuery,
+} from "../../redux/actions";
+import {
     environmentDifficultyNamesSelector,
     environmentRaidsSelector,
+    environmentRealmsSelector,
+    guildLeaderboardFilterSelector,
 } from "../../redux/selectors";
 
 import FilterContainer from "../FilterContainer";
+
+export const FILTER_TYPE_GUILD_LB = "FILTER_TYPE_GUILD_LB";
 
 function GuildLeaderboardFilter({ theme }) {
     const { filter, realms, difficultyNames, raids } = useSelector(
@@ -43,6 +49,11 @@ function GuildLeaderboardFilter({ theme }) {
         return acc;
     }, []);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(initFilterWithQuery(FILTER_TYPE_GUILD_LB));
+        return () => dispatch(closeFilterWithQuery());
+    }, [dispatch]);
 
     const {
         palette: { factionColors },

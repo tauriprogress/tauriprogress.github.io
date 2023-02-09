@@ -1,42 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { characterClassSpecs } from "tauriprogress-constants";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import withTheme from "@mui/styles/withTheme";
 
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
 
 import {
-    getRealmNames,
     getClassImg,
-    getSpecImg,
     getFactionImg,
+    getRealmNames,
     getRoleImg,
+    getSpecImg,
 } from "../../helpers";
-import { getClassColor } from "./helpers";
-import { setRaidFilter } from "../../redux/actions";
-
 import {
-    raidFilterSelector,
-    environmentDifficultyNamesSelector,
-    environmentRealmsSelector,
-    environmentCharacterSpecsSelector,
-    environmentCharacterClassNamesSelector,
-    environmentRaidsSelector,
-} from "../../redux/selectors";
-import FilterContainer from "../FilterContainer";
+    closeFilterWithQuery,
+    initFilterWithQuery,
+    setRaidFilter,
+} from "../../redux/actions";
+import { getClassColor } from "./helpers";
+
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/system";
+import {
+    environmentCharacterClassNamesSelector,
+    environmentCharacterSpecsSelector,
+    environmentDifficultyNamesSelector,
+    environmentRaidsSelector,
+    environmentRealmsSelector,
+    raidFilterSelector,
+} from "../../redux/selectors";
+import FilterContainer from "../FilterContainer";
 
 const IndentedMenuItem = styled(MenuItem)(({ theme }) => ({
     paddingLeft: theme.spacing(3),
 }));
 
-function RaidFilter({ theme }) {
+export const FILTER_TYPE_RAID = "FILTER_TYPE_RAID";
+
+function RaidFilter({ theme, queryInitDep }) {
     const {
         filter,
         realms,
@@ -66,6 +72,11 @@ function RaidFilter({ theme }) {
         return acc;
     }, []);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(initFilterWithQuery(FILTER_TYPE_RAID));
+        return () => dispatch(closeFilterWithQuery());
+    }, [queryInitDep, dispatch]);
 
     const {
         palette: { classColors, factionColors },

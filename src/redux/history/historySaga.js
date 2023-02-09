@@ -8,7 +8,8 @@ import {
     GUILD_LEADERBOARD_FILTER_SET,
     GUILD_LEADERBOARD_TAB_SET,
     HISTORY_PUSH,
-    NAVIGATION_ITEM_SET,
+    QUERY_FILTER_INIT,
+    QUERY_FILTER_CLOSE,
 } from "../actions";
 
 import {
@@ -22,6 +23,9 @@ import {
 
 import { history } from "../";
 import { getCurrentRealmGroupName } from "./helpers";
+import { FILTER_TYPE_RAID } from "../../components/RaidFilter";
+import { FILTER_TYPE_CHARACTER_LB } from "../../components/CharacterLeaderboard/CharacterLeaderboardFilter";
+import { FILTER_TYPE_GUILD_LB } from "../../components/GuildLeaderboard/GuildLeaderboardFilter";
 
 function* handeHistoryAction({ type, payload }) {
     switch (type) {
@@ -31,7 +35,42 @@ function* handeHistoryAction({ type, payload }) {
                 : getCurrentRealmGroupName();
             history.push(`/${realmGroupName}${payload.path}`);
             break;
-        case NAVIGATION_ITEM_SET:
+        case QUERY_FILTER_INIT:
+            switch (payload) {
+                case FILTER_TYPE_RAID:
+                    history.replace(
+                        `?${getSearchQueryString({
+                            ...(yield select(raidFilterSelector)),
+                            tab: yield select(raidBossTabSelectedTabSelector),
+                        })}`
+                    );
+                    break;
+                case FILTER_TYPE_CHARACTER_LB:
+                    history.replace(
+                        `?${getSearchQueryString({
+                            ...(yield select(
+                                characterLeaderboardFilterSelector
+                            )),
+                            tab: yield select(characterLeaderboardTabSelector),
+                        })}`
+                    );
+                    break;
+                case FILTER_TYPE_GUILD_LB:
+                    history.replace(
+                        `?${getSearchQueryString({
+                            ...(yield select(guildLeaderboardFilterSelector)),
+                            tab: yield select(
+                                guildLeaderboardSelectedTabSelector
+                            ),
+                        })}`
+                    );
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case QUERY_FILTER_CLOSE:
+            break;
         case RAIDFILTER_SET:
         case RAIDBOSS_TAB_SET:
             history.replace(
@@ -75,7 +114,8 @@ export default function* historySaga() {
             CHARACTER_LEADERBOARD_TAB_SET,
             GUILD_LEADERBOARD_FILTER_SET,
             GUILD_LEADERBOARD_TAB_SET,
-            NAVIGATION_ITEM_SET,
+            QUERY_FILTER_INIT,
+            QUERY_FILTER_CLOSE,
         ],
         handeHistoryAction
     );
