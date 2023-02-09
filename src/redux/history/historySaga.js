@@ -24,11 +24,12 @@ import { history } from "../";
 import { getCurrentRealmGroupName } from "./helpers";
 
 function* handeHistoryAction({ type, payload }) {
-    const realmGroupName = getCurrentRealmGroupName();
-
     switch (type) {
         case HISTORY_PUSH:
-            history.push(`/${realmGroupName}${payload}`);
+            const realmGroupName = payload.realmGroupName
+                ? payload.realmGroupName
+                : getCurrentRealmGroupName();
+            history.push(`/${realmGroupName}${payload.path}`);
             break;
         case NAVIGATION_ITEM_SET:
         case RAIDFILTER_SET:

@@ -56,7 +56,11 @@ function SearchCharacter() {
                 dispatch(navigationToggle(false));
             }
 
-            dispatch(pushToHistory(`/character/${character}?realm=${realm}`));
+            dispatch(
+                pushToHistory({
+                    path: `/character/${character}?realm=${realm}`,
+                })
+            );
         }
     }
 
