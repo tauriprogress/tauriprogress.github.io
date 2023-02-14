@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 
 import { environmentDifficultyNamesSelector } from "../../redux/selectors";
 
-function DifficultyTabs({ options, selected, onChange }) {
+function DifficultyTabs({ options, selected, onChange, ...props }) {
     const difficultyNames = useSelector(environmentDifficultyNamesSelector);
 
     return (
@@ -16,6 +16,7 @@ function DifficultyTabs({ options, selected, onChange }) {
             variant="scrollable"
             textColor="secondary"
             indicatorColor="secondary"
+            {...props}
         >
             {options.map((difficulty) => (
                 <Tab

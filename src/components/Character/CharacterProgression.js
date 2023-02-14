@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withStyles from "@mui/styles/withStyles";
 import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -10,7 +9,7 @@ import Grid from "@mui/material/Grid";
 
 import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
-import DifficultyTabs from "../DifficultyTabs";
+import BaseDifficultyTabs from "../DifficultyTabs";
 import RaidChart from "./RaidChart";
 
 import { displayHealing, getDifficulties } from "./helpers";
@@ -29,21 +28,26 @@ import {
     environmentCurrentRaidNameSelector,
 } from "../../redux/selectors";
 import { withRealmGroupName } from "../Router/withRealmGroupName";
+import styled from "@emotion/styled";
 
-function styles(theme) {
-    return {
-        tab: {
-            color: `${theme.palette.primary.contrastText} !important`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center center",
-        },
-        container: {
-            margin: "5px 0",
-        },
-    };
-}
+const DifficultyTabs = styled(BaseDifficultyTabs)(({ theme }) => ({
+    marginLeft: "40px",
+}));
+const StyledTab = styled(Tab)(({ theme }) => ({
+    color: `${theme.palette.primary.contrastText} !important`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+}));
+const StyledContainer = styled(Container)(({ theme }) => ({
+    margin: "5px 0",
+    overflow: "hidden",
+    padding: 0,
+}));
+const StyledTabs = styled(Tabs)(({ theme }) => ({
+    maxWidth: "calc(100vw)",
+}));
 
-function CharacterProgression({ classes, realmGroupName }) {
+function CharacterProgression({ realmGroupName }) {
     const {
         loading,
         error,
@@ -88,23 +92,23 @@ function CharacterProgression({ classes, realmGroupName }) {
     }, [selectedRaid, dispatch]);
 
     return (
-        <Container className={classes.container}>
+        <StyledContainer>
             <DifficultyTabs
                 options={difficulties}
                 selected={difficulty}
                 onChange={(e, difficulty) => setDifficulty(difficulty)}
             />
-            <Tabs
+            <StyledTabs
                 value={selectedRaid || currentContentName}
-                variant="fullWidth"
+                variant="scrollable"
                 indicatorColor="secondary"
+                allowScrollButtonsMobile
             >
                 {raids.map((raid) => (
-                    <Tab
+                    <StyledTab
                         value={raid.name}
                         key={raid.name}
                         label={raid.name}
-                        className={classes.tab}
                         style={{
                             backgroundImage: `url("${getRaidImg(raid.image)}")`,
                             backgroundSize: "cover",
@@ -112,7 +116,7 @@ function CharacterProgression({ classes, realmGroupName }) {
                         onClick={() => selectRaid(raid.name)}
                     />
                 ))}
-            </Tabs>
+            </StyledTabs>
             <Container>
                 {loading && <Loading />}
                 {!loading && error && (
@@ -150,10 +154,8 @@ function CharacterProgression({ classes, realmGroupName }) {
                         </Grid>
                     )}
             </Container>
-        </Container>
+        </StyledContainer>
     );
 }
 
-export default withRealmGroupName(
-    React.memo(withStyles(styles)(CharacterProgression))
-);
+export default withRealmGroupName(React.memo(CharacterProgression));

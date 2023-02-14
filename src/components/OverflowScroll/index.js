@@ -1,27 +1,16 @@
 import React from "react";
-import { withStyles } from "@mui/styles";
+import { styled } from "@mui/styles";
 
-function styles(theme) {
-    return {
-        overflowScroll: {
-            overflowX: "scroll",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": {
-                display: "none"
-            }
-        }
-    };
-}
+const Container = styled("div")(({ theme }) => ({
+    overflowX: "scroll",
+    scrollbarWidth: "none",
+    "&::-webkit-scrollbar": {
+        display: "none",
+    },
+}));
 
 function OverflowScroll({ classes, children, ...props }) {
-    return (
-        <div
-            {...props}
-            className={`${classes.overflowScroll} ${props.className}`}
-        >
-            {children}
-        </div>
-    );
+    return <Container {...props}>{children}</Container>;
 }
 
-export default withStyles(styles)(OverflowScroll);
+export default OverflowScroll;
