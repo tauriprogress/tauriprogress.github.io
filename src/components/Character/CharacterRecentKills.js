@@ -1,39 +1,35 @@
 import React from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-
-import withStyles from '@mui/styles/withStyles';
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import Typography from "@mui/material/Typography";
 
-import Loading from "../Loading";
-import ErrorMessage from "../ErrorMessage";
-import RecentKills from "../RecentKills";
+import { styled } from "@mui/material";
 import { characterRecentKillsFetch } from "../../redux/actions";
 import {
     characterNameSelector,
     characterRealmSelector,
-    characterRecentKillsEntireSelector
+    characterRecentKillsEntireSelector,
 } from "../../redux/selectors";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
+import RecentKills from "../RecentKills";
 
-function styles(theme) {
-    return {
-        container: {
-            padding: `${theme.spacing(4)} ${theme.spacing(1)}`
-        },
-        recentKills: {
-            maxWidth: "500px",
-            margin: "auto"
-        }
-    };
-}
+const Container = styled("div")(({ theme }) => ({
+    padding: `${theme.spacing(4)} ${theme.spacing(1)}`,
+}));
+
+const CustomRecentKills = styled(RecentKills)(({ theme }) => ({
+    maxWidth: "500px",
+    margin: "auto",
+}));
 
 function CharacterRecentKills({ classes }) {
     const dispatch = useDispatch();
     const { loading, error, data, realm, characterName } = useSelector(
-        state => ({
+        (state) => ({
             ...characterRecentKillsEntireSelector(state),
             realm: characterRealmSelector(state),
-            characterName: characterNameSelector(state)
+            characterName: characterNameSelector(state),
         }),
         shallowEqual
     );
@@ -41,12 +37,8 @@ function CharacterRecentKills({ classes }) {
     const logs = data ? data.logs : [];
 
     return (
-        <div className={classes.container}>
-            <RecentKills
-                logs={logs}
-                realm={realm}
-                className={classes.recentKills}
-            >
+        <Container>
+            <CustomRecentKills logs={logs} realm={realm}>
                 <Typography variant="h6">Recent Kills</Typography>
                 {(() => {
                     if (loading) {
@@ -59,7 +51,7 @@ function CharacterRecentKills({ classes }) {
                                     dispatch(
                                         characterRecentKillsFetch({
                                             characterName,
-                                            realm
+                                            realm,
                                         })
                                     )
                                 }
@@ -71,9 +63,9 @@ function CharacterRecentKills({ classes }) {
                         return null;
                     }
                 })()}
-            </RecentKills>
-        </div>
+            </CustomRecentKills>
+        </Container>
     );
 }
 
-export default withStyles(styles)(CharacterRecentKills);
+export default CharacterRecentKills;
