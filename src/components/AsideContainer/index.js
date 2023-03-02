@@ -1,40 +1,36 @@
-import React from "react";
+import styled from "@emotion/styled";
 
-import { withStyles } from "@mui/styles";
+const Container = styled("div")(({ theme }) => ({
+    maxWidth: "100vw",
+    display: "flex",
+    [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+        flexWrap: "wrap",
+    },
+}));
 
-function styles(theme) {
-    return {
-        container: {
-            maxWidth: "100vw",
-            display: "flex",
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                flexWrap: "wrap"
-            }
-        },
-        itemOne: {
-            [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
-                margin: "auto"
-            },
-            width: "260px",
-            textAlign: "center"
-        },
-        itemTwo: {
-            flexGrow: 1,
-            margin: `0 ${theme.spacing(1)}`,
-            overflow: "hidden"
-        }
-    };
-}
+const Aside = styled("aside")(({ theme }) => ({
+    [`@media (max-width: ${theme.breakpoints.values.sm}px)`]: {
+        margin: "auto",
+    },
+    width: "260px",
+    textAlign: "center",
+}));
+
+const Section = styled("section")(({ theme }) => ({
+    flexGrow: 1,
+    margin: `0 ${theme.spacing(1)}`,
+    overflow: "hidden",
+}));
 
 function AsideContainer({ classes, AsideComponent, children, ...rest }) {
     return (
-        <div {...rest} className={`${classes.container} ${rest.className}`}>
-            <aside className={classes.itemOne}>
+        <Container {...rest}>
+            <Aside>
                 <AsideComponent />
-            </aside>
-            <section className={classes.itemTwo}>{children}</section>
-        </div>
+            </Aside>
+            <Section>{children}</Section>
+        </Container>
     );
 }
 
-export default withStyles(styles)(AsideContainer);
+export default AsideContainer;
