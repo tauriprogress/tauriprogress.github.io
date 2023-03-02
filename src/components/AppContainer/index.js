@@ -3,7 +3,7 @@ import React from "react";
 import Header from "../Header";
 import SideNavigation from "../SideNavigation";
 import OverflowScroll from "../OverflowScroll";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material";
 
 const PageContentContainer = styled("div")({
     width: "100%",
