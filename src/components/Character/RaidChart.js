@@ -1,74 +1,64 @@
-import { characterClassSpecs } from "tauriprogress-constants";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { characterClassSpecs } from "tauriprogress-constants";
 
-import withTheme from "@mui/styles/withTheme";
-import withStyles from "@mui/styles/withStyles";
-
-import Grid from "@mui/material/Grid";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import SelectAll from "@mui/icons-material/SelectAll";
-import IconMissing from "@mui/icons-material/NotInterested";
 import IconTotal from "@mui/icons-material/BarChart";
+import IconMissing from "@mui/icons-material/NotInterested";
+import SelectAll from "@mui/icons-material/SelectAll";
+import Grid from "@mui/material/Grid";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 
 import LogLink from "../LogLink";
-import { PerfChartContainer, PerfChartTitle, PerfChartRow } from "../PerfChart";
+import { PerfChartContainer, PerfChartRow, PerfChartTitle } from "../PerfChart";
 
 import {
-    environmentRaidsSelector,
-    environmentCharacterSpecsSelector,
     environmentCharacterClassNamesSelector,
+    environmentCharacterSpecsSelector,
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 
 import {
-    getSpecImg,
-    getClassImg,
-    shortNumber,
     capitalize,
+    getClassImg,
+    getSpecImg,
+    shortNumber,
 } from "../../helpers";
 
-function styles(theme) {
-    return {
-        container: {
-            marginTop: "3px",
-            width: "280px",
-        },
-        specIcon: {
-            maxWidth: "100%",
-            maxHeight: "100%",
-        },
-        iconTabContainer: {
-            minHeight: "25px !important",
-        },
-        iconTab: {
-            width: "25px",
-            height: "25px",
-            minWidth: "25px !important",
-            minHeight: "25px !important",
-            padding: "0px",
-        },
-        listItem: {
-            padding: "0px",
-        },
-        link: {
-            "&:hover *": {
-                color: `${theme.palette.secondary.main} !important`,
-            },
-        },
-    };
-}
+import { styled, useTheme } from "@mui/material";
 
-function RaidChart({
-    data,
-    characterClass,
-    raidName,
-    classes,
-    theme,
-    variant = "dps",
-}) {
+const Container = styled(PerfChartContainer)(({ theme }) => ({
+    marginTop: "3px",
+    width: "280px",
+}));
+const SpecIcon = styled("img")(({ theme }) => ({
+    maxWidth: "100%",
+    maxHeight: "100%",
+}));
+const CustomSelectAll = styled(SelectAll)(({ theme }) => ({
+    maxWidth: "100%",
+    maxHeight: "100%",
+}));
+const IconTabContainer = styled(Tabs)(({ theme }) => ({
+    minHeight: "25px !important",
+}));
+const IconTab = styled(Tab)(({ theme }) => ({
+    width: "25px",
+    height: "25px",
+    minWidth: "25px !important",
+    minHeight: "25px !important",
+    padding: "0px",
+}));
+const Link = styled(LogLink)(({ theme }) => ({
+    "&:hover *": {
+        color: `${theme.palette.secondary.main} !important`,
+    },
+}));
+
+function RaidChart({ data, characterClass, raidName, variant = "dps" }) {
+    const theme = useTheme();
     const { classColors } = theme.palette;
     const { raids, specs, characterClassNames } = useSelector(
         (state) => ({
@@ -100,7 +90,7 @@ function RaidChart({
     }
 
     return (
-        <PerfChartContainer className={classes.container}>
+        <Container>
             <PerfChartTitle>
                 <Grid container wrap="nowrap" justifyContent="space-between">
                     <Grid item>
@@ -109,28 +99,22 @@ function RaidChart({
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Tabs
+                        <IconTabContainer
                             value={spec}
                             onChange={(e, spec) => setSpec(spec)}
                             variant="fullWidth"
                             indicatorColor="secondary"
-                            className={classes.iconTabContainer}
                         >
-                            <Tab
-                                className={classes.iconTab}
+                            <IconTab
                                 value="all"
                                 icon={
                                     <Tooltip title="All specs">
-                                        <SelectAll
-                                            className={classes.specIcon}
-                                            alt=""
-                                        />
+                                        <CustomSelectAll alt="" />
                                     </Tooltip>
                                 }
                             />
 
-                            <Tab
-                                className={classes.iconTab}
+                            <IconTab
                                 value="class"
                                 icon={
                                     <Tooltip
@@ -138,8 +122,7 @@ function RaidChart({
                                             characterClassNames[characterClass]
                                         }
                                     >
-                                        <img
-                                            className={classes.specIcon}
+                                        <SpecIcon
                                             src={getClassImg(characterClass)}
                                             alt=""
                                         />
@@ -148,14 +131,12 @@ function RaidChart({
                             />
 
                             {iconSpecs.map((specInfo) => (
-                                <Tab
+                                <IconTab
                                     key={specInfo.id}
                                     value={specInfo.id}
-                                    className={classes.iconTab}
                                     icon={
                                         <Tooltip title={specInfo.label}>
-                                            <img
-                                                className={classes.specIcon}
+                                            <SpecIcon
                                                 src={getSpecImg(specInfo.image)}
                                                 alt=""
                                             />
@@ -163,7 +144,7 @@ function RaidChart({
                                     }
                                 />
                             ))}
-                        </Tabs>
+                        </IconTabContainer>
                     </Grid>
                 </Grid>
             </PerfChartTitle>
@@ -211,10 +192,9 @@ function RaidChart({
                 return (
                     <React.Fragment key={boss.name}>
                         {characterData[variant] ? (
-                            <LogLink
+                            <Link
                                 logId={characterData.logId}
                                 realm={characterData.realm}
-                                className={classes.link}
                             >
                                 <PerfChartRow
                                     Icon={
@@ -237,7 +217,7 @@ function RaidChart({
                                             .background
                                     }
                                 />
-                            </LogLink>
+                            </Link>
                         ) : (
                             <PerfChartRow
                                 Icon={
@@ -252,8 +232,8 @@ function RaidChart({
                     </React.Fragment>
                 );
             })}
-        </PerfChartContainer>
+        </Container>
     );
 }
 
-export default withStyles(styles)(withTheme(RaidChart));
+export default RaidChart;
