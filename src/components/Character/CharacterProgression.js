@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import Container from "@mui/material/Container";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 
 import Grid from "@mui/material/Grid";
 
-import Loading from "../Loading";
-import ErrorMessage from "../ErrorMessage";
 import BaseDifficultyTabs from "../DifficultyTabs";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 import RaidChart from "./RaidChart";
 
+import { getDefaultDifficulty, getRaidImg } from "../../helpers";
 import { displayHealing, getDifficulties } from "./helpers";
-import { getRaidImg, getDefaultDifficulty } from "../../helpers";
 
+import styled from "@emotion/styled";
 import {
     characterProgressionFetch,
     characterProgressionSetRaid,
@@ -22,13 +23,12 @@ import {
 import {
     characterClassSelector,
     characterNameSelector,
-    characterRealmSelector,
     characterProgressionEntireSelector,
-    environmentRaidsSelector,
+    characterRealmSelector,
     environmentCurrentRaidNameSelector,
+    environmentRaidsSelector,
 } from "../../redux/selectors";
 import { withRealmGroupName } from "../Router/withRealmGroupName";
-import styled from "@emotion/styled";
 
 const DifficultyTabs = styled(BaseDifficultyTabs)(({ theme }) => ({
     marginLeft: "40px",
