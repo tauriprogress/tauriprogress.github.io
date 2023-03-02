@@ -1,31 +1,24 @@
-import React from "react";
-
-import withStyles from '@mui/styles/withStyles';
-
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material";
 
-function styles(theme) {
-    return {
-        rank: {
-            minWidth: "50px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "right",
-            padding: `0 ${theme.spacing(3)} 0 ${theme.spacing(2)}`
-        }
-    };
-}
+const RankGrid = styled(Grid)(({ theme }) => ({
+    minWidth: "50px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "right",
+    padding: `0 ${theme.spacing(3)} 0 ${theme.spacing(2)}`,
+}));
 
-function AlignedRankDisplay({ classes, children, rank, className }) {
+function AlignedRankDisplay({ children, rank, className }) {
     return (
         <Grid container wrap="nowrap" className={className}>
-            <Grid item className={`${classes.rank}`}>
+            <RankGrid item>
                 <Typography color="inherit">{rank}.</Typography>
-            </Grid>
+            </RankGrid>
             <Grid item>{children}</Grid>
         </Grid>
     );
 }
 
-export default withStyles(styles)(AlignedRankDisplay);
+export default AlignedRankDisplay;
