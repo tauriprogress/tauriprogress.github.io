@@ -2,9 +2,6 @@ import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
 
-import withStyles from "@mui/styles/withStyles";
-import withTheme from "@mui/styles/withTheme";
-
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Grid from "@mui/material/Grid";
@@ -18,38 +15,38 @@ import {
     characterDataIncompleteItemsSelector,
     environmentIconUrlSelector,
 } from "../../redux/selectors";
+import { styled, useTheme } from "@mui/material";
 
-function styles(theme) {
-    return {
-        icon: {
-            position: "relative",
-            lineHeight: 1,
-            width: "36px",
-            height: "36px",
-            border: "1px solid #333",
-            backgroundSize: "123% 123%",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-        },
-        textContainer: {
-            alignItems: "center",
-            display: "flex",
-            overflow: "hidden",
-            padding: `0 ${theme.spacing(0.5)}`,
-        },
-        itemName: {
-            lineHeight: 1,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-        },
-        itemLevel: {
-            fontSize: `${12 / 16}rem`,
-        },
-    };
-}
+const Icon = styled("div")(() => ({
+    position: "relative",
+    lineHeight: 1,
+    width: "36px",
+    height: "36px",
+    border: "1px solid #333",
+    backgroundSize: "123% 123%",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+}));
 
-function CharacterItems({ classes, theme }) {
+const TextContainer = styled(Grid)(({ theme }) => ({
+    alignItems: "center",
+    display: "flex",
+    overflow: "hidden",
+    padding: `0 ${theme.spacing(0.5)}`,
+}));
+const ItemName = styled(Typography)(() => ({
+    lineHeight: 1,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+}));
+
+const ItemLevel = styled(Typography)(() => ({
+    fontSize: `${12 / 16}rem`,
+}));
+
+function CharacterItems() {
+    const theme = useTheme();
     const { characterItems, iconUrl, realm } = useSelector(
         (state) => ({
             characterItems: characterDataIncompleteItemsSelector(state),
@@ -75,14 +72,8 @@ function CharacterItems({ classes, theme }) {
                                 >
                                     <ListItem>
                                         <Grid container wrap="nowrap">
-                                            <Grid
-                                                item
-                                                className={
-                                                    classes.iconContainer
-                                                }
-                                            >
-                                                <div
-                                                    className={classes.icon}
+                                            <Grid item>
+                                                <Icon
                                                     style={{
                                                         backgroundImage: `url(${iconUrl}/medium/${item.icon}.png)`,
                                                         borderColor:
@@ -93,21 +84,13 @@ function CharacterItems({ classes, theme }) {
                                                     }}
                                                 />
                                             </Grid>
-                                            <Grid
-                                                item
-                                                className={
-                                                    classes.textContainer
-                                                }
-                                            >
+                                            <TextContainer item>
                                                 <div
                                                     style={{
                                                         overflow: "hidden",
                                                     }}
                                                 >
-                                                    <Typography
-                                                        className={
-                                                            classes.itemName
-                                                        }
+                                                    <ItemName
                                                         style={{
                                                             color: theme.palette
                                                                 .qualityColors[
@@ -116,17 +99,12 @@ function CharacterItems({ classes, theme }) {
                                                         }}
                                                     >
                                                         {item.name}
-                                                    </Typography>
-                                                    <Typography
-                                                        color="textSecondary"
-                                                        className={
-                                                            classes.itemLevel
-                                                        }
-                                                    >
+                                                    </ItemName>
+                                                    <ItemLevel color="textSecondary">
                                                         {item.ilevel}
-                                                    </Typography>
+                                                    </ItemLevel>
                                                 </div>
-                                            </Grid>
+                                            </TextContainer>
                                         </Grid>
                                     </ListItem>
                                 </CharacterItemTooltip>
@@ -139,4 +117,4 @@ function CharacterItems({ classes, theme }) {
     );
 }
 
-export default withStyles(styles)(withTheme(CharacterItems));
+export default CharacterItems;
