@@ -1,52 +1,47 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-
 import MetaDataList from "../MetaDataList";
 
+import { styled } from "@mui/material";
 import { characterDataSelector } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        container: {
-            margin: "0 10px",
-            maxWidth: "260px"
-        },
-        metaDataList: {
-            margin: "0px"
-        }
-    };
-}
+const Container = styled("div")(({ theme }) => ({
+    margin: "0 10px",
+    maxWidth: "260px",
+}));
+const CustomMetaDataList = styled(MetaDataList)(({ theme }) => ({
+    margin: "0px",
+}));
 
-function CharacterStats({ classes }) {
+function CharacterStats() {
     const data = useSelector(characterDataSelector);
 
     const general = [
         { label: "Achievements", value: data && data.pts },
         { label: "Level", value: data && data.level },
-        { label: "Ilvl", value: data && data.avgitemlevel }
+        { label: "Ilvl", value: data && data.avgitemlevel },
     ];
 
     const primaryStats = [
         { label: "Armor", value: data && data.characterStat.effective_armor },
         {
             label: "Stamina",
-            value: data && data.characterStat.effective_stamina
+            value: data && data.characterStat.effective_stamina,
         },
         {
             label: "Strength",
-            value: data && data.characterStat.effective_strength
+            value: data && data.characterStat.effective_strength,
         },
         {
             label: "Agility",
-            value: data && data.characterStat.effective_agility
+            value: data && data.characterStat.effective_agility,
         },
         {
             label: "Intellect",
-            value: data && data.characterStat.effective_intellect
+            value: data && data.characterStat.effective_intellect,
         },
-        { label: "Spirit", value: data && data.characterStat.effective_spirit }
+        { label: "Spirit", value: data && data.characterStat.effective_spirit },
     ];
     const secondaryStats = [
         {
@@ -54,42 +49,36 @@ function CharacterStats({ classes }) {
             value:
                 data &&
                 data.characterStat.bonus_strength_attackpower +
-                    data.characterStat.bonus_agility_attackpower
+                    data.characterStat.bonus_agility_attackpower,
         },
         { label: "Spell power", value: data && data.characterStat.heal_bonus },
         { label: "Hit", value: data && data.characterStat.melee_hit_rating },
         { label: "Crit", value: data && data.characterStat.melee_crit_rating },
         {
             label: "Haste",
-            value: data && data.characterStat.hasterating_melee_dmg
+            value: data && data.characterStat.hasterating_melee_dmg,
         },
         { label: "Mastery", value: data && data.characterStat.mastery_rating },
         {
             label: "Dodge",
-            value: data && data.characterStat.dodge_chance + "%"
+            value: data && data.characterStat.dodge_chance + "%",
         },
-        { label: "Parry", value: data && data.characterStat.parry_chance + "%" }
+        {
+            label: "Parry",
+            value: data && data.characterStat.parry_chance + "%",
+        },
     ];
 
     return (
-        <div className={`${classes.container}`}>
-            <MetaDataList
-                title="General"
-                values={general}
-                className={classes.metaDataList}
-            />
-            <MetaDataList
-                title="Primary Stats"
-                values={primaryStats}
-                className={classes.metaDataList}
-            />
-            <MetaDataList
+        <Container>
+            <CustomMetaDataList title="General" values={general} />
+            <CustomMetaDataList title="Primary Stats" values={primaryStats} />
+            <CustomMetaDataList
                 title="Secondary Stats"
                 values={secondaryStats}
-                className={classes.metaDataList}
             />
-        </div>
+        </Container>
     );
 }
 
-export default withStyles(styles)(CharacterStats);
+export default CharacterStats;
