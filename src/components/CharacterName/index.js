@@ -17,8 +17,8 @@ function CharacterName({
     realmName,
     specIcon,
     specIconTitle,
-    raceIconClass = "",
-    specIconClass = "",
+    raceIconStyles = {},
+    specIconStyles = {},
     linkTo,
     ...rest
 }) {
@@ -35,13 +35,13 @@ function CharacterName({
             <Avatar
                 src={specIcon || getSpecImg(specImageName)}
                 title={specIconTitle || specTitle}
-                className={specIconClass}
+                sx={raceIconStyles}
             />
 
             <Avatar
                 src={getRaceImg(character.race)}
                 title={getRaceName(character.race)}
-                className={`${raceIconClass}`}
+                sx={specIconStyles}
             />
 
             {(() => {

@@ -67,22 +67,18 @@ function CharacterTitle() {
         marginRight: theme.spacing(0.4),
     };
 
-    const character = {
-        name: data.tname || data.name,
-        spec: talentTreeToSpec(fullSpecName, specs),
-        race: `${data.race},${data.gender}`,
-        class: data.class,
-    };
-
-    console.log(character);
-
     return (
         <CustomContainer>
             <CharacterNameContainer variant="h4">
                 <CharacterName
-                    character={character}
-                    specIconClass={avatarStyle}
-                    raceIconClass={avatarStyle}
+                    character={{
+                        name: data.tname || data.name,
+                        spec: talentTreeToSpec(fullSpecName, specs),
+                        race: `${data.race},${data.gender}`,
+                        class: data.class,
+                    }}
+                    specIconStyles={avatarStyle}
+                    raceIconStyles={avatarStyle}
                     linkTo={
                         armoryUrl
                             ? `${armoryUrl}?${data.character_url_string.replace(
