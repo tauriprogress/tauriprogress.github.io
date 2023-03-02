@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 
 const Container = styled("div")(({ theme }) => ({
     maxWidth: "100vw",
