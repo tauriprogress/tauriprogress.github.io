@@ -1,17 +1,14 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withStyles from "@mui/styles/withStyles";
-import withTheme from "@mui/styles/withTheme";
-
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-import CharacterName from "../CharacterName";
 import Avatar from "../Avatar";
+import CharacterName from "../CharacterName";
 import Link from "../Link";
 
-import { talentTreeToSpec, getFactionImg } from "../../helpers";
+import { getFactionImg, talentTreeToSpec } from "../../helpers";
 import {
     characterDataSelector,
     environmentArmoryUrlSelector,
@@ -19,36 +16,30 @@ import {
     environmentCharacterSpecsSelector,
 } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        characterName: {
-            paddingBottom: 0,
-            lineHeight: 1,
-        },
-        guildName: {
-            paddingTop: 0,
-            paddingBottom: theme.spacing(1),
-            display: "block",
-            lineHeight: 1,
-        },
-        container: {
-            textAlign: "center",
-        },
-        avatar: {
-            width: "30px",
-            height: "30px",
-            transform: "translate(0, -4px)",
-            marginRight: theme.spacing(0.4),
-        },
-        characterMetaData: {
-            padding: 0,
-            fontSize: `${12 / 16}rem`,
-            lineHeight: 1,
-        },
-    };
-}
+import { styled, useTheme } from "@mui/material";
 
-function CharacterTitle({ classes, theme }) {
+const CustomContainer = styled(Container)(({ theme }) => ({
+    textAlign: "center",
+}));
+
+const CharacterNameContainer = styled(Typography)(({ theme }) => ({
+    paddingBottom: 0,
+    lineHeight: 1,
+}));
+const GuildName = styled(Typography)(({ theme }) => ({
+    paddingTop: 0,
+    paddingBottom: theme.spacing(1),
+    display: "block",
+    lineHeight: 1,
+}));
+const CharacterMetaData = styled(Typography)(({ theme }) => ({
+    padding: 0,
+    fontSize: `${12 / 16}rem`,
+    lineHeight: 1,
+}));
+
+function CharacterTitle() {
+    const theme = useTheme();
     const { data, armoryUrl, characterClassNames, specs } = useSelector(
         (state) => ({
             data: characterDataSelector(state),
@@ -69,18 +60,29 @@ function CharacterTitle({ classes, theme }) {
         characterClassNames[data.class]
     }`;
 
+    const avatarStyle = {
+        width: "30px",
+        height: "30px",
+        transform: "translate(0, -4px)",
+        marginRight: theme.spacing(0.4),
+    };
+
+    const character = {
+        name: data.tname || data.name,
+        spec: talentTreeToSpec(fullSpecName, specs),
+        race: `${data.race},${data.gender}`,
+        class: data.class,
+    };
+
+    console.log(character);
+
     return (
-        <Container className={classes.container}>
-            <Typography variant="h4" className={classes.characterName}>
+        <CustomContainer>
+            <CharacterNameContainer variant="h4">
                 <CharacterName
-                    character={{
-                        name: data.tname || data.name,
-                        spec: talentTreeToSpec(fullSpecName, specs),
-                        race: `${data.race},${data.gender}`,
-                        class: data.class,
-                    }}
-                    specIconClass={classes.avatar}
-                    raceIconClass={classes.avatar}
+                    character={character}
+                    specIconClass={avatarStyle}
+                    raceIconClass={avatarStyle}
                     linkTo={
                         armoryUrl
                             ? `${armoryUrl}?${data.character_url_string.replace(
@@ -92,8 +94,8 @@ function CharacterTitle({ classes, theme }) {
                     target="_blank"
                     rel="noopener noreferrer"
                 />
-            </Typography>
-            <Typography variant="button" className={classes.guildName}>
+            </CharacterNameContainer>
+            <GuildName variant="button">
                 <Link
                     color="inherit"
                     to={`/guild/${data.guildName}?realm=${data.realm}`}
@@ -106,11 +108,8 @@ function CharacterTitle({ classes, theme }) {
                 >
                     {data.guildName}
                 </Link>
-            </Typography>
-            <Typography
-                className={classes.characterMetaData}
-                color="textSecondary"
-            >
+            </GuildName>
+            <CharacterMetaData color="textSecondary">
                 <span
                     style={{
                         color:
@@ -130,9 +129,9 @@ function CharacterTitle({ classes, theme }) {
                 {data.realm}
                 <br />
                 LEVEL {data.level}, ILVL {data.avgitemlevel}
-            </Typography>
-        </Container>
+            </CharacterMetaData>
+        </CustomContainer>
     );
 }
 
-export default withStyles(styles)(withTheme(CharacterTitle));
+export default CharacterTitle;
