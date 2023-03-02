@@ -1,40 +1,43 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import queryString from "query-string";
-
-import withStyles from "@mui/styles/withStyles";
+import React, { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { validateRealm } from "../Router/validateRealm";
 
 import Grid from "@mui/material/Grid";
 
-import Page from "../Page";
+import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-import CharacterTitle from "./CharacterTitle";
-import CharacterStats from "./CharacterStats";
+import Page from "../Page";
+import SelectRealm from "../SelectRealm";
+import CharacterItems from "./CharacterItems";
 import CharacterProgression from "./CharacterProgression";
 import CharacterRecentKills from "./CharacterRecentKills";
-import CharacterItems from "./CharacterItems";
-import SelectRealm from "../SelectRealm";
-import ErrorMessage from "../ErrorMessage";
+import CharacterStats from "./CharacterStats";
+import CharacterTitle from "./CharacterTitle";
 
 import { characterDataFetch } from "../../redux/actions";
 
+import { useLocation, useRouteMatch } from "react-router-dom";
 import { capitalize } from "../../helpers";
 import {
     characterDataErrorSelector,
     characterDataLoadingSelector,
 } from "../../redux/selectors";
-import { useLocation, useRouteMatch } from "react-router-dom";
 
-function styles() {
-    return {
-        gridContainer: { margin: "10px auto", maxWidth: "1300px" },
-        progContainer: { flex: 1, maxWidth: "650px" },
-    };
-}
+import { styled } from "@mui/material";
 
-function Character({ classes }) {
+const GridContainer = styled(Grid)(({ theme }) => ({
+    margin: "10px auto",
+    maxWidth: "1300px",
+}));
+
+const ProgContainer = styled(Grid)(({ theme }) => ({
+    flex: 1,
+    maxWidth: "650px",
+}));
+
+function Character() {
     const location = useLocation();
     const match = useRouteMatch();
     const characterName = match.params.characterName;
@@ -82,21 +85,17 @@ function Character({ classes }) {
                 ) : (
                     <React.Fragment>
                         <CharacterTitle />
-                        <Grid
-                            container
-                            className={classes.gridContainer}
-                            justifyContent="space-around"
-                        >
+                        <GridContainer container justifyContent="space-around">
                             <Grid item>
                                 <CharacterStats />
                             </Grid>
-                            <Grid item className={classes.progContainer}>
+                            <ProgContainer item>
                                 <CharacterProgression />
-                            </Grid>
+                            </ProgContainer>
                             <Grid item>
                                 <CharacterItems />
                             </Grid>
-                        </Grid>
+                        </GridContainer>
                         <CharacterRecentKills />
                     </React.Fragment>
                 )}
@@ -105,10 +104,8 @@ function Character({ classes }) {
     );
 }
 
-export default withStyles(styles)(
-    validateRealm()(
-        React.memo(Character, (prevProps, nextProps) => {
-            return JSON.stringify(prevProps) === JSON.stringify(nextProps);
-        })
-    )
+export default validateRealm()(
+    React.memo(Character, (prevProps, nextProps) => {
+        return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+    })
 );
