@@ -1,34 +1,22 @@
 import React from "react";
 
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-
-import withStyles from "@mui/styles/withStyles";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import Tooltip from "@mui/material/Tooltip";
 
 import ItemTooltipText from "../ItemTooltipText";
 
+import { useTheme } from "@mui/material";
 import { characterItemsFetch } from "../../redux/actions";
 import {
+    characteritemsErrorSelector,
     characterItemsItemSelector,
     characterItemsLoadingSelector,
-    characteritemsErrorSelector,
     environmentIconUrlSelector,
 } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        tooltip: {
-            padding: theme.spacing(1),
-            border: "1px solid black",
-            fontSize: `${12 / 16}rem`,
-            width: "260px",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-        },
-    };
-}
-
-function ItemTooltip({ classes, children, itemMeta, realm }) {
+function ItemTooltip({ children, itemMeta, realm }) {
+    const theme = useTheme();
     const { loading, error, item, iconUrl } = useSelector(
         (state) => ({
             item: characterItemsItemSelector(state, itemMeta.guid),
@@ -64,7 +52,13 @@ function ItemTooltip({ classes, children, itemMeta, realm }) {
             <Tooltip
                 onOpen={onOpen}
                 classes={{
-                    tooltip: classes.tooltip,
+                    tooltip: {
+                        padding: theme.spacing(1),
+                        border: "1px solid black",
+                        fontSize: `${12 / 16}rem`,
+                        width: "260px",
+                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    },
                 }}
                 placement={window.innerWidth > 600 ? "left" : "bottom"}
                 title={
@@ -84,4 +78,4 @@ function ItemTooltip({ classes, children, itemMeta, realm }) {
     );
 }
 
-export default withStyles(styles)(ItemTooltip);
+export default ItemTooltip;
