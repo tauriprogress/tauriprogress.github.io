@@ -1,17 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import Typography from "@mui/material/Typography";
+import { Avatar, useTheme } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 import { getClassImg, getFactionImg } from "../../helpers";
-import { Avatar } from "@mui/material";
-import withTheme from "@mui/styles/withTheme";
 import CharacterName from "../CharacterName";
 
 import { environmentCharacterClassNamesSelector } from "../../redux/selectors";
 
-function CharacterLeaderboardList({ data = [], theme }) {
+function CharacterLeaderboardList({ data = [] }) {
+    const theme = useTheme();
     const characterClassNames = useSelector(
         environmentCharacterClassNamesSelector
     );
@@ -60,4 +60,4 @@ function CharacterLeaderboardList({ data = [], theme }) {
     });
 }
 
-export default withTheme(React.memo(CharacterLeaderboardList));
+export default React.memo(CharacterLeaderboardList);
