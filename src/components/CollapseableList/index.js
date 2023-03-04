@@ -1,34 +1,32 @@
 import React, { useState } from "react";
 
-import withStyles from '@mui/styles/withStyles';
-
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Collapse from "@mui/material/Collapse";
 import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-function styles(theme) {
-    return {
-        list: {
-            "& li": {
-                paddingLeft: theme.spacing(2),
-                paddingRight: theme.spacing(1)
-            }
-        },
-        title: {
-            padding: theme.spacing(1),
-            "& *": {
-                fontWeight: "bold"
-            }
-        },
-        divider: {
-            backgroundColor: theme.palette.secondary.main
-        }
-    };
-}
+import { styled } from "@mui/material";
+
+const CustomList = styled(List)(({ theme }) => ({
+    "& li": {
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(1),
+    },
+}));
+
+const Title = styled(ListItemButton)(({ theme }) => ({
+    padding: theme.spacing(1),
+    "& *": {
+        fontWeight: "bold",
+    },
+}));
+
+const CustomDivider = styled(Divider)(({ theme }) => ({
+    backgroundColor: theme.palette.secondary.main,
+}));
 
 function CollapseableList({
     classes,
@@ -40,21 +38,17 @@ function CollapseableList({
     const [open, setOpen] = useState(defaultState);
     return (
         <React.Fragment>
-            <ListItem
-                onClick={() => setOpen(!open)}
-                button
-                className={classes.title}
-            >
+            <Title onClick={() => setOpen(!open)}>
                 {listTitle} {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Divider className={classes.divider} />
+            </Title>
+            <CustomDivider />
             <Collapse in={open} timeout="auto" {...rest}>
-                <List component="ul" disablePadding className={classes.list}>
+                <CustomList component="ul" disablePadding>
                     {children}
-                </List>
+                </CustomList>
             </Collapse>
         </React.Fragment>
     );
 }
 
-export default withStyles(styles)(CollapseableList);
+export default CollapseableList;
