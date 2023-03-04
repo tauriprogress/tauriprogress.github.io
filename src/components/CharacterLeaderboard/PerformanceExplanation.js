@@ -1,58 +1,53 @@
-import React from "react";
-import withStyles from "@mui/styles/withStyles";
+import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import MuiDialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import React from "react";
 
 import InfoIcon from "../InfoIcon";
 
-function styles(theme) {
-    return {
-        titleContainer: {
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-        },
-        button: {
-            "&:hover": {
-                cursor: "pointer",
-            },
-        },
-        question: {
-            marginTop: "30px",
-            fontStyle: "italic",
-            fontWeight: "bold",
-        },
-        example: {
-            fontWeight: "bold",
-        },
-    };
-}
+import { styled } from "@mui/material";
 
-function DialogTitle({ children, classes, onClose, ...other }) {
+const TitleContainer = styled(MuiDialogTitle)(() => ({
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+}));
+const Question = styled(Typography)(() => ({
+    marginTop: "30px",
+    fontStyle: "italic",
+    fontWeight: "bold",
+}));
+
+const Example = styled("span")(() => ({
+    fontWeight: "bold",
+}));
+
+const CustomButton = styled("span")(() => ({
+    "&:hover": {
+        cursor: "pointer",
+    },
+}));
+
+function DialogTitle({ children, onClose, ...other }) {
     return (
-        <MuiDialogTitle
-            disableTypography
-            className={classes.titleContainer}
-            {...other}
-        >
-            <Typography variant="h6">{children}</Typography>
+        <TitleContainer {...other}>
+            {children}
             {onClose ? (
                 <IconButton aria-label="close" onClick={onClose} size="large">
                     <CloseIcon />
                 </IconButton>
             ) : null}
-        </MuiDialogTitle>
+        </TitleContainer>
     );
 }
 
-function PerformanceExplanation({ classes }) {
+function PerformanceExplanation() {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -65,19 +60,17 @@ function PerformanceExplanation({ classes }) {
     return (
         <div>
             <Tooltip title={"Click for details"}>
-                <span onClick={handleClickOpen} className={classes.button}>
+                <CustomButton onClick={handleClickOpen}>
                     <InfoIcon /> Score
-                </span>
+                </CustomButton>
             </Tooltip>
 
             <Dialog onClose={handleClose} open={open}>
-                <DialogTitle onClose={handleClose} classes={classes}>
-                    Score
-                </DialogTitle>
+                <DialogTitle onClose={handleClose}>Score</DialogTitle>
                 <DialogContent dividers>
-                    <Typography gutterBottom className={classes.question}>
+                    <Question gutterBottom>
                         How is the score calculated?
-                    </Typography>
+                    </Question>
                     <Typography gutterBottom>
                         On each boss comparing the character's dps/hps to the
                         best dps/hps of the boss, adding them together, then
@@ -87,9 +80,8 @@ function PerformanceExplanation({ classes }) {
                         score with the performance.
                     </Typography>
                     <Typography gutterBottom>
-                        <span className={classes.example}>Example:</span>{" "}
-                        current character dps of boss / best character dps of
-                        boss = relative performance
+                        <Example>Example:</Example> current character dps of
+                        boss / best character dps of boss = relative performance
                         <br />
                         1. boss: 10 dps / 100 dps = 10%
                         <br />
@@ -108,9 +100,9 @@ function PerformanceExplanation({ classes }) {
                         In this example there are only 4 bosses in the instance
                         and the current character didn't kill the last one.
                     </Typography>
-                    <Typography gutterBottom className={classes.question}>
+                    <Question gutterBottom>
                         Why not use average dps/hps?
-                    </Typography>
+                    </Question>
                     <Typography gutterBottom>
                         If average dps/hps would be used, then certain bosses
                         would contribute more to the overall performance of a
@@ -120,12 +112,11 @@ function PerformanceExplanation({ classes }) {
                         performance.
                     </Typography>
                     <Typography gutterBottom>
-                        <span className={classes.example}>Example:</span> On
-                        Wotlk Flame Leviathan you can achieve 300k+ dps, while
-                        on most other bosses it's less than 10k. If average dps
-                        is used then it would be enough to do really well on
-                        Flame Leviathan and the rest of the bosses wouldn't
-                        matter too much.
+                        <Example>Example:</Example> On Wotlk Flame Leviathan you
+                        can achieve 300k+ dps, while on most other bosses it's
+                        less than 10k. If average dps is used then it would be
+                        enough to do really well on Flame Leviathan and the rest
+                        of the bosses wouldn't matter too much.
                     </Typography>
                     <Typography gutterBottom>
                         This problem exists in other instances as well, but to a
@@ -142,4 +133,4 @@ function PerformanceExplanation({ classes }) {
     );
 }
 
-export default withStyles(styles)(PerformanceExplanation);
+export default PerformanceExplanation;
