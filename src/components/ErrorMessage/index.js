@@ -1,6 +1,6 @@
 import React from "react";
 
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/material";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";

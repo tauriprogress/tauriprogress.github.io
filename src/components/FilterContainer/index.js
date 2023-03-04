@@ -1,4 +1,4 @@
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/material";
 import Container from "@mui/material/Container";
 
 const FilterContainer = styled(Container)(({ theme }) => ({
