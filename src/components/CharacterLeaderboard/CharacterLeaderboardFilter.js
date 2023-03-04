@@ -1,64 +1,52 @@
 import React, { useEffect } from "react";
-
-import { characterSpecClass } from "tauriprogress-constants";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-
-import withTheme from "@mui/styles/withTheme";
-
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import FilterContainer from "../FilterContainer";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { getClassImg, getFactionImg, getRealmNames } from "../../helpers";
 
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FilterContainer from "../FilterContainer";
+import { Avatar, useTheme } from "@mui/material";
+
 import {
     characterLeaderboardSetFilter,
-    initFilterWithQuery,
     closeFilterWithQuery,
+    initFilterWithQuery,
 } from "../../redux/actions";
 import {
     characterLeaderboardFilterSelector,
-    environmentCharacterSpecsSelector,
-    environmentRealmsSelector,
     environmentCharacterClassNamesSelector,
     environmentDifficultyNamesSelector,
     environmentRaidsSelector,
+    environmentRealmsSelector,
 } from "../../redux/selectors";
-import { Avatar } from "@mui/material";
 
 export const FILTER_TYPE_CHARACTER_LB = "FILTER_TYPE_CHARACTER_LB";
 
-function CharacterLeaderboardFilter({ theme }) {
+function CharacterLeaderboardFilter() {
+    const { filter, realms, characterClassNames, difficultyNames, raids } =
+        useSelector(
+            (state) => ({
+                filter: characterLeaderboardFilterSelector(state),
+                realms: environmentRealmsSelector(state),
+                characterClassNames:
+                    environmentCharacterClassNamesSelector(state),
+                difficultyNames: environmentDifficultyNamesSelector(state),
+                raids: environmentRaidsSelector(state),
+            }),
+            shallowEqual
+        );
     const {
-        filter,
-        realms,
-        specs,
-        characterClassNames,
-        difficultyNames,
-        raids,
-    } = useSelector(
-        (state) => ({
-            filter: characterLeaderboardFilterSelector(state),
-            realms: environmentRealmsSelector(state),
-            specs: environmentCharacterSpecsSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state),
-            difficultyNames: environmentDifficultyNamesSelector(state),
-            raids: environmentRaidsSelector(state),
-        }),
-        shallowEqual
-    );
-
+        palette: { classColors, factionColors },
+    } = useTheme();
     const realmNames = getRealmNames(realms);
-    const difficulties = raids.reduce((acc, raid) => {
-        for (const difficulty of raid.difficulties) {
-            if (!acc.includes(difficulty)) {
-                acc.push(difficulty);
-            }
-        }
-        return acc;
-    }, []);
+
+    const classColor = getClassColor(filter, classColors);
+    const difficulties = getDifficulties(raids);
+    const classOptions = getClassOptions(characterClassNames, classColors);
+    const realmOptions = getRealmOptions(realmNames);
 
     const dispatch = useDispatch();
 
@@ -67,27 +55,77 @@ function CharacterLeaderboardFilter({ theme }) {
         return () => dispatch(closeFilterWithQuery());
     }, [dispatch]);
 
-    const {
-        palette: { classColors, factionColors },
-    } = theme;
-    let specOptions = [];
-    const classColor = filter.class
-        ? classColors[filter.class].text
-        : "inherit";
-    for (let specId in characterSpecClass) {
-        if (characterSpecClass[specId] === Number(filter.class)) {
-            if (specs[specId]) {
-                specOptions.push({
-                    value: specId,
-                    name: specs[specId].label,
-                    style: {
-                        color: classColors[filter.class].text,
-                    },
-                });
+    const selects = getSelects({
+        factionColors,
+        classColor,
+        filter,
+        difficulties,
+        difficultyNames,
+        classOptions,
+        realmOptions,
+        raids,
+    });
+
+    return (
+        <FilterContainer>
+            {selects.map((select) => (
+                <FormControl key={select.name}>
+                    <InputLabel>{select.name}</InputLabel>
+                    <Select
+                        label={select.name}
+                        style={select.style}
+                        value={filter[select.name]}
+                        onChange={(e) =>
+                            dispatch(
+                                characterLeaderboardSetFilter({
+                                    filterName: select.name,
+                                    value: e.target.value,
+                                })
+                            )
+                        }
+                        inputProps={{
+                            name: select.name,
+                            id: select.name,
+                        }}
+                    >
+                        {select.options.map((option) => (
+                            <MenuItem
+                                key={option.name}
+                                value={option.value}
+                                style={option.style}
+                            >
+                                {option.imageSrc && (
+                                    <Avatar
+                                        src={option.imageSrc}
+                                        variant="small"
+                                    />
+                                )}
+                                {option.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            ))}
+        </FilterContainer>
+    );
+}
+
+function getDifficulties(raids) {
+    return raids.reduce((acc, raid) => {
+        for (const difficulty of raid.difficulties) {
+            if (!acc.includes(difficulty)) {
+                acc.push(difficulty);
             }
         }
-    }
+        return acc;
+    }, []);
+}
 
+function getClassColor(filter, classColors) {
+    return filter.class ? classColors[filter.class].text : "inherit";
+}
+
+function getClassOptions(characterClassNames, classColors) {
     let classOptions = [];
     for (let classId in characterClassNames) {
         classOptions.push({
@@ -99,7 +137,10 @@ function CharacterLeaderboardFilter({ theme }) {
             },
         });
     }
+    return classOptions;
+}
 
+function getRealmOptions(realmNames) {
     let realmOptions = [];
     for (let realm of realmNames) {
         realmOptions.push({
@@ -107,6 +148,20 @@ function CharacterLeaderboardFilter({ theme }) {
             name: realm,
         });
     }
+
+    return realmOptions;
+}
+
+function getSelects({
+    factionColors,
+    classColor,
+    filter,
+    difficulties,
+    difficultyNames,
+    classOptions,
+    realmOptions,
+    raids,
+}) {
     let selects = [
         {
             name: "difficulty",
@@ -180,48 +235,7 @@ function CharacterLeaderboardFilter({ theme }) {
         });
     }
 
-    return (
-        <FilterContainer>
-            {selects.map((select) => (
-                <FormControl key={select.name}>
-                    <InputLabel>{select.name}</InputLabel>
-                    <Select
-                        label={select.name}
-                        style={select.style}
-                        value={filter[select.name]}
-                        onChange={(e) =>
-                            dispatch(
-                                characterLeaderboardSetFilter({
-                                    filterName: select.name,
-                                    value: e.target.value,
-                                })
-                            )
-                        }
-                        inputProps={{
-                            name: select.name,
-                            id: select.name,
-                        }}
-                    >
-                        {select.options.map((option) => (
-                            <MenuItem
-                                key={option.name}
-                                value={option.value}
-                                style={option.style}
-                            >
-                                {option.imageSrc && (
-                                    <Avatar
-                                        src={option.imageSrc}
-                                        variant="small"
-                                    />
-                                )}
-                                {option.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            ))}
-        </FilterContainer>
-    );
+    return selects;
 }
 
-export default React.memo(withTheme(CharacterLeaderboardFilter));
+export default React.memo(CharacterLeaderboardFilter);
