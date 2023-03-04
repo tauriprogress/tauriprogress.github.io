@@ -1,18 +1,14 @@
 import React from "react";
-
-import withTheme from "@mui/styles/withTheme";
 import { useSelector } from "react-redux";
 
+import { Link as RegularLink, useTheme } from "@mui/material";
 import Link from "../Link";
-import { Link as RegularLink } from "@mui/material";
-
 import Avatar from "../Avatar";
 
-import { getSpecImg, getRaceImg, getRaceName } from "../../helpers";
+import { getRaceImg, getRaceName, getSpecImg } from "../../helpers";
 import { environmentCharacterSpecsSelector } from "../../redux/selectors";
 
 function CharacterName({
-    theme,
     character,
     realmName,
     specIcon,
@@ -22,6 +18,7 @@ function CharacterName({
     linkTo,
     ...rest
 }) {
+    const theme = useTheme();
     const specs = useSelector(environmentCharacterSpecsSelector);
 
     const specImageName = character.spec
@@ -94,4 +91,4 @@ function CharacterName({
     );
 }
 
-export default withTheme(CharacterName);
+export default CharacterName;
