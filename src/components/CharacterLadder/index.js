@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { styled } from "@mui/system";
-
-import withTheme from "@mui/styles/withTheme";
+import React, { useEffect, useState } from "react";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
-
 import CharacterList from "./CharacterList";
-
 import InfoIcon from "../InfoIcon";
 import TablePaginationActions from "../TablePaginationActions";
-
-import OverflowScroll from "../OverflowScroll";
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
+import OverflowScroll from "../OverflowScroll";
+
+import { styled } from "@mui/material";
 
 const UppercaseTableCell = styled(TableCell)({
     textTransform: "uppercase",
@@ -98,4 +94,4 @@ function CharacterLadder({
     );
 }
 
-export default withTheme(CharacterLadder);
+export default CharacterLadder;

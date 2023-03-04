@@ -3,21 +3,20 @@ import React from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import LogLink from "../LogLink";
-import CharacterName from "../CharacterName";
 import { getFactionImg, shortNumber } from "../../helpers";
-
+import CharacterName from "../CharacterName";
+import LogLink from "../LogLink";
 import Talents from "../Talents";
-import { styled } from "@mui/system";
 import Trinket from "../Trinket";
-import { withTheme } from "@emotion/react";
-import { Avatar } from "@mui/material";
+
+import { Avatar, styled, useTheme } from "@mui/material";
 
 const NoWrap = styled("span")({
     whiteSpace: "nowrap",
 });
 
-function CharacterList({ data = [], combatMetric = "dps", theme }) {
+function CharacterList({ data = [], combatMetric = "dps" }) {
+    const theme = useTheme();
     return data.map((char, index) => {
         return (
             <TableRow key={index} hover>
@@ -80,4 +79,4 @@ function CharacterList({ data = [], combatMetric = "dps", theme }) {
     });
 }
 
-export default React.memo(withTheme(CharacterList));
+export default React.memo(CharacterList);
