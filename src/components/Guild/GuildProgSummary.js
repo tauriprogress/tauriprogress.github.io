@@ -28,7 +28,28 @@ function GuildProgSummary() {
             shallowEqual
         );
 
-    let data = [];
+    const extendedRaidData = getExtendRaidData(
+        raids,
+        progression,
+        completionDifficulties
+    );
+
+    return (
+        <Grid container justifyContent="center">
+            {extendedRaidData.map((raidData) => (
+                <Grid item key={raidData.name}>
+                    <GuildRaidSummary
+                        data={raidData}
+                        difficultyNames={difficultyNames}
+                    />
+                </Grid>
+            ))}
+        </Grid>
+    );
+}
+
+function getExtendRaidData(raids, progression, completionDifficulties) {
+    let extendedRaids = [];
 
     for (let raid of raids) {
         const difficulties = raid.difficulties;
@@ -76,21 +97,10 @@ function GuildProgSummary() {
             }
         }
 
-        data.push(raidData);
+        extendedRaids.push(raidData);
     }
 
-    return (
-        <Grid container justifyContent="center">
-            {data.map((raidData) => (
-                <Grid item key={raidData.name}>
-                    <GuildRaidSummary
-                        data={raidData}
-                        difficultyNames={difficultyNames}
-                    />
-                </Grid>
-            ))}
-        </Grid>
-    );
+    return extendedRaids;
 }
 
 export default GuildProgSummary;
