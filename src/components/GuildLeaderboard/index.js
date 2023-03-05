@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import withTheme from "@mui/styles/withTheme";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -36,7 +35,7 @@ import {
 } from "../../redux/actions";
 
 import { guildLeaderboardEntireSelector } from "../../redux/selectors";
-import { Avatar } from "@mui/material";
+import { Avatar, useTheme } from "@mui/material";
 import { styled } from "@mui/system";
 
 const SuccessTableCell = styled(TableCell)(({ theme }) => ({
@@ -51,8 +50,10 @@ const SecondaryTextSpan = styled("span")(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-function GuildLeaderboard({ theme }) {
-    const { factionColors } = theme.palette;
+function GuildLeaderboard() {
+    const {
+        palette: { factionColors },
+    } = useTheme();
 
     const { data, loading, error, filter, selectedTab } = useSelector(
         (state) => ({
@@ -229,9 +230,6 @@ function InnerTableRows({ start, logs, guild, tab }) {
     ));
 }
 
-export default React.memo(
-    withTheme(GuildLeaderboard),
-    (prevProps, nextProps) => {
-        return JSON.stringify(prevProps) === JSON.stringify(nextProps);
-    }
-);
+export default React.memo(GuildLeaderboard, (prevProps, nextProps) => {
+    return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+});

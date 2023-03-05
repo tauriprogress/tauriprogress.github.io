@@ -34,7 +34,9 @@ const NoWrap = styled("span")({
 });
 
 function GuildTitle() {
-    const theme = useTheme();
+    const {
+        palette: { factionColors },
+    } = useTheme();
     const { name, faction, membersCount, realm, armoryUrl } = useSelector(
         (state) => ({
             name: guildNameSelector(state),
@@ -47,10 +49,6 @@ function GuildTitle() {
     );
 
     const emblem = getFactionImg(faction);
-
-    const {
-        palette: { factionColors },
-    } = theme;
 
     const factionColor =
         faction === 0 ? factionColors.alliance : factionColors.horde;
