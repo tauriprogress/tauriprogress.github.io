@@ -1,7 +1,5 @@
 import React from "react";
 
-import withTheme from "@mui/styles/withTheme";
-
 import { shallowEqual, useSelector } from "react-redux";
 
 import Typography from "@mui/material/Typography";
@@ -16,8 +14,9 @@ import {
     guildMembersCountSelector,
     guildRealmSelector,
 } from "../../redux/guild/selectors";
-import { styled } from "@mui/system";
 import { environmentArmoryUrlSelector } from "../../redux/selectors";
+
+import { styled, useTheme } from "@mui/material";
 
 const Container = styled(Grid)(({ theme }) => ({
     padding: `0 ${theme.spacing(1)}`,
@@ -34,7 +33,8 @@ const NoWrap = styled("span")({
     whiteSpace: "nowrap",
 });
 
-function GuildTitle({ theme }) {
+function GuildTitle() {
+    const theme = useTheme();
     const { name, faction, membersCount, realm, armoryUrl } = useSelector(
         (state) => ({
             name: guildNameSelector(state),
@@ -94,4 +94,4 @@ function GuildTitle({ theme }) {
     );
 }
 
-export default withTheme(GuildTitle);
+export default GuildTitle;

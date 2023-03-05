@@ -8,7 +8,7 @@ import {
     guildProgressionLatestKillsSelector,
     guildRealmSelector,
 } from "../../redux/guild/selectors";
-import { styled } from "@mui/system";
+import { styled } from "@mui/material";
 
 const Container = styled("div")(({ theme }) => ({
     maxWidth: "600px",

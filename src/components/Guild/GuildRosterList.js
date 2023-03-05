@@ -4,32 +4,31 @@ import withTheme from "@mui/styles/withTheme";
 import { shallowEqual, useSelector } from "react-redux";
 
 import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
-import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
 
-import FilterContainer from "../FilterContainer";
 import CharacterName from "../CharacterName";
+import FilterContainer from "../FilterContainer";
 import OverflowScroll from "../OverflowScroll";
 
-import { filterMembers } from "./helpers";
+import { Avatar, styled } from "@mui/material";
 import { getClassImg } from "../../helpers";
 import {
-    guildRealmSelector,
-    guildRanksSelector,
     environmentCharacterClassNamesSelector,
+    guildRanksSelector,
+    guildRealmSelector,
 } from "../../redux/selectors";
-import { styled } from "@mui/system";
-import { Avatar } from "@mui/material";
+import { filterMembers } from "./helpers";
 
 const Container = styled("div")({
     minHeight: "550px",

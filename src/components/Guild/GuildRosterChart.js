@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import withTheme from "@mui/styles/withTheme";
-
 import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -12,7 +10,7 @@ import Avatar from "../Avatar";
 import { getClassImg } from "../../helpers";
 
 import { environmentCharacterClassNamesSelector } from "../../redux/selectors";
-import { styled } from "@mui/system";
+import { styled, useTheme } from "@mui/material";
 
 const Container = styled(Grid)(({ theme }) => ({
     margin: `0 ${theme.spacing(1)}`,
@@ -68,7 +66,8 @@ const ClassBar = styled("div")(({ theme }) => ({
     },
 }));
 
-function GuildRosterChart({ theme, totalChars, classInfo, maxClassCount }) {
+function GuildRosterChart({ totalChars, classInfo, maxClassCount }) {
+    const theme = useTheme();
     const characterClassNames = useSelector(
         environmentCharacterClassNamesSelector
     );
@@ -122,4 +121,4 @@ function GuildRosterChart({ theme, totalChars, classInfo, maxClassCount }) {
     );
 }
 
-export default withTheme(GuildRosterChart);
+export default GuildRosterChart;
