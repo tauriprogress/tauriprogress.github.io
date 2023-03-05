@@ -1,8 +1,5 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
-
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -16,88 +13,90 @@ import {
     shiftDays,
     colorWeight,
 } from "../../helpers";
+import { useTheme } from "@mui/material";
+import { styled } from "@mui/material";
 
 const hours = new Array(12).fill(0).map((value, index) => index * 2);
 const days = [2, 3, 4, 5, 6, 0, 1];
 
-function styles(theme) {
-    return {
-        container: {
-            width: "280px",
-            padding: theme.spacing(1),
-            margin: `${theme.spacing(1)} 0`,
-            backgroundColor: theme.palette.background.darker,
-        },
-        title: {
-            fontSize: `${16 / 16}rem`,
-            margin: `${theme.spacing(1)} 0`,
-            paddingLeft: theme.spacing(1),
-        },
-        column: {
-            flex: 1,
-        },
-        labelColumn: {
-            width: "40px",
-        },
-        tile: {
-            height: "14px",
-            margin: "1px",
-        },
-        labelTile: {
-            height: "28px",
-            margin: "2px 0",
-        },
-        hoursLabel: {
-            lineHeight: 1,
-            textAlign: "right",
-            paddingRight: "2px",
-            fontSize: `${12 / 16}rem`,
-        },
-        day: {
-            margin: `0 0 ${theme.spacing(1)}`,
-            lineHeight: 1,
-            textAlign: "center",
-        },
-        icon: {
-            transform: "translate(0, 2px)",
-        },
-    };
-}
+const Container = styled(Card)(({ theme }) => ({
+    width: "280px",
+    padding: theme.spacing(1),
+    margin: `${theme.spacing(1)} 0`,
+    backgroundColor: theme.palette.background.darker,
+}));
 
-function GuildBossKillsChart({ classes, theme, data, title }) {
+const Title = styled(Typography)(({ theme }) => ({
+    fontSize: `${16 / 16}rem`,
+    margin: `${theme.spacing(1)} 0`,
+    paddingLeft: theme.spacing(1),
+}));
+
+const HelpIcon = styled(Help)(({ theme }) => ({
+    transform: "translate(0, 2px)",
+}));
+
+const LabelColumn = styled(Grid)(({ theme }) => ({
+    width: "40px",
+}));
+
+const LabelTile = styled(Grid)(({ theme }) => ({
+    height: "28px",
+    margin: "2px 0",
+}));
+
+const HoursLabel = styled(Typography)(({ theme }) => ({
+    lineHeight: 1,
+    textAlign: "right",
+    paddingRight: "2px",
+    fontSize: `${12 / 16}rem`,
+}));
+
+const Column = styled(Grid)(({ theme }) => ({
+    flex: 1,
+}));
+
+const Tile = styled(Grid)(({ theme }) => ({
+    height: "14px",
+    margin: "1px",
+}));
+
+const Day = styled(Typography)(({ theme }) => ({
+    margin: `0 0 ${theme.spacing(1)}`,
+    lineHeight: 1,
+    textAlign: "center",
+}));
+
+function GuildBossKillsChart({ data, title }) {
+    const theme = useTheme();
+
     const max = data.reduce((max, hours) => {
         max = hours.reduce((max, value) => (max > value ? max : value), max);
         return max;
     }, 0);
 
     return (
-        <Card className={classes.container}>
-            <Typography className={classes.title}>
+        <Container>
+            <Title>
                 {title} boss kills{" "}
                 {title === "Recent" && (
                     <Tooltip title={"Bosses killed in the last 2 weeks"}>
-                        <Help
-                            color="disabled"
-                            fontSize="small"
-                            className={classes.icon}
-                        />
+                        <HelpIcon color="disabled" fontSize="small" />
                     </Tooltip>
                 )}
-            </Typography>
+            </Title>
             <Grid container wrap="nowrap" justifyContent="center">
-                <Grid item className={classes.labelColumn}>
+                <LabelColumn item>
                     <Grid container direction="column">
                         {hours.map((hour) => (
-                            <Grid item key={hour} className={classes.labelTile}>
-                                <Typography className={classes.hoursLabel}>
-                                    {hourLabels[hour]}
-                                </Typography>
-                            </Grid>
+                            <LabelTile item key={hour}>
+                                <HoursLabel>{hourLabels[hour]}</HoursLabel>
+                            </LabelTile>
                         ))}
                     </Grid>
-                </Grid>
+                </LabelColumn>
                 {days.map((day) => (
-                    <Grid item className={classes.column} key={day}>
+                    <Column item key={day}>
                         <Grid container direction="column">
                             {data[day].map((killCount, index) => (
                                 <Tooltip
@@ -106,9 +105,8 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
                                     }, ${dayLabels[shiftDays(day)]}`}
                                     key={index}
                                 >
-                                    <Grid
+                                    <Tile
                                         item
-                                        className={classes.tile}
                                         style={{
                                             backgroundColor:
                                                 theme.palette.weightColors[
@@ -119,14 +117,12 @@ function GuildBossKillsChart({ classes, theme, data, title }) {
                                 </Tooltip>
                             ))}
                         </Grid>
-                        <Typography className={classes.day}>
-                            {dayLabels[shiftDays(day)].slice(0, 3)}
-                        </Typography>
-                    </Grid>
+                        <Day>{dayLabels[shiftDays(day)].slice(0, 3)}</Day>
+                    </Column>
                 ))}
             </Grid>
-        </Card>
+        </Container>
     );
 }
 
-export default withStyles(styles)(withTheme(GuildBossKillsChart));
+export default GuildBossKillsChart;
