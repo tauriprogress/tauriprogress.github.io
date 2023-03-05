@@ -2,8 +2,70 @@ import queryString from "query-string";
 import constants, {
     shortRealms,
     characterRaceNames,
+    characterSpecClass,
 } from "tauriprogress-constants";
+
 import { characterClassNames } from "tauriprogress-constants/build/tauri";
+
+export function getDifficultiesFromRaids(raids) {
+    return raids.reduce((acc, raid) => {
+        for (const difficulty of raid.difficulties) {
+            if (!acc.includes(difficulty)) {
+                acc.push(difficulty);
+            }
+        }
+        return acc;
+    }, []);
+}
+
+export function getClassOptions(characterClassNames, classColors) {
+    let classOptions = [];
+    for (let classId in characterClassNames) {
+        classOptions.push({
+            imageSrc: getClassImg(classId),
+            value: classId,
+            name: characterClassNames[classId],
+            style: {
+                color: classColors[classId].text,
+            },
+        });
+    }
+    return classOptions;
+}
+
+export function getSpecOptions(filter, specs, classColors) {
+    let specOptions = [];
+    const classColor = filter.class
+        ? classColors[filter.class].text
+        : "inherit";
+    for (let specId in characterSpecClass) {
+        if (characterSpecClass[specId] === Number(filter.class)) {
+            if (specs[specId]) {
+                specOptions.push({
+                    value: specId,
+                    name: specs[specId].label,
+                    style: {
+                        color: classColor,
+                    },
+                });
+            }
+        }
+    }
+
+    return specOptions;
+}
+
+export function getRealmOptions(realmNames) {
+    let realmOptions = [];
+    for (let realm of realmNames) {
+        realmOptions.push({
+            value: realm,
+            name: realm,
+        });
+    }
+
+    return realmOptions;
+}
 
 export function getRealmNames(realms) {
     let realmNames = [];

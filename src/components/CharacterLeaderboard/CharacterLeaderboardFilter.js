@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
-import { getClassImg, getFactionImg, getRealmNames } from "../../helpers";
+import {
+    getClassOptions,
+    getDifficultiesFromRaids,
+    getFactionImg,
+    getRealmNames,
+    getRealmOptions,
+} from "../../helpers";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -44,7 +50,7 @@ function CharacterLeaderboardFilter() {
     const realmNames = getRealmNames(realms);
 
     const classColor = getClassColor(filter, classColors);
-    const difficulties = getDifficulties(raids);
+    const difficulties = getDifficultiesFromRaids(raids);
     const classOptions = getClassOptions(characterClassNames, classColors);
     const realmOptions = getRealmOptions(realmNames);
 
@@ -110,46 +116,8 @@ function CharacterLeaderboardFilter() {
     );
 }
 
-function getDifficulties(raids) {
-    return raids.reduce((acc, raid) => {
-        for (const difficulty of raid.difficulties) {
-            if (!acc.includes(difficulty)) {
-                acc.push(difficulty);
-            }
-        }
-        return acc;
-    }, []);
-}
-
 function getClassColor(filter, classColors) {
     return filter.class ? classColors[filter.class].text : "inherit";
-}
-
-function getClassOptions(characterClassNames, classColors) {
-    let classOptions = [];
-    for (let classId in characterClassNames) {
-        classOptions.push({
-            imageSrc: getClassImg(classId),
-            value: classId,
-            name: characterClassNames[classId],
-            style: {
-                color: classColors[classId].text,
-            },
-        });
-    }
-    return classOptions;
-}
-
-function getRealmOptions(realmNames) {
-    let realmOptions = [];
-    for (let realm of realmNames) {
-        realmOptions.push({
-            value: realm,
-            name: realm,
-        });
-    }
-
-    return realmOptions;
 }
 
 function getSelects({
