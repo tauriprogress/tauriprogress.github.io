@@ -305,8 +305,8 @@ const lightTheme = createTheme(
                     0: "#9d9d9d",
                 },
                 weightColors: {
-                    NaN: light,
-                    0: light,
+                    NaN: lightAccent,
+                    0: lightAccent,
                     1: deepOrange[200],
                     20: deepOrange[400],
                     40: deepOrange[500],
