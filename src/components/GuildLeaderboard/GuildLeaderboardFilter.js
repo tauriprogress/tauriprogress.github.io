@@ -2,15 +2,18 @@ import React, { useEffect } from "react";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
-import withTheme from "@mui/styles/withTheme";
-
 import Avatar from "@mui/material/Avatar";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
-import { getFactionImg, getRealmNames } from "../../helpers";
+import {
+    getDifficultiesFromRaids,
+    getFactionImg,
+    getRealmNames,
+    getRealmOptions,
+} from "../../helpers";
 
 import {
     closeFilterWithQuery,
@@ -24,11 +27,16 @@ import {
     guildLeaderboardFilterSelector,
 } from "../../redux/selectors";
 
+import { useTheme } from "@mui/material";
 import FilterContainer from "../FilterContainer";
 
 export const FILTER_TYPE_GUILD_LB = "FILTER_TYPE_GUILD_LB";
 
-function GuildLeaderboardFilter({ theme }) {
+function GuildLeaderboardFilter() {
+    const {
+        palette: { factionColors },
+    } = useTheme();
+
     const { filter, realms, difficultyNames, raids } = useSelector(
         (state) => ({
             filter: guildLeaderboardFilterSelector(state),
@@ -40,14 +48,8 @@ function GuildLeaderboardFilter({ theme }) {
     );
 
     const realmNames = getRealmNames(realms);
-    const difficulties = raids.reduce((acc, raid) => {
-        for (const difficulty of raid.difficulties) {
-            if (!acc.includes(difficulty)) {
-                acc.push(difficulty);
-            }
-        }
-        return acc;
-    }, []);
+    const difficulties = getDifficultiesFromRaids(raids);
+    const realmOptions = getRealmOptions(realmNames);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -55,17 +57,67 @@ function GuildLeaderboardFilter({ theme }) {
         return () => dispatch(closeFilterWithQuery());
     }, [dispatch]);
 
-    const {
-        palette: { factionColors },
-    } = theme;
+    const selects = getSelects({
+        filter,
+        raids,
+        difficulties,
+        difficultyNames,
+        realmOptions,
+        factionColors,
+    });
 
-    let realmOptions = [];
-    for (let realm of realmNames) {
-        realmOptions.push({
-            value: realm,
-            name: realm,
-        });
-    }
+    return (
+        <FilterContainer>
+            {selects.map((select) => (
+                <FormControl key={select.name}>
+                    <InputLabel>{select.name}</InputLabel>
+                    <Select
+                        label={select.name}
+                        style={select.style}
+                        value={filter[select.name]}
+                        onChange={(e) =>
+                            dispatch(
+                                guildLeaderboardSetFilter({
+                                    filterName: select.name,
+                                    value: e.target.value,
+                                })
+                            )
+                        }
+                        inputProps={{
+                            name: select.name,
+                            id: select.name,
+                        }}
+                    >
+                        {select.options.map((option) => (
+                            <MenuItem
+                                key={option.name}
+                                value={option.value}
+                                style={option.style}
+                            >
+                                {option.imageSrc && (
+                                    <Avatar
+                                        src={option.imageSrc}
+                                        variant="small"
+                                    />
+                                )}
+                                {option.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            ))}
+        </FilterContainer>
+    );
+}
+
+function getSelects({
+    filter,
+    raids,
+    difficulties,
+    difficultyNames,
+    realmOptions,
+    factionColors,
+}) {
     let selects = [
         {
             name: "difficulty",
@@ -127,48 +179,7 @@ function GuildLeaderboardFilter({ theme }) {
         });
     }
 
-    return (
-        <FilterContainer>
-            {selects.map((select) => (
-                <FormControl key={select.name}>
-                    <InputLabel>{select.name}</InputLabel>
-                    <Select
-                        label={select.name}
-                        style={select.style}
-                        value={filter[select.name]}
-                        onChange={(e) =>
-                            dispatch(
-                                guildLeaderboardSetFilter({
-                                    filterName: select.name,
-                                    value: e.target.value,
-                                })
-                            )
-                        }
-                        inputProps={{
-                            name: select.name,
-                            id: select.name,
-                        }}
-                    >
-                        {select.options.map((option) => (
-                            <MenuItem
-                                key={option.name}
-                                value={option.value}
-                                style={option.style}
-                            >
-                                {option.imageSrc && (
-                                    <Avatar
-                                        src={option.imageSrc}
-                                        variant="small"
-                                    />
-                                )}
-                                {option.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            ))}
-        </FilterContainer>
-    );
+    return selects;
 }
 
-export default withTheme(GuildLeaderboardFilter);
+export default GuildLeaderboardFilter;
