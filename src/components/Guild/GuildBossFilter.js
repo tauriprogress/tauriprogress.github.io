@@ -1,9 +1,6 @@
 import React from "react";
 
-import { characterSpecClass } from "tauriprogress-constants";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-
-import withTheme from "@mui/styles/withTheme";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,121 +9,38 @@ import FormControl from "@mui/material/FormControl";
 
 import FilterContainer from "../FilterContainer";
 
-import { getRealmNames } from "../../helpers";
+import { getDifficultiesFromRaids } from "../../helpers";
 
 import { guildProgressionSetFilter } from "../../redux/actions";
 
 import {
     guildProgressionFilterSelector,
     environmentRealmsSelector,
-    environmentCharacterSpecsSelector,
-    environmentCharacterClassNamesSelector,
     environmentDifficultyNamesSelector,
     environmentRaidsSelector,
 } from "../../redux/selectors";
 
-function GuildProgressionFilter({ theme }) {
-    const {
-        filter,
-        realms,
-        specs,
-        characterClassNames,
-        difficultyNames,
-        raids,
-    } = useSelector(
+function GuildProgressionFilter() {
+    const { filter, difficultyNames, raids } = useSelector(
         (state) => ({
             filter: guildProgressionFilterSelector(state),
             realms: environmentRealmsSelector(state),
-            specs: environmentCharacterSpecsSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state),
             difficultyNames: environmentDifficultyNamesSelector(state),
             raids: environmentRaidsSelector(state),
         }),
         shallowEqual
     );
 
-    const difficulties = raids.reduce((acc, raid) => {
-        for (const difficulty of raid.difficulties) {
-            if (!acc.includes(difficulty)) {
-                acc.push(difficulty);
-            }
-        }
-        return acc;
-    }, []);
+    const difficulties = getDifficultiesFromRaids(raids);
 
-    const realmNames = getRealmNames(realms);
+    const selects = getSelects({
+        filter,
+        difficulties,
+        raids,
+        difficultyNames,
+    });
 
     const dispatch = useDispatch();
-
-    const {
-        palette: { classColors },
-    } = theme;
-
-    let specOptions = [];
-    const classColor = filter.class
-        ? classColors[filter.class].text
-        : "inherit";
-    for (let specId in characterSpecClass) {
-        if (characterSpecClass[specId] === Number(filter.class)) {
-            if (specs[specId]) {
-                specOptions.push({
-                    value: specId,
-                    name: specs[specId].label,
-                    style: {
-                        color: classColor,
-                    },
-                });
-            }
-        }
-    }
-
-    let classOptions = [];
-    for (let classId in characterClassNames) {
-        classOptions.push({
-            value: classId,
-            name: characterClassNames[classId],
-            style: {
-                color: classColors[classId].text,
-            },
-        });
-    }
-
-    let realmOptions = [];
-    for (let realm of realmNames) {
-        realmOptions.push({
-            value: realm,
-            name: realm,
-        });
-    }
-    let selects = [
-        {
-            name: "raid",
-            options: raids.map((raid) => ({
-                value: raid.name,
-                name: raid.name,
-            })),
-        },
-        {
-            name: "boss",
-            options: raids
-                .reduce(
-                    (acc, curr) =>
-                        curr.name === filter.raid ? curr.bosses : acc,
-                    []
-                )
-                .map((boss) => ({
-                    value: boss.name,
-                    name: boss.name,
-                })),
-        },
-        {
-            name: "difficulty",
-            options: difficulties.map((difficulty) => ({
-                value: difficulty,
-                name: difficultyNames[difficulty],
-            })),
-        },
-    ];
 
     return (
         <FilterContainer>
@@ -166,4 +80,38 @@ function GuildProgressionFilter({ theme }) {
     );
 }
 
-export default withTheme(GuildProgressionFilter);
+function getSelects({ filter, difficulties, raids, difficultyNames }) {
+    let selects = [
+        {
+            name: "raid",
+            options: raids.map((raid) => ({
+                value: raid.name,
+                name: raid.name,
+            })),
+        },
+        {
+            name: "boss",
+            options: raids
+                .reduce(
+                    (acc, curr) =>
+                        curr.name === filter.raid ? curr.bosses : acc,
+                    []
+                )
+                .map((boss) => ({
+                    value: boss.name,
+                    name: boss.name,
+                })),
+        },
+        {
+            name: "difficulty",
+            options: difficulties.map((difficulty) => ({
+                value: difficulty,
+                name: difficultyNames[difficulty],
+            })),
+        },
+    ];
+
+    return selects;
+}
+
+export default GuildProgressionFilter;
