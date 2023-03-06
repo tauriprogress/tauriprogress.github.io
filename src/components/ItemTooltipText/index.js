@@ -1,55 +1,70 @@
 import { itemSlotNames } from "tauriprogress-constants";
 import React from "react";
 
-import withStyles from "@mui/styles/withStyles";
-import withTheme from "@mui/styles/withTheme";
-
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
 import { numberWithCommas } from "../../helpers";
 
-function styles(theme) {
-    return {
-        text: {
-            fontSize: "inherit",
-            lineHeight: 1,
-            margin: "2px 0",
-        },
-        textGreen: {
-            color: "#1EFF00",
-        },
-        textYellow: {
-            color: "#FFD100",
-        },
-        textLightYellow: {
-            color: "#FFFF98",
-        },
-        textWhite: {
-            color: "#FFFFFF",
-        },
-        textGrey: {
-            color: "#9d9d9d",
-        },
-        socketIcon: {
-            width: "14px",
-            height: "14px",
-            transform: "translate(0, 3px)",
-            marginRight: "2px",
-        },
-        setItem: {
-            marginLeft: "4px",
-        },
-        containerMarginTop: {
-            marginTop: "20px",
-        },
-        containerMargin: {
-            margin: "20px 0",
-        },
-    };
-}
+import { styled } from "@mui/material";
 
-function ItemTooltipText({ classes, theme, item, iconUrl }) {
+const greenColor = "#1EFF00";
+const yellowColor = "#FFD100";
+const lightYellowColor = "#FFFF98";
+const greyColor = "#9d9d9d";
+const whiteColor = "#FFFFFF";
+
+const Text = styled(Typography)(({ theme }) => ({
+    fontSize: "inherit",
+    lineHeight: 1,
+    margin: "2px 0",
+}));
+
+const GreenText = styled(Text)(({ theme }) => ({
+    color: greenColor,
+}));
+
+const YellowText = styled(Text)(({ theme }) => ({
+    color: yellowColor,
+}));
+
+const WhiteText = styled(Text)(({ theme }) => ({
+    color: whiteColor,
+}));
+
+const ItemStat = styled(Text)(({ theme, type }) => ({
+    color: type > 7 ? greenColor : whiteColor,
+}));
+
+const SocketInfoDesc = styled(Text)(({ theme, valid }) => ({
+    color: valid ? greenColor : greyColor,
+}));
+
+const SocketInfoSpell = styled(Text)(({ theme, active }) => ({
+    color: active ? greenColor : greyColor,
+}));
+
+const SocketIcon = styled("img")(({ theme }) => ({
+    width: "14px",
+    height: "14px",
+    transform: "translate(0, 3px)",
+    marginRight: "2px",
+}));
+
+const SetItem = styled(Text)(({ theme, have }) => ({
+    color: have ? lightYellowColor : greyColor,
+    marginLeft: "4px",
+}));
+
+const ContainerMarginTop = styled("div")(({ theme }) => ({
+    marginTop: "20px",
+}));
+
+const ItemName = styled(Text)(({ theme, quality }) => ({
+    color: theme.qualityColors[quality],
+}));
+
+function ItemTooltipText({ item, iconUrl }) {
     if (item.ItemSetInfo.base) {
         item.ItemSetInfo.base.equipped = item.ItemSetInfo.base.Items.reduce(
             (acc, curr) => {
@@ -69,80 +84,51 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
 
     return (
         <React.Fragment>
-            <Typography
-                className={classes.text}
-                style={{
-                    color: theme.qualityColors[item.Quality],
-                }}
-            >
-                {item.name}
-            </Typography>
-            <Typography className={`${classes.text} ${classes.textGreen}`}>
-                {item.itemnamedescription}
-            </Typography>
+            <ItemName quality={item.Quality}>{item.name}</ItemName>
+            <GreenText>{item.itemnamedescription}</GreenText>
             {item.ItemLevel && (
-                <Typography className={`${classes.text} ${classes.textYellow}`}>
-                    Item Level {item.ItemLevel}
-                </Typography>
+                <YellowText>Item Level {item.ItemLevel}</YellowText>
             )}
             {item.upgrademaxlevel > 0 && (
-                <Typography className={`${classes.text} ${classes.textYellow}`}>
+                <YellowText>
                     Upgrade Level: {item.upgradelevel}/{item.upgrademaxlevel}
-                </Typography>
+                </YellowText>
             )}
 
-            <Typography className={`${classes.text} ${classes.textWhite}`}>
-                {item.bonding}
-            </Typography>
-            <Typography className={`${classes.text} ${classes.textWhite}`}>
-                {item.item_equip}
-            </Typography>
+            <WhiteText>{item.bonding}</WhiteText>
+            <WhiteText>{item.item_equip}</WhiteText>
             <Grid container justifyContent="space-between">
                 <Grid item>
-                    <Typography
-                        className={`${classes.text} ${classes.textWhite}`}
-                    >
-                        {itemSlotNames[item.InventoryType]}
-                    </Typography>
+                    <WhiteText>{itemSlotNames[item.InventoryType]}</WhiteText>
                 </Grid>
                 <Grid item>
-                    <Typography
-                        className={`${classes.text} ${classes.textWhite}`}
-                    >
+                    <WhiteText>
                         {item.m_subClassName !== "Miscellaneous" &&
                             item.m_subClassName}
-                    </Typography>
+                    </WhiteText>
                 </Grid>
             </Grid>
             {item.Armory > 0 && (
-                <Typography className={`${classes.text} ${classes.textWhite}`}>
-                    {numberWithCommas(item.Armory)} Armor
-                </Typography>
+                <WhiteText>{numberWithCommas(item.Armory)} Armor</WhiteText>
             )}
 
             {item.BaseMaxDamage > 0 && (
                 <React.Fragment>
                     <Grid container justifyContent="space-between">
                         <Grid item>
-                            <Typography
-                                className={`${classes.text} ${classes.textWhite}`}
-                            >
+                            <WhiteText>
                                 {numberWithCommas(item.BaseMinDamage)} -{" "}
                                 {numberWithCommas(item.BaseMaxDamage)}
-                            </Typography>
+                            </WhiteText>
                         </Grid>
                         <Grid item>
-                            <Typography
-                                className={`${classes.text} ${classes.textWhite}`}
-                            >
+                            <WhiteText>
                                 Speed {(item.Delay / 1000).toFixed(2)}
-                            </Typography>
+                            </WhiteText>
                         </Grid>
                     </Grid>
 
-                    <Typography
-                        className={`${classes.text} ${classes.textWhite}`}
-                    >
+                    <WhiteText>
                         (
                         {numberWithCommas(
                             Math.round(
@@ -151,140 +137,101 @@ function ItemTooltipText({ classes, theme, item, iconUrl }) {
                             )
                         )}{" "}
                         damage per second)
-                    </Typography>
+                    </WhiteText>
                 </React.Fragment>
             )}
             {item.ItemStat.map((stat) =>
                 stat.value ? (
-                    <Typography
-                        key={stat.type}
-                        className={`${classes.text} ${
-                            stat.type > 7
-                                ? classes.textGreen
-                                : classes.textWhite
-                        }`}
-                    >
+                    <ItemStat key={stat.type} type={stat.type}>
                         {numberWithCommas(
                             decodeURIComponent(stat.StatDescription)
                         )}
-                    </Typography>
+                    </ItemStat>
                 ) : null
             )}
 
-            <div className={classes.containerMargin}>
+            <ContainerMarginTop>
                 {item.pernamentEnchDesc && (
-                    <Typography
-                        className={`${classes.text} ${classes.textGreen}`}
-                    >
+                    <GreenText>
                         Enchanted: {decodeURIComponent(item.pernamentEnchDesc)}
-                    </Typography>
+                    </GreenText>
                 )}
                 {item.socketInfo.sockets.map((socket, index) => (
-                    <Typography
-                        key={index}
-                        className={`${classes.text} ${classes.textWhite}`}
-                    >
-                        <img
+                    <WhiteText key={index}>
+                        <SocketIcon
                             src={
                                 socket.gem
                                     ? `${iconUrl}${socket.gem.icon}`
                                     : socket.icon
                             }
                             alt=""
-                            className={classes.socketIcon}
                         />
                         {socket.gem ? socket.gem.desc : socket.desc}
-                    </Typography>
+                    </WhiteText>
                 ))}
                 {item.socketInfo.desc && (
-                    <Typography
-                        className={`${classes.text} ${
-                            item.socketInfo.bonusCompleted
-                                ? classes.textGreen
-                                : classes.textGrey
-                        }`}
-                    >
+                    <SocketInfoDesc valid={+item.socketInfo.bonusCompleted}>
                         Socket bonus: {item.socketInfo.desc}
-                    </Typography>
+                    </SocketInfoDesc>
                 )}
                 {item.useenchantment && (
-                    <Typography
-                        className={`${classes.text} ${classes.textGreen}`}
-                    >
-                        Use: {item.useenchantment}
-                    </Typography>
+                    <GreenText>Use: {item.useenchantment}</GreenText>
                 )}
-            </div>
+            </ContainerMarginTop>
             {item.MaxDurability > 0 && (
-                <Typography className={`${classes.text} ${classes.textWhite}`}>
+                <WhiteText>
                     Durability: {`${item.curDurability}/${item.MaxDurability}`}
-                </Typography>
+                </WhiteText>
             )}
             {item.classes !== "" && (
-                <Typography className={`${classes.text} ${classes.textWhite}`}>
-                    Classes: {item.classes}
-                </Typography>
+                <WhiteText>Classes: {item.classes}</WhiteText>
             )}
             {item.RequiredLevel > 0 && (
-                <Typography className={`${classes.text} ${classes.textWhite}`}>
-                    Requires level {item.RequiredLevel}
-                </Typography>
+                <WhiteText>Requires level {item.RequiredLevel}</WhiteText>
             )}
 
             {item.ItemSetInfo.base && (
-                <div className={classes.containerMarginTop}>
-                    <Typography
-                        className={`${classes.text} ${classes.textYellow}`}
-                    >{`${item.ItemSetInfo.base.name}(${item.ItemSetInfo.base.equipped}/${item.ItemSetInfo.base.Items.length})`}</Typography>
+                <ContainerMarginTop>
+                    <YellowText>{`${item.ItemSetInfo.base.name}(${item.ItemSetInfo.base.equipped}/${item.ItemSetInfo.base.Items.length})`}</YellowText>
                     {item.ItemSetInfo.base.Items.map((setItem, index) => (
-                        <Typography
-                            key={index}
-                            className={`${classes.text} ${classes.setItem} ${
-                                setItem.have
-                                    ? classes.textLightYellow
-                                    : classes.textGrey
-                            }`}
-                        >
+                        <SetItem key={index} have={+setItem.have}>
                             {setItem.name}
-                        </Typography>
+                        </SetItem>
                     ))}
                     {item.ItemSetInfo.base.Spells.length && (
-                        <div className={classes.containerMarginTop}>
+                        <ContainerMarginTop>
                             {item.ItemSetInfo.base.Spells.map(
                                 (effect, index) => (
-                                    <Typography
+                                    <SocketInfoSpell
                                         key={index}
-                                        className={`${classes.text} ${
-                                            effect.threshold <=
-                                            item.ItemSetInfo.base.equipped
-                                                ? classes.textGreen
-                                                : classes.textGrey
-                                        }`}
+                                        active={
+                                            +(
+                                                effect.threshold <=
+                                                item.ItemSetInfo.base.equipped
+                                            )
+                                        }
                                     >
                                         {`(${effect.threshold}) Set: ${effect.spell}`}
-                                    </Typography>
+                                    </SocketInfoSpell>
                                 )
                             )}
-                        </div>
+                        </ContainerMarginTop>
                     )}
-                </div>
+                </ContainerMarginTop>
             )}
             {item.SpellId.length ? (
-                <div className={classes.containerMarginTop}>
+                <ContainerMarginTop>
                     {item.SpellId.map((spell, index) =>
                         spell !== "" ? (
-                            <Typography
-                                key={index}
-                                className={`${classes.text} ${classes.textGreen}`}
-                            >
+                            <GreenText key={index}>
                                 Equip: {spell.replace("0rocrppm.", "")}
-                            </Typography>
+                            </GreenText>
                         ) : null
                     )}
-                </div>
+                </ContainerMarginTop>
             ) : null}
         </React.Fragment>
     );
 }
 
-export default withStyles(styles)(withTheme(ItemTooltipText));
+export default ItemTooltipText;

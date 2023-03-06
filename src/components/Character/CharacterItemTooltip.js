@@ -6,7 +6,6 @@ import Tooltip from "@mui/material/Tooltip";
 
 import ItemTooltipText from "../ItemTooltipText";
 
-import { useTheme } from "@mui/material";
 import { characterItemsFetch } from "../../redux/actions";
 import {
     characteritemsErrorSelector,
@@ -16,7 +15,6 @@ import {
 } from "../../redux/selectors";
 
 function ItemTooltip({ children, itemMeta, realm }) {
-    const theme = useTheme();
     const { loading, error, item, iconUrl } = useSelector(
         (state) => ({
             item: characterItemsItemSelector(state, itemMeta.guid),
@@ -51,13 +49,15 @@ function ItemTooltip({ children, itemMeta, realm }) {
         <React.Fragment>
             <Tooltip
                 onOpen={onOpen}
-                classes={{
-                    tooltip: {
-                        padding: theme.spacing(1),
-                        border: "1px solid black",
-                        fontSize: `${12 / 16}rem`,
-                        width: "260px",
-                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                PopperProps={{
+                    sx: {
+                        "& .MuiTooltip-tooltip": {
+                            padding: "7px",
+                            border: "1px solid black",
+                            fontSize: `${12 / 16}rem`,
+                            width: "260px",
+                            backgroundColor: "rgba(0, 0, 0, 0.8)",
+                        },
                     },
                 }}
                 placement={window.innerWidth > 600 ? "left" : "bottom"}
