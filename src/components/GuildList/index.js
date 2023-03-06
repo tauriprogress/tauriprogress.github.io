@@ -295,7 +295,7 @@ function DifficultyCell({ guild, progress, showActivity, bossCount }) {
                                                     : `${guild.name} is not actively raiding in ${difficultyNames[difficulty]} anymore`
                                             }
                                         >
-                                            <ActivityText active={isActive}>
+                                            <ActivityText active={+isActive}>
                                                 {isActive
                                                     ? "Active"
                                                     : "Inactive"}
