@@ -13,8 +13,6 @@ import TablePaginationActions from "@mui/material/TablePagination/TablePaginatio
 import TableRow from "@mui/material/TableRow";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import withStyles from "@mui/styles/withStyles";
-import withTheme from "@mui/styles/withTheme";
 
 import AlignedRankDisplay from "../AlignedRankDisplay";
 import ConditionalWrapper from "../ConditionalWrapper";
@@ -27,8 +25,8 @@ import OverflowScroll from "../OverflowScroll";
 import WithRealm from "../WithRealm";
 import GuildListFilter from "./GuildListFilter";
 
-import { dateToString, guildActivityBoundary } from "../../helpers";
-import { filterGuildList } from "./helpers";
+import { dateToString } from "../../helpers";
+import { filterGuildList, getGuildProgress, isActiveGuild } from "./helpers";
 
 import { guildListFetch } from "../../redux/actions";
 import {
@@ -39,74 +37,77 @@ import {
 } from "../../redux/selectors";
 import { withRealmGroupName } from "../Router/withRealmGroupName";
 
-function styles(theme) {
+import { styled, useTheme } from "@mui/material";
+
+const Cell = styled(TableCell)(({ theme }) => ({
+    padding: theme.spacing(1),
+}));
+
+const Rank = styled(AlignedRankDisplay)(({ theme }) => ({
+    "& p": {
+        fontSize: `${18 / 16}rem`,
+    },
+}));
+
+const Name = styled(Typography)(({ theme }) => ({
+    fontSize: `${18 / 16}rem`,
+    lineHeight: `${20 / 16}rem`,
+}));
+
+const CustomTableCell = styled(TableCell)(({ theme }) => ({
+    paddingTop: "0px",
+    paddingLeft: theme.spacing(10),
+}));
+
+const ProgressionText = styled("span")(({ theme }) => ({
+    fontWeight: "bold",
+    fontSize: `${20 / 16}rem`,
+    display: "inline-block",
+    minWidth: "64px",
+}));
+
+const ProgressionSecondaryText = styled(ProgressionText)(
+    GetSecondaryTextStyles
+);
+
+const SecondaryText = styled("span")(GetSecondaryTextStyles);
+
+const ProgressionContainer = styled(Typography)(({ theme }) => ({
+    fontSize: `${18 / 16}rem`,
+    lineHeight: `${20 / 16}rem`,
+}));
+
+const ActivityText = styled("span")(({ theme, active }) => ({
+    color: active ? theme.palette.success.light : theme.palette.error.light,
+    fontSize: `${10 / 16}rem`,
+    marginRight: "1px",
+    textAlign: "left",
+    fontWeight: "bold",
+}));
+
+const Loader = styled(Loading)(({ theme }) => ({
+    width: "100vw",
+}));
+
+function GetSecondaryTextStyles({ theme }) {
     return {
-        cell: {
-            padding: theme.spacing(1),
-        },
-        rank: {
-            "& p": {
-                fontSize: `${18 / 16}rem`,
-            },
-        },
-        name: {
-            fontSize: `${18 / 16}rem`,
-            lineHeight: `${20 / 16}rem`,
-        },
-        tableHead: {
-            paddingTop: "0px",
-            paddingLeft: theme.spacing(10),
-        },
-        progression: {
-            fontWeight: "bold",
-            fontSize: `${20 / 16}rem`,
-            display: "inline-block",
-            minWidth: "64px",
-        },
-        secondaryText: {
-            color: theme.palette.text.secondary,
-            fontSize: `${11 / 16}rem`,
-            lineHeight: `${11 / 16}rem`,
-        },
-        overallProgression: {
-            fontSize: `${18 / 16}rem`,
-            lineHeight: `${20 / 16}rem`,
-        },
-        inactive: {
-            color: theme.palette.error.light,
-            fontSize: `${10 / 16}rem`,
-            marginRight: "1px",
-            textAlign: "left",
-            fontWeight: "bold",
-        },
-        active: {
-            color: theme.palette.error.main,
-            fontSize: `${10 / 16}rem`,
-            marginRight: "1px",
-            textAlign: "left",
-            fontWeight: "bold",
-        },
-        loader: {
-            width: "100vw",
-        },
+        color: theme.palette.text.secondary,
+        fontSize: `${11 / 16}rem`,
+        lineHeight: `${11 / 16}rem`,
     };
 }
 
-function GuildList({ theme, classes, realmGroupName }) {
+function GuildList({ realmGroupName }) {
+    const theme = useTheme();
     const { factionColors, success } = theme.palette;
 
-    const { data, loading, error, difficultyNames, bossCount, difficulties } =
-        useSelector(
-            (state) => ({
-                ...guildListEntireSelector(state),
-                difficultyNames: environmentDifficultyNamesSelector(state),
-                bossCount: environmentBossCountSelector(state),
-                difficulties: environmentDifficultiesSelector(state),
-            }),
-            shallowEqual
-        );
-
-    const timeBoundary = guildActivityBoundary();
+    const { data, loading, error, bossCount } = useSelector(
+        (state) => ({
+            ...guildListEntireSelector(state),
+            bossCount: environmentBossCountSelector(state),
+        }),
+        shallowEqual
+    );
 
     const rowsPerPage = 50;
 
@@ -143,7 +144,7 @@ function GuildList({ theme, classes, realmGroupName }) {
 
     return (
         <React.Fragment>
-            {loading && <Loading className={classes.loader} />}
+            {loading && <Loader />}
             {error && (
                 <ErrorMessage
                     message={error}
@@ -154,39 +155,11 @@ function GuildList({ theme, classes, realmGroupName }) {
                 <React.Fragment>
                     <GuildListFilter filter={filter} setFilter={changeFilter} />
                     <OverflowScroll>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.tableHead}>
-                                        Guild
-                                    </TableCell>
-                                    <TableCell
-                                        className={classes.tableHead}
-                                        align="right"
-                                    >
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={showActivity}
-                                                    onChange={toggleActivity}
-                                                    inputProps={{
-                                                        "aria-label":
-                                                            "primary checkbox",
-                                                    }}
-                                                    color="secondary"
-                                                />
-                                            }
-                                            label="Activity"
-                                        />
-                                    </TableCell>
-                                    <TableCell
-                                        align="center"
-                                        className={classes.tableHead}
-                                    >
-                                        Progression
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
+                        <Table>
+                            <GuildListTableHead
+                                showActivity={showActivity}
+                                toggleActivity={toggleActivity}
+                            />
                             <TableBody>
                                 {filteredData
                                     .slice(
@@ -194,295 +167,38 @@ function GuildList({ theme, classes, realmGroupName }) {
                                         (page + 1) * rowsPerPage
                                     )
                                     .map((guild, index) => {
-                                        let progress = {};
-                                        for (let difficulty in guild.progression
-                                            .completion.difficulties) {
-                                            let date =
-                                                guild.progression.completion
-                                                    .difficulties[difficulty]
-                                                    .completed * 1000;
-                                            progress[difficulty] = {
-                                                date: date
-                                                    ? new Date(date)
-                                                    : false,
-                                                bossesDefeated:
-                                                    guild.progression.completion
-                                                        .difficulties[
-                                                        difficulty
-                                                    ].bossesDefeated,
-                                            };
-                                        }
+                                        const progress =
+                                            getGuildProgress(guild);
 
-                                        let firstKill = guild.progression
-                                            .completion.completed
-                                            ? new Date(
-                                                  guild.progression.completion
-                                                      .completed * 1000
-                                              )
-                                            : false;
                                         return (
                                             <TableRow key={guild._id} hover>
-                                                <TableCell
-                                                    className={classes.cell}
-                                                >
-                                                    <AlignedRankDisplay
-                                                        rank={
-                                                            index +
-                                                            1 +
-                                                            page * rowsPerPage
-                                                        }
-                                                        className={classes.rank}
-                                                    >
-                                                        <WithRealm
-                                                            realmName={
-                                                                guild.realm
-                                                            }
-                                                        >
-                                                            <Typography
-                                                                className={
-                                                                    classes.name
-                                                                }
-                                                            >
-                                                                <Link
-                                                                    style={{
-                                                                        color: guild.f
-                                                                            ? factionColors.horde
-                                                                            : factionColors.alliance,
-                                                                    }}
-                                                                    to={`/guild/${guild.name}?realm=${guild.realm}`}
-                                                                >
-                                                                    {guild.name}
-                                                                </Link>
-                                                            </Typography>
-                                                        </WithRealm>
-                                                    </AlignedRankDisplay>
-                                                </TableCell>
+                                                <RankCell
+                                                    {...{
+                                                        index,
+                                                        page,
+                                                        rowsPerPage,
+                                                        guild,
+                                                        factionColors,
+                                                    }}
+                                                />
+                                                <DifficultyCell
+                                                    {...{
+                                                        guild,
+                                                        progress,
+                                                        showActivity,
+                                                        bossCount,
+                                                    }}
+                                                />
 
-                                                <TableCell
-                                                    className={classes.cell}
-                                                    align="right"
-                                                >
-                                                    <Grid
-                                                        container
-                                                        direction="column"
-                                                    >
-                                                        {difficulties.map(
-                                                            (difficulty) => (
-                                                                <Grid
-                                                                    item
-                                                                    key={`${guild.name} ${difficulty}`}
-                                                                >
-                                                                    {progress[
-                                                                        difficulty
-                                                                    ] ? (
-                                                                        <Typography variant="caption">
-                                                                            {showActivity &&
-                                                                                (timeBoundary >
-                                                                                guild
-                                                                                    .activity[
-                                                                                    difficulty
-                                                                                ] *
-                                                                                    1000 ? (
-                                                                                    <Tooltip
-                                                                                        title={`${guild.name} is not actively raiding in ${difficultyNames[difficulty]} anymore`}
-                                                                                    >
-                                                                                        <span
-                                                                                            className={
-                                                                                                classes.inactive
-                                                                                            }
-                                                                                        >
-                                                                                            Inactive
-                                                                                        </span>
-                                                                                    </Tooltip>
-                                                                                ) : (
-                                                                                    <Tooltip
-                                                                                        title={`${guild.name} is raiding in ${difficultyNames[difficulty]}`}
-                                                                                    >
-                                                                                        <span
-                                                                                            className={
-                                                                                                classes.active
-                                                                                            }
-                                                                                        >
-                                                                                            Active
-                                                                                        </span>
-                                                                                    </Tooltip>
-                                                                                ))}
-                                                                            <ConditionalWrapper
-                                                                                condition={
-                                                                                    progress[
-                                                                                        difficulty
-                                                                                    ]
-                                                                                        .date
-                                                                                }
-                                                                                wrap={(
-                                                                                    children
-                                                                                ) => (
-                                                                                    <Tooltip
-                                                                                        title={dateToString(
-                                                                                            progress[
-                                                                                                difficulty
-                                                                                            ]
-                                                                                                .date
-                                                                                        )}
-                                                                                    >
-                                                                                        {
-                                                                                            children
-                                                                                        }
-                                                                                    </Tooltip>
-                                                                                )}
-                                                                            >
-                                                                                <span
-                                                                                    className={`${classes.secondaryText} ${classes.progression}`}
-                                                                                >
-                                                                                    {
-                                                                                        progress[
-                                                                                            difficulty
-                                                                                        ]
-                                                                                            .bossesDefeated
-                                                                                    }
-
-                                                                                    /
-                                                                                    {
-                                                                                        bossCount
-                                                                                    }{" "}
-                                                                                    {
-                                                                                        difficultyNames[
-                                                                                            difficulty
-                                                                                        ]
-                                                                                    }
-                                                                                </span>
-                                                                            </ConditionalWrapper>
-                                                                        </Typography>
-                                                                    ) : (
-                                                                        <Typography variant="caption">
-                                                                            <span
-                                                                                className={`${classes.secondaryText} ${classes.progression}`}
-                                                                            >
-                                                                                0/
-                                                                                {
-                                                                                    bossCount
-                                                                                }{" "}
-                                                                                {
-                                                                                    difficultyNames[
-                                                                                        difficulty
-                                                                                    ]
-                                                                                }
-                                                                            </span>
-                                                                        </Typography>
-                                                                    )}
-                                                                </Grid>
-                                                            )
-                                                        )}
-                                                    </Grid>
-                                                </TableCell>
-
-                                                <TableCell
-                                                    className={classes.cell}
-                                                    align="right"
-                                                >
-                                                    <Typography
-                                                        className={
-                                                            classes.overallProgression
-                                                        }
-                                                    >
-                                                        <React.Fragment>
-                                                            {filter.difficulty
-                                                                ? progress[
-                                                                      filter
-                                                                          .difficulty
-                                                                  ].date && (
-                                                                      <Typography component="span">
-                                                                          <DateTooltip
-                                                                              date={
-                                                                                  progress[
-                                                                                      filter
-                                                                                          .difficulty
-                                                                                  ]
-                                                                                      .date
-                                                                              }
-                                                                          >
-                                                                              <DisplayDate
-                                                                                  date={
-                                                                                      progress[
-                                                                                          filter
-                                                                                              .difficulty
-                                                                                      ]
-                                                                                          .date
-                                                                                  }
-                                                                              />
-                                                                          </DateTooltip>
-                                                                      </Typography>
-                                                                  )
-                                                                : firstKill && (
-                                                                      <Typography component="span">
-                                                                          <DateTooltip
-                                                                              date={
-                                                                                  firstKill
-                                                                              }
-                                                                          >
-                                                                              <DisplayDate
-                                                                                  date={
-                                                                                      firstKill
-                                                                                  }
-                                                                              />
-                                                                          </DateTooltip>
-                                                                      </Typography>
-                                                                  )}
-
-                                                            <span
-                                                                className={
-                                                                    classes.progression
-                                                                }
-                                                            >
-                                                                {filter.difficulty ? (
-                                                                    <span
-                                                                        style={{
-                                                                            color:
-                                                                                progress[
-                                                                                    filter
-                                                                                        .difficulty
-                                                                                ]
-                                                                                    .date &&
-                                                                                success.main,
-                                                                        }}
-                                                                    >
-                                                                        {
-                                                                            progress[
-                                                                                filter
-                                                                                    .difficulty
-                                                                            ]
-                                                                                .bossesDefeated
-                                                                        }
-                                                                    </span>
-                                                                ) : (
-                                                                    <span
-                                                                        style={{
-                                                                            color:
-                                                                                firstKill &&
-                                                                                success.main,
-                                                                        }}
-                                                                    >
-                                                                        {
-                                                                            guild
-                                                                                .progression
-                                                                                .completion
-                                                                                .bossesDefeated
-                                                                        }
-                                                                    </span>
-                                                                )}
-
-                                                                <span
-                                                                    className={
-                                                                        classes.secondaryText
-                                                                    }
-                                                                >
-                                                                    /{" "}
-                                                                    {bossCount}
-                                                                </span>
-                                                            </span>
-                                                        </React.Fragment>
-                                                    </Typography>
-                                                </TableCell>
+                                                <ProgressionCell
+                                                    {...{
+                                                        filter,
+                                                        progress,
+                                                        guild,
+                                                        success,
+                                                        bossCount,
+                                                    }}
+                                                />
                                             </TableRow>
                                         );
                                     })}
@@ -504,6 +220,185 @@ function GuildList({ theme, classes, realmGroupName }) {
     );
 }
 
-export default withRealmGroupName(
-    React.memo(withStyles(styles)(withTheme(GuildList)))
-);
+function GuildListTableHead({ showActivity, toggleActivity }) {
+    return (
+        <TableHead>
+            <TableRow>
+                <CustomTableCell>Guild</CustomTableCell>
+                <CustomTableCell align="right">
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={showActivity}
+                                onChange={toggleActivity}
+                                inputProps={{
+                                    "aria-label": "primary checkbox",
+                                }}
+                                color="secondary"
+                            />
+                        }
+                        label="Activity"
+                    />
+                </CustomTableCell>
+                <CustomTableCell align="center">Progression</CustomTableCell>
+            </TableRow>
+        </TableHead>
+    );
+}
+
+function RankCell({ index, page, rowsPerPage, guild, factionColors }) {
+    return (
+        <Cell>
+            <Rank rank={index + 1 + page * rowsPerPage}>
+                <WithRealm realmName={guild.realm}>
+                    <Name>
+                        <Link
+                            style={{
+                                color: guild.f
+                                    ? factionColors.horde
+                                    : factionColors.alliance,
+                            }}
+                            to={`/guild/${guild.name}?realm=${guild.realm}`}
+                        >
+                            {guild.name}
+                        </Link>
+                    </Name>
+                </WithRealm>
+            </Rank>
+        </Cell>
+    );
+}
+
+function DifficultyCell({ guild, progress, showActivity, bossCount }) {
+    const { difficultyNames, difficulties } = useSelector(
+        (state) => ({
+            difficultyNames: environmentDifficultyNamesSelector(state),
+            difficulties: environmentDifficultiesSelector(state),
+        }),
+        shallowEqual
+    );
+
+    return (
+        <Cell align="right">
+            <Grid container direction="column">
+                {difficulties.map((difficulty) => {
+                    const isActive = isActiveGuild(guild, difficulty);
+                    return (
+                        <Grid item key={`${guild.name} ${difficulty}`}>
+                            {progress[difficulty] ? (
+                                <Typography variant="caption">
+                                    {showActivity && (
+                                        <Tooltip
+                                            title={
+                                                isActive
+                                                    ? `${guild.name} is raiding in ${difficultyNames[difficulty]}`
+                                                    : `${guild.name} is not actively raiding in ${difficultyNames[difficulty]} anymore`
+                                            }
+                                        >
+                                            <ActivityText active={isActive}>
+                                                {isActive
+                                                    ? "Active"
+                                                    : "Inactive"}
+                                            </ActivityText>
+                                        </Tooltip>
+                                    )}
+
+                                    <ConditionalWrapper
+                                        condition={progress[difficulty].date}
+                                        wrap={(children) => (
+                                            <Tooltip
+                                                title={dateToString(
+                                                    progress[difficulty].date
+                                                )}
+                                            >
+                                                {children}
+                                            </Tooltip>
+                                        )}
+                                    >
+                                        <ProgressionSecondaryText>
+                                            {
+                                                progress[difficulty]
+                                                    .bossesDefeated
+                                            }
+                                            /{bossCount}{" "}
+                                            {difficultyNames[difficulty]}
+                                        </ProgressionSecondaryText>
+                                    </ConditionalWrapper>
+                                </Typography>
+                            ) : (
+                                <Typography variant="caption">
+                                    <ProgressionSecondaryText>
+                                        0/
+                                        {bossCount}{" "}
+                                        {difficultyNames[difficulty]}
+                                    </ProgressionSecondaryText>
+                                </Typography>
+                            )}
+                        </Grid>
+                    );
+                })}
+            </Grid>
+        </Cell>
+    );
+}
+
+function ProgressionCell({ filter, progress, guild, success, bossCount }) {
+    const firstKill = guild.progression.completion.completed
+        ? new Date(guild.progression.completion.completed * 1000)
+        : false;
+    return (
+        <Cell align="right">
+            <ProgressionContainer>
+                <React.Fragment>
+                    {filter.difficulty
+                        ? progress[filter.difficulty].date && (
+                              <Typography component="span">
+                                  <DateTooltip
+                                      date={progress[filter.difficulty].date}
+                                  >
+                                      <DisplayDate
+                                          date={
+                                              progress[filter.difficulty].date
+                                          }
+                                      />
+                                  </DateTooltip>
+                              </Typography>
+                          )
+                        : firstKill && (
+                              <Typography component="span">
+                                  <DateTooltip date={firstKill}>
+                                      <DisplayDate date={firstKill} />
+                                  </DateTooltip>
+                              </Typography>
+                          )}
+
+                    <ProgressionText>
+                        {filter.difficulty ? (
+                            <span
+                                style={{
+                                    color:
+                                        progress[filter.difficulty].date &&
+                                        success.main,
+                                }}
+                            >
+                                {progress[filter.difficulty].bossesDefeated}
+                            </span>
+                        ) : (
+                            <span
+                                style={{
+                                    color: firstKill && success.main,
+                                }}
+                            >
+                                {guild.progression.completion.bossesDefeated}
+                            </span>
+                        )}
+
+                        <SecondaryText>/ {bossCount}</SecondaryText>
+                    </ProgressionText>
+                </React.Fragment>
+            </ProgressionContainer>
+        </Cell>
+    );
+}
+
+export default withRealmGroupName(React.memo(GuildList));

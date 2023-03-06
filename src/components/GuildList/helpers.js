@@ -3,7 +3,7 @@ import { guildActivityBoundary } from "../../helpers";
 export function filterGuildList(filter, guildList) {
     const timeBoundary = guildActivityBoundary();
 
-    const filteredGuildList = guildList.filter(guild => {
+    const filteredGuildList = guildList.filter((guild) => {
         if (filter.f !== "" && guild.f !== Number(filter.f)) {
             return false;
         }
@@ -71,4 +71,25 @@ export function filterGuildList(filter, guildList) {
         });
     }
     return filteredGuildList;
+}
+
+export function isActiveGuild(guild, difficulty) {
+    const timeBoundary = guildActivityBoundary();
+    return !(timeBoundary > guild.activity[difficulty] * 1000);
+}
+
+export function getGuildProgress(guild) {
+    let progress = {};
+    for (let difficulty in guild.progression.completion.difficulties) {
+        let date =
+            guild.progression.completion.difficulties[difficulty].completed *
+            1000;
+        progress[difficulty] = {
+            date: date ? new Date(date) : false,
+            bossesDefeated:
+                guild.progression.completion.difficulties[difficulty]
+                    .bossesDefeated,
+        };
+    }
+    return progress;
 }

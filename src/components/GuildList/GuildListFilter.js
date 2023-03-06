@@ -1,25 +1,24 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withTheme from "@mui/styles/withTheme";
-
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 import FilterContainer from "../FilterContainer";
 
 import { getFactionImg, getRealmNames } from "../../helpers";
 
+import { Avatar, useTheme } from "@mui/material";
 import {
-    environmentDifficultyNamesSelector,
     environmentDifficultiesSelector,
+    environmentDifficultyNamesSelector,
     environmentRealmsSelector,
 } from "../../redux/selectors";
-import { Avatar } from "@mui/material";
 
-function GuildListFilter({ theme, filter, setFilter }) {
+function GuildListFilter({ filter, setFilter }) {
+    const theme = useTheme();
     const realms = getRealmNames(useSelector(environmentRealmsSelector));
 
     const { difficulties, difficultyNames } = useSelector(
@@ -144,4 +143,4 @@ function GuildListFilter({ theme, filter, setFilter }) {
     );
 }
 
-export default withTheme(GuildListFilter);
+export default GuildListFilter;
