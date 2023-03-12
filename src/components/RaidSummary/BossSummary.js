@@ -1,6 +1,4 @@
 import React from "react";
-import withTheme from '@mui/styles/withTheme';
-import withStyles from '@mui/styles/withStyles';
 
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
@@ -21,45 +19,52 @@ import {
     capitalize,
 } from "../../helpers";
 
-function styles(theme) {
-    return {
-        container: {
-            width: "280px",
-            margin: theme.spacing(2),
-            padding: theme.spacing(1),
-        },
-        list: {
-            listStyle: "none",
-            padding: 0,
-            "& li": {
-                marginBottom: "5px",
-            },
-        },
-        listText: {
-            margin: 0,
-        },
-        uppercase: {
-            textTransform: "uppercase",
-        },
-        textOverflow: {
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-        },
-        gridItem: {
-            maxWidth: "50%",
-        },
-    };
-}
+import { styled } from "@mui/material";
+import { useTheme } from "@emotion/react";
 
-function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
+const Container = styled("div")(({ theme }) => ({
+    width: "280px",
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
+}));
+
+const List = styled("ul")(({ theme }) => ({
+    listStyle: "none",
+    padding: 0,
+    "& li": {
+        marginBottom: "5px",
+    },
+}));
+
+const ListText = styled("p")(({ theme, guild }) => ({
+    margin: 0,
+    color: guild
+        ? theme.palette.factionColors[guild.f ? "horde" : "alliance"]
+        : "inherit",
+}));
+
+const ListTextOverflow = styled(ListText)(({ theme }) => ({
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+}));
+
+const Uppercase = styled(Typography)(({ theme }) => ({
+    textTransform: "uppercase",
+}));
+
+const GridItem = styled(Grid)(({ theme }) => ({
+    maxWidth: "50% !important",
+}));
+
+function BossSummary({ bossInfo, data, filter, specs }) {
     const boss = applyFilter(data, filter, specs);
     const {
-        palette: { classColors, factionColors },
-    } = theme;
+        palette: { classColors },
+    } = useTheme();
 
     return (
-        <div className={classes.container}>
+        <Container>
             <Typography variant="h5" align="center">
                 {bossInfo.name}
             </Typography>
@@ -71,44 +76,25 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                 justifyContent="center"
                 alignItems="center"
             >
-                <FastestKills
-                    classes={classes}
-                    kills={boss && boss.fastestKills}
-                    factionColors={factionColors}
-                />
-                <FirstKills
-                    classes={classes}
-                    kills={boss && boss.firstKills}
-                    factionColors={factionColors}
-                />
+                <FastestKills kills={boss && boss.fastestKills} />
+                <FirstKills kills={boss && boss.firstKills} />
             </Grid>
             <Divider />
 
             <Grid container direction="row" justifyContent="center">
                 {["dps", "hps"].map((combatMetric) =>
                     boss && boss[`best${capitalize(combatMetric)}`].length ? (
-                        <Grid
-                            key={combatMetric}
-                            className={classes.gridItem}
-                            item
-                            xs
-                        >
-                            <Typography
-                                variant="subtitle2"
-                                align="center"
-                                className={classes.uppercase}
-                            >
+                        <GridItem key={combatMetric} item xs>
+                            <Uppercase variant="subtitle2" align="center">
                                 {combatMetric}
-                            </Typography>
-                            <ul className={classes.list}>
+                            </Uppercase>
+                            <List>
                                 {boss[`best${capitalize(combatMetric)}`].map(
                                     (character) => (
                                         <li
                                             key={`${character._id} ${character.f}`}
                                         >
-                                            <p
-                                                className={`${classes.listText} ${classes.textOverflow}`}
-                                            >
+                                            <ListTextOverflow>
                                                 <LogLink
                                                     logId={character.logId}
                                                     realm={character.realm}
@@ -137,43 +123,32 @@ function BossSummary({ theme, classes, bossInfo, data, filter, specs }) {
                                                 >
                                                     {character.name}
                                                 </Link>
-                                            </p>
+                                            </ListTextOverflow>
                                         </li>
                                     )
                                 )}
-                            </ul>
-                        </Grid>
+                            </List>
+                        </GridItem>
                     ) : null
                 )}
             </Grid>
             <Divider />
-        </div>
+        </Container>
     );
 }
 
-const FastestKills = React.memo(({ classes, kills, factionColors }) => {
+const FastestKills = React.memo(({ kills }) => {
     return (
-        <Grid className={classes.gridItem} item xs>
+        <GridItem item xs>
             <Typography variant="subtitle2" align="center">
                 Fastest kills
             </Typography>
-            <ul className={classes.list}>
+            <List>
                 {kills &&
                     kills.map((log) => (
                         <li key={log.id}>
                             <WithRealm realmName={log.realm}>
-                                <p
-                                    className={classes.listText}
-                                    style={{
-                                        color: log.guild
-                                            ? factionColors[
-                                                  log.guild.f
-                                                      ? "horde"
-                                                      : "alliance"
-                                              ]
-                                            : "",
-                                    }}
-                                >
+                                <ListText guild={log.guild}>
                                     {log.guild ? (
                                         <Link
                                             style={{
@@ -186,44 +161,33 @@ const FastestKills = React.memo(({ classes, kills, factionColors }) => {
                                     ) : (
                                         "Random"
                                     )}
-                                </p>
+                                </ListText>
                             </WithRealm>
 
-                            <p className={classes.listText}>
+                            <ListText>
                                 <LogLink logId={log.id} realm={log.realm}>
                                     {convertFightLength(log.fightLength)}
                                 </LogLink>
-                            </p>
+                            </ListText>
                         </li>
                     ))}
-            </ul>
-        </Grid>
+            </List>
+        </GridItem>
     );
 }, compareKills);
 
-const FirstKills = React.memo(({ classes, kills, factionColors }) => {
+const FirstKills = React.memo(({ kills }) => {
     return (
-        <Grid className={classes.gridItem} item xs>
+        <GridItem item xs>
             <Typography variant="subtitle2" align="center">
                 First kills
             </Typography>
-            <ul className={classes.list}>
+            <List>
                 {kills &&
                     kills.map((log) => (
                         <li key={log.id}>
                             <WithRealm realmName={log.realm}>
-                                <p
-                                    className={classes.listText}
-                                    style={{
-                                        color: log.guild
-                                            ? factionColors[
-                                                  log.guild.f
-                                                      ? "horde"
-                                                      : "alliance"
-                                              ]
-                                            : "",
-                                    }}
-                                >
+                                <ListText guild={log.guild}>
                                     {log.guild ? (
                                         <Link
                                             style={{
@@ -236,18 +200,18 @@ const FirstKills = React.memo(({ classes, kills, factionColors }) => {
                                     ) : (
                                         "Random"
                                     )}
-                                </p>
+                                </ListText>
                             </WithRealm>
 
-                            <p className={classes.listText}>
+                            <ListText>
                                 <LogLink logId={log.id} realm={log.realm}>
                                     {dateToString(new Date(log.date * 1000))}
                                 </LogLink>
-                            </p>
+                            </ListText>
                         </li>
                     ))}
-            </ul>
-        </Grid>
+            </List>
+        </GridItem>
     );
 }, compareKills);
 
@@ -276,4 +240,4 @@ function compareKills(prevProps, nextProps) {
 
     return false;
 }
-export default withStyles(styles)(withTheme(BossSummary));
+export default BossSummary;

@@ -4,7 +4,6 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import Container from "@mui/material/Container";
 
-import withStyles from "@mui/styles/withStyles";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 
@@ -19,17 +18,15 @@ import {
     environmentCharacterSpecsSelector,
 } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        container: {
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-        },
-    };
-}
+import { styled } from "@mui/material";
 
-function RaidSummary({ classes, raidName }) {
+const CustomContainer = styled(Container)(({ theme }) => ({
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+}));
+
+function RaidSummary({ raidName }) {
     const { loading, error, data, raids, filter, specs, raidId } = useSelector(
         (state) => {
             return {
@@ -71,7 +68,7 @@ function RaidSummary({ classes, raidName }) {
                 <ErrorMessage message={`${raidName} is not a valid raid.`} />
             )}
             {!error && !loading && raid && data && (
-                <Container className={classes.container}>
+                <CustomContainer>
                     {raid.bosses.map((boss) => {
                         let bossData = {};
                         for (const difficulty in boss.bossIdOfDifficulty) {
@@ -90,10 +87,10 @@ function RaidSummary({ classes, raidName }) {
                             />
                         );
                     })}
-                </Container>
+                </CustomContainer>
             )}
         </div>
     );
 }
 
-export default withStyles(styles)(React.memo(RaidSummary));
+export default React.memo(RaidSummary);
