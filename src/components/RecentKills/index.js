@@ -1,7 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import withStyles from "@mui/styles/withStyles";
-
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -15,19 +13,18 @@ import { categorizedLogDates } from "../../helpers";
 
 import { environmentDifficultyNamesSelector } from "../../redux/selectors";
 
-function styles(theme) {
-    return {
-        listItem: {
-            display: "block",
-            padding: 0,
-        },
-        bossName: {
-            fontWeight: "bold",
-        },
-    };
-}
+import { styled } from "@mui/material";
 
-function RecentKills({ classes, logs, realm, children, ...rest }) {
+const CustomListItem = styled(ListItem)(({ theme }) => ({
+    display: "block",
+    padding: 0,
+}));
+
+const BoldTypography = styled(Typography)(({ theme }) => ({
+    fontWeight: "bold",
+}));
+
+function RecentKills({ logs, realm, children, ...rest }) {
     const logDates = categorizedLogDates(logs);
 
     const difficultyNames = useSelector(environmentDifficultyNamesSelector);
@@ -35,19 +32,11 @@ function RecentKills({ classes, logs, realm, children, ...rest }) {
         <List {...rest} component="div" disablePadding>
             {children}
             {logDates.map((date, index) => (
-                <ListItem
-                    component="div"
-                    className={classes.listItem}
-                    key={date.text}
-                    disableGutters
-                >
+                <CustomListItem component="div" key={date.text} disableGutters>
                     <CollapsableList
                         defaultState={!index ? true : false}
                         listTitle={
-                            <Typography
-                                variant="button"
-                                className={classes.title}
-                            >
+                            <Typography variant="button">
                                 {date.text}
                             </Typography>
                         }
@@ -66,11 +55,9 @@ function RecentKills({ classes, logs, realm, children, ...rest }) {
                                         direction="column"
                                     >
                                         <Grid item>
-                                            <Typography
-                                                className={classes.bossName}
-                                            >
+                                            <BoldTypography>
                                                 {log.boss}
-                                            </Typography>
+                                            </BoldTypography>
                                         </Grid>
                                         <Grid item>
                                             <Typography
@@ -113,10 +100,10 @@ function RecentKills({ classes, logs, realm, children, ...rest }) {
                             </LogLink>
                         ))}
                     </CollapsableList>
-                </ListItem>
+                </CustomListItem>
             ))}
         </List>
     );
 }
 
-export default withStyles(styles)(RecentKills);
+export default RecentKills;
