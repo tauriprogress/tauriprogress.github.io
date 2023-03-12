@@ -1,29 +1,25 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
-
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 
-function styles(theme) {
-    return {
-        container: {
-            paddingTop: theme.spacing(4),
-            paddingBottom: theme.spacing(4),
-            display: "flex",
-            justifyContent: "center",
-            maxWidth: "280px !important",
-            margin: "0 auto"
-        }
-    };
-}
+import { styled } from "@mui/material";
 
-function Loading({ classes, className = "" }) {
+const CustomContainer = styled(Container)(({ theme }) => ({
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+    display: "flex",
+    justifyContent: "center",
+    maxWidth: "280px !important",
+    margin: "0 auto",
+}));
+
+function Loading() {
     return (
-        <Container className={`${classes.container} ${className}`}>
+        <CustomContainer>
             <CircularProgress color="secondary" />
-        </Container>
+        </CustomContainer>
     );
 }
 
-export default withStyles(styles)(Loading);
+export default Loading;
