@@ -1,98 +1,102 @@
 import React from "react";
-import { withStyles, withTheme } from "@mui/styles";
 
 import Grid from "@mui/material/Grid";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@emotion/react";
 
-function styles(theme) {
-    const isDark = theme.palette.mode === "dark";
+import { styled } from "@mui/material";
 
-    const textColor = isDark
+const GridContainer = styled(Grid)(({ theme }) => ({
+    height: "30px",
+    minWidth: "260px",
+    maxWidth: "100%",
+}));
+
+const GridItem = styled(Grid)(({ theme }) => ({
+    overflow: "hidden",
+}));
+
+const GridBar = styled(GridItem)(({ theme }) => ({
+    flex: 1,
+    position: "relative",
+    zIndex: "-1",
+    "&:before": {
+        position: "absolute",
+        top: "0",
+        left: "0",
+        display: "block",
+        height: "100%",
+        width: "100%",
+        content: "''",
+        background:
+            "linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)",
+        borderTop: `1px solid ${getBorderTopColor(theme)}`,
+        zIndex: "-2",
+    },
+}));
+
+const CustomTypography = styled(Typography)(({ theme }) => ({
+    lineHeight: "30px",
+    padding: `0 ${theme.spacing(1)}`,
+    textShadow: "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
+    color: getTextColor(theme),
+    fontWeight: "bold",
+}));
+
+const PerformanceName = styled(CustomTypography)(({ theme }) => ({
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+}));
+
+const PerformanceValue = styled(CustomTypography)(({ theme }) => ({
+    textAlign: "right",
+}));
+
+function getBorderTopColor(theme) {
+    return theme.palette.mode === "dark" ? "black" : "white";
+}
+
+function getTextColor(theme) {
+    return theme.palette.mode === "dark"
         ? theme.palette.text.primary
         : theme.palette.primary.contrastText;
-    const borderTop = isDark ? "black" : "white";
-    return {
-        container: {
-            height: "30px",
-            minWidth: "260px",
-            maxWidth: "100%",
-        },
-        icon: {
-            width: "30px",
-            height: "30px",
-        },
-        typography: {
-            lineHeight: "30px",
-            padding: `0 ${theme.spacing(1)}`,
-            textShadow: "0 0 2px #000,0 0 2px #000,0 0 2px #000,0 0 2px #000",
-            color: textColor,
-            fontWeight: "bold",
-        },
-        item: {
-            overflow: "hidden",
-        },
-        perfName: {
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-        },
-        perfValue: {
-            textAlign: "right",
-        },
-        bar: {
-            flex: 1,
-            position: "relative",
-            zIndex: "-1",
-            "&:before": {
-                position: "absolute",
-                top: "0",
-                left: "0",
-                display: "block",
-                height: "100%",
-                width: "100%",
-                content: "''",
-                background:
-                    "linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(100, 100, 100, 0.2) 100%)",
-                borderTop: `1px solid ${borderTop}`,
-                zIndex: "-2",
-            },
-        },
-    };
 }
 
 function PerfChartRow({
-    classes,
     Icon,
     iconTitle,
     title,
     perfValue,
     perfPercent,
     color,
-    theme,
     rank = "",
     displayPercent = true,
 }) {
+    const theme = useTheme();
+
     return (
-        <Grid container className={classes.container} wrap="nowrap">
-            <Grid
+        <GridContainer container wrap="nowrap">
+            <GridItem
                 item
-                className={classes.item}
                 style={{
                     minWidth: "30px",
                 }}
             >
                 <Tooltip title={iconTitle}>
                     {React.cloneElement(Icon, {
-                        className: classes.icon,
+                        style: {
+                            width: "30px",
+                            height: "30px",
+                        },
                         alt: iconTitle,
                     })}
                 </Tooltip>
-            </Grid>
+            </GridItem>
 
-            <Grid
+            <GridBar
                 item
-                className={`${classes.item} ${classes.bar}`}
                 style={{
                     background: `linear-gradient(to right, ${color} ${
                         perfPercent || 0
@@ -102,13 +106,11 @@ function PerfChartRow({
                 }}
             >
                 <Grid container wrap="nowrap" justifyContent="space-between">
-                    <Grid item className={classes.item}>
-                        <Typography
-                            className={`${classes.typography} ${classes.perfName}`}
-                        >
+                    <GridItem item>
+                        <PerformanceName>
                             {rank && `${rank}.`} {title}
-                        </Typography>
-                    </Grid>
+                        </PerformanceName>
+                    </GridItem>
                     <Grid
                         item
                         style={{
@@ -116,19 +118,17 @@ function PerfChartRow({
                             minWidth: "125px",
                         }}
                     >
-                        <Typography
-                            className={`${classes.typography} ${classes.perfValue}`}
-                        >
+                        <PerformanceValue>
                             {perfValue}{" "}
                             {displayPercent && (
                                 <span>({perfPercent.toFixed(1)} %)</span>
                             )}
-                        </Typography>
+                        </PerformanceValue>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Grid>
+            </GridBar>
+        </GridContainer>
     );
 }
 
-export default withStyles(styles)(withTheme(PerfChartRow));
+export default PerfChartRow;
