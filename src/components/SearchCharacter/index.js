@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { styled } from "@mui/styles";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -17,6 +16,8 @@ import { navigationToggle, pushToHistory } from "../../redux/actions";
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
 import { environmentRealmsSelector } from "../../redux/selectors";
+
+import { styled } from "@mui/material";
 
 const SelectRealm = styled(Select)({
     width: "100%",

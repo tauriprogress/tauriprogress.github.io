@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import withTheme from "@mui/styles/withTheme";
 import { shallowEqual, useSelector } from "react-redux";
 
 import Table from "@mui/material/Table";
@@ -29,6 +28,7 @@ import {
     guildRealmSelector,
 } from "../../redux/selectors";
 import { filterMembers } from "./helpers";
+import { useTheme } from "@emotion/react";
 
 const Container = styled("div")({
     minHeight: "550px",
@@ -39,7 +39,8 @@ const NameTextField = styled(TextField)({
     width: "120px",
 });
 
-function GuildRosterList({ theme, members, classInfo }) {
+function GuildRosterList({ members, classInfo }) {
+    const theme = useTheme();
     const rowsPerPage = 10;
     const { realm, characterClassNames, ranks } = useSelector(
         (state) => ({
@@ -215,4 +216,4 @@ function GuildRosterList({ theme, members, classInfo }) {
     );
 }
 
-export default withTheme(GuildRosterList);
+export default GuildRosterList;
