@@ -1,37 +1,32 @@
 import React from "react";
 
-import withStyles from "@mui/styles/withStyles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 
-function styles(theme) {
-    return {
-        container: {
-            width: "260px",
-            margin: "0 10px",
-        },
-        title: {
-            backgroundColor: theme.palette.background.dark,
-        },
-        bold: {
-            fontWeight: "bold",
-        },
-    };
-}
+import { styled } from "@mui/material";
 
-function MetaDataList({ values, title, classes, className, ...rest }) {
+const CustomList = styled(List)(({ theme }) => ({
+    width: "260px",
+    margin: "auto",
+}));
+
+const ListItemTitle = styled(ListItem)(({ theme }) => ({
+    backgroundColor: theme.palette.background.dark,
+}));
+
+const BoldTypography = styled(Typography)(({ theme }) => ({
+    fontWeight: "bold",
+}));
+
+function MetaDataList({ values, title, ...rest }) {
     return (
-        <List
-            className={`${classes.container} ${className}`}
-            component="ul"
-            {...rest}
-        >
-            <ListItem className={classes.title}>
+        <CustomList component="ul" {...rest}>
+            <ListItemTitle>
                 <Typography color="inherit">{title}</Typography>
-            </ListItem>
+            </ListItemTitle>
             {values.map((value, index) => (
                 <React.Fragment key={index}>
                     <ListItem>
@@ -40,17 +35,15 @@ function MetaDataList({ values, title, classes, className, ...rest }) {
                                 <Typography>{value.label}</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography className={classes.bold}>
-                                    {value.value}
-                                </Typography>
+                                <BoldTypography>{value.value}</BoldTypography>
                             </Grid>
                         </Grid>
                     </ListItem>
                     <Divider variant="middle" />
                 </React.Fragment>
             ))}
-        </List>
+        </CustomList>
     );
 }
 
-export default withStyles(styles)(MetaDataList);
+export default MetaDataList;
