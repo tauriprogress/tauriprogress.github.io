@@ -1,31 +1,31 @@
 import React from "react";
 
-import withStyles from '@mui/styles/withStyles';
-
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
-function styles(theme) {
-    return {
-        secondaryText: {
-            color: theme.palette.text.secondary,
-            fontSize: `${11 / 16}rem`,
-            lineHeight: `${11 / 16}rem`
-        }
-    };
-}
+import { styled } from "@mui/material";
 
-function WithRealm({ classes, children, realmName }) {
+const GridItemText = styled(Grid)(({ theme }) => ({
+    color: theme.palette.text.secondary,
+    fontSize: `${11 / 16}rem`,
+    lineHeight: `${11 / 16}rem`,
+}));
+
+const SecondaryText = styled(Typography)(({ theme }) => ({
+    color: theme.palette.text.secondary,
+    fontSize: `${11 / 16}rem`,
+    lineHeight: `${11 / 16}rem`,
+}));
+
+function WithRealm({ children, realmName }) {
     return (
         <Grid container direction="column">
             <Grid item>{children}</Grid>
-            <Grid item className={classes.secondaryText}>
-                <Typography variant="caption" className={classes.secondaryText}>
-                    {realmName}
-                </Typography>
-            </Grid>
+            <GridItemText item>
+                <SecondaryText variant="caption">{realmName}</SecondaryText>
+            </GridItemText>
         </Grid>
     );
 }
 
-export default withStyles(styles)(WithRealm);
+export default WithRealm;
