@@ -3,19 +3,18 @@ import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { characterClassSpecs } from "tauriprogress-constants";
 
-import withTheme from "@mui/styles/withTheme";
-
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
 import {
-    getClassImg,
+    getClassAndSpecOptions,
+    getDifficultiesFromRaids,
     getFactionImg,
     getRealmNames,
+    getRealmOptions,
     getRoleImg,
-    getSpecImg,
 } from "../../helpers";
 import {
     closeFilterWithQuery,
@@ -35,6 +34,7 @@ import {
     raidFilterSelector,
 } from "../../redux/selectors";
 import FilterContainer from "../FilterContainer";
+import { useTheme } from "@emotion/react";
 
 const IndentedMenuItem = styled(MenuItem)(({ theme }) => ({
     paddingLeft: theme.spacing(3),
@@ -42,7 +42,10 @@ const IndentedMenuItem = styled(MenuItem)(({ theme }) => ({
 
 export const FILTER_TYPE_RAID = "FILTER_TYPE_RAID";
 
-function RaidFilter({ theme, queryInitDep }) {
+function RaidFilter({ queryInitDep }) {
+    const {
+        palette: { classColors, factionColors },
+    } = useTheme();
     const {
         filter,
         realms,
@@ -62,15 +65,6 @@ function RaidFilter({ theme, queryInitDep }) {
         shallowEqual
     );
 
-    const realmNames = getRealmNames(realms);
-    const difficulties = raids.reduce((acc, raid) => {
-        for (const difficulty of raid.difficulties) {
-            if (!acc.includes(difficulty)) {
-                acc.push(difficulty);
-            }
-        }
-        return acc;
-    }, []);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -78,42 +72,92 @@ function RaidFilter({ theme, queryInitDep }) {
         return () => dispatch(closeFilterWithQuery());
     }, [queryInitDep, dispatch]);
 
-    const {
-        palette: { classColors, factionColors },
-    } = theme;
-    let classOptions = [];
-    for (let classId in characterClassNames) {
-        classOptions.push({
-            imageSrc: getClassImg(Number(classId)),
-            divider: true,
-            value: Number(classId),
-            name: characterClassNames[classId],
-            style: {
-                color: classColors[classId].text,
-            },
-        });
+    const realmNames = getRealmNames(realms);
+    const difficulties = getDifficultiesFromRaids(raids);
+    const classOptions = getClassAndSpecOptions(
+        characterClassNames,
+        characterClassSpecs,
+        specs,
+        classColors
+    );
+    const realmOptions = getRealmOptions(realmNames);
 
-        for (const specId of characterClassSpecs[classId]) {
-            if (!specs[specId]) continue;
-            classOptions.push({
-                imageSrc: getSpecImg(specs[specId].image),
-                indented: true,
-                value: specId,
-                name: specs[specId].label,
-                style: {
-                    color: classColors[classId].text,
-                },
-            });
-        }
-    }
+    const selects = getSelects({
+        difficulties,
+        classOptions,
+        realmOptions,
+        difficultyNames,
+        classColors,
+        filter,
+        factionColors,
+    });
 
-    let realmOptions = [];
-    for (let realm of realmNames) {
-        realmOptions.push({
-            value: realm,
-            name: realm,
-        });
-    }
+    return (
+        <FilterContainer>
+            {selects.map((select) => (
+                <FormControl key={select.name}>
+                    <InputLabel>{select.name}</InputLabel>
+                    <Select
+                        style={select.style}
+                        value={filter[select.name]}
+                        label={select.name}
+                        onChange={(e) =>
+                            dispatch(
+                                setRaidFilter({
+                                    filterName: select.name,
+                                    value: e.target.value,
+                                })
+                            )
+                        }
+                        inputProps={{
+                            name: select.name,
+                            id: select.name,
+                        }}
+                    >
+                        {select.name !== "difficulty" && (
+                            <MenuItem value="">
+                                <em>All</em>
+                            </MenuItem>
+                        )}
+
+                        {select.options.map((option) => {
+                            const Component = option.indented
+                                ? IndentedMenuItem
+                                : MenuItem;
+
+                            return (
+                                <Component
+                                    divider={option.divider}
+                                    key={option.name}
+                                    value={option.value}
+                                    style={option.style}
+                                >
+                                    {option.imageSrc && (
+                                        <Avatar
+                                            variant="small"
+                                            src={option.imageSrc}
+                                        />
+                                    )}
+                                    {option.name}
+                                </Component>
+                            );
+                        })}
+                    </Select>
+                </FormControl>
+            ))}
+        </FilterContainer>
+    );
+}
+
+function getSelects({
+    difficulties,
+    classOptions,
+    realmOptions,
+    difficultyNames,
+    classColors,
+    filter,
+    factionColors,
+}) {
     let selects = [
         {
             name: "class",
@@ -186,61 +230,7 @@ function RaidFilter({ theme, queryInitDep }) {
         });
     }
 
-    return (
-        <FilterContainer>
-            {selects.map((select) => (
-                <FormControl key={select.name}>
-                    <InputLabel>{select.name}</InputLabel>
-                    <Select
-                        style={select.style}
-                        value={filter[select.name]}
-                        label={select.name}
-                        onChange={(e) =>
-                            dispatch(
-                                setRaidFilter({
-                                    filterName: select.name,
-                                    value: e.target.value,
-                                })
-                            )
-                        }
-                        inputProps={{
-                            name: select.name,
-                            id: select.name,
-                        }}
-                    >
-                        {select.name !== "difficulty" && (
-                            <MenuItem value="">
-                                <em>All</em>
-                            </MenuItem>
-                        )}
-
-                        {select.options.map((option) => {
-                            const Component = option.indented
-                                ? IndentedMenuItem
-                                : MenuItem;
-
-                            return (
-                                <Component
-                                    divider={option.divider}
-                                    key={option.name}
-                                    value={option.value}
-                                    style={option.style}
-                                >
-                                    {option.imageSrc && (
-                                        <Avatar
-                                            variant="small"
-                                            src={option.imageSrc}
-                                        />
-                                    )}
-                                    {option.name}
-                                </Component>
-                            );
-                        })}
-                    </Select>
-                </FormControl>
-            ))}
-        </FilterContainer>
-    );
+    return selects;
 }
 
-export default withTheme(React.memo(RaidFilter));
+export default React.memo(RaidFilter);

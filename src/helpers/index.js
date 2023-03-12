@@ -33,6 +33,41 @@ export function getClassOptions(characterClassNames, classColors) {
     return classOptions;
 }
 
+export function getClassAndSpecOptions(
+    characterClassNames,
+    characterClassSpecs,
+    specs,
+    classColors
+) {
+    let options = [];
+    for (let classId in characterClassNames) {
+        options.push({
+            imageSrc: getClassImg(Number(classId)),
+            divider: true,
+            value: Number(classId),
+            name: characterClassNames[classId],
+            style: {
+                color: classColors[classId].text,
+            },
+        });
+
+        for (const specId of characterClassSpecs[classId]) {
+            if (!specs[specId]) continue;
+            options.push({
+                imageSrc: getSpecImg(specs[specId].image),
+                indented: true,
+                value: specId,
+                name: specs[specId].label,
+                style: {
+                    color: classColors[classId].text,
+                },
+            });
+        }
+    }
+
+    return options;
+}
+
 export function getSpecOptions(filter, specs, classColors) {
     let specOptions = [];
     const classColor = filter.class
