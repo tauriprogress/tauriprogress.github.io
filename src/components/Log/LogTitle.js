@@ -1,8 +1,6 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import withTheme from "@mui/styles/withTheme";
-
 import Link from "../Link";
 import Grid from "@mui/material/Grid";
 
@@ -18,20 +16,15 @@ import {
 import { Avatar } from "@mui/material";
 
 import { getRoleImg } from "../../helpers";
+import { useTheme } from "@emotion/react";
+import { countComposition } from "./helpers";
 
-function LogTitle({ data, theme }) {
+function LogTitle({ data }) {
     const {
         palette: {
             factionColors: { alliance, horde },
         },
-    } = theme;
-
-    let countComposition = {
-        heal: 0,
-        melee: 0,
-        ranged: 0,
-        tank: 0,
-    };
+    } = useTheme();
 
     const { specs, difficultyNames } = useSelector(
         (state) => ({
@@ -41,16 +34,7 @@ function LogTitle({ data, theme }) {
         shallowEqual
     );
 
-    for (let member of data.members) {
-        if (!member.spec) continue;
-        let role = specs[member.spec].role;
-
-        if (role === "damage") {
-            role = specs[member.spec].rangeType;
-        }
-
-        countComposition[role] += 1;
-    }
+    const compositionData = countComposition(data.members, specs);
 
     const date = new Date(data.killtime * 1000);
 
@@ -143,10 +127,10 @@ function LogTitle({ data, theme }) {
             label: "Characters",
             value: (
                 <span>
-                    {countComposition.tank +
-                        countComposition.heal +
-                        countComposition.ranged +
-                        countComposition.melee}
+                    {compositionData.tank +
+                        compositionData.heal +
+                        compositionData.ranged +
+                        compositionData.melee}
                 </span>
             ),
         },
@@ -154,7 +138,7 @@ function LogTitle({ data, theme }) {
             label: "Tank",
             value: (
                 <span>
-                    {countComposition.tank}
+                    {compositionData.tank}
                     <Avatar
                         variant="tiny"
                         component="span"
@@ -167,7 +151,7 @@ function LogTitle({ data, theme }) {
             label: "Healer",
             value: (
                 <span>
-                    {countComposition.heal}
+                    {compositionData.heal}
                     <Avatar
                         variant="tiny"
                         component="span"
@@ -180,7 +164,7 @@ function LogTitle({ data, theme }) {
             label: "Ranged",
             value: (
                 <span>
-                    {countComposition.ranged}
+                    {compositionData.ranged}
                     <Avatar
                         variant="tiny"
                         component="span"
@@ -193,7 +177,7 @@ function LogTitle({ data, theme }) {
             label: "Melee",
             value: (
                 <span>
-                    {countComposition.melee}
+                    {compositionData.melee}
                     <Avatar
                         variant="tiny"
                         component="span"
@@ -219,4 +203,4 @@ function LogTitle({ data, theme }) {
     );
 }
 
-export default withTheme(LogTitle);
+export default LogTitle;

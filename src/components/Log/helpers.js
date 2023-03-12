@@ -23,3 +23,25 @@ export function isRegularLog(log) {
     }
     return true;
 }
+
+export function countComposition(members, specs) {
+    let compositionData = {
+        heal: 0,
+        melee: 0,
+        ranged: 0,
+        tank: 0,
+    };
+
+    for (let member of members) {
+        if (!member.spec) continue;
+        let role = specs[member.spec].role;
+
+        if (role === "damage") {
+            role = specs[member.spec].rangeType;
+        }
+
+        compositionData[role] += 1;
+    }
+
+    return compositionData;
+}
