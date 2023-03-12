@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import withTheme from "@mui/styles/withTheme";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -29,10 +28,13 @@ import {
 import { raidBossKillCountFetch } from "../../redux/actions";
 
 import ElevatedLinearProgress from "../ElevatedLinearProgress";
-import { styled } from "@mui/system";
+import { useTheme } from "@emotion/react";
+import { styled } from "@mui/material";
+
 const NoWrap = styled("span")({
     whiteSpace: "nowrap",
 });
+
 function GuildList({ data = [], factionColors }) {
     return data.map((log, index) => {
         const date = new Date(log.date * 1000);
@@ -86,17 +88,10 @@ function GuildList({ data = [], factionColors }) {
     });
 }
 
-function RaidBossLogs({
-    theme,
-    raidId,
-    bossName,
-    difficulty,
-    fetch,
-    selector,
-}) {
+function RaidBossLogs({ raidId, bossName, difficulty, fetch, selector }) {
     const {
         palette: { factionColors },
-    } = theme;
+    } = useTheme();
 
     const dispatch = useDispatch();
 
@@ -161,4 +156,4 @@ function RaidBossLogs({
     );
 }
 
-export default withTheme(RaidBossLogs);
+export default RaidBossLogs;
