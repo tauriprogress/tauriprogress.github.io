@@ -2,35 +2,29 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 
-import withStyles from '@mui/styles/withStyles';
-
 import Grid from "@mui/material/Grid";
 
 import GuildBossKillsChart from "./GuildBossKillsChart";
 
 import { guildRaidDaysSelector } from "../../redux/guild/selectors";
 
-function styles(theme) {
-    return {
-        container: {
-            padding: `${theme.spacing(2)} 0 ${theme.spacing(4)}`,
-        },
-        contentContainer: {
-            maxWidth: "1000px",
-            margin: "auto",
-        },
-        title: {
-            margin: theme.spacing(2),
-        },
-    };
-}
+import { styled } from "@mui/material";
 
-function GuildBossKillsDays({ classes }) {
+const Container = styled("section")(({ theme }) => ({
+    padding: `${theme.spacing(2)} 0 ${theme.spacing(4)}`,
+}));
+
+const ContentContainer = styled("div")(({ theme }) => ({
+    maxWidth: "1000px",
+    margin: "auto",
+}));
+
+function GuildBossKillsDays() {
     const raidDays = useSelector(guildRaidDaysSelector);
 
     return (
-        <section className={classes.container}>
-            <div className={classes.contentContainer}>
+        <Container>
+            <ContentContainer>
                 <Grid container justifyContent="space-around">
                     <Grid item>
                         <GuildBossKillsChart
@@ -45,9 +39,9 @@ function GuildBossKillsDays({ classes }) {
                         />
                     </Grid>
                 </Grid>
-            </div>
-        </section>
+            </ContentContainer>
+        </Container>
     );
 }
 
-export default withStyles(styles)(GuildBossKillsDays);
+export default GuildBossKillsDays;
