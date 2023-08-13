@@ -6,10 +6,13 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import Brightness from "@mui/icons-material/Brightness6";
+import { Button } from "@mui/material";
 
 import LeftNavItems from "./LeftNavItems";
 
 import discordIcon from "../../assets/social/discord.svg";
+import patreonWordmark from "../../assets/social/Digital-Patreon-Wordmark_FieryCoral.png";
+import patreonLogo from "../../assets/social/Digital-Patreon-Logo_FieryCoral.png";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import { themeToggle } from "../../redux/actions";
@@ -19,6 +22,7 @@ export const headerHeight = "55px";
 export const rightNavBreakpoint = "500px";
 
 const discordLink = "https://discordapp.com/invite/3RWayqd";
+const patreonLink = "https://www.patreon.com/Tauriprogress";
 
 const HeaderContainer = styled("div")({
     height: headerHeight,
@@ -38,16 +42,6 @@ export const TallGrid = styled(Grid)({
 
 const ExtendedNavGrid = styled(Grid)({
     height: "100%",
-    [`@media(max-width: ${rightNavBreakpoint})`]: {
-        display: "none",
-    },
-});
-
-const CompactNavGrid = styled(Grid)({
-    height: "100%",
-    [`@media(min-width: ${rightNavBreakpoint})`]: {
-        display: "none",
-    },
 });
 
 export const VeritcalCenterGrid = styled(Grid)({
@@ -55,7 +49,60 @@ export const VeritcalCenterGrid = styled(Grid)({
     alignItems: "center",
 });
 
-function RightNavItems() {
+export const VeritcalCenterGridWideScreen = styled(VeritcalCenterGrid)({
+    [`@media(max-width: ${rightNavBreakpoint})`]: {
+        display: "none",
+    },
+});
+
+export const VeritcalCenterGridNarrowScreen = styled(VeritcalCenterGrid)({
+    [`@media(min-width: ${rightNavBreakpoint})`]: {
+        display: "none",
+    },
+});
+
+const FixSizedButton = styled(Button)(({ theme }) => ({
+    maxWidth: "100px",
+    [`@media(max-width: ${rightNavBreakpoint})`]: {
+        display: "none",
+    },
+    "& img": {
+        width: "100%",
+    },
+}));
+
+const IconButtonNarrowScreen = styled(IconButton)(({ theme }) => ({
+    margin: "auto",
+    [`@media(min-width: ${rightNavBreakpoint})`]: {
+        display: "none !important",
+    },
+}));
+
+function PatreonButton() {
+    return (
+        <VeritcalCenterGrid item>
+            <FixSizedButton
+                component="a"
+                href={patreonLink}
+                target="_blank"
+                rel="noreferrer noopener"
+            >
+                <img src={patreonWordmark} alt="Patreon" />
+            </FixSizedButton>
+            <IconButtonNarrowScreen
+                component="a"
+                href={patreonLink}
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{}}
+            >
+                <img src={patreonLogo} alt="Patreon" />
+            </IconButtonNarrowScreen>
+        </VeritcalCenterGrid>
+    );
+}
+
+function RightNavItems({ VeritcalCenterGrid }) {
     const dispatch = useDispatch();
     return (
         <>
@@ -100,27 +147,35 @@ function Header() {
                     </TallGrid>
                     <TallGrid item>
                         <ExtendedNavGrid container>
-                            <RightNavItems />
-                        </ExtendedNavGrid>
-                        <CompactNavGrid container>
-                            <VeritcalCenterGrid item>
+                            <PatreonButton />
+                            <RightNavItems
+                                VeritcalCenterGrid={
+                                    VeritcalCenterGridWideScreen
+                                }
+                            />
+
+                            <VeritcalCenterGridNarrowScreen item>
                                 <IconButton
                                     color="inherit"
                                     onClick={() => setOpen(!open)}
                                 >
                                     <MoreHorizIcon fontSize="large" />
                                 </IconButton>
-                            </VeritcalCenterGrid>
+                            </VeritcalCenterGridNarrowScreen>
                             <Drawer
                                 open={open}
                                 onClose={() => setOpen(false)}
                                 anchor="right"
                             >
                                 <Grid container direction="column">
-                                    <RightNavItems />
+                                    <RightNavItems
+                                        VeritcalCenterGrid={
+                                            VeritcalCenterGridNarrowScreen
+                                        }
+                                    />
                                 </Grid>
                             </Drawer>
-                        </CompactNavGrid>
+                        </ExtendedNavGrid>
                     </TallGrid>
                 </TallGrid>
                 <Divider />
