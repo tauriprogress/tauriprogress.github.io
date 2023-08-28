@@ -3,14 +3,14 @@ import {
     characterProgressionSetLoading,
     characterProgressionFill,
     characterProgressionSetError,
-    CHARACTER_PROGRESSION_FETCH
+    CHARACTER_PROGRESSION_FETCH,
 } from "./actions";
 import {
     characterNameSelector,
     characterRealmSelector,
     characterClassSelector,
     characterProgressionRaidDataExistsSelector,
-    characterProgressionLoadingSelector
+    characterProgressionLoadingSelector,
 } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
@@ -21,18 +21,18 @@ async function getData(
     raidName,
     characterClass
 ) {
-    return await fetch(`${serverUrl}/getcharacterperformance`, {
+    return await fetch(`${serverUrl}/character/characterperformance`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             characterName: characterName,
             raidName,
             realm,
-            characterClass
-        })
-    }).then(res => res.json());
+            characterClass,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchCharacterProgression({ payload: raidName }) {
@@ -42,8 +42,8 @@ function* fetchCharacterProgression({ payload: raidName }) {
             realm,
             characterClass,
             raidDataExists,
-            loading
-        } = yield select(state => {
+            loading,
+        } = yield select((state) => {
             return {
                 characterName: characterNameSelector(state),
                 realm: characterRealmSelector(state),
@@ -52,7 +52,7 @@ function* fetchCharacterProgression({ payload: raidName }) {
                     state,
                     raidName
                 ),
-                loading: characterProgressionLoadingSelector(state)
+                loading: characterProgressionLoadingSelector(state),
             };
         });
 

@@ -1,5 +1,4 @@
 import { all } from "redux-saga/effects";
-import getLastUpdatedSaga from "../siteInfo/getLastUpdatedSaga";
 import getCharacterLeaderboardSaga from "../characterLeaderboard/getCharacterLeaderboardSaga";
 import getCharacterDataSaga from "../character/getCharacterDataSaga";
 import getCharacterRecentKillsSaga from "../character/getCharacterRecentKillsSaga";
@@ -20,7 +19,6 @@ import historySaga from "../history/historySaga";
 
 function* sagas() {
     yield all([
-        getLastUpdatedSaga(),
         getCharacterLeaderboardSaga(),
         getCharacterDataSaga(),
         getCharacterRecentKillsSaga(),

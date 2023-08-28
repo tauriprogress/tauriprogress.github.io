@@ -5,7 +5,7 @@ import { logSetLoading, logSetError, logFill, LOG_FETCH } from "./actions";
 import { logDataSelector } from "./selectors";
 
 async function getData(serverUrl, logId, realm) {
-    return await fetch(`${serverUrl}/getlog`, {
+    return await fetch(`${serverUrl}/log`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

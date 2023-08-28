@@ -4,7 +4,7 @@ import {
     RAIDSUMMARY_FETCH,
     raidSummarySetLoading,
     raidSummaryFill,
-    raidSummarySetError
+    raidSummarySetError,
 } from "./actions";
 
 import { getServerUrl } from "../sagas/helpers";
@@ -12,15 +12,15 @@ import { getServerUrl } from "../sagas/helpers";
 import { raidSummaryRaidIdSelector } from "./selectors";
 
 async function getData(serverUrl, raidId) {
-    return await fetch(`${serverUrl}/getraidsummary`, {
+    return await fetch(`${serverUrl}/raidsummary`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            raidId: raidId
-        })
-    }).then(res => res.json());
+            raidId: raidId,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchRaidSummary({ payload: raidId }) {
@@ -31,7 +31,7 @@ function* fetchRaidSummary({ payload: raidId }) {
         yield put(
             raidSummarySetLoading({
                 raidId: raidId,
-                loading: true
+                loading: true,
             })
         );
 

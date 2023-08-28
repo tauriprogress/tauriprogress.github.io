@@ -23,7 +23,7 @@ async function getData(
     page,
     pageSize
 ) {
-    return await fetch(`${serverUrl}/getboss/characters`, {
+    return await fetch(`${serverUrl}/boss/characters`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

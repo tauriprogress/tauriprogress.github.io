@@ -16,7 +16,7 @@ import { getCurrentRealmGroupName } from "../../history/helpers";
 import { raidBossFastestKillsDataSpecificationStringSelector } from "../../selectors";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
-    return await fetch(`${serverUrl}/getboss/fastestKills`, {
+    return await fetch(`${serverUrl}/boss/fastestkills`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

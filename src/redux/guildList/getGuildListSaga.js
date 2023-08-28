@@ -12,7 +12,9 @@ import {
 } from "./selectors";
 
 async function getData(serverUrl) {
-    return await fetch(`${serverUrl}/guildlist`).then((res) => res.json());
+    return await fetch(`${serverUrl}/guild/guildlist`).then((res) =>
+        res.json()
+    );
 }
 
 function* fetchGuildList({ payload: requestedRealmGroup }) {

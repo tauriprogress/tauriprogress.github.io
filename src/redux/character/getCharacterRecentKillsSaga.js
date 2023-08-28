@@ -4,23 +4,23 @@ import {
     characterRecentKillsFill,
     characterRecentKillsSetError,
     CHARACTER_DATA_FETCH,
-    CHARACTER_RECENTKILLS_FETCH
+    CHARACTER_RECENTKILLS_FETCH,
 } from "./actions";
 import { characterRecentKillsLoadingSelector } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, characterName, realm) {
-    return await fetch(`${serverUrl}/characterrecentkills`, {
+    return await fetch(`${serverUrl}/character/recentkills`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             characterName: characterName,
             realm: realm,
-            limit: 50
-        })
-    }).then(res => res.json());
+            limit: 50,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchRecentKillsOfCharacter({ payload }) {

@@ -10,7 +10,7 @@ import { raidBossKillCountDataSpecificationStringSelector } from "../selectors";
 import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
-    return await fetch(`${serverUrl}/getboss/killCount`, {
+    return await fetch(`${serverUrl}/boss/killcount`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

@@ -15,7 +15,7 @@ import {
 } from "../../redux/selectors";
 
 async function getData(serverUrl, guildName, realm) {
-    return await fetch(`${serverUrl}/getguild`, {
+    return await fetch(`${serverUrl}/guild`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

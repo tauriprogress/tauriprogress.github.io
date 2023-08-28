@@ -12,7 +12,7 @@ import {
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, items, realm) {
-    return await fetch(`${serverUrl}/getitems`, {
+    return await fetch(`${serverUrl}/items`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

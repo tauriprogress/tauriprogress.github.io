@@ -16,7 +16,7 @@ import { RAIDBOSS_RECENTKILLS_FETCH } from "../actions";
 import { getCurrentRealmGroupName } from "../../history/helpers";
 
 async function getData(serverUrl, ingameBossId, difficulty) {
-    return await fetch(`${serverUrl}/getboss/latestKills`, {
+    return await fetch(`${serverUrl}/boss/latestkills`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",

@@ -3,22 +3,22 @@ import {
     characterDataSetLoading,
     characterDataFill,
     characterDataSetError,
-    CHARACTER_DATA_FETCH
+    CHARACTER_DATA_FETCH,
 } from "./actions";
 import { characterDataLoadingSelector } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, characterName, realm) {
-    return await fetch(`${serverUrl}/getcharacter`, {
+    return await fetch(`${serverUrl}/character`, {
         method: "post",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             characterName: characterName,
-            realm: realm
-        })
-    }).then(res => res.json());
+            realm: realm,
+        }),
+    }).then((res) => res.json());
 }
 
 function* fetchCharacter({ payload }) {
@@ -34,7 +34,7 @@ function* fetchCharacter({ payload }) {
         yield put(
             characterDataSetLoading({
                 characterName,
-                realm
+                realm,
             })
         );
 
