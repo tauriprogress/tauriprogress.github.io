@@ -44,7 +44,7 @@ function GuildList({ data = [], factionColors }) {
                     <Typography>{index + 1}.</Typography>
                 </TableCell>
                 <TableCell>
-                    {log.guild ? (
+                    {log.guild.name !== "Random" ? (
                         <NoWrap>
                             <Link
                                 style={{
@@ -63,8 +63,19 @@ function GuildList({ data = [], factionColors }) {
                         </NoWrap>
                     ) : (
                         <NoWrap>
-                            <Avatar src="" title={"Faction"} />
-                            Random
+                            <Avatar
+                                src={getFactionImg(log.guild.f)}
+                                title={"Faction"}
+                            />
+                            <span
+                                style={{
+                                    color: log.guild.f
+                                        ? factionColors.horde
+                                        : factionColors.alliance,
+                                }}
+                            >
+                                Random
+                            </span>
                         </NoWrap>
                     )}
                 </TableCell>

@@ -149,7 +149,7 @@ const FastestKills = React.memo(({ kills }) => {
                         <li key={log.id}>
                             <WithRealm realmName={log.realm}>
                                 <ListText guild={log.guild}>
-                                    {log.guild ? (
+                                    {log.guild.name !== "Random" ? (
                                         <Link
                                             style={{
                                                 color: "inherit",
