@@ -14,6 +14,7 @@ import getRaidBossKillCountSaga from "../raidBoss/sagas/getRaidBossKillCountSaga
 import getRaidBossRecentKillsSaga from "../raidBoss/sagas/getRaidBossRecentKillsSaga";
 import getRaidBossFastestKillsSaga from "../raidBoss/sagas/getRaidBossFastestKillsSaga";
 import getRaidBossCharactersSaga from "../raidBoss/sagas/getRaidBossCharactersSaga";
+import getWeeklyGuildFullClearSaga from "../weekly/sagas/getWeeklyGuildFullClearSaga";
 
 import historySaga from "../history/historySaga";
 
@@ -25,6 +26,8 @@ function* sagas() {
         getCharacterProgressionSaga(),
         getCharacterItemsSaga(),
         getLogSaga(),
+
+        
         getLogLootSaga(),
         getGuildLeaderboardSaga(),
         getGuildListSaga(),
@@ -34,6 +37,7 @@ function* sagas() {
         getRaidBossRecentKillsSaga(),
         getRaidBossFastestKillsSaga(),
         getRaidBossCharactersSaga(),
+        getWeeklyGuildFullClearSaga(),
 
         historySaga(),
     ]);

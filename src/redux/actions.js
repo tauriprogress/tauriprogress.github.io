@@ -12,3 +12,4 @@ export * from "./themes/actions";
 export * from "./raidFilter/actions";
 export * from "./raidSummary/actions";
 export * from "./raidBoss/actions";
+export * from "./weekly/actions";

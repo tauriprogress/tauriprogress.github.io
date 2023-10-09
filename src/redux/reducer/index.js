@@ -12,6 +12,7 @@ import themesReducer from "../themes/reducer";
 import raidFilterReducer from "../raidFilter/reducer";
 import raidSummaryReducer from "../raidSummary/reducer";
 import raidBossReducer from "../raidBoss/reducer";
+import weeklyReducer from "../weekly/reducer";
 
 import environmentReducer from "../environment/reducer";
 
@@ -29,6 +30,7 @@ const createRootReducer = () =>
         raidFilter: raidFilterReducer,
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
+        weekly: weeklyReducer,
 
         environment: environmentReducer,
     });
