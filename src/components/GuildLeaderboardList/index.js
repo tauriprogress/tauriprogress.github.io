@@ -49,7 +49,7 @@ function GuildLeaderboardList({ guilds }) {
                             guild={guild}
                             index={index}
                             factionColors={factionColors}
-                            key={`${guild.name}`}
+                            key={`${guild._id}`}
                         />
                     ))}
                 </TableBody>
