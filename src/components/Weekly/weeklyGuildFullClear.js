@@ -8,6 +8,7 @@ import ErrorMessage from "../ErrorMessage";
 import { weeklyGuildFullClearFetch } from "../../redux/actions";
 import { useEffect } from "react";
 import { transformGuilds } from "./helpers";
+import { Typography } from "@mui/material";
 
 function WeeklyGuildFullClear() {
     const { loading, guilds, error } = useSelector(
@@ -20,6 +21,9 @@ function WeeklyGuildFullClear() {
 
     return (
         <React.Fragment>
+            <Typography variant="h4" align="center">
+                Best clears this week
+            </Typography>
             {loading && <Loading />}
             {guilds && (
                 <GuildLeaderboardList guilds={transformGuilds(guilds)} />
