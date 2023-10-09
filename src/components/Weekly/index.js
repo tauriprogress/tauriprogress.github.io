@@ -1,11 +1,14 @@
 import React from "react";
 import Page from "../Page";
 import { withRealmGroupName } from "../Router/withRealmGroupName";
+import WeeklyGuildFullClear from "./weeklyGuildFullClear";
 
 function Weekly() {
     return (
         <Page>
-            <div>weekly display</div>
+            <section>
+                <WeeklyGuildFullClear />
+            </section>
         </Page>
     );
 }
