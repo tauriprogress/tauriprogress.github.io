@@ -15,6 +15,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Cookie from "@mui/icons-material/Cookie";
 import SearchIcon from "@mui/icons-material/Search";
 import ListIcon from "@mui/icons-material/List";
+import HomeIcon from "../HomeIcon";
 
 import SearchGuild from "../SearchGuild";
 import SearchCharacter from "../SearchCharacter";
@@ -120,6 +121,15 @@ function Navigation() {
         <Nav>
             <List disablePadding>
                 <Link to={`/`} onClick={toggleNav}>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItemButton>
+                </Link>
+
+                <Link to={`/guilds`} onClick={toggleNav}>
                     <ListItemButton>
                         <ListItemIcon>
                             <Cookie />

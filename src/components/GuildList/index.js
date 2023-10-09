@@ -38,6 +38,7 @@ import {
 import { withRealmGroupName } from "../Router/withRealmGroupName";
 
 import { styled, useTheme } from "@mui/material";
+import Page from "../Page";
 
 const Cell = styled(TableCell)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -143,7 +144,7 @@ function GuildList({ realmGroupName }) {
     }
 
     return (
-        <React.Fragment>
+        <Page title={"Guilds"}>
             {loading && <Loader />}
             {error && (
                 <ErrorMessage
@@ -216,7 +217,7 @@ function GuildList({ realmGroupName }) {
                     />
                 </React.Fragment>
             )}
-        </React.Fragment>
+        </Page>
     );
 }
 

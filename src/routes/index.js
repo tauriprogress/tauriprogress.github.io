@@ -3,13 +3,14 @@ import * as constants from "tauriprogress-constants";
 import Raid from "../components/Raid";
 import Guild from "../components/Guild";
 import Character from "../components/Character";
-import Home from "../components/Home";
+import GuildList from "../components/GuildList";
 import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
 import NotFound from "../components/NotFound";
 
 import { Log } from "../components/Log";
 import { LogModal } from "../components/Log/Modal";
+import Weekly from "../components/Weekly";
 
 function getRealmgroupMatch() {
     let matchString = "(";
@@ -26,13 +27,22 @@ function pathWithRealmGroups(path) {
     );
 }
 
-const homeRegExp = new RegExp(`^${getRealmgroupMatch()}(/)?$`);
-export const HOME_ROUTE = {
-    name: "HOME",
+const weeklyRegExp = new RegExp(`^${getRealmgroupMatch()}(/)?$`);
+export const WEEKLY_ROUTE = {
+    name: "WEEKLY",
     path: "/:realmGroupName",
-    component: Home,
+    component: Weekly,
     exact: true,
-    isCurrentRoute: () => homeRegExp.test(window.location.pathname),
+    isCurrentRoute: () => weeklyRegExp.test(window.location.pathname),
+};
+
+const guildsRegExp = new RegExp(`^${getRealmgroupMatch()}/guilds(/)?.*$`);
+export const GUILDS_ROUTE = {
+    name: "GUILDS",
+    path: "/:realmGroupName/guilds",
+    component: GuildList,
+    exact: true,
+    isCurrentRoute: () => guildsRegExp.test(window.location.pathname),
 };
 
 const raidRegExp = new RegExp(`^${getRealmgroupMatch()}/raid(/)?.*$`);
@@ -125,7 +135,8 @@ export const NOT_FOUND_ROUTE = {
 
 /* routes are matched based on order */
 const ROUTES = [
-    HOME_ROUTE,
+    WEEKLY_ROUTE,
+    GUILDS_ROUTE,
     RAID_ROUTE,
     GUILD_ROUTE,
     CHARACTER_ROUTE,
