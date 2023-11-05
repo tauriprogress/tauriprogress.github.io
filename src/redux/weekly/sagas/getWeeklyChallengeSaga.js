@@ -1,21 +1,21 @@
 import { put, call } from "redux-saga/effects";
 import { getServerUrl, takeLatestIfTrue } from "../../sagas/helpers";
 import {
-    WEEKLY_GUILDFULLCLEAR_FETCH,
-    weeklGuildFullClearFill,
-    weeklGuildFullClearSetError,
-    weeklGuildFullClearSetLoading,
+    WEEKLY_CHALLENGE_FETCH,
+    weeklyChallengeFill,
+    weeklyChallengeSetError,
+    weeklyChallengeSetLoading,
 } from "../actions";
 
 async function getData(serverUrl) {
-    return await fetch(`${serverUrl}/weekly/guildfullclear`).then((res) =>
+    return await fetch(`${serverUrl}/weekly/challenge`).then((res) =>
         res.json()
     );
 }
 
-function* fetchWeeklyGuildsFullClear() {
+function* fetchWeeklyChallenge() {
     try {
-        yield put(weeklGuildFullClearSetLoading(true));
+        yield put(weeklyChallengeSetLoading(true));
 
         const serverUrl = yield getServerUrl();
 
@@ -25,19 +25,16 @@ function* fetchWeeklyGuildsFullClear() {
             throw new Error(response.errorstring);
         } else {
             yield put(
-                weeklGuildFullClearFill({
+                weeklyChallengeFill({
                     guilds: response.response,
                 })
             );
         }
     } catch (err) {
-        yield put(weeklGuildFullClearSetError(err.message));
+        yield put(weeklyChallengeSetError(err.message));
     }
 }
 
-export default function* getWeeklyGuildFullClearSaga() {
-    yield takeLatestIfTrue(
-        WEEKLY_GUILDFULLCLEAR_FETCH,
-        fetchWeeklyGuildsFullClear
-    );
+export default function* getWeeklyChallengeSaga() {
+    yield takeLatestIfTrue(WEEKLY_CHALLENGE_FETCH, fetchWeeklyChallenge);
 }
