@@ -48,4 +48,4 @@ function ErrorMessage({ message, refresh }) {
     );
 }
 
-export default ErrorMessage;
+export default React.memo(ErrorMessage);
