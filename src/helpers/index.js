@@ -18,6 +18,17 @@ export function getDifficultiesFromRaids(raids) {
     }, []);
 }
 
+export function getClassColor(classOrSpec, classColors) {
+    if (!classOrSpec) return "inherit";
+
+    let characterClass = classOrSpec;
+    if (!isClassId(characterClass)) {
+        characterClass = characterSpecClass[characterClass];
+    }
+
+    return classColors[characterClass].text;
+}
+
 export function getClassOptions(characterClassNames, classColors) {
     let classOptions = [];
     for (let classId in characterClassNames) {

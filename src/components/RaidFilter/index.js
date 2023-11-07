@@ -15,13 +15,13 @@ import {
     getRealmNames,
     getRealmOptions,
     getRoleImg,
+    getClassColor,
 } from "../../helpers";
 import {
     closeFilterWithQuery,
     initFilterWithQuery,
     setRaidFilter,
 } from "../../redux/actions";
-import { getClassColor } from "./helpers";
 
 import Avatar from "@mui/material/Avatar";
 import { styled } from "@mui/system";
