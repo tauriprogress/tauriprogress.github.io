@@ -32,7 +32,7 @@ function WeeklyGuildFullClear() {
 
     return (
         <React.Fragment>
-            <Typography variant="h4" align="center">
+            <Typography variant="h4" align="center" marginTop={"60px"}>
                 Best clears this week
             </Typography>
             {loading && <Loading />}

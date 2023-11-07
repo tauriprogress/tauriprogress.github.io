@@ -76,7 +76,7 @@ function WeeklyChallenge() {
     return (
         <React.Fragment>
             <Typography variant="h4" align="center">
-                Challenge: {challengeName || "Loading..."}
+                Weekly Challenge: {challengeName || "Loading..."}
             </Typography>
             {loading && <Loading />}
             {challenge && (
