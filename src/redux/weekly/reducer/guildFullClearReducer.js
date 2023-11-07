@@ -72,7 +72,7 @@ function guildFullClearReducer(state = defaultState, action) {
                 ...state,
                 error: action.payload,
                 loading: false,
-                guilds: [],
+                guilds: undefined,
             };
         default:
             return state;

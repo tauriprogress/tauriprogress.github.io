@@ -13,12 +13,7 @@ import { weeklyGuildFullClearFetch } from "../../redux/actions";
 import { useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-
-const GuildsContainer = styled(Grid)(({ theme }) => ({
-    minWidth: "300px",
-    margin: "0 auto",
-    padding: theme.spacing(2),
-}));
+import DataContainer from "./DataContainer";
 
 const SecondaryText = styled(Typography)(({ theme }) => ({
     textAlign: "center",
@@ -41,7 +36,7 @@ function WeeklyGuildFullClear() {
                 Best clears this week
             </Typography>
             {loading && <Loading />}
-            {guilds && <DisplayGuilds guilds={guilds} />}
+            {guilds && <DisplayGuilds data={guilds} />}
             {error && (
                 <ErrorMessage
                     message={error}
@@ -52,7 +47,7 @@ function WeeklyGuildFullClear() {
     );
 }
 
-function DisplayGuilds({ guilds }) {
+function DisplayGuilds({ data }) {
     const { difficulties, difficultyNames } = useSelector(
         (state) => ({
             difficulties: environmentDifficultiesSelector(state),
@@ -68,7 +63,7 @@ function DisplayGuilds({ guilds }) {
                     <GuildList
                         key={diff}
                         difficultyName={difficultyNames[diff]}
-                        guilds={guilds[diff]}
+                        data={data[diff]}
                         xs={xs}
                     />
                 );
@@ -77,18 +72,15 @@ function DisplayGuilds({ guilds }) {
     );
 }
 
-function GuildList({ guilds, difficultyName, xs }) {
+function GuildList({ data, difficultyName, xs }) {
     return (
-        <GuildsContainer item xs={xs}>
-            <Typography variant="h6" align="center">
-                {difficultyName}
-            </Typography>
-            {guilds.length ? (
-                <GuildLeaderboardList guilds={guilds} />
+        <DataContainer difficultyName={difficultyName} xs={xs}>
+            {data ? (
+                <GuildLeaderboardList guilds={data} />
             ) : (
-                <SecondaryText>No clear yet</SecondaryText>
+                <SecondaryText>No data yet</SecondaryText>
             )}
-        </GuildsContainer>
+        </DataContainer>
     );
 }
 

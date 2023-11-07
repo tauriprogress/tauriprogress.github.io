@@ -24,11 +24,7 @@ function* fetchWeeklyChallenge() {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(
-                weeklyChallengeFill({
-                    guilds: response.response,
-                })
-            );
+            yield put(weeklyChallengeFill(response.response));
         }
     } catch (err) {
         yield put(weeklyChallengeSetError(err.message));
