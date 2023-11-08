@@ -7,7 +7,6 @@ import {
     weeklyGuildFullClearEntireSelector,
 } from "../../redux/selectors";
 import GuildLeaderboardList from "../GuildLeaderboardList";
-import Loading from "../Loading";
 import ErrorMessage from "../ErrorMessage";
 import { weeklyGuildFullClearFetch } from "../../redux/actions";
 import { useEffect } from "react";
@@ -22,9 +21,7 @@ const SecondaryText = styled(Typography)(({ theme }) => ({
 }));
 
 function WeeklyGuildFullClear() {
-    const { loading, guilds, error } = useSelector(
-        weeklyGuildFullClearEntireSelector
-    );
+    const { guilds, error } = useSelector(weeklyGuildFullClearEntireSelector);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(weeklyGuildFullClearFetch());
@@ -32,11 +29,14 @@ function WeeklyGuildFullClear() {
 
     return (
         <React.Fragment>
-            <Typography variant="h4" align="center" marginTop={"60px"}>
-                Best clears this week
-            </Typography>
-            {loading && <Loading />}
-            {guilds && <DisplayGuilds data={guilds} />}
+            {guilds && !!Object.keys(guilds).length && (
+                <>
+                    <Typography variant="h4" align="center" marginTop={"60px"}>
+                        Best clears this week
+                    </Typography>
+                    <DisplayGuilds data={guilds} />
+                </>
+            )}
             {error && (
                 <ErrorMessage
                     message={error}

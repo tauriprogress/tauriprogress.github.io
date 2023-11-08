@@ -36,6 +36,7 @@ import BoldLogLink from "../LogLink";
 import { filterWeeklyCharacters } from "./helper";
 import { PerfChartRow } from "../PerfChart";
 import WeeklyCharacterFilter from "./weeklyCharacterFilter";
+import WeeklyChallengeExplanation from "./WeeklyChallengeExplanation";
 
 const SecondaryText = styled(Typography)(({ theme }) => ({
     textAlign: "center",
@@ -73,17 +74,34 @@ function WeeklyChallenge() {
 
     const challengeName = getChallengeName(challenge, difficulties);
 
+    function isChallengeCompleted(challenge) {
+        return (
+            !!challenge &&
+            !!Object.keys(challenge).length &&
+            Object.values(challenge).reduce((acc, curr) => {
+                if (!!curr.killCount) {
+                    return true;
+                }
+                return acc;
+            }, false)
+        );
+    }
+
     return (
         <React.Fragment>
             <Typography variant="h4" align="center">
                 Weekly Challenge: {challengeName || "Loading..."}
             </Typography>
             {loading && <Loading />}
-            {challenge && (
+            {isChallengeCompleted(challenge) ? (
                 <DisplayRaidBosses
                     challenge={challenge}
                     difficulties={difficulties}
                 />
+            ) : (
+                challengeName && (
+                    <WeeklyChallengeExplanation challengeName={challengeName} />
+                )
             )}
             {error && (
                 <ErrorMessage
@@ -117,7 +135,7 @@ function DisplayRaidBosses({ challenge, difficulties }) {
 function RaidBoss({ data, difficultyName, xs }) {
     return (
         <WeeklyDataContainer xs={xs} difficultyName={difficultyName}>
-            {data ? (
+            {data && !!data.killCount ? (
                 <>
                     <FastestKills kills={data.fastestKills} />
                     <WeeklyCharacters data={data} />
