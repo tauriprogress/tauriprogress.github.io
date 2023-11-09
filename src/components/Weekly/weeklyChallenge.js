@@ -48,6 +48,10 @@ const NoborderTableCell = styled(TableCell)({
     borderBottom: "none",
 });
 
+const CharactersContainer = styled(Container)({
+    marginTop: "20px",
+});
+
 function getChallengeName(challenge, difficulties) {
     return (
         (challenge &&
@@ -227,7 +231,7 @@ function WeeklyCharacters({ data }) {
     const best = chars.length ? chars[0][combatMetric] : 0;
 
     return (
-        <Container>
+        <CharactersContainer>
             <WeeklyCharacterFilter
                 selectedCombatMetric={combatMetric}
                 setCombatMetric={setCombatMetric}
@@ -249,7 +253,7 @@ function WeeklyCharacters({ data }) {
                     color={classColors[char.class].background}
                 />
             ))}
-        </Container>
+        </CharactersContainer>
     );
 }
 
