@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import DataContainer from "./DataContainer";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 const SecondaryText = styled(Typography)(({ theme }) => ({
     textAlign: "center",
@@ -23,9 +24,10 @@ const SecondaryText = styled(Typography)(({ theme }) => ({
 function WeeklyGuildFullClear() {
     const { guilds, error } = useSelector(weeklyGuildFullClearEntireSelector);
     const dispatch = useDispatch();
+    const location = useLocation();
     useEffect(() => {
         dispatch(weeklyGuildFullClearFetch());
-    }, [dispatch]);
+    }, [location, dispatch]);
 
     return (
         <React.Fragment>

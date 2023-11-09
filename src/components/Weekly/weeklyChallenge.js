@@ -37,6 +37,7 @@ import { filterWeeklyCharacters } from "./helper";
 import { PerfChartRow } from "../PerfChart";
 import WeeklyCharacterFilter from "./weeklyCharacterFilter";
 import WeeklyChallengeExplanation from "./WeeklyChallengeExplanation";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 const SecondaryText = styled(Typography)(({ theme }) => ({
     textAlign: "center",
@@ -71,10 +72,11 @@ function WeeklyChallenge() {
     );
 
     const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(() => {
         dispatch(weeklyChallengeFetch());
-    }, [dispatch]);
+    }, [location, dispatch]);
 
     const challengeName = getChallengeName(challenge, difficulties);
 
