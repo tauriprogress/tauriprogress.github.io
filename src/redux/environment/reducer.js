@@ -17,6 +17,9 @@ if (devEnv) {
             case "mistblade":
                 url = "http://localhost:3004";
                 break;
+            case "mistblade2":
+                url = "http://localhost:3005";
+                break;
             default:
                 url = "http://localhost:3001";
                 break;
