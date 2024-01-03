@@ -45,6 +45,20 @@ const SecondaryText = styled(Typography)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
+const Subtitle = styled(Link)(({ theme }) => ({
+    fontSize: `${12 / 16}rem`,
+    padding: 0,
+    marginBottom: theme.spacing(3),
+    color: theme.palette.text.secondary,
+    textAlign: "center",
+    width: "100%",
+    display: "inline-block",
+    "&:hover": {
+        cursor: "pointer",
+        color: theme.palette.secondary.main,
+    },
+}));
+
 const NoborderTableCell = styled(TableCell)({
     borderBottom: "none",
 });
@@ -98,6 +112,11 @@ function WeeklyChallenge() {
             <Typography variant="h4" align="center">
                 Weekly Challenge: {challengeName || "Loading..."}
             </Typography>
+
+            <Subtitle align="center" to="/weeklychallengevote">
+                (vote for next week...)
+            </Subtitle>
+
             {loading && <Loading />}
             {isChallengeCompleted(challenge) ? (
                 <DisplayRaidBosses
