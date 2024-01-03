@@ -7,10 +7,11 @@ import GuildList from "../components/GuildList";
 import CharacterLeaderboard from "../components/CharacterLeaderboard";
 import GuildLeaderboard from "../components/GuildLeaderboard";
 import NotFound from "../components/NotFound";
+import Weekly from "../components/Weekly";
+import WeeklyChallengeVote from "../components/WeeklyChallengeVote";
 
 import { Log } from "../components/Log";
 import { LogModal } from "../components/Log/Modal";
-import Weekly from "../components/Weekly";
 
 function getRealmgroupMatch() {
     let matchString = "(";
@@ -34,6 +35,18 @@ export const WEEKLY_ROUTE = {
     component: Weekly,
     exact: true,
     isCurrentRoute: () => weeklyRegExp.test(window.location.pathname),
+};
+
+const weeklyChallengeVoteRegExp = new RegExp(
+    `^${getRealmgroupMatch()}/weeklychallengevote(/)?$`
+);
+export const WEEKLY_CHALLENGE_VOTE_ROUTE = {
+    name: "WEEKLY",
+    path: "/:realmGroupName/weeklychallengevote",
+    component: WeeklyChallengeVote,
+    exact: true,
+    isCurrentRoute: () =>
+        weeklyChallengeVoteRegExp.test(window.location.pathname),
 };
 
 const guildsRegExp = new RegExp(`^${getRealmgroupMatch()}/guilds(/)?.*$`);
@@ -136,6 +149,7 @@ export const NOT_FOUND_ROUTE = {
 /* routes are matched based on order */
 const ROUTES = [
     WEEKLY_ROUTE,
+    WEEKLY_CHALLENGE_VOTE_ROUTE,
     GUILDS_ROUTE,
     RAID_ROUTE,
     GUILD_ROUTE,
