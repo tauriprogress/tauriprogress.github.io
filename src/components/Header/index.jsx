@@ -10,9 +10,9 @@ import { Button } from "@mui/material";
 
 import LeftNavItems from "./LeftNavItems";
 
-import discordIcon from "../../assets/social/discord.svg";
-import patreonWordmark from "../../assets/social/Digital-Patreon-Wordmark_FieryCoral.png";
-import patreonLogo from "../../assets/social/Digital-Patreon-Logo_FieryCoral.png";
+import discordIcon from "/assets/social/discord.svg";
+import patreonWordmark from "/assets/social/Digital-Patreon-Wordmark_FieryCoral.png";
+import patreonLogo from "/assets/social/Digital-Patreon-Logo_FieryCoral.png";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import { themeToggle } from "../../redux/actions";

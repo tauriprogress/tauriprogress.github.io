@@ -274,32 +274,31 @@ export function talentTreeToSpec(fullSpecName, specs) {
 }
 
 export function getClassImg(classId) {
-    return require(`../assets/classes/${classId}.jpg`).default;
+    return `/assets/classes/${classId}.jpg`;
 }
 
 export function getRaidImg(imageName) {
-    return require(`../assets/raids/${imageName}`).default;
+    return `/assets/raids/${imageName}`;
 }
 
 export function getSpecImg(imageName) {
-    return require(`../assets/specs/${imageName}.png`).default;
+    return `/assets/specs/${imageName}.png`;
 }
 
 export function getRaceImg(imageName) {
-    return require(`../assets/races/${imageName}.jpg`).default;
+    return `/assets/races/${imageName}.jpg`;
 }
 
 export function getFactionImg(faction) {
-    return require(`../assets/faction/${!faction ? "alliance" : "horde"}.png`)
-        .default;
+    return `/assets/faction/${!faction ? "alliance" : "horde"}.png`;
 }
 
 export function getRoleImg(role) {
-    return require(`../assets/roles/${role}.svg`).default;
+    return `/assets/roles/${role}.svg`;
 }
 
 export function getExpansionImg(expansion) {
-    return require(`../assets/expansionIcon/${expansion}.png`).default;
+    return `/assets/expansionIcon/${expansion}.png`;
 }
 
 export function getRaceName(race) {
@@ -377,8 +376,7 @@ export function getSocketInfo(type) {
     if (socketInfo[type]) {
         return {
             ...socketInfo[type],
-            icon: require(`../assets/tooltip/${socketInfo[type].icon}.png`)
-                .default,
+            icon: `/assets/tooltip/${socketInfo[type].icon}.png`,
         };
     }
 
