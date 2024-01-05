@@ -1,8 +1,7 @@
 import * as cons from "tauriprogress-constants";
+import { devEnv } from "../../helpers";
 
 let constants = JSON.parse(JSON.stringify(cons));
-
-const devEnv = process.env.NODE_ENV === "development" ? true : false;
 
 if (devEnv) {
     for (const realmGroup of cons.realmGroups) {
