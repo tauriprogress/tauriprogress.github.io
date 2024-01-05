@@ -745,3 +745,7 @@ export function getRealmGroupOfRealm(realmName) {
 
     return false;
 }
+
+export const PATREON_CLIENT = "uhMK9LosJjR5KF-rFhyex3xbs_L76gPgctPGPoT7wF3Ek8psCcmNmfpM8sCmeZwA"
+
+export const devEnv = process.env.NODE_ENV === "development" ? true : false;
