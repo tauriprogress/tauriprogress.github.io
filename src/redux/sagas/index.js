@@ -18,6 +18,8 @@ import getWeeklyGuildFullClearSaga from "../weekly/sagas/getWeeklyGuildFullClear
 import getWeeklyChallengeSaga from "../weekly/sagas/getWeeklyChallengeSaga";
 
 import historySaga from "../history/historySaga";
+import userLoginSaga from "../user/userLoginSaga";
+import userLogoutSaga from "../user/userLogoutSaga";
 
 function* sagas() {
     yield all([
@@ -39,6 +41,8 @@ function* sagas() {
         getRaidBossCharactersSaga(),
         getWeeklyGuildFullClearSaga(),
         getWeeklyChallengeSaga(),
+        userLoginSaga(),
+        userLogoutSaga(),
 
         historySaga(),
     ]);
