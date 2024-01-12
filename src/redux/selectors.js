@@ -12,3 +12,4 @@ export * from "./raidSummary/selectors";
 export * from "./raidBoss/selectors";
 export * from "./environment/selectors";
 export * from "./weekly/selectors";
+export * from "./user/selectors";

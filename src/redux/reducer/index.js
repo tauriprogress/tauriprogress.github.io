@@ -13,6 +13,7 @@ import raidFilterReducer from "../raidFilter/reducer";
 import raidSummaryReducer from "../raidSummary/reducer";
 import raidBossReducer from "../raidBoss/reducer";
 import weeklyReducer from "../weekly/reducer";
+import userReducer from "../user/reducer";
 
 import environmentReducer from "../environment/reducer";
 
@@ -31,6 +32,7 @@ const createRootReducer = () =>
         raidSummary: raidSummaryReducer,
         raidBoss: raidBossReducer,
         weekly: weeklyReducer,
+        user: userReducer,
 
         environment: environmentReducer,
     });
