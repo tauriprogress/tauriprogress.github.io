@@ -16,6 +16,7 @@ import weeklyReducer from "../weekly/reducer";
 import userReducer from "../user/reducer";
 
 import environmentReducer from "../environment/reducer";
+import voteReducer from "../vote/reducer";
 
 const createRootReducer = () =>
     combineReducers({
@@ -33,6 +34,7 @@ const createRootReducer = () =>
         raidBoss: raidBossReducer,
         weekly: weeklyReducer,
         user: userReducer,
+        vote: voteReducer,
 
         environment: environmentReducer,
     });

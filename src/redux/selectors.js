@@ -13,3 +13,4 @@ export * from "./raidBoss/selectors";
 export * from "./environment/selectors";
 export * from "./weekly/selectors";
 export * from "./user/selectors";
+export * from "./vote/selectors";
