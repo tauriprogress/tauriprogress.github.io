@@ -14,3 +14,4 @@ export * from "./raidSummary/actions";
 export * from "./raidBoss/actions";
 export * from "./weekly/actions";
 export * from "./user/actions";
+export * from "./vote/actions";
