@@ -10,6 +10,7 @@ import {
 async function getData(serverUrl) {
     return await fetch(`${serverUrl}/weekly/challenge/votes`, {
         method: "get",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },
