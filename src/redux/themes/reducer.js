@@ -331,6 +331,14 @@ const darkTheme = createTheme(
                         },
                     },
                 },
+                MuiButton: {
+                    styleOverrides: {
+                        containedSecondary: {
+                            background: lightPSecondary,
+                            color: light,
+                        },
+                    },
+                },
             },
 
             palette: {
