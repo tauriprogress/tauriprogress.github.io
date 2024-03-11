@@ -52,6 +52,17 @@ const baseTheme = {
                     scrollbarWidth: "thin",
                 },
                 "*::-webkit-scrollbar": {},
+                "@keyframes opacityLoading": {
+                    "0%": {
+                        opacity: 0.2,
+                    },
+                    "50%": {
+                        opacity: 0.8,
+                    },
+                    "100%": {
+                        opacity: 0.2,
+                    },
+                },
             },
         },
         MuiAvatar: {
