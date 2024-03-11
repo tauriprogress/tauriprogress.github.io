@@ -8,6 +8,7 @@ import {
 const defaultState = {
     loading: false,
     votes: [],
+    currentVote: undefined,
     error: undefined,
 };
 
@@ -23,7 +24,8 @@ function voteReducer(state = defaultState, action) {
         case WEEKLY_CHALLENGE_VOTE_SET:
             return {
                 ...state,
-                votes: action.payload,
+                votes: action.payload.votes,
+                currentVote: action.payload.currentVote,
                 loading: false,
             };
         case WEEKLY_CHALLENGE_VOTE_SET_ERROR: {

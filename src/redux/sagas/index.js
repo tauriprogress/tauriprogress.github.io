@@ -17,6 +17,7 @@ import getRaidBossCharactersSaga from "../raidBoss/sagas/getRaidBossCharactersSa
 import getWeeklyGuildFullClearSaga from "../weekly/sagas/getWeeklyGuildFullClearSaga";
 import getWeeklyChallengeSaga from "../weekly/sagas/getWeeklyChallengeSaga";
 import voteSaga from "../vote/voteSaga";
+import voteForBossSaga from "../vote/voteForBossSaga";
 
 import historySaga from "../history/historySaga";
 import userLoginSaga from "../user/userLoginSaga";
@@ -45,6 +46,7 @@ function* sagas() {
         userLoginSaga(),
         userLogoutSaga(),
         voteSaga(),
+        voteForBossSaga(),
 
         historySaga(),
     ]);
