@@ -13,25 +13,12 @@ import Paper from "@mui/material/Paper";
 
 import { getRaidImg } from "../../helpers";
 import { styled } from "@mui/system";
+import ImageProgressBar from "../ImageProgressBar";
 
 const Container = styled(Card)(({ theme }) => ({
     margin: `0 ${theme.spacing(1)} ${theme.spacing(1)}`,
     width: "260px",
     borderRadius: "4px",
-}));
-
-const TitleContainer = styled("div")(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center center",
-    color: theme.palette.primary.contrastText,
-}));
-
-const Title = styled(Grid)(({ theme }) => ({
-    padding: theme.spacing(2),
-    "& p": {
-        cursor: "default",
-    },
 }));
 
 const Defeated = styled("span")(({ theme }) => ({
@@ -104,38 +91,30 @@ function GuildRaidSummary({ data, difficultyNames }) {
                     </TooltipContentContainer>
                 }
             >
-                <TitleContainer
-                    style={{
-                        backgroundImage: `url("${getRaidImg(data.image)}")`,
-                    }}
-                >
-                    <Title
-                        container
-                        justifyContent="space-between"
-                        wrap={"nowrap"}
-                        style={{
-                            background: `linear-gradient(to left, rgba(0, 0, 0, 0.7) ${
-                                100 -
-                                (data.defeatedBosses / data.bossCount) * 100
-                            }%, rgba(0,0,0,0) ${
-                                100 -
-                                (data.defeatedBosses / data.bossCount) * 100
-                            }%)`,
-                        }}
-                    >
-                        <Grid item>
-                            <Typography>{data.name}</Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography>
-                                {`${data.defeatedBosses}/${data.bossCount}`}
-                            </Typography>
-                        </Grid>
-                    </Title>
-                </TitleContainer>
+                <div>
+                    <ImageProgressBar
+                        textLeft={data.name}
+                        textRight={`${data.defeatedBosses}/${data.bossCount}`}
+                        image={`url("${getRaidImg(data.image)}")`}
+                        progressPercentage={
+                            data.defeatedBosses / data.bossCount
+                        }
+                    />
+                </div>
             </FilledTooltip>
         </Container>
     );
 }
+
+/*
+
+<ImageProgressBar
+                    textLeft={data.name}
+                    textRight={`${data.defeatedBosses}/${data.bossCount}`}
+                    image={`url("${getRaidImg(data.image)}")`}
+                    progressPercentage={data.defeatedBosses / data.bossCount}
+                />
+
+*/
 
 export default GuildRaidSummary;
