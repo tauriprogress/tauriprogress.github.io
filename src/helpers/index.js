@@ -281,6 +281,10 @@ export function getRaidImg(imageName) {
     return `/assets/raids/${imageName}`;
 }
 
+export function getBossImg(bossName, size = "s") {
+    return `/assets/bosses/${bossName}/${size}.webp`;
+}
+
 export function getSpecImg(imageName) {
     return `/assets/specs/${imageName}.png`;
 }
@@ -746,6 +750,7 @@ export function getRealmGroupOfRealm(realmName) {
     return false;
 }
 
-export const PATREON_CLIENT = "uhMK9LosJjR5KF-rFhyex3xbs_L76gPgctPGPoT7wF3Ek8psCcmNmfpM8sCmeZwA"
+export const PATREON_CLIENT =
+    "uhMK9LosJjR5KF-rFhyex3xbs_L76gPgctPGPoT7wF3Ek8psCcmNmfpM8sCmeZwA";
 
 export const devEnv = process.env.NODE_ENV === "development" ? true : false;

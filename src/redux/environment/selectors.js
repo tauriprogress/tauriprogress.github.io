@@ -19,6 +19,12 @@ export function environmentCurrentRaidNameSelector(state) {
         .currentContent.name;
 }
 
+export function environmentCurrentRaidBossesSelector(state) {
+    const realmGroupName = getCurrentRealmGroupName();
+    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
+        .currentContent.raids[0].bosses;
+}
+
 export function environmentArmoryUrlSelector(state) {
     const realmGroupName = getCurrentRealmGroupName();
     return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
