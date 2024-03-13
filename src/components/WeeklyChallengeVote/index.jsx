@@ -11,6 +11,7 @@ import {
 } from "../../redux/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    userAuthenticate,
     userLoginLogout,
     weeklyChallengeVoteFetch,
     weeklyChallengeVoteForBoss,
@@ -47,14 +48,18 @@ const Description = styled(Typography)({
 });
 
 function WeeklyChallengeVote() {
-    const { user } = useSelector(userEntireSelector);
+    const { user, loading: userAuthLoading } = useSelector(userEntireSelector);
     const { votes, currentVote, error, loading } =
         useSelector(voteEntireSelector);
     const dispatch = useDispatch();
 
     const loggedIn = !!user;
+
     useEffect(() => {
         dispatch(weeklyChallengeVoteFetch());
+        if (!loggedIn) {
+            dispatch(userAuthenticate());
+        }
     }, [dispatch]);
 
     return (
@@ -87,6 +92,7 @@ function WeeklyChallengeVote() {
                                     color="secondary"
                                     variant="contained"
                                     onClick={() => dispatch(userLoginLogout())}
+                                    disabled={userAuthLoading}
                                 >
                                     LOG OUT
                                 </LongButton>
@@ -96,6 +102,7 @@ function WeeklyChallengeVote() {
                                 color="secondary"
                                 variant="contained"
                                 href={`${patreonUrl}&redirect_uri=${getPatreonRedirect()}`}
+                                disabled={userAuthLoading}
                             >
                                 LOG IN
                             </LongButton>
