@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, select } from "redux-saga/effects";
 import { getServerUrl } from "../sagas/helpers";
 import {
     WEEKLY_CHALLENGE_VOTE_FETCH,
@@ -6,14 +6,17 @@ import {
     weeklyChallengeVoteSetError,
     weeklyChallengeVoteSetLoading,
 } from "./actions";
+import { userSelector } from "../selectors";
 
-async function getData(serverUrl) {
+async function getData(serverUrl, userToken) {
     return await fetch(`${serverUrl}/weekly/challenge/votes`, {
-        method: "get",
-        credentials: "include",
+        method: "post",
         headers: {
             "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+            user: userToken,
+        }),
     }).then((res) => res.json());
 }
 
@@ -22,7 +25,9 @@ function* getVotes() {
         yield put(weeklyChallengeVoteSetLoading(true));
 
         const serverUrl = yield getServerUrl();
-        const response = yield call(getData, serverUrl);
+
+        const userToken = yield select(userSelector);
+        const response = yield call(getData, serverUrl, userToken);
 
         if (!response.success) {
             throw new Error(response.errorstring);
