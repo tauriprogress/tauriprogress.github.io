@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { userErrorSelector } from "../../redux/selectors";
-import { userLoginFetch } from "../../redux/actions";
+import { userLogin } from "../../redux/actions";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ErrorMessage from "../ErrorMessage";
 
@@ -15,7 +15,7 @@ function Login({ location }) {
 
     useEffect(() => {
         dispatch(
-            userLoginFetch({
+            userLogin({
                 code: code,
                 history: history,
             })

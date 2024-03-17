@@ -1,12 +1,11 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { getServerUrl } from "../sagas/helpers";
-import { USER_LOGIN_FETCH, userLoginSetError, userSet } from "./actions";
+import { USER_LOGIN, userSetError, userSetUser } from "./actions";
 import { getCurrentRealmGroupName } from "../history/helpers";
 
 async function getData(serverUrl, code) {
-    return await fetch(`${serverUrl}/login`, {
+    return await fetch(`${serverUrl}/user/login`, {
         method: "post",
-        credentials: "include",
         headers: {
             "Content-Type": "application/json",
         },
@@ -26,17 +25,17 @@ function* login({ payload }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(userSet(response.response));
+            yield put(userSetUser(response.response));
 
             payload.history.push(
                 `/${getCurrentRealmGroupName()}/weeklychallengevote`
             );
         }
     } catch (err) {
-        yield put(userLoginSetError(err.message));
+        yield put(userSetError(err.message));
     }
 }
 
 export default function* loginSaga() {
-    yield takeLatest(USER_LOGIN_FETCH, login);
+    yield takeLatest(USER_LOGIN, login);
 }

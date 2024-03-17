@@ -11,8 +11,7 @@ import {
 } from "../../redux/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    userAuthenticate,
-    userLoginLogout,
+    userLogout,
     weeklyChallengeVoteFetch,
     weeklyChallengeVoteForBoss,
 } from "../../redux/actions";
@@ -48,7 +47,7 @@ const Description = styled(Typography)({
 });
 
 function WeeklyChallengeVote() {
-    const { user, loading: userAuthLoading } = useSelector(userEntireSelector);
+    const { user, loading: refreshLoading } = useSelector(userEntireSelector);
     const { votes, currentVote, error, loading } =
         useSelector(voteEntireSelector);
     const dispatch = useDispatch();
@@ -57,9 +56,6 @@ function WeeklyChallengeVote() {
 
     useEffect(() => {
         dispatch(weeklyChallengeVoteFetch());
-        if (!loggedIn) {
-            dispatch(userAuthenticate());
-        }
     }, [dispatch]);
 
     return (
@@ -71,6 +67,7 @@ function WeeklyChallengeVote() {
                             votes={votes}
                             loggedIn={loggedIn}
                             loading={loading}
+                            refreshLoading={refreshLoading}
                         />
                     </GridItem>
                     <GridItem item>
@@ -91,8 +88,8 @@ function WeeklyChallengeVote() {
                                 <LongButton
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => dispatch(userLoginLogout())}
-                                    disabled={userAuthLoading}
+                                    onClick={() => dispatch(userLogout())}
+                                    disabled={refreshLoading}
                                 >
                                     LOG OUT
                                 </LongButton>
@@ -102,7 +99,7 @@ function WeeklyChallengeVote() {
                                 color="secondary"
                                 variant="contained"
                                 href={`${patreonUrl}&redirect_uri=${getPatreonRedirect()}`}
-                                disabled={userAuthLoading}
+                                disabled={refreshLoading}
                             >
                                 LOG IN
                             </LongButton>
@@ -137,7 +134,7 @@ const VoteButton = styled(Button)((theme) => ({
     height: "100%",
 }));
 
-function DisplayVotes({ loggedIn, votes, loading }) {
+function DisplayVotes({ loggedIn, votes, loading, refreshLoading }) {
     const bosses = useSelector(environmentCurrentRaidBossesSelector);
     const dispatch = useDispatch();
 
@@ -188,7 +185,7 @@ function DisplayVotes({ loggedIn, votes, loading }) {
                         <VoteButton
                             color="secondary"
                             variant="contained"
-                            disabled={!loggedIn || loading}
+                            disabled={!loggedIn || loading || refreshLoading}
                             onClick={() => vote(boss.name)}
                         >
                             VOTE

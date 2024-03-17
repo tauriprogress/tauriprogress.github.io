@@ -1,48 +1,40 @@
-export const USER_LOGIN_SET_ERROR = "USER_LOGIN_SET_ERROR";
-export const USER_LOGIN_FETCH = "USER_LOGIN_FETCH";
-export const USER_LOGIN_LOGOUT = "USER_LOGIN_LOGOUT";
-export const USER_SET = "USER_SET";
-export const USER_AUTHENTICATE = "USER_AUTHENTICATE";
-export const USER_AUTHENTICATE_LOADING = "USER_AUTHENTICATE_LOADING";
+export const USER_LOGIN = "USER_LOGIN";
+export const USER_LOGOUT = "USER_LOGOUT";
+export const USER_SET_USER = "USER_SET_USER";
+export const USER_SET_ERROR = "USER_LOGIN_SET_ERROR";
+export const USER_SET_LOADING = "USER_SET_LOADING";
 
-export function userLoginFetch(payload) {
+export function userLogin(payload) {
     return {
-        type: USER_LOGIN_FETCH,
+        type: USER_LOGIN,
         payload,
     };
 }
 
-export function userLoginSetError(payload) {
+export function userSetError(payload) {
     return {
-        type: USER_LOGIN_SET_ERROR,
+        type: USER_SET_ERROR,
         payload,
     };
 }
 
-export function userSet(payload) {
+export function userSetUser(payload) {
     return {
-        type: USER_SET,
+        type: USER_SET_USER,
         payload,
     };
 }
 
-export function userLoginLogout(payload) {
+export function userLogout(payload) {
     return {
-        type: USER_LOGIN_LOGOUT,
+        type: USER_LOGOUT,
         payload,
     };
 }
 
-export function userAuthenticate(payload) {
+export function userSetLoading(payload) {
     return {
-        type: USER_AUTHENTICATE,
-        payload,
-    };
-}
-
-export function userAuthenticateLoading(payload) {
-    return {
-        type: USER_AUTHENTICATE_LOADING,
+        type: USER_SET_LOADING,
         payload,
     };
 }

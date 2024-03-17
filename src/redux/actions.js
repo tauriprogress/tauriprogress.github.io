@@ -15,3 +15,13 @@ export * from "./raidBoss/actions";
 export * from "./weekly/actions";
 export * from "./user/actions";
 export * from "./vote/actions";
+
+export const APP_INIT = "APP_INIT"
+
+
+export function initalizeApp(payload) {
+    return {
+        type: APP_INIT,
+        payload
+    }
+}

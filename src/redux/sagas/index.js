@@ -21,8 +21,7 @@ import voteForBossSaga from "../vote/voteForBossSaga";
 
 import historySaga from "../history/historySaga";
 import userLoginSaga from "../user/userLoginSaga";
-import userLogoutSaga from "../user/userLogoutSaga";
-import userAuthenticateSaga from "../user/userAuthenticateSaga";
+import userRefreshSaga from "../user/userRefreshSaga";
 
 function* sagas() {
     yield all([
@@ -44,9 +43,8 @@ function* sagas() {
         getRaidBossCharactersSaga(),
         getWeeklyGuildFullClearSaga(),
         getWeeklyChallengeSaga(),
-        userAuthenticateSaga(),
         userLoginSaga(),
-        userLogoutSaga(),
+        userRefreshSaga(),
         voteSaga(),
         voteForBossSaga(),
 
