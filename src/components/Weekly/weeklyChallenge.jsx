@@ -212,7 +212,7 @@ function FastestKills({ kills }) {
                                     </React.Fragment>
                                 ) : (
                                     <Link
-                                        to={`/guild/${kill.guild.name}?realm=${kill.guild.realm}`}
+                                        to={`/guild/${kill.guild.name}?realm=${kill.realm}`}
                                     >
                                         <Avatar
                                             src={getFactionImg(kill.guild.f)}
