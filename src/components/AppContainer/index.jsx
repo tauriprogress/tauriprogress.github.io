@@ -12,8 +12,6 @@ const PageContentContainer = styled("div")({
 
 const FlexOverflowScroll = styled(OverflowScroll)(({ theme }) => ({
     flex: 1,
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(2),
 }));
 
 function AppContainer({ children }) {

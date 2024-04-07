@@ -26,6 +26,11 @@ import {
     guildErrorSelector,
 } from "../../redux/guild/selectors";
 import { useLocation, useRouteMatch } from "react-router-dom";
+import styled from "@emotion/styled";
+
+const Section = styled("section")(({ theme }) => ({
+    paddingTop: theme.spacing(2),
+}));
 
 function Guild() {
     const location = useLocation();
@@ -50,7 +55,7 @@ function Guild() {
 
     return (
         <Page title={`${match.params.guildName} | Tauri Progress`}>
-            <section>
+            <Section>
                 {loading && <Loading />}
 
                 {error && (
@@ -82,7 +87,7 @@ function Guild() {
                         <GuildBossKillsDays />
                     </React.Fragment>
                 )}
-            </section>
+            </Section>
         </Page>
     );
 }

@@ -109,7 +109,7 @@ function WeeklyChallenge() {
 
     return (
         <React.Fragment>
-            <Typography variant="h4" align="center">
+            <Typography variant="h4" align="center" marginTop={2}>
                 Weekly Challenge: {challengeName || "Loading..."}
             </Typography>
 
