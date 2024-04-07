@@ -1,17 +1,13 @@
 export function characterNameSelector(state) {
-    return state.character.characterName;
+    return state.character.data.name;
 }
 
 export function characterRealmSelector(state) {
-    return state.character.realm;
+    return state.character.data.realm;
 }
 
 export function characterClassSelector(state) {
-    return state.character.data.data && state.character.data.data.class;
-}
-
-export function characterDataSelector(state) {
-    return state.character.data.data;
+    return state.character.data.class;
 }
 
 export function characterDataLoadingSelector(state) {
@@ -23,9 +19,7 @@ export function characterDataErrorSelector(state) {
 }
 
 export function characterDataIncompleteItemsSelector(state) {
-    return (
-        !!state.character.data.data && state.character.data.data.characterItems
-    );
+    return state.character.data.items;
 }
 
 export function characterItemsLoadingSelector(state) {
