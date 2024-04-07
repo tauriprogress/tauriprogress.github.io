@@ -305,6 +305,10 @@ export function getExpansionImg(expansion) {
     return `/assets/expansionIcon/${expansion}.png`;
 }
 
+export function getClassBackground(classId) {
+    return `/assets/backgrounds/classes/${classId}.webp`;
+}
+
 export function getRaceName(race) {
     const [raceId, genderId] = race.split(",");
     return `${characterRaceNames[raceId]} ${
