@@ -12,14 +12,11 @@ import {
     CHARACTER_ITEMS_LOADING_SET,
     CHARACTER_ITEMS_FILL,
     CHARACTER_ITEMS_ERROR_SET,
+    CHARACTER_DATA_SET_NEW_CHARACTER,
 } from "./actions";
 import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
-import {
-    getSocketInfo,
-    gemColorsToSockets,
-    getDefaultRaidName,
-} from "../../helpers";
+import { getSocketInfo, gemColorsToSockets } from "../../helpers";
 import { dataFromCharData, isSameChar } from "./helpers";
 
 const defaultState = {
@@ -64,6 +61,18 @@ function characterReducer(state = defaultState, action) {
             return {
                 ...defaultState,
             };
+
+        case CHARACTER_DATA_SET_NEW_CHARACTER:
+            return {
+                ...defaultState,
+                data: {
+                    ...defaultState.data,
+                    name: action.payload.name,
+                    realm: action.payload.realm,
+                    class: action.payload.class,
+                },
+            };
+
         case CHARACTER_DATA_LOADING_SET:
             return {
                 ...state,

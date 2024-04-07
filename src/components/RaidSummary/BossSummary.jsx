@@ -6,7 +6,6 @@ import Grid from "@mui/material/Grid";
 
 import WithRealm from "../WithRealm";
 import LogLink from "../LogLink";
-import Avatar from "../Avatar";
 import Link from "../Link";
 
 import { applyFilter } from "./helpers";
@@ -14,13 +13,12 @@ import { applyFilter } from "./helpers";
 import {
     convertFightLength,
     dateToString,
-    getSpecImg,
     shortNumber,
     capitalize,
 } from "../../helpers";
 
 import { styled } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import CharacterName from "../CharacterName";
 
 const Container = styled("div")(({ theme }) => ({
     width: "280px",
@@ -59,9 +57,6 @@ const GridItem = styled(Grid)(({ theme }) => ({
 
 function BossSummary({ bossInfo, data, filter, specs }) {
     const boss = applyFilter(data, filter, specs);
-    const {
-        palette: { classColors },
-    } = useTheme();
 
     return (
         <Container>
@@ -103,26 +98,13 @@ function BossSummary({ bossInfo, data, filter, specs }) {
                                                         character[combatMetric]
                                                     )}
                                                 </LogLink>{" "}
-                                                <Avatar
-                                                    src={getSpecImg(
-                                                        specs[character.spec]
-                                                            .image
-                                                    )}
-                                                    title={
-                                                        specs[character.spec]
-                                                            .label
-                                                    }
-                                                />
-                                                <Link
-                                                    to={`/character/${character.name}?realm=${character.realm}`}
-                                                    style={{
-                                                        color: classColors[
-                                                            character.class
-                                                        ].text,
-                                                    }}
+                                                <CharacterName
+                                                    noRaceImage={true}
+                                                    character={character}
+                                                    realmName={character.realm}
                                                 >
                                                     {character.name}
-                                                </Link>
+                                                </CharacterName>
                                             </ListTextOverflow>
                                         </li>
                                     )

@@ -1,3 +1,5 @@
+export const CHARACTER_DATA_SET_NEW_CHARACTER =
+    "CHARACTER_DATA_SET_NEW_CHARACTER";
 export const CHARACTER_DATA_FETCH = "CHARACTER_DATA_FETCH";
 export const CHARACTER_DATA_LOADING_SET = "CHARACTER_DATA_LOADING_SET";
 export const CHARACTER_DATA_FILL = "CHARACTER_DATA_FILL";
@@ -23,121 +25,128 @@ export const CHARACTER_ITEMS_LOADING_SET = "CHARACTER_ITEMS_LOADING_SET";
 export const CHARACTER_ITEMS_FILL = "CHARACTER_ITEMS_FILL";
 export const CHARACTER_ITEMS_ERROR_SET = "CHARACTER_ITEMS_ERROR_SET";
 
+export function characterDataSetNewCharacter(payload) {
+    return {
+        type: CHARACTER_DATA_SET_NEW_CHARACTER,
+        payload,
+    };
+}
+
 export function characterDataFetch(payload) {
     return {
         type: CHARACTER_DATA_FETCH,
-        payload
+        payload,
     };
 }
 
 export function characterDataSetLoading(payload) {
     return {
         type: CHARACTER_DATA_LOADING_SET,
-        payload
+        payload,
     };
 }
 
 export function characterDataFill(payload) {
     return {
         type: CHARACTER_DATA_FILL,
-        payload
+        payload,
     };
 }
 
 export function characterDataSetError(payload) {
     return {
         type: CHARACTER_DATA_ERROR_SET,
-        payload
+        payload,
     };
 }
 
 export function characterProgressionFetch(payload) {
     return {
         type: CHARACTER_PROGRESSION_FETCH,
-        payload
+        payload,
     };
 }
 
 export function characterProgressionSetRaid(payload) {
     return {
         type: CHARACTER_PROGRESSION_RAID_SET,
-        payload
+        payload,
     };
 }
 
 export function characterProgressionSetLoading(payload) {
     return {
         type: CHARACTER_PROGRESSION_LOADING_SET,
-        payload
+        payload,
     };
 }
 
 export function characterProgressionFill(payload) {
     return {
         type: CHARACTER_PROGRESSION_FILL,
-        payload
+        payload,
     };
 }
 
 export function characterProgressionSetError(payload) {
     return {
         type: CHARACTER_PROGRESSION_ERROR_SET,
-        payload
+        payload,
     };
 }
 
 export function characterRecentKillsFetch(payload) {
     return {
         type: CHARACTER_RECENTKILLS_FETCH,
-        payload
+        payload,
     };
 }
 
 export function characterRecentKillsSetLoading(payload) {
     return {
         type: CHARACTER_RECENTKILLS_LOADING_SET,
-        payload
+        payload,
     };
 }
 
 export function characterRecentKillsFill(payload) {
     return {
         type: CHARACTER_RECENTKILLS_FILL,
-        payload
+        payload,
     };
 }
 
 export function characterRecentKillsSetError(payload) {
     return {
         type: CHARACTER_RECENTKILLS_ERROR_SET,
-        payload
+        payload,
     };
 }
 
 export function characterItemsFetch(payload) {
     return {
         type: CHARACTER_ITEMS_FETCH,
-        payload
+        payload,
     };
 }
 
 export function characterItemsSetLoading(payload) {
     return {
         type: CHARACTER_ITEMS_LOADING_SET,
-        payload
+        payload,
     };
 }
 
 export function characterItemsFill(payload) {
     return {
         type: "CHARACTER_ITEMS_FILL",
-        payload
+        payload,
     };
 }
 
 export function characterItemsSetError(payload) {
     return {
         type: "CHARACTER_ITEMS_ERROR_SET",
-        payload
+        payload,
     };
 }

@@ -7,6 +7,7 @@ import Avatar from "../Avatar";
 
 import { getRaceImg, getRaceName, getSpecImg } from "../../helpers";
 import { environmentCharacterSpecsSelector } from "../../redux/selectors";
+import CharacterLink from "../Link/CharacterLink";
 
 function CharacterName({
     character,
@@ -16,6 +17,7 @@ function CharacterName({
     raceIconStyles = {},
     specIconStyles = {},
     linkTo,
+    noRaceImage,
     ...rest
 }) {
     const theme = useTheme();
@@ -34,28 +36,32 @@ function CharacterName({
                 title={specIconTitle || specTitle}
                 sx={raceIconStyles}
             />
-
-            <Avatar
-                src={getRaceImg(character.race)}
-                title={getRaceName(character.race)}
-                sx={specIconStyles}
-            />
+            {!noRaceImage && (
+                <Avatar
+                    src={getRaceImg(character.race)}
+                    title={getRaceName(character.race)}
+                    sx={specIconStyles}
+                />
+            )}
 
             {(() => {
                 switch (linkTo) {
                     case undefined:
                         return (
-                            <Link
+                            <CharacterLink
                                 to={`/character/${character.name}?realm=${realmName}`}
                                 style={{
                                     color: theme.palette.classColors[
                                         character.class
                                     ].text,
                                 }}
+                                name={character.name}
+                                realm={realmName}
+                                characterClass={character.class}
                                 {...rest}
                             >
                                 {character.name}
-                            </Link>
+                            </CharacterLink>
                         );
                     case "nolink":
                         return (
