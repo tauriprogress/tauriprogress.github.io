@@ -20,30 +20,41 @@ import {
     gemColorsToSockets,
     getDefaultRaidName,
 } from "../../helpers";
+import { dataFromCharData, isSameChar } from "./helpers";
 
 const defaultState = {
-    characterName: null,
-    realm: null,
     data: {
+        name: undefined,
+        realm: undefined,
+        stats: undefined,
+        professions: undefined,
+        title: undefined,
+        faction: undefined,
+        class: undefined,
+        specName: undefined,
+        guild: undefined,
+        ilvl: undefined,
+        lvl: undefined,
+        race: undefined,
+        items: undefined,
         loading: false,
-        error: null,
-        data: undefined,
-    },
-    progression: {
-        loading: false,
-        error: null,
-        data: undefined,
-        selectedRaid: null,
-    },
-    recentKills: {
-        loading: false,
-        data: undefined,
-        error: null,
+        error: undefined,
     },
     items: {
         loading: false,
         data: {},
-        error: null,
+        error: undefined,
+    },
+    progression: {
+        loading: false,
+        data: undefined,
+        error: undefined,
+        selectedRaid: undefined,
+    },
+    recentKills: {
+        loading: false,
+        data: undefined,
+        error: undefined,
     },
 };
 
@@ -52,29 +63,36 @@ function characterReducer(state = defaultState, action) {
         case REALM_GROUP_NAME_CHANGED:
             return {
                 ...defaultState,
-                progression: {
-                    ...defaultState.progression,
-                    selectedRaid: getDefaultRaidName(action.payload),
-                },
             };
         case CHARACTER_DATA_LOADING_SET:
             return {
                 ...state,
-                data: { ...state.data, loading: true, error: null },
-                characterName: action.payload.characterName,
-                realm: action.payload.realm,
+                data: {
+                    ...state.data,
+                    loading: true,
+                    error: undefined,
+                    name: action.payload.name.toLowerCase(),
+                    realm: action.payload.realm,
+                },
             };
         case CHARACTER_DATA_FILL:
+            let newChar = dataFromCharData(action.payload);
+
+            let newData = {
+                ...state.data,
+                loading: false,
+                error: undefined,
+            };
+
+            if (isSameChar(state.data, newChar)) {
+                newData = { ...newData, ...newChar };
+            }
+
             return {
                 ...state,
                 data: {
-                    ...state.data,
-                    data: action.payload,
-                    loading: false,
-                    error: null,
+                    ...newData,
                 },
-                characterName: action.payload.name,
-                realm: action.payload.realm,
                 progression: { ...defaultState.progression },
                 items: { ...defaultState.items },
             };
@@ -97,7 +115,7 @@ function characterReducer(state = defaultState, action) {
                 progression: {
                     ...state.progression,
                     loading: true,
-                    error: null,
+                    error: undefined,
                 },
             };
 
@@ -118,7 +136,7 @@ function characterReducer(state = defaultState, action) {
                     ...state.progression,
                     data: { ...state.progression.data, ...action.payload },
                     loading: false,
-                    error: null,
+                    error: undefined,
                 },
             };
 
@@ -147,7 +165,7 @@ function characterReducer(state = defaultState, action) {
                 recentKills: {
                     ...state.recentKills,
                     loading: false,
-                    error: null,
+                    error: undefined,
                     data: {
                         logs: action.payload.logs.map((log) => ({
                             id: log.log_id,
@@ -175,7 +193,7 @@ function characterReducer(state = defaultState, action) {
                 items: {
                     ...state.items,
                     loading: action.payload,
-                    error: null,
+                    error: undefined,
                 },
             };
 

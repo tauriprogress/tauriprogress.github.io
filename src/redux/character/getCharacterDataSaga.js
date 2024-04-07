@@ -8,14 +8,14 @@ import {
 import { characterDataLoadingSelector } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
-async function getData(serverUrl, characterName, realm) {
+async function getData(serverUrl, name, realm) {
     return await fetch(`${serverUrl}/character`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            characterName: characterName,
+            characterName: name,
             realm: realm,
         }),
     }).then((res) => res.json());
@@ -23,7 +23,7 @@ async function getData(serverUrl, characterName, realm) {
 
 function* fetchCharacter({ payload }) {
     try {
-        const { characterName, realm } = payload;
+        const { name, realm } = payload;
 
         const loading = yield select(characterDataLoadingSelector);
 
@@ -33,13 +33,13 @@ function* fetchCharacter({ payload }) {
 
         yield put(
             characterDataSetLoading({
-                characterName,
+                name,
                 realm,
             })
         );
 
         const serverUrl = yield getServerUrl();
-        const response = yield call(getData, serverUrl, characterName, realm);
+        const response = yield call(getData, serverUrl, name, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);
