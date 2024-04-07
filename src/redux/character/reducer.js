@@ -80,7 +80,7 @@ function characterReducer(state = defaultState, action) {
                     ...state.data,
                     loading: true,
                     error: undefined,
-                    name: action.payload.name.toLowerCase(),
+                    name: action.payload.name,
                     realm: action.payload.realm,
                 },
             };

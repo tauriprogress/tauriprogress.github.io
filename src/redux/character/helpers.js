@@ -25,7 +25,16 @@ export function dataFromCharData(charData) {
 }
 
 export function isSameChar(currentCharData, newCharData) {
-    if (currentCharData.name !== newCharData.name) return false;
+    if (
+        !currentCharData.name ||
+        !newCharData.name ||
+        !currentCharData.realm ||
+        !newCharData.realm
+    )
+        return false;
+
+    if (currentCharData.name.toLowerCase() !== newCharData.name.toLowerCase())
+        return false;
     if (currentCharData.realm !== newCharData.realm) return false;
     if (currentCharData.class && currentCharData.class !== newCharData.class)
         return false;
