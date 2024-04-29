@@ -17,7 +17,7 @@ import {
 import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
 import { getSocketInfo, gemColorsToSockets } from "../../helpers";
-import { dataFromCharData, isSameChar } from "./helpers";
+import { dataFromCharData } from "./helpers";
 
 const defaultState = {
     data: {
@@ -89,13 +89,10 @@ function characterReducer(state = defaultState, action) {
 
             let newData = {
                 ...state.data,
+                ...newChar,
                 loading: false,
                 error: undefined,
             };
-
-            if (isSameChar(state.data, newChar)) {
-                newData = { ...newData, ...newChar };
-            }
 
             return {
                 ...state,

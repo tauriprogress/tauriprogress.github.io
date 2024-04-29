@@ -305,8 +305,20 @@ export function getExpansionImg(expansion) {
     return `/assets/expansionIcon/${expansion}.png`;
 }
 
-export function getClassBackground(classId) {
+export function getClassBackgroundImg(classId) {
     return `/assets/backgrounds/classes/${classId}.webp`;
+}
+
+export function getInventorySlotImg(slotName) {
+    return `/assets/inventoryslots/${slotName}.webp`;
+}
+
+export function getProfessionImg(professionName) {
+    return `/assets/professions/${professionName}.png`;
+}
+
+export function getStatImg(professionName) {
+    return `/assets/stats/${professionName}.svg`;
 }
 
 export function getRaceName(race) {

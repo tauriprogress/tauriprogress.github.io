@@ -3,6 +3,9 @@ export function getProfessionsFromCharData(charData) {
     if (charData.primary_trade_skill_1) {
         professions.push(charData.primary_trade_skill_1);
     }
+    if (charData.primary_trade_skill_2) {
+        professions.push(charData.primary_trade_skill_2);
+    }
     return professions;
 }
 
@@ -20,23 +23,6 @@ export function dataFromCharData(charData) {
         race: `${charData.race},${charData.gender}`,
         items: charData.characterItems,
         professions: getProfessionsFromCharData(charData),
-        stats: charData.characterStat,
+        stats: { ...charData.characterStat, healthValue: charData.healthValue },
     };
-}
-
-export function isSameChar(currentCharData, newCharData) {
-    if (
-        !currentCharData.name ||
-        !newCharData.name ||
-        !currentCharData.realm ||
-        !newCharData.realm
-    )
-        return false;
-
-    if (currentCharData.name.toLowerCase() !== newCharData.name.toLowerCase())
-        return false;
-    if (currentCharData.realm !== newCharData.realm) return false;
-    if (currentCharData.class && currentCharData.class !== newCharData.class)
-        return false;
-    return true;
 }

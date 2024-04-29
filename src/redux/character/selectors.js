@@ -1,3 +1,7 @@
+export function characterDataSelector(state) {
+    return state.character.data;
+}
+
 export function characterNameSelector(state) {
     return state.character.data.name;
 }

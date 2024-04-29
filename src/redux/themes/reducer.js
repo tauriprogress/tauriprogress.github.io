@@ -25,7 +25,7 @@ const darkPSecondary = deepOrange[300];
 
 const light = "#f9f9f9";
 const lightAccent = "#efefef";
-const lightBackgroundDefault = "#white";
+const lightBackgroundDefault = "white";
 const lightBackgroundDarker = "#fff9f9";
 const lightBackgroundDark = "#d5d5d5";
 
@@ -325,6 +325,19 @@ const lightTheme = createTheme(
                     80: deepOrange[800],
                     100: deepOrange[900],
                 },
+                statColors: {
+                    agility: "#bb9100",
+                    attackpower: "#560000",
+                    crit: "#670d0d",
+                    haste: "#07654a",
+                    health: "#115a22",
+                    stamina: "#713300",
+                    intellect: "#aa8400",
+                    mastery: "#2b0078",
+                    spellpower: "#571b57",
+                    spirit: "#003771",
+                    strength: "#640606",
+                },
             },
         },
         baseTheme
@@ -444,6 +457,20 @@ const darkTheme = createTheme(
                 },
                 text: {
                     primary: "#dedede",
+                },
+
+                statColors: {
+                    agility: "#ffd955",
+                    attackpower: "#ab0000",
+                    crit: "#e01c1c",
+                    haste: "#0ed59b",
+                    health: "#27cc4e",
+                    stamina: "#ff8b2d",
+                    intellect: "#ffd955",
+                    mastery: "#9256ff",
+                    spellpower: "#d26cd1",
+                    spirit: "#1c8aff",
+                    strength: "#f33232",
                 },
             },
         },
