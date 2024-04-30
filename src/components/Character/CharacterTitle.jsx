@@ -163,7 +163,6 @@ function CharacterDetails({ data }) {
         environmentCharacterClassNamesSelector
     );
 
-    console.log(data);
     const theme = useTheme();
     const factionColors = theme.palette.factionColors;
 
