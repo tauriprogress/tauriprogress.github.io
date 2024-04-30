@@ -44,6 +44,12 @@ const StatLabel = styled(Typography)(({ theme }) => ({
     textOverflow: "ellipsis",
 }));
 
+const StatTextContainer = styled(Grid)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    minWidth: 0,
+}));
+
 function CharacterStats() {
     const { loading, error, stats, specName, professions } = useSelector(
         characterDataSelector
@@ -155,29 +161,34 @@ function CharacterStats() {
 function StatItem({ isProfession, iconSrc, iconSize, label, value }) {
     return (
         <StatContainer item>
-            <div>
-                {isProfession ? (
-                    <Icon
-                        src={iconSrc}
-                        style={{
-                            height: iconSize,
-                            width: iconSize,
-                        }}
-                    />
-                ) : (
-                    <StatIcon
-                        statName={iconSrc}
-                        height={iconSize}
-                        width={iconSize}
-                    />
-                )}
-            </div>
-
-            <Grid container direction={"column"}>
+            <Grid
+                container
+                style={{
+                    flexWrap: "nowrap",
+                }}
+            >
                 <Grid item>
-                    <StatLabel>{label} </StatLabel>
+                    {isProfession ? (
+                        <Icon
+                            src={iconSrc}
+                            style={{
+                                height: iconSize,
+                                width: iconSize,
+                            }}
+                        />
+                    ) : (
+                        <StatIcon
+                            statName={iconSrc}
+                            height={iconSize}
+                            width={iconSize}
+                        />
+                    )}
                 </Grid>
-                <Grid item>{value}</Grid>
+
+                <StatTextContainer item>
+                    <StatLabel>{label} </StatLabel>
+                    <Typography>{value}</Typography>
+                </StatTextContainer>
             </Grid>
         </StatContainer>
     );
