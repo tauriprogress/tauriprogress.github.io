@@ -99,17 +99,24 @@ function CharacterTitle() {
 
     const matchCharName = match.params.characterName;
 
-    const { data, specs } = useSelector(
+    const { data, specs, characterClassNames } = useSelector(
         (state) => ({
             data: characterDataSelector(state),
             specs: environmentCharacterSpecsSelector(state),
+            characterClassNames: environmentCharacterClassNamesSelector(state),
         }),
         shallowEqual
     );
 
     const classColors = theme.palette.classColors;
 
-    const specId = data.specName && talentTreeToSpec(data.specName, specs);
+    const specId =
+        data.specName &&
+        data.class &&
+        talentTreeToSpec(
+            `${data.specName} ${characterClassNames[data.class]}`,
+            specs
+        );
 
     const characterImageSrc =
         (specId && getSpecImg(specs[specId].image)) ||

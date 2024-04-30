@@ -1,6 +1,7 @@
 import { Grid, Typography, styled } from "@mui/material";
 import {
     characterDataSelector,
+    environmentCharacterClassNamesSelector,
     environmentCharacterSpecsSelector,
 } from "../../redux/selectors";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,10 +52,19 @@ const StatTextContainer = styled(Grid)(({ theme }) => ({
 }));
 
 function CharacterStats() {
-    const { loading, error, stats, specName, professions } = useSelector(
-        characterDataSelector
-    );
+    const {
+        loading,
+        error,
+        stats,
+        specName,
+        professions,
+        class: characterClass,
+    } = useSelector(characterDataSelector);
     const specs = useSelector(environmentCharacterSpecsSelector);
+    const characterClassNames = useSelector(
+        environmentCharacterClassNamesSelector
+    );
+
     const dispatch = useDispatch();
 
     const location = useLocation();
@@ -92,7 +102,12 @@ function CharacterStats() {
         return label;
     }
 
-    const statsOfSpec = mapSpecIdToStats(talentTreeToSpec(specName, specs));
+    const statsOfSpec = mapSpecIdToStats(
+        talentTreeToSpec(
+            `${specName} ${characterClassNames[characterClass]}`,
+            specs
+        )
+    );
 
     return (
         <Container>
