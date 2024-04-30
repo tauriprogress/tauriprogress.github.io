@@ -64,7 +64,6 @@ function CharacterStats() {
             })
         );
     }
-
     useEffect(() => {
         dispatch(
             characterDataFetch({
@@ -73,7 +72,6 @@ function CharacterStats() {
             })
         );
     }, [dispatch, characterName, realm]);
-
     function statValue(stat) {
         let value = stats[stat.statName].toLocaleString().replace(".", " ");
         return value;
@@ -99,7 +97,7 @@ function CharacterStats() {
                 <div>
                     <ProfessionContainer container>
                         {professions.map((profession) => (
-                            <Grid item key={profession.name}>
+                            <Grid item key={profession.name} sm={6}>
                                 <StatItem
                                     iconSrc={getProfessionImg(
                                         profession.name.toLowerCase()
