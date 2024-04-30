@@ -172,7 +172,11 @@ function ItemsPanel({ horizontal, inventorySlots, items, alignLeft }) {
 
                 const DisplayTooltip = ({ children }) => {
                     return item ? (
-                        <CharacterItemTooltip itemMeta={item} realm={realm}>
+                        <CharacterItemTooltip
+                            itemMeta={item}
+                            realm={realm}
+                            placement={alignLeft ? "left" : "right"}
+                        >
                             {children}
                         </CharacterItemTooltip>
                     ) : (

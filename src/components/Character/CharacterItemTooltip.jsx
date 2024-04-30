@@ -14,7 +14,7 @@ import {
     environmentIconUrlSelector,
 } from "../../redux/selectors";
 
-function ItemTooltip({ children, itemMeta, realm }) {
+function ItemTooltip({ children, itemMeta, realm, placement }) {
     const { loading, error, item, iconUrl } = useSelector(
         (state) => ({
             item: characterItemsItemSelector(state, itemMeta.guid),
@@ -60,7 +60,13 @@ function ItemTooltip({ children, itemMeta, realm }) {
                         },
                     },
                 }}
-                placement={window.innerWidth > 600 ? "left" : "bottom"}
+                placement={
+                    window.innerWidth < 600
+                        ? "bottom"
+                        : placement
+                        ? placement
+                        : "left"
+                }
                 title={
                     <React.Fragment>
                         {loading && "Loading..."}
