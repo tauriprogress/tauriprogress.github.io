@@ -1,132 +1,209 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 import Avatar from "../Avatar";
-import CharacterName from "../CharacterName";
 import Link from "../Link";
 
-import { getFactionImg, talentTreeToSpec } from "../../helpers";
+import {
+    getClassImg,
+    getFactionImg,
+    getRaceImg,
+    getSpecImg,
+    talentTreeToSpec,
+} from "../../helpers";
 import {
     characterDataSelector,
-    environmentArmoryUrlSelector,
     environmentCharacterClassNamesSelector,
     environmentCharacterSpecsSelector,
 } from "../../redux/selectors";
 
-import { styled, useTheme } from "@mui/material";
+import { Grid, styled, useTheme } from "@mui/material";
+import { useRouteMatch } from "react-router-dom";
 
-const CustomContainer = styled(Container)(({ theme }) => ({
-    textAlign: "center",
-}));
-
-const CharacterNameContainer = styled(Typography)(({ theme }) => ({
-    paddingBottom: 0,
+const CharacterName = styled(Typography)(({ theme }) => ({
+    fontWeight: "bold",
+    fontSize: "36px",
+    textTransform: "uppercase",
     lineHeight: 1,
+
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
 }));
+
+const CharacterNameContainer = styled(Grid)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    minWidth: 0,
+}));
+
 const GuildName = styled(Typography)(({ theme }) => ({
     paddingTop: 0,
     paddingBottom: theme.spacing(1),
     display: "block",
     lineHeight: 1,
 }));
-const CharacterMetaData = styled(Typography)(({ theme }) => ({
-    padding: 0,
-    fontSize: `${12 / 16}rem`,
-    lineHeight: 1,
+
+const CharacterImage = styled("img")(({ theme }) => ({
+    height: "56px",
+    width: "56px",
+    marginRight: theme.spacing(1),
+    borderRadius: "5px",
+    backgroundColor: theme.palette.background.dark,
+    display: "block",
+}));
+
+const Container = styled(Grid)(({ theme }) => ({
+    padding: theme.spacing(3),
+}));
+
+const SecondaryText = styled("span")(({ theme }) => ({
+    color: theme.palette.text.secondary,
+}));
+
+const CustomAvatar = styled(Avatar)(({ theme }) => ({
+    height: "20px",
+    width: "20px",
+}));
+
+const GoldenText = styled("span")(({ theme }) => ({
+    color: theme.palette.text.golden,
+    fontWeight: "bold",
+}));
+
+const CharacterNameRow = styled(Grid)(({ theme }) => ({
+    marginBottom: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    flexWrap: "nowrap",
+}));
+
+const CharacterDetailContainer = styled(Grid)(({ theme }) => ({
+    fontWeight: "bold",
+    flexDirection: "column",
+}));
+
+const CharacterDetailRow = styled(Grid)(({ theme }) => ({
+    marginTop: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
+}));
+
+const CharacterSpecNameContainer = styled(Grid)(({ theme }) => ({
+    marginRight: theme.spacing(1),
 }));
 
 function CharacterTitle() {
+    const match = useRouteMatch();
     const theme = useTheme();
-    const { data, armoryUrl, characterClassNames, specs } = useSelector(
+
+    const matchCharName = match.params.characterName;
+
+    const { data, specs } = useSelector(
         (state) => ({
             data: characterDataSelector(state),
-            armoryUrl: environmentArmoryUrlSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state),
             specs: environmentCharacterSpecsSelector(state),
         }),
         shallowEqual
     );
 
-    if (!data) {
-        return <div />;
-    }
-    const {
-        palette: { factionColors },
-    } = theme;
-    const fullSpecName = `${data["treeName_" + data.activeSpec]} ${
-        characterClassNames[data.class]
-    }`;
+    const classColors = theme.palette.classColors;
 
-    const avatarStyle = {
-        width: "30px",
-        height: "30px",
-        transform: "translate(0, -4px)",
-        marginRight: theme.spacing(0.4),
-    };
+    const specId = data.specName && talentTreeToSpec(data.specName, specs);
+
+    const characterImageSrc =
+        (specId && getSpecImg(specs[specId].image)) ||
+        getClassImg(data.class || "undefined");
 
     return (
-        <CustomContainer>
-            <CharacterNameContainer variant="h4">
-                <CharacterName
-                    character={{
-                        name: data.tname || data.name,
-                        spec: talentTreeToSpec(fullSpecName, specs),
-                        race: `${data.race},${data.gender}`,
-                        class: data.class,
-                    }}
-                    specIconStyles={avatarStyle}
-                    raceIconStyles={avatarStyle}
-                    linkTo={
-                        armoryUrl
-                            ? `${armoryUrl}?${data.character_url_string.replace(
-                                  "amp;",
-                                  ""
-                              )}`
-                            : "nolink"
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                />
-            </CharacterNameContainer>
-            <GuildName variant="button">
-                <Link
-                    color="inherit"
-                    to={`/guild/${data.guildName}?realm=${data.realm}`}
-                    style={{
-                        color:
-                            data.faction_string_class === "Alliance"
-                                ? factionColors.alliance
-                                : factionColors.horde,
-                    }}
-                >
-                    {data.guildName}
-                </Link>
-            </GuildName>
-            <CharacterMetaData color="textSecondary">
-                <span
-                    style={{
-                        color:
-                            data.faction_string_class === "Alliance"
-                                ? factionColors.alliance
-                                : factionColors.horde,
-                    }}
-                >
-                    <Avatar
-                        src={getFactionImg(
-                            data.faction_string_class === "Alliance" ? 0 : 1
+        <Container container>
+            <Grid
+                item
+                style={{
+                    maxWidth: "100%",
+                }}
+            >
+                <CharacterNameRow container>
+                    <Grid item>
+                        <CharacterImage src={characterImageSrc} />
+                    </Grid>
+                    <CharacterNameContainer item>
+                        <CharacterName
+                            style={{
+                                color:
+                                    (data.class &&
+                                        classColors[data.class].text) ||
+                                    "inherit",
+                            }}
+                            variant="h4"
+                        >
+                            {data.name || matchCharName || "Undefined"}
+                        </CharacterName>
+                        {data.realm && (
+                            <Typography>
+                                <SecondaryText>{data.realm}</SecondaryText>
+                            </Typography>
                         )}
-                        title={data.faction_string_class}
+                    </CharacterNameContainer>
+                </CharacterNameRow>
+            </Grid>
+            {specId && (
+                <>
+                    <Grid item>
+                        <CharacterDetails data={data} />
+                    </Grid>
+                </>
+            )}
+        </Container>
+    );
+}
+
+function CharacterDetails({ data }) {
+    const characterClassNames = useSelector(
+        environmentCharacterClassNamesSelector
+    );
+
+    console.log(data);
+    const theme = useTheme();
+    const factionColors = theme.palette.factionColors;
+
+    return (
+        <CharacterDetailContainer container>
+            <CharacterDetailRow item container>
+                <CharacterSpecNameContainer item>
+                    <CustomAvatar
+                        title={data.specName}
+                        src={getRaceImg(data.race)}
                     />{" "}
-                    {data.faction_string_class}
-                </span>{" "}
-                {data.realm}
-                <br />
-                LEVEL {data.level}, ILVL {data.avgitemlevel}
-            </CharacterMetaData>
-        </CustomContainer>
+                    {data.specName} {characterClassNames[data.class]}
+                </CharacterSpecNameContainer>
+                <Grid item>
+                    <GoldenText>
+                        LEVEL {data.lvl} ILVL {data.ilvl}
+                    </GoldenText>
+                </Grid>
+            </CharacterDetailRow>
+            <CharacterDetailRow item>
+                <GuildName variant="button">
+                    <Link
+                        color="inherit"
+                        to={`/guild/${data.guild}?realm=${data.realm}`}
+                        style={{
+                            color:
+                                data.faction === 0
+                                    ? factionColors.alliance
+                                    : factionColors.horde,
+                        }}
+                    >
+                        <CustomAvatar
+                            title={data.faction === 0 ? "Alliance" : "Horde"}
+                            src={getFactionImg(data.faction)}
+                        />
+                        {data.guild}
+                    </Link>
+                </GuildName>
+            </CharacterDetailRow>
+        </CharacterDetailContainer>
     );
 }
 

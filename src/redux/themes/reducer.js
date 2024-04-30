@@ -325,6 +325,11 @@ const lightTheme = createTheme(
                     80: deepOrange[800],
                     100: deepOrange[900],
                 },
+
+                text: {
+                    golden: "#bb9100",
+                },
+
                 statColors: {
                     agility: "#bb9100",
                     attackpower: "#560000",
@@ -457,6 +462,7 @@ const darkTheme = createTheme(
                 },
                 text: {
                     primary: "#dedede",
+                    golden: "#ffd955",
                 },
 
                 statColors: {
