@@ -5,7 +5,12 @@ import {
     characterDataSetError,
     CHARACTER_DATA_FETCH,
 } from "./actions";
-import { characterDataLoadingSelector } from "./selectors";
+import {
+    characterDataExists,
+    characterDataLoadingSelector,
+    characterNameSelector,
+    characterRealmSelector,
+} from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, name, realm) {
@@ -25,9 +30,22 @@ function* fetchCharacter({ payload }) {
     try {
         const { name, realm } = payload;
 
+        const { oldName, oldRealm, dataExists } = yield select((state) => {
+            return {
+                oldName: characterNameSelector(state),
+                oldRealm: characterRealmSelector(state),
+                dataExists: characterDataExists(state),
+            };
+        });
+
         const loading = yield select(characterDataLoadingSelector);
 
-        if (loading) {
+        if (
+            loading ||
+            (name.toLowerCase() === (oldName && oldName.toLowerCase()) &&
+                realm === oldRealm &&
+                dataExists)
+        ) {
             return;
         }
 

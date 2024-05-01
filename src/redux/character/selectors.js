@@ -26,6 +26,10 @@ export function characterDataIncompleteItemsSelector(state) {
     return state.character.data.items;
 }
 
+export function characterDataExists(state) {
+    return !!state.character.data.specName;
+}
+
 export function characterItemsLoadingSelector(state) {
     return state.character.items.loading;
 }
@@ -55,6 +59,13 @@ export function characterProgressionRaidDataExistsSelector(state, raidName) {
         state.character.progression.data &&
         state.character.progression.data[raidName]
     );
+}
+
+export function characterProgressionCharacterSelector(state) {
+    return {
+        name: state.character.progression.name,
+        realm: state.character.progression.realm,
+    };
 }
 
 export function characterRecentKillsEntireSelector(state) {

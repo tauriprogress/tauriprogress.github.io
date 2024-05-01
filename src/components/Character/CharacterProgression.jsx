@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-
-import Container from "@mui/material/Container";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 
 import Grid from "@mui/material/Grid";
 
-import BaseDifficultyTabs from "../DifficultyTabs";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import RaidChart from "./RaidChart";
 
-import { getDefaultDifficulty, getRaidImg } from "../../helpers";
-import { displayHealing, getDifficulties } from "./helpers";
+import { displayCharacterProgression, getDifficulties } from "./helpers";
 
 import styled from "@emotion/styled";
 import {
@@ -48,8 +42,9 @@ function CharacterProgression() {
         characterName,
         realm,
     } = useSelector((state) => {
+        const progression = characterProgressionEntireSelector(state);
         return {
-            ...characterProgressionEntireSelector(state),
+            ...progression,
             characterName: characterNameSelector(state),
             realm: characterRealmSelector(state),
             characterClass: characterClassSelector(state),
@@ -71,7 +66,7 @@ function CharacterProgression() {
 
     useEffect(() => {
         dispatch(characterProgressionFetch(selectedRaid));
-    }, [selectedRaid, dispatch]);
+    }, [selectedRaid, characterName, realm, characterClass, dispatch]);
 
     return (
         <Grid container justifyContent="space-around">
@@ -89,30 +84,27 @@ function CharacterProgression() {
                 data &&
                 data[selectedRaid] &&
                 difficulties.map((difficulty) => {
-                    return data[selectedRaid][difficulty] ? (
-                        <>
-                            <GridItem item>
-                                <RaidChart
-                                    raidName={selectedRaid}
-                                    difficulty={difficulty}
-                                    data={data[selectedRaid][difficulty]}
-                                    characterClass={characterClass}
-                                    variant="dps"
-                                />
-                            </GridItem>
-                            {displayHealing(data[selectedRaid][difficulty]) && (
-                                <GridItem item>
-                                    <RaidChart
-                                        raidName={selectedRaid}
-                                        difficulty={difficulty}
-                                        data={data[selectedRaid][difficulty]}
-                                        characterClass={characterClass}
-                                        variant="hps"
-                                    />
-                                </GridItem>
-                            )}
-                        </>
-                    ) : null;
+                    return data[selectedRaid][difficulty]
+                        ? ["dps", "hps"].map((combatMetric) => {
+                              return displayCharacterProgression(
+                                  data[selectedRaid][difficulty],
+                                  combatMetric
+                              ) ? (
+                                  <GridItem
+                                      item
+                                      key={difficulty + combatMetric}
+                                  >
+                                      <RaidChart
+                                          raidName={selectedRaid}
+                                          difficulty={difficulty}
+                                          data={data[selectedRaid][difficulty]}
+                                          characterClass={characterClass}
+                                          variant={combatMetric}
+                                      />
+                                  </GridItem>
+                              ) : null;
+                          })
+                        : null;
                 })}
         </Grid>
     );

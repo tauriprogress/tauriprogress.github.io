@@ -47,6 +47,8 @@ const defaultState = {
         data: undefined,
         error: undefined,
         selectedRaid: undefined,
+        name: undefined,
+        realm: undefined,
     },
     recentKills: {
         loading: false,
@@ -57,6 +59,18 @@ const defaultState = {
     },
 };
 
+function isSameCharacter(payload, data) {
+    if (
+        data.name === payload.name.toLowerCase() &&
+        payload.realm === data.realm &&
+        payload.class === data.class
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
 function characterReducer(state = defaultState, action) {
     switch (action.type) {
         case REALM_GROUP_NAME_CHANGED:
@@ -65,11 +79,15 @@ function characterReducer(state = defaultState, action) {
             };
 
         case CHARACTER_DATA_SET_NEW_CHARACTER:
+            if (isSameCharacter(action.payload, state.data)) {
+                return state;
+            }
+
             return {
                 ...defaultState,
                 data: {
                     ...defaultState.data,
-                    name: action.payload.name,
+                    name: action.payload.name.toLowerCase(),
                     realm: action.payload.realm,
                     class: action.payload.class,
                 },
@@ -82,7 +100,7 @@ function characterReducer(state = defaultState, action) {
                     ...state.data,
                     loading: true,
                     error: undefined,
-                    name: action.payload.name,
+                    name: action.payload.name.toLowerCase(),
                     realm: action.payload.realm,
                 },
             };
@@ -101,7 +119,6 @@ function characterReducer(state = defaultState, action) {
                 data: {
                     ...newData,
                 },
-                progression: { ...defaultState.progression },
                 items: { ...defaultState.items },
             };
 
@@ -115,6 +132,8 @@ function characterReducer(state = defaultState, action) {
                     ...state.data,
                     error: action.payload,
                     loading: false,
+                    name: undefined,
+                    realm: undefined,
                 },
             };
         case CHARACTER_PROGRESSION_LOADING_SET:
@@ -142,9 +161,11 @@ function characterReducer(state = defaultState, action) {
                 ...state,
                 progression: {
                     ...state.progression,
-                    data: { ...state.progression.data, ...action.payload },
+                    data: { ...state.progression.data, ...action.payload.data },
                     loading: false,
                     error: undefined,
+                    name: action.payload.name.toLowerCase(),
+                    realm: action.payload.realm,
                 },
             };
 
@@ -155,6 +176,8 @@ function characterReducer(state = defaultState, action) {
                     ...state.progression,
                     error: action.payload,
                     loading: false,
+                    name: undefined,
+                    realm: undefined,
                 },
             };
 
@@ -164,7 +187,7 @@ function characterReducer(state = defaultState, action) {
                 recentKills: {
                     ...state.recentKills,
                     loading: action.payload.loading,
-                    name: action.payload.name,
+                    name: action.payload.name.toLowerCase(),
                     realm: action.payload.realm,
                 },
             };

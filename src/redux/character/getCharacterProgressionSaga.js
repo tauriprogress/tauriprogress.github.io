@@ -9,8 +9,8 @@ import {
     characterNameSelector,
     characterRealmSelector,
     characterClassSelector,
-    characterProgressionRaidDataExistsSelector,
     characterProgressionLoadingSelector,
+    characterProgressionCharacterSelector,
 } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
@@ -37,34 +37,28 @@ async function getData(
 
 function* fetchCharacterProgression({ payload: raidName }) {
     try {
-        const {
-            characterName,
-            realm,
-            characterClass,
-            raidDataExists,
-            loading,
-        } = yield select((state) => {
-            return {
-                characterName: characterNameSelector(state),
-                realm: characterRealmSelector(state),
-                characterClass: characterClassSelector(state),
-                raidDataExists: characterProgressionRaidDataExistsSelector(
-                    state,
-                    raidName
-                ),
-                loading: characterProgressionLoadingSelector(state),
-            };
-        });
+        const { characterName, realm, characterClass, loading, character } =
+            yield select((state) => {
+                return {
+                    characterName: characterNameSelector(state),
+                    realm: characterRealmSelector(state),
+                    characterClass: characterClassSelector(state),
+                    loading: characterProgressionLoadingSelector(state),
+                    character: characterProgressionCharacterSelector(state),
+                };
+            });
 
         if (
             !raidName ||
             loading ||
-            raidDataExists ||
             !characterName ||
             !realm ||
-            !characterClass
-        )
+            !characterClass ||
+            (characterName.toLowerCase() === character.name &&
+                realm === character.realm)
+        ) {
             return;
+        }
 
         yield put(characterProgressionSetLoading());
 
@@ -81,7 +75,13 @@ function* fetchCharacterProgression({ payload: raidName }) {
         if (!response.success) {
             throw new Error(response.errorstring);
         } else {
-            yield put(characterProgressionFill(response.response));
+            yield put(
+                characterProgressionFill({
+                    data: response.response,
+                    name: characterName,
+                    realm: realm,
+                })
+            );
         }
     } catch (err) {
         yield put(characterProgressionSetError(err.message));

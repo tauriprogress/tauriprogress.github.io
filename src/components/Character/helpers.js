@@ -1,4 +1,8 @@
-export function displayHealing(bosses) {
+export function displayCharacterProgression(bosses, combatMetric) {
+    if (combatMetric === "dps") {
+        return true;
+    }
+
     for (let bossName in bosses) {
         if (
             bosses[bossName]["all"] &&

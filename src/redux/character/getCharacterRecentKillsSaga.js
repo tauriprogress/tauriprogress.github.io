@@ -34,7 +34,7 @@ function* fetchRecentKillsOfCharacter({ payload }) {
             characterRecentKillsCharacterSelector
         );
 
-        if (loading || (name === oldName && realm === oldRealm)) {
+        if (loading || (name.toLowerCase() === oldName && realm === oldRealm)) {
             return;
         }
 
