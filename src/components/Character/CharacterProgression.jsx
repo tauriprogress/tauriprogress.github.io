@@ -26,28 +26,17 @@ import {
     characterProgressionEntireSelector,
     characterRealmSelector,
     environmentCurrentRaidNameSelector,
+    environmentDifficultyNamesSelector,
     environmentRaidsSelector,
 } from "../../redux/selectors";
 import { withRealmGroupName } from "../Router/withRealmGroupName";
 
-const DifficultyTabs = styled(BaseDifficultyTabs)(({ theme }) => ({
-    marginLeft: "40px",
-}));
-const StyledTab = styled(Tab)(({ theme }) => ({
-    color: `${theme.palette.primary.contrastText} !important`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center center",
-}));
-const StyledContainer = styled(Container)(({ theme }) => ({
-    margin: "5px 0",
-    overflow: "hidden",
-    padding: 0,
-}));
-const StyledTabs = styled(Tabs)(({ theme }) => ({
-    maxWidth: "calc(100vw)",
+const GridItem = styled(Grid)(({ theme }) => ({
+    maxWidth: "100%",
+    padding: theme.spacing(2),
 }));
 
-function CharacterProgression({ realmGroupName }) {
+function CharacterProgression() {
     const {
         loading,
         error,
@@ -66,6 +55,7 @@ function CharacterProgression({ realmGroupName }) {
             characterClass: characterClassSelector(state),
             raids: environmentRaidsSelector(state),
             currentContentName: environmentCurrentRaidNameSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state),
         };
     }, shallowEqual);
 
@@ -74,14 +64,6 @@ function CharacterProgression({ realmGroupName }) {
     const difficulties = []
         .concat(getDifficulties(raids, currentContentName))
         .reverse();
-
-    const [difficulty, setDifficulty] = useState(
-        getDefaultDifficulty(realmGroupName)
-    );
-
-    function selectRaid(raidName) {
-        dispatch(characterProgressionSetRaid(raidName));
-    }
 
     useEffect(() => {
         dispatch(characterProgressionSetRaid(currentContentName));
@@ -92,69 +74,47 @@ function CharacterProgression({ realmGroupName }) {
     }, [selectedRaid, dispatch]);
 
     return (
-        <StyledContainer>
-            <DifficultyTabs
-                options={difficulties}
-                selected={difficulty}
-                onChange={(e, difficulty) => setDifficulty(difficulty)}
-            />
-            <StyledTabs
-                value={selectedRaid || currentContentName}
-                variant="scrollable"
-                indicatorColor="secondary"
-                allowScrollButtonsMobile
-            >
-                {raids.map((raid) => (
-                    <StyledTab
-                        value={raid.name}
-                        key={raid.name}
-                        label={raid.name}
-                        style={{
-                            backgroundImage: `url("${getRaidImg(raid.image)}")`,
-                            backgroundSize: "cover",
-                        }}
-                        onClick={() => selectRaid(raid.name)}
-                    />
-                ))}
-            </StyledTabs>
-            <Container>
-                {loading && <Loading />}
-                {!loading && error && (
-                    <ErrorMessage
-                        message={error}
-                        refresh={() =>
-                            dispatch(characterProgressionFetch(selectedRaid))
-                        }
-                    />
-                )}
-                {!loading &&
-                    !error &&
-                    data &&
-                    data[selectedRaid] &&
-                    data[selectedRaid][difficulty] && (
-                        <Grid container justifyContent="space-around">
-                            <Grid item>
+        <Grid container justifyContent="space-around">
+            {loading && <Loading />}
+            {!loading && error && (
+                <ErrorMessage
+                    message={error}
+                    refresh={() =>
+                        dispatch(characterProgressionFetch(selectedRaid))
+                    }
+                />
+            )}
+            {!loading &&
+                !error &&
+                data &&
+                data[selectedRaid] &&
+                difficulties.map((difficulty) => {
+                    return data[selectedRaid][difficulty] ? (
+                        <>
+                            <GridItem item>
                                 <RaidChart
                                     raidName={selectedRaid}
+                                    difficulty={difficulty}
                                     data={data[selectedRaid][difficulty]}
                                     characterClass={characterClass}
                                     variant="dps"
                                 />
-                            </Grid>
+                            </GridItem>
                             {displayHealing(data[selectedRaid][difficulty]) && (
-                                <Grid item>
+                                <GridItem item>
                                     <RaidChart
                                         raidName={selectedRaid}
+                                        difficulty={difficulty}
                                         data={data[selectedRaid][difficulty]}
                                         characterClass={characterClass}
                                         variant="hps"
                                     />
-                                </Grid>
+                                </GridItem>
                             )}
-                        </Grid>
-                    )}
-            </Container>
-        </StyledContainer>
+                        </>
+                    ) : null;
+                })}
+        </Grid>
     );
 }
 

@@ -15,8 +15,8 @@ import LogLink from "../LogLink";
 import { PerfChartContainer, PerfChartRow, PerfChartTitle } from "../PerfChart";
 
 import {
-    environmentCharacterClassNamesSelector,
     environmentCharacterSpecsSelector,
+    environmentDifficultyNamesSelector,
     environmentRaidsSelector,
 } from "../../redux/selectors";
 
@@ -30,26 +30,30 @@ import {
 import { styled, useTheme } from "@mui/material";
 
 const Container = styled(PerfChartContainer)(({ theme }) => ({
-    marginTop: "3px",
-    width: "280px",
+    marginTop: theme.spacing(3),
+    maxWidth: "300px",
+    minWidth: "260px",
+    width: "100%",
 }));
-const SpecIcon = styled("img")(({ theme }) => ({
-    maxWidth: "100%",
-    maxHeight: "100%",
-}));
+
 const CustomSelectAll = styled(SelectAll)(({ theme }) => ({
     maxWidth: "100%",
     maxHeight: "100%",
 }));
 const IconTabContainer = styled(Tabs)(({ theme }) => ({
-    minHeight: "25px !important",
+    minHeight: "35px !important",
+    "& .MuiTabs-flexContainer": {
+        justifyContent: "space-around",
+    },
 }));
 const IconTab = styled(Tab)(({ theme }) => ({
-    width: "25px",
-    height: "25px",
+    maxWidth: "40px !important",
     minWidth: "25px !important",
-    minHeight: "25px !important",
+    minHeight: "35px !important",
     padding: "0px",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
 }));
 const Link = styled(LogLink)(({ theme }) => ({
     "&:hover *": {
@@ -57,14 +61,20 @@ const Link = styled(LogLink)(({ theme }) => ({
     },
 }));
 
-function RaidChart({ data, characterClass, raidName, variant = "dps" }) {
+function RaidChart({
+    data,
+    difficulty,
+    characterClass,
+    raidName,
+    variant = "dps",
+}) {
     const theme = useTheme();
     const { classColors } = theme.palette;
-    const { raids, specs, characterClassNames } = useSelector(
+    const { raids, specs, difficultyNames } = useSelector(
         (state) => ({
             raids: environmentRaidsSelector(state),
             specs: environmentCharacterSpecsSelector(state),
-            characterClassNames: environmentCharacterClassNamesSelector(state),
+            difficultyNames: environmentDifficultyNamesSelector(state),
         }),
         shallowEqual
     );
@@ -92,9 +102,10 @@ function RaidChart({ data, characterClass, raidName, variant = "dps" }) {
     return (
         <Container>
             <PerfChartTitle>
-                <Grid container wrap="nowrap" justifyContent="space-between">
+                <Grid container direction={"column"}>
                     <Grid item>
                         <Typography variant="h5">
+                            {difficultyNames[difficulty]}{" "}
                             {variant === "dps" ? "Damage" : "Heal"}
                         </Typography>
                     </Grid>
@@ -116,32 +127,22 @@ function RaidChart({ data, characterClass, raidName, variant = "dps" }) {
 
                             <IconTab
                                 value="class"
-                                icon={
-                                    <Tooltip
-                                        title={
-                                            characterClassNames[characterClass]
-                                        }
-                                    >
-                                        <SpecIcon
-                                            src={getClassImg(characterClass)}
-                                            alt=""
-                                        />
-                                    </Tooltip>
-                                }
+                                style={{
+                                    backgroundImage: `url(${getClassImg(
+                                        characterClass
+                                    )})`,
+                                }}
                             />
 
                             {iconSpecs.map((specInfo) => (
                                 <IconTab
                                     key={specInfo.id}
                                     value={specInfo.id}
-                                    icon={
-                                        <Tooltip title={specInfo.label}>
-                                            <SpecIcon
-                                                src={getSpecImg(specInfo.image)}
-                                                alt=""
-                                            />
-                                        </Tooltip>
-                                    }
+                                    style={{
+                                        backgroundImage: `url(${getSpecImg(
+                                            specInfo.image
+                                        )})`,
+                                    }}
                                 />
                             ))}
                         </IconTabContainer>
