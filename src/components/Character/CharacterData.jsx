@@ -56,5 +56,4 @@ function CharacterData() {
     );
 }
 
-/**  */
 export default CharacterData;
