@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import Typography from "@mui/material/Typography";
@@ -23,7 +23,7 @@ const CustomRecentKills = styled(RecentKills)(({ theme }) => ({
     margin: "auto",
 }));
 
-function CharacterRecentKills({ classes }) {
+function CharacterRecentKills() {
     const dispatch = useDispatch();
     const { loading, error, data, realm, characterName } = useSelector(
         (state) => ({
@@ -33,6 +33,15 @@ function CharacterRecentKills({ classes }) {
         }),
         shallowEqual
     );
+
+    useEffect(() => {
+        dispatch(
+            characterRecentKillsFetch({
+                name: characterName,
+                realm: realm,
+            })
+        );
+    }, [dispatch, characterName, realm]);
 
     const logs = data ? data.logs : [];
 
@@ -50,8 +59,8 @@ function CharacterRecentKills({ classes }) {
                                 refresh={() =>
                                     dispatch(
                                         characterRecentKillsFetch({
-                                            characterName,
-                                            realm,
+                                            name: characterName,
+                                            realm: realm,
                                         })
                                     )
                                 }

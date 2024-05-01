@@ -3,10 +3,12 @@ import {
     characterRecentKillsSetLoading,
     characterRecentKillsFill,
     characterRecentKillsSetError,
-    CHARACTER_DATA_FETCH,
     CHARACTER_RECENTKILLS_FETCH,
 } from "./actions";
-import { characterRecentKillsLoadingSelector } from "./selectors";
+import {
+    characterRecentKillsCharacterSelector,
+    characterRecentKillsLoadingSelector,
+} from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, characterName, realm) {
@@ -25,18 +27,27 @@ async function getData(serverUrl, characterName, realm) {
 
 function* fetchRecentKillsOfCharacter({ payload }) {
     try {
-        const { characterName, realm } = payload;
+        const { name, realm } = payload;
 
         const loading = yield select(characterRecentKillsLoadingSelector);
+        const { name: oldName, realm: oldRealm } = yield select(
+            characterRecentKillsCharacterSelector
+        );
 
-        if (loading) {
+        if (loading || (name === oldName && realm === oldRealm)) {
             return;
         }
 
-        yield put(characterRecentKillsSetLoading(true));
+        yield put(
+            characterRecentKillsSetLoading({
+                loading: true,
+                name: name,
+                realm: realm,
+            })
+        );
 
         const serverUrl = yield getServerUrl();
-        const response = yield call(getData, serverUrl, characterName, realm);
+        const response = yield call(getData, serverUrl, name, realm);
 
         if (!response.success) {
             throw new Error(response.errorstring);
@@ -49,8 +60,5 @@ function* fetchRecentKillsOfCharacter({ payload }) {
 }
 
 export default function* getCharacterRecentKillsSaga() {
-    yield takeEvery(
-        [CHARACTER_DATA_FETCH, CHARACTER_RECENTKILLS_FETCH],
-        fetchRecentKillsOfCharacter
-    );
+    yield takeEvery([CHARACTER_RECENTKILLS_FETCH], fetchRecentKillsOfCharacter);
 }

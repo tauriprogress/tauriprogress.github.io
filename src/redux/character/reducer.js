@@ -52,6 +52,8 @@ const defaultState = {
         loading: false,
         data: undefined,
         error: undefined,
+        name: undefined,
+        realm: undefined,
     },
 };
 
@@ -161,7 +163,9 @@ function characterReducer(state = defaultState, action) {
                 ...state,
                 recentKills: {
                     ...state.recentKills,
-                    loading: action.payload,
+                    loading: action.payload.loading,
+                    name: action.payload.name,
+                    realm: action.payload.realm,
                 },
             };
 
@@ -190,6 +194,8 @@ function characterReducer(state = defaultState, action) {
                     ...state.recentKills,
                     loading: false,
                     error: action.payload,
+                    name: undefined,
+                    realm: undefined,
                 },
             };
 

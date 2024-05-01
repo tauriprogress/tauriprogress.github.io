@@ -61,6 +61,13 @@ export function characterRecentKillsEntireSelector(state) {
     return state.character.recentKills;
 }
 
+export function characterRecentKillsCharacterSelector(state) {
+    return {
+        name: state.character.recentKills.name,
+        realm: state.character.recentKills.realm,
+    };
+}
+
 export function characterRecentKillsLoadingSelector(state) {
     return state.character.recentKills.loading;
 }
