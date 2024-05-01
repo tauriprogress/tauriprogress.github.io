@@ -11,6 +11,7 @@ import {
     characterClassSelector,
     characterProgressionLoadingSelector,
     characterProgressionCharacterSelector,
+    characterProgressionRaidDataExistsSelector,
 } from "./selectors";
 import { getServerUrl } from "../sagas/helpers";
 
@@ -37,25 +38,41 @@ async function getData(
 
 function* fetchCharacterProgression({ payload: raidName }) {
     try {
-        const { characterName, realm, characterClass, loading, character } =
-            yield select((state) => {
-                return {
-                    characterName: characterNameSelector(state),
-                    realm: characterRealmSelector(state),
-                    characterClass: characterClassSelector(state),
-                    loading: characterProgressionLoadingSelector(state),
-                    character: characterProgressionCharacterSelector(state),
-                };
-            });
+        const {
+            characterName,
+            realm,
+            characterClass,
+            loading,
+            character,
+            dataExists,
+        } = yield select((state) => {
+            return {
+                characterName: characterNameSelector(state),
+                realm: characterRealmSelector(state),
+                characterClass: characterClassSelector(state),
+                loading: characterProgressionLoadingSelector(state),
+                character: characterProgressionCharacterSelector(state),
+                dataExists: characterProgressionRaidDataExistsSelector(
+                    state,
+                    raidName
+                ),
+            };
+        });
 
         if (
             !raidName ||
             loading ||
             !characterName ||
             !realm ||
-            !characterClass ||
-            (characterName.toLowerCase() === character.name &&
-                realm === character.realm)
+            !characterClass
+        ) {
+            return;
+        }
+
+        if (
+            characterName.toLowerCase() === character.name &&
+            realm === character.realm &&
+            dataExists
         ) {
             return;
         }
