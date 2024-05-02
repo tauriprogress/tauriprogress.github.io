@@ -35,11 +35,11 @@ const NoWrap = styled("span")({
     whiteSpace: "nowrap",
 });
 
-function GuildList({ data = [], factionColors }) {
+function GuildList({ data = [], factionColors, selectedTab }) {
     return data.map((log, index) => {
         const date = new Date(log.date * 1000);
         return (
-            <TableRow key={`${log.id} ${log.realm}`} hover>
+            <TableRow key={`${log.id} ${log.realm} ${selectedTab}`} hover>
                 <TableCell align="right" padding="checkbox">
                     <Typography>{index + 1}.</Typography>
                 </TableCell>
@@ -99,7 +99,14 @@ function GuildList({ data = [], factionColors }) {
     });
 }
 
-function RaidBossLogs({ raidId, bossName, difficulty, fetch, selector }) {
+function RaidBossLogs({
+    raidId,
+    bossName,
+    difficulty,
+    fetch,
+    selector,
+    selectedTab,
+}) {
     const {
         palette: { factionColors },
     } = useTheme();
@@ -139,7 +146,11 @@ function RaidBossLogs({ raidId, bossName, difficulty, fetch, selector }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <GuildList data={data} factionColors={factionColors} />
+                    <GuildList
+                        data={data}
+                        factionColors={factionColors}
+                        selectedTab={selectedTab}
+                    />
                 </TableBody>
             </Table>
             {error && (

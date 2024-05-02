@@ -93,6 +93,7 @@ function RaidBoss({ raidName, bossName }) {
                                 difficulty={difficulty}
                                 fetch={fetch}
                                 selector={selector}
+                                selectedTab={selectedTab}
                             />
                         );
                     default:
