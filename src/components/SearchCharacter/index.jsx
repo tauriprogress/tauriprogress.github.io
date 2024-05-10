@@ -11,7 +11,11 @@ import Grid from "@mui/material/Grid";
 
 import { getRealmNames } from "../../helpers";
 
-import { navigationToggle, pushToHistory } from "../../redux/actions";
+import {
+    characterDataSetNewCharacter,
+    navigationToggle,
+    pushToHistory,
+} from "../../redux/actions";
 
 import { navBreakpoint } from "../../redux/navigation/reducer";
 
@@ -56,7 +60,13 @@ function SearchCharacter() {
             if (window.innerWidth < navBreakpoint) {
                 dispatch(navigationToggle(false));
             }
-
+            dispatch(
+                characterDataSetNewCharacter({
+                    name: character,
+                    realm,
+                    class: undefined,
+                })
+            );
             dispatch(
                 pushToHistory({
                     path: `/character/${character}?realm=${realm}`,
