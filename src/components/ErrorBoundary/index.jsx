@@ -14,7 +14,7 @@ function HandleError({ error }) {
             {error.message && (
                 <React.Fragment>
                     <Typography variant="caption">
-                        Report this error on discord if you want it fixed:
+                        Report this error on discord:
                     </Typography>
 
                     <Typography>{error.message}</Typography>
