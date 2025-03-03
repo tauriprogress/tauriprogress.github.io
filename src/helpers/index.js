@@ -243,16 +243,19 @@ export function convertMinutes(minutes) {
     return `${Math.round(minutes / 60)} hours`;
 }
 
-export function convertFightLength(time) {
+export function convertFightLength(
+    time,
+    options = { leadingZeroSecond: true, leadingZeroMinute: true }
+) {
     let hours = Math.floor(time / 1000 / 60 / 60);
     let mins = Math.floor(time / 1000 / 60) - hours * 60;
     let remainingSecs = Math.floor(time / 1000) - (mins * 60 + hours * 60 * 60);
 
-    if (remainingSecs < 10) {
+    if (options.leadingZeroSecond && remainingSecs < 10) {
         remainingSecs = "0" + remainingSecs;
     }
 
-    if (mins < 10) {
+    if (options.leadingZeroMinute && mins < 10) {
         mins = "0" + mins;
     }
 

@@ -67,6 +67,10 @@ function CharacterLadder({
                             </UppercaseTableCell>
                             <TableCell>Item level</TableCell>
 
+                            <TableCell>
+                                Fight Duration
+                            </TableCell>
+
                             <TableCell align="right">Talents</TableCell>
                             <TableCell>Trinkets</TableCell>
                             <TableCell>Faction</TableCell>

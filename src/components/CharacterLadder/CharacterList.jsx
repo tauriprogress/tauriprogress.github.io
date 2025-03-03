@@ -3,7 +3,7 @@ import React from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { getFactionImg, shortNumber } from "../../helpers";
+import { convertFightLength, getFactionImg, shortNumber } from "../../helpers";
 import CharacterName from "../CharacterName";
 import LogLink from "../LogLink";
 import Talents from "../Talents";
@@ -39,6 +39,10 @@ function CharacterList({ data = [], combatMetric = "dps" }) {
                 </TableCell>
 
                 <TableCell>{char.ilvl}</TableCell>
+
+                <TableCell style={{ fontWeight: "bold" }}>
+                    {char.fightLength && convertFightLength(char.fightLength, {leadingZeroMinute: false, leadingZeroSecond: true})}
+                </TableCell>
 
                 <TableCell align="right">
                     {char.talents && <Talents char={char} />}
