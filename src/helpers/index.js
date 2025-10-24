@@ -8,14 +8,16 @@ import constants, {
 import { characterClassNames } from "tauriprogress-constants/build/tauri";
 
 export function getDifficultiesFromRaids(raids) {
-    return raids.reduce((acc, raid) => {
-        for (const difficulty of raid.difficulties) {
-            if (!acc.includes(difficulty)) {
-                acc.push(difficulty);
+    return raids
+        .reduce((acc, raid) => {
+            for (const difficulty of raid.difficulties) {
+                if (!acc.includes(difficulty)) {
+                    acc.push(difficulty);
+                }
             }
-        }
-        return acc;
-    }, []);
+            return acc;
+        }, [])
+        .toSorted((a, b) => b - a);
 }
 
 export function getClassColor(classOrSpec, classColors) {

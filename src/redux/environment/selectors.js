@@ -63,8 +63,9 @@ export function environmentCompletionDifficultiesSelector(state) {
 
 export function environmentDifficultiesSelector(state) {
     const realmGroupName = getCurrentRealmGroupName();
-    return state.environment[realmGroupName || getRealmGroupFromLocalStorage()]
-        .currentContent.raids[0].difficulties;
+    return state.environment[
+        realmGroupName || getRealmGroupFromLocalStorage()
+    ].currentContent.raids[0].difficulties.toSorted((a, b) => b - a);
 }
 
 export function environmentBossCountSelector(state) {
