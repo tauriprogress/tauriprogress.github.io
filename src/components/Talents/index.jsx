@@ -17,7 +17,7 @@ function Talents({ char }) {
             shootUrl: environmentShootUrlSelector(state),
         };
     }, shallowEqual);
-    return talentsFromString(char.talents, char.class, talents).map(
+    return talentsFromString(char.talents, char.spec, talents).map(
         (talent) => (
             <Avatar
                 key={talent.label}
