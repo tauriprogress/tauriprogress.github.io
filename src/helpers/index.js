@@ -719,7 +719,7 @@ export function cleanFilters(filters) {
     return newFilters;
 }
 
-export function talentsFromString(str, classId, talents) {
+export function talentsFromString(str, specId, talents) {
     let talentList = [];
     const talentCode = /\d.*/.exec(str)[0];
     for (let i = 0; i < talentCode.length; i++) {
@@ -733,7 +733,7 @@ export function talentsFromString(str, classId, talents) {
             });
         } else {
             talentList.push(
-                talents[classId].find(
+                talents[specId].find(
                     (element) =>
                         element.row === i &&
                         element.column === Number(talentCode[i])
