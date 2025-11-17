@@ -17,7 +17,7 @@
         "react-router-dom": "^5.2.0",
         "redux": "^4.1.0",
         "redux-saga": "^1.1.3",
-        "tauriprogress-constants": "^7.0.2",
+        "tauriprogress-constants": "^7.0.3",
         "typeface-roboto": "1.1.13"
     },
     "scripts": {
