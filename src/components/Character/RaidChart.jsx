@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { characterClassSpecs } from "tauriprogress-constants";
+import { characterClassSpecs } from "tauriprogress-env";
 
 import IconTotal from "@mui/icons-material/BarChart";
 import IconMissing from "@mui/icons-material/NotInterested";

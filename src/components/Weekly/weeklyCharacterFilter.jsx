@@ -1,7 +1,7 @@
 import React from "react";
 
 import { shallowEqual, useSelector } from "react-redux";
-import { characterClassSpecs } from "tauriprogress-constants";
+import { characterClassSpecs } from "tauriprogress-env";
 
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";

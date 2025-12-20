@@ -61,6 +61,8 @@ export function mapSpecIdToStats(specId) {
         71: strDPSStats,
         72: strDPSStats,
         73: strTankStats,
+        577: strDPSStats,
+        581: strTankStats,
     };
     return map[specId];
 }

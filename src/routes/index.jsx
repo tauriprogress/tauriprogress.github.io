@@ -1,4 +1,4 @@
-import * as constants from "tauriprogress-constants";
+import * as constants from "tauriprogress-env";
 
 import Raid from "../components/Raid";
 import Guild from "../components/Guild";

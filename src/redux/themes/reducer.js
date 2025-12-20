@@ -15,6 +15,7 @@ import {
     teal,
     deepOrange,
     orange,
+    purple,
 } from "@mui/material/colors";
 
 import { THEME_TOGGLE } from "./actions";
@@ -302,6 +303,10 @@ const lightTheme = createTheme(
                         text: orange[900],
                         background: "#ff7d0a",
                     },
+                    12: {
+                        text: purple[900],
+                        background: "#a330c9",
+                    },
                 },
                 factionColors: {
                     alliance: lightBlue[900],
@@ -436,6 +441,10 @@ const darkTheme = createTheme(
                     11: {
                         text: orange[800],
                         background: "#E06900",
+                    },
+                    12: {
+                        text: purple[400],
+                        background: "#a330c9",
                     },
                 },
                 factionColors: {

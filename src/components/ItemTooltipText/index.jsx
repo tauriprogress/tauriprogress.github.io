@@ -1,4 +1,4 @@
-import { itemSlotNames } from "tauriprogress-constants";
+import { itemSlotNames } from "tauriprogress-env";
 import React from "react";
 
 import Typography from "@mui/material/Typography";

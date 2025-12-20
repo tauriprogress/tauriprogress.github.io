@@ -7,7 +7,7 @@ import {
 } from "./actions";
 import { REALM_GROUP_NAME_CHANGED } from "../actions";
 
-import constants from "tauriprogress-constants";
+import constants from "tauriprogress-env";
 import {
     getDefaultDifficulty,
     readFiltersFromUrl,

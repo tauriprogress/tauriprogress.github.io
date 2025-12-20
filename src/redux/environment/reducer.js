@@ -1,4 +1,4 @@
-import * as cons from "tauriprogress-constants";
+import * as cons from "tauriprogress-env";
 import { devEnv } from "../../helpers";
 
 let constants = JSON.parse(JSON.stringify(cons));

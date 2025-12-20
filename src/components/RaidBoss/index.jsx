@@ -1,4 +1,4 @@
-import { raidNameId } from "tauriprogress-constants";
+import { raidNameId } from "tauriprogress-env";
 import React, { useEffect } from "react";
 
 import { useSelector, useDispatch, shallowEqual } from "react-redux";

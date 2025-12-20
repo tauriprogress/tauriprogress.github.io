@@ -3,9 +3,9 @@ import constants, {
     shortRealms,
     characterRaceNames,
     characterSpecClass,
-} from "tauriprogress-constants";
+} from "tauriprogress-env";
 
-import { characterClassNames } from "tauriprogress-constants/build/tauri";
+import { characterClassNames } from "tauriprogress-env/build/tauri";
 
 export function getDifficultiesFromRaids(raids) {
     return raids
