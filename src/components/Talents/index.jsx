@@ -18,9 +18,9 @@ function Talents({ char }) {
         };
     }, shallowEqual);
     return talentsFromString(char.talents, char.spec, talents).map(
-        (talent) => (
+        (talent, index) => (
             <Avatar
-                key={talent.label}
+                key={talent.label + index}
                 component="a"
                 target="_blank"
                 rel="noopener noreferrer"
