@@ -1,12 +1,12 @@
 import React from "react";
 
-import { getClassBackgroundImg } from "../../helpers";
-import { characterClassSelector } from "../../redux/selectors";
+import { characterClassSelector, themeSelector } from "../../redux/selectors";
 
 import CharacterTitle from "./CharacterTitle";
 import { styled } from "@mui/material";
 import CharacterItems from "./CharacterItems";
 import { useSelector } from "react-redux";
+import { hexToHSL } from "../../helpers";
 
 const Section = styled("section")(({ theme }) => ({
     position: "relative",
@@ -35,12 +35,11 @@ const BackgroundImage = styled("div")(({ theme }) => ({
 
 function BackgroundImageContainer() {
     const characterClass = useSelector(characterClassSelector);
+    const theme = useSelector(themeSelector);
     return (
         <BackgroundImage
             style={{
-                backgroundImage: `url(${getClassBackgroundImg(
-                    characterClass || "default"
-                )})`,
+              background: characterClass ? `radial-gradient(circle,${hexToHSL(theme.palette.classColors[characterClass].background, 0.2)} 50%, ${theme.palette.background.default} 100%)` : theme.palette.background.default,
             }}
         />
     );
