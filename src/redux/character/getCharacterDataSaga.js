@@ -11,6 +11,7 @@ import {
     characterNameSelector,
     characterRealmSelector,
 } from "./selectors";
+import { environmentRealmsSelector } from "../environment/selectors";
 import { getServerUrl } from "../sagas/helpers";
 
 async function getData(serverUrl, name, realm) {
@@ -57,13 +58,34 @@ function* fetchCharacter({ payload }) {
         );
 
         const serverUrl = yield getServerUrl();
-        const response = yield call(getData, serverUrl, name, realm);
+        const realms = yield select(environmentRealmsSelector);
 
-        if (!response.success) {
-            throw new Error(response.errorstring);
-        } else {
-            yield put(characterDataFill(response.response));
+        const realmsToTry = [
+            realm,
+            ...(realms || []).filter((realmName) => realmName !== realm),
+        ];
+
+        let response;
+        for (const realmToTry of realmsToTry) {
+            response = yield call(getData, serverUrl, name, realmToTry);
+
+            if (
+                response.success ||
+                response.errorstring !== "Character not found."
+            ) {
+                break;
+            }
         }
+
+        if (!response || !response.success) {
+            throw new Error(
+                response
+                    ? response.errorstring
+                    : "Failed to load character."
+            );
+        }
+
+        yield put(characterDataFill(response.response));
     } catch (err) {
         yield put(characterDataSetError(err.message));
     }
